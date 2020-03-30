@@ -46,7 +46,7 @@ class DraggableBar extends Node {
 
     let offset = null;
     const dragListener = new DragListener( {
-      start: ( event, listener ) => {
+      start: () => {
         offset = this.valueRectangle.height;
       },
       drag: ( event, listener ) => {

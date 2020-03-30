@@ -7,7 +7,13 @@
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
+import Util from '../../../../dot/js/Utils.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import proportion from '../../proportion.js';
+
+// constants
+const INCORRECT_COLOR = new Color( 'red' );
+const CORRECT_COLOR = new Color( 'green' );
 
 /**
  * @constructor
@@ -21,6 +27,9 @@ class ProportionModel {
 
     const barRange = new Range( 0, 1 );
 
+    this.ratioProperty = new NumberProperty( .5 );
+    this.toleranceProperty = new NumberProperty( .05 );
+
     this.leftBarValueProperty = new NumberProperty( .2, {
       range: barRange,
       tandem: tandem.createTandem( 'leftBarProperty' )
@@ -29,7 +38,16 @@ class ProportionModel {
       range: barRange,
       tandem: tandem.createTandem( 'rightBarProperty' )
     } );
-    this.colorProperty = new Property( 'red' );
+
+    this.colorProperty = new Property( this.colorGradient );
+
+    Property.multilink( [ this.ratioProperty, this.toleranceProperty, this.leftBarValueProperty, this.rightBarValueProperty ], () => {
+
+      const currentRatio = this.leftBarValueProperty.value / this.rightBarValueProperty.value;
+      const ratioError = currentRatio - this.ratioProperty.value;
+      const normalizedError = Util.clamp( Math.abs( ratioError ) / this.toleranceProperty.value, 0, 1 );
+      this.colorProperty.value = Color.interpolateRGBA( CORRECT_COLOR, INCORRECT_COLOR, normalizedError );
+    } );
   }
 
   /**
