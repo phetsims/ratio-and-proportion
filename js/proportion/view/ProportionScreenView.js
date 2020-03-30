@@ -4,8 +4,12 @@
  * @author Michael Kauzmann
  */
 
+import Range from '../../../../dot/js/Range.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
+import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
+import RichText from '../../../../scenery/js/nodes/RichText.js';
+import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
 import ProportionConstants from '../../common/ProportionConstants.js';
 import proportion from '../../proportion.js';
 import DraggableBar from './DraggableBar.js';
@@ -22,17 +26,33 @@ class ProportionScreenView extends ScreenView {
       tandem: tandem
     } );
 
-    const leftBar = new DraggableBar( model.leftBarValueProperty, model.colorProperty, model.firstInteractionProperty, {
-      right: this.layoutBounds.centerX + -20,
-      y: this.layoutBounds.bottom - 20
-    } );
-    this.addChild( leftBar );
+    const leftBar = new DraggableBar( model.leftBarValueProperty, model.colorProperty, model.firstInteractionProperty );
+    const rightBar = new DraggableBar( model.rightBarValueProperty, model.colorProperty, model.firstInteractionProperty );
 
-    const rightBar = new DraggableBar( model.rightBarValueProperty, model.colorProperty, model.firstInteractionProperty, {
-      left: this.layoutBounds.centerX + 20,
-      y: this.layoutBounds.bottom - 20
+    const toleranceNumberControl = new NumberControl( 'Tolerance', model.toleranceProperty, new Range( 0, .3 ),{
+      delta: .01,
+      numberDisplayOptions: {
+        decimalPlaces:2
+      }
     } );
-    this.addChild( rightBar );
+
+    const ratioAquaRadioButtonGroup = new VerticalAquaRadioButtonGroup( model.ratioProperty, [ {
+      node: new RichText( 'Mystery 1' ),
+      value: 1 / 2
+    }, {
+      node: new RichText( 'Mystery 2' ),
+      value: 1 / 3
+    }, {
+      node: new RichText( 'Mystery 3' ),
+      value: 4
+    }, {
+      node: new RichText( 'Mystery 4' ),
+      value: 1 / 8
+    }, {
+      node: new RichText( 'Mystery 5' ),
+      value: 5 / 6
+    } ] );
+
 
     const resetAllButton = new ResetAllButton( {
       listener: () => {
@@ -40,11 +60,24 @@ class ProportionScreenView extends ScreenView {
         model.reset();
         this.reset();
       },
-      right: this.layoutBounds.maxX - ProportionConstants.SCREEN_VIEW_X_MARGIN,
-      bottom: this.layoutBounds.maxY - ProportionConstants.SCREEN_VIEW_Y_MARGIN,
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
-    this.addChild( resetAllButton );
+
+
+    // layout
+    leftBar.right = this.layoutBounds.centerX + -20;
+    leftBar.y = this.layoutBounds.bottom - 20;
+    rightBar.left = this.layoutBounds.centerX + 20;
+    rightBar.y = this.layoutBounds.bottom - 20;
+    resetAllButton.right = this.layoutBounds.maxX - ProportionConstants.SCREEN_VIEW_X_MARGIN;
+    resetAllButton.bottom = this.layoutBounds.maxY - ProportionConstants.SCREEN_VIEW_Y_MARGIN;
+    ratioAquaRadioButtonGroup.bottom = resetAllButton.top - 50;
+    ratioAquaRadioButtonGroup.left = rightBar.right + 30;
+    toleranceNumberControl.bottom = ratioAquaRadioButtonGroup.top - 20;
+    toleranceNumberControl.left = ratioAquaRadioButtonGroup.left;
+
+    // children
+    this.children = [ leftBar, rightBar, toleranceNumberControl, ratioAquaRadioButtonGroup, resetAllButton ];
   }
 
   /**
