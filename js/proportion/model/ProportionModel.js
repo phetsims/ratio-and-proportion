@@ -4,6 +4,7 @@
  * @author Michael Kauzmann
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
@@ -40,6 +41,8 @@ class ProportionModel {
     } );
 
     this.colorProperty = new Property( this.colorGradient );
+
+    this.firstInteractionProperty = new BooleanProperty( true );
 
     Property.multilink( [ this.ratioProperty, this.toleranceProperty, this.leftBarValueProperty, this.rightBarValueProperty ], () => {
 

@@ -6,7 +6,9 @@
 
 import Range from '../../../../dot/js/Range.js';
 import Util from '../../../../dot/js/Utils.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
+import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -18,9 +20,10 @@ class DraggableBar extends Node {
   /**
    * @param {NumberProperty} valueProperty - must have a `range` attribute
    * @param {Property.<PaintDef>} colorProperty
+   * @param {Property.<boolean>>} firstInteractionProperty - upon successful interaction, this will be marked as true
    * @param {Object} [options]
    */
-  constructor( valueProperty, colorProperty, options ) {
+  constructor( valueProperty, colorProperty, firstInteractionProperty, options ) {
 
     options = merge( {
       barWidth: 100,
@@ -36,18 +39,20 @@ class DraggableBar extends Node {
       stroke: 'black'
     } );
 
-    this.valueRectangle = new Rectangle( 0, 0, options.barWidth, 0, 0, 0 );
+    const valueRectangle = new Rectangle( 0, 0, options.barWidth, 0, 0, 0 );
 
     valueProperty.link( () => {
       const normalizedValue = valueProperty.range.getNormalizedValue( valueProperty.value );
-      this.valueRectangle.rectHeight = normalizedValue * options.barHeight; //always 1 px of height
+      valueRectangle.rectHeight = normalizedValue * options.barHeight; //always 1 px of height
     } );
-    colorProperty.link( color => this.valueRectangle.setFill( color ) );
+    colorProperty.link( color => valueRectangle.setFill( color ) );
 
     let offset = null;
     const dragListener = new DragListener( {
       start: () => {
-        offset = this.valueRectangle.height;
+        firstInteractionProperty.value = false;
+
+        offset = valueRectangle.height;
       },
       drag: ( event, listener ) => {
         const y = listener.parentPoint.y;
@@ -59,9 +64,20 @@ class DraggableBar extends Node {
       tandem: options.tandem.createTandem( 'dragListener' )
     } );
 
-    this.valueRectangle.addInputListener( dragListener );
+    valueRectangle.addInputListener( dragListener );
 
-    this.addChild( new Node( { rotation: Math.PI, children: [ this.container, this.valueRectangle ] } ) );
+    const cueArrow = new ArrowNode( 0, 40, 0, -40, {
+      doubleHead: true,
+      fill: '#FFC000',
+      headWidth: 40,
+      headHeight: 20,
+      tailWidth: 20,
+      center: new Vector2( valueRectangle.centerX, valueRectangle.height )
+    } );
+    firstInteractionProperty.linkAttribute( cueArrow, 'visible' );
+
+
+    this.addChild( new Node( { rotation: Math.PI, children: [ this.container, valueRectangle, cueArrow ] } ) );
     this.mutate( options );
   }
 }

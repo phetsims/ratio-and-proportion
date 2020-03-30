@@ -22,13 +22,13 @@ class ProportionScreenView extends ScreenView {
       tandem: tandem
     } );
 
-    const leftBar = new DraggableBar( model.leftBarValueProperty, model.colorProperty, {
+    const leftBar = new DraggableBar( model.leftBarValueProperty, model.colorProperty, model.firstInteractionProperty, {
       right: this.layoutBounds.centerX + -20,
       y: this.layoutBounds.bottom - 20
     } );
     this.addChild( leftBar );
 
-    const rightBar = new DraggableBar( model.rightBarValueProperty, model.colorProperty, {
+    const rightBar = new DraggableBar( model.rightBarValueProperty, model.colorProperty, model.firstInteractionProperty, {
       left: this.layoutBounds.centerX + 20,
       y: this.layoutBounds.bottom - 20
     } );
