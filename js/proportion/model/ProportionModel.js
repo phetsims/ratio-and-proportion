@@ -4,6 +4,9 @@
  * @author Michael Kauzmann
  */
 
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import Range from '../../../../dot/js/Range.js';
 import proportion from '../../proportion.js';
 
 /**
@@ -15,7 +18,18 @@ class ProportionModel {
    * @param {Tandem} tandem
    */
   constructor( tandem ) {
-    //TODO
+
+    const barRange = new Range( 0, 1 );
+
+    this.leftBarValueProperty = new NumberProperty( .2, {
+      range: barRange,
+      tandem: tandem.createTandem( 'leftBarProperty' )
+    } );
+    this.rightBarValueProperty = new NumberProperty( 1, {
+      range: barRange,
+      tandem: tandem.createTandem( 'rightBarProperty' )
+    } );
+    this.colorProperty = new Property( 'red' );
   }
 
   /**
