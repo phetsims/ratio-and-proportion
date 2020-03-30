@@ -5,8 +5,8 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import Util from '../../../../dot/js/Utils.js';
 import Color from '../../../../scenery/js/util/Color.js';
@@ -40,17 +40,19 @@ class ProportionModel {
       tandem: tandem.createTandem( 'rightBarProperty' )
     } );
 
-    this.colorProperty = new Property( this.colorGradient );
-
-    this.firstInteractionProperty = new BooleanProperty( true );
-
-    Property.multilink( [ this.ratioProperty, this.toleranceProperty, this.leftBarValueProperty, this.rightBarValueProperty ], () => {
-
+    this.colorProperty = new DerivedProperty( [
+      this.leftBarValueProperty,
+      this.rightBarValueProperty,
+      this.ratioProperty,
+      this.toleranceProperty
+    ], ( leftBarValue, rightBarValue, ratio, tolerance ) => {
       const currentRatio = this.leftBarValueProperty.value / this.rightBarValueProperty.value;
       const ratioError = currentRatio - this.ratioProperty.value;
       const normalizedError = Util.clamp( Math.abs( ratioError ) / this.toleranceProperty.value, 0, 1 );
-      this.colorProperty.value = Color.interpolateRGBA( CORRECT_COLOR, INCORRECT_COLOR, normalizedError );
+      return Color.interpolateRGBA( CORRECT_COLOR, INCORRECT_COLOR, normalizedError );
     } );
+
+    this.firstInteractionProperty = new BooleanProperty( true );
   }
 
   /**
@@ -58,9 +60,10 @@ class ProportionModel {
    * @public
    */
   reset() {
+    this.ratioProperty.reset();
+    this.toleranceProperty.reset();
     this.leftBarValueProperty.reset();
     this.rightBarValueProperty.reset();
-    this.colorProperty.reset();
   }
 
 }
