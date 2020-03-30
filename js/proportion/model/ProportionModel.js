@@ -37,17 +37,11 @@ class ProportionModel {
    * @public
    */
   reset() {
-    //TODO
+    this.leftBarValueProperty.reset();
+    this.rightBarValueProperty.reset();
+    this.colorProperty.reset();
   }
 
-  /**
-   * Steps the model.
-   * @param {number} dt - time step, in seconds
-   * @public
-   */
-  step( dt ) {
-    //TODO
-  }
 }
 
 proportion.register( 'ProportionModel', ProportionModel );
