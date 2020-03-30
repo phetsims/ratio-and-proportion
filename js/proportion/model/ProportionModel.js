@@ -13,7 +13,7 @@ import Color from '../../../../scenery/js/util/Color.js';
 import proportion from '../../proportion.js';
 
 // constants
-const INCORRECT_COLOR = new Color( 'red' );
+const INCORRECT_COLOR = new Color( '#FE70D4' );
 const CORRECT_COLOR = new Color( 'green' );
 
 /**
