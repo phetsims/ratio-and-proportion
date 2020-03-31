@@ -1,11 +1,11 @@
 {
-  "comment": "# proportion 1.0.0-dev.1 Mon Mar 30 2020 15:26:05 GMT-0800 (Alaskan Daylight Time)",
+  "comment": "# proportion 1.0.0-dev.2 Tue Mar 31 2020 08:35:50 GMT-0800 (Alaskan Daylight Time)",
   "assert": {
     "sha": "a99a9ce9ee0774bf3ef509bf3e31ca7383f67478",
     "branch": "master"
   },
   "axon": {
-    "sha": "36af449a5880d26ca311d9ae6eaa4e8e3e2d6be2",
+    "sha": "8b36c6471e0b0887f9177a0939619570bc7188fc",
     "branch": "master"
   },
   "brand": {
@@ -13,7 +13,7 @@
     "branch": "master"
   },
   "chipper": {
-    "sha": "3dfc73add41be8c8f9128b08458fc7f491705970",
+    "sha": "3b7f87eec12f1c3bf41bf08919be1d8fbd6f4775",
     "branch": "master"
   },
   "dot": {
@@ -21,7 +21,7 @@
     "branch": "master"
   },
   "joist": {
-    "sha": "4a1acb2d5f9e008fabc353cfd084a0fe164632db",
+    "sha": "f626d8780edac9d53509c262701e9fc2c18fc04a",
     "branch": "master"
   },
   "kite": {
@@ -33,7 +33,7 @@
     "branch": "master"
   },
   "phet-io": {
-    "sha": "944bd5d45e2c8e534d3efe4617e71e967c894df8",
+    "sha": "0cd98a019570170504d056083437e1b2c1391860",
     "branch": "master"
   },
   "phet-io-wrappers": {
@@ -49,7 +49,7 @@
     "branch": "master"
   },
   "proportion": {
-    "sha": "18167b46b25a15246dde7bffbfb4f162d2cbdedc",
+    "sha": "cd4cb3e55c4268c188938e6589a4237220db7e16",
     "branch": "master"
   },
   "query-string-machine": {
@@ -61,7 +61,7 @@
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "9b60dec5b2e62f0377ffbb004f3cdcb799351872",
+    "sha": "668481bcff3764e4436196093a14370465197d33",
     "branch": "master"
   },
   "sherpa": {
@@ -77,7 +77,7 @@
     "branch": "master"
   },
   "tambo": {
-    "sha": "c790214be988ae49cf8162b5c3219540d08a30a8",
+    "sha": "855ebd5b518cfb2f52e95c38dbec401e73a28357",
     "branch": "master"
   },
   "tandem": {
