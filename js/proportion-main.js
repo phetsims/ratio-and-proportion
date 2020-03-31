@@ -9,7 +9,7 @@
 import Sim from '../../joist/js/Sim.js';
 import SimLauncher from '../../joist/js/SimLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import proportionStrings from './proportion-strings.js';
+import proportionStrings from './proportionStrings.js';
 import ProportionScreen from './proportion/ProportionScreen.js';
 
 const proportionTitleString = proportionStrings.proportion.title;
