@@ -35,7 +35,7 @@ class ProportionModel {
       range: barRange,
       tandem: tandem.createTandem( 'leftBarProperty' )
     } );
-    this.rightBarValueProperty = new NumberProperty( 1, {
+    this.rightBarValueProperty = new NumberProperty( .4, {
       range: barRange,
       tandem: tandem.createTandem( 'rightBarProperty' )
     } );
