@@ -29,10 +29,13 @@ class ProportionScreenView extends ScreenView {
     const leftBar = new DraggableBar( model.leftBarValueProperty, model.colorProperty, model.firstInteractionProperty );
     const rightBar = new DraggableBar( model.rightBarValueProperty, model.colorProperty, model.firstInteractionProperty );
 
-    const toleranceNumberControl = new NumberControl( 'Tolerance', model.toleranceProperty, new Range( 0, .3 ),{
+    const toleranceNumberControl = new NumberControl( 'Tolerance', model.toleranceProperty, new Range( 0.01, .3 ), {
       delta: .01,
       numberDisplayOptions: {
-        decimalPlaces:2
+        decimalPlaces: 2
+      },
+      sliderOptions: {
+        keyboardStep: .05
       }
     } );
 
