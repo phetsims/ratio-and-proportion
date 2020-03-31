@@ -39,7 +39,9 @@ class DraggableBar extends Node {
       stroke: 'black'
     } );
 
-    const valueRectangle = new Rectangle( 0, 0, options.barWidth, 0, 0, 0 );
+    const valueRectangle = new Rectangle( 0, 0, options.barWidth, 0, 0, 0, {
+      cursor: 'pointer'
+    } );
 
     valueProperty.link( () => {
       const normalizedValue = valueProperty.range.getNormalizedValue( valueProperty.value );
@@ -57,7 +59,8 @@ class DraggableBar extends Node {
       drag: ( event, listener ) => {
         const y = listener.parentPoint.y;
 
-        const newValue = Util.clamp( y + offset, 0, options.barHeight );
+        // let the smallest height be greater than 0
+        const newValue = Util.clamp( y + offset, .1 * options.barHeight, options.barHeight );
 
         valueProperty.value = newValue / options.barHeight;
       },
