@@ -10,6 +10,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
+import KeyboardDragListener from '../../../../scenery/js/listeners/KeyboardDragListener.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import proportion from '../../proportion.js';
@@ -40,7 +41,10 @@ class DraggableBar extends Node {
     } );
 
     const valueRectangle = new Rectangle( 0, 0, options.barWidth, 0, 0, 0, {
-      cursor: 'pointer'
+      cursor: 'pointer',
+      tagName: 'div',
+      role: 'application',
+      focusable: true
     } );
 
     valueProperty.link( () => {
@@ -66,8 +70,23 @@ class DraggableBar extends Node {
       },
       tandem: options.tandem.createTandem( 'dragListener' )
     } );
-
     valueRectangle.addInputListener( dragListener );
+
+    valueRectangle.addInputListener( new KeyboardDragListener( {
+      start() {
+        firstInteractionProperty.value = false;
+      },
+      drag( viewDelta ) {
+
+        const currentPosition = valueRectangle.height;
+
+
+        // let the smallest height be greater than 0
+        const newValue = Util.clamp( -viewDelta.y + currentPosition, .1 * options.barHeight, options.barHeight );
+
+        valueProperty.value = newValue / options.barHeight;
+      }
+    } ) );
 
     const cueArrow = new ArrowNode( 0, 40, 0, -40, {
       doubleHead: true,
