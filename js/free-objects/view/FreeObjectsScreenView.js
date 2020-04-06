@@ -16,6 +16,7 @@ import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioBu
 import ProportionConstants from '../../common/ProportionConstants.js';
 import proportion from '../../proportion.js';
 import DraggableMarker from './DraggableMarker.js';
+import MarkerDisplay from '../model/MarkerDisplay.js';
 
 class FreeObjectsScreenView extends ScreenView {
 
@@ -44,11 +45,11 @@ class FreeObjectsScreenView extends ScreenView {
     );
 
     const leftMarker = new DraggableMarker(
-      model.leftPositionProperty,
+      model.leftPositionProperty, model.markerDisplayProperty,
       model.firstInteractionProperty, modelViewTransform, this.layoutBounds
     );
     const rightMarker = new DraggableMarker(
-      model.rightPositionProperty,
+      model.rightPositionProperty, model.markerDisplayProperty,
       model.firstInteractionProperty, modelViewTransform, this.layoutBounds
     );
 
@@ -79,6 +80,14 @@ class FreeObjectsScreenView extends ScreenView {
       value: 5 / 6
     } ] );
 
+    const markerDisplayAquaRadioButtonGroup = new VerticalAquaRadioButtonGroup( model.markerDisplayProperty, [ {
+      node: new RichText( 'Circle' ),
+      value: MarkerDisplay.CIRCLE
+    }, {
+      node: new RichText( 'Cross' ),
+      value: MarkerDisplay.CROSS
+    } ] );
+
 
     const resetAllButton = new ResetAllButton( {
       listener: () => {
@@ -96,10 +105,19 @@ class FreeObjectsScreenView extends ScreenView {
     ratioAquaRadioButtonGroup.bottom = resetAllButton.top - 50;
     ratioAquaRadioButtonGroup.left = rightMarker.right + 30;
     toleranceNumberControl.bottom = ratioAquaRadioButtonGroup.top - 20;
-    toleranceNumberControl.left = ratioAquaRadioButtonGroup.left;
+    toleranceNumberControl.left = markerDisplayAquaRadioButtonGroup.left = ratioAquaRadioButtonGroup.left;
+    markerDisplayAquaRadioButtonGroup.bottom = resetAllButton.bottom;
 
     // children
-    this.children = [ background, leftMarker, rightMarker, toleranceNumberControl, ratioAquaRadioButtonGroup, resetAllButton ];
+    this.children = [
+      background,
+      leftMarker,
+      rightMarker,
+      toleranceNumberControl,
+      ratioAquaRadioButtonGroup,
+      markerDisplayAquaRadioButtonGroup,
+      resetAllButton
+    ];
   }
 
   /**

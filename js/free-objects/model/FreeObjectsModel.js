@@ -5,11 +5,13 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import ProportionModel from '../../common/model/ProportionModel.js';
 import proportion from '../../proportion.js';
+import MarkerDisplay from './MarkerDisplay.js';
 
 class FreeObjectsModel extends ProportionModel {
 
@@ -36,6 +38,11 @@ class FreeObjectsModel extends ProportionModel {
     // @public - settable positions of the two values on the screen
     this.leftPositionProperty = leftPositionProperty;
     this.rightPositionProperty = rightPositionProperty;
+
+    // @public {Property.<MarkerDisplay>}
+    this.markerDisplayProperty = new EnumerationProperty( MarkerDisplay, MarkerDisplay.CIRCLE, {
+      tandem: tandem.createTandem( 'markerDisplayProperty' )
+    } );
   }
 
   /**
