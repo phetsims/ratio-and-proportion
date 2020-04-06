@@ -7,14 +7,10 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Range from '../../../../dot/js/Range.js';
 import Util from '../../../../dot/js/Utils.js';
+import merge from '../../../../phet-core/js/merge.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import proportion from '../../proportion.js';
-
-// constants
-const INCORRECT_COLOR = new Color( '#FE70D4' );
-const CORRECT_COLOR = new Color( 'green' );
 
 /**
  * @constructor
@@ -22,37 +18,48 @@ const CORRECT_COLOR = new Color( 'green' );
 class ProportionModel {
 
   /**
+   * @param {NumberProperty} leftValueProperty
+   * @param {NumberProperty} rightValueProperty
    * @param {Tandem} tandem
+   * @param {Object} [options]
    */
-  constructor( tandem ) {
+  constructor( leftValueProperty, rightValueProperty, tandem, options ) {
 
-    const barRange = new Range( 0, 1 );
+    options = merge( {
+
+      // {Color}
+      correctColor: new Color( '#639a67' ),
+      incorrectColor: new Color( '#FE70D4' ),
+
+      // {boolean} If the value Properties passed in should be reset by the model.
+      resetValueProperties: true
+    }, options );
 
     this.ratioProperty = new NumberProperty( .5 );
     this.toleranceProperty = new NumberProperty( .05 );
 
-    this.leftBarValueProperty = new NumberProperty( .2, {
-      range: barRange,
-      tandem: tandem.createTandem( 'leftBarProperty' )
-    } );
-    this.rightBarValueProperty = new NumberProperty( .4, {
-      range: barRange,
-      tandem: tandem.createTandem( 'rightBarProperty' )
-    } );
+    this.leftValueProperty = leftValueProperty;
+    this.rightValueProperty = rightValueProperty;
 
     this.colorProperty = new DerivedProperty( [
-      this.leftBarValueProperty,
-      this.rightBarValueProperty,
+      this.leftValueProperty,
+      this.rightValueProperty,
       this.ratioProperty,
       this.toleranceProperty
-    ], ( leftBarValue, rightBarValue, ratio, tolerance ) => {
-      const currentRatio = this.leftBarValueProperty.value / this.rightBarValueProperty.value;
-      const ratioError = currentRatio - this.ratioProperty.value;
-      const normalizedError = Util.clamp( Math.abs( ratioError ) / this.toleranceProperty.value, 0, 1 );
-      return Color.interpolateRGBA( CORRECT_COLOR, INCORRECT_COLOR, normalizedError );
+    ], ( leftValue, rightValue, ratio, tolerance ) => {
+      const currentRatio = leftValue / rightValue;
+      if ( isNaN( currentRatio ) ) {
+        return options.incorrectColor;
+      }
+      const ratioError = currentRatio - ratio;
+      const normalizedError = Util.clamp( Math.abs( ratioError ) / tolerance, 0, 1 );
+      return Color.interpolateRGBA( options.correctColor, options.incorrectColor, normalizedError );
     } );
 
     this.firstInteractionProperty = new BooleanProperty( true );
+
+    // @private
+    this.resetValueProperties = options.resetValueProperties;
   }
 
   /**
@@ -62,8 +69,11 @@ class ProportionModel {
   reset() {
     this.ratioProperty.reset();
     this.toleranceProperty.reset();
-    this.leftBarValueProperty.reset();
-    this.rightBarValueProperty.reset();
+
+    if ( this.resetValueProperties ) {
+      this.leftValueProperty.reset();
+      this.rightValueProperty.reset();
+    }
   }
 
 }

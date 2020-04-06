@@ -26,8 +26,8 @@ class BarScreenView extends ScreenView {
       tandem: tandem
     } );
 
-    const leftBar = new DraggableBar( model.leftBarValueProperty, model.colorProperty, model.firstInteractionProperty );
-    const rightBar = new DraggableBar( model.rightBarValueProperty, model.colorProperty, model.firstInteractionProperty );
+    const leftBar = new DraggableBar( model.leftValueProperty, model.colorProperty, model.firstInteractionProperty );
+    const rightBar = new DraggableBar( model.rightValueProperty, model.colorProperty, model.firstInteractionProperty );
 
     const toleranceNumberControl = new NumberControl( 'Tolerance', model.toleranceProperty, new Range( 0.01, .3 ), {
       delta: .01,
