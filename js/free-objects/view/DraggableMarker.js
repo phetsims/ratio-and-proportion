@@ -10,6 +10,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import PlusNode from '../../../../scenery-phet/js/PlusNode.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
+import KeyboardDragListener from '../../../../scenery/js/listeners/KeyboardDragListener.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -70,30 +71,17 @@ class DraggableMarker extends Node {
       this.translation = modelViewTransform.modelToViewPosition( position );
     } );
 
-    const dragListener = new DragListener( {
+    this.addInputListener( new DragListener( {
       positionProperty: positionProperty,
       transform: modelViewTransform,
       dragBoundsProperty: new Property( modelViewTransform.viewToModelBounds( dragBounds ) ),
       tandem: options.tandem.createTandem( 'dragListener' )
-    } );
-    this.addInputListener( dragListener );
+    } ) );
 
-    // TODO: keyboard interaction
-    // marker.addInputListener( new KeyboardDragListener( {
-    //   start() {
-    //     firstInteractionProperty.value = false;
-    //   },
-    //   drag( viewDelta ) {
-    //
-    //     const currentPosition = marker.height;
-    //
-    //
-    //     // let the smallest height be greater than 0
-    //     const newValue = Util.clamp( -viewDelta.y + currentPosition, .1 * options.barHeight, options.barHeight );
-    //
-    //     valueProperty.value = newValue / options.barHeight;
-    //   }
-    // } ) );
+    this.addInputListener( new KeyboardDragListener( {
+      positionProperty: positionProperty,
+      transform: modelViewTransform
+    } ) );
 
     // TODO: cue arrows
     // const cueArrow = new ArrowNode( 0, 40, 0, -40, {
