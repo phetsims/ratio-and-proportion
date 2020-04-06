@@ -47,12 +47,9 @@ class BarScreenView extends ScreenView {
       value: 1 / 3
     }, {
       node: new RichText( 'Mystery 3' ),
-      value: 4
-    }, {
-      node: new RichText( 'Mystery 4' ),
       value: 1 / 8
     }, {
-      node: new RichText( 'Mystery 5' ),
+      node: new RichText( 'Mystery 4' ),
       value: 5 / 6
     } ] );
 
@@ -82,24 +79,8 @@ class BarScreenView extends ScreenView {
     // children
     this.children = [ leftBar, rightBar, toleranceNumberControl, ratioAquaRadioButtonGroup, resetAllButton ];
   }
-
-  /**
-   * Resets the view.
-   * @public
-   */
-  reset() {
-    //TODO
-  }
-
-  /**
-   * Steps the view.
-   * @param {number} dt - time step, in seconds
-   * @public
-   */
-  step( dt ) {
-    //TODO
-  }
 }
+
 
 proportion.register( 'BarScreenView', BarScreenView );
 export default BarScreenView;

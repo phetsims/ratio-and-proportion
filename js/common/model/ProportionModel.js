@@ -7,6 +7,7 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Range from '../../../../dot/js/Range.js';
 import Util from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Color from '../../../../scenery/js/util/Color.js';
@@ -35,7 +36,9 @@ class ProportionModel {
       resetValueProperties: true
     }, options );
 
-    this.ratioProperty = new NumberProperty( .5 );
+    this.ratioProperty = new NumberProperty( .5, {
+      range: new Range( 0, 1 )
+    } );
     this.toleranceProperty = new NumberProperty( .05 );
 
     this.leftValueProperty = leftValueProperty;
@@ -47,7 +50,9 @@ class ProportionModel {
       this.ratioProperty,
       this.toleranceProperty
     ], ( leftValue, rightValue, ratio, tolerance ) => {
-      const currentRatio = leftValue / rightValue;
+      const maxValue = Math.max( leftValue, rightValue );
+      const minValue = Math.min( leftValue, rightValue );
+      const currentRatio = minValue / maxValue;
       if ( isNaN( currentRatio ) ) {
         return options.incorrectColor;
       }
