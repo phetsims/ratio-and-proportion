@@ -20,7 +20,7 @@ class BarScreen extends Screen {
     const options = {
       backgroundColorProperty: new Property( 'white' ),
       tandem: tandem,
-      name: 'Bars'
+      name: 'Bars' // TODO: i18n
     };
 
     super(

@@ -20,7 +20,7 @@ class FreeObjectsScreen extends Screen {
     const options = {
       backgroundColorProperty: new Property( 'white' ),
       tandem: tandem,
-      name: 'Freely Moving Objects'
+      name: 'Freely Moving Objects' // TODO: i18n
     };
 
     super(
