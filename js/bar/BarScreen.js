@@ -7,10 +7,10 @@
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import proportion from '../proportion.js';
-import ProportionModel from './model/ProportionModel.js';
-import ProportionScreenView from './view/ProportionScreenView.js';
+import BarModel from './model/BarModel.js';
+import BarScreenView from './view/BarScreenView.js';
 
-class ProportionScreen extends Screen {
+class BarScreen extends Screen {
 
   /**
    * @param {Tandem} tandem
@@ -19,16 +19,17 @@ class ProportionScreen extends Screen {
 
     const options = {
       backgroundColorProperty: new Property( 'white' ),
-      tandem: tandem
+      tandem: tandem,
+      name: 'Bars'
     };
 
     super(
-      () => new ProportionModel( tandem.createTandem( 'model' ) ),
-      model => new ProportionScreenView( model, tandem.createTandem( 'view' ) ),
+      () => new BarModel( tandem.createTandem( 'model' ) ),
+      model => new BarScreenView( model, tandem.createTandem( 'view' ) ),
       options
     );
   }
 }
 
-proportion.register( 'ProportionScreen', ProportionScreen );
-export default ProportionScreen;
+proportion.register( 'BarScreen', BarScreen );
+export default BarScreen;

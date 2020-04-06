@@ -12,12 +12,12 @@ import RichText from '../../../../scenery/js/nodes/RichText.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
 import ProportionConstants from '../../common/ProportionConstants.js';
 import proportion from '../../proportion.js';
-import DraggableBar from './DraggableBar.js';
+import DraggaleMarker from './DraggaleMarker.js';
 
-class ProportionScreenView extends ScreenView {
+class FreeObjectsScreenView extends ScreenView {
 
   /**
-   * @param {ProportionModel} model
+   * @param {BarModel} model
    * @param {Tandem} tandem
    */
   constructor( model, tandem ) {
@@ -26,8 +26,8 @@ class ProportionScreenView extends ScreenView {
       tandem: tandem
     } );
 
-    const leftBar = new DraggableBar( model.leftBarValueProperty, model.colorProperty, model.firstInteractionProperty );
-    const rightBar = new DraggableBar( model.rightBarValueProperty, model.colorProperty, model.firstInteractionProperty );
+    const leftBar = new DraggaleMarker( model.leftBarValueProperty, model.colorProperty, model.firstInteractionProperty );
+    const rightBar = new DraggaleMarker( model.rightBarValueProperty, model.colorProperty, model.firstInteractionProperty );
 
     const toleranceNumberControl = new NumberControl( 'Tolerance', model.toleranceProperty, new Range( 0.01, .3 ), {
       delta: .01,
@@ -101,5 +101,5 @@ class ProportionScreenView extends ScreenView {
   }
 }
 
-proportion.register( 'ProportionScreenView', ProportionScreenView );
-export default ProportionScreenView;
+proportion.register( 'FreeObjectsScreenView', FreeObjectsScreenView );
+export default FreeObjectsScreenView;

@@ -19,7 +19,7 @@ const CORRECT_COLOR = new Color( 'green' );
 /**
  * @constructor
  */
-class ProportionModel {
+class BarModel {
 
   /**
    * @param {Tandem} tandem
@@ -68,5 +68,5 @@ class ProportionModel {
 
 }
 
-proportion.register( 'ProportionModel', ProportionModel );
-export default ProportionModel;
+proportion.register( 'BarModel', BarModel );
+export default BarModel;

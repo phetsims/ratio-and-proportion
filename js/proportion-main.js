@@ -9,8 +9,9 @@
 import Sim from '../../joist/js/Sim.js';
 import SimLauncher from '../../joist/js/SimLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import BarScreen from './bar/BarScreen.js';
+import FreeObjectsScreen from './free-objects/FreeObjectsScreen.js';
 import proportionStrings from './proportionStrings.js';
-import ProportionScreen from './proportion/ProportionScreen.js';
 
 const proportionTitleString = proportionStrings.proportion.title;
 
@@ -31,7 +32,8 @@ const simOptions = {
 // until the images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70
 SimLauncher.launch( () => {
   const sim = new Sim( proportionTitleString, [
-    new ProportionScreen( Tandem.ROOT.createTandem( 'proportionScreen' ) )
+    new FreeObjectsScreen( Tandem.ROOT.createTandem( 'freeObjectsScreen' ) ),
+    new BarScreen( Tandem.ROOT.createTandem( 'barScreen' ) )
   ], simOptions );
   sim.start();
 } );
