@@ -11,6 +11,7 @@ import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
 import ProportionConstants from '../../common/ProportionConstants.js';
+import ProportionMarkerInput from '../../common/view/ProportionMarkerInput.js';
 import proportion from '../../proportion.js';
 import DraggableBar from './DraggableBar.js';
 
@@ -25,6 +26,8 @@ class BarScreenView extends ScreenView {
     super( {
       tandem: tandem
     } );
+
+    ProportionMarkerInput.init( model );
 
     const leftBar = new DraggableBar( model.leftValueProperty, model.colorProperty, model.firstInteractionProperty );
     const rightBar = new DraggableBar( model.rightValueProperty, model.colorProperty, model.firstInteractionProperty );

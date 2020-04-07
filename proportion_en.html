@@ -22,7 +22,7 @@
   window.phet.chipper.packageObject =
     {
       "name": "proportion",
-      "version": "1.0.0-dev.2",
+      "version": "1.0.0-dev.3",
       "license": "GPL-3.0",
       "repository": {
         "type": "git",
@@ -33,6 +33,12 @@
       },
       "phet": {
         "requirejsNamespace": "PROPORTION",
+        "preload": [
+          "../tangible/js/preload/mechamarkers-21f16221e414ec2dca68bbfbb866369eea7abd70.js"
+        ],
+        "phetLibs": [
+          "tangible"
+        ],
         "simulation": true,
         "runnable": true,
         "readmeCreatedManually": true,
@@ -93,7 +99,8 @@
     '../sherpa/lib/base64-js-1.2.0.js',
     '../sherpa/lib/TextEncoderLite-3c9f6f0.js',
     '../tandem/js/PhetioIDUtils.js',
-    '../chipper/js/SimVersion.js'
+    '../chipper/js/SimVersion.js',
+    '../tangible/js/preload/mechamarkers-21f16221e414ec2dca68bbfbb866369eea7abd70.js'
   ];
 
   if ( brand === 'phet-io' ) {
