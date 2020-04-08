@@ -4,8 +4,10 @@
  * @author Michael Kauzmann
  */
 
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+// import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Color from '../../../../scenery/js/util/Color.js';
@@ -27,8 +29,19 @@ class FreeObjectsModel extends ProportionModel {
       tandem: tandem.createTandem( 'rightBarProperty' )
     } );
 
-    const leftValueProperty = new DerivedProperty( [ leftPositionProperty ], value => value.y );
-    const rightValueProperty = new DerivedProperty( [ rightPositionProperty ], value => value.y );
+    // TODO: this broke x movement when using the screen
+    const leftValueProperty = new DynamicProperty( new Property( leftPositionProperty ), {
+      bidirectional: true,
+      map: vector2 => vector2.y,
+      inverseMap: number => leftPositionProperty.value.setY( number ).copy()
+    } );
+    const rightValueProperty = new DynamicProperty( new Property( rightPositionProperty ), {
+      bidirectional: true,
+      map: vector2 => vector2.y,
+      inverseMap: number => rightPositionProperty.value.setY( number ).copy()
+    } );
+    // const leftValueProperty = new DerivedProperty( [ leftPositionProperty ], value => value.y );
+    // const rightValueProperty = new DerivedProperty( [ rightPositionProperty ], value => value.y );
 
     super( leftValueProperty, rightValueProperty, tandem, {
       incorrectColor: new Color( 'white' ),

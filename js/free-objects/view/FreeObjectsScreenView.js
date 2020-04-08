@@ -14,6 +14,7 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
 import ProportionConstants from '../../common/ProportionConstants.js';
+import ProportionMarkerInput from '../../common/view/ProportionMarkerInput.js';
 import proportion from '../../proportion.js';
 import DraggableMarker from './DraggableMarker.js';
 import MarkerDisplay from '../model/MarkerDisplay.js';
@@ -29,6 +30,8 @@ class FreeObjectsScreenView extends ScreenView {
     super( {
       tandem: tandem
     } );
+
+    ProportionMarkerInput.init( model );
 
     const background = Rectangle.bounds( this.layoutBounds, {
       fill: 'black'
