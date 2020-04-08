@@ -30,10 +30,7 @@ class ProportionModel {
 
       // {Color}
       correctColor: new Color( '#639a67' ),
-      incorrectColor: new Color( '#FE70D4' ),
-
-      // {boolean} If the value Properties passed in should be reset by the model.
-      resetValueProperties: true
+      incorrectColor: new Color( '#FE70D4' )
     }, options );
 
     this.ratioProperty = new NumberProperty( .5, {
@@ -62,9 +59,6 @@ class ProportionModel {
     } );
 
     this.firstInteractionProperty = new BooleanProperty( true );
-
-    // @private
-    this.resetValueProperties = options.resetValueProperties;
   }
 
   /**
@@ -74,11 +68,8 @@ class ProportionModel {
   reset() {
     this.ratioProperty.reset();
     this.toleranceProperty.reset();
-
-    if ( this.resetValueProperties ) {
-      this.leftValueProperty.reset();
-      this.rightValueProperty.reset();
-    }
+    this.leftValueProperty.reset();
+    this.rightValueProperty.reset();
   }
 
 }

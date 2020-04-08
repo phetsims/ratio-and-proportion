@@ -29,7 +29,6 @@ class FreeObjectsModel extends ProportionModel {
       tandem: tandem.createTandem( 'rightBarProperty' )
     } );
 
-    // TODO: this broke x movement when using the screen
     const leftValueProperty = new DynamicProperty( new Property( leftPositionProperty ), {
       bidirectional: true,
       map: vector2 => vector2.y,
@@ -40,12 +39,9 @@ class FreeObjectsModel extends ProportionModel {
       map: vector2 => vector2.y,
       inverseMap: number => rightPositionProperty.value.copy().setY( number )
     } );
-    // const leftValueProperty = new DerivedProperty( [ leftPositionProperty ], value => value.y );
-    // const rightValueProperty = new DerivedProperty( [ rightPositionProperty ], value => value.y );
 
     super( leftValueProperty, rightValueProperty, tandem, {
-      incorrectColor: new Color( 'white' ),
-      resetValueProperties: false
+      incorrectColor: new Color( 'white' )
     } );
 
     // @public - settable positions of the two values on the screen
@@ -65,6 +61,7 @@ class FreeObjectsModel extends ProportionModel {
   reset() {
     this.leftPositionProperty.reset();
     this.rightPositionProperty.reset();
+    this.markerDisplayProperty.reset();
     super.reset();
   }
 }

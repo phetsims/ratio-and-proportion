@@ -61,7 +61,6 @@ class BarScreenView extends ScreenView {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         model.reset();
-        this.reset();
       },
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
