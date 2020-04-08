@@ -41,7 +41,12 @@ class ProportionModel {
     this.leftValueProperty = leftValueProperty;
     this.rightValueProperty = rightValueProperty;
 
-    this.colorProperty = new DerivedProperty( [
+    const fitnessRange = new Range( 0, 1 );
+
+    // @public {DerivedProperty.<number>}
+    // How "correct" the proportion currently is. Can be between 0 and 1, if 1, the proportion of the two values is
+    // exactly the value of the ratioProperty. If zero, it is outside the tolerance allowed for the proportion.
+    this.proportionFitnessProperty = new DerivedProperty( [
       this.leftValueProperty,
       this.rightValueProperty,
       this.ratioProperty,
@@ -54,8 +59,14 @@ class ProportionModel {
         return options.incorrectColor;
       }
       const ratioError = currentRatio - ratio;
-      const normalizedError = Util.clamp( Math.abs( ratioError ) / tolerance, 0, 1 );
-      return Color.interpolateRGBA( options.correctColor, options.incorrectColor, normalizedError );
+      return Util.clamp( Math.abs( ratioError ) / tolerance, 0, 1 );
+    }, {
+      isValidValue: value => fitnessRange.contains( value )
+    } );
+
+    // @public - based on the proportion fitness
+    this.colorProperty = new DerivedProperty( [ this.proportionFitnessProperty ], fitness => {
+      return Color.interpolateRGBA( options.correctColor, options.incorrectColor, fitness );
     } );
 
     this.firstInteractionProperty = new BooleanProperty( true );
