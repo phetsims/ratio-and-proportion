@@ -33,12 +33,12 @@ class FreeObjectsModel extends ProportionModel {
     const leftValueProperty = new DynamicProperty( new Property( leftPositionProperty ), {
       bidirectional: true,
       map: vector2 => vector2.y,
-      inverseMap: number => leftPositionProperty.value.setY( number ).copy()
+      inverseMap: number => leftPositionProperty.value.copy().setY( number )
     } );
     const rightValueProperty = new DynamicProperty( new Property( rightPositionProperty ), {
       bidirectional: true,
       map: vector2 => vector2.y,
-      inverseMap: number => rightPositionProperty.value.setY( number ).copy()
+      inverseMap: number => rightPositionProperty.value.copy().setY( number )
     } );
     // const leftValueProperty = new DerivedProperty( [ leftPositionProperty ], value => value.y );
     // const rightValueProperty = new DerivedProperty( [ rightPositionProperty ], value => value.y );
