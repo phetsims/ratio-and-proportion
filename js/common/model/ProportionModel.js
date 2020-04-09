@@ -56,7 +56,7 @@ class ProportionModel {
       const minValue = Math.min( leftValue, rightValue );
       const currentRatio = minValue / maxValue;
       if ( isNaN( currentRatio ) ) {
-        return options.incorrectColor;
+        return 0;
       }
       const ratioError = currentRatio - ratio;
       return Util.clamp( Math.abs( ratioError ) / tolerance, 0, 1 );
@@ -67,7 +67,7 @@ class ProportionModel {
     // @public - based on the proportion fitness
     this.colorProperty = new DerivedProperty( [ this.proportionFitnessProperty ], fitness => {
       return Color.interpolateRGBA( options.correctColor, options.incorrectColor, fitness );
-    } );
+    }, { valueType: Color } );
 
     this.firstInteractionProperty = new BooleanProperty( true );
   }
