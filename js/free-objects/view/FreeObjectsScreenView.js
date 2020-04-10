@@ -4,12 +4,10 @@
  * @author Michael Kauzmann
  */
 
-import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
@@ -56,16 +54,6 @@ class FreeObjectsScreenView extends ScreenView {
       model.firstInteractionProperty, modelViewTransform, this.layoutBounds
     );
 
-    const toleranceNumberControl = new NumberControl( 'Tolerance', model.toleranceProperty, new Range( 0.01, .3 ), {
-      delta: .01,
-      numberDisplayOptions: {
-        decimalPlaces: 2
-      },
-      sliderOptions: {
-        keyboardStep: .05
-      }
-    } );
-
     const ratioAquaRadioButtonGroup = new VerticalAquaRadioButtonGroup( model.ratioProperty, [ {
       node: new RichText( 'Mystery 1' ),
       value: 1 / 2
@@ -103,8 +91,7 @@ class FreeObjectsScreenView extends ScreenView {
     resetAllButton.bottom = this.layoutBounds.maxY - ProportionConstants.SCREEN_VIEW_Y_MARGIN;
     ratioAquaRadioButtonGroup.bottom = resetAllButton.top - 50;
     ratioAquaRadioButtonGroup.left = rightMarker.right + 30;
-    toleranceNumberControl.bottom = ratioAquaRadioButtonGroup.top - 20;
-    toleranceNumberControl.left = markerDisplayAquaRadioButtonGroup.left = ratioAquaRadioButtonGroup.left;
+    markerDisplayAquaRadioButtonGroup.left = ratioAquaRadioButtonGroup.left;
     markerDisplayAquaRadioButtonGroup.bottom = resetAllButton.bottom;
 
     // children
@@ -112,7 +99,6 @@ class FreeObjectsScreenView extends ScreenView {
       background,
       leftMarker,
       rightMarker,
-      toleranceNumberControl,
       ratioAquaRadioButtonGroup,
       markerDisplayAquaRadioButtonGroup,
       resetAllButton

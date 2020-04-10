@@ -4,10 +4,8 @@
  * @author Michael Kauzmann
  */
 
-import Range from '../../../../dot/js/Range.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
 import ProportionConstants from '../../common/ProportionConstants.js';
@@ -32,16 +30,6 @@ class BarScreenView extends ScreenView {
     const leftBar = new DraggableBar( model.leftValueProperty, model.colorProperty, model.firstInteractionProperty );
     const rightBar = new DraggableBar( model.rightValueProperty, model.colorProperty, model.firstInteractionProperty );
 
-    const toleranceNumberControl = new NumberControl( 'Tolerance', model.toleranceProperty, new Range( 0.01, .3 ), {
-      delta: .01,
-      numberDisplayOptions: {
-        decimalPlaces: 2
-      },
-      sliderOptions: {
-        keyboardStep: .05
-      }
-    } );
-
     const ratioAquaRadioButtonGroup = new VerticalAquaRadioButtonGroup( model.ratioProperty, [ {
       node: new RichText( 'Mystery 1' ),
       value: 1 / 2
@@ -65,7 +53,6 @@ class BarScreenView extends ScreenView {
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
 
-
     // layout
     leftBar.right = this.layoutBounds.centerX + -20;
     leftBar.y = this.layoutBounds.bottom - 20;
@@ -75,11 +62,9 @@ class BarScreenView extends ScreenView {
     resetAllButton.bottom = this.layoutBounds.maxY - ProportionConstants.SCREEN_VIEW_Y_MARGIN;
     ratioAquaRadioButtonGroup.bottom = resetAllButton.top - 50;
     ratioAquaRadioButtonGroup.left = rightBar.right + 30;
-    toleranceNumberControl.bottom = ratioAquaRadioButtonGroup.top - 20;
-    toleranceNumberControl.left = ratioAquaRadioButtonGroup.left;
 
     // children
-    this.children = [ leftBar, rightBar, toleranceNumberControl, ratioAquaRadioButtonGroup, resetAllButton ];
+    this.children = [ leftBar, rightBar, ratioAquaRadioButtonGroup, resetAllButton ];
   }
 }
 
