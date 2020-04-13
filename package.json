@@ -20,6 +20,7 @@
     "simulation": true,
     "runnable": true,
     "readmeCreatedManually": true,
+    "supportsSound": true,
     "supportsInteractiveDescriptions": true,
     "supportedBrands": [
       "phet",
