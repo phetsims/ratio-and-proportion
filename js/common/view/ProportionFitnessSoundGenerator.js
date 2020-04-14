@@ -11,7 +11,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
-import Random from '../../../../dot/js/Random.js';
+import DotRandom from '../../../../dot/js/Random.js';
 import merge from '../../../../phet-core/js/merge.js';
 import proportion from '../../proportion.js';
 import Range from '../../../../dot/js/Range.js';
@@ -32,7 +32,7 @@ for ( let i = 0; i <= 16; i++ ) {
 }
 const func = new LinearFunction( 0, 1, playbackSpeeds.length - 1, 0, true );
 const getMaxIndex = fitness => Math.floor( func( fitness ) );
-const random = new Random();
+const random = new DotRandom();
 
 class ProportionFitnessSoundGenerator extends SoundClip {
 
