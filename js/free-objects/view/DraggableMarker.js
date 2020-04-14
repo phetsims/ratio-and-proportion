@@ -101,16 +101,18 @@ class DraggableMarker extends Node {
 
     this.addInputListener( new KeyboardDragListener( {
       positionProperty: positionProperty,
-      transform: modelViewTransform,
-      start: () => {
+      transform: modelViewTransform
+    } ) );
+    this.addInputListener( {
+      focus: () => {
         commonGrabSoundClip.play();
         this.isBeingInteractedWithProperty.value = true;
       },
-      end: () => {
+      blur: () => {
         commonReleaseSoundClip.play();
         this.isBeingInteractedWithProperty.value = false;
       }
-    } ) );
+    } );
 
     // TODO: cue arrows
     // const cueArrow = new ArrowNode( 0, 40, 0, -40, {
