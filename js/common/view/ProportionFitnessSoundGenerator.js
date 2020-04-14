@@ -111,7 +111,7 @@ class ProportionFitnessSoundGenerator extends SoundClip {
     sineWaveGenerator2.connect( this.masterGainNode );
 
     const supportVibration = value => {
-      frequency1Property.value = VIBRATO_PITCH + ( value * frequency1Range.getLength() + frequency1Range.min );
+      frequency1Property.value = VIBRATO_PITCH + ( ( 1 - value ) * frequency1Range.getLength() + frequency1Range.min );
     };
 
     ///////////////////////////////////////////////////////////////////////////////////
