@@ -10,15 +10,29 @@
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import LinearFunction from '../../../../dot/js/LinearFunction.js';
+import Random from '../../../../dot/js/Random.js';
 import merge from '../../../../phet-core/js/merge.js';
 import proportion from '../../proportion.js';
 import Range from '../../../../dot/js/Range.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import saturatedSinWave from '../../../../tambo/sounds/220hz-saturated-sine-loop_mp3.js';
+import randomBonk from '../../../../tambo/sounds/edge-boundary-bottle_mp3.js';
 import SineWaveGenerator from './SineWaveGenerator.js';
 
 // constants
 const VIBRATO_PITCH = 220;
+
+// For Random Bonks
+const STARTING_TIME_BETWEEN_BONKS = 0.20;
+const timeBetweenBonksFunction = new LinearFunction( 0, 1, 0, -STARTING_TIME_BETWEEN_BONKS / 2, true );
+const playbackSpeeds = [];
+for ( let i = 0; i <= 16; i++ ) {
+  playbackSpeeds.push( Math.pow( 2, i / 12 ) );
+}
+const func = new LinearFunction( 0, 1, playbackSpeeds.length - 1, 0, true );
+const getMaxIndex = fitness => Math.floor( func( fitness ) );
+const random = new Random();
 
 class ProportionFitnessSoundGenerator extends SoundClip {
 
@@ -50,6 +64,9 @@ class ProportionFitnessSoundGenerator extends SoundClip {
 
     super( saturatedSinWave, options );
 
+    // @private
+    this.proportionFitnessProperty = proportionFitnessProperty;
+
     // @private {number} - see docs at options declaration
     this.fadeTime = options.fadeTime;
 
@@ -66,12 +83,19 @@ class ProportionFitnessSoundGenerator extends SoundClip {
     this.fadeTime = options.fadeTime;
     this.fadeStartDelay = options.fadeStartDelay;
 
+    // start with the output level at zero so that the initial sound generation has a bit of fade in
+    this.setOutputLevel( 0, 0 );
+
+    const interactedWithProperty = DerivedProperty.or( [ leftIsBeingInteractedWithProperty, rightIsBeingInteractedWithProperty ] );
+
+    //////////////////////////////////////////////////////////////////////////////
+    // VIBRATO
     const frequency1Range = new Range( 0, 10 );
     const frequency1Property = new NumberProperty( VIBRATO_PITCH );
     const frequency2Property = new NumberProperty( VIBRATO_PITCH );
 
     const enableControlProperties = [
-      DerivedProperty.or( [ leftIsBeingInteractedWithProperty, rightIsBeingInteractedWithProperty ] ),
+      interactedWithProperty,
 
       // only for the right selection
       new DerivedProperty( [ window.phet.proportion.proportionFitnessSoundSelectorProperty ], value => value === 0 )
@@ -90,74 +114,100 @@ class ProportionFitnessSoundGenerator extends SoundClip {
       frequency1Property.value = VIBRATO_PITCH + ( value * frequency1Range.getLength() + frequency1Range.min );
     };
 
-    // start with the output level at zero so that the initial sound generation has a bit of fade in
-    this.setOutputLevel( 0, 0 );
-
-    // function for starting the sound or adjusting the volume
-    const listener = value => {
-
-      if ( leftIsBeingInteractedWithProperty.value || rightIsBeingInteractedWithProperty.value ) {
-        switch( window.phet.proportion.proportionFitnessSoundSelectorProperty.value ) {
-          case 0:
-            supportVibration( value );
-            break;
-          case 1:
-            break;
-          case 2:
-            break;
-          case 3:
-            this.supportPitchChange( value );
-            break;
-          default:
-            throw new Error( 'what case?!?!' );
-        }
-      }
-    };
-    proportionFitnessProperty.lazyLink( listener );
-
-    Property.multilink( [ leftIsBeingInteractedWithProperty,
-      rightIsBeingInteractedWithProperty
-    ], ( left, right ) => {
-      if ( !left && !right ) {
-        this.reset();
+    ///////////////////////////////////////////////////////////////////////////////////
+    // RANDOM BONKS
+    this.timeBetweenBonks = STARTING_TIME_BETWEEN_BONKS;
+    this.remainingBonkTime = this.timeBetweenBonks;
+    this.randomBonkSoundClip = new SoundClip( randomBonk, {
+      rateChangesAffectPlayingSounds: false,
+      enableControlProperties: [
+        interactedWithProperty,
+        new DerivedProperty( [ window.phet.proportion.proportionFitnessSoundSelectorProperty ], value => value === 1 )
+      ]
+    } );
+    this.randomBonkSoundClip.connect( this.masterGainNode );
+    this.randomBonkSoundClip.fullyEnabledProperty.link( enabled => {
+      if ( !enabled ) {
+        this.remainingBonkTime = 0;
       }
     } );
 
-    // @private {function}
-    this.disposeProportionFitnessSoundGenerator = () => proportionFitnessProperty.unlink( listener );
+    //////////////////////////////////////////////////////////////////
+
+    Property.multilink( [ leftIsBeingInteractedWithProperty,
+      rightIsBeingInteractedWithProperty,
+      proportionFitnessProperty,
+      window.phet.proportion.proportionFitnessSoundSelectorProperty
+    ], ( left, right, fitness, selector ) => {
+      if ( !left && !right ) {
+        this.reset();
+      }
+      switch( selector ) {
+        case 0:
+          supportVibration( fitness );
+          break;
+        case 2:
+          break;
+        case 3:
+          this.supportPitchChange( fitness );
+          break;
+        default:
+          break;
+      }
+    } );
   }
 
   /**
    * @public
    */
   dispose() {
-    this.disposeProportionFitnessSoundGenerator();
     super.dispose();
   }
 
-  // /**
-  //  * Step this sound generator, used for fading out the sound in the absence change.
-  //  * // TODO: perhaps support fading like this, but it is simpler to omit it for now
-  //  * @param {number} dt
-  //  * @public
-  //  */
-  // step( dt ) {
-  //   if ( this.remainingFadeTime > 0 ) {
-  //     this.remainingFadeTime = Math.max( this.remainingFadeTime - dt, 0 );
-  //
-  //     if ( ( this.remainingFadeTime < this.fadeTime + this.delayBeforeStop ) && this.outputLevel > 0 ) {
-  //
-  //       // the sound is fading out, adjust the output level
-  //       const outputLevel = Math.max( ( this.remainingFadeTime - this.delayBeforeStop ) / this.fadeTime, 0 );
-  //       this.setOutputLevel( outputLevel * this.nonFadedOutputLevel );
-  //     }
-  //
-  //     // fade out complete, stop playback
-  //     if ( this.remainingFadeTime === 0 && this.isPlaying ) {
-  //       this.stop( 0 );
-  //     }
-  //   }
-  // }
+  /**
+   * Step this sound generator, used for fading out the sound in the absence change.
+   * // TODO: perhaps support fading like this, but it is simpler to omit it for now
+   * @param {number} dt - in seconds
+   * @public
+   */
+  step( dt ) {
+    // if ( this.remainingFadeTime > 0 ) {
+    //   this.remainingFadeTime = Math.max( this.remainingFadeTime - dt, 0 );
+    //
+    //   if ( ( this.remainingFadeTime < this.fadeTime + this.delayBeforeStop ) && this.outputLevel > 0 ) {
+    //
+    //     // the sound is fading out, adjust the output level
+    //     const outputLevel = Math.max( ( this.remainingFadeTime - this.delayBeforeStop ) / this.fadeTime, 0 );
+    //     this.setOutputLevel( outputLevel * this.nonFadedOutputLevel );
+    //   }
+    //
+    //   // fade out complete, stop playback
+    //   if ( this.remainingFadeTime === 0 && this.isPlaying ) {
+    //     this.stop( 0 );
+    //   }
+    // }
+
+    // For Random Bonks generation
+    if ( this.remainingBonkTime >= 0 && this.randomBonkSoundClip.fullyEnabledProperty.value ) {
+
+      this.remainingBonkTime = Math.max( this.remainingBonkTime - dt, 0 );
+
+      if ( this.remainingBonkTime === 0 ) {
+        this.randomBonkSoundClip.setPlaybackRate( this.getRandomBonkPlaybackRate() );
+        this.randomBonkSoundClip.play();
+        this.remainingBonkTime = STARTING_TIME_BETWEEN_BONKS + timeBetweenBonksFunction( this.proportionFitnessProperty.value );
+      }
+    }
+  }
+
+  getRandomBonkPlaybackRate() {
+    const fitness = this.proportionFitnessProperty.value;
+
+    const playbackIndex = random.nextIntBetween( 0, getMaxIndex( fitness ) );
+
+    assert && assert( playbackSpeeds[ playbackIndex ] );
+    return playbackSpeeds[ playbackIndex ];
+  }
 
   /**
    * Change the pitch for the valueProperty

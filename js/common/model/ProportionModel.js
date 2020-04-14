@@ -59,7 +59,7 @@ class ProportionModel {
         return 0;
       }
       const ratioError = currentRatio - ratio;
-      return Util.clamp( Math.abs( ratioError ) / tolerance, 0, 1 );
+      return 1 - Util.clamp( Math.abs( ratioError ) / tolerance, 0, 1 );
     }, {
       isValidValue: value => fitnessRange.contains( value )
     } );
@@ -69,7 +69,7 @@ class ProportionModel {
 
     // @public - based on the proportion fitness
     this.colorProperty = new DerivedProperty( [ this.proportionFitnessProperty ], fitness => {
-      return Color.interpolateRGBA( options.correctColor, options.incorrectColor, fitness );
+      return Color.interpolateRGBA( options.incorrectColor, options.correctColor, fitness );
     }, { valueType: Color } );
 
     this.firstInteractionProperty = new BooleanProperty( true );

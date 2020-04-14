@@ -87,12 +87,13 @@ class FreeObjectsScreenView extends ScreenView {
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
 
-    soundManager.addSoundGenerator( new ProportionFitnessSoundGenerator(
+    this.proportionFitnessSoundGenerator = new ProportionFitnessSoundGenerator(
       model.proportionFitnessProperty,
       model.fitnessRange,
       leftMarker.isBeingInteractedWithProperty,
       rightMarker.isBeingInteractedWithProperty
-    ) );
+    );
+    soundManager.addSoundGenerator( this.proportionFitnessSoundGenerator );
 
     // layout
     resetAllButton.right = this.layoutBounds.maxX - ProportionConstants.SCREEN_VIEW_X_MARGIN;
@@ -111,6 +112,14 @@ class FreeObjectsScreenView extends ScreenView {
       markerDisplayAquaRadioButtonGroup,
       resetAllButton
     ];
+  }
+
+  /**
+   * @public
+   * @param {number} dt
+   */
+  step( dt ) {
+    this.proportionFitnessSoundGenerator.step( dt );
   }
 }
 

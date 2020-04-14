@@ -20,13 +20,11 @@ class SineWaveGenerator extends SoundGenerator {
       oscillatorType: 'sine'
     }, options );
     super( options );
-    this.fullyEnabledProperty.link( value => console.log( 'enabled?', value ) );
 
     // @private {OscillatorNode|null} created when sound begins and nullified when sound ends, see #373
     this.oscillator = null;
     const updateFrequency = () => {
       const value = frequencyProperty.value;
-      console.log( value, this.oscillator );
       this.oscillator && this.oscillator.frequency.setValueAtTime( value, this.audioContext.currentTime );
     };
     frequencyProperty.link( updateFrequency );
