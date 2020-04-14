@@ -61,6 +61,7 @@ class DraggableBar extends Node {
     let offset = null;
     const dragListener = new DragListener( {
       start: () => {
+        this.isBeingInteractedWithProperty.value = true;
         firstInteractionProperty.value = false;
         offset = valueRectangle.height;
       },
@@ -71,6 +72,9 @@ class DraggableBar extends Node {
         const newValue = Util.clamp( y + offset, .1 * options.barHeight, options.barHeight );
 
         valueProperty.value = newValue / options.barHeight;
+      },
+      end: () => {
+        this.isBeingInteractedWithProperty.value = false;
       },
       tandem: options.tandem.createTandem( 'dragListener' )
     } );
@@ -110,7 +114,6 @@ class DraggableBar extends Node {
       center: new Vector2( valueRectangle.centerX, valueRectangle.height )
     } );
     firstInteractionProperty.linkAttribute( cueArrow, 'visible' );
-
 
     this.addChild( new Node( { rotation: Math.PI, children: [ this.container, valueRectangle, cueArrow ] } ) );
     this.mutate( options );

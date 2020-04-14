@@ -8,7 +8,9 @@ import ScreenView from '../../../../joist/js/ScreenView.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
 import ProportionConstants from '../../common/ProportionConstants.js';
+import ProportionFitnessSoundGenerator from '../../common/view/ProportionFitnessSoundGenerator.js';
 import ProportionMarkerInput from '../../common/view/ProportionMarkerInput.js';
 import proportion from '../../proportion.js';
 import DraggableBar from './DraggableBar.js';
@@ -30,6 +32,14 @@ class BarScreenView extends ScreenView {
     const leftBar = new DraggableBar( model.leftValueProperty, model.colorProperty, model.firstInteractionProperty );
     const rightBar = new DraggableBar( model.rightValueProperty, model.colorProperty, model.firstInteractionProperty );
 
+    this.proportionFitnessSoundGenerator = new ProportionFitnessSoundGenerator(
+      model.proportionFitnessProperty,
+      model.fitnessRange,
+      leftBar.isBeingInteractedWithProperty,
+      rightBar.isBeingInteractedWithProperty
+    );
+    soundManager.addSoundGenerator( this.proportionFitnessSoundGenerator );
+
     const ratioAquaRadioButtonGroup = new VerticalAquaRadioButtonGroup( model.ratioProperty, [ {
       node: new RichText( 'Mystery 1' ),
       value: 1 / 2
@@ -43,7 +53,6 @@ class BarScreenView extends ScreenView {
       node: new RichText( 'Mystery 4' ),
       value: 5 / 6
     } ] );
-
 
     const resetAllButton = new ResetAllButton( {
       listener: () => {
@@ -65,6 +74,13 @@ class BarScreenView extends ScreenView {
 
     // children
     this.children = [ leftBar, rightBar, ratioAquaRadioButtonGroup, resetAllButton ];
+  }
+
+  /**
+   * @param {number} dt
+   */
+  step( dt ) {
+    this.proportionFitnessSoundGenerator.step( dt );
   }
 }
 
