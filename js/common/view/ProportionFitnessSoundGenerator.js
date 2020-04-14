@@ -36,7 +36,13 @@ const random = new DotRandom();
 
 class ProportionFitnessSoundGenerator extends SoundClip {
 
-
+  /**
+   * @param {Property.<number>} proportionFitnessProperty
+   * @param {Range} fitnessRange
+   * @param {Property.<boolean>} leftIsBeingInteractedWithProperty
+   * @param {Property.<boolean>} rightIsBeingInteractedWithProperty
+   * @param {Object} [options]
+   */
   constructor( proportionFitnessProperty,
                fitnessRange,
                leftIsBeingInteractedWithProperty,
@@ -227,7 +233,6 @@ class ProportionFitnessSoundGenerator extends SoundClip {
     // reset the fade countdown
     this.remainingFadeTime = this.fadeStartDelay + this.fadeTime + this.delayBeforeStop;
   }
-
 
   /**
    * stop any in-progress sound generation
