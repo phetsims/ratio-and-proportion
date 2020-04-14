@@ -33,9 +33,8 @@ class ProportionModel {
       incorrectColor: new Color( '#FE70D4' )
     }, options );
 
-    this.ratioProperty = new NumberProperty( .5, {
-      range: new Range( 0, 1 )
-    } );
+    // The desired ratio of the left value as compared to the right value. As in 1:2 (initial value).
+    this.ratioProperty = new NumberProperty( .5 );
     this.toleranceProperty = new NumberProperty( .05 );
 
     this.leftValueProperty = leftValueProperty;
@@ -52,9 +51,7 @@ class ProportionModel {
       this.ratioProperty,
       this.toleranceProperty
     ], ( leftValue, rightValue, ratio, tolerance ) => {
-      const maxValue = Math.max( leftValue, rightValue );
-      const minValue = Math.min( leftValue, rightValue );
-      const currentRatio = minValue / maxValue;
+      const currentRatio = leftValue / rightValue;
       if ( isNaN( currentRatio ) ) {
         return 0;
       }
