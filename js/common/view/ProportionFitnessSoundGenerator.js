@@ -17,7 +17,7 @@ import proportion from '../../proportion.js';
 import Range from '../../../../dot/js/Range.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import saturatedSinWave from '../../../../tambo/sounds/220hz-saturated-sine-loop_mp3.js';
-import randomBonk from '../../../../tambo/sounds/edge-boundary-bottle_mp3.js';
+import randomBonk from '../../../../tambo/sounds/proportion-random-clicks-single_mp3.js';
 import SineWaveGenerator from './SineWaveGenerator.js';
 
 // constants
