@@ -64,6 +64,9 @@ class ProportionModel {
       isValidValue: value => fitnessRange.contains( value )
     } );
 
+    // @public (read-only) - the Range that the proportionFitnessProperty can be.
+    this.fitnessRange = new Range( 0, 1 );
+
     // @public - based on the proportion fitness
     this.colorProperty = new DerivedProperty( [ this.proportionFitnessProperty ], fitness => {
       return Color.interpolateRGBA( options.correctColor, options.incorrectColor, fitness );

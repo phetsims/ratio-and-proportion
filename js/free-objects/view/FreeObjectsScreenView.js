@@ -11,7 +11,9 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
 import ProportionConstants from '../../common/ProportionConstants.js';
+import ProportionFitnessSoundGenerator from '../../common/view/ProportionFitnessSoundGenerator.js';
 import ProportionMarkerInput from '../../common/view/ProportionMarkerInput.js';
 import proportion from '../../proportion.js';
 import DraggableMarker from './DraggableMarker.js';
@@ -85,6 +87,12 @@ class FreeObjectsScreenView extends ScreenView {
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
 
+    soundManager.addSoundGenerator( new ProportionFitnessSoundGenerator(
+      model.proportionFitnessProperty,
+      model.fitnessRange,
+      leftMarker.isBeingInteractedWithProperty,
+      rightMarker.isBeingInteractedWithProperty
+    ) );
 
     // layout
     resetAllButton.right = this.layoutBounds.maxX - ProportionConstants.SCREEN_VIEW_X_MARGIN;

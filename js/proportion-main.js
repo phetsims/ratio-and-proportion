@@ -6,14 +6,19 @@
  * @author Michael Kauzmann
  */
 
+import NumberProperty from '../../axon/js/NumberProperty.js';
 import Sim from '../../joist/js/Sim.js';
 import SimLauncher from '../../joist/js/SimLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import BarScreen from './bar/BarScreen.js';
+import ProportionOptionsDialogContent from './common/view/ProportionOptionsDialogContent.js';
 import FreeObjectsScreen from './free-objects/FreeObjectsScreen.js';
 import proportionStrings from './proportionStrings.js';
 
 const proportionTitleString = proportionStrings.proportion.title;
+
+// global object for selecting proportion "fitness" sounds, this is temporary, see https://github.com/phetsims/proportion/issues/9
+window.phet.proportion.proportionFitnessSoundSelectorProperty = new NumberProperty( 0 );
 
 const simOptions = {
   credits: {
@@ -25,7 +30,8 @@ const simOptions = {
     graphicArts: '',
     soundDesign: '',
     thanks: ''
-  }
+  },
+  createOptionsDialogContent: () => new ProportionOptionsDialogContent( window.phet.proportion.proportionFitnessSoundSelectorProperty )
 };
 
 // launch the sim - beware that scenery Image nodes created outside of SimLauncher.launch() will have zero bounds
