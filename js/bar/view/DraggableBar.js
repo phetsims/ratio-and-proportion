@@ -13,13 +13,9 @@ import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import KeyboardDragListener from '../../../../scenery/js/listeners/KeyboardDragListener.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import proportion from '../../proportion.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import commonGrabSoundInfo from '../../../../tambo/sounds/grab_mp3.js';
-import commonReleaseSoundInfo from '../../../../tambo/sounds/release_mp3.js';
 
 class DraggableBar extends Node {
 
@@ -55,10 +51,6 @@ class DraggableBar extends Node {
       focusable: true
     } );
 
-    const commonGrabSoundClip = new SoundClip( commonGrabSoundInfo, { initialOutput: .7 } );
-    const commonReleaseSoundClip = new SoundClip( commonReleaseSoundInfo, { initialOutput: .7 } );
-    soundManager.addSoundGenerator( commonGrabSoundClip );
-    soundManager.addSoundGenerator( commonReleaseSoundClip );
 
     valueProperty.link( () => {
       const normalizedValue = valueProperty.range.getNormalizedValue( valueProperty.value );
@@ -70,7 +62,6 @@ class DraggableBar extends Node {
     const dragListener = new DragListener( {
       start: () => {
         firstInteractionProperty.value = false;
-        commonGrabSoundClip.play();
         offset = valueRectangle.height;
       },
       drag: ( event, listener ) => {
@@ -80,9 +71,6 @@ class DraggableBar extends Node {
         const newValue = Util.clamp( y + offset, .1 * options.barHeight, options.barHeight );
 
         valueProperty.value = newValue / options.barHeight;
-      },
-      end: () => {
-        commonReleaseSoundClip.play();
       },
       tandem: options.tandem.createTandem( 'dragListener' )
     } );
@@ -106,11 +94,9 @@ class DraggableBar extends Node {
 
     valueRectangle.addInputListener( {
       focus: () => {
-        commonGrabSoundClip.play();
         this.isBeingInteractedWithProperty.value = true;
       },
       blur: () => {
-        commonReleaseSoundClip.play();
         this.isBeingInteractedWithProperty.value = false;
       }
     } );
