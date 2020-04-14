@@ -4,6 +4,7 @@
  * @author Michael Kauzmann
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -13,10 +14,14 @@ import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import KeyboardDragListener from '../../../../scenery/js/listeners/KeyboardDragListener.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import proportion from '../../proportion.js';
 import MarkerDisplay from '../model/MarkerDisplay.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
+import commonGrabSoundInfo from '../../../../tambo/sounds/grab_mp3.js';
+import commonReleaseSoundInfo from '../../../../tambo/sounds/release_mp3.js';
 
 class DraggableMarker extends Node {
 
@@ -40,6 +45,9 @@ class DraggableMarker extends Node {
       role: 'application',
       focusable: true
     } );
+
+    // @public (read-only)
+    this.isBeingInteractedWithProperty = new BooleanProperty( false );
 
     const content = new Node();
 
@@ -71,16 +79,37 @@ class DraggableMarker extends Node {
       this.translation = modelViewTransform.modelToViewPosition( position );
     } );
 
+    const commonGrabSoundClip = new SoundClip( commonGrabSoundInfo, { initialOutput: .7 } );
+    const commonReleaseSoundClip = new SoundClip( commonReleaseSoundInfo, { initialOutput: .7 } );
+    soundManager.addSoundGenerator( commonGrabSoundClip );
+    soundManager.addSoundGenerator( commonReleaseSoundClip );
+
     this.addInputListener( new DragListener( {
       positionProperty: positionProperty,
       transform: modelViewTransform,
       dragBoundsProperty: new Property( modelViewTransform.viewToModelBounds( dragBounds ) ),
-      tandem: options.tandem.createTandem( 'dragListener' )
+      tandem: options.tandem.createTandem( 'dragListener' ),
+      start: () => {
+        commonGrabSoundClip.play();
+        this.isBeingInteractedWithProperty.value = true;
+      },
+      end: () => {
+        commonReleaseSoundClip.play();
+        this.isBeingInteractedWithProperty.value = false;
+      }
     } ) );
 
     this.addInputListener( new KeyboardDragListener( {
       positionProperty: positionProperty,
-      transform: modelViewTransform
+      transform: modelViewTransform,
+      start: () => {
+        commonGrabSoundClip.play();
+        this.isBeingInteractedWithProperty.value = true;
+      },
+      end: () => {
+        commonReleaseSoundClip.play();
+        this.isBeingInteractedWithProperty.value = false;
+      }
     } ) );
 
     // TODO: cue arrows
