@@ -4,6 +4,7 @@
  * @author Michael Kauzmann
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
@@ -31,7 +32,7 @@ class FreeObjectsScreenView extends ScreenView {
       tandem: tandem
     } );
 
-    ProportionMarkerInput.init( model );
+    this.markerInput = new ProportionMarkerInput( model );
 
     const background = Rectangle.bounds( this.layoutBounds, {
       fill: 'black'
@@ -90,8 +91,11 @@ class FreeObjectsScreenView extends ScreenView {
     this.proportionFitnessSoundGenerator = new ProportionFitnessSoundGenerator(
       model.proportionFitnessProperty,
       model.fitnessRange,
-      leftMarker.isBeingInteractedWithProperty,
-      rightMarker.isBeingInteractedWithProperty
+      DerivedProperty.or( [
+        leftMarker.isBeingInteractedWithProperty,
+        rightMarker.isBeingInteractedWithProperty,
+        this.markerInput.isBeingInteractedWithProperty
+      ] )
     );
     soundManager.addSoundGenerator( this.proportionFitnessSoundGenerator );
 
@@ -119,6 +123,7 @@ class FreeObjectsScreenView extends ScreenView {
    * @param {number} dt
    */
   step( dt ) {
+    this.markerInput.step( dt );
     this.proportionFitnessSoundGenerator.step( dt );
   }
 }

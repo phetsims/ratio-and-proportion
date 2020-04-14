@@ -39,14 +39,12 @@ class ProportionFitnessSoundGenerator extends SoundClip {
   /**
    * @param {Property.<number>} proportionFitnessProperty
    * @param {Range} fitnessRange
-   * @param {Property.<boolean>} leftIsBeingInteractedWithProperty
-   * @param {Property.<boolean>} rightIsBeingInteractedWithProperty
+   * @param {Property.<boolean>} isBeingInteractedWithProperty - if there is any interaction occurring to either left/right object
    * @param {Object} [options]
    */
   constructor( proportionFitnessProperty,
                fitnessRange,
-               leftIsBeingInteractedWithProperty,
-               rightIsBeingInteractedWithProperty, options ) {
+               isBeingInteractedWithProperty, options ) {
 
     options = merge( {
       initialOutputLevel: 0.7,
@@ -92,8 +90,6 @@ class ProportionFitnessSoundGenerator extends SoundClip {
     // start with the output level at zero so that the initial sound generation has a bit of fade in
     this.setOutputLevel( 0, 0 );
 
-    const interactedWithProperty = DerivedProperty.or( [ leftIsBeingInteractedWithProperty, rightIsBeingInteractedWithProperty ] );
-
     //////////////////////////////////////////////////////////////////////////////
     // VIBRATO
     const frequency1Range = new Range( 0, 10 );
@@ -101,9 +97,7 @@ class ProportionFitnessSoundGenerator extends SoundClip {
     const frequency2Property = new NumberProperty( VIBRATO_PITCH );
 
     const enableControlProperties = [
-      interactedWithProperty,
-
-      // only for the right selection
+      isBeingInteractedWithProperty,
       new DerivedProperty( [ window.phet.proportion.proportionFitnessSoundSelectorProperty ], value => value === 0 )
     ];
 
@@ -127,7 +121,7 @@ class ProportionFitnessSoundGenerator extends SoundClip {
     this.randomBonkSoundClip = new SoundClip( randomBonk, {
       rateChangesAffectPlayingSounds: false,
       enableControlProperties: [
-        interactedWithProperty,
+        isBeingInteractedWithProperty,
         new DerivedProperty( [ window.phet.proportion.proportionFitnessSoundSelectorProperty ], value => value === 1 )
       ]
     } );
@@ -140,12 +134,11 @@ class ProportionFitnessSoundGenerator extends SoundClip {
 
     //////////////////////////////////////////////////////////////////
 
-    Property.multilink( [ leftIsBeingInteractedWithProperty,
-      rightIsBeingInteractedWithProperty,
+    Property.multilink( [ isBeingInteractedWithProperty,
       proportionFitnessProperty,
       window.phet.proportion.proportionFitnessSoundSelectorProperty
-    ], ( left, right, fitness, selector ) => {
-      if ( !left && !right ) {
+    ], ( interactedWith, right, fitness, selector ) => {
+      if ( !interactedWith ) {
         this.reset();
       }
       switch( selector ) {
@@ -171,27 +164,11 @@ class ProportionFitnessSoundGenerator extends SoundClip {
   }
 
   /**
-   * Step this sound generator, used for fading out the sound in the absence change.
-   * // TODO: perhaps support fading like this, but it is simpler to omit it for now
+   * Step this sound generator.
    * @param {number} dt - in seconds
    * @public
    */
   step( dt ) {
-    // if ( this.remainingFadeTime > 0 ) {
-    //   this.remainingFadeTime = Math.max( this.remainingFadeTime - dt, 0 );
-    //
-    //   if ( ( this.remainingFadeTime < this.fadeTime + this.delayBeforeStop ) && this.outputLevel > 0 ) {
-    //
-    //     // the sound is fading out, adjust the output level
-    //     const outputLevel = Math.max( ( this.remainingFadeTime - this.delayBeforeStop ) / this.fadeTime, 0 );
-    //     this.setOutputLevel( outputLevel * this.nonFadedOutputLevel );
-    //   }
-    //
-    //   // fade out complete, stop playback
-    //   if ( this.remainingFadeTime === 0 && this.isPlaying ) {
-    //     this.stop( 0 );
-    //   }
-    // }
 
     // For Random Bonks generation
     if ( this.remainingBonkTime >= 0 && this.randomBonkSoundClip.fullyEnabledProperty.value ) {

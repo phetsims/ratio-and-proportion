@@ -4,6 +4,7 @@
  * @author Michael Kauzmann
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
@@ -27,7 +28,7 @@ class BarScreenView extends ScreenView {
       tandem: tandem
     } );
 
-    ProportionMarkerInput.init( model );
+    this.markerInput = new ProportionMarkerInput( model );
 
     const leftBar = new DraggableBar( model.leftValueProperty, model.colorProperty, model.firstInteractionProperty );
     const rightBar = new DraggableBar( model.rightValueProperty, model.colorProperty, model.firstInteractionProperty );
@@ -35,9 +36,11 @@ class BarScreenView extends ScreenView {
     this.proportionFitnessSoundGenerator = new ProportionFitnessSoundGenerator(
       model.proportionFitnessProperty,
       model.fitnessRange,
-      leftBar.isBeingInteractedWithProperty,
-      rightBar.isBeingInteractedWithProperty
-    );
+      DerivedProperty.or( [
+        leftBar.isBeingInteractedWithProperty,
+        rightBar.isBeingInteractedWithProperty,
+        this.markerInput.isBeingInteractedWithProperty
+      ] ) );
     soundManager.addSoundGenerator( this.proportionFitnessSoundGenerator );
 
     const ratioAquaRadioButtonGroup = new VerticalAquaRadioButtonGroup( model.ratioProperty, [ {
@@ -80,6 +83,7 @@ class BarScreenView extends ScreenView {
    * @param {number} dt
    */
   step( dt ) {
+    this.markerInput.step( dt );
     this.proportionFitnessSoundGenerator.step( dt );
   }
 }
