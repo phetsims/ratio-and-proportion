@@ -29,7 +29,7 @@ class CMajorSineSoundGenerator extends SineWaveGenerator {
    */
   constructor( fitnessProperty, options ) {
     options = merge( {
-      initialOutputLevel: INITIAL_VOLUME,
+      initialOutputLevel: INITIAL_VOLUME
     }, options );
     super( new Property( C_FREQUENCY ), options );
 
