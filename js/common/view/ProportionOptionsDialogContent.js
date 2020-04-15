@@ -22,20 +22,20 @@ class ProportionOptionsDialogContent extends Node {
       soundModeProperty,
       [
         {
-          node: new Text( 'Proportion-Vibrato', { font: RADIO_BUTTON_FONT } ),
+          node: new Text( 'Vibrato', { font: RADIO_BUTTON_FONT } ),
           value: 0
         },
         {
-          node: new Text( 'Proportion-Random Clicks', { font: RADIO_BUTTON_FONT } ),
+          node: new Text( 'Random Clicks', { font: RADIO_BUTTON_FONT } ),
           value: 1
         },
         {
-          node: new Text( 'Proportion_C_Major_Sine (maybe)', { font: RADIO_BUTTON_FONT } ),
+          node: new Text( 'C Major Sine', { font: RADIO_BUTTON_FONT } ),
           value: 2
-        },{
-          node: new Text( 'Test with pitch', { font: RADIO_BUTTON_FONT } ),
-          value: 3
-        }
+        }, {
+        node: new Text( 'Single Pitch change', { font: RADIO_BUTTON_FONT } ),
+        value: 3
+      }
       ],
       {
         spacing: 13

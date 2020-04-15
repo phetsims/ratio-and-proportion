@@ -18,6 +18,7 @@ import Range from '../../../../dot/js/Range.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import saturatedSinWave from '../../../../tambo/sounds/220hz-saturated-sine-loop_mp3.js';
 import randomBonk from '../../../../tambo/sounds/proportion-random-clicks-single_mp3.js';
+import CMajorSineSoundGenerator from './CMajorSineSoundGenerator.js';
 import SineWaveGenerator from './SineWaveGenerator.js';
 
 // constants
@@ -131,6 +132,17 @@ class ProportionFitnessSoundGenerator extends SoundClip {
         this.remainingBonkTime = 0;
       }
     } );
+
+    //////////////////////////////////////////////////////////////////
+    // C MAJOR FUN!
+
+    const cMajorSineSoundGenerator = new CMajorSineSoundGenerator( proportionFitnessProperty, {
+      enableControlProperties: [
+        isBeingInteractedWithProperty,
+        new DerivedProperty( [ window.phet.proportion.proportionFitnessSoundSelectorProperty ], value => value === 2 )
+      ]
+    } );
+    cMajorSineSoundGenerator.connect( this.masterGainNode );
 
     //////////////////////////////////////////////////////////////////
 
