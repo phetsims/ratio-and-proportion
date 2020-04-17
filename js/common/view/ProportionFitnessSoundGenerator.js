@@ -152,20 +152,15 @@ class ProportionFitnessSoundGenerator extends SoundClip {
       proportionFitnessProperty,
       window.phet.proportion.proportionFitnessSoundSelectorProperty
     ], ( interactedWith, fitness, selector ) => {
+
+      // vibration wiring
+      selector === 0 && supportVibration( fitness );
+
       if ( !interactedWith ) {
         this.reset();
       }
-      switch( selector ) {
-        case 0:
-          supportVibration( fitness );
-          break;
-        case 2:
-          break;
-        case 3:
-          this.supportPitchChange( fitness );
-          break;
-        default:
-          break;
+      if ( selector === 3 && interactedWith ) {
+        this.supportPitchChange( fitness );
       }
     } );
   }
