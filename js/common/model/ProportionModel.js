@@ -81,6 +81,7 @@ class ProportionModel {
     this.toleranceProperty.reset();
     this.leftValueProperty.reset();
     this.rightValueProperty.reset();
+    this.firstInteractionProperty.reset();
   }
 
 }

@@ -29,6 +29,10 @@ class ProportionMarkerInput extends MarkerInput {
     // @public (read-only)
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
 
+    this.isBeingInteractedWithProperty.lazyLink( interactedWith => {
+      interactedWith && model.firstInteractionProperty.set( false );
+    } );
+
     // @private
     this.leftValueProperty = model.leftValueProperty;
     this.rightValueProperty = model.rightValueProperty;
