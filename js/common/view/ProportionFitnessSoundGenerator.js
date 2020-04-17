@@ -112,7 +112,9 @@ class ProportionFitnessSoundGenerator extends SoundClip {
     sineWaveGenerator2.connect( this.masterGainNode );
 
     const supportVibration = value => {
-      frequency1Property.value = VIBRATO_PITCH + ( ( 1 - value ) * frequency1Range.getLength() + frequency1Range.min );
+      frequency1Property.value = sineWaveGenerator1.fullyEnabled ?
+                                 VIBRATO_PITCH + ( ( 1 - value ) * frequency1Range.getLength() + frequency1Range.min ) :
+                                 VIBRATO_PITCH; // set back to default if not enabled, for next time.
     };
 
     ///////////////////////////////////////////////////////////////////////////////////
@@ -149,7 +151,7 @@ class ProportionFitnessSoundGenerator extends SoundClip {
     Property.multilink( [ isBeingInteractedWithProperty,
       proportionFitnessProperty,
       window.phet.proportion.proportionFitnessSoundSelectorProperty
-    ], ( interactedWith, right, fitness, selector ) => {
+    ], ( interactedWith, fitness, selector ) => {
       if ( !interactedWith ) {
         this.reset();
       }

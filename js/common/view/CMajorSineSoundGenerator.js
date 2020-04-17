@@ -41,14 +41,15 @@ class CMajorSineSoundGenerator extends SineWaveGenerator {
     gGenerator.connect( this.masterGainNode );
     topCGenerator.connect( this.masterGainNode );
 
-    fitnessProperty.link( fitness => {
-      const newVolume = volumeLinearFunction( fitness );
+    Property.multilink( [ this.fullyEnabledProperty, fitnessProperty ],
+      ( enabled, fitness ) => {
+        const newVolume = enabled ? volumeLinearFunction( fitness ) : 0;
+        eGenerator.setOutputLevel( newVolume );
+        gGenerator.setOutputLevel( newVolume );
 
-      eGenerator.setOutputLevel( newVolume );
-      gGenerator.setOutputLevel( newVolume );
-
-      topCGenerator.setOutputLevel( fitness === 1 ? SUCCESS_C_VOLUME : 0 );
-    } );
+        topCGenerator.setOutputLevel( fitness === 1 ? SUCCESS_C_VOLUME : 0 );
+      }
+    );
   }
 }
 
