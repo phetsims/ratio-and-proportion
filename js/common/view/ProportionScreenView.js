@@ -77,6 +77,9 @@ class ProportionScreenView extends ScreenView {
 
     // children
     this.children = [ this.ratioAquaRadioButtonGroup, this.resetAllButton, leftNode, rightNode ];
+
+    // accessible order
+    this.pdomPlayAreaNode.accessibleOrder = [ leftNode, rightNode, null ]; // markers first is nav order
   }
 
   /**
