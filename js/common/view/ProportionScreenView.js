@@ -64,6 +64,7 @@ class ProportionScreenView extends ScreenView {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         model.reset();
+        this.reset();
       },
       tandem: options.tandem.createTandem( 'resetAllButton' )
     } );
@@ -72,7 +73,7 @@ class ProportionScreenView extends ScreenView {
     resetAllButton.right = this.layoutBounds.maxX - ProportionConstants.SCREEN_VIEW_X_MARGIN;
     resetAllButton.bottom = this.layoutBounds.maxY - ProportionConstants.SCREEN_VIEW_Y_MARGIN;
     this.ratioAquaRadioButtonGroup.bottom = resetAllButton.top - 30;
-    this.ratioAquaRadioButtonGroup.right = resetAllButton.right;
+    this.ratioAquaRadioButtonGroup.right = resetAllButton.right + 5;
 
     // children
     this.children = [ this.ratioAquaRadioButtonGroup, resetAllButton, leftNode, rightNode ];
