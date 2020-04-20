@@ -10,7 +10,6 @@ import NumberProperty from '../../axon/js/NumberProperty.js';
 import Sim from '../../joist/js/Sim.js';
 import SimLauncher from '../../joist/js/SimLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import BarScreen from './bar/BarScreen.js';
 import ProportionOptionsDialogContent from './common/view/ProportionOptionsDialogContent.js';
 import FreeObjectsScreen from './free-objects/FreeObjectsScreen.js';
 import proportionStrings from './proportionStrings.js';
@@ -38,8 +37,7 @@ const simOptions = {
 // until the images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70
 SimLauncher.launch( () => {
   const sim = new Sim( proportionTitleString, [
-    new FreeObjectsScreen( Tandem.ROOT.createTandem( 'freeObjectsScreen' ) ),
-    new BarScreen( Tandem.ROOT.createTandem( 'barScreen' ) )
+    new FreeObjectsScreen( Tandem.ROOT.createTandem( 'freeObjectsScreen' ) )
   ], simOptions );
   sim.start();
 } );
