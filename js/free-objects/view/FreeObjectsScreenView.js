@@ -4,9 +4,8 @@
  * @author Michael Kauzmann
  */
 
-import Vector2 from '../../../../dot/js/Vector2.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
@@ -26,19 +25,20 @@ class FreeObjectsScreenView extends ProportionScreenView {
    */
   constructor( model, tandem ) {
 
-    const modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
-      Vector2.ZERO,
-      new Vector2( LAYOUT_BOUNDS.centerX, LAYOUT_BOUNDS.bottom ),
-      1000
-    );
-
+    const boundsInHalf = Bounds2.rect( 0, 0, LAYOUT_BOUNDS.width * ( 4 / 9 ), LAYOUT_BOUNDS.height );
     const leftMarker = new DraggableMarker(
       model.leftPositionProperty, model.markerDisplayProperty,
-      model.firstInteractionProperty, modelViewTransform, LAYOUT_BOUNDS
+      model.firstInteractionProperty,
+      boundsInHalf, {
+        left: LAYOUT_BOUNDS.left
+      }
     );
     const rightMarker = new DraggableMarker(
       model.rightPositionProperty, model.markerDisplayProperty,
-      model.firstInteractionProperty, modelViewTransform, LAYOUT_BOUNDS
+      model.firstInteractionProperty,
+      boundsInHalf, {
+        left: leftMarker.right
+      }
     );
 
     super( model, leftMarker, rightMarker, {
@@ -68,7 +68,7 @@ class FreeObjectsScreenView extends ProportionScreenView {
 
     // layout
     markerDisplayAquaRadioButtonGroup.left = this.ratioAquaRadioButtonGroup.left;
-    markerDisplayAquaRadioButtonGroup.bottom = this.resetAllButton.bottom;
+    markerDisplayAquaRadioButtonGroup.bottom = this.ratioAquaRadioButtonGroup.top - 20;
   }
 
   /**

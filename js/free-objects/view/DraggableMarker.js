@@ -1,6 +1,12 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
+ * A single controllable half of the proportion. It contains a draggable pointer that can change the value of this half
+ * of the proportion.
+ *
+ * A thick rectangle is placed on the top and bottom of this frame to cue the possible height that the pointer can be
+ * dragged.
+ *
  * @author Michael Kauzmann
  */
 
@@ -9,6 +15,7 @@ import Property from '../../../../axon/js/Property.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PlusNode from '../../../../scenery-phet/js/PlusNode.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import KeyboardDragListener from '../../../../scenery/js/listeners/KeyboardDragListener.js';
@@ -23,33 +30,49 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import commonGrabSoundInfo from '../../../../tambo/sounds/grab_mp3.js';
 import commonReleaseSoundInfo from '../../../../tambo/sounds/release_mp3.js';
 
-class DraggableMarker extends Node {
+class DraggableMarker extends Rectangle {
 
   /**
    * @param {Vector2Property} positionProperty
    * @param {Property.<MarkerDisplay>} markerDisplayProperty
    * @param {Property.<boolean>>} firstInteractionProperty - upon successful interaction, this will be marked as true
-   * @param {ModelViewTransform2} modelViewTransform
-   * @param {Bounds2} dragBounds
-   * @param {Object} [options]
+   * @param {Bounds2} bounds - the area that the node takes up
+   * * @param {Object} [options]
    */
-  constructor( positionProperty, markerDisplayProperty, firstInteractionProperty, modelViewTransform, dragBounds, options ) {
+  constructor( positionProperty, markerDisplayProperty, firstInteractionProperty, bounds, options ) {
 
     options = merge( {
+      cursor: 'pointer',
       tandem: Tandem.OPTIONAL
     }, options );
 
-    super( {
-      cursor: 'pointer',
-      tagName: 'div',
-      role: 'application',
-      focusable: true
-    } );
+    super( 0, 0, bounds.width, bounds.height );
 
     // @public (read-only)
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
 
-    const content = new Node();
+    const modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
+      Vector2.ZERO,
+      new Vector2( bounds.centerX, bounds.bottom ),
+      bounds.height
+    );
+
+    const topRect = new Rectangle( 0, 0, bounds.width - bounds.width * .1, 20, { fill: 'black', centerX: bounds.centerX } );
+    this.addChild( topRect );
+    const bottomRect = new Rectangle( 0, 0, bounds.width - bounds.width * .1, 20, { fill: 'black', centerX: bounds.centerX } );
+    this.addChild( bottomRect );
+    topRect.top = 0;
+    topRect.centerX = bottomRect.centerX = this.centerX;
+    bottomRect.bottom = bounds.height;
+
+    // The draggable element inside the Node framed with thick rectangles on the top and bottom.
+    const pointer = new Node( {
+
+      // pdom
+      tagName: 'div',
+      role: 'application',
+      focusable: true
+    } );
 
     const circle = new Circle( 20, {
       fill: 'black'
@@ -65,10 +88,10 @@ class DraggableMarker extends Node {
 
     markerDisplayProperty.link( displayType => {
       if ( displayType === MarkerDisplay.CIRCLE ) {
-        content.children = [ circle ];
+        pointer.children = [ circle ];
       }
       else if ( displayType === MarkerDisplay.CROSS ) {
-        content.children = [ crossNode ];
+        pointer.children = [ crossNode ];
       }
       else {
         assert && assert( false, `unsupported displayType: ${displayType}` );
@@ -76,7 +99,7 @@ class DraggableMarker extends Node {
     } );
 
     positionProperty.link( position => {
-      this.translation = modelViewTransform.modelToViewPosition( position );
+      pointer.translation = modelViewTransform.modelToViewPosition( position );
     } );
 
     const commonGrabSoundClip = new SoundClip( commonGrabSoundInfo, { initialOutput: .7 } );
@@ -84,10 +107,10 @@ class DraggableMarker extends Node {
     soundManager.addSoundGenerator( commonGrabSoundClip );
     soundManager.addSoundGenerator( commonReleaseSoundClip );
 
-    this.addInputListener( new DragListener( {
+    pointer.addInputListener( new DragListener( {
       positionProperty: positionProperty,
       transform: modelViewTransform,
-      dragBoundsProperty: new Property( modelViewTransform.viewToModelBounds( dragBounds ) ),
+      dragBoundsProperty: new Property( modelViewTransform.viewToModelBounds( bounds ) ),
       tandem: options.tandem.createTandem( 'dragListener' ),
       start: () => {
         commonGrabSoundClip.play();
@@ -99,11 +122,11 @@ class DraggableMarker extends Node {
       }
     } ) );
 
-    this.addInputListener( new KeyboardDragListener( {
+    pointer.addInputListener( new KeyboardDragListener( {
       positionProperty: positionProperty,
       transform: modelViewTransform
     } ) );
-    this.addInputListener( {
+    pointer.addInputListener( {
       focus: () => {
         commonGrabSoundClip.play();
         this.isBeingInteractedWithProperty.value = true;
@@ -125,7 +148,8 @@ class DraggableMarker extends Node {
     // } );
     // firstInteractionProperty.linkAttribute( cueArrow, 'visible' );
 
-    this.addChild( content );
+    this.addChild( pointer );
+
     this.mutate( options );
   }
 }

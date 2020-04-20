@@ -60,8 +60,7 @@ class ProportionScreenView extends ScreenView {
       value: 5 / 6
     } ] );
 
-    // @protected - for layout
-    this.resetAllButton = new ResetAllButton( {
+    const resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         model.reset();
@@ -70,13 +69,13 @@ class ProportionScreenView extends ScreenView {
     } );
 
     // layout
-    this.resetAllButton.right = this.layoutBounds.maxX - ProportionConstants.SCREEN_VIEW_X_MARGIN;
-    this.resetAllButton.bottom = this.layoutBounds.maxY - ProportionConstants.SCREEN_VIEW_Y_MARGIN;
-    this.ratioAquaRadioButtonGroup.bottom = this.resetAllButton.top - 50;
-    this.ratioAquaRadioButtonGroup.right = this.resetAllButton.left - 20;
+    resetAllButton.right = this.layoutBounds.maxX - ProportionConstants.SCREEN_VIEW_X_MARGIN;
+    resetAllButton.bottom = this.layoutBounds.maxY - ProportionConstants.SCREEN_VIEW_Y_MARGIN;
+    this.ratioAquaRadioButtonGroup.bottom = resetAllButton.top - 30;
+    this.ratioAquaRadioButtonGroup.right = resetAllButton.right;
 
     // children
-    this.children = [ this.ratioAquaRadioButtonGroup, this.resetAllButton, leftNode, rightNode ];
+    this.children = [ this.ratioAquaRadioButtonGroup, resetAllButton, leftNode, rightNode ];
 
     // accessible order
     this.pdomPlayAreaNode.accessibleOrder = [ leftNode, rightNode, null ]; // markers first is nav order
