@@ -10,7 +10,7 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
 import ProportionScreenView from '../../common/view/ProportionScreenView.js';
-import proportion from '../../proportion.js';
+import ratioAndProportion from '../../ratioAndProportion.js';
 import DraggableMarker from './DraggableMarker.js';
 import MarkerDisplay from '../model/MarkerDisplay.js';
 import GridViewProperties from './GridViewProperties.js';
@@ -83,7 +83,7 @@ class FreeObjectsScreenView extends ProportionScreenView {
     this.addChild( gridDisplayAquaRadioButtonGroup );
 
 
-    // TODO: implement grid numbers, https://github.com/phetsims/proportion/issues/5
+    // TODO: implement grid numbers, https://github.com/phetsims/ratio-and-proportion/issues/5
     // const showUnitsAquaRadioButtonGroup = new VerticalAquaRadioButtonGroup( this.gridViewProperties.showGridUnitsProperty, [ {
     //   node: new RichText( 'Grid Numbers' ),
     //   value: true
@@ -134,5 +134,5 @@ class FreeObjectsScreenView extends ProportionScreenView {
   }
 }
 
-proportion.register( 'FreeObjectsScreenView', FreeObjectsScreenView );
+ratioAndProportion.register( 'FreeObjectsScreenView', FreeObjectsScreenView );
 export default FreeObjectsScreenView;

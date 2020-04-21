@@ -6,7 +6,7 @@
  * @author Michael Kauzmann
  */
 
-import proportion from '../proportion.js';
+import ratioAndProportion from '../ratioAndProportion.js';
 
 const ProportionConstants = {
 
@@ -16,5 +16,5 @@ const ProportionConstants = {
   //TODO
 };
 
-proportion.register( 'ProportionConstants', ProportionConstants );
+ratioAndProportion.register( 'ProportionConstants', ProportionConstants );
 export default ProportionConstants;

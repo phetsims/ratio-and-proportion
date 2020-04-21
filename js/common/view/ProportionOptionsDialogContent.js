@@ -1,14 +1,14 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * TODO: remove once sound design is better established, see https://github.com/phetsims/proportion/issues/9
+ * TODO: remove once sound design is better established, see https://github.com/phetsims/ratio-and-proportion/issues/9
  */
 
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import AquaRadioButtonGroup from '../../../../sun/js/AquaRadioButtonGroup.js';
-import proportion from '../../proportion.js';
+import ratioAndProportion from '../../ratioAndProportion.js';
 
 // constants
 const RADIO_BUTTON_FONT = new PhetFont( 12 );
@@ -46,5 +46,5 @@ class ProportionOptionsDialogContent extends Node {
   }
 }
 
-proportion.register( 'ProportionOptionsDialogContent', ProportionOptionsDialogContent );
+ratioAndProportion.register( 'ProportionOptionsDialogContent', ProportionOptionsDialogContent );
 export default ProportionOptionsDialogContent;

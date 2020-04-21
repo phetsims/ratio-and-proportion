@@ -5,6 +5,6 @@
  */
 
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
-import proportion from '../../proportion.js';
+import ratioAndProportion from '../../ratioAndProportion.js';
 
-export default proportion.register( 'MarkerDisplay', Enumeration.byKeys( [ 'CIRCLE', 'CROSS' ] ) );
+export default ratioAndProportion.register( 'MarkerDisplay', Enumeration.byKeys( [ 'CIRCLE', 'CROSS' ] ) );

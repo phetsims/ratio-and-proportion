@@ -7,7 +7,7 @@
 import Property from '../../../../axon/js/Property.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import merge from '../../../../phet-core/js/merge.js';
-import proportion from '../../proportion.js';
+import ratioAndProportion from '../../ratioAndProportion.js';
 import SineWaveGenerator from './SineWaveGenerator.js';
 
 // constants
@@ -53,6 +53,6 @@ class CMajorSineSoundGenerator extends SineWaveGenerator {
   }
 }
 
-proportion.register( 'CMajorSineSoundGenerator', CMajorSineSoundGenerator );
+ratioAndProportion.register( 'CMajorSineSoundGenerator', CMajorSineSoundGenerator );
 
 export default CMajorSineSoundGenerator;

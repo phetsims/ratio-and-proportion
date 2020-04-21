@@ -15,7 +15,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import ProportionConstants from '../../common/ProportionConstants.js';
 import ProportionFitnessSoundGenerator from '../../common/view/ProportionFitnessSoundGenerator.js';
 import ProportionMarkerInput from '../../common/view/ProportionMarkerInput.js';
-import proportion from '../../proportion.js';
+import ratioAndProportion from '../../ratioAndProportion.js';
 
 class ProportionScreenView extends ScreenView {
 
@@ -91,5 +91,5 @@ class ProportionScreenView extends ScreenView {
   }
 }
 
-proportion.register( 'ProportionScreenView', ProportionScreenView );
+ratioAndProportion.register( 'ProportionScreenView', ProportionScreenView );
 export default ProportionScreenView;

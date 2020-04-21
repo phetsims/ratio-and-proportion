@@ -7,7 +7,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
-import proportion from '../../proportion.js';
+import ratioAndProportion from '../../ratioAndProportion.js';
 import MarkerInput from '../../../../tangible/js/MarkerInput.js';
 
 // constants
@@ -67,5 +67,5 @@ class ProportionMarkerInput extends MarkerInput {
   }
 }
 
-proportion.register( 'ProportionMarkerInput', ProportionMarkerInput );
+ratioAndProportion.register( 'ProportionMarkerInput', ProportionMarkerInput );
 export default ProportionMarkerInput;

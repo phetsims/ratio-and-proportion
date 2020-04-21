@@ -24,7 +24,7 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import proportion from '../../proportion.js';
+import ratioAndProportion from '../../ratioAndProportion.js';
 import MarkerDisplay from '../model/MarkerDisplay.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import commonGrabSoundInfo from '../../../../tambo/sounds/grab_mp3.js';
@@ -154,5 +154,5 @@ class DraggableMarker extends Rectangle {
   }
 }
 
-proportion.register( 'DraggableMarker', DraggableMarker );
+ratioAndProportion.register( 'DraggableMarker', DraggableMarker );
 export default DraggableMarker;

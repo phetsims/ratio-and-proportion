@@ -7,7 +7,7 @@
 import merge from '../../../../phet-core/js/merge.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import soundConstants from '../../../../tambo/js/soundConstants.js';
-import proportion from '../../proportion.js';
+import ratioAndProportion from '../../ratioAndProportion.js';
 
 class SineWaveGenerator extends SoundGenerator {
 
@@ -49,6 +49,6 @@ class SineWaveGenerator extends SoundGenerator {
   }
 }
 
-proportion.register( 'SineWaveGenerator', SineWaveGenerator );
+ratioAndProportion.register( 'SineWaveGenerator', SineWaveGenerator );
 
 export default SineWaveGenerator;

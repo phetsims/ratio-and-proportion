@@ -12,12 +12,12 @@ import SimLauncher from '../../joist/js/SimLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import ProportionOptionsDialogContent from './common/view/ProportionOptionsDialogContent.js';
 import FreeObjectsScreen from './free-objects/FreeObjectsScreen.js';
-import proportionStrings from './proportionStrings.js';
+import ratioAndProportionStrings from './ratioAndProportionStrings.js';
 
-const proportionTitleString = proportionStrings.proportion.title;
+const proportionTitleString = ratioAndProportionStrings['ratio-and-proportion'].title;
 
-// global object for selecting proportion "fitness" sounds, this is temporary, see https://github.com/phetsims/proportion/issues/9
-window.phet.proportion.proportionFitnessSoundSelectorProperty = new NumberProperty( 1 );
+// global object for selecting proportion "fitness" sounds, this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/9
+window.phet.ratioAndProportion.proportionFitnessSoundSelectorProperty = new NumberProperty( 1 );
 
 const simOptions = {
   credits: {
@@ -30,7 +30,7 @@ const simOptions = {
     soundDesign: '',
     thanks: ''
   },
-  createOptionsDialogContent: () => new ProportionOptionsDialogContent( window.phet.proportion.proportionFitnessSoundSelectorProperty )
+  createOptionsDialogContent: () => new ProportionOptionsDialogContent( window.phet.ratioAndProportion.proportionFitnessSoundSelectorProperty )
 };
 
 // launch the sim - beware that scenery Image nodes created outside of SimLauncher.launch() will have zero bounds

@@ -1,16 +1,16 @@
 {
-  "name": "proportion",
+  "name": "ratio-and-proportion",
   "version": "1.0.0-dev.10",
   "license": "GPL-3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/phetsims/proportion.git"
+    "url": "https://github.com/phetsims/ratio-and-proportion.git"
   },
   "devDependencies": {
     "grunt": "~1.0.0"
   },
   "phet": {
-    "requirejsNamespace": "PROPORTION",
+    "requirejsNamespace": "RATIO_AND_PROPORTION",
     "preload": [
       "../tangible/js/preload/mechamarkers-21f16221e414ec2dca68bbfbb866369eea7abd70.js"
     ],

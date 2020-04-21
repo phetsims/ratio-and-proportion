@@ -11,7 +11,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import ProportionModel from '../../common/model/ProportionModel.js';
-import proportion from '../../proportion.js';
+import ratioAndProportion from '../../ratioAndProportion.js';
 import MarkerDisplay from './MarkerDisplay.js';
 
 class FreeObjectsModel extends ProportionModel {
@@ -65,5 +65,5 @@ class FreeObjectsModel extends ProportionModel {
   }
 }
 
-proportion.register( 'FreeObjectsModel', FreeObjectsModel );
+ratioAndProportion.register( 'FreeObjectsModel', FreeObjectsModel );
 export default FreeObjectsModel;

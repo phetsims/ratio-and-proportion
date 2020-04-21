@@ -4,7 +4,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import proportion from '../../proportion.js';
+import ratioAndProportion from '../../ratioAndProportion.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
@@ -159,5 +159,5 @@ class RandomIcon extends Node {
   }
 }
 
-proportion.register( 'RandomIconFactory', RandomIcon );
+ratioAndProportion.register( 'RandomIconFactory', RandomIcon );
 export default RandomIcon;

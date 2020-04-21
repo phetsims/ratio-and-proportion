@@ -7,7 +7,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import proportion from '../../proportion.js';
+import ratioAndProportion from '../../ratioAndProportion.js';
 
 class GridViewProperties {
 
@@ -40,5 +40,5 @@ class GridViewProperties {
   }
 }
 
-proportion.register( 'GridViewProperties', GridViewProperties );
+ratioAndProportion.register( 'GridViewProperties', GridViewProperties );
 export default GridViewProperties;

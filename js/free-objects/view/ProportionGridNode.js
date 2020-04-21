@@ -7,7 +7,7 @@
  */
 
 import GridNode from '../../../../scenery-phet/js/GridNode.js';
-import proportion from '../../proportion.js';
+import ratioAndProportion from '../../ratioAndProportion.js';
 
 class ProportionGridNode extends GridNode {
 
@@ -31,5 +31,5 @@ class ProportionGridNode extends GridNode {
   }
 }
 
-proportion.register( 'ProportionGridNode', ProportionGridNode );
+ratioAndProportion.register( 'ProportionGridNode', ProportionGridNode );
 export default ProportionGridNode;

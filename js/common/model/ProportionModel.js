@@ -11,7 +11,7 @@ import Range from '../../../../dot/js/Range.js';
 import Util from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Color from '../../../../scenery/js/util/Color.js';
-import proportion from '../../proportion.js';
+import ratioAndProportion from '../../ratioAndProportion.js';
 
 /**
  * @constructor
@@ -86,5 +86,5 @@ class ProportionModel {
 
 }
 
-proportion.register( 'ProportionModel', ProportionModel );
+ratioAndProportion.register( 'ProportionModel', ProportionModel );
 export default ProportionModel;
