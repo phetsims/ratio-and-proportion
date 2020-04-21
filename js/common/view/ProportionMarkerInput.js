@@ -1,7 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * This file adds mechamarkers as an input controller to Proportion
+ * This file adds mechamarkers as an input controller to Ratio And Proportion
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
@@ -36,20 +36,18 @@ class ProportionMarkerInput extends MarkerInput {
     // @private
     this.leftValueProperty = model.leftValueProperty;
     this.rightValueProperty = model.rightValueProperty;
-
-    super.beginInput( Mechamarkers => {
-
-      // This controller needs all three markers
-      this.isBeingInteractedWithProperty.value = Mechamarkers.getMarker( RATIO_MARKER_LEFT ).present &&
-                                                 Mechamarkers.getMarker( BASE_MARKER ).present &&
-                                                 Mechamarkers.getMarker( RATIO_MARKER_RIGHT ).present;
-    } );
   }
 
   /**
    * @public
    */
   step() {
+
+    // This controller needs all three markers
+    this.isBeingInteractedWithProperty.value = this.Mechamarkers.getMarker( RATIO_MARKER_LEFT ).present &&
+                                               this.Mechamarkers.getMarker( BASE_MARKER ).present &&
+                                               this.Mechamarkers.getMarker( RATIO_MARKER_RIGHT ).present;
+
     if ( this.isBeingInteractedWithProperty.value ) {
       const baseMarker = this.Mechamarkers.getMarker( BASE_MARKER );
       const leftMarker = this.Mechamarkers.getMarker( RATIO_MARKER_LEFT );
