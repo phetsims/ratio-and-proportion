@@ -3,8 +3,8 @@
 /**
  * Sim specific grid implementation with that supports customization through passed in Properties.
  *
- * @author Michael Kauzmann
- */
+ * @author Michael Kauzmann (PhET Interactive Simulations)
+*/
 
 import GridNode from '../../../../scenery-phet/js/GridNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';

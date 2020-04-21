@@ -1,8 +1,8 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * @author Michael Kauzmann
- */
+ * @author Michael Kauzmann (PhET Interactive Simulations)
+*/
 
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';

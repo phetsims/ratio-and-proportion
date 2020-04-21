@@ -1,8 +1,8 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * @author Michael Kauzmann
- */
+ * @author Michael Kauzmann (PhET Interactive Simulations)
+*/
 
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';

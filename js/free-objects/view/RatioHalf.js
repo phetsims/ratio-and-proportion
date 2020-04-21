@@ -7,8 +7,8 @@
  * A thick rectangle is placed on the top and bottom of this frame to cue the possible height that the pointer can be
  * dragged.
  *
- * @author Michael Kauzmann
- */
+ * @author Michael Kauzmann (PhET Interactive Simulations)
+*/
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
@@ -30,7 +30,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import commonGrabSoundInfo from '../../../../tambo/sounds/grab_mp3.js';
 import commonReleaseSoundInfo from '../../../../tambo/sounds/release_mp3.js';
 
-class DraggableMarker extends Rectangle {
+class RatioHalf extends Rectangle {
 
   /**
    * @param {Vector2Property} positionProperty
@@ -154,5 +154,5 @@ class DraggableMarker extends Rectangle {
   }
 }
 
-ratioAndProportion.register( 'DraggableMarker', DraggableMarker );
-export default DraggableMarker;
+ratioAndProportion.register( 'DraggableMarker', RatioHalf );
+export default RatioHalf;

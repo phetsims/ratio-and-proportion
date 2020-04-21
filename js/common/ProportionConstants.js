@@ -3,8 +3,8 @@
 /**
  * Constants used throughout this simulation.
  *
- * @author Michael Kauzmann
- */
+ * @author Michael Kauzmann (PhET Interactive Simulations)
+*/
 
 import ratioAndProportion from '../ratioAndProportion.js';
 

@@ -1,8 +1,8 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * @author Michael Kauzmann
- */
+ * @author Michael Kauzmann (PhET Interactive Simulations)
+*/
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
@@ -11,7 +11,7 @@ import RichText from '../../../../scenery/js/nodes/RichText.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
 import ProportionScreenView from '../../common/view/ProportionScreenView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import DraggableMarker from './DraggableMarker.js';
+import RatioHalf from './RatioHalf.js';
 import MarkerDisplay from '../model/MarkerDisplay.js';
 import GridViewProperties from './GridViewProperties.js';
 import ProportionGridNode from './ProportionGridNode.js';
@@ -28,14 +28,14 @@ class FreeObjectsScreenView extends ProportionScreenView {
   constructor( model, tandem ) {
 
     const boundsInHalf = Bounds2.rect( 0, 0, LAYOUT_BOUNDS.width * ( 4 / 9 ), LAYOUT_BOUNDS.height );
-    const leftMarker = new DraggableMarker(
+    const leftMarker = new RatioHalf(
       model.leftPositionProperty, model.markerDisplayProperty,
       model.firstInteractionProperty,
       boundsInHalf, {
         left: LAYOUT_BOUNDS.left
       }
     );
-    const rightMarker = new DraggableMarker(
+    const rightMarker = new RatioHalf(
       model.rightPositionProperty, model.markerDisplayProperty,
       model.firstInteractionProperty,
       boundsInHalf, {

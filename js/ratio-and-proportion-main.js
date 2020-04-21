@@ -3,8 +3,8 @@
 /**
  * Main entry point for the sim.
  *
- * @author Michael Kauzmann
- */
+ * @author Michael Kauzmann (PhET Interactive Simulations)
+*/
 
 import NumberProperty from '../../axon/js/NumberProperty.js';
 import Sim from '../../joist/js/Sim.js';
