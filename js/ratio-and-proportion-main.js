@@ -10,7 +10,7 @@ import NumberProperty from '../../axon/js/NumberProperty.js';
 import Sim from '../../joist/js/Sim.js';
 import SimLauncher from '../../joist/js/SimLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import ProportionOptionsDialogContent from './common/view/ProportionOptionsDialogContent.js';
+import ProportionOptionsDialogContent from './free-objects/view/ProportionOptionsDialogContent.js';
 import FreeObjectsScreen from './free-objects/FreeObjectsScreen.js';
 import ratioAndProportionStrings from './ratioAndProportionStrings.js';
 

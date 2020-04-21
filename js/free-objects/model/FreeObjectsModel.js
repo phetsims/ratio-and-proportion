@@ -79,6 +79,7 @@ class FreeObjectsModel {
       return Color.interpolateRGBA( INCORRECT_COLOR, CORRECT_COLOR, fitness );
     }, { valueType: Color } );
 
+    // @public - true before and until first user interaction with the simulation. Reset will apply to this Property.
     this.firstInteractionProperty = new BooleanProperty( true );
 
     // @public {Property.<MarkerDisplay>}

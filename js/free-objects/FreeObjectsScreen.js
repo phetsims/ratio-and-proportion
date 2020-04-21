@@ -6,7 +6,7 @@
 
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
-import RandomIcon from '../common/view/RandomIcon.js';
+import RandomIcon from '../free-objects/view/RandomIcon.js';
 import ratioAndProportion from '../ratioAndProportion.js';
 import FreeObjectsModel from './model/FreeObjectsModel.js';
 import FreeObjectsScreenView from './view/FreeObjectsScreenView.js';
