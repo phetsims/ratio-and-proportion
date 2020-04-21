@@ -2,7 +2,7 @@
 
 /**
  * @author Michael Kauzmann (PhET Interactive Simulations)
-*/
+ */
 
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
@@ -21,10 +21,10 @@ class FreeObjectsModel extends ProportionModel {
    */
   constructor( tandem ) {
 
-    const leftPositionProperty = new Vector2Property( new Vector2( -.1, .2 ), {
+    const leftPositionProperty = new Vector2Property( new Vector2( 0, .2 ), {
       tandem: tandem.createTandem( 'leftBarProperty' )
     } );
-    const rightPositionProperty = new Vector2Property( new Vector2( .1, .4 ), {
+    const rightPositionProperty = new Vector2Property( new Vector2( 0, .4 ), {
       tandem: tandem.createTandem( 'rightBarProperty' )
     } );
 

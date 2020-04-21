@@ -2,7 +2,7 @@
 
 /**
  * @author Michael Kauzmann (PhET Interactive Simulations)
-*/
+ */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
@@ -27,12 +27,13 @@ class FreeObjectsScreenView extends ProportionScreenView {
    */
   constructor( model, tandem ) {
 
-    const boundsInHalf = Bounds2.rect( 0, 0, LAYOUT_BOUNDS.width * ( 4 / 9 ), LAYOUT_BOUNDS.height );
+    const oneQuarterLayoutWidth = LAYOUT_BOUNDS.width * .25;
+    const boundsInHalf = Bounds2.rect( 0, 0, oneQuarterLayoutWidth, LAYOUT_BOUNDS.height );
     const leftMarker = new RatioHalf(
       model.leftPositionProperty, model.markerDisplayProperty,
       model.firstInteractionProperty,
       boundsInHalf, {
-        left: LAYOUT_BOUNDS.left
+        left: LAYOUT_BOUNDS.left + oneQuarterLayoutWidth
       }
     );
     const rightMarker = new RatioHalf(
@@ -51,7 +52,9 @@ class FreeObjectsScreenView extends ProportionScreenView {
     this.gridViewProperties = new GridViewProperties( tandem.createTandem( 'gridViewProperties' ) );
 
     assert && assert( leftMarker.height === rightMarker.height, 'heights should be the same' );
-    const gridNode = new ProportionGridNode( this.gridViewProperties, leftMarker.width + rightMarker.width, leftMarker.height );
+    const gridNode = new ProportionGridNode( this.gridViewProperties, leftMarker.width + rightMarker.width, leftMarker.height, {
+      left: leftMarker.left
+    } );
     this.addChild( gridNode );
 
     const background = Rectangle.bounds( this.layoutBounds, {
