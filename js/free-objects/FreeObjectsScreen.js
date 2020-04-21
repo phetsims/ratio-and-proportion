@@ -11,6 +11,7 @@ import ratioAndProportion from '../ratioAndProportion.js';
 import FreeObjectsModel from './model/FreeObjectsModel.js';
 import FreeObjectsScreenView from './view/FreeObjectsScreenView.js';
 
+// TODO: rename to RatioScreen
 class FreeObjectsScreen extends Screen {
 
   /**
