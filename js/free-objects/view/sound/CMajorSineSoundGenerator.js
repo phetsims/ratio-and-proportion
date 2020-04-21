@@ -4,10 +4,10 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import Property from '../../../../axon/js/Property.js';
-import LinearFunction from '../../../../dot/js/LinearFunction.js';
-import merge from '../../../../phet-core/js/merge.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
+import Property from '../../../../../axon/js/Property.js';
+import LinearFunction from '../../../../../dot/js/LinearFunction.js';
+import merge from '../../../../../phet-core/js/merge.js';
+import ratioAndProportion from '../../../ratioAndProportion.js';
 import SineWaveGenerator from './SineWaveGenerator.js';
 
 // constants

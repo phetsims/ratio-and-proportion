@@ -4,10 +4,10 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import merge from '../../../../phet-core/js/merge.js';
-import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
-import soundConstants from '../../../../tambo/js/soundConstants.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
+import merge from '../../../../../phet-core/js/merge.js';
+import SoundGenerator from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
+import soundConstants from '../../../../../tambo/js/soundConstants.js';
+import ratioAndProportion from '../../../ratioAndProportion.js';
 
 class SineWaveGenerator extends SoundGenerator {
 

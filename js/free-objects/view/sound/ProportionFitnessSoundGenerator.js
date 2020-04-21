@@ -7,17 +7,17 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Property from '../../../../axon/js/Property.js';
-import LinearFunction from '../../../../dot/js/LinearFunction.js';
-import DotRandom from '../../../../dot/js/Random.js';
-import merge from '../../../../phet-core/js/merge.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
-import Range from '../../../../dot/js/Range.js';
-import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import saturatedSinWave from '../../../../tambo/sounds/220hz-saturated-sine-loop_mp3.js';
-import randomBonk from '../../../../tambo/sounds/proportion-random-clicks-single_mp3.js';
+import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
+import NumberProperty from '../../../../../axon/js/NumberProperty.js';
+import Property from '../../../../../axon/js/Property.js';
+import LinearFunction from '../../../../../dot/js/LinearFunction.js';
+import DotRandom from '../../../../../dot/js/Random.js';
+import merge from '../../../../../phet-core/js/merge.js';
+import ratioAndProportion from '../../../ratioAndProportion.js';
+import Range from '../../../../../dot/js/Range.js';
+import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
+import saturatedSinWave from '../../../../../tambo/sounds/220hz-saturated-sine-loop_mp3.js';
+import randomBonk from '../../../../../tambo/sounds/proportion-random-clicks-single_mp3.js';
 import CMajorSineSoundGenerator from './CMajorSineSoundGenerator.js';
 import SineWaveGenerator from './SineWaveGenerator.js';
 

@@ -14,7 +14,7 @@ import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioBu
 import soundManager from '../../../../tambo/js/soundManager.js';
 import ProportionConstants from '../../common/ProportionConstants.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import ProportionFitnessSoundGenerator from './ProportionFitnessSoundGenerator.js';
+import ProportionFitnessSoundGenerator from './sound/ProportionFitnessSoundGenerator.js';
 import ProportionMarkerInput from './ProportionMarkerInput.js';
 import RatioHalf from './RatioHalf.js';
 import MarkerDisplay from '../model/MarkerDisplay.js';
