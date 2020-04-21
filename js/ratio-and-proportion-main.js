@@ -17,7 +17,7 @@ import ratioAndProportionStrings from './ratioAndProportionStrings.js';
 const ratioAndProportionTitleString = ratioAndProportionStrings[ 'ratio-and-proportion' ].title;
 
 // global object for selecting proportion "fitness" sounds, this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/9
-window.phet.ratioAndProportion.proportionFitnessSoundSelectorProperty = new NumberProperty( 1 );
+window.phet.ratioAndProportion.proportionFitnessSoundSelectorProperty = new NumberProperty( 0 );
 
 const simOptions = {
   credits: {
