@@ -8,7 +8,7 @@
  * dragged.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
-*/
+ */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
@@ -16,6 +16,7 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import PlusNode from '../../../../scenery-phet/js/PlusNode.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import KeyboardDragListener from '../../../../scenery/js/listeners/KeyboardDragListener.js';
@@ -114,6 +115,7 @@ class RatioHalf extends Rectangle {
       tandem: options.tandem.createTandem( 'dragListener' ),
       start: () => {
         commonGrabSoundClip.play();
+        firstInteractionProperty.value = false;
         this.isBeingInteractedWithProperty.value = true;
       },
       end: () => {
@@ -124,7 +126,10 @@ class RatioHalf extends Rectangle {
 
     pointer.addInputListener( new KeyboardDragListener( {
       positionProperty: positionProperty,
-      transform: modelViewTransform
+      transform: modelViewTransform,
+      start: () => {
+        firstInteractionProperty.value = false;
+      }
     } ) );
     pointer.addInputListener( {
       focus: () => {
@@ -137,18 +142,29 @@ class RatioHalf extends Rectangle {
       }
     } );
 
-    // TODO: cue arrows
-    // const cueArrow = new ArrowNode( 0, 40, 0, -40, {
-    //   doubleHead: true,
-    //   fill: '#FFC000',
-    //   headWidth: 40,
-    //   headHeight: 20,
-    //   tailWidth: 20,
-    //   center: new Vector2( marker.centerX, marker.height )
-    // } );
-    // firstInteractionProperty.linkAttribute( cueArrow, 'visible' );
-
     this.addChild( pointer );
+
+    const cueArrowUp = new ArrowNode( 0, 0, 0, -60, {
+      fill: '#FFC000',
+      headWidth: 40,
+      headHeight: 20,
+      tailWidth: 20,
+      centerX: pointer.centerX,
+      bottom: pointer.top - 20
+    } );
+    firstInteractionProperty.linkAttribute( cueArrowUp, 'visible' );
+    this.addChild( cueArrowUp );
+
+    const cueArrowDown = new ArrowNode( 0, 0, 0, 60, {
+      fill: '#FFC000',
+      headWidth: 40,
+      headHeight: 20,
+      tailWidth: 20,
+      centerX: pointer.centerX,
+      top: pointer.bottom + 20
+    } );
+    firstInteractionProperty.linkAttribute( cueArrowDown, 'visible' );
+    this.addChild( cueArrowDown );
 
     this.mutate( options );
   }
