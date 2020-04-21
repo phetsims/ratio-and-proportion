@@ -21,6 +21,7 @@ import PlusNode from '../../../../scenery-phet/js/PlusNode.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import KeyboardDragListener from '../../../../scenery/js/listeners/KeyboardDragListener.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
+import Image from '../../../../scenery/js/nodes/Image.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -30,6 +31,7 @@ import MarkerDisplay from '../model/MarkerDisplay.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import commonGrabSoundInfo from '../../../../tambo/sounds/grab_mp3.js';
 import commonReleaseSoundInfo from '../../../../tambo/sounds/release_mp3.js';
+import filledInHandImage from '../../../images/filled-in-hand_png.js';
 
 class RatioHalf extends Rectangle {
 
@@ -75,6 +77,9 @@ class RatioHalf extends Rectangle {
       focusable: true
     } );
 
+    const handNode = new Image( filledInHandImage, {scale: .4} );
+    handNode.center = Vector2.ZERO;
+
     const circle = new Circle( 20, {
       fill: 'black'
     } );
@@ -93,6 +98,9 @@ class RatioHalf extends Rectangle {
       }
       else if ( displayType === MarkerDisplay.CROSS ) {
         pointer.children = [ crossNode ];
+      }
+      else if ( displayType === MarkerDisplay.HAND ) {
+        pointer.children = [ handNode ];
       }
       else {
         assert && assert( false, `unsupported displayType: ${displayType}` );

@@ -18,6 +18,8 @@ import ProportionGridNode from './ProportionGridNode.js';
 
 // constants
 const LAYOUT_BOUNDS = ScreenView.DEFAULT_LAYOUT_BOUNDS;
+const ONE_QUARTER_LAYOUT_WIDTH = LAYOUT_BOUNDS.width * .25;
+const RATIO_HALF_WIDTH = ONE_QUARTER_LAYOUT_WIDTH;
 
 class FreeObjectsScreenView extends ProportionScreenView {
 
@@ -27,13 +29,12 @@ class FreeObjectsScreenView extends ProportionScreenView {
    */
   constructor( model, tandem ) {
 
-    const oneQuarterLayoutWidth = LAYOUT_BOUNDS.width * .25;
-    const boundsInHalf = Bounds2.rect( 0, 0, oneQuarterLayoutWidth, LAYOUT_BOUNDS.height );
+    const boundsInHalf = Bounds2.rect( 0, 0, RATIO_HALF_WIDTH, LAYOUT_BOUNDS.height );
     const leftMarker = new RatioHalf(
       model.leftPositionProperty, model.markerDisplayProperty,
       model.firstInteractionProperty,
       boundsInHalf, {
-        left: LAYOUT_BOUNDS.left + oneQuarterLayoutWidth
+        left: LAYOUT_BOUNDS.left + ONE_QUARTER_LAYOUT_WIDTH
       }
     );
     const rightMarker = new RatioHalf(
@@ -51,8 +52,7 @@ class FreeObjectsScreenView extends ProportionScreenView {
 
     this.gridViewProperties = new GridViewProperties( tandem.createTandem( 'gridViewProperties' ) );
 
-    assert && assert( leftMarker.height === rightMarker.height, 'heights should be the same' );
-    const gridNode = new ProportionGridNode( this.gridViewProperties, leftMarker.width + rightMarker.width, leftMarker.height, {
+    const gridNode = new ProportionGridNode( this.gridViewProperties, 2 * RATIO_HALF_WIDTH, leftMarker.height, {
       left: leftMarker.left
     } );
     this.addChild( gridNode );
@@ -68,6 +68,9 @@ class FreeObjectsScreenView extends ProportionScreenView {
     } );
 
     const markerDisplayAquaRadioButtonGroup = new VerticalAquaRadioButtonGroup( model.markerDisplayProperty, [ {
+      node: new RichText( 'Hand' ),
+      value: MarkerDisplay.HAND
+    }, {
       node: new RichText( 'Circle' ),
       value: MarkerDisplay.CIRCLE
     }, {

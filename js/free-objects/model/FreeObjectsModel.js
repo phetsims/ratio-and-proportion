@@ -48,7 +48,7 @@ class FreeObjectsModel extends ProportionModel {
     this.rightPositionProperty = rightPositionProperty;
 
     // @public {Property.<MarkerDisplay>}
-    this.markerDisplayProperty = new EnumerationProperty( MarkerDisplay, MarkerDisplay.CIRCLE, {
+    this.markerDisplayProperty = new EnumerationProperty( MarkerDisplay, MarkerDisplay.HAND, {
       tandem: tandem.createTandem( 'markerDisplayProperty' )
     } );
   }
