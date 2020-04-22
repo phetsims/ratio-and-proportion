@@ -56,10 +56,10 @@ class ProportionMarkerInput extends MarkerInput {
       assert && assert( leftMarker.present && baseMarker.present && rightMarker.present, 'all markers must be present' );
 
       // TODO: why clamp at 0/1?
-      const heightOfA = baseMarker.center.y - leftMarker.center.y;
+      const heightOfA = Math.abs( baseMarker.center.y - leftMarker.center.y );
       this.leftValueProperty.value = Utils.clamp( heightOfA / HEIGHT_OF_ONE, 0, 1 );
 
-      const heightOfB = baseMarker.center.y - rightMarker.center.y;
+      const heightOfB = Math.abs( baseMarker.center.y - rightMarker.center.y );
       this.rightValueProperty.value = Utils.clamp( heightOfB / HEIGHT_OF_ONE, 0, 1 );
     }
   }
