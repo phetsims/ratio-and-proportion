@@ -38,6 +38,7 @@ class FreeObjectsScreenView extends ScreenView {
     const leftRatioHalf = new RatioHalf(
       model.leftPositionProperty, model.markerDisplayProperty,
       model.firstInteractionProperty,
+      model.ratioHalvesFocusOrHoveredProperty,
       boundsInHalf, {
         left: LAYOUT_BOUNDS.left + ONE_QUARTER_LAYOUT_WIDTH
       }
@@ -45,6 +46,7 @@ class FreeObjectsScreenView extends ScreenView {
     const rightRatioHalf = new RatioHalf(
       model.rightPositionProperty, model.markerDisplayProperty,
       model.firstInteractionProperty,
+      model.ratioHalvesFocusOrHoveredProperty,
       boundsInHalf, {
         left: leftRatioHalf.right
       }

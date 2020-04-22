@@ -38,11 +38,12 @@ class RatioHalf extends Rectangle {
   /**
    * @param {Vector2Property} positionProperty
    * @param {Property.<MarkerDisplay>} markerDisplayProperty
-   * @param {Property.<boolean>>} firstInteractionProperty - upon successful interaction, this will be marked as true
+   * @param {Property.<boolean>} firstInteractionProperty - upon successful interaction, this will be marked as false
+   * @param {Property.<boolean>} ratioHalvesFocusOrHoveredProperty
    * @param {Bounds2} bounds - the area that the node takes up
    * * @param {Object} [options]
    */
-  constructor( positionProperty, markerDisplayProperty, firstInteractionProperty, bounds, options ) {
+  constructor( positionProperty, markerDisplayProperty, firstInteractionProperty, ratioHalvesFocusOrHoveredProperty, bounds, options ) {
 
     options = merge( {
       cursor: 'pointer',
@@ -77,7 +78,7 @@ class RatioHalf extends Rectangle {
       focusable: true
     } );
 
-    const handNode = new Image( filledInHandImage, {scale: .4} );
+    const handNode = new Image( filledInHandImage, { scale: .4 } );
     handNode.center = Vector2.ZERO;
 
     const circle = new Circle( 20, {
@@ -152,6 +153,14 @@ class RatioHalf extends Rectangle {
 
     this.addChild( pointer );
 
+    // logic to support cue arrow visibility
+    pointer.addInputListener( {
+      focus: () => { ratioHalvesFocusOrHoveredProperty.value = true; },
+      blur: () => { ratioHalvesFocusOrHoveredProperty.value = false; },
+      enter: () => { ratioHalvesFocusOrHoveredProperty.value = true; },
+      exit: () => { ratioHalvesFocusOrHoveredProperty.value = false; }
+    } );
+
     const cueArrowUp = new ArrowNode( 0, 0, 0, -60, {
       fill: '#FFC000',
       headWidth: 40,
@@ -160,7 +169,6 @@ class RatioHalf extends Rectangle {
       centerX: pointer.centerX,
       bottom: pointer.top - 20
     } );
-    firstInteractionProperty.linkAttribute( cueArrowUp, 'visible' );
     this.addChild( cueArrowUp );
 
     const cueArrowDown = new ArrowNode( 0, 0, 0, 60, {
@@ -171,8 +179,15 @@ class RatioHalf extends Rectangle {
       centerX: pointer.centerX,
       top: pointer.bottom + 20
     } );
-    firstInteractionProperty.linkAttribute( cueArrowDown, 'visible' );
     this.addChild( cueArrowDown );
+
+    // only display the cues arrows before the first interaction, and when any ratio half is focused or hovered on.
+    Property.multilink( [ ratioHalvesFocusOrHoveredProperty, firstInteractionProperty ],
+      ( focusedOrHovered, firstInteraction ) => {
+        const visible = focusedOrHovered && firstInteraction;
+        cueArrowUp.visible = visible;
+        cueArrowDown.visible = visible;
+      } );
 
     this.mutate( options );
   }
