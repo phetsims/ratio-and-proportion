@@ -37,7 +37,7 @@ class GridViewProperties {
 
   // @public
   reset() {
-    this.showVerticalGridLinesProperty.reset();
+    this.gridViewProperty.reset();
     this.gridBaseUnitProperty.reset();
     this.showGridUnitsProperty.reset();
   }
