@@ -47,6 +47,8 @@ class RatioHalf extends Rectangle {
 
     options = merge( {
       cursor: 'pointer',
+      isRight: true, // right ratio or the left ratio
+
       tandem: Tandem.OPTIONAL
     }, options );
 
@@ -78,8 +80,11 @@ class RatioHalf extends Rectangle {
       focusable: true
     } );
 
-    const handNode = new Image( filledInHandImage, { scale: .4 } );
+    const handNode = new Image( filledInHandImage );
     handNode.center = Vector2.ZERO;
+
+    // Flip the hand if it isn't a right hand.
+    handNode.setScaleMagnitude( ( options.isRight ? 1 : -1 ) * .4, .4 );
 
     const circle = new Circle( 20, {
       fill: 'black'

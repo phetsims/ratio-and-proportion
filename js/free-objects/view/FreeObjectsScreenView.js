@@ -40,7 +40,8 @@ class FreeObjectsScreenView extends ScreenView {
       model.firstInteractionProperty,
       model.ratioHalvesFocusOrHoveredProperty,
       boundsInHalf, {
-        left: LAYOUT_BOUNDS.left + ONE_QUARTER_LAYOUT_WIDTH
+        left: LAYOUT_BOUNDS.left + ONE_QUARTER_LAYOUT_WIDTH,
+        isRight: false // this way we get a left hand
       }
     );
     const rightRatioHalf = new RatioHalf(
