@@ -7,6 +7,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
+import RatioAndProportionQueryParameters from '../../common/RatioAndProportionQueryParameters.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import MarkerInput from '../../../../tangible/js/MarkerInput.js';
 
@@ -15,8 +16,8 @@ const BASE_MARKER = 1;
 const RATIO_MARKER_LEFT = 2;
 const RATIO_MARKER_RIGHT = 3;
 
-// tweak this as needed depending on the input camera
-const HEIGHT_OF_ONE = 600;
+// "one" here refers to the max value of each ratio half. Their range is from 0 to 1
+const HEIGHT_OF_ONE = RatioAndProportionQueryParameters.heightInPixels;
 
 class ProportionMarkerInput extends MarkerInput {
 
