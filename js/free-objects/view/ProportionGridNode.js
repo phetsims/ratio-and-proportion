@@ -8,6 +8,9 @@
 
 import GridNode from '../../../../scenery-phet/js/GridNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
+import GridView from './GridView.js';
+
+const VERTICAL_SPACING = 10;
 
 class ProportionGridNode extends GridNode {
 
@@ -21,15 +24,37 @@ class ProportionGridNode extends GridNode {
 
     super( width, height, null, null );
 
-    gridViewProperties.gridBaseUnitProperty.link( baseUnit => {
-      this.setMinorHorizontalLineSpacing( height / baseUnit );
+    // @private
+    this.gridViewProperties = gridViewProperties;
+
+    gridViewProperties.gridBaseUnitProperty.link( () => {
+      this.updateHorizontalLines( gridViewProperties.gridViewProperty.value );
     } );
 
-    gridViewProperties.showVerticalGridLinesProperty.link( showVerticalGridLines => {
-      this.setMinorVerticalLineSpacing( showVerticalGridLines ? width / 10 : null );
+    gridViewProperties.gridViewProperty.link( gridView => {
+      this.updateHorizontalLines( gridView );
+      this.updateVerticalLines( gridView );
     } );
 
     this.mutate( options );
+  }
+
+  /**
+   * @private
+   * @param {GridView} gridView
+   */
+  updateHorizontalLines( gridView ) {
+    const lineSpacing = GridView.displayHorizontal( gridView ) ? this.gridHeight / this.gridViewProperties.gridBaseUnitProperty.value : null;
+    this.setMinorHorizontalLineSpacing( lineSpacing );
+  }
+
+  /**
+   * @private
+   * @param {GridView} gridView
+   */
+  updateVerticalLines( gridView ) {
+    const lineSpacing = GridView.displayVertical( gridView ) ? this.gridWidth / VERTICAL_SPACING : null;
+    this.setMinorVerticalLineSpacing( lineSpacing );
   }
 }
 

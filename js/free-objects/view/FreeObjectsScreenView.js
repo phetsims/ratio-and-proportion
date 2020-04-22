@@ -18,6 +18,7 @@ import ProportionFitnessSoundGenerator from './sound/ProportionFitnessSoundGener
 import ProportionMarkerInput from './ProportionMarkerInput.js';
 import RatioHalf from './RatioHalf.js';
 import MarkerDisplay from '../model/MarkerDisplay.js';
+import GridView from './GridView.js';
 import GridViewProperties from './GridViewProperties.js';
 import ProportionGridNode from './ProportionGridNode.js';
 
@@ -124,13 +125,15 @@ class FreeObjectsScreenView extends ScreenView {
       value: MarkerDisplay.CROSS
     } ] );
 
-
-    const gridDisplayAquaRadioButtonGroup = new VerticalAquaRadioButtonGroup( this.gridViewProperties.showVerticalGridLinesProperty, [ {
+    const gridViewAquaRadioButtonGroup = new VerticalAquaRadioButtonGroup( this.gridViewProperties.gridViewProperty, [ {
       node: new RichText( 'Horizontal' ),
-      value: false
+      value: GridView.HORIZONTAL
     }, {
       node: new RichText( 'Grid' ),
-      value: true
+      value: GridView.BOTH
+    }, {
+      node: new RichText( 'None' ),
+      value: GridView.NONE
     } ] );
 
 
@@ -163,10 +166,10 @@ class FreeObjectsScreenView extends ScreenView {
     resetAllButton.bottom = this.layoutBounds.maxY - ProportionConstants.SCREEN_VIEW_Y_MARGIN;
     ratioAquaRadioButtonGroup.bottom = resetAllButton.top - 30;
     ratioAquaRadioButtonGroup.right = resetAllButton.right + 5;
-    markerDisplayAquaRadioButtonGroup.left = gridDisplayAquaRadioButtonGroup.left = baseUnitAquaRadioButtonGroup.left = ratioAquaRadioButtonGroup.left;
+    markerDisplayAquaRadioButtonGroup.left = gridViewAquaRadioButtonGroup.left = baseUnitAquaRadioButtonGroup.left = ratioAquaRadioButtonGroup.left;
     markerDisplayAquaRadioButtonGroup.bottom = ratioAquaRadioButtonGroup.top - 20;
-    gridDisplayAquaRadioButtonGroup.bottom = markerDisplayAquaRadioButtonGroup.top - 20;
-    baseUnitAquaRadioButtonGroup.bottom = gridDisplayAquaRadioButtonGroup.top - 20;
+    gridViewAquaRadioButtonGroup.bottom = markerDisplayAquaRadioButtonGroup.top - 20;
+    baseUnitAquaRadioButtonGroup.bottom = gridViewAquaRadioButtonGroup.top - 20;
 
     // children
     this.children = [
@@ -180,7 +183,7 @@ class FreeObjectsScreenView extends ScreenView {
       resetAllButton,
       baseUnitAquaRadioButtonGroup,
       markerDisplayAquaRadioButtonGroup,
-      gridDisplayAquaRadioButtonGroup,
+      gridViewAquaRadioButtonGroup,
 
       // Main ratio on top
       leftRatioHalf,
