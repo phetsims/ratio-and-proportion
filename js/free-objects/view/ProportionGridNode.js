@@ -29,6 +29,7 @@ class ProportionGridNode extends GridNode {
 
     gridViewProperties.gridBaseUnitProperty.link( () => {
       this.updateHorizontalLines( gridViewProperties.gridViewProperty.value );
+      this.updateUnitLabels();
     } );
 
     gridViewProperties.gridViewProperty.link( gridView => {
@@ -36,7 +37,18 @@ class ProportionGridNode extends GridNode {
       this.updateVerticalLines( gridView );
     } );
 
+    gridViewProperties.showGridUnitsProperty.link( () => {
+      this.updateUnitLabels();
+    } );
+
     this.mutate( options );
+  }
+
+  /**
+   * @private
+   */
+  updateUnitLabels() {
+
   }
 
   /**
