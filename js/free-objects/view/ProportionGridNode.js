@@ -22,7 +22,7 @@ class ProportionGridNode extends GridNode {
    */
   constructor( gridViewProperties, width, height, options ) {
 
-    super( width, height, null, null );
+    super( width, height );
 
     // @private
     this.gridViewProperties = gridViewProperties;
