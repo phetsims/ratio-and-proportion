@@ -6,6 +6,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import Property from '../../../../axon/js/Property.js';
 import GridNode from '../../../../scenery-phet/js/GridNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import GridView from './GridView.js';
@@ -22,39 +23,30 @@ class ProportionGridNode extends GridNode {
    */
   constructor( gridViewProperties, width, height, options ) {
 
-    super( width, height );
+    /**
+     * @param {GridView} gridView
+     */
+    const getHorizontalLineSpacing = gridView => {
+      return GridView.displayHorizontal( gridView ) ? height / gridViewProperties.gridBaseUnitProperty.value : null;
+    };
 
-    // @private
-    this.gridViewProperties = gridViewProperties;
+    /**
+     * @param {GridView} gridView
+     */
+    const getVerticalLineSpacing = gridView => {
+      return GridView.displayVertical( gridView ) ? width / VERTICAL_SPACING : null;
+    };
 
-    gridViewProperties.gridBaseUnitProperty.link( () => {
-      this.updateHorizontalLines( gridViewProperties.gridViewProperty.value );
+    super( width, height, {
+      minorVerticalLineSpacing: getVerticalLineSpacing( gridViewProperties.gridViewProperty.value ),
+      minorHorizontalLineSpacing: getHorizontalLineSpacing( gridViewProperties.gridViewProperty.value )
     } );
 
-    gridViewProperties.gridViewProperty.link( gridView => {
-      this.updateHorizontalLines( gridView );
-      this.updateVerticalLines( gridView );
+    Property.multilink( [ gridViewProperties.gridBaseUnitProperty, gridViewProperties.gridViewProperty ], ( baseUnit, gridView ) => {
+      this.setLineSpacings( null, null, getVerticalLineSpacing( gridView ), getHorizontalLineSpacing( gridView ) );
     } );
 
     this.mutate( options );
-  }
-
-  /**
-   * @private
-   * @param {GridView} gridView
-   */
-  updateHorizontalLines( gridView ) {
-    const lineSpacing = GridView.displayHorizontal( gridView ) ? this.gridHeight / this.gridViewProperties.gridBaseUnitProperty.value : null;
-    this.setMinorHorizontalLineSpacing( lineSpacing );
-  }
-
-  /**
-   * @private
-   * @param {GridView} gridView
-   */
-  updateVerticalLines( gridView ) {
-    const lineSpacing = GridView.displayVertical( gridView ) ? this.gridWidth / VERTICAL_SPACING : null;
-    this.setMinorVerticalLineSpacing( lineSpacing );
   }
 }
 
