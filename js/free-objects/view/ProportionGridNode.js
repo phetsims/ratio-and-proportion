@@ -43,7 +43,12 @@ class ProportionGridNode extends GridNode {
     } );
 
     Property.multilink( [ gridViewProperties.gridBaseUnitProperty, gridViewProperties.gridViewProperty ], ( baseUnit, gridView ) => {
-      this.setLineSpacings( null, null, getVerticalLineSpacing( gridView ), getHorizontalLineSpacing( gridView ) );
+      const verticalSpacing = getVerticalLineSpacing( gridView );
+      const horizontalSpacing = getHorizontalLineSpacing( gridView );
+      this.visible = !!horizontalSpacing || !!verticalSpacing;
+      if ( this.visible ) {
+        this.setLineSpacings( null, null, verticalSpacing, horizontalSpacing );
+      }
     } );
 
     this.mutate( options );
