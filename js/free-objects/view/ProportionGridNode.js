@@ -23,32 +23,12 @@ class ProportionGridNode extends GridNode {
    */
   constructor( gridViewProperties, width, height, options ) {
 
-    /**
-     * @param {GridView} gridView
-     */
-    const getHorizontalLineSpacing = gridView => {
-      return GridView.displayHorizontal( gridView ) ? height / gridViewProperties.gridBaseUnitProperty.value : null;
-    };
-
-    /**
-     * @param {GridView} gridView
-     */
-    const getVerticalLineSpacing = gridView => {
-      return GridView.displayVertical( gridView ) ? width / VERTICAL_SPACING : null;
-    };
-
-    super( width, height, {
-      minorVerticalLineSpacing: getVerticalLineSpacing( gridViewProperties.gridViewProperty.value ),
-      minorHorizontalLineSpacing: getHorizontalLineSpacing( gridViewProperties.gridViewProperty.value )
-    } );
+    super( width, height );
 
     Property.multilink( [ gridViewProperties.gridBaseUnitProperty, gridViewProperties.gridViewProperty ], ( baseUnit, gridView ) => {
-      const verticalSpacing = getVerticalLineSpacing( gridView );
-      const horizontalSpacing = getHorizontalLineSpacing( gridView );
-      this.visible = !!horizontalSpacing || !!verticalSpacing;
-      if ( this.visible ) {
-        this.setLineSpacings( null, null, verticalSpacing, horizontalSpacing );
-      }
+      const verticalSpacing = GridView.displayVertical( gridView ) ? width / VERTICAL_SPACING : null;
+      const horizontalSpacing = GridView.displayHorizontal( gridView ) ? height / gridViewProperties.gridBaseUnitProperty.value : null;
+      this.setLineSpacings( null, null, verticalSpacing, horizontalSpacing );
     } );
 
     this.mutate( options );
