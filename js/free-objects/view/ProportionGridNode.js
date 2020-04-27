@@ -8,10 +8,14 @@
 
 import Property from '../../../../axon/js/Property.js';
 import GridNode from '../../../../scenery-phet/js/GridNode.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import GridView from './GridView.js';
 
 const VERTICAL_SPACING = 10;
+const LABEL_X = 0;
 
 class ProportionGridNode extends GridNode {
 
@@ -25,13 +29,49 @@ class ProportionGridNode extends GridNode {
 
     super( width, height );
 
-    Property.multilink( [ gridViewProperties.gridBaseUnitProperty, gridViewProperties.gridViewProperty ], ( baseUnit, gridView ) => {
+    // @private
+    this.labelsNode = new Node();
+    this.addChild( this.labelsNode );
+
+    Property.multilink( [
+      gridViewProperties.gridBaseUnitProperty,
+      gridViewProperties.gridViewProperty,
+      gridViewProperties.showGridUnitsProperty
+    ], ( baseUnit, gridView, showGridUnits ) => {
       const verticalSpacing = GridView.displayVertical( gridView ) ? width / VERTICAL_SPACING : null;
       const horizontalSpacing = GridView.displayHorizontal( gridView ) ? height / gridViewProperties.gridBaseUnitProperty.value : null;
+
       this.setLineSpacings( null, null, verticalSpacing, horizontalSpacing );
+
+      horizontalSpacing && this.updateUnitLabels( showGridUnits, horizontalSpacing );
     } );
 
     this.mutate( options );
+  }
+
+  /**
+   * @private
+   * @param {boolean} showGridUnits
+   * @param {number} horizontalSpacing
+   */
+  updateUnitLabels( showGridUnits, horizontalSpacing ) {
+    assert && showGridUnits && assert( typeof horizontalSpacing === 'number', 'Unit Labels only supported for horizontal lines' );
+    this.labelsNode.children = [];
+
+    if ( showGridUnits ) {
+      let i = 0;
+
+      // use "5" to ensure that we don't get a unit on the top number, even with weird rounding.
+      for ( let y = 0; y < this.height - 5; y += horizontalSpacing ) {
+        i++;
+        this.labelsNode.addChild( new Text( i, {
+          bottom: this.height - y,
+          left: LABEL_X,
+          font: new PhetFont( 13 )
+        } ) );
+      }
+      assert && assert( this.labelsNode.children[ 0 ].height < horizontalSpacing, 'Text is too tall for the provided horizontal spacing' );
+    }
   }
 }
 

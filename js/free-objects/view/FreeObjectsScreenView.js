@@ -136,16 +136,13 @@ class FreeObjectsScreenView extends ScreenView {
       value: GridView.NONE
     } ] );
 
-
-    // TODO: implement grid numbers, https://github.com/phetsims/ratio-and-proportion/issues/5
-    // const showUnitsAquaRadioButtonGroup = new VerticalAquaRadioButtonGroup( this.gridViewProperties.showGridUnitsProperty, [ {
-    //   node: new RichText( 'Grid Numbers' ),
-    //   value: true
-    // }, {
-    //   node: new RichText( 'None' ),
-    //   value: false
-    // } ] );
-    // this.addChild( showUnitsAquaRadioButtonGroup );
+    const showUnitsAquaRadioButtonGroup = new VerticalAquaRadioButtonGroup( this.gridViewProperties.showGridUnitsProperty, [ {
+      node: new RichText( 'Grid Units' ),
+      value: true
+    }, {
+      node: new RichText( 'None' ),
+      value: false
+    } ] );
 
     const baseUnitAquaRadioButtonGroup = new VerticalAquaRadioButtonGroup( this.gridViewProperties.gridBaseUnitProperty, [ {
       node: new RichText( 'a:b' ),
@@ -166,10 +163,11 @@ class FreeObjectsScreenView extends ScreenView {
     resetAllButton.bottom = this.layoutBounds.maxY - ProportionConstants.SCREEN_VIEW_Y_MARGIN;
     ratioAquaRadioButtonGroup.bottom = resetAllButton.top - 30;
     ratioAquaRadioButtonGroup.right = resetAllButton.right + 5;
-    markerDisplayAquaRadioButtonGroup.left = gridViewAquaRadioButtonGroup.left = baseUnitAquaRadioButtonGroup.left = ratioAquaRadioButtonGroup.left;
+    markerDisplayAquaRadioButtonGroup.left = gridViewAquaRadioButtonGroup.left = showUnitsAquaRadioButtonGroup.left = baseUnitAquaRadioButtonGroup.left = ratioAquaRadioButtonGroup.left;
     markerDisplayAquaRadioButtonGroup.bottom = ratioAquaRadioButtonGroup.top - 20;
     gridViewAquaRadioButtonGroup.bottom = markerDisplayAquaRadioButtonGroup.top - 20;
     baseUnitAquaRadioButtonGroup.bottom = gridViewAquaRadioButtonGroup.top - 20;
+    showUnitsAquaRadioButtonGroup.bottom = baseUnitAquaRadioButtonGroup.top - 20;
 
     // children
     this.children = [
@@ -184,6 +182,7 @@ class FreeObjectsScreenView extends ScreenView {
       baseUnitAquaRadioButtonGroup,
       markerDisplayAquaRadioButtonGroup,
       gridViewAquaRadioButtonGroup,
+      showUnitsAquaRadioButtonGroup,
 
       // Main ratio on top
       leftRatioHalf,
