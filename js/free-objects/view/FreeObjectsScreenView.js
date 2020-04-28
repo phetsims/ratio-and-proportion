@@ -11,10 +11,14 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import ComboBox from '../../../../sun/js/ComboBox.js';
+import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import ProportionConstants from '../../common/ProportionConstants.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
+import ChallengeComboBoxItem from './ChallengeComboBoxItem.js';
 import ProportionFitnessSoundGenerator from './sound/ProportionFitnessSoundGenerator.js';
 import ProportionMarkerInput from './ProportionMarkerInput.js';
 import RatioHalf from './RatioHalf.js';
@@ -76,20 +80,13 @@ class FreeObjectsScreenView extends ScreenView {
       ] ) );
     soundManager.addSoundGenerator( this.proportionFitnessSoundGenerator );
 
-    // @protected - for layout
-    const ratioAquaRadioButtonGroup = new VerticalAquaRadioButtonGroup( model.ratioProperty, [ {
-      node: new RichText( 'Mystery 1' ),
-      value: 1 / 2
-    }, {
-      node: new RichText( 'Mystery 2' ),
-      value: 1 / 3
-    }, {
-      node: new RichText( 'Mystery 3' ),
-      value: 1 / 8
-    }, {
-      node: new RichText( 'Mystery 4' ),
-      value: 5 / 6
-    } ] );
+    const comboBoxParent = new Node();
+
+    const comboBox = new ComboBox( [
+      new ChallengeComboBoxItem( 'Challenge 1', 'green', 1 / 2 ),
+      new ChallengeComboBoxItem( 'Challenge 2', 'blue', 1 / 3 ),
+      new ChallengeComboBoxItem( 'Challenge 3', 'magenta', 1 / 8 )
+    ], model.ratioProperty, comboBoxParent );
 
     const resetAllButton = new ResetAllButton( {
       listener: () => {
@@ -163,10 +160,10 @@ class FreeObjectsScreenView extends ScreenView {
     // layout
     resetAllButton.right = this.layoutBounds.maxX - ProportionConstants.SCREEN_VIEW_X_MARGIN;
     resetAllButton.bottom = this.layoutBounds.maxY - ProportionConstants.SCREEN_VIEW_Y_MARGIN;
-    ratioAquaRadioButtonGroup.bottom = resetAllButton.top - 30;
-    ratioAquaRadioButtonGroup.right = resetAllButton.right + 5;
-    markerDisplayAquaRadioButtonGroup.left = gridViewAquaRadioButtonGroup.left = showUnitsAquaRadioButtonGroup.left = baseUnitAquaRadioButtonGroup.left = ratioAquaRadioButtonGroup.left;
-    markerDisplayAquaRadioButtonGroup.bottom = ratioAquaRadioButtonGroup.top - 20;
+    comboBox.bottom = resetAllButton.top - 30;
+    comboBox.right = resetAllButton.right + 5;
+    markerDisplayAquaRadioButtonGroup.left = gridViewAquaRadioButtonGroup.left = showUnitsAquaRadioButtonGroup.left = baseUnitAquaRadioButtonGroup.left = comboBox.left;
+    markerDisplayAquaRadioButtonGroup.bottom = comboBox.top - 20;
     gridViewAquaRadioButtonGroup.bottom = markerDisplayAquaRadioButtonGroup.top - 20;
     baseUnitAquaRadioButtonGroup.bottom = gridViewAquaRadioButtonGroup.top - 20;
     showUnitsAquaRadioButtonGroup.bottom = baseUnitAquaRadioButtonGroup.top - 20;
@@ -179,12 +176,15 @@ class FreeObjectsScreenView extends ScreenView {
       gridNode,
 
       // UI
-      ratioAquaRadioButtonGroup,
+      comboBox,
       resetAllButton,
       baseUnitAquaRadioButtonGroup,
       markerDisplayAquaRadioButtonGroup,
       gridViewAquaRadioButtonGroup,
       showUnitsAquaRadioButtonGroup,
+
+      // list box above other UI
+      comboBoxParent,
 
       // Main ratio on top
       ratioContainer
