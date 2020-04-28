@@ -34,6 +34,10 @@ class ProportionGridNode extends GridNode {
     this.labelsNode = new Node();
     this.addChild( this.labelsNode );
 
+    // support lines to begin with. This handles the case where the GridNode initialized to having no line.
+    this.setLineSpacings( null, null, 10, 10 );
+    this.mutate( options );
+
     Property.multilink( [
       designingProperties.gridBaseUnitProperty,
       gridViewProperties.gridViewProperty
@@ -46,7 +50,6 @@ class ProportionGridNode extends GridNode {
       horizontalSpacing && this.updateUnitLabels( GridView.displayUnits( gridView ), horizontalSpacing );
     } );
 
-    this.mutate( options );
   }
 
   /**
