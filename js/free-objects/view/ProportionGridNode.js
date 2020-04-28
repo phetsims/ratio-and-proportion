@@ -13,6 +13,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import GridView from './GridView.js';
+import designingProperties from '../../common/designingProperties.js';
 
 const VERTICAL_SPACING = 10;
 const LABEL_X = 0;
@@ -34,12 +35,12 @@ class ProportionGridNode extends GridNode {
     this.addChild( this.labelsNode );
 
     Property.multilink( [
-      gridViewProperties.gridBaseUnitProperty,
+      designingProperties.gridBaseUnitProperty,
       gridViewProperties.gridViewProperty,
       gridViewProperties.showGridUnitsProperty
     ], ( baseUnit, gridView, showGridUnits ) => {
       const verticalSpacing = GridView.displayVertical( gridView ) ? width / VERTICAL_SPACING : null;
-      const horizontalSpacing = GridView.displayHorizontal( gridView ) ? height / gridViewProperties.gridBaseUnitProperty.value : null;
+      const horizontalSpacing = GridView.displayHorizontal( gridView ) ? height / baseUnit : null;
 
       this.setLineSpacings( null, null, verticalSpacing, horizontalSpacing );
 

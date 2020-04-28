@@ -20,6 +20,7 @@ import saturatedSinWave from '../../../../../tambo/sounds/220hz-saturated-sine-l
 import randomBonk from '../../../../../tambo/sounds/proportion-random-clicks-single_mp3.js';
 import CMajorSineSoundGenerator from './CMajorSineSoundGenerator.js';
 import SineWaveGenerator from './SineWaveGenerator.js';
+import designingProperties from '../../../common/designingProperties.js';
 
 // constants
 const VIBRATO_PITCH = 220;
@@ -99,7 +100,7 @@ class ProportionFitnessSoundGenerator extends SoundClip {
 
     const enableControlProperties = [
       isBeingInteractedWithProperty,
-      new DerivedProperty( [ window.phet.ratioAndProportion.proportionFitnessSoundSelectorProperty ], value => value === 0 )
+      new DerivedProperty( [ designingProperties.proportionFitnessSoundSelectorProperty ], value => value === 0 )
     ];
 
     const sineWaveGenerator1 = new SineWaveGenerator( frequency1Property, {
@@ -125,7 +126,7 @@ class ProportionFitnessSoundGenerator extends SoundClip {
       rateChangesAffectPlayingSounds: false,
       enableControlProperties: [
         isBeingInteractedWithProperty,
-        new DerivedProperty( [ window.phet.ratioAndProportion.proportionFitnessSoundSelectorProperty ], value => value === 1 )
+        new DerivedProperty( [ designingProperties.proportionFitnessSoundSelectorProperty ], value => value === 1 )
       ]
     } );
     this.randomBonkSoundClip.connect( this.masterGainNode );
@@ -141,7 +142,7 @@ class ProportionFitnessSoundGenerator extends SoundClip {
     const cMajorSineSoundGenerator = new CMajorSineSoundGenerator( proportionFitnessProperty, {
       enableControlProperties: [
         isBeingInteractedWithProperty,
-        new DerivedProperty( [ window.phet.ratioAndProportion.proportionFitnessSoundSelectorProperty ], value => value === 2 )
+        new DerivedProperty( [ designingProperties.proportionFitnessSoundSelectorProperty ], value => value === 2 )
       ]
     } );
     cMajorSineSoundGenerator.connect( this.masterGainNode );
@@ -150,7 +151,7 @@ class ProportionFitnessSoundGenerator extends SoundClip {
 
     Property.multilink( [ isBeingInteractedWithProperty,
       proportionFitnessProperty,
-      window.phet.ratioAndProportion.proportionFitnessSoundSelectorProperty
+      designingProperties.proportionFitnessSoundSelectorProperty
     ], ( interactedWith, fitness, selector ) => {
 
       // vibration wiring

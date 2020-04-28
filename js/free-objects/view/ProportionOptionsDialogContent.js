@@ -12,22 +12,25 @@ import VBox from '../../../../scenery/js/nodes/VBox.js';
 import AquaRadioButtonGroup from '../../../../sun/js/AquaRadioButtonGroup.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import CursorDisplay from '../model/CursorDisplay.js';
+import CursorDisplay from '../../common/CursorDisplay.js';
 
 // constants
 const RADIO_BUTTON_FONT = new PhetFont( 12 );
 
 class ProportionOptionsDialogContent extends HBox {
 
-  constructor( soundModeProperty ) {
+  /**
+   * @param {DesigningProperties} designingProperties
+   */
+  constructor( designingProperties ) {
 
     // set up a global variable to control this option (this is only acceptable because it's temporary code)
     const soundOptionsNode = new VBox( {
       spacing: 10,
       align: 'left',
       children: [
-        new RichText( 'Sound Options:' ),
-        new AquaRadioButtonGroup( soundModeProperty, [ {
+        new RichText( 'Sound:' ),
+        new AquaRadioButtonGroup( designingProperties.proportionFitnessSoundSelectorProperty, [ {
             node: new Text( 'Vibrato', { font: RADIO_BUTTON_FONT } ),
             value: 0
           }, {
@@ -47,8 +50,8 @@ class ProportionOptionsDialogContent extends HBox {
       spacing: 10,
       align: 'left',
       children: [
-        new RichText( 'Cursor Options:' ),
-        new VerticalAquaRadioButtonGroup( window.phet.ratioAndProportion.markerDisplayProperty, [ {
+        new RichText( 'Cursor:' ),
+        new VerticalAquaRadioButtonGroup( designingProperties.markerDisplayProperty, [ {
           node: new RichText( 'Hand' ),
           value: CursorDisplay.HAND
         }, {
@@ -61,8 +64,29 @@ class ProportionOptionsDialogContent extends HBox {
       ]
     } );
 
+    const gridBaseUnitOptionsNode = new VBox( {
+      spacing: 10,
+      align: 'left',
+      children: [
+        new RichText( 'Grid Base Unit:' ),
+        new VerticalAquaRadioButtonGroup( designingProperties.gridBaseUnitProperty, [ {
+          node: new RichText( 'a:b' ),
+          value: 10
+        }, {
+          node: new RichText( '2a:2b' ),
+          value: 20
+        }, {
+          node: new RichText( '3a:3b' ),
+          value: 30
+        }, {
+          node: new RichText( '4a:4b' ),
+          value: 40
+        } ] )
+      ]
+    } );
+
     super( {
-      children: [ soundOptionsNode, cursorOptionsNode ],
+      children: [ soundOptionsNode, cursorOptionsNode, gridBaseUnitOptionsNode ],
       spacing: 30,
       align: 'top'
     } );

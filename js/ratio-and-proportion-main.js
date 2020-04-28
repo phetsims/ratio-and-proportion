@@ -6,23 +6,15 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
-import NumberProperty from '../../axon/js/NumberProperty.js';
 import Sim from '../../joist/js/Sim.js';
 import SimLauncher from '../../joist/js/SimLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import CursorDisplay from './free-objects/model/CursorDisplay.js';
+import designingProperties from './common/designingProperties.js';
 import ProportionOptionsDialogContent from './free-objects/view/ProportionOptionsDialogContent.js';
 import FreeObjectsScreen from './free-objects/FreeObjectsScreen.js';
 import ratioAndProportionStrings from './ratioAndProportionStrings.js';
 
 const ratioAndProportionTitleString = ratioAndProportionStrings[ 'ratio-and-proportion' ].title;
-
-// global object for selecting proportion "fitness" sounds, this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/9
-window.phet.ratioAndProportion.proportionFitnessSoundSelectorProperty = new NumberProperty( 0 );
-
-// @public {Property.<CursorDisplay>} - this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/17
-window.phet.ratioAndProportion.markerDisplayProperty = new EnumerationProperty( CursorDisplay, CursorDisplay.HAND );
 
 const simOptions = {
   credits: {
@@ -35,7 +27,7 @@ const simOptions = {
     soundDesign: '',
     thanks: ''
   },
-  createOptionsDialogContent: () => new ProportionOptionsDialogContent( window.phet.ratioAndProportion.proportionFitnessSoundSelectorProperty )
+  createOptionsDialogContent: () => new ProportionOptionsDialogContent( designingProperties )
 };
 
 // launch the sim - beware that scenery Image nodes created outside of SimLauncher.launch() will have zero bounds

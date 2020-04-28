@@ -7,7 +7,6 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import GridView from './GridView.js';
 
@@ -23,12 +22,6 @@ class GridViewProperties {
       tandem: tandem.createTandem( 'gridViewProperty' )
     } );
 
-    // @public what is the unit value of the grid. Value reads as "1/x of the view height." This does not effect vertical
-    // grid lines.
-    this.gridBaseUnitProperty = new NumberProperty( 10, {
-      tandem: tandem.createTandem( 'gridBaseUnitProperty' )
-    } );
-
     // @public is the equilibrium position visible?
     this.showGridUnitsProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'showGridUnitsProperty' )
@@ -38,7 +31,6 @@ class GridViewProperties {
   // @public
   reset() {
     this.gridViewProperty.reset();
-    this.gridBaseUnitProperty.reset();
     this.showGridUnitsProperty.reset();
   }
 }
