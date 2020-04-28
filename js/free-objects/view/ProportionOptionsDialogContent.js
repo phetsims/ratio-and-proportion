@@ -12,7 +12,7 @@ import VBox from '../../../../scenery/js/nodes/VBox.js';
 import AquaRadioButtonGroup from '../../../../sun/js/AquaRadioButtonGroup.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import MarkerDisplay from '../model/MarkerDisplay.js';
+import CursorDisplay from '../model/CursorDisplay.js';
 
 // constants
 const RADIO_BUTTON_FONT = new PhetFont( 12 );
@@ -50,13 +50,13 @@ class ProportionOptionsDialogContent extends HBox {
         new RichText( 'Cursor Options:' ),
         new VerticalAquaRadioButtonGroup( window.phet.ratioAndProportion.markerDisplayProperty, [ {
           node: new RichText( 'Hand' ),
-          value: MarkerDisplay.HAND
+          value: CursorDisplay.HAND
         }, {
           node: new RichText( 'Circle' ),
-          value: MarkerDisplay.CIRCLE
+          value: CursorDisplay.CIRCLE
         }, {
           node: new RichText( 'Cross' ),
-          value: MarkerDisplay.CROSS
+          value: CursorDisplay.CROSS
         } ] )
       ]
     } );

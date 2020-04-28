@@ -27,7 +27,7 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import MarkerDisplay from '../model/MarkerDisplay.js';
+import CursorDisplay from '../model/CursorDisplay.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import commonGrabSoundInfo from '../../../../tambo/sounds/grab_mp3.js';
 import commonReleaseSoundInfo from '../../../../tambo/sounds/release_mp3.js';
@@ -98,13 +98,13 @@ class RatioHalf extends Rectangle {
     crossNode.center = Vector2.ZERO;
 
     window.phet.ratioAndProportion.markerDisplayProperty.link( displayType => {
-      if ( displayType === MarkerDisplay.CIRCLE ) {
+      if ( displayType === CursorDisplay.CIRCLE ) {
         pointer.children = [ circle ];
       }
-      else if ( displayType === MarkerDisplay.CROSS ) {
+      else if ( displayType === CursorDisplay.CROSS ) {
         pointer.children = [ crossNode ];
       }
-      else if ( displayType === MarkerDisplay.HAND ) {
+      else if ( displayType === CursorDisplay.HAND ) {
         pointer.children = [ handNode ];
       }
       else {
