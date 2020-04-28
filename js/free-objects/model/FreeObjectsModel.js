@@ -7,7 +7,6 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -17,7 +16,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import MarkerDisplay from './MarkerDisplay.js';
 
 const CORRECT_COLOR = new Color( '#639a67' );
 const INCORRECT_COLOR = new Color( 'white' );
@@ -89,11 +87,6 @@ class FreeObjectsModel {
 
     // @public - keep track of when either ratio half is focused or hovered.
     this.ratioHalvesFocusOrHoveredProperty = new BooleanProperty( false );
-
-    // @public {Property.<MarkerDisplay>}
-    this.markerDisplayProperty = new EnumerationProperty( MarkerDisplay, MarkerDisplay.HAND, {
-      tandem: tandem.createTandem( 'markerDisplayProperty' )
-    } );
   }
 
   /**
@@ -103,7 +96,6 @@ class FreeObjectsModel {
   reset() {
     this.leftPositionProperty.reset();
     this.rightPositionProperty.reset();
-    this.markerDisplayProperty.reset();
 
     this.ratioProperty.reset();
     this.toleranceProperty.reset();

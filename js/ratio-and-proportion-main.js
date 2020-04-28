@@ -4,12 +4,14 @@
  * Main entry point for the sim.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
-*/
+ */
 
+import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
 import Sim from '../../joist/js/Sim.js';
 import SimLauncher from '../../joist/js/SimLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import MarkerDisplay from './free-objects/model/MarkerDisplay.js';
 import ProportionOptionsDialogContent from './free-objects/view/ProportionOptionsDialogContent.js';
 import FreeObjectsScreen from './free-objects/FreeObjectsScreen.js';
 import ratioAndProportionStrings from './ratioAndProportionStrings.js';
@@ -18,6 +20,9 @@ const ratioAndProportionTitleString = ratioAndProportionStrings[ 'ratio-and-prop
 
 // global object for selecting proportion "fitness" sounds, this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/9
 window.phet.ratioAndProportion.proportionFitnessSoundSelectorProperty = new NumberProperty( 0 );
+
+// @public {Property.<MarkerDisplay>} - this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/17
+window.phet.ratioAndProportion.markerDisplayProperty = new EnumerationProperty( MarkerDisplay, MarkerDisplay.HAND );
 
 const simOptions = {
   credits: {

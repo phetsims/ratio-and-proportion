@@ -21,7 +21,6 @@ import ChallengeComboBoxItem from './ChallengeComboBoxItem.js';
 import ProportionFitnessSoundGenerator from './sound/ProportionFitnessSoundGenerator.js';
 import ProportionMarkerInput from './ProportionMarkerInput.js';
 import RatioHalf from './RatioHalf.js';
-import MarkerDisplay from '../model/MarkerDisplay.js';
 import GridView from './GridView.js';
 import GridViewProperties from './GridViewProperties.js';
 import ProportionGridNode from './ProportionGridNode.js';
@@ -41,7 +40,7 @@ class FreeObjectsScreenView extends ScreenView {
 
     const boundsInHalf = Bounds2.rect( 0, 0, RATIO_HALF_WIDTH, LAYOUT_BOUNDS.height );
     const leftRatioHalf = new RatioHalf(
-      model.leftPositionProperty, model.markerDisplayProperty,
+      model.leftPositionProperty,
       model.firstInteractionProperty,
       model.ratioHalvesFocusOrHoveredProperty,
       boundsInHalf, {
@@ -49,7 +48,7 @@ class FreeObjectsScreenView extends ScreenView {
       }
     );
     const rightRatioHalf = new RatioHalf(
-      model.rightPositionProperty, model.markerDisplayProperty,
+      model.rightPositionProperty,
       model.firstInteractionProperty,
       model.ratioHalvesFocusOrHoveredProperty,
       boundsInHalf );
@@ -112,17 +111,6 @@ class FreeObjectsScreenView extends ScreenView {
       background.setFill( color );
     } );
 
-    const markerDisplayAquaRadioButtonGroup = new VerticalAquaRadioButtonGroup( model.markerDisplayProperty, [ {
-      node: new RichText( 'Hand' ),
-      value: MarkerDisplay.HAND
-    }, {
-      node: new RichText( 'Circle' ),
-      value: MarkerDisplay.CIRCLE
-    }, {
-      node: new RichText( 'Cross' ),
-      value: MarkerDisplay.CROSS
-    } ] );
-
     const gridViewAquaRadioButtonGroup = new VerticalAquaRadioButtonGroup( this.gridViewProperties.gridViewProperty, [ {
       node: new RichText( 'Horizontal' ),
       value: GridView.HORIZONTAL
@@ -161,9 +149,8 @@ class FreeObjectsScreenView extends ScreenView {
     resetAllButton.bottom = this.layoutBounds.maxY - ProportionConstants.SCREEN_VIEW_Y_MARGIN;
     comboBox.bottom = resetAllButton.top - 30;
     comboBox.right = resetAllButton.right + 5;
-    markerDisplayAquaRadioButtonGroup.left = gridViewAquaRadioButtonGroup.left = showUnitsAquaRadioButtonGroup.left = baseUnitAquaRadioButtonGroup.left = comboBox.left;
-    markerDisplayAquaRadioButtonGroup.bottom = comboBox.top - 20;
-    gridViewAquaRadioButtonGroup.bottom = markerDisplayAquaRadioButtonGroup.top - 20;
+    gridViewAquaRadioButtonGroup.left = showUnitsAquaRadioButtonGroup.left = baseUnitAquaRadioButtonGroup.left = comboBox.left;
+    gridViewAquaRadioButtonGroup.bottom = comboBox.top - 20;
     baseUnitAquaRadioButtonGroup.bottom = gridViewAquaRadioButtonGroup.top - 20;
     showUnitsAquaRadioButtonGroup.bottom = baseUnitAquaRadioButtonGroup.top - 20;
 
@@ -178,7 +165,6 @@ class FreeObjectsScreenView extends ScreenView {
       comboBox,
       resetAllButton,
       baseUnitAquaRadioButtonGroup,
-      markerDisplayAquaRadioButtonGroup,
       gridViewAquaRadioButtonGroup,
       showUnitsAquaRadioButtonGroup,
 

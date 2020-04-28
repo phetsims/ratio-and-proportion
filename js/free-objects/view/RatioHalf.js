@@ -37,13 +37,12 @@ class RatioHalf extends Rectangle {
 
   /**
    * @param {Vector2Property} positionProperty
-   * @param {Property.<MarkerDisplay>} markerDisplayProperty
    * @param {Property.<boolean>} firstInteractionProperty - upon successful interaction, this will be marked as false
    * @param {Property.<boolean>} ratioHalvesFocusOrHoveredProperty
    * @param {Bounds2} bounds - the area that the node takes up
    * * @param {Object} [options]
    */
-  constructor( positionProperty, markerDisplayProperty, firstInteractionProperty, ratioHalvesFocusOrHoveredProperty, bounds, options ) {
+  constructor( positionProperty, firstInteractionProperty, ratioHalvesFocusOrHoveredProperty, bounds, options ) {
 
     options = merge( {
       cursor: 'pointer',
@@ -98,7 +97,7 @@ class RatioHalf extends Rectangle {
     const crossNode = new Node( { children: [ cross, crossBackground ] } );
     crossNode.center = Vector2.ZERO;
 
-    markerDisplayProperty.link( displayType => {
+    window.phet.ratioAndProportion.markerDisplayProperty.link( displayType => {
       if ( displayType === MarkerDisplay.CIRCLE ) {
         pointer.children = [ circle ];
       }
