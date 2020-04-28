@@ -10,6 +10,7 @@ import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
 import Util from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -32,11 +33,15 @@ class FreeObjectsModel {
     this.ratioProperty = new NumberProperty( .5 );
     this.toleranceProperty = new NumberProperty( .05 );
 
+    const modelBounds = new Bounds2( -.5, 0, .5, 1 );
+
     this.leftPositionProperty = new Vector2Property( new Vector2( 0, .2 ), {
-      tandem: tandem.createTandem( 'leftBarProperty' )
+      tandem: tandem.createTandem( 'leftBarProperty' ),
+      validBounds: modelBounds
     } );
     this.rightPositionProperty = new Vector2Property( new Vector2( 0, .4 ), {
-      tandem: tandem.createTandem( 'rightBarProperty' )
+      tandem: tandem.createTandem( 'rightBarProperty' ),
+      validBounds: modelBounds
     } );
 
     // @public - settable positions of the two values on the screen

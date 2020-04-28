@@ -57,11 +57,9 @@ class RatioHalf extends Rectangle {
     // @public (read-only)
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
 
-    const modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
-      Vector2.ZERO,
-      new Vector2( bounds.centerX, bounds.bottom ),
-      bounds.height
-    );
+    const modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
+      positionProperty.validBounds,
+      bounds );
 
     const topRect = new Rectangle( 0, 0, bounds.width - bounds.width * .1, 20, { fill: 'black', centerX: bounds.centerX } );
     this.addChild( topRect );
@@ -79,12 +77,14 @@ class RatioHalf extends Rectangle {
       role: 'application',
       focusable: true
     } );
+    this.addChild( pointer );
 
     const handNode = new Image( filledInHandImage );
-    handNode.center = Vector2.ZERO;
 
     // Flip the hand if it isn't a right hand.
     handNode.setScaleMagnitude( ( options.isRight ? 1 : -1 ) * .4, .4 );
+    handNode.right = handNode.width / 2;
+    handNode.bottom = handNode.height / 2;
 
     const circle = new Circle( 20, {
       fill: 'black'
@@ -122,10 +122,14 @@ class RatioHalf extends Rectangle {
     soundManager.addSoundGenerator( commonGrabSoundClip );
     soundManager.addSoundGenerator( commonReleaseSoundClip );
 
+    // offset the bounds to account for the pointer's size, since the center of the pointer is controlled by the drag bounds.
+    const modelHalfPointerPointer = modelViewTransform.viewToModelDeltaXY( pointer.width / 2, -pointer.height / 2 );
+    const dragBounds = positionProperty.validBounds.erodedXY( modelHalfPointerPointer.x, modelHalfPointerPointer.y );
+
     pointer.addInputListener( new DragListener( {
       positionProperty: positionProperty,
       transform: modelViewTransform,
-      dragBoundsProperty: new Property( modelViewTransform.viewToModelBounds( bounds ) ),
+      dragBoundsProperty: new Property( dragBounds ), // TODO: maybe change drag bounds on pointer change
       tandem: options.tandem.createTandem( 'dragListener' ),
       start: () => {
         commonGrabSoundClip.play();
@@ -141,9 +145,8 @@ class RatioHalf extends Rectangle {
     pointer.addInputListener( new KeyboardDragListener( {
       positionProperty: positionProperty,
       transform: modelViewTransform,
-      start: () => {
-        firstInteractionProperty.value = false;
-      }
+      dragBounds: dragBounds,
+      start: () => { firstInteractionProperty.value = false; }
     } ) );
     pointer.addInputListener( {
       focus: () => {
@@ -155,8 +158,6 @@ class RatioHalf extends Rectangle {
         this.isBeingInteractedWithProperty.value = false;
       }
     } );
-
-    this.addChild( pointer );
 
     // logic to support cue arrow visibility
     pointer.addInputListener( {

@@ -8,6 +8,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
+import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
@@ -41,7 +42,6 @@ class FreeObjectsScreenView extends ScreenView {
       model.firstInteractionProperty,
       model.ratioHalvesFocusOrHoveredProperty,
       boundsInHalf, {
-        left: LAYOUT_BOUNDS.left + ONE_QUARTER_LAYOUT_WIDTH,
         isRight: false // this way we get a left hand
       }
     );
@@ -49,10 +49,13 @@ class FreeObjectsScreenView extends ScreenView {
       model.rightPositionProperty, model.markerDisplayProperty,
       model.firstInteractionProperty,
       model.ratioHalvesFocusOrHoveredProperty,
-      boundsInHalf, {
-        left: leftRatioHalf.right
-      }
-    );
+      boundsInHalf );
+
+    const ratioContainer = new HBox( {
+      children: [ leftRatioHalf, rightRatioHalf ],
+      spacing: 20,
+      left: LAYOUT_BOUNDS.left + ONE_QUARTER_LAYOUT_WIDTH
+    } );
 
     super( {
       tandem: tandem,
@@ -99,10 +102,9 @@ class FreeObjectsScreenView extends ScreenView {
 
     this.gridViewProperties = new GridViewProperties( tandem.createTandem( 'gridViewProperties' ) );
 
-    const gridNode = new ProportionGridNode( this.gridViewProperties, 2 * RATIO_HALF_WIDTH, leftRatioHalf.height, {
-      left: leftRatioHalf.left
+    const gridNode = new ProportionGridNode( this.gridViewProperties, ratioContainer.width, ratioContainer.height, {
+      left: ratioContainer.left
     } );
-
 
     const background = Rectangle.bounds( this.layoutBounds, {
       fill: 'black'
@@ -185,8 +187,7 @@ class FreeObjectsScreenView extends ScreenView {
       showUnitsAquaRadioButtonGroup,
 
       // Main ratio on top
-      leftRatioHalf,
-      rightRatioHalf
+      ratioContainer
     ];
 
     // accessible order
