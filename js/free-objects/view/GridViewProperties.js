@@ -17,7 +17,7 @@ class GridViewProperties {
   constructor( tandem ) {
 
     // @public - what display for the grid to be viewed. Horizontal, horizontal and vertical, none.
-    this.gridViewProperty = new EnumerationProperty( GridView, GridView.HORIZONTAL, {
+    this.gridViewProperty = new EnumerationProperty( GridView, GridView.NONE, {
       tandem: tandem.createTandem( 'gridViewProperty' )
     } );
   }
