@@ -47,7 +47,7 @@ class ProportionGridNode extends GridNode {
 
       this.setLineSpacings( null, null, verticalSpacing, horizontalSpacing );
 
-      horizontalSpacing && this.updateUnitLabels( GridView.displayUnits( gridView ), horizontalSpacing );
+      this.updateUnitLabels( GridView.displayUnits( gridView ), horizontalSpacing );
     } );
 
   }
@@ -58,10 +58,11 @@ class ProportionGridNode extends GridNode {
    * @param {number} horizontalSpacing
    */
   updateUnitLabels( showGridUnits, horizontalSpacing ) {
-    assert && showGridUnits && assert( typeof horizontalSpacing === 'number', 'Unit Labels only supported for horizontal lines' );
     this.labelsNode.children = [];
 
     if ( showGridUnits ) {
+      assert && assert( typeof horizontalSpacing === 'number', 'Unit Labels only supported for horizontal lines' );
+
       let i = 0;
 
       // use "5" to ensure that we don't get a unit on the top number, even with weird rounding.
