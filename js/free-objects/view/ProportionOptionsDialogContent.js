@@ -1,7 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * TODO: remove once sound design is better established, see https://github.com/phetsims/ratio-and-proportion/issues/9
+ * TODO: remove once design is better established
  */
 
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';

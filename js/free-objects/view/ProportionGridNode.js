@@ -36,15 +36,14 @@ class ProportionGridNode extends GridNode {
 
     Property.multilink( [
       designingProperties.gridBaseUnitProperty,
-      gridViewProperties.gridViewProperty,
-      gridViewProperties.showGridUnitsProperty
-    ], ( baseUnit, gridView, showGridUnits ) => {
+      gridViewProperties.gridViewProperty
+    ], ( baseUnit, gridView ) => {
       const verticalSpacing = GridView.displayVertical( gridView ) ? width / VERTICAL_SPACING : null;
       const horizontalSpacing = GridView.displayHorizontal( gridView ) ? height / baseUnit : null;
 
       this.setLineSpacings( null, null, verticalSpacing, horizontalSpacing );
 
-      horizontalSpacing && this.updateUnitLabels( showGridUnits, horizontalSpacing );
+      horizontalSpacing && this.updateUnitLabels( GridView.displayUnits( gridView ), horizontalSpacing );
     } );
 
     this.mutate( options );

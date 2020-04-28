@@ -5,7 +5,6 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import GridView from './GridView.js';
@@ -21,17 +20,11 @@ class GridViewProperties {
     this.gridViewProperty = new EnumerationProperty( GridView, GridView.HORIZONTAL, {
       tandem: tandem.createTandem( 'gridViewProperty' )
     } );
-
-    // @public is the equilibrium position visible?
-    this.showGridUnitsProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'showGridUnitsProperty' )
-    } );
   }
 
   // @public
   reset() {
     this.gridViewProperty.reset();
-    this.showGridUnitsProperty.reset();
   }
 }
 

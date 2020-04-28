@@ -112,32 +112,23 @@ class FreeObjectsScreenView extends ScreenView {
     } );
 
     const gridViewAquaRadioButtonGroup = new VerticalAquaRadioButtonGroup( this.gridViewProperties.gridViewProperty, [ {
-      node: new RichText( 'Horizontal' ),
-      value: GridView.HORIZONTAL
-    }, {
-      node: new RichText( 'Grid' ),
-      value: GridView.BOTH
-    }, {
       node: new RichText( 'None' ),
       value: GridView.NONE
-    } ] );
-
-    const showUnitsAquaRadioButtonGroup = new VerticalAquaRadioButtonGroup( this.gridViewProperties.showGridUnitsProperty, [ {
-      node: new RichText( 'Grid Units' ),
-      value: true
     }, {
-      node: new RichText( 'None' ),
-      value: false
+      node: new RichText( 'Grid' ),
+      value: GridView.HORIZONTAL
+    }, {
+      node: new RichText( 'Numbered Grid' ),
+      value: GridView.HORIZONTAL_UNITS
     } ] );
 
     // layout
     resetAllButton.right = this.layoutBounds.maxX - ProportionConstants.SCREEN_VIEW_X_MARGIN;
     resetAllButton.bottom = this.layoutBounds.maxY - ProportionConstants.SCREEN_VIEW_Y_MARGIN;
-    comboBox.bottom = resetAllButton.top - 30;
+    comboBox.bottom = resetAllButton.top - 200;
     comboBox.right = resetAllButton.right + 5;
-    gridViewAquaRadioButtonGroup.left = showUnitsAquaRadioButtonGroup.left = comboBox.left;
+    gridViewAquaRadioButtonGroup.left  = comboBox.left;
     gridViewAquaRadioButtonGroup.bottom = comboBox.top - 20;
-    showUnitsAquaRadioButtonGroup.bottom = gridViewAquaRadioButtonGroup.top - 20;
 
     // children
     this.children = [
@@ -150,7 +141,6 @@ class FreeObjectsScreenView extends ScreenView {
       comboBox,
       resetAllButton,
       gridViewAquaRadioButtonGroup,
-      showUnitsAquaRadioButtonGroup,
 
       // list box above other UI
       comboBoxParent,
