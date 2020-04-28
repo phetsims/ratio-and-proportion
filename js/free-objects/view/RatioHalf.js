@@ -167,24 +167,21 @@ class RatioHalf extends Rectangle {
       exit: () => { ratioHalvesFocusOrHoveredProperty.value = false; }
     } );
 
-    const cueArrowUp = new ArrowNode( 0, 0, 0, -60, {
+    const cueArrowOptions = {
       fill: '#FFC000',
+      stroke: null,
+      opacity: .8,
       headWidth: 40,
       headHeight: 20,
       tailWidth: 20,
-      centerX: pointer.centerX,
-      bottom: pointer.top - 20
-    } );
+      centerX: pointer.centerX
+    };
+    const cueArrowUp = new ArrowNode( 0, 0, 0, -40, cueArrowOptions );
+    cueArrowUp.bottom = pointer.top - 20;
     this.addChild( cueArrowUp );
 
-    const cueArrowDown = new ArrowNode( 0, 0, 0, 60, {
-      fill: '#FFC000',
-      headWidth: 40,
-      headHeight: 20,
-      tailWidth: 20,
-      centerX: pointer.centerX,
-      top: pointer.bottom + 20
-    } );
+    const cueArrowDown = new ArrowNode( 0, 0, 0, 40, cueArrowOptions );
+    cueArrowDown.top = pointer.bottom + 20;
     this.addChild( cueArrowDown );
 
     // only display the cues arrows before the first interaction, and when any ratio half is focused or hovered on.
