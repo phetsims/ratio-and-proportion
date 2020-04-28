@@ -7,9 +7,7 @@
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
-import Text from '../../../../scenery/js/nodes/Text.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
-import AquaRadioButtonGroup from '../../../../sun/js/AquaRadioButtonGroup.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import CursorDisplay from '../../common/CursorDisplay.js';
@@ -30,19 +28,19 @@ class ProportionOptionsDialogContent extends HBox {
       align: 'left',
       children: [
         new RichText( 'Sound:' ),
-        new AquaRadioButtonGroup( designingProperties.proportionFitnessSoundSelectorProperty, [ {
-            node: new Text( 'Vibrato', { font: RADIO_BUTTON_FONT } ),
+        new VerticalAquaRadioButtonGroup( designingProperties.proportionFitnessSoundSelectorProperty, [ {
+            node: new OptionsText( 'Vibrato' ),
             value: 0
           }, {
-            node: new Text( 'Random Clicks', { font: RADIO_BUTTON_FONT } ),
+            node: new OptionsText( 'Random Clicks' ),
             value: 1
           }, {
-            node: new Text( 'C Major Sine', { font: RADIO_BUTTON_FONT } ),
+            node: new OptionsText( 'C Major Sine' ),
             value: 2
           }, {
-            node: new Text( 'Single Pitch change', { font: RADIO_BUTTON_FONT } ),
+            node: new OptionsText( 'Single Pitch change' ),
             value: 3
-          } ], { spacing: 13 }
+          } ]
         ) ]
     } );
 
@@ -52,13 +50,13 @@ class ProportionOptionsDialogContent extends HBox {
       children: [
         new RichText( 'Cursor:' ),
         new VerticalAquaRadioButtonGroup( designingProperties.markerDisplayProperty, [ {
-          node: new RichText( 'Hand' ),
+          node: new OptionsText( 'Hand' ),
           value: CursorDisplay.HAND
         }, {
-          node: new RichText( 'Circle' ),
+          node: new OptionsText( 'Circle' ),
           value: CursorDisplay.CIRCLE
         }, {
-          node: new RichText( 'Cross' ),
+          node: new OptionsText( 'Cross' ),
           value: CursorDisplay.CROSS
         } ] )
       ]
@@ -70,16 +68,16 @@ class ProportionOptionsDialogContent extends HBox {
       children: [
         new RichText( 'Grid Base Unit:' ),
         new VerticalAquaRadioButtonGroup( designingProperties.gridBaseUnitProperty, [ {
-          node: new RichText( 'a:b' ),
+          node: new OptionsText( 'a:b' ),
           value: 10
         }, {
-          node: new RichText( '2a:2b' ),
+          node: new OptionsText( '2a:2b' ),
           value: 20
         }, {
-          node: new RichText( '3a:3b' ),
+          node: new OptionsText( '3a:3b' ),
           value: 30
         }, {
-          node: new RichText( '4a:4b' ),
+          node: new OptionsText( '4a:4b' ),
           value: 40
         } ] )
       ]
@@ -92,6 +90,8 @@ class ProportionOptionsDialogContent extends HBox {
     } );
   }
 }
+
+class OptionsText extends RichText {constructor( text ) {super( text, { font: RADIO_BUTTON_FONT } );}}
 
 ratioAndProportion.register( 'ProportionOptionsDialogContent', ProportionOptionsDialogContent );
 export default ProportionOptionsDialogContent;
