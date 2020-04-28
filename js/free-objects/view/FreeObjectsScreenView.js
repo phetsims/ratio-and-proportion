@@ -13,7 +13,6 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
-import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import ProportionConstants from '../../common/ProportionConstants.js';
