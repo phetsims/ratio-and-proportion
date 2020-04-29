@@ -33,6 +33,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import commonGrabSoundInfo from '../../../../tambo/sounds/grab_mp3.js';
 import commonReleaseSoundInfo from '../../../../tambo/sounds/release_mp3.js';
 import filledInHandImage from '../../../images/filled-in-hand_png.js';
+import GridView from './GridView.js';
 
 class RatioHalf extends Rectangle {
 
@@ -41,9 +42,10 @@ class RatioHalf extends Rectangle {
    * @param {Property.<boolean>} firstInteractionProperty - upon successful interaction, this will be marked as false
    * @param {Property.<boolean>} ratioHalvesFocusOrHoveredProperty
    * @param {Bounds2} bounds - the area that the node takes up
-   * * @param {Object} [options]
+   * @param {EnumerationProperty.<GridView>} gridViewProperty
+   * @param {Object} [options]
    */
-  constructor( positionProperty, firstInteractionProperty, ratioHalvesFocusOrHoveredProperty, bounds, options ) {
+  constructor( positionProperty, firstInteractionProperty, ratioHalvesFocusOrHoveredProperty, bounds, gridViewProperty, options ) {
 
     options = merge( {
       cursor: 'pointer',
@@ -71,6 +73,11 @@ class RatioHalf extends Rectangle {
     topRect.top = 0;
     topRect.centerX = bottomRect.centerX = this.centerX;
     bottomRect.bottom = bounds.height;
+
+    // hide border rectangles when the units are being displayed
+    gridViewProperty.link( gridView => {
+      topRect.visible = bottomRect.visible = !GridView.displayUnits( gridView );
+    } );
 
     // The draggable element inside the Node framed with thick rectangles on the top and bottom.
     const pointer = new Node( {

@@ -39,13 +39,22 @@ class FreeObjectsScreenView extends ScreenView {
    * @param {Tandem} tandem
    */
   constructor( model, tandem ) {
+    super( {
+      tandem: tandem,
+      layoutBounds: LAYOUT_BOUNDS,
+      screenSummaryContent: new RatioAndProportionScreenSummaryNode()
+    } );
+
+    // @private
+    this.gridViewProperties = new GridViewProperties( tandem.createTandem( 'gridViewProperties' ) );
 
     const boundsInHalf = Bounds2.rect( 0, 0, RATIO_HALF_WIDTH, LAYOUT_BOUNDS.height );
     const leftRatioHalf = new RatioHalf(
       model.leftPositionProperty,
       model.firstInteractionProperty,
       model.ratioHalvesFocusOrHoveredProperty,
-      boundsInHalf, {
+      boundsInHalf,
+      this.gridViewProperties.gridViewProperty, {
         labelContent: ratioAndProportionStrings.a11y.leftHand,
         isRight: false // this way we get a left hand
       }
@@ -54,7 +63,8 @@ class FreeObjectsScreenView extends ScreenView {
       model.rightPositionProperty,
       model.firstInteractionProperty,
       model.ratioHalvesFocusOrHoveredProperty,
-      boundsInHalf, {
+      boundsInHalf,
+      this.gridViewProperties.gridViewProperty, {
         labelContent: ratioAndProportionStrings.a11y.rightHand
       } );
 
@@ -62,12 +72,6 @@ class FreeObjectsScreenView extends ScreenView {
       children: [ leftRatioHalf, rightRatioHalf ],
       spacing: 20,
       left: LAYOUT_BOUNDS.left + ONE_QUARTER_LAYOUT_WIDTH
-    } );
-
-    super( {
-      tandem: tandem,
-      layoutBounds: LAYOUT_BOUNDS,
-      screenSummaryContent: new RatioAndProportionScreenSummaryNode()
     } );
 
     // @private
@@ -100,8 +104,6 @@ class FreeObjectsScreenView extends ScreenView {
       },
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
-
-    this.gridViewProperties = new GridViewProperties( tandem.createTandem( 'gridViewProperties' ) );
 
     const gridNode = new ProportionGridNode( this.gridViewProperties, ratioContainer.width, ratioContainer.height, {
       left: ratioContainer.left
