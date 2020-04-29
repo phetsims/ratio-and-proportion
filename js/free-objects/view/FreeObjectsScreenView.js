@@ -18,6 +18,7 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import ProportionConstants from '../../common/ProportionConstants.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ChallengeComboBoxItem from './ChallengeComboBoxItem.js';
+import RatioAndProportionScreenSummaryNode from './RatioAndProportionScreenSummaryNode.js';
 import ProportionFitnessSoundGenerator from './sound/ProportionFitnessSoundGenerator.js';
 import ProportionMarkerInput from './ProportionMarkerInput.js';
 import RatioHalf from './RatioHalf.js';
@@ -61,7 +62,8 @@ class FreeObjectsScreenView extends ScreenView {
 
     super( {
       tandem: tandem,
-      layoutBounds: LAYOUT_BOUNDS
+      layoutBounds: LAYOUT_BOUNDS,
+      screenSummaryContent: new RatioAndProportionScreenSummaryNode()
     } );
 
     // @private
@@ -127,7 +129,7 @@ class FreeObjectsScreenView extends ScreenView {
     resetAllButton.bottom = this.layoutBounds.maxY - ProportionConstants.SCREEN_VIEW_Y_MARGIN;
     comboBox.bottom = resetAllButton.top - 200;
     comboBox.right = resetAllButton.right + 5;
-    gridViewAquaRadioButtonGroup.left  = comboBox.left;
+    gridViewAquaRadioButtonGroup.left = comboBox.left;
     gridViewAquaRadioButtonGroup.bottom = comboBox.top - 20;
 
     // children

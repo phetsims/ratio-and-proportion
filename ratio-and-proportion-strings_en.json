@@ -1,5 +1,15 @@
 {
   "ratio-and-proportion.title": {
     "value": "Ratio And Proportion"
+  },
+  "a11y": {
+    "screenSummary": {
+      "playAreaDescription": {
+        "value": "The Play Area has two freely moving objects that can be moved around to find the current proportions and five mystery scene selection buttons."
+      },
+      "controlAreaDescription": {
+        "value": "The Control Area has a button to reset the sim."
+      }
+    }
   }
 }
