@@ -48,8 +48,11 @@ class RatioHalf extends Rectangle {
     options = merge( {
       cursor: 'pointer',
       isRight: true, // right ratio or the left ratio
+      tandem: Tandem.OPTIONAL,
 
-      tandem: Tandem.OPTIONAL
+      // pdom
+      tagName: 'div',
+      labelTagName: 'h3'
     }, options );
 
     super( 0, 0, bounds.width, bounds.height );

@@ -17,6 +17,7 @@ import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioBu
 import soundManager from '../../../../tambo/js/soundManager.js';
 import ProportionConstants from '../../common/ProportionConstants.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
+import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import ChallengeComboBoxItem from './ChallengeComboBoxItem.js';
 import RatioAndProportionScreenSummaryNode from './RatioAndProportionScreenSummaryNode.js';
 import ProportionFitnessSoundGenerator from './sound/ProportionFitnessSoundGenerator.js';
@@ -45,6 +46,7 @@ class FreeObjectsScreenView extends ScreenView {
       model.firstInteractionProperty,
       model.ratioHalvesFocusOrHoveredProperty,
       boundsInHalf, {
+        labelContent: ratioAndProportionStrings.a11y.leftHand,
         isRight: false // this way we get a left hand
       }
     );
@@ -52,7 +54,9 @@ class FreeObjectsScreenView extends ScreenView {
       model.rightPositionProperty,
       model.firstInteractionProperty,
       model.ratioHalvesFocusOrHoveredProperty,
-      boundsInHalf );
+      boundsInHalf, {
+        labelContent: ratioAndProportionStrings.a11y.rightHand
+      } );
 
     const ratioContainer = new HBox( {
       children: [ leftRatioHalf, rightRatioHalf ],

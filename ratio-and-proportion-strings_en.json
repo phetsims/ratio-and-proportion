@@ -10,6 +10,12 @@
       "controlAreaDescription": {
         "value": "The Control Area has a button to reset the sim."
       }
+    },
+    "leftHand": {
+      "value": "Left Hand"
+    },
+    "rightHand": {
+      "value": "Right Hand"
     }
   }
 }
