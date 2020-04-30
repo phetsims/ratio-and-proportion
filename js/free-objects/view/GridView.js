@@ -7,7 +7,7 @@
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 
-export default ratioAndProportion.register( 'GridView', Enumeration.byKeys( [ 'HORIZONTAL', 'BOTH', 'NONE', 'HORIZONTAL_UNITS' ], {
+const GridView = Enumeration.byKeys( [ 'HORIZONTAL', 'BOTH', 'NONE', 'HORIZONTAL_UNITS' ], {
   beforeFreeze: GridView => {
 
     /**
@@ -34,4 +34,6 @@ export default ratioAndProportion.register( 'GridView', Enumeration.byKeys( [ 'H
       return gridView === GridView.HORIZONTAL_UNITS;
     };
   }
-} ) );
+} );
+ratioAndProportion.register( 'GridView', GridView );
+export default GridView;
