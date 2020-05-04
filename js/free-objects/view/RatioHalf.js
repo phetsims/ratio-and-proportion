@@ -62,19 +62,13 @@ class RatioHalf extends Rectangle {
     // @public (read-only)
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
 
-    const modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
-      positionProperty.validBounds,
-      bounds );
-
-    const topRect = new Rectangle( 0, 0, bounds.width - bounds.width * .1, 20, { fill: 'black', centerX: bounds.centerX } );
+    // "Framing" rectangles on the top and bottom of the drag area of the ratio half
+    const topRect = new Rectangle( 0, 0, 10, 20, { fill: 'black' } );
     this.addChild( topRect );
-    const bottomRect = new Rectangle( 0, 0, bounds.width - bounds.width * .1, 20, { fill: 'black', centerX: bounds.centerX } );
+    const bottomRect = new Rectangle( 0, 0, 10, 20, { fill: 'black' } );
     this.addChild( bottomRect );
-    topRect.top = 0;
-    topRect.centerX = bottomRect.centerX = this.centerX;
-    bottomRect.bottom = bounds.height;
 
-    // hide border rectangles when the units are being displayed
+    // hide framing border rectangles when the units are being displayed
     gridViewProperty.link( gridView => {
       topRect.visible = bottomRect.visible = !GridView.displayUnits( gridView );
     } );
@@ -123,23 +117,14 @@ class RatioHalf extends Rectangle {
       }
     } );
 
-    positionProperty.link( position => {
-      pointer.translation = modelViewTransform.modelToViewPosition( position );
-    } );
-
     const commonGrabSoundClip = new SoundClip( commonGrabSoundInfo, { initialOutput: .7 } );
     const commonReleaseSoundClip = new SoundClip( commonReleaseSoundInfo, { initialOutput: .7 } );
     soundManager.addSoundGenerator( commonGrabSoundClip );
     soundManager.addSoundGenerator( commonReleaseSoundClip );
 
-    // offset the bounds to account for the pointer's size, since the center of the pointer is controlled by the drag bounds.
-    const modelHalfPointerPointer = modelViewTransform.viewToModelDeltaXY( pointer.width / 2, -pointer.height / 2 );
-    const dragBounds = positionProperty.validBounds.erodedXY( modelHalfPointerPointer.x, modelHalfPointerPointer.y );
-
-    pointer.addInputListener( new DragListener( {
+    // transform and dragBounds set in layout code below
+    const dragListener = new DragListener( {
       positionProperty: positionProperty,
-      transform: modelViewTransform,
-      dragBoundsProperty: new Property( dragBounds ), // TODO: maybe change drag bounds on pointer change
       tandem: options.tandem.createTandem( 'dragListener' ),
       start: () => {
         commonGrabSoundClip.play();
@@ -150,14 +135,15 @@ class RatioHalf extends Rectangle {
         commonReleaseSoundClip.play();
         this.isBeingInteractedWithProperty.value = false;
       }
-    } ) );
+    } );
+    pointer.addInputListener( dragListener );
 
-    pointer.addInputListener( new KeyboardDragListener( {
+    // transform and dragBounds set in layout code below
+    const keyboardDragListener = new KeyboardDragListener( {
       positionProperty: positionProperty,
-      transform: modelViewTransform,
-      dragBounds: dragBounds,
       start: () => { firstInteractionProperty.value = false; }
-    } ) );
+    } );
+    pointer.addInputListener( keyboardDragListener );
     pointer.addInputListener( {
       focus: () => {
         commonGrabSoundClip.play();
@@ -203,6 +189,51 @@ class RatioHalf extends Rectangle {
       } );
 
     this.mutate( options );
+
+    let modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
+      positionProperty.validBounds,
+      bounds );
+
+    positionProperty.link( position => {
+      pointer.translation = modelViewTransform.modelToViewPosition( position );
+    } );
+
+    // @private
+    this.layoutRatioHalf = newBounds => {
+      this.rectWidth = newBounds.width;
+      this.rectHeight = newBounds.height;
+
+      const rectWidth = newBounds.width - newBounds.width * .1;
+      topRect.rectWidth = rectWidth;
+      topRect.centerX = newBounds.centerX;
+      bottomRect.rectWidth = rectWidth;
+      bottomRect.centerX = newBounds.centerX;
+      topRect.top = 0;
+      bottomRect.bottom = newBounds.height;
+
+      modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
+        positionProperty.validBounds,
+        newBounds );
+
+      pointer.translation = modelViewTransform.modelToViewPosition( positionProperty.value );
+
+      // offset the bounds to account for the pointer's size, since the center of the pointer is controlled by the drag bounds.
+      const modelHalfPointerPointer = modelViewTransform.viewToModelDeltaXY( pointer.width / 2, -pointer.height / 2 );
+      const dragBounds = positionProperty.validBounds.erodedXY( modelHalfPointerPointer.x, modelHalfPointerPointer.y );
+
+      dragListener.dragBounds = dragBounds;
+      dragListener.transform = modelViewTransform;
+      keyboardDragListener.dragBounds = dragBounds;
+      keyboardDragListener.transform = modelViewTransform;
+    };
+  }
+
+  /**
+   * @public
+   * @param {Bounds2} bounds - the bounds of this RatioHalf, effects dimensions, dragBounds, and width of guiding rectangles
+   */
+  layout( bounds ) {
+    this.layoutRatioHalf( bounds );
   }
 }
 
