@@ -169,15 +169,12 @@ class RatioHalf extends Rectangle {
       opacity: .8,
       headWidth: 40,
       headHeight: 20,
-      tailWidth: 20,
-      centerX: pointer.centerX
+      tailWidth: 20
     };
     const cueArrowUp = new ArrowNode( 0, 0, 0, -40, cueArrowOptions );
-    cueArrowUp.bottom = pointer.top - 20;
     this.addChild( cueArrowUp );
 
     const cueArrowDown = new ArrowNode( 0, 0, 0, 40, cueArrowOptions );
-    cueArrowDown.top = pointer.bottom + 20;
     this.addChild( cueArrowDown );
 
     // only display the cues arrows before the first interaction, and when any ratio half is focused or hovered on.
@@ -215,6 +212,9 @@ class RatioHalf extends Rectangle {
         newBounds );
 
       pointer.translation = modelViewTransform.modelToViewPosition( positionProperty.value );
+      cueArrowUp.bottom = pointer.top - 20;
+      cueArrowDown.top = pointer.bottom + 20;
+      cueArrowUp.centerX = cueArrowDown.centerX = pointer.centerX;
 
       // offset the bounds to account for the pointer's size, since the center of the pointer is controlled by the drag bounds.
       const modelHalfPointerPointer = modelViewTransform.viewToModelDeltaXY( pointer.width / 2, -pointer.height / 2 );
