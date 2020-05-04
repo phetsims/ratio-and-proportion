@@ -159,12 +159,15 @@ class FreeObjectsScreenView extends ScreenView {
       backgroundNode.bottom = this.layoutBounds.bottom;
 
       const ratioWidth = leftRatioHalf.width + rightRatioHalf.width + RATIO_HALF_SPACING;
-      gridNode.layout( ratioWidth, newRatioHalfBounds.height );
+
+      // subtract the top and bottom rectangles from the grid height
+      gridNode.layout( ratioWidth, newRatioHalfBounds.height - 2 * RatioHalf.FRAMING_RECTANGLE_HEIGHT );
 
       // combo box is a proxy for the width of the controls
       leftRatioHalf.left = gridNode.left = ( this.layoutBounds.width - comboBox.width - ratioWidth ) / 2;
       rightRatioHalf.left = leftRatioHalf.right + RATIO_HALF_SPACING;
-      leftRatioHalf.bottom = rightRatioHalf.bottom = gridNode.bottom = this.layoutBounds.bottom;
+      leftRatioHalf.bottom = rightRatioHalf.bottom = this.layoutBounds.bottom;
+      gridNode.bottom = this.layoutBounds.bottom - RatioHalf.FRAMING_RECTANGLE_HEIGHT;
     };
     this.layoutFreeObjectsScreenView( defaultRatioHalfBounds );
   }

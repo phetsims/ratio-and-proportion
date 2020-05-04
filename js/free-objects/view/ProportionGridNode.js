@@ -76,13 +76,21 @@ class ProportionGridNode extends GridNode {
 
       let i = 0;
 
-      // use "5" to ensure that we don't get a unit on the top number, even with weird rounding.
-      for ( let y = 0; y < this.gridHeight - 5; y += horizontalSpacing ) {
-        this.labelsNode.addChild( new Text( i, {
-          bottom: this.gridHeight - y,
+      for ( let y = 0; y <= this.gridHeight; y += horizontalSpacing ) {
+        const text = new Text( i, {
           left: LABEL_X,
           font: new PhetFont( 13 )
-        } ) );
+        } );
+
+        // put the top/last number underneath
+        if ( y === this.gridHeight ) {
+          text.top = 0;
+        }
+        else {
+          text.bottom = this.gridHeight - y;
+        }
+
+        this.labelsNode.addChild( text );
         i++;
       }
       assert && assert( this.labelsNode.children[ 0 ].height < horizontalSpacing, 'Text is too tall for the provided horizontal spacing' );

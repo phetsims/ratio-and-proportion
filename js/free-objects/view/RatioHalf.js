@@ -103,21 +103,6 @@ class RatioHalf extends Rectangle {
     const crossNode = new Node( { children: [ cross, crossBackground ] } );
     crossNode.center = Vector2.ZERO;
 
-    designingProperties.markerDisplayProperty.link( displayType => {
-      if ( displayType === CursorDisplay.CIRCLE ) {
-        pointer.children = [ circle ];
-      }
-      else if ( displayType === CursorDisplay.CROSS ) {
-        pointer.children = [ crossNode ];
-      }
-      else if ( displayType === CursorDisplay.HAND ) {
-        pointer.children = [ handNode ];
-      }
-      else {
-        assert && assert( false, `unsupported displayType: ${displayType}` );
-      }
-    } );
-
     const commonGrabSoundClip = new SoundClip( commonGrabSoundInfo, { initialOutput: .7 } );
     const commonReleaseSoundClip = new SoundClip( commonReleaseSoundInfo, { initialOutput: .7 } );
     soundManager.addSoundGenerator( commonGrabSoundClip );
@@ -186,6 +171,18 @@ class RatioHalf extends Rectangle {
       pointer.translation = modelViewTransform.modelToViewPosition( position );
     } );
 
+    const recomputeDragBounds = () => {
+
+      // offset the bounds to account for the pointer's size, since the center of the pointer is controlled by the drag bounds.
+      const modelHalfPointerPointer = modelViewTransform.viewToModelDeltaXY( pointer.width / 2, -FRAMING_RECTANGLE_HEIGHT );
+
+      // TODO: make this based on FRAMING_RECTANGLE_HEIGHT
+      const dragBounds = positionProperty.validBounds.erodedXY( modelHalfPointerPointer.x, modelHalfPointerPointer.y );
+
+      dragListener.dragBounds = dragBounds;
+      keyboardDragListener.dragBounds = dragBounds;
+    };
+
     // @private
     this.layoutRatioHalf = newBounds => {
       this.rectWidth = newBounds.width;
@@ -207,17 +204,26 @@ class RatioHalf extends Rectangle {
       cueArrowDown.top = pointer.bottom + 20;
       cueArrowUp.centerX = cueArrowDown.centerX = pointer.centerX;
 
-      // offset the bounds to account for the pointer's size, since the center of the pointer is controlled by the drag bounds.
-      const modelHalfPointerPointer = modelViewTransform.viewToModelDeltaXY( pointer.width / 2, -pointer.height / 2 );
-
-      // TODO: make this based on FRAMING_RECTANGLE_HEIGHT
-      const dragBounds = positionProperty.validBounds.erodedXY( modelHalfPointerPointer.x, modelHalfPointerPointer.y );
-
-      dragListener.dragBounds = dragBounds;
+      recomputeDragBounds();
       dragListener.transform = modelViewTransform;
-      keyboardDragListener.dragBounds = dragBounds;
       keyboardDragListener.transform = modelViewTransform;
     };
+
+    designingProperties.markerDisplayProperty.link( displayType => {
+      if ( displayType === CursorDisplay.CIRCLE ) {
+        pointer.children = [ circle ];
+      }
+      else if ( displayType === CursorDisplay.CROSS ) {
+        pointer.children = [ crossNode ];
+      }
+      else if ( displayType === CursorDisplay.HAND ) {
+        pointer.children = [ handNode ];
+      }
+      else {
+        assert && assert( false, `unsupported displayType: ${displayType}` );
+      }
+      recomputeDragBounds();
+    } );
   }
 
   /**
@@ -228,6 +234,9 @@ class RatioHalf extends Rectangle {
     this.layoutRatioHalf( bounds );
   }
 }
+
+// @public - the height of the top and bottom rectangles
+RatioHalf.FRAMING_RECTANGLE_HEIGHT = FRAMING_RECTANGLE_HEIGHT;
 
 ratioAndProportion.register( 'DraggableMarker', RatioHalf );
 export default RatioHalf;
