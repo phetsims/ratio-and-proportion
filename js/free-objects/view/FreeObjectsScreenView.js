@@ -8,7 +8,6 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -32,6 +31,7 @@ const LAYOUT_BOUNDS = ScreenView.DEFAULT_LAYOUT_BOUNDS;
 const MAX_RATIO_HEIGHT = LAYOUT_BOUNDS.width * 2; // relatively arbitrary, but good to set a max so it can't get too skinny
 const ONE_QUARTER_LAYOUT_WIDTH = LAYOUT_BOUNDS.width * .25;
 const RATIO_HALF_WIDTH = ONE_QUARTER_LAYOUT_WIDTH;
+const RATIO_HALF_SPACING = 20;
 
 class FreeObjectsScreenView extends ScreenView {
 
@@ -69,11 +69,6 @@ class FreeObjectsScreenView extends ScreenView {
         labelContent: ratioAndProportionStrings.a11y.rightHand
       } );
 
-    const ratioContainer = new HBox( {
-      children: [ leftRatioHalf, rightRatioHalf ],
-      spacing: 20
-    } );
-
     // @private
     this.markerInput = new ProportionMarkerInput( model );
 
@@ -105,7 +100,8 @@ class FreeObjectsScreenView extends ScreenView {
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
 
-    const gridNode = new ProportionGridNode( this.gridViewProperties, ratioContainer.width, ratioContainer.height );
+    // these dimensions are just temporary, and will be recomputed below in the layout function
+    const gridNode = new ProportionGridNode( this.gridViewProperties, 100, 100 );
 
     const backgroundNode = Rectangle.bounds( this.layoutBounds, {
       fill: 'black'
@@ -139,7 +135,8 @@ class FreeObjectsScreenView extends ScreenView {
       comboBoxParent,
 
       // Main ratio on top
-      ratioContainer
+      leftRatioHalf,
+      rightRatioHalf
     ];
 
     // accessible order
@@ -151,7 +148,7 @@ class FreeObjectsScreenView extends ScreenView {
     comboBox.bottom = resetAllButton.top - 200;
     comboBox.right = resetAllButton.right + 5;
     gridViewAquaRadioButtonGroup.left = comboBox.left;
-    gridViewAquaRadioButtonGroup.bottom = comboBox.top - 20;
+    gridViewAquaRadioButtonGroup.bottom = comboBox.top - RATIO_HALF_SPACING;
 
     // @private - dynamic layout based on the current ScreenView coordinates
     this.layoutFreeObjectsScreenView = newRatioHalfBounds => {
@@ -161,10 +158,13 @@ class FreeObjectsScreenView extends ScreenView {
       backgroundNode.rectHeight = newRatioHalfBounds.height;
       backgroundNode.bottom = this.layoutBounds.bottom;
 
-      gridNode.layout( ratioContainer.width, newRatioHalfBounds.height );
+      const ratioWidth = leftRatioHalf.width + rightRatioHalf.width + RATIO_HALF_SPACING;
+      gridNode.layout( ratioWidth, newRatioHalfBounds.height );
 
-      ratioContainer.left = gridNode.left = ( this.layoutBounds.width - comboBox.width - ratioContainer.width ) / 2;
-      ratioContainer.bottom = gridNode.bottom = this.layoutBounds.bottom;
+      // combo box is a proxy for the width of the controls
+      leftRatioHalf.left = gridNode.left = ( this.layoutBounds.width - comboBox.width - ratioWidth ) / 2;
+      rightRatioHalf.left = leftRatioHalf.right + RATIO_HALF_SPACING;
+      leftRatioHalf.bottom = rightRatioHalf.bottom = gridNode.bottom = this.layoutBounds.bottom;
     };
     this.layoutFreeObjectsScreenView( defaultRatioHalfBounds );
   }

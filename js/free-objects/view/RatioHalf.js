@@ -34,6 +34,9 @@ import commonReleaseSoundInfo from '../../../../tambo/sounds/release_mp3.js';
 import filledInHandImage from '../../../images/filled-in-hand_png.js';
 import GridView from './GridView.js';
 
+// contants
+const FRAMING_RECTANGLE_HEIGHT = 16;
+
 class RatioHalf extends Rectangle {
 
   /**
@@ -61,9 +64,9 @@ class RatioHalf extends Rectangle {
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
 
     // "Framing" rectangles on the top and bottom of the drag area of the ratio half
-    const topRect = new Rectangle( 0, 0, 10, 16, { fill: 'black' } );
+    const topRect = new Rectangle( 0, 0, 10, FRAMING_RECTANGLE_HEIGHT, { fill: 'black' } );
     this.addChild( topRect );
-    const bottomRect = new Rectangle( 0, 0, 10, 16, { fill: 'black' } );
+    const bottomRect = new Rectangle( 0, 0, 10, FRAMING_RECTANGLE_HEIGHT, { fill: 'black' } );
     this.addChild( bottomRect );
 
     // hide framing border rectangles when the units are being displayed
@@ -206,6 +209,8 @@ class RatioHalf extends Rectangle {
 
       // offset the bounds to account for the pointer's size, since the center of the pointer is controlled by the drag bounds.
       const modelHalfPointerPointer = modelViewTransform.viewToModelDeltaXY( pointer.width / 2, -pointer.height / 2 );
+
+      // TODO: make this based on FRAMING_RECTANGLE_HEIGHT
       const dragBounds = positionProperty.validBounds.erodedXY( modelHalfPointerPointer.x, modelHalfPointerPointer.y );
 
       dragListener.dragBounds = dragBounds;
