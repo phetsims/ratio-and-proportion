@@ -145,7 +145,7 @@ class FreeObjectsScreenView extends ScreenView {
     // static layout
     resetAllButton.right = this.layoutBounds.maxX - ProportionConstants.SCREEN_VIEW_X_MARGIN;
     resetAllButton.bottom = this.layoutBounds.maxY - ProportionConstants.SCREEN_VIEW_Y_MARGIN;
-    comboBox.bottom = resetAllButton.top - 200;
+    comboBox.bottom = resetAllButton.top - 140;
     comboBox.right = resetAllButton.right + 5;
     gridViewAquaRadioButtonGroup.left = comboBox.left;
     gridViewAquaRadioButtonGroup.bottom = comboBox.top - RATIO_HALF_SPACING;
