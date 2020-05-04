@@ -68,7 +68,7 @@ class RatioHalf extends Rectangle {
 
     // hide framing border rectangles when the units are being displayed
     gridViewProperty.link( gridView => {
-      topRect.visible = bottomRect.visible = !GridView.displayUnits( gridView );
+      topRect.visible = bottomRect.visible = gridView === GridView.NONE;
     } );
 
     // The draggable element inside the Node framed with thick rectangles on the top and bottom.
