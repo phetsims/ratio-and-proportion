@@ -61,9 +61,9 @@ class RatioHalf extends Rectangle {
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
 
     // "Framing" rectangles on the top and bottom of the drag area of the ratio half
-    const topRect = new Rectangle( 0, 0, 10, 20, { fill: 'black' } );
+    const topRect = new Rectangle( 0, 0, 10, 16, { fill: 'black' } );
     this.addChild( topRect );
-    const bottomRect = new Rectangle( 0, 0, 10, 20, { fill: 'black' } );
+    const bottomRect = new Rectangle( 0, 0, 10, 16, { fill: 'black' } );
     this.addChild( bottomRect );
 
     // hide framing border rectangles when the units are being displayed
