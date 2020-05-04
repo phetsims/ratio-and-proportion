@@ -95,7 +95,7 @@ class FreeObjectsScreenView extends ScreenView {
     const comboBox = new ComboBox( [
       new ChallengeComboBoxItem( 'Challenge 1', 'green', 1 / 2 ),
       new ChallengeComboBoxItem( 'Challenge 2', 'blue', 1 / 3 ),
-      new ChallengeComboBoxItem( 'Challenge 3', 'magenta', 1 / 8 )
+      new ChallengeComboBoxItem( 'Challenge 3', 'magenta', 3 / 4 )
     ], model.ratioProperty, comboBoxParent );
 
     const resetAllButton = new ResetAllButton( {
