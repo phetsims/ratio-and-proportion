@@ -11,7 +11,6 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Property from '../../../../axon/js/Property.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -40,12 +39,11 @@ class RatioHalf extends Rectangle {
   /**
    * @param {Vector2Property} positionProperty
    * @param {Property.<boolean>} firstInteractionProperty - upon successful interaction, this will be marked as false
-   * @param {Property.<boolean>} ratioHalvesFocusOrHoveredProperty
    * @param {Bounds2} bounds - the area that the node takes up
    * @param {EnumerationProperty.<GridView>} gridViewProperty
    * @param {Object} [options]
    */
-  constructor( positionProperty, firstInteractionProperty, ratioHalvesFocusOrHoveredProperty, bounds, gridViewProperty, options ) {
+  constructor( positionProperty, firstInteractionProperty, bounds, gridViewProperty, options ) {
 
     options = merge( {
       cursor: 'pointer',
@@ -155,14 +153,6 @@ class RatioHalf extends Rectangle {
       }
     } );
 
-    // logic to support cue arrow visibility
-    pointer.addInputListener( {
-      focus: () => { ratioHalvesFocusOrHoveredProperty.value = true; },
-      blur: () => { ratioHalvesFocusOrHoveredProperty.value = false; },
-      enter: () => { ratioHalvesFocusOrHoveredProperty.value = true; },
-      exit: () => { ratioHalvesFocusOrHoveredProperty.value = false; }
-    } );
-
     const cueArrowOptions = {
       fill: '#FFC000',
       stroke: null,
@@ -177,13 +167,11 @@ class RatioHalf extends Rectangle {
     const cueArrowDown = new ArrowNode( 0, 0, 0, 40, cueArrowOptions );
     this.addChild( cueArrowDown );
 
-    // only display the cues arrows before the first interaction, and when any ratio half is focused or hovered on.
-    Property.multilink( [ ratioHalvesFocusOrHoveredProperty, firstInteractionProperty ],
-      ( focusedOrHovered, firstInteraction ) => {
-        const visible = focusedOrHovered && firstInteraction;
-        cueArrowUp.visible = visible;
-        cueArrowDown.visible = visible;
-      } );
+    // only display the cues arrows before the first interaction
+    firstInteractionProperty.link( isFirstInteraction => {
+      cueArrowUp.visible = isFirstInteraction;
+      cueArrowDown.visible = isFirstInteraction;
+    } );
 
     this.mutate( options );
 

@@ -84,9 +84,6 @@ class FreeObjectsModel {
 
     // @public - true before and until first user interaction with the simulation. Reset will apply to this Property.
     this.firstInteractionProperty = new BooleanProperty( true );
-
-    // @public - keep track of when either ratio half is focused or hovered.
-    this.ratioHalvesFocusOrHoveredProperty = new BooleanProperty( false );
   }
 
   /**

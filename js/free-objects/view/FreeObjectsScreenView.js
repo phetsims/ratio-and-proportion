@@ -54,7 +54,6 @@ class FreeObjectsScreenView extends ScreenView {
     const leftRatioHalf = new RatioHalf(
       model.leftPositionProperty,
       model.firstInteractionProperty,
-      model.ratioHalvesFocusOrHoveredProperty,
       defaultRatioHalfBounds,
       this.gridViewProperties.gridViewProperty, {
         labelContent: ratioAndProportionStrings.a11y.leftHand,
@@ -65,7 +64,6 @@ class FreeObjectsScreenView extends ScreenView {
     const rightRatioHalf = new RatioHalf(
       model.rightPositionProperty,
       model.firstInteractionProperty,
-      model.ratioHalvesFocusOrHoveredProperty,
       defaultRatioHalfBounds,
       this.gridViewProperties.gridViewProperty, {
         labelContent: ratioAndProportionStrings.a11y.rightHand
