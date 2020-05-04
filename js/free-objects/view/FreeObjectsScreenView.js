@@ -107,9 +107,7 @@ class FreeObjectsScreenView extends ScreenView {
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
 
-    const gridNode = new ProportionGridNode( this.gridViewProperties, ratioContainer.width, ratioContainer.height, {
-      left: ratioContainer.left
-    } );
+    const gridNode = new ProportionGridNode( this.gridViewProperties, ratioContainer.width, ratioContainer.height );
 
     const backgroundNode = Rectangle.bounds( this.layoutBounds, {
       fill: 'black'
@@ -128,27 +126,6 @@ class FreeObjectsScreenView extends ScreenView {
       node: new RichText( 'Numbered Grid' ),
       value: GridView.HORIZONTAL_UNITS
     } ] );
-
-    // static layout
-    resetAllButton.right = this.layoutBounds.maxX - ProportionConstants.SCREEN_VIEW_X_MARGIN;
-    resetAllButton.bottom = this.layoutBounds.maxY - ProportionConstants.SCREEN_VIEW_Y_MARGIN;
-    comboBox.bottom = resetAllButton.top - 200;
-    comboBox.right = resetAllButton.right + 5;
-    gridViewAquaRadioButtonGroup.left = comboBox.left;
-    gridViewAquaRadioButtonGroup.bottom = comboBox.top - 20;
-
-    // @private - dynamic layout based on the current ScreenView coordinates
-    this.layoutFreeObjectsScreenView = newRatioHalfBounds => {
-
-      leftRatioHalf.layout( newRatioHalfBounds );
-      rightRatioHalf.layout( newRatioHalfBounds );
-      backgroundNode.rectHeight = newRatioHalfBounds.height;
-      backgroundNode.bottom = this.layoutBounds.bottom;
-
-      ratioContainer.left = ( this.layoutBounds.width - comboBox.width - ratioContainer.width ) / 2;
-      ratioContainer.bottom = this.layoutBounds.bottom;
-    };
-    this.layoutFreeObjectsScreenView( defaultRatioHalfBounds );
 
     // children
     this.children = [
@@ -169,6 +146,29 @@ class FreeObjectsScreenView extends ScreenView {
 
     // accessible order
     this.pdomPlayAreaNode.accessibleOrder = [ leftRatioHalf, rightRatioHalf, null ]; // markers first is nav order
+
+    // static layout
+    resetAllButton.right = this.layoutBounds.maxX - ProportionConstants.SCREEN_VIEW_X_MARGIN;
+    resetAllButton.bottom = this.layoutBounds.maxY - ProportionConstants.SCREEN_VIEW_Y_MARGIN;
+    comboBox.bottom = resetAllButton.top - 200;
+    comboBox.right = resetAllButton.right + 5;
+    gridViewAquaRadioButtonGroup.left = comboBox.left;
+    gridViewAquaRadioButtonGroup.bottom = comboBox.top - 20;
+
+    // @private - dynamic layout based on the current ScreenView coordinates
+    this.layoutFreeObjectsScreenView = newRatioHalfBounds => {
+
+      leftRatioHalf.layout( newRatioHalfBounds );
+      rightRatioHalf.layout( newRatioHalfBounds );
+      backgroundNode.rectHeight = newRatioHalfBounds.height;
+      backgroundNode.bottom = this.layoutBounds.bottom;
+
+      gridNode.layout( ratioContainer.width, newRatioHalfBounds.height );
+
+      ratioContainer.left = gridNode.left = ( this.layoutBounds.width - comboBox.width - ratioContainer.width ) / 2;
+      ratioContainer.bottom = gridNode.bottom = this.layoutBounds.bottom;
+    };
+    this.layoutFreeObjectsScreenView( defaultRatioHalfBounds );
   }
 
   /**

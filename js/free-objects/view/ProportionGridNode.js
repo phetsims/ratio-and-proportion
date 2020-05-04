@@ -34,22 +34,33 @@ class ProportionGridNode extends GridNode {
     this.labelsNode = new Node();
     this.addChild( this.labelsNode );
 
+    // @private
+    this.gridViewProperty = gridViewProperties.gridViewProperty;
+
     // support lines to begin with. This handles the case where the GridNode initialized to having no line.
     this.setLineSpacings( null, null, 10, 10 );
     this.mutate( options );
 
-    Property.multilink( [
-      designingProperties.gridBaseUnitProperty,
-      gridViewProperties.gridViewProperty
-    ], ( baseUnit, gridView ) => {
-      const verticalSpacing = GridView.displayVertical( gridView ) ? width / VERTICAL_SPACING : null;
-      const horizontalSpacing = GridView.displayHorizontal( gridView ) ? height / baseUnit : null;
+    Property.multilink( [ designingProperties.gridBaseUnitProperty, gridViewProperties.gridViewProperty ], this.update.bind( this ) );
+  }
 
-      this.setLineSpacings( null, null, verticalSpacing, horizontalSpacing );
+  /**
+   * @public
+   */
+  layout( width, height ) {
+    this.setGridWidth( width );
+    this.setGridHeight( height );
+    this.update( designingProperties.gridBaseUnitProperty.value, this.gridViewProperty.value );
+  }
 
-      this.updateUnitLabels( GridView.displayUnits( gridView ), horizontalSpacing );
-    } );
+  update( baseUnit, gridView ) {
+    const verticalSpacing = this.gridWidth / VERTICAL_SPACING;
+    const horizontalSpacing = this.gridHeight / baseUnit; // TODO: probably should try to keep this consistent across different screenView heights
+    this.setLineSpacings( null, null, verticalSpacing, horizontalSpacing );
 
+    this.visible = GridView.displayVertical( gridView ) || GridView.displayHorizontal( gridView );
+
+    this.updateUnitLabels( GridView.displayUnits( gridView ), horizontalSpacing );
   }
 
   /**
@@ -66,9 +77,9 @@ class ProportionGridNode extends GridNode {
       let i = 0;
 
       // use "5" to ensure that we don't get a unit on the top number, even with weird rounding.
-      for ( let y = 0; y < this.height - 5; y += horizontalSpacing ) {
+      for ( let y = 0; y < this.gridHeight - 5; y += horizontalSpacing ) {
         this.labelsNode.addChild( new Text( i, {
-          bottom: this.height - y,
+          bottom: this.gridHeight - y,
           left: LABEL_X,
           font: new PhetFont( 13 )
         } ) );

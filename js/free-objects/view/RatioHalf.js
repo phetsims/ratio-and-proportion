@@ -203,11 +203,10 @@ class RatioHalf extends Rectangle {
       this.rectWidth = newBounds.width;
       this.rectHeight = newBounds.height;
 
-      const rectWidth = newBounds.width - newBounds.width * .1;
-      topRect.rectWidth = rectWidth;
-      topRect.centerX = newBounds.centerX;
-      bottomRect.rectWidth = rectWidth;
-      bottomRect.centerX = newBounds.centerX;
+      const framingRectWidth = newBounds.width - newBounds.width * .1;
+      topRect.rectWidth = framingRectWidth;
+      topRect.centerX = bottomRect.centerX = newBounds.centerX;
+      bottomRect.rectWidth = framingRectWidth;
       topRect.top = 0;
       bottomRect.bottom = newBounds.height;
 
