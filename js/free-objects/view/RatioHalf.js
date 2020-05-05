@@ -167,10 +167,6 @@ class RatioHalf extends Rectangle {
       positionProperty.validBounds,
       bounds );
 
-    positionProperty.link( position => {
-      pointer.translation = modelViewTransform.modelToViewPosition( position );
-    } );
-
     const recomputeDragBounds = () => {
 
       // offset the bounds to account for the pointer's size, since the center of the pointer is controlled by the drag bounds.
@@ -181,32 +177,6 @@ class RatioHalf extends Rectangle {
 
       dragListener.dragBounds = dragBounds;
       keyboardDragListener.dragBounds = dragBounds;
-    };
-
-    // @private
-    this.layoutRatioHalf = newBounds => {
-      this.rectWidth = newBounds.width;
-      this.rectHeight = newBounds.height;
-
-      const framingRectWidth = newBounds.width - newBounds.width * .1;
-      topRect.rectWidth = framingRectWidth;
-      topRect.centerX = bottomRect.centerX = newBounds.centerX;
-      bottomRect.rectWidth = framingRectWidth;
-      topRect.top = 0;
-      bottomRect.bottom = newBounds.height;
-
-      modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
-        positionProperty.validBounds,
-        newBounds.erodedY( FRAMING_RECTANGLE_HEIGHT ) );
-
-      pointer.translation = modelViewTransform.modelToViewPosition( positionProperty.value );
-      cueArrowUp.bottom = pointer.top - 20;
-      cueArrowDown.top = pointer.bottom + 20;
-      cueArrowUp.centerX = cueArrowDown.centerX = pointer.centerX;
-
-      recomputeDragBounds();
-      dragListener.transform = modelViewTransform;
-      keyboardDragListener.transform = modelViewTransform;
     };
 
     designingProperties.markerDisplayProperty.link( displayType => {
@@ -224,6 +194,39 @@ class RatioHalf extends Rectangle {
       }
       recomputeDragBounds();
     } );
+
+    const updatePointer = position => {
+      pointer.translation = modelViewTransform.modelToViewPosition( position );
+
+      // recenter cue arrows
+      cueArrowUp.bottom = pointer.top - 20;
+      cueArrowDown.top = pointer.bottom + 20;
+      cueArrowUp.centerX = cueArrowDown.centerX = pointer.centerX;
+    };
+    positionProperty.link( updatePointer );
+
+    // @private
+    this.layoutRatioHalf = newBounds => {
+      this.rectWidth = newBounds.width;
+      this.rectHeight = newBounds.height;
+
+      const framingRectWidth = newBounds.width - newBounds.width * .1;
+      topRect.rectWidth = framingRectWidth;
+      topRect.centerX = bottomRect.centerX = newBounds.centerX;
+      bottomRect.rectWidth = framingRectWidth;
+      topRect.top = 0;
+      bottomRect.bottom = newBounds.height;
+
+      modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
+        positionProperty.validBounds,
+        newBounds.erodedY( FRAMING_RECTANGLE_HEIGHT ) );
+
+      updatePointer( positionProperty.value );
+
+      recomputeDragBounds();
+      dragListener.transform = modelViewTransform;
+      keyboardDragListener.transform = modelViewTransform;
+    };
   }
 
   /**
