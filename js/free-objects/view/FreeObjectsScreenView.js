@@ -112,14 +112,19 @@ class FreeObjectsScreenView extends ScreenView {
 
     const gridViewAquaRadioButtonGroup = new VerticalAquaRadioButtonGroup( this.gridViewProperties.gridViewProperty, [ {
       node: new RichText( 'None' ),
-      value: GridView.NONE
+      value: GridView.NONE,
+      labelContent: ratioAndProportionStrings.a11y.grid.showNo
     }, {
       node: new RichText( 'Grid' ),
-      value: GridView.HORIZONTAL
+      value: GridView.HORIZONTAL,
+      labelContent: ratioAndProportionStrings.a11y.grid.show
     }, {
       node: new RichText( 'Numbered Grid' ),
-      value: GridView.HORIZONTAL_UNITS
-    } ] );
+      value: GridView.HORIZONTAL_UNITS,
+      labelContent: ratioAndProportionStrings.a11y.grid.showNumbered
+    } ], {
+      labelContent: ratioAndProportionStrings.a11y.grid.heading
+    } );
 
     // children
     this.children = [

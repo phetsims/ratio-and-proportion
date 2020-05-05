@@ -16,6 +16,20 @@
     },
     "rightHand": {
       "value": "Right Hand"
+    },
+    "grid": {
+      "heading": {
+        "value": "Grid Control"
+      },
+      "showNo": {
+        "value": "Show no grid"
+      },
+      "show": {
+        "value": "Show grid"
+      },
+      "showNumbered": {
+        "value": "Show numbered grid"
+      }
     }
   }
 }
