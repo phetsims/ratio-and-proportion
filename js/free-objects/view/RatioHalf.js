@@ -197,7 +197,7 @@ class RatioHalf extends Rectangle {
 
       modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
         positionProperty.validBounds,
-        newBounds );
+        newBounds.erodedY( FRAMING_RECTANGLE_HEIGHT ) );
 
       pointer.translation = modelViewTransform.modelToViewPosition( positionProperty.value );
       cueArrowUp.bottom = pointer.top - 20;
