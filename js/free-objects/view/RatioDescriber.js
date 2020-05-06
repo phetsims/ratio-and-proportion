@@ -47,32 +47,28 @@ class RatioDescriber {
   }
 
   /**
-   * @param {boolean} qualitative - vs quantitative
+   * @public
    * @returns {string}
    */
-  getLeftPointerPosition( qualitative ) {
-    return this.getPointerPosition( qualitative, this.leftValueProperty );
+  getLeftQualitativePointerPosition() {
+    return this.getQualitativePointerPosition( this.leftValueProperty );
   }
 
   /**
-   * @param {boolean} qualitative - vs quantitative
+   * @public
    * @returns {string}
    */
-  getRightPointerPosition( qualitative ) {
-    return this.getPointerPosition( qualitative, this.rightValueProperty );
+  getRightQualitativePointerPosition() {
+    return this.getQualitativePointerPosition( this.rightValueProperty );
   }
 
   /**
-   * @param {boolean} qualitative - vs quantitative
+   * @private
    * @param {Property.<number>} property
-   * @returns {*}
+   * @returns {string}
    */
-  getPointerPosition( qualitative, property ) {
-
-    if ( qualitative ) {
-      return QUALITATIVE_POSITIONS[ this.getQualitativePositionIndex( property.value ) ];
-    }
-    assert && assert( false, 'quantitative not yet supported' );
+  getQualitativePointerPosition( property ) {
+    return QUALITATIVE_POSITIONS[ this.getQualitativePositionIndex( property.value ) ];
   }
 
   /**

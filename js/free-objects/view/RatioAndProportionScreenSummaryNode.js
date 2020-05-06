@@ -67,8 +67,8 @@ class RatioAndProportionScreenSummaryNode extends Node {
 
     if ( qualitative ) {
       return StringUtils.fillIn( ratioAndProportionStrings.a11y.screenSummary.qualitativeStateOfSim, {
-        leftPosition: this.ratioDescriber.getLeftPointerPosition( qualitative ),
-        rightPosition: this.ratioDescriber.getLeftPointerPosition( qualitative ),
+        leftPosition: this.ratioDescriber.getLeftQualitativePointerPosition(),
+        rightPosition: this.ratioDescriber.getRightQualitativePointerPosition(),
         ratioFitness: ratioFitness
       } );
     }
