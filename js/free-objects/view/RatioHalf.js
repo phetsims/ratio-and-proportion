@@ -172,8 +172,9 @@ class RatioHalf extends Rectangle {
       // offset the bounds to account for the pointer's size, since the center of the pointer is controlled by the drag bounds.
       const modelHalfPointerPointer = modelViewTransform.viewToModelDeltaXY( pointer.width / 2, -FRAMING_RECTANGLE_HEIGHT );
 
-      // TODO: make this based on FRAMING_RECTANGLE_HEIGHT
-      const dragBounds = positionProperty.validBounds.erodedXY( modelHalfPointerPointer.x, modelHalfPointerPointer.y );
+      // constrain x dimension inside the RatioHalf so that pointer doesn't go beyond the width. Height is constrained
+      // via the modelViewTransform.
+      const dragBounds = positionProperty.validBounds.erodedX( modelHalfPointerPointer.x );
 
       dragListener.dragBounds = dragBounds;
       keyboardDragListener.dragBounds = dragBounds;
@@ -217,6 +218,7 @@ class RatioHalf extends Rectangle {
       topRect.top = 0;
       bottomRect.bottom = newBounds.height;
 
+      // Don't count the space the framing rectangles take up as part of the draggableArea.
       modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
         positionProperty.validBounds,
         newBounds.erodedY( FRAMING_RECTANGLE_HEIGHT ) );
