@@ -26,4 +26,6 @@ class DesigningProperties {
   }
 }
 
-export default ratioAndProportion.register( 'designingProperties', new DesigningProperties() );
+const designingProperties = new DesigningProperties();
+ratioAndProportion.register( 'designingProperties', designingProperties );
+export default designingProperties;
