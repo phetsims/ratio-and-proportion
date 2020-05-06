@@ -7,4 +7,6 @@
 import Enumeration from '../../../phet-core/js/Enumeration.js';
 import ratioAndProportion from '../ratioAndProportion.js';
 
-export default ratioAndProportion.register( 'CursorDisplay', Enumeration.byKeys( [ 'CIRCLE', 'CROSS', 'HAND' ] ) );
+const CursorDisplay = Enumeration.byKeys( [ 'CIRCLE', 'CROSS', 'HAND' ] );
+ratioAndProportion.register( 'CursorDisplay', CursorDisplay );
+export default CursorDisplay;
