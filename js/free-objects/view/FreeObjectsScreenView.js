@@ -99,7 +99,7 @@ class FreeObjectsScreenView extends ScreenView {
       new ChallengeComboBoxItem( 'Challenge 2', 'blue', 1 / 3, { a11yLabel: 'Challenge 2' } ),
       new ChallengeComboBoxItem( 'Challenge 3', 'magenta', 3 / 4, { a11yLabel: 'Challenge 3' } )
     ], model.ratioProperty, comboBoxParent, {
-      accessibleName: ratioAndProportionStrings.a11y.challenges
+      accessibleName: ratioAndProportionStrings.a11y.ratioChallenges
     } );
 
     const resetAllButton = new ResetAllButton( {

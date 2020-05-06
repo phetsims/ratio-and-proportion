@@ -80,8 +80,8 @@
         "value": "Very far from"
       }
     },
-    "challenges": {
-      "value": "Challenges"
+    "ratioChallenges": {
+      "value": "Ratio Challenges"
     }
   }
 }
