@@ -21,12 +21,12 @@ const LABEL_X = 0;
 class ProportionGridNode extends GridNode {
 
   /**
-   * @param {GridViewProperties} gridViewProperties
+   * @param {Property.<GridView>} gridViewProperty
    * @param {number} width
    * @param {number} height
    * @param {Object} [options]
    */
-  constructor( gridViewProperties, width, height, options ) {
+  constructor( gridViewProperty, width, height, options ) {
 
     super( width, height );
 
@@ -35,13 +35,13 @@ class ProportionGridNode extends GridNode {
     this.addChild( this.labelsNode );
 
     // @private
-    this.gridViewProperty = gridViewProperties.gridViewProperty;
+    this.gridViewProperty = gridViewProperty;
 
     // support lines to begin with. This handles the case where the GridNode initialized to having no line.
     this.setLineSpacings( null, null, 10, 10 );
     this.mutate( options );
 
-    Property.multilink( [ designingProperties.gridBaseUnitProperty, gridViewProperties.gridViewProperty ], this.update.bind( this ) );
+    Property.multilink( [ designingProperties.gridBaseUnitProperty, gridViewProperty ], this.update.bind( this ) );
   }
 
   /**

@@ -14,7 +14,7 @@
         "value": "Currently, left hand is {{leftPosition}}, right hand is {{rightPosition}}. {{ratioFitness}} ratio."
       },
       "quantitativeStateOfSim": {
-        "value": "Currently, left hand {{above}} grid position {{1}}, right hand {{above}} grid position {{2}}. {{At}} ratio."
+        "value": "Currently, left hand {{leftRelativePosition}} grid position {{leftGridPosition}}, right hand {{rightRelativePosition}} grid position {{rightGridPosition}}. {{ratioFitness}} ratio."
       },
       "simSpecificInteractionHint": {
         "value": "Explore the two movable objects to begin."
@@ -38,6 +38,17 @@
       },
       "showNumbered": {
         "value": "Show numbered grid"
+      },
+      "relative": {
+        "above": {
+          "value": "above"
+        },
+        "inTheMiddleOf": {
+          "value": "in the middle of"
+        },
+        "below": {
+          "value": "below"
+        }
       }
     },
     "pointerPosition": {

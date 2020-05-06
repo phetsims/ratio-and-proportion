@@ -30,17 +30,20 @@ class RatioDescriber {
 
   /**
    * @param {FreeObjectsModel} model
-   * @param {Tandem} tandem
+   * @param {GridDescriber} gridDescriber
    */
-  constructor( model ) {
+  constructor( model, gridDescriber ) {
 
+    // @private - from model
     this.proportionFitnessProperty = model.proportionFitnessProperty;
     this.leftValueProperty = model.leftValueProperty;
     this.rightValueProperty = model.rightValueProperty;
     this.valueRange = model.valueRange;
-
     this.proportionFitnessProperty = model.proportionFitnessProperty;
     this.fitnessRange = model.fitnessRange;
+
+    // @private
+    this.gridDescriber = gridDescriber;
   }
 
   /**
@@ -97,6 +100,22 @@ class RatioDescriber {
       }
       assert && assert( false, 'we should not get here' );
     }
+  }
+
+  /**
+   * @public
+   * @returns {{grid: number, relativePosition: string}}
+   */
+  getLeftQuantitativePositionObject() {
+    return this.gridDescriber.getRelativePositionAndGridNumberForProperty( this.leftValueProperty );
+  }
+
+  /**
+   * @public
+   * @returns {{grid: number, relativePosition: string}}
+   */
+  getRightQuantitativePositionObject() {
+    return this.gridDescriber.getRelativePositionAndGridNumberForProperty( this.rightValueProperty );
   }
 
   /**

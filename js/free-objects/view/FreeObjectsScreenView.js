@@ -5,6 +5,7 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
@@ -18,13 +19,13 @@ import ProportionConstants from '../../common/ProportionConstants.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import ChallengeComboBoxItem from './ChallengeComboBoxItem.js';
+import GridDescriber from './GridDescriber.js';
 import RatioAndProportionScreenSummaryNode from './RatioAndProportionScreenSummaryNode.js';
 import RatioDescriber from './RatioDescriber.js';
 import ProportionFitnessSoundGenerator from './sound/ProportionFitnessSoundGenerator.js';
 import ProportionMarkerInput from './ProportionMarkerInput.js';
 import RatioHalf from './RatioHalf.js';
 import GridView from './GridView.js';
-import GridViewProperties from './GridViewProperties.js';
 import ProportionGridNode from './ProportionGridNode.js';
 
 // constants
@@ -42,7 +43,12 @@ class FreeObjectsScreenView extends ScreenView {
    */
   constructor( model, tandem ) {
 
-    const ratioDescriber = new RatioDescriber( model );
+    const gridDescriber = new GridDescriber( model.valueRange );
+    const ratioDescriber = new RatioDescriber( model, gridDescriber );
+
+    const gridViewProperty = new EnumerationProperty( GridView, GridView.NONE, {
+      tandem: tandem.createTandem( 'gridViewProperty' )
+    } );
 
     super( {
       tandem: tandem,
@@ -51,12 +57,13 @@ class FreeObjectsScreenView extends ScreenView {
         model.proportionFitnessProperty,
         model.leftValueProperty,
         model.rightValueProperty,
+        gridViewProperty,
         ratioDescriber
       )
     } );
 
     // @private
-    this.gridViewProperties = new GridViewProperties( tandem.createTandem( 'gridViewProperties' ) );
+    this.gridViewProperty = gridViewProperty;
 
     const defaultRatioHalfBounds = Bounds2.rect( 0, 0, RATIO_HALF_WIDTH, LAYOUT_BOUNDS.height );
 
@@ -64,7 +71,7 @@ class FreeObjectsScreenView extends ScreenView {
       model.leftPositionProperty,
       model.firstInteractionProperty,
       defaultRatioHalfBounds,
-      this.gridViewProperties.gridViewProperty, {
+      gridViewProperty, {
         labelContent: ratioAndProportionStrings.a11y.leftHand,
         isRight: false // this way we get a left hand
       }
@@ -74,7 +81,7 @@ class FreeObjectsScreenView extends ScreenView {
       model.rightPositionProperty,
       model.firstInteractionProperty,
       defaultRatioHalfBounds,
-      this.gridViewProperties.gridViewProperty, {
+      gridViewProperty, {
         labelContent: ratioAndProportionStrings.a11y.rightHand
       } );
 
@@ -112,7 +119,7 @@ class FreeObjectsScreenView extends ScreenView {
     } );
 
     // these dimensions are just temporary, and will be recomputed below in the layout function
-    const gridNode = new ProportionGridNode( this.gridViewProperties, 100, 100 );
+    const gridNode = new ProportionGridNode( gridViewProperty, 100, 100 );
 
     const backgroundNode = Rectangle.bounds( this.layoutBounds, {
       fill: 'black'
@@ -121,7 +128,7 @@ class FreeObjectsScreenView extends ScreenView {
       backgroundNode.setFill( color );
     } );
 
-    const gridViewAquaRadioButtonGroup = new VerticalAquaRadioButtonGroup( this.gridViewProperties.gridViewProperty, [ {
+    const gridViewAquaRadioButtonGroup = new VerticalAquaRadioButtonGroup( gridViewProperty, [ {
       node: new RichText( 'None' ),
       value: GridView.NONE,
       labelContent: ratioAndProportionStrings.a11y.grid.showNo
@@ -229,7 +236,7 @@ class FreeObjectsScreenView extends ScreenView {
    * @override
    */
   reset() {
-    this.gridViewProperties.reset();
+    this.gridViewProperty.reset();
   }
 
   /**

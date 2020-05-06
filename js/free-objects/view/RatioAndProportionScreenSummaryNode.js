@@ -10,14 +10,18 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import GridView from './GridView.js';
 
 class RatioAndProportionScreenSummaryNode extends Node {
 
   /**
    * @param {Property.<number>} proportionFitnessProperty
+   * @param {Property.<number>} leftValueProperty
+   * @param {Property.<number>} rightValueProperty
+   * @param {Property.<GridView>} gridViewProperty
    * @param {RatioDescriber} ratioDescriber
    */
-  constructor( proportionFitnessProperty, leftValueProperty, rightValueProperty, ratioDescriber ) {
+  constructor( proportionFitnessProperty, leftValueProperty, rightValueProperty, gridViewProperty, ratioDescriber ) {
 
     const stateOfSimNode = new Node( {
       tagName: 'p'
@@ -45,24 +49,41 @@ class RatioAndProportionScreenSummaryNode extends Node {
     this.ratioDescriber = ratioDescriber;
 
     // This derivedProperty is already dependent on all other dependencies for getStateOfSimString
-    Property.multilink( [ proportionFitnessProperty, leftValueProperty, rightValueProperty ], () => {
-      stateOfSimNode.innerContent = this.getStateOfSimString( true );// TODO: support quantitative
+    Property.multilink( [ gridViewProperty, proportionFitnessProperty, leftValueProperty, rightValueProperty ], gridView => {
+      const isQualitative = gridView === GridView.NONE; // TODO: likely factor this out into a GridView method for general description
+      stateOfSimNode.innerContent = this.getStateOfSimString( isQualitative, leftValueProperty, rightValueProperty );
     } );
   }
 
   /**
+   * @private
    * @param {boolean} qualitative - vs quantitative
+   * @param {Property.<number>} leftValueProperty
+   * @param {Property.<number>} rightValueProperty
    * @returns {string}
    */
-  getStateOfSimString( qualitative ) {
+  getStateOfSimString( qualitative, leftValueProperty, rightValueProperty ) {
+    const ratioFitness = this.ratioDescriber.getRatioFitness();
 
-    const string = qualitative ? ratioAndProportionStrings.a11y.screenSummary.qualitativeStateOfSim :
-                   ratioAndProportionStrings.a11y.screenSummary.quantitativeStateOfSim;
-    return StringUtils.fillIn( string, {
-      leftPosition: this.ratioDescriber.getLeftPointerPosition( qualitative ),
-      rightPosition: this.ratioDescriber.getLeftPointerPosition( qualitative ),
-      ratioFitness: this.ratioDescriber.getRatioFitness()
-    } );
+    if ( qualitative ) {
+      return StringUtils.fillIn( ratioAndProportionStrings.a11y.screenSummary.qualitativeStateOfSim, {
+        leftPosition: this.ratioDescriber.getLeftPointerPosition( qualitative ),
+        rightPosition: this.ratioDescriber.getLeftPointerPosition( qualitative ),
+        ratioFitness: ratioFitness
+      } );
+    }
+    else {
+      const leftGridAndPosition = this.ratioDescriber.getLeftQuantitativePositionObject();
+      const rightGridAndPosition = this.ratioDescriber.getRightQuantitativePositionObject();
+
+      return StringUtils.fillIn( ratioAndProportionStrings.a11y.screenSummary.quantitativeStateOfSim, {
+        leftRelativePosition: leftGridAndPosition.relativePosition,
+        leftGridPosition: leftGridAndPosition.gridPosition,
+        rightRelativePosition: rightGridAndPosition.relativePosition,
+        rightGridPosition: rightGridAndPosition.gridPosition,
+        ratioFitness: ratioFitness
+      } );
+    }
   }
 }
 
