@@ -15,6 +15,9 @@
       },
       "quantitativeStateOfSim": {
         "value": "Currently, left hand {{above}} grid position {{1}}, right hand {{above}} grid position {{2}}. {{At}} ratio."
+      },
+      "simSpecificInteractionHint": {
+        "value": "Explore the two movable objects to begin."
       }
     },
     "leftHand": {

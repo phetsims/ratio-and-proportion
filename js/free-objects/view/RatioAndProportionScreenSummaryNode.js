@@ -33,7 +33,11 @@ class RatioAndProportionScreenSummaryNode extends Node {
           tagName: 'p',
           innerContent: ratioAndProportionStrings.a11y.screenSummary.controlAreaDescription
         } ),
-        stateOfSimNode
+        stateOfSimNode,
+        new Node( {
+          tagName: 'p',
+          innerContent: ratioAndProportionStrings.a11y.screenSummary.simSpecificInteractionHint
+        } )
       ]
     } );
 
