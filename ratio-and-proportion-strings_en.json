@@ -79,6 +79,9 @@
       "veryFarFrom": {
         "value": "Very far from"
       }
+    },
+    "challenges": {
+      "value": "Challenges"
     }
   }
 }

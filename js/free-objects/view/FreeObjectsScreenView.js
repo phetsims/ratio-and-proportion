@@ -95,10 +95,12 @@ class FreeObjectsScreenView extends ScreenView {
     const comboBoxParent = new Node();
 
     const comboBox = new ComboBox( [
-      new ChallengeComboBoxItem( 'Challenge 1', 'green', 1 / 2 ),
-      new ChallengeComboBoxItem( 'Challenge 2', 'blue', 1 / 3 ),
-      new ChallengeComboBoxItem( 'Challenge 3', 'magenta', 3 / 4 )
-    ], model.ratioProperty, comboBoxParent );
+      new ChallengeComboBoxItem( 'Challenge 1', 'green', 1 / 2, { a11yLabel: 'Challenge 1' } ),
+      new ChallengeComboBoxItem( 'Challenge 2', 'blue', 1 / 3, { a11yLabel: 'Challenge 2' } ),
+      new ChallengeComboBoxItem( 'Challenge 3', 'magenta', 3 / 4, { a11yLabel: 'Challenge 3' } )
+    ], model.ratioProperty, comboBoxParent, {
+      accessibleName: ratioAndProportionStrings.a11y.challenges
+    } );
 
     const resetAllButton = new ResetAllButton( {
       listener: () => {
@@ -153,8 +155,8 @@ class FreeObjectsScreenView extends ScreenView {
       rightRatioHalf
     ];
 
-    // accessible order
-    this.pdomPlayAreaNode.accessibleOrder = [ leftRatioHalf, rightRatioHalf, null ]; // markers first is nav order
+    // accessible order (markers first in nav order)
+    this.pdomPlayAreaNode.accessibleOrder = [ leftRatioHalf, rightRatioHalf, comboBox, comboBoxParent, null ];
 
     // static layout
     resetAllButton.right = this.layoutBounds.maxX - ProportionConstants.SCREEN_VIEW_X_MARGIN;
