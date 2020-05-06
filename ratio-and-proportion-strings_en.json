@@ -9,6 +9,12 @@
       },
       "controlAreaDescription": {
         "value": "The Control Area has a button to reset the sim."
+      },
+      "qualitativeStateOfSim": {
+        "value": "Currently, left hand is {{leftPosition}}, right hand is {{rightPosition}}. {{ratioFitness}} ratio."
+      },
+      "quantitativeStateOfSim": {
+        "value": "Currently, left hand {{above}} grid position {{1}}, right hand {{above}} grid position {{2}}. {{At}} ratio."
       }
     },
     "leftHand": {
@@ -29,6 +35,49 @@
       },
       "showNumbered": {
         "value": "Show numbered grid"
+      }
+    },
+    "pointerPosition": {
+      "atTheTop": {
+        "value": "at the top"
+      },
+      "nearTheTop": {
+        "value": "near the top"
+      },
+      "somewhatCloseToTheTop": {
+        "value": "somewhat close to the top"
+      },
+      "inTheMiddle": {
+        "value": "in the middle"
+      },
+      "somewhatCloseToTheBottom": {
+        "value": "somewhat close to the bottom"
+      },
+      "nearTheBottom": {
+        "value": "near the bottom"
+      },
+      "atTheBottom": {
+        "value": "at the bottom"
+      }
+    },
+    "ratio": {
+      "at": {
+        "value": "At"
+      },
+      "veryCloseTo": {
+        "value": "Very close to"
+      },
+      "somewhatCloseTo": {
+        "value": "Somewhat close to"
+      },
+      "notCloseTo": {
+        "value": "Not close to"
+      },
+      "farFrom": {
+        "value": "Far from"
+      },
+      "veryFarFrom": {
+        "value": "Very far from"
       }
     }
   }

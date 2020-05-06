@@ -19,6 +19,7 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import ChallengeComboBoxItem from './ChallengeComboBoxItem.js';
 import RatioAndProportionScreenSummaryNode from './RatioAndProportionScreenSummaryNode.js';
+import RatioDescriber from './RatioDescriber.js';
 import ProportionFitnessSoundGenerator from './sound/ProportionFitnessSoundGenerator.js';
 import ProportionMarkerInput from './ProportionMarkerInput.js';
 import RatioHalf from './RatioHalf.js';
@@ -40,10 +41,18 @@ class FreeObjectsScreenView extends ScreenView {
    * @param {Tandem} tandem
    */
   constructor( model, tandem ) {
+
+    const ratioDescriber = new RatioDescriber( model );
+
     super( {
       tandem: tandem,
       layoutBounds: LAYOUT_BOUNDS,
-      screenSummaryContent: new RatioAndProportionScreenSummaryNode()
+      screenSummaryContent: new RatioAndProportionScreenSummaryNode(
+        model.proportionFitnessProperty,
+        model.leftValueProperty,
+        model.rightValueProperty,
+        ratioDescriber
+      )
     } );
 
     // @private

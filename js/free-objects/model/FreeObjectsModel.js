@@ -31,7 +31,10 @@ class FreeObjectsModel {
     this.ratioProperty = new NumberProperty( .5 );
     this.toleranceProperty = new NumberProperty( .05 );
 
-    const modelBounds = new Bounds2( -.5, 0, .5, 1 );
+    // @public
+    this.valueRange = new Range( 0, 1 );
+
+    const modelBounds = new Bounds2( -.5, this.valueRange.min, .5, this.valueRange.max );
 
     this.leftPositionProperty = new Vector2Property( new Vector2( 0, .2 ), {
       tandem: tandem.createTandem( 'leftBarProperty' ),
