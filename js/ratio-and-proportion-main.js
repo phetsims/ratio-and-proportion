@@ -7,7 +7,7 @@
  */
 
 import Sim from '../../joist/js/Sim.js';
-import SimLauncher from '../../joist/js/SimLauncher.js';
+import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import designingProperties from './common/designingProperties.js';
 import ProportionOptionsDialogContent from './free-objects/view/ProportionOptionsDialogContent.js';
@@ -30,9 +30,9 @@ const simOptions = {
   createOptionsDialogContent: () => new ProportionOptionsDialogContent( designingProperties )
 };
 
-// launch the sim - beware that scenery Image nodes created outside of SimLauncher.launch() will have zero bounds
+// launch the sim - beware that scenery Image nodes created outside of simLauncher.launch() will have zero bounds
 // until the images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70
-SimLauncher.launch( () => {
+simLauncher.launch( () => {
   const sim = new Sim( ratioAndProportionTitleString, [
     new FreeObjectsScreen( Tandem.ROOT.createTandem( 'freeObjectsScreen' ) )
   ], simOptions );
