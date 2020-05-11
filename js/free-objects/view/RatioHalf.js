@@ -32,6 +32,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import commonGrabSoundInfo from '../../../../tambo/sounds/grab_mp3.js';
 import commonReleaseSoundInfo from '../../../../tambo/sounds/release_mp3.js';
 import filledInHandImage from '../../../images/filled-in-hand_png.js';
+import FreeObjectAlertManager from './FreeObjectAlertManager.js';
 import GridView from './GridView.js';
 
 // contants
@@ -41,12 +42,15 @@ class RatioHalf extends Rectangle {
 
   /**
    * @param {Vector2Property} positionProperty
+   * @param {NumberProperty} valueProperty
    * @param {Property.<boolean>} firstInteractionProperty - upon successful interaction, this will be marked as false
    * @param {Bounds2} bounds - the area that the node takes up
    * @param {EnumerationProperty.<GridView>} gridViewProperty
+   * @param {RatioDescriber} ratioDescriber
+   * @param {GridDescriber} gridDescriber
    * @param {Object} [options]
    */
-  constructor( positionProperty, firstInteractionProperty, bounds, gridViewProperty, options ) {
+  constructor( positionProperty, valueProperty, firstInteractionProperty, bounds, gridViewProperty, ratioDescriber, gridDescriber, options ) {
 
     options = merge( {
       cursor: 'pointer',
@@ -73,6 +77,9 @@ class RatioHalf extends Rectangle {
     gridViewProperty.link( gridView => {
       topRect.visible = bottomRect.visible = gridView === GridView.NONE;
     } );
+
+    // @private
+    this.alertManager = new FreeObjectAlertManager( valueProperty, gridViewProperty, ratioDescriber, gridDescriber );
 
     // The draggable element inside the Node framed with thick rectangles on the top and bottom.
     const pointer = new Node( {
@@ -120,6 +127,7 @@ class RatioHalf extends Rectangle {
       end: () => {
         commonReleaseSoundClip.play();
         this.isBeingInteractedWithProperty.value = false;
+        this.alertManager.dragEndListener( valueProperty.get() );
       }
     } );
     pointer.addInputListener( dragListener );
@@ -127,7 +135,8 @@ class RatioHalf extends Rectangle {
     // transform and dragBounds set in layout code below
     const keyboardDragListener = new KeyboardDragListener( {
       positionProperty: positionProperty,
-      start: () => { firstInteractionProperty.value = false; }
+      start: () => { firstInteractionProperty.value = false; },
+      end: () => this.alertManager.dragEndListener( valueProperty.get() )
     } );
     pointer.addInputListener( keyboardDragListener );
     pointer.addInputListener( {
@@ -237,6 +246,13 @@ class RatioHalf extends Rectangle {
    */
   layout( bounds ) {
     this.layoutRatioHalf( bounds );
+  }
+
+  /**
+   * @public
+   */
+  reset() {
+    this.alertManager.reset();
   }
 }
 

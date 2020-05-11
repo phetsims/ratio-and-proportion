@@ -67,21 +67,29 @@ class FreeObjectsScreenView extends ScreenView {
 
     const defaultRatioHalfBounds = Bounds2.rect( 0, 0, RATIO_HALF_WIDTH, LAYOUT_BOUNDS.height );
 
-    const leftRatioHalf = new RatioHalf(
+    // @private {RatioHalf}
+    this.leftRatioHalf = new RatioHalf(
       model.leftPositionProperty,
+      model.leftValueProperty,
       model.firstInteractionProperty,
       defaultRatioHalfBounds,
-      gridViewProperty, {
+      gridViewProperty,
+      ratioDescriber,
+      gridDescriber,{
         labelContent: ratioAndProportionStrings.a11y.leftHand,
         isRight: false // this way we get a left hand
       }
     );
 
-    const rightRatioHalf = new RatioHalf(
+    // @private {RatioHalf}
+    this.rightRatioHalf = new RatioHalf(
       model.rightPositionProperty,
+      model.rightValueProperty,
       model.firstInteractionProperty,
       defaultRatioHalfBounds,
-      gridViewProperty, {
+      gridViewProperty,
+      ratioDescriber,
+      gridDescriber, {
         labelContent: ratioAndProportionStrings.a11y.rightHand
       } );
 
@@ -93,8 +101,8 @@ class FreeObjectsScreenView extends ScreenView {
       model.proportionFitnessProperty,
       model.fitnessRange,
       DerivedProperty.or( [
-        leftRatioHalf.isBeingInteractedWithProperty,
-        rightRatioHalf.isBeingInteractedWithProperty,
+        this.leftRatioHalf.isBeingInteractedWithProperty,
+        this.rightRatioHalf.isBeingInteractedWithProperty,
         this.markerInput.isBeingInteractedWithProperty
       ] ) );
     soundManager.addSoundGenerator( this.proportionFitnessSoundGenerator );
@@ -158,12 +166,12 @@ class FreeObjectsScreenView extends ScreenView {
       comboBoxParent,
 
       // Main ratio on top
-      leftRatioHalf,
-      rightRatioHalf
+      this.leftRatioHalf,
+      this.rightRatioHalf
     ];
 
     // accessible order (markers first in nav order)
-    this.pdomPlayAreaNode.accessibleOrder = [ leftRatioHalf, rightRatioHalf, comboBox, comboBoxParent, null ];
+    this.pdomPlayAreaNode.accessibleOrder = [ this.leftRatioHalf, this.rightRatioHalf, comboBox, comboBoxParent, null ];
 
     // static layout
     resetAllButton.right = this.layoutBounds.maxX - ProportionConstants.SCREEN_VIEW_X_MARGIN;
@@ -176,20 +184,20 @@ class FreeObjectsScreenView extends ScreenView {
     // @private - dynamic layout based on the current ScreenView coordinates
     this.layoutFreeObjectsScreenView = newRatioHalfBounds => {
 
-      leftRatioHalf.layout( newRatioHalfBounds );
-      rightRatioHalf.layout( newRatioHalfBounds );
+      this.leftRatioHalf.layout( newRatioHalfBounds );
+      this.rightRatioHalf.layout( newRatioHalfBounds );
       backgroundNode.rectHeight = newRatioHalfBounds.height;
       backgroundNode.bottom = this.layoutBounds.bottom;
 
-      const ratioWidth = leftRatioHalf.width + rightRatioHalf.width + RATIO_HALF_SPACING;
+      const ratioWidth = this.leftRatioHalf.width + this.rightRatioHalf.width + RATIO_HALF_SPACING;
 
       // subtract the top and bottom rectangles from the grid height
       gridNode.layout( ratioWidth, newRatioHalfBounds.height - 2 * RatioHalf.FRAMING_RECTANGLE_HEIGHT );
 
       // combo box is a proxy for the width of the controls
-      leftRatioHalf.left = gridNode.left = ( this.layoutBounds.width - comboBox.width - ratioWidth ) / 2;
-      rightRatioHalf.left = leftRatioHalf.right + RATIO_HALF_SPACING;
-      leftRatioHalf.bottom = rightRatioHalf.bottom = this.layoutBounds.bottom;
+      this.leftRatioHalf.left = gridNode.left = ( this.layoutBounds.width - comboBox.width - ratioWidth ) / 2;
+      this.rightRatioHalf.left = this.leftRatioHalf.right + RATIO_HALF_SPACING;
+      this.leftRatioHalf.bottom = this.rightRatioHalf.bottom = this.layoutBounds.bottom;
       gridNode.bottom = this.layoutBounds.bottom - RatioHalf.FRAMING_RECTANGLE_HEIGHT;
     };
     this.layoutFreeObjectsScreenView( defaultRatioHalfBounds );
@@ -237,6 +245,9 @@ class FreeObjectsScreenView extends ScreenView {
    */
   reset() {
     this.gridViewProperty.reset();
+
+    this.leftRatioHalf.reset();
+    this.rightRatioHalf.reset();
   }
 
   /**

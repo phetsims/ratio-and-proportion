@@ -26,6 +26,23 @@ class GridDescriber {
   }
 
   /**
+   * Get a description of the vertical grid cell that the newPosition is in. So position within vertical grid lines
+   * 0 -> 1 will return 0. From grid lines 1 -> 2, will return 1 and so on.
+   * @public
+   *
+   * @param newPosition
+   * @returns {number}
+   */
+  getFlooredGridPosition( newPosition ) {
+    assert && assert( this.valueRange.contains( newPosition ) );
+
+    const numberOfGridLines = this.gridBaseUnitProperty.value;
+
+    const expandedValue = newPosition * numberOfGridLines;
+    return Math.floor( expandedValue );
+  }
+
+  /**
    * @public
    * @param {Property.<number>} property
    * @returns {{grid: number, relativePosition: string}}

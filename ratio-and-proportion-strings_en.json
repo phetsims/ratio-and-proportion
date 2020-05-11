@@ -72,6 +72,18 @@
       },
       "atTheBottom": {
         "value": "at the bottom"
+      },
+      "qualitativeAlertPattern": {
+        "value": "{{object}} {{position}}."
+      },
+      "quantitativeAlertPattern": {
+        "value": "Grid position {{value}}."
+      },
+      "firstMovementAlertPattern": {
+        "value": "Moving {{object}} {{direction}}."
+      },
+      "movementAlertWithChangePattern": {
+        "value": "{{movementAlert}} {{change}}"
       }
     },
     "ratio": {
@@ -92,6 +104,9 @@
       },
       "veryFarFrom": {
         "value": "Very far from"
+      },
+      "descriptionPattern": {
+        "value": "{{fitness}} ratio."
       }
     },
     "ratioChallenges": {

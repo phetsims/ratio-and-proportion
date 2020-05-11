@@ -4,8 +4,11 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+
+const ratioDescriptionPatternString = ratioAndProportionStrings.a11y.ratio.descriptionPattern;
 
 // constants
 const QUALITATIVE_POSITIONS = [
@@ -115,14 +118,35 @@ class RatioDescriber {
   }
 
   /**
+   * Get an index for the current fitness of the ratio, relative to the number of possible fitness descriptions. Low
+   * values are very far from the ratios and high values are closer to the ratio from 0 to RATIO_FITNESS_STRINGS.length.
+   * @public
+   *
+   * @returns {number}
+   */
+  getRatioFitnessIndex() {
+    const normalizedFitness = ( this.proportionFitnessProperty.value - this.fitnessRange.min ) / this.fitnessRange.getLength();
+    return Math.floor( normalizedFitness * ( RATIO_FITNESS_STRINGS.length - 1 ) );
+  }
+
+  /**
    * @public
    * @returns {string}
    */
   getRatioFitness() {
-    const normalizedFitness = ( this.proportionFitnessProperty.value - this.fitnessRange.min ) / this.fitnessRange.getLength();
-    const index = Math.floor( normalizedFitness * ( RATIO_FITNESS_STRINGS.length - 1 ) );
+    return RATIO_FITNESS_STRINGS[ this.getRatioFitnessIndex() ];
+  }
 
-    return RATIO_FITNESS_STRINGS[ index ];
+  /**
+   * Get a description of the current ratio. Returns something like
+   * "At ratio." or
+   * "Very far from ratio."
+   * @public
+   */
+  getRatioDescriptionString() {
+    return StringUtils.fillIn( ratioDescriptionPatternString, {
+      fitness: this.getRatioFitness()
+    } );
   }
 }
 
