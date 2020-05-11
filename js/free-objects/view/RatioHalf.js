@@ -79,7 +79,7 @@ class RatioHalf extends Rectangle {
     } );
 
     // @private
-    this.alertManager = new FreeObjectAlertManager( valueProperty, gridViewProperty, ratioDescriber, gridDescriber );
+    this.alertManager = new FreeObjectAlertManager( valueProperty, gridViewProperty, ratioDescriber, gridDescriber, options.isRight );
 
     // The draggable element inside the Node framed with thick rectangles on the top and bottom.
     const pointer = new Node( {
