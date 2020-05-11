@@ -87,6 +87,39 @@ class FreeObjectsModel {
 
     // @public - true before and until first user interaction with the simulation. Reset will apply to this Property.
     this.firstInteractionProperty = new BooleanProperty( true );
+
+    // @public (read-only) - the velocity of each value changing, adjusted in step
+    this.leftVelocityProperty = new NumberProperty( 0 );
+    this.rightVelocityProperty = new NumberProperty( 0 );
+
+    // @private
+    this.previousLeftValueProperty = new NumberProperty( 0 );
+    this.previousRightValueProperty = new NumberProperty( 0 );
+    this.stepCountTracker = 0;
+  }
+
+  /**
+   * @private
+   * @param {Property.<number>}previousValueProperty
+   * @param {number} currentValue
+   * @param {Property.<number>} velocityProperty
+   */
+  calculateCurrentVelocity( previousValueProperty, currentValue, velocityProperty ) {
+    velocityProperty.value = currentValue - previousValueProperty.value / this.valueRange.getLength();
+    previousValueProperty.value = currentValue;
+  }
+
+  /**
+   * @public
+   * @override
+   */
+  step() {
+
+    // only recalculate every X steps to help smooth out noise
+    if ( ++this.stepCountTracker % 30 === 0 ) {
+      this.calculateCurrentVelocity( this.previousLeftValueProperty, this.leftValueProperty.value, this.leftVelocityProperty );
+      this.calculateCurrentVelocity( this.previousRightValueProperty, this.rightValueProperty.value, this.rightVelocityProperty );
+    }
   }
 
   /**

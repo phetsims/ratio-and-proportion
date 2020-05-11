@@ -75,7 +75,7 @@ class FreeObjectsScreenView extends ScreenView {
       defaultRatioHalfBounds,
       gridViewProperty,
       ratioDescriber,
-      gridDescriber,{
+      gridDescriber, {
         labelContent: ratioAndProportionStrings.a11y.leftHand,
         isRight: false // this way we get a left hand
       }
@@ -104,7 +104,9 @@ class FreeObjectsScreenView extends ScreenView {
         this.leftRatioHalf.isBeingInteractedWithProperty,
         this.rightRatioHalf.isBeingInteractedWithProperty,
         this.markerInput.isBeingInteractedWithProperty
-      ] ) );
+      ] ),
+      model.leftVelocityProperty,
+      model.rightVelocityProperty );
     soundManager.addSoundGenerator( this.proportionFitnessSoundGenerator );
 
     const comboBoxParent = new Node();

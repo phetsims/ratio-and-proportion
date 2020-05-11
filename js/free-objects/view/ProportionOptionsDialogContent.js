@@ -38,8 +38,11 @@ class ProportionOptionsDialogContent extends HBox {
             node: new OptionsText( 'C Major Sine' ),
             value: 2
           }, {
-            node: new OptionsText( 'Single Pitch change' ),
+            node: new OptionsText( 'Vibrato + Strings (Velocity)' ),
             value: 3
+          }, {
+            node: new OptionsText( 'Single Pitch change' ),
+            value: 4
           } ]
         ) ]
     } );

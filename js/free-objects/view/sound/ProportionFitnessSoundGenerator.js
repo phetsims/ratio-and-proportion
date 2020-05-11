@@ -18,6 +18,7 @@ import Range from '../../../../../dot/js/Range.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import saturatedSinWave from '../../../../../tambo/sounds/220hz-saturated-sine-loop_mp3.js';
 import randomBonk from '../../../../../tambo/sounds/proportion-random-clicks-single_mp3.js';
+import stringsSound from '../../../../sounds/strings-loop-c5_wav.js';
 import CMajorSineSoundGenerator from './CMajorSineSoundGenerator.js';
 import SineWaveGenerator from './SineWaveGenerator.js';
 import designingProperties from '../../../common/designingProperties.js';
@@ -36,6 +37,10 @@ const func = new LinearFunction( 0, 1, playbackSpeeds.length - 1, 0, true );
 const getMaxIndex = fitness => Math.floor( func( fitness ) );
 const random = new DotRandom();
 
+// For Proportion_Strings/Velocity
+const fitnessToPlaybackOutput = new LinearFunction( 0, 1, 0, .7, true );
+
+
 class ProportionFitnessSoundGenerator extends SoundClip {
 
   /**
@@ -46,7 +51,9 @@ class ProportionFitnessSoundGenerator extends SoundClip {
    */
   constructor( proportionFitnessProperty,
                fitnessRange,
-               isBeingInteractedWithProperty, options ) {
+               isBeingInteractedWithProperty,
+               leftVelocityProperty, rightVelocityProperty,
+               options ) {
 
     options = merge( {
       initialOutputLevel: 0.7,
@@ -100,7 +107,9 @@ class ProportionFitnessSoundGenerator extends SoundClip {
 
     const enableControlProperties = [
       isBeingInteractedWithProperty,
-      new DerivedProperty( [ designingProperties.proportionFitnessSoundSelectorProperty ], value => value === 0 )
+
+      // TODO: maybe separate out "strings" into its own vibrato code
+      new DerivedProperty( [ designingProperties.proportionFitnessSoundSelectorProperty ], value => value === 0 || value === 3 )
     ];
 
     const sineWaveGenerator1 = new SineWaveGenerator( frequency1Property, {
@@ -149,18 +158,46 @@ class ProportionFitnessSoundGenerator extends SoundClip {
 
     //////////////////////////////////////////////////////////////////
 
-    Property.multilink( [ isBeingInteractedWithProperty,
+    //////////////////////////////////////////////////////////////////
+    // Proportion_strings!
+
+
+    const stringsSoundClip = new SoundClip( stringsSound, {
+      loop: true,
+      initialOutputLevel: 0
+    } );
+
+    stringsSoundClip.connect( this.masterGainNode );
+
+    proportionFitnessProperty.link( fitness => {
+      stringsSoundClip.setOutputLevel( fitnessToPlaybackOutput( fitness ) );
+    } );
+
+    Property.multilink( [ leftVelocityProperty, rightVelocityProperty ], ( leftVelocityProperty, rightVelocityProperty ) => {
+      if ( Math.abs( leftVelocityProperty ) > .01 && Math.abs( rightVelocityProperty ) > .01 ) {
+        stringsSoundClip.play();
+      }
+      else {
+        stringsSoundClip.stop();
+      }
+    } );
+
+
+    //////////////////////////////////////////////////////////////////
+
+    Property.multilink( [
+      isBeingInteractedWithProperty,
       proportionFitnessProperty,
       designingProperties.proportionFitnessSoundSelectorProperty
     ], ( interactedWith, fitness, selector ) => {
 
       // vibration wiring
-      selector === 0 && supportVibration( fitness );
+      ( selector === 0 || selector === 3 ) && supportVibration( fitness );
 
       if ( !interactedWith ) {
         this.reset();
       }
-      if ( selector === 3 && interactedWith ) {
+      if ( selector === 4 && interactedWith ) {
         this.supportPitchChange( fitness );
       }
     } );

@@ -15,7 +15,7 @@ class DesigningProperties {
   constructor() {
 
     // global object for selecting proportion "fitness" sounds, this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/9
-    this.proportionFitnessSoundSelectorProperty = new NumberProperty( 0 );
+    this.proportionFitnessSoundSelectorProperty = new NumberProperty( 3 );
 
     // @public {Property.<CursorDisplay>} - this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/17
     this.markerDisplayProperty = new EnumerationProperty( CursorDisplay, CursorDisplay.HAND );
