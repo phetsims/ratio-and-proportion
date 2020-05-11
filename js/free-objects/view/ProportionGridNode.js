@@ -63,7 +63,7 @@ class ProportionGridNode extends GridNode {
 
     this.visible = GridView.displayVertical( gridView ) || GridView.displayHorizontal( gridView );
 
-    this.updateUnitLabels( GridView.displayUnits( gridView ), horizontalSpacing );
+    this.updateUnitLabels( GridView.displayUnits( gridView ), horizontalSpacing, baseUnit );
   }
 
   /**
@@ -71,7 +71,7 @@ class ProportionGridNode extends GridNode {
    * @param {boolean} showGridUnits
    * @param {number} horizontalSpacing
    */
-  updateUnitLabels( showGridUnits, horizontalSpacing ) {
+  updateUnitLabels( showGridUnits, horizontalSpacing, baseUnit ) {
     this.labelsNode.children = [];
 
     if ( showGridUnits ) {
@@ -82,16 +82,9 @@ class ProportionGridNode extends GridNode {
       for ( let y = 0; y <= this.gridHeight; y += horizontalSpacing ) {
         const text = new Text( i, {
           left: LABEL_X,
-          font: new PhetFont( 13 )
+          font: new PhetFont( 13 ),
+          bottom: this.gridHeight - y
         } );
-
-        // put the top/last number underneath
-        if ( y === this.gridHeight ) {
-          text.top = 0;
-        }
-        else {
-          text.bottom = this.gridHeight - y;
-        }
 
         this.labelsNode.addChild( text );
         i++;
