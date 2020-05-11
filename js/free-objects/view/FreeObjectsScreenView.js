@@ -160,9 +160,9 @@ class FreeObjectsScreenView extends ScreenView {
       gridNode,
 
       // UI
+      gridViewAquaRadioButtonGroup,
       comboBox,
       resetAllButton,
-      gridViewAquaRadioButtonGroup,
 
       // list box above other UI
       comboBoxParent,
@@ -173,7 +173,14 @@ class FreeObjectsScreenView extends ScreenView {
     ];
 
     // accessible order (markers first in nav order)
-    this.pdomPlayAreaNode.accessibleOrder = [ this.leftRatioHalf, this.rightRatioHalf, comboBox, comboBoxParent, null ];
+    this.pdomPlayAreaNode.accessibleOrder = [
+      this.leftRatioHalf,
+      this.rightRatioHalf,
+      gridViewAquaRadioButtonGroup,
+      comboBox,
+      comboBoxParent,
+      resetAllButton,
+      null ];
 
     // static layout
     resetAllButton.right = this.layoutBounds.maxX - ProportionConstants.SCREEN_VIEW_X_MARGIN;
