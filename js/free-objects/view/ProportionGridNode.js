@@ -55,7 +55,10 @@ class ProportionGridNode extends GridNode {
 
   update( baseUnit, gridView ) {
     const verticalSpacing = this.gridWidth / VERTICAL_SPACING;
-    const horizontalSpacing = this.gridHeight / baseUnit; // TODO: probably should try to keep this consistent across different screenView heights
+
+    // TODO: probably should try to keep this consistent across different screenView heights
+    // subtract one to account for potential rounding errors. This helps guarantee that the last line is drawn.
+    const horizontalSpacing = ( this.gridHeight - 1 ) / baseUnit;
     this.setLineSpacings( null, null, verticalSpacing, horizontalSpacing );
 
     this.visible = GridView.displayVertical( gridView ) || GridView.displayHorizontal( gridView );
