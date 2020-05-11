@@ -63,7 +63,7 @@ class ProportionGridNode extends GridNode {
 
     this.visible = GridView.displayVertical( gridView ) || GridView.displayHorizontal( gridView );
 
-    this.updateUnitLabels( GridView.displayUnits( gridView ), horizontalSpacing, baseUnit );
+    this.updateUnitLabels( GridView.displayUnits( gridView ), horizontalSpacing );
   }
 
   /**
@@ -71,7 +71,7 @@ class ProportionGridNode extends GridNode {
    * @param {boolean} showGridUnits
    * @param {number} horizontalSpacing
    */
-  updateUnitLabels( showGridUnits, horizontalSpacing, baseUnit ) {
+  updateUnitLabels( showGridUnits, horizontalSpacing ) {
     this.labelsNode.children = [];
 
     if ( showGridUnits ) {
