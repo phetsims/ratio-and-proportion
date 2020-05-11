@@ -105,7 +105,6 @@ class FreeObjectAlertManager {
       }
 
       if ( alert ) {
-        console.log( alert );
         phet.joist.sim.utteranceQueue.addToBack( alert );
       }
 
