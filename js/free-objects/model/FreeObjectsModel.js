@@ -15,6 +15,7 @@ import Util from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Color from '../../../../scenery/js/util/Color.js';
+import RatioAndProportionQueryParameters from '../../common/RatioAndProportionQueryParameters.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 
 const CORRECT_COLOR = new Color( '#639a67' );
@@ -29,7 +30,7 @@ class FreeObjectsModel {
 
     // The desired ratio of the left value as compared to the right value. As in 1:2 (initial value).
     this.ratioProperty = new NumberProperty( .5 );
-    this.toleranceProperty = new NumberProperty( .05 );
+    this.toleranceProperty = new NumberProperty( RatioAndProportionQueryParameters.tolerance );
 
     // @public
     this.valueRange = new Range( 0, 1 );

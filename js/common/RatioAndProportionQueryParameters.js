@@ -10,6 +10,13 @@ import ratioAndProportion from '../ratioAndProportion.js';
 
 const RatioAndProportionQueryParameters = QueryStringMachine.getAll( {
 
+  // Adjust the tolerance for the proportion fitness algorithm. The higher the tolerance, the wider the fitness "middle
+  // ground" is.
+  tolerance: {
+    type: 'number',
+    defaultValue: .05
+  },
+
   // For mechamarker input. Tweak this as needed depending on the input camera, and the range that you will to use in
   // the camera view port.
   heightInPixels: {
