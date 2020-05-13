@@ -22,6 +22,7 @@ import ChallengeComboBoxItem from './ChallengeComboBoxItem.js';
 import GridDescriber from './GridDescriber.js';
 import RatioAndProportionScreenSummaryNode from './RatioAndProportionScreenSummaryNode.js';
 import RatioDescriber from './RatioDescriber.js';
+import RatioInteractionListener from './RatioInteractionListener.js';
 import ProportionFitnessSoundGenerator from './sound/ProportionFitnessSoundGenerator.js';
 import ProportionMarkerInput from './ProportionMarkerInput.js';
 import RatioHalf from './RatioHalf.js';
@@ -95,6 +96,20 @@ class FreeObjectsScreenView extends ScreenView {
         labelContent: ratioAndProportionStrings.a11y.rightHand
       } );
 
+    const a11yRatioContainer = new Node( {
+      tagName: 'div',
+      role: 'application',
+      focusable: true,
+      labelContent: 'Ratio:',
+      children: [
+        this.leftRatioHalf,
+        this.rightRatioHalf
+      ]
+    } );
+    const ratioInteractionListener = new RatioInteractionListener( a11yRatioContainer, model.leftValueProperty,
+      model.rightValueProperty, model.valueRange, model.firstInteractionProperty );
+    a11yRatioContainer.addInputListener( ratioInteractionListener );
+
     // @private
     this.markerInput = new ProportionMarkerInput( model );
 
@@ -105,7 +120,8 @@ class FreeObjectsScreenView extends ScreenView {
       DerivedProperty.or( [
         this.leftRatioHalf.isBeingInteractedWithProperty,
         this.rightRatioHalf.isBeingInteractedWithProperty,
-        this.markerInput.isBeingInteractedWithProperty
+        this.markerInput.isBeingInteractedWithProperty,
+        ratioInteractionListener.isBeingInteractedWithProperty
       ] ),
       model.leftVelocityProperty,
       model.rightVelocityProperty );
@@ -170,14 +186,12 @@ class FreeObjectsScreenView extends ScreenView {
       comboBoxParent,
 
       // Main ratio on top
-      this.leftRatioHalf,
-      this.rightRatioHalf
+      a11yRatioContainer
     ];
 
     // accessible order (markers first in nav order)
     this.pdomPlayAreaNode.accessibleOrder = [
-      this.leftRatioHalf,
-      this.rightRatioHalf,
+      a11yRatioContainer,
       gridViewAquaRadioButtonGroup,
       comboBox,
       comboBoxParent,
