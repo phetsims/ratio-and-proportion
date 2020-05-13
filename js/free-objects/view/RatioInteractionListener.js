@@ -18,6 +18,7 @@ class RatioInteractionListener {
    * @param {Property.<number>}leftValueProperty
    * @param {Property.<number>}rightValueProperty
    * @param {Range} valueRange
+   * @param {Property.<boolean>} firstInteractionProperty
    */
   constructor( targetNode, leftValueProperty, rightValueProperty, valueRange, firstInteractionProperty ) {
 
@@ -58,7 +59,7 @@ class RatioInteractionListener {
    * @param increment
    */
   updateValue( property, increment ) {
-    this.firstInteractionProperty.value = true;
+    this.firstInteractionProperty.value = false;
     const value = 1 / designingProperties.gridBaseUnitProperty.value;
     const amount = this.keyStateTracker.shiftKeyDown ? value / 4 : value;
     property.value = this.valueRange.constrainValue( property.value + ( amount * ( increment ? 1 : -1 ) ) );
@@ -78,7 +79,7 @@ class RatioInteractionListener {
   keydown( sceneryEvent ) {
 
     // TODO: targetNode is only because there are currently children listeners on each ratio half that we don't want bubbling, https://github.com/phetsims/ratio-and-proportion/issues/44
-    sceneryEvent.currentTarget === this.targetNode && this.keyStateTracker.keydownUpdate( sceneryEvent.domEvent );
+    sceneryEvent.target === this.targetNode && this.keyStateTracker.keydownUpdate( sceneryEvent.domEvent );
   }
 
   /**
@@ -86,7 +87,7 @@ class RatioInteractionListener {
    * @param {SceneryEvent} sceneryEvent
    */
   keyup( sceneryEvent ) {
-    sceneryEvent.currentTarget === this.targetNode && this.keyStateTracker.keyupUpdate( sceneryEvent.domEvent );
+    sceneryEvent.target === this.targetNode && this.keyStateTracker.keyupUpdate( sceneryEvent.domEvent );
   }
 }
 
