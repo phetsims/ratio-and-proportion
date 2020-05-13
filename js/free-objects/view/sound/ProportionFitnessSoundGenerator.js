@@ -39,6 +39,7 @@ const random = new DotRandom();
 
 // For Proportion_Strings/Velocity
 const fitnessToPlaybackOutput = new LinearFunction( 0, 1, 0, .7, true );
+const VELOCITY_THRESHOLD = .01;
 
 
 class ProportionFitnessSoundGenerator extends SoundClip {
@@ -177,7 +178,9 @@ class ProportionFitnessSoundGenerator extends SoundClip {
 
     Property.multilink( [ isBeingInteractedWithProperty, leftVelocityProperty, rightVelocityProperty ],
       ( isBeingInteractedWith, leftVelocity, rightVelocity ) => {
-        if ( isBeingInteractedWith && Math.abs( leftVelocity ) > .01 && Math.abs( rightVelocity ) > .01 ) {
+        if ( Math.abs( leftVelocity ) > VELOCITY_THRESHOLD && Math.abs( rightVelocity ) > VELOCITY_THRESHOLD && // both past threshold
+             isBeingInteractedWith && // must be being interacted with (no sound on reset etc)
+             ( leftVelocity > 0 === rightVelocity > 0 ) ) { // both pointers should move in the same direction
           stringsSoundClip.play();
         }
         else {
