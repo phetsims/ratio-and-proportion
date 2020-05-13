@@ -159,5 +159,5 @@ class RandomIcon extends Node {
   }
 }
 
-ratioAndProportion.register( 'RandomIconFactory', RandomIcon );
+ratioAndProportion.register( 'RandomIcon', RandomIcon );
 export default RandomIcon;

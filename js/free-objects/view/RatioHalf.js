@@ -311,5 +311,5 @@ class RatioHalf extends Rectangle {
 // @public - the height of the top and bottom rectangles
 RatioHalf.FRAMING_RECTANGLE_HEIGHT = FRAMING_RECTANGLE_HEIGHT;
 
-ratioAndProportion.register( 'DraggableMarker', RatioHalf );
+ratioAndProportion.register( 'RatioHalf', RatioHalf );
 export default RatioHalf;
