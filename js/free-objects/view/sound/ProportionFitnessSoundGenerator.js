@@ -175,14 +175,15 @@ class ProportionFitnessSoundGenerator extends SoundClip {
       stringsSoundClip.setOutputLevel( fitnessToPlaybackOutput( fitness ) );
     } );
 
-    Property.multilink( [ leftVelocityProperty, rightVelocityProperty ], ( leftVelocity, rightVelocity ) => {
-      if ( Math.abs( leftVelocity ) > .01 && Math.abs( rightVelocity ) > .01 ) {
-        stringsSoundClip.play();
-      }
-      else {
-        stringsSoundClip.stop();
-      }
-    } );
+    Property.multilink( [ isBeingInteractedWithProperty, leftVelocityProperty, rightVelocityProperty ],
+      ( isBeingInteractedWith, leftVelocity, rightVelocity ) => {
+        if ( isBeingInteractedWith && Math.abs( leftVelocity ) > .01 && Math.abs( rightVelocity ) > .01 ) {
+          stringsSoundClip.play();
+        }
+        else {
+          stringsSoundClip.stop();
+        }
+      } );
 
 
     //////////////////////////////////////////////////////////////////
