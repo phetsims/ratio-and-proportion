@@ -94,8 +94,8 @@ class FreeObjectsModel {
     this.rightVelocityProperty = new NumberProperty( 0 );
 
     // @private
-    this.previousLeftValueProperty = new NumberProperty( 0 );
-    this.previousRightValueProperty = new NumberProperty( 0 );
+    this.previousLeftValueProperty = new NumberProperty( this.leftValueProperty.value );
+    this.previousRightValueProperty = new NumberProperty( this.rightValueProperty.value );
     this.stepCountTracker = 0;
   }
 

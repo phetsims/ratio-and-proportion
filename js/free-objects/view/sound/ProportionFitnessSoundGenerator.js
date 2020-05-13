@@ -47,6 +47,8 @@ class ProportionFitnessSoundGenerator extends SoundClip {
    * @param {Property.<number>} proportionFitnessProperty
    * @param {Range} fitnessRange
    * @param {Property.<boolean>} isBeingInteractedWithProperty - if there is any interaction occurring to either left/right object
+   * @param {Property.<number>} leftVelocityProperty
+   * @param {Property.<number>} rightVelocityProperty
    * @param {Object} [options]
    */
   constructor( proportionFitnessProperty,
@@ -173,8 +175,8 @@ class ProportionFitnessSoundGenerator extends SoundClip {
       stringsSoundClip.setOutputLevel( fitnessToPlaybackOutput( fitness ) );
     } );
 
-    Property.multilink( [ leftVelocityProperty, rightVelocityProperty ], ( leftVelocityProperty, rightVelocityProperty ) => {
-      if ( Math.abs( leftVelocityProperty ) > .01 && Math.abs( rightVelocityProperty ) > .01 ) {
+    Property.multilink( [ leftVelocityProperty, rightVelocityProperty ], ( leftVelocity, rightVelocity ) => {
+      if ( Math.abs( leftVelocity ) > .01 && Math.abs( rightVelocity ) > .01 ) {
         stringsSoundClip.play();
       }
       else {
