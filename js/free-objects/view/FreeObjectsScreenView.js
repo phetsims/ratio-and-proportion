@@ -191,6 +191,8 @@ class FreeObjectsScreenView extends ScreenView {
 
     // accessible order (markers first in nav order)
     this.pdomPlayAreaNode.accessibleOrder = [
+      this.leftRatioHalf,
+      this.rightRatioHalf,
       a11yRatioContainer,
       gridViewAquaRadioButtonGroup,
       comboBox,
