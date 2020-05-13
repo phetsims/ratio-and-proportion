@@ -30,8 +30,8 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import designingProperties from '../../common/designingProperties.js';
 import CursorDisplay from '../../common/CursorDisplay.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import commonGrabSoundInfo from '../../../../tambo/sounds/grab_mp3.js';
-import commonReleaseSoundInfo from '../../../../tambo/sounds/release_mp3.js';
+import commonGrabSound from '../../../../tambo/sounds/grab_mp3.js';
+import commonReleaseSound from '../../../../tambo/sounds/release_mp3.js';
 import filledInHandImage from '../../../images/filled-in-hand_png.js';
 import FreeObjectAlertManager from './FreeObjectAlertManager.js';
 import GridView from './GridView.js';
@@ -125,8 +125,8 @@ class RatioHalf extends Rectangle {
       initialOutputLevel: 0.3, // TODO: I made this louder than waves intro, https://github.com/phetsims/ratio-and-proportion/issues/45
       enableControlProperties: [ designingProperties.ratioUISoundsEnabledProperty ]
     };
-    const commonGrabSoundClip = new SoundClip( commonGrabSoundInfo, soundClipOptions );
-    const commonReleaseSoundClip = new SoundClip( commonReleaseSoundInfo, soundClipOptions );
+    const commonGrabSoundClip = new SoundClip( commonGrabSound, soundClipOptions );
+    const commonReleaseSoundClip = new SoundClip( commonReleaseSound, soundClipOptions );
     soundManager.addSoundGenerator( commonGrabSoundClip, addSoundOptions );
     soundManager.addSoundGenerator( commonReleaseSoundClip, addSoundOptions );
 
