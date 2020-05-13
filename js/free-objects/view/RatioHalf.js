@@ -11,6 +11,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -130,7 +131,9 @@ class RatioHalf extends Rectangle {
     soundManager.addSoundGenerator( commonReleaseSoundClip, addSoundOptions );
 
     // add sound generators that will play a sound when the value controlled by the slider changes
-    const sliderClickSoundClip = new SoundClip( sliderClickSound, soundClipOptions );
+    const sliderClickSoundClip = new SoundClip( sliderClickSound, merge( soundClipOptions, {
+      enableControlProperties: soundClipOptions.enableControlProperties.concat( [ new DerivedProperty( [ gridViewProperty ], gridView => gridView !== GridView.NONE ) ] )
+    } ) );
     soundManager.addSoundGenerator( sliderClickSoundClip, addSoundOptions );
 
     const sliderBoundaryClickSoundClip = new SoundClip( sliderBoundaryClickSound, soundClipOptions );
