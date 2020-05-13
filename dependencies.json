@@ -1,5 +1,5 @@
 {
-  "comment": "# ratio-and-proportion 1.0.0-dev.18 Mon May 11 2020 14:25:55 GMT-0800 (Alaskan Daylight Time)",
+  "comment": "# ratio-and-proportion 1.0.0-dev.19 Tue May 12 2020 20:25:12 GMT-0800 (Alaskan Daylight Time)",
   "assert": {
     "sha": "0b7a48c6b9ba48af48ae7419bd30c280c785f2cc",
     "branch": "master"
@@ -53,15 +53,15 @@
     "branch": "master"
   },
   "ratio-and-proportion": {
-    "sha": "436942d1b55965a9a1a2ea99fc000296046175e7",
+    "sha": "e96b9c8659303076635b0897b92881dd75039584",
     "branch": "master"
   },
   "scenery": {
-    "sha": "2fd3d7e4754e35507a80370ba74ec48395eb850f",
+    "sha": "2496dd1ea573159a10eefa19e75eb1b38ec882f7",
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "92574698da538bbd9f1dc4f721969b60265afdf9",
+    "sha": "6a1f7d7e3660cd25e2b171fd1a3d26b2baefcc36",
     "branch": "master"
   },
   "sherpa": {
