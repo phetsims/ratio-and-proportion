@@ -5,6 +5,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import ratioAndProportion from '../ratioAndProportion.js';
@@ -16,6 +17,9 @@ class DesigningProperties {
 
     // global object for selecting proportion "fitness" sounds, this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/9
     this.proportionFitnessSoundSelectorProperty = new NumberProperty( 3 );
+
+    // border and click sounds for the vertical ratio pointer movement, this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/45
+    this.ratioUISoundsEnabledProperty = new BooleanProperty( true );
 
     // @public {Property.<CursorDisplay>} - this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/17
     this.markerDisplayProperty = new EnumerationProperty( CursorDisplay, CursorDisplay.HAND );

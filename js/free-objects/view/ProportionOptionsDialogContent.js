@@ -27,7 +27,7 @@ class ProportionOptionsDialogContent extends HBox {
       spacing: 10,
       align: 'left',
       children: [
-        new RichText( 'Sound:' ),
+        new RichText( 'Ratio Fitness Sound:' ),
         new VerticalAquaRadioButtonGroup( designingProperties.proportionFitnessSoundSelectorProperty, [ {
             node: new OptionsText( 'Vibrato' ),
             value: 0
@@ -43,25 +43,48 @@ class ProportionOptionsDialogContent extends HBox {
           }, {
             node: new OptionsText( 'Single Pitch change' ),
             value: 4
+          }, {
+            node: new OptionsText( 'No Sound' ),
+            value: -1
           } ]
         ) ]
     } );
 
-    const cursorOptionsNode = new VBox( {
-      spacing: 10,
+    const ratioUISoundAndCursorContent = new VBox( {
+      spacing: 15,
       align: 'left',
       children: [
-        new RichText( 'Cursor:' ),
-        new VerticalAquaRadioButtonGroup( designingProperties.markerDisplayProperty, [ {
-          node: new OptionsText( 'Hand' ),
-          value: CursorDisplay.HAND
-        }, {
-          node: new OptionsText( 'Circle' ),
-          value: CursorDisplay.CIRCLE
-        }, {
-          node: new OptionsText( 'Cross' ),
-          value: CursorDisplay.CROSS
-        } ] )
+        new VBox( {
+          spacing: 10,
+          align: 'left',
+          children: [
+            new RichText( 'Ratio UI Sound:' ),
+            new VerticalAquaRadioButtonGroup( designingProperties.ratioUISoundsEnabledProperty, [ {
+              node: new OptionsText( 'Enabled' ),
+              value: true
+            }, {
+              node: new OptionsText( 'Disabled' ),
+              value: false
+            } ] )
+          ]
+        } ), new VBox( {
+          spacing: 10,
+          align: 'left',
+          children: [
+            new RichText( 'Cursor:' ),
+            new VerticalAquaRadioButtonGroup( designingProperties.markerDisplayProperty, [ {
+              node: new OptionsText( 'Hand' ),
+              value: CursorDisplay.HAND
+            }, {
+              node: new OptionsText( 'Circle' ),
+              value: CursorDisplay.CIRCLE
+            }, {
+              node: new OptionsText( 'Cross' ),
+              value: CursorDisplay.CROSS
+            } ] )
+          ]
+        } )
+
       ]
     } );
 
@@ -87,7 +110,7 @@ class ProportionOptionsDialogContent extends HBox {
     } );
 
     super( {
-      children: [ soundOptionsNode, cursorOptionsNode, gridBaseUnitOptionsNode ],
+      children: [ soundOptionsNode, ratioUISoundAndCursorContent, gridBaseUnitOptionsNode ],
       spacing: 30,
       align: 'top'
     } );

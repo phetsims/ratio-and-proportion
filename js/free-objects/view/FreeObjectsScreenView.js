@@ -71,6 +71,7 @@ class FreeObjectsScreenView extends ScreenView {
     this.leftRatioHalf = new RatioHalf(
       model.leftPositionProperty,
       model.leftValueProperty,
+      model.valueRange,
       model.firstInteractionProperty,
       defaultRatioHalfBounds,
       gridViewProperty,
@@ -85,6 +86,7 @@ class FreeObjectsScreenView extends ScreenView {
     this.rightRatioHalf = new RatioHalf(
       model.rightPositionProperty,
       model.rightValueProperty,
+      model.valueRange,
       model.firstInteractionProperty,
       defaultRatioHalfBounds,
       gridViewProperty,

@@ -35,14 +35,22 @@ import filledInHandImage from '../../../images/filled-in-hand_png.js';
 import FreeObjectAlertManager from './FreeObjectAlertManager.js';
 import GridView from './GridView.js';
 
+// TODO: don't depend on wave-interference
+import sliderClickSound from '../../../../wave-interference/sounds/slider-clicks-idea-c-example_mp3.js';
+import sliderBoundaryClickSound from '../../../../wave-interference/sounds/slider-clicks-idea-c-lower-end-click_mp3.js';
+
 // contants
 const FRAMING_RECTANGLE_HEIGHT = 16;
+
+// TODO: copied from WaveInterferenceSlider
+const MIN_INTER_CLICK_TIME = ( 1 / 60 * 1000 ) * 2; // min time between clicks, in milliseconds, empirically determined
 
 class RatioHalf extends Rectangle {
 
   /**
    * @param {Vector2Property} positionProperty
    * @param {NumberProperty} valueProperty
+   * @param {Range} valueRange
    * @param {Property.<boolean>} firstInteractionProperty - upon successful interaction, this will be marked as false
    * @param {Bounds2} bounds - the area that the node takes up
    * @param {EnumerationProperty.<GridView>} gridViewProperty
@@ -50,7 +58,7 @@ class RatioHalf extends Rectangle {
    * @param {GridDescriber} gridDescriber
    * @param {Object} [options]
    */
-  constructor( positionProperty, valueProperty, firstInteractionProperty, bounds, gridViewProperty, ratioDescriber, gridDescriber, options ) {
+  constructor( positionProperty, valueProperty, valueRange, firstInteractionProperty, bounds, gridViewProperty, ratioDescriber, gridDescriber, options ) {
 
     options = merge( {
       cursor: 'pointer',
@@ -110,10 +118,29 @@ class RatioHalf extends Rectangle {
     const crossNode = new Node( { children: [ cross, crossBackground ] } );
     crossNode.center = Vector2.ZERO;
 
-    const commonGrabSoundClip = new SoundClip( commonGrabSoundInfo, { initialOutput: .7 } );
-    const commonReleaseSoundClip = new SoundClip( commonReleaseSoundInfo, { initialOutput: .7 } );
-    soundManager.addSoundGenerator( commonGrabSoundClip );
-    soundManager.addSoundGenerator( commonReleaseSoundClip );
+    // Sound for the wave slider clicks
+    const addSoundOptions = { categoryName: 'user-interface' };
+    const soundClipOptions = {
+      initialOutputLevel: 0.3, // TODO: I made this louder than waves intro, https://github.com/phetsims/ratio-and-proportion/issues/45
+      enableControlProperties: [ designingProperties.ratioUISoundsEnabledProperty ]
+    };
+    const commonGrabSoundClip = new SoundClip( commonGrabSoundInfo, soundClipOptions );
+    const commonReleaseSoundClip = new SoundClip( commonReleaseSoundInfo, soundClipOptions );
+    soundManager.addSoundGenerator( commonGrabSoundClip, addSoundOptions );
+    soundManager.addSoundGenerator( commonReleaseSoundClip, addSoundOptions );
+
+    // add sound generators that will play a sound when the value controlled by the slider changes
+    const sliderClickSoundClip = new SoundClip( sliderClickSound, soundClipOptions );
+    soundManager.addSoundGenerator( sliderClickSoundClip, addSoundOptions );
+
+    const sliderBoundaryClickSoundClip = new SoundClip( sliderBoundaryClickSound, soundClipOptions );
+    soundManager.addSoundGenerator( sliderBoundaryClickSoundClip, addSoundOptions );
+
+    // Keep track of the previous value on slider drag for playing sounds
+    let lastValue = valueProperty.value;
+
+    // Keep track of the last time a sound was played so that we don't play too often
+    let timeOfLastClick = 0;
 
     // transform and dragBounds set in layout code below
     const dragListener = new DragListener( {
@@ -124,6 +151,28 @@ class RatioHalf extends Rectangle {
         firstInteractionProperty.value = false;
         this.isBeingInteractedWithProperty.value = true;
       },
+      drag: () => {
+
+        const value = valueProperty.value;
+
+        // handle the sound as desired for mouse/touch style input
+        for ( let i = 0; i < designingProperties.gridBaseUnitProperty.value; i++ ) {
+          const tickValue = ( i / valueRange.getLength() ) / designingProperties.gridBaseUnitProperty.value;
+          if ( lastValue !== value && ( value === valueRange.min || value === valueRange.max ) ) {
+            sliderBoundaryClickSoundClip.play();
+            break;
+          }
+          else if ( lastValue < tickValue && value >= tickValue || lastValue > tickValue && value <= tickValue ) {
+            if ( phet.joist.elapsedTime - timeOfLastClick >= MIN_INTER_CLICK_TIME ) {
+              sliderClickSoundClip.play();
+              timeOfLastClick = phet.joist.elapsedTime;
+            }
+            break;
+          }
+        }
+        lastValue = value;
+      },
+
       end: () => {
         commonReleaseSoundClip.play();
         this.isBeingInteractedWithProperty.value = false;
