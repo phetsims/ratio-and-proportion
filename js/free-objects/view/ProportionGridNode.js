@@ -15,7 +15,6 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import GridView from './GridView.js';
 import designingProperties from '../../common/designingProperties.js';
 
-const VERTICAL_SPACING = 10;
 const LABEL_X = 0;
 
 class ProportionGridNode extends GridNode {
@@ -54,12 +53,11 @@ class ProportionGridNode extends GridNode {
   }
 
   update( baseUnit, gridView ) {
-    const verticalSpacing = this.gridWidth / VERTICAL_SPACING;
 
     // TODO: probably should try to keep this consistent across different screenView heights
     // subtract one to account for potential rounding errors. This helps guarantee that the last line is drawn.
     const horizontalSpacing = ( this.gridHeight - 1 ) / baseUnit;
-    this.setLineSpacings( null, null, verticalSpacing, horizontalSpacing );
+    this.setLineSpacings( null, null, null, horizontalSpacing );
 
     this.visible = GridView.displayVertical( gridView ) || GridView.displayHorizontal( gridView );
 
