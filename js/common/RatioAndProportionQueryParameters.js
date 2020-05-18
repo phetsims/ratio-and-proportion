@@ -14,7 +14,7 @@ const RatioAndProportionQueryParameters = QueryStringMachine.getAll( {
   // ground" is.
   tolerance: {
     type: 'number',
-    defaultValue: .05
+    defaultValue: .1
   },
 
   // For mechamarker input. Tweak this as needed depending on the input camera, and the range that you will to use in
