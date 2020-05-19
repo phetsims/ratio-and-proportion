@@ -93,7 +93,8 @@ class RatioHalf extends Rectangle {
 
     // The draggable element inside the Node framed with thick rectangles on the top and bottom.
     const pointer = new Pointer( valueProperty, valueRange, {
-      startDrag: () => { firstInteractionProperty.value = false; }
+      startDrag: () => { firstInteractionProperty.value = false; },
+      isRight: options.isRight
     } );
     this.addChild( pointer );
 
@@ -278,7 +279,9 @@ class Pointer extends Node {
    */
   constructor( valueProperty, valueRange, options ) {
 
-    options = merge( {}, options );
+    options = merge( {
+      isRight: true // right hand or left hand
+    }, options );
     super();
 
     // Always the same range, always enabled
