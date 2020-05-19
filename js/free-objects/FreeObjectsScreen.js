@@ -6,6 +6,7 @@
 
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
+import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import RandomIcon from '../free-objects/view/RandomIcon.js';
 import ratioAndProportion from '../ratioAndProportion.js';
 import FreeObjectsModel from './model/FreeObjectsModel.js';
@@ -22,7 +23,10 @@ class FreeObjectsScreen extends Screen {
     const options = {
       backgroundColorProperty: new Property( 'white' ),
       tandem: tandem,
-      homeScreenIcon: new RandomIcon( 432140, 'free objects' ),
+      homeScreenIcon: new ScreenIcon( new RandomIcon( 432140, 'free objects' ), {
+        maxIconWidthProportion: 1,
+        maxIconHeightProportion: 1
+      } ),
       name: 'Freely Moving Objects' // TODO: i18n
     };
 
