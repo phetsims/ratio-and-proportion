@@ -31,11 +31,14 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     }, options );
     super( options );
 
-    const tonicMarimbaSoundClip = new SoundClip( brightMarimbaSound );
-    tonicMarimbaSoundClip.connect( this.masterGainNode );
-
     // @private
-    this.tonicMarimbaSoundClip = tonicMarimbaSoundClip;
+    this.tonicMarimbaSoundClip = new SoundClip( brightMarimbaSound );
+    this.thirdMarimbaSoundClip = new SoundClip( brightMarimbaSound, {
+      initialPlaybackRate: 1 + ( 3 / 12 ) // a third above the tonic
+    } );
+
+    this.tonicMarimbaSoundClip.connect( this.masterGainNode );
+    this.thirdMarimbaSoundClip.connect( this.masterGainNode );
 
     // @private
     this.fitnessProperty = fitnessProperty;
@@ -46,6 +49,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
 
     // @private {number} - in ms
     this.timeSinceLastPlay = 0;
+    this.playCount = 0; // number of times the staccato tone has played
   }
 
   /**
@@ -61,8 +65,13 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     const normalizedFitness = ( this.fitnessProperty.value - this.fitnessRange.min ) / this.fitnessRange.getLength();
 
     if ( this.timeSinceLastPlay > this.timeLinearFunction( normalizedFitness ) && normalizedFitness > 0 ) {
-      this.tonicMarimbaSoundClip.play();
+      let soundClip = this.tonicMarimbaSoundClip;
+      if ( 1 - normalizedFitness < .05 && this.playCount % 2 === 0 ) {
+        soundClip = this.thirdMarimbaSoundClip;
+      }
+      soundClip.play();
       this.timeSinceLastPlay = 0;
+      this.playCount++;
     }
   }
 
@@ -73,6 +82,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
   reset() {
     this.tonicMarimbaSoundClip.stop();
     this.timeSinceLastPlay = 0;
+    this.playCount = 0;
   }
 }
 
