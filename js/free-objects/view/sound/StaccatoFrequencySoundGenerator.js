@@ -64,7 +64,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
 
     const normalizedFitness = ( this.fitnessProperty.value - this.fitnessRange.min ) / this.fitnessRange.getLength();
 
-    if ( this.timeSinceLastPlay > this.timeLinearFunction( normalizedFitness ) && normalizedFitness > 0 ) {
+    if ( this.timeSinceLastPlay > this.timeLinearFunction( normalizedFitness ) ) {
       let soundClip = this.tonicMarimbaSoundClip;
       if ( 1 - normalizedFitness < .05 && this.playCount % 2 === 0 ) {
         soundClip = this.thirdMarimbaSoundClip;

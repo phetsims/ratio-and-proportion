@@ -103,6 +103,8 @@ class ProportionFitnessSoundGenerator extends SoundClip {
     // start with the output level at zero so that the initial sound generation has a bit of fade in
     this.setOutputLevel( 0, 0 );
 
+    const fitnessNotMinProperty = new DerivedProperty( [ proportionFitnessProperty ], fitness => fitness !== fitnessRange.min );
+
     //////////////////////////////////////////////////////////////////////////////
     // VIBRATO
     const frequency1Range = new Range( 0, 10 );
@@ -111,6 +113,7 @@ class ProportionFitnessSoundGenerator extends SoundClip {
 
     const enableControlProperties = [
       isBeingInteractedWithProperty,
+      fitnessNotMinProperty,
 
       // TODO: maybe separate out "strings" into its own vibrato code
       new DerivedProperty( [ designingProperties.proportionFitnessSoundSelectorProperty ], value => value === 0 || value === 3 )
@@ -139,6 +142,7 @@ class ProportionFitnessSoundGenerator extends SoundClip {
       rateChangesAffectPlayingSounds: false,
       enableControlProperties: [
         isBeingInteractedWithProperty,
+        fitnessNotMinProperty,
         new DerivedProperty( [ designingProperties.proportionFitnessSoundSelectorProperty ], value => value === 1 )
       ]
     } );
@@ -155,6 +159,7 @@ class ProportionFitnessSoundGenerator extends SoundClip {
     const cMajorSineSoundGenerator = new CMajorSineSoundGenerator( proportionFitnessProperty, {
       enableControlProperties: [
         isBeingInteractedWithProperty,
+        fitnessNotMinProperty,
         new DerivedProperty( [ designingProperties.proportionFitnessSoundSelectorProperty ], value => value === 2 )
       ]
     } );
@@ -195,6 +200,7 @@ class ProportionFitnessSoundGenerator extends SoundClip {
     this.staccatoFrequencySoundGenerator = new StaccatoFrequencySoundGenerator( proportionFitnessProperty, fitnessRange, {
       enableControlProperties: [
         isBeingInteractedWithProperty,
+        fitnessNotMinProperty,
         new DerivedProperty( [ designingProperties.proportionFitnessSoundSelectorProperty ], value => value === 5 )
       ]
     } );
