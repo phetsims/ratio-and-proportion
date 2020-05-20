@@ -22,6 +22,7 @@ import stringsSound from '../../../../sounds/strings-loop-c5_wav.js';
 import CMajorSineSoundGenerator from './CMajorSineSoundGenerator.js';
 import SineWaveGenerator from './SineWaveGenerator.js';
 import designingProperties from '../../../common/designingProperties.js';
+import StaccatoFrequencySoundGenerator from './StaccatoFrequencySoundGenerator.js';
 
 // constants
 const VIBRATO_PITCH = 220;
@@ -188,7 +189,18 @@ class ProportionFitnessSoundGenerator extends SoundClip {
         }
       } );
 
+    //////////////////////////////////////////////////////////////////
+    // staccato
 
+    this.staccatoFrequencySoundGenerator = new StaccatoFrequencySoundGenerator( proportionFitnessProperty, fitnessRange, {
+      enableControlProperties: [
+        isBeingInteractedWithProperty,
+        new DerivedProperty( [ designingProperties.proportionFitnessSoundSelectorProperty ], value => value === 5 )
+      ]
+    } );
+    this.staccatoFrequencySoundGenerator.connect( this.masterGainNode );
+
+    //////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////
 
     Property.multilink( [
@@ -234,6 +246,7 @@ class ProportionFitnessSoundGenerator extends SoundClip {
         this.remainingBonkTime = STARTING_TIME_BETWEEN_BONKS + timeBetweenBonksFunction( this.proportionFitnessProperty.value );
       }
     }
+    this.staccatoFrequencySoundGenerator.step( dt );
   }
 
   getRandomBonkPlaybackRate() {
