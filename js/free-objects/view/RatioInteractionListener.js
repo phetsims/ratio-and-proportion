@@ -61,7 +61,7 @@ class RatioInteractionListener {
   updateValue( property, increment ) {
     this.firstInteractionProperty.value = false;
     const value = 1 / designingProperties.gridBaseUnitProperty.value;
-    const amount = this.keyStateTracker.shiftKeyDown ? value / 4 : value;
+    const amount = this.keyStateTracker.shiftKeyDown ? value / 10 : value;
     property.value = this.valueRange.constrainValue( property.value + ( amount * ( increment ? 1 : -1 ) ) );
   }
 

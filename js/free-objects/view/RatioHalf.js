@@ -313,7 +313,7 @@ class Pointer extends Node {
     designingProperties.gridBaseUnitProperty.link( baseUnit => {
       const downDelta = 1 / baseUnit;
       this.setKeyboardStep( downDelta );
-      this.setShiftKeyboardStep( downDelta / 4 );
+      this.setShiftKeyboardStep( downDelta / 10 );
       this.setPageKeyboardStep( 1 / 5 );
     } );
 
