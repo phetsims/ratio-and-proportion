@@ -255,6 +255,9 @@ class ProportionFitnessSoundGenerator extends SoundClip {
     this.staccatoFrequencySoundGenerator.step( dt );
   }
 
+  /**
+   * @private
+   */
   getRandomBonkPlaybackRate() {
     const fitness = this.proportionFitnessProperty.value;
 
@@ -267,6 +270,7 @@ class ProportionFitnessSoundGenerator extends SoundClip {
   /**
    * Change the pitch for the valueProperty
    * @param currentValue
+   * @private
    */
   supportPitchChange( currentValue ) {
 

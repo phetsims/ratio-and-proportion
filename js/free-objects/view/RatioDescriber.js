@@ -77,6 +77,7 @@ class RatioDescriber {
   /**
    * @param {number} position - within this.valueRange
    * @returns {number}
+   * @public
    */
   getQualitativePositionIndex( position ) {
     assert && assert( this.valueRange.contains( position ), 'position expected to be in valueRange' );

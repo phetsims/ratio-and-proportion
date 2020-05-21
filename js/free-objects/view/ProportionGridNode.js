@@ -52,6 +52,9 @@ class ProportionGridNode extends GridNode {
     this.update( designingProperties.gridBaseUnitProperty.value, this.gridViewProperty.value );
   }
 
+  /**
+   * @public
+   */
   update( baseUnit, gridView ) {
 
     // TODO: probably should try to keep this consistent across different screenView heights

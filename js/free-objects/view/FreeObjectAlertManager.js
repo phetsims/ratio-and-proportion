@@ -123,6 +123,7 @@ class FreeObjectAlertManager {
    * @param {string} changeDescription
    * @param directionDescription
    * @returns {string}
+   * @private
    */
   getFirstMovementDescription( changeDescription, directionDescription ) {
     let alert;
