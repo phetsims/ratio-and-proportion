@@ -55,6 +55,8 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     this.thirdSoundClip = thirdMarimbaSoundClip;
 
     designingProperties.proportionFitnessSoundSelectorProperty.link( selection => {
+      this.tonicSoundClip.stop();
+      this.thirdSoundClip.stop();
 
       if ( selection === 5 ) {
         this.tonicSoundClip = tonicMarimbaSoundClip;
@@ -69,7 +71,6 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
         this.thirdSoundClip = thirdPizzC4SoundClip;
       }
     } );
-
 
     // @private
     this.fitnessProperty = fitnessProperty;
@@ -111,7 +112,8 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
    * @public
    */
   reset() {
-    this.tonicMarimbaSoundClip.stop();
+    this.tonicSoundClip.stop( 0 );
+    this.thirdSoundClip.stop( 0 );
     this.timeSinceLastPlay = 0;
     this.playCount = 0;
   }
