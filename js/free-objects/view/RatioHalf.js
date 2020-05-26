@@ -39,6 +39,7 @@ import designingProperties from '../../common/designingProperties.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import FreeObjectAlertManager from './FreeObjectAlertManager.js';
 import GridView from './GridView.js';
+import RatioHalfGridNode from './RatioHalfGridNode.js';
 
 // contants
 const FRAMING_RECTANGLE_HEIGHT = 16;
@@ -89,6 +90,9 @@ class RatioHalf extends Rectangle {
 
     // @private
     this.alertManager = new FreeObjectAlertManager( valueProperty, gridViewProperty, ratioDescriber, gridDescriber, options.isRight );
+
+    const gridNode = new RatioHalfGridNode( gridViewProperty, bounds.width, bounds.height - 2 * FRAMING_RECTANGLE_HEIGHT );
+    this.addChild( gridNode );
 
     // The draggable element inside the Node framed with thick rectangles on the top and bottom.
     const pointer = new Pointer( valueProperty, valueRange, {
@@ -237,15 +241,21 @@ class RatioHalf extends Rectangle {
       topRect.top = 0;
       bottomRect.bottom = newBounds.height;
 
+      const boundsNoFramingRects = newBounds.erodedY( FRAMING_RECTANGLE_HEIGHT );
+
       // Don't count the space the framing rectangles take up as part of the draggableArea.
       modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
         positionProperty.validBounds,
-        newBounds.erodedY( FRAMING_RECTANGLE_HEIGHT ) );
+        boundsNoFramingRects );
 
       updatePointer( positionProperty.value );
 
       recomputeDragBounds();
       dragListener.transform = modelViewTransform;
+
+      gridNode.layout( boundsNoFramingRects.width, boundsNoFramingRects.height );
+      gridNode.bottom = bottomRect.top;
+      gridNode.left = 0;
     };
   }
 

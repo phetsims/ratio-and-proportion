@@ -21,8 +21,8 @@ import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import ChallengeComboBoxItem from './ChallengeComboBoxItem.js';
 import GridDescriber from './GridDescriber.js';
 import GridView from './GridView.js';
-import ProportionGridNode from './ProportionGridNode.js';
 import ProportionMarkerInput from './ProportionMarkerInput.js';
+import RAPGridLabelsNode from './RAPGridLabelsNode.js';
 import RatioAndProportionScreenSummaryNode from './RatioAndProportionScreenSummaryNode.js';
 import RatioDescriber from './RatioDescriber.js';
 import RatioHalf from './RatioHalf.js';
@@ -34,7 +34,7 @@ const LAYOUT_BOUNDS = ScreenView.DEFAULT_LAYOUT_BOUNDS;
 const MAX_RATIO_HEIGHT = LAYOUT_BOUNDS.width * 2; // relatively arbitrary, but good to set a max so it can't get too skinny
 const ONE_QUARTER_LAYOUT_WIDTH = LAYOUT_BOUNDS.width * .25;
 const RATIO_HALF_WIDTH = ONE_QUARTER_LAYOUT_WIDTH;
-const RATIO_HALF_SPACING = 20;
+const RATIO_HALF_SPACING = 10;
 
 class FreeObjectsScreenView extends ScreenView {
 
@@ -147,7 +147,7 @@ class FreeObjectsScreenView extends ScreenView {
     } );
 
     // these dimensions are just temporary, and will be recomputed below in the layout function
-    const gridNode = new ProportionGridNode( gridViewProperty, 100, 100 );
+    const labelsNode = new RAPGridLabelsNode( gridViewProperty, 1000 );
 
     const backgroundNode = Rectangle.bounds( this.layoutBounds, {
       fill: 'black'
@@ -175,7 +175,7 @@ class FreeObjectsScreenView extends ScreenView {
     // children
     this.children = [
       backgroundNode,
-      gridNode,
+      labelsNode,
 
       // UI
       gridViewAquaRadioButtonGroup,
@@ -206,7 +206,7 @@ class FreeObjectsScreenView extends ScreenView {
     comboBox.bottom = resetAllButton.top - 140;
     comboBox.right = resetAllButton.right + 5;
     gridViewAquaRadioButtonGroup.left = comboBox.left;
-    gridViewAquaRadioButtonGroup.bottom = comboBox.top - RATIO_HALF_SPACING;
+    gridViewAquaRadioButtonGroup.bottom = comboBox.top - 20;
 
     // @private - dynamic layout based on the current ScreenView coordinates
     this.layoutFreeObjectsScreenView = newRatioHalfBounds => {
@@ -216,16 +216,18 @@ class FreeObjectsScreenView extends ScreenView {
       backgroundNode.rectBounds = this.visibleBoundsProperty.value;
       backgroundNode.bottom = this.layoutBounds.bottom;
 
-      const ratioWidth = this.leftRatioHalf.width + this.rightRatioHalf.width + RATIO_HALF_SPACING;
-
       // subtract the top and bottom rectangles from the grid height
-      gridNode.layout( ratioWidth, newRatioHalfBounds.height - 2 * RatioHalf.FRAMING_RECTANGLE_HEIGHT );
+      labelsNode.layout( newRatioHalfBounds.height - ( 2 * RatioHalf.FRAMING_RECTANGLE_HEIGHT ) );
+
+      const ratioWidth = this.leftRatioHalf.width + this.rightRatioHalf.width + ( 2 * RATIO_HALF_SPACING ) + labelsNode.width;
 
       // combo box is a proxy for the width of the controls
-      this.leftRatioHalf.left = gridNode.left = ( this.layoutBounds.width - comboBox.width - ratioWidth ) / 2;
-      this.rightRatioHalf.left = this.leftRatioHalf.right + RATIO_HALF_SPACING;
+      this.leftRatioHalf.left = ( this.layoutBounds.width - comboBox.width - ratioWidth ) / 2;
+      labelsNode.left = this.leftRatioHalf.right + RATIO_HALF_SPACING;
+      this.rightRatioHalf.left = labelsNode.right + RATIO_HALF_SPACING;
       this.leftRatioHalf.bottom = this.rightRatioHalf.bottom = this.layoutBounds.bottom;
-      gridNode.bottom = this.layoutBounds.bottom - RatioHalf.FRAMING_RECTANGLE_HEIGHT;
+
+      labelsNode.bottom = this.layoutBounds.bottom - RatioHalf.FRAMING_RECTANGLE_HEIGHT + labelsNode.labelHeight / 2;
     };
     this.layoutFreeObjectsScreenView( defaultRatioHalfBounds );
   }
