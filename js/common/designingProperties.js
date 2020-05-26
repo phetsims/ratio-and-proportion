@@ -15,8 +15,11 @@ class DesigningProperties {
 
   constructor() {
 
-    // global object for selecting proportion "fitness" sounds, this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/9
+    // global Property for selecting proportion "fitness" sounds, this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/9
     this.proportionFitnessSoundSelectorProperty = new NumberProperty( 5 );
+
+    // global Property for selecting sound when velocities indicate successful ratio movement, this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/9
+    this.velocitySoundSelectorProperty = new NumberProperty( 1 );
 
     // border and click sounds for the vertical ratio pointer movement, this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/45
     this.ratioUISoundsEnabledProperty = new BooleanProperty( true );

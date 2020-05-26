@@ -96,29 +96,47 @@ class ProportionOptionsDialogContent extends HBox {
       ]
     } );
 
-    const gridBaseUnitOptionsNode = new VBox( {
-      spacing: 10,
-      align: 'left',
-      children: [
-        new RichText( 'Grid Base Unit:' ),
-        new VerticalAquaRadioButtonGroup( designingProperties.gridBaseUnitProperty, [ {
-          node: new OptionsText( 'a:b' ),
-          value: 10
-        }, {
-          node: new OptionsText( '2a:2b' ),
-          value: 20
-        }, {
-          node: new OptionsText( '3a:3b' ),
-          value: 30
-        }, {
-          node: new OptionsText( '4a:4b' ),
-          value: 40
-        } ] )
+    const gridBaseAndVelocitySoundContent = new VBox({
+      children:[
+        new VBox( {
+          spacing: 10,
+          align: 'left',
+          children: [
+            new RichText( 'Grid Base Unit:' ),
+            new VerticalAquaRadioButtonGroup( designingProperties.gridBaseUnitProperty, [ {
+              node: new OptionsText( 'a:b' ),
+              value: 10
+            }, {
+              node: new OptionsText( '2a:2b' ),
+              value: 20
+            }, {
+              node: new OptionsText( '3a:3b' ),
+              value: 30
+            }, {
+              node: new OptionsText( '4a:4b' ),
+              value: 40
+            } ] )
+          ]
+        } ),
+        new VBox( {
+          spacing: 10,
+          align: 'left',
+          children: [
+            new RichText( 'Velocity Sound:' ),
+            new VerticalAquaRadioButtonGroup( designingProperties.velocitySoundSelectorProperty, [ {
+              node: new OptionsText( 'Strings' ),
+              value: 0
+            }, {
+              node: new OptionsText( 'Choir (Ahhh)' ),
+              value: 1
+            }] )
+          ]
+        } )
       ]
-    } );
+    });
 
     super( {
-      children: [ soundOptionsNode, ratioUISoundAndCursorContent, gridBaseUnitOptionsNode ],
+      children: [ soundOptionsNode, ratioUISoundAndCursorContent, gridBaseAndVelocitySoundContent ],
       spacing: 30,
       align: 'top'
     } );

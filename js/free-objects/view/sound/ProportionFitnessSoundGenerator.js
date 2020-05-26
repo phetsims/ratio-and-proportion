@@ -17,6 +17,7 @@ import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import saturatedSinWave from '../../../../../tambo/sounds/220hz-saturated-sine-loop_mp3.js';
 import randomBonk from '../../../../../tambo/sounds/proportion-random-clicks-single_mp3.js';
+import choirAhhSound from '../../../../sounds/choir-ahhh-loop_wav.js';
 import stringsSound from '../../../../sounds/strings-loop-c5_wav.js';
 import designingProperties from '../../../common/designingProperties.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
@@ -178,8 +179,24 @@ class ProportionFitnessSoundGenerator extends SoundClip {
 
     stringsSoundClip.connect( this.masterGainNode );
 
+    const choirAhhSoundClip = new SoundClip( choirAhhSound, {
+      loop: true,
+      initialOutputLevel: 0
+    } );
+    choirAhhSoundClip.connect( this.masterGainNode );
+
+    let velocitySound = stringsSoundClip;
+    designingProperties.velocitySoundSelectorProperty.link( selection => {
+      if ( selection === 0 ) {
+        velocitySound = stringsSoundClip;
+      }
+      else if ( selection === 1 ) {
+        velocitySound = choirAhhSoundClip;
+      }
+    } );
+
     proportionFitnessProperty.link( fitness => {
-      stringsSoundClip.setOutputLevel( fitnessToPlaybackOutput( fitness ) );
+      velocitySound.setOutputLevel( fitnessToPlaybackOutput( fitness ) );
     } );
 
     Property.multilink( [ isBeingInteractedWithProperty, leftVelocityProperty, rightVelocityProperty ],
@@ -187,10 +204,10 @@ class ProportionFitnessSoundGenerator extends SoundClip {
         if ( Math.abs( leftVelocity ) > VELOCITY_THRESHOLD && Math.abs( rightVelocity ) > VELOCITY_THRESHOLD && // both past threshold
              isBeingInteractedWith && // must be being interacted with (no sound on reset etc)
              ( leftVelocity > 0 === rightVelocity > 0 ) ) { // both pointers should move in the same direction
-          stringsSoundClip.play();
+          velocitySound.play();
         }
         else {
-          stringsSoundClip.stop();
+          velocitySound.stop();
         }
       } );
 
