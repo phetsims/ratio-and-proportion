@@ -22,24 +22,23 @@ import PlusNode from '../../../../scenery-phet/js/PlusNode.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import AccessibleSlider from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
-import designingProperties from '../../common/designingProperties.js';
-import CursorDisplay from '../../common/CursorDisplay.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
 import commonGrabSound from '../../../../tambo/sounds/grab_mp3.js';
 import commonReleaseSound from '../../../../tambo/sounds/release_mp3.js';
-import filledInHandImage from '../../../images/filled-in-hand_png.js';
-import FreeObjectAlertManager from './FreeObjectAlertManager.js';
-import GridView from './GridView.js';
-
+import Tandem from '../../../../tandem/js/Tandem.js';
 // TODO: don't depend on wave-interference
 import sliderClickSound from '../../../../wave-interference/sounds/slider-clicks-idea-c-example_mp3.js';
 import sliderBoundaryClickSound from '../../../../wave-interference/sounds/slider-clicks-idea-c-lower-end-click_mp3.js';
+import filledInHandImage from '../../../images/filled-in-hand_png.js';
+import CursorDisplay from '../../common/CursorDisplay.js';
+import designingProperties from '../../common/designingProperties.js';
+import ratioAndProportion from '../../ratioAndProportion.js';
+import FreeObjectAlertManager from './FreeObjectAlertManager.js';
+import GridView from './GridView.js';
 
 // contants
 const FRAMING_RECTANGLE_HEIGHT = 16;
@@ -288,12 +287,19 @@ class Pointer extends Node {
     this.initializeAccessibleSlider( valueProperty, new Property( valueRange ), new BooleanProperty( true ), options );
 
     // @private
-    this.handNode = new Image( filledInHandImage );
+    this.handNode = new Node();
+    const handImage = new Image( filledInHandImage );
+    const handCircle = new Circle( 16, {
+      fill: 'white'
+    } );
 
-    // Flip the hand if it isn't a right hand.
+    // empirical multipliers to center hand on palm.
+    handImage.right = handImage.width * .4;
+    handImage.bottom = handImage.height * .28;
+    this.handNode.children = [ handImage, handCircle ];
+
+    // Flip the hand if it isn't a right hand. Do this after the circle/hand relative positioning
     this.handNode.setScaleMagnitude( ( options.isRight ? 1 : -1 ) * .4, .4 );
-    this.handNode.right = this.handNode.width / 2;
-    this.handNode.bottom = this.handNode.height / 2;
 
     // @private
     this.circleNode = new Circle( 20, {
