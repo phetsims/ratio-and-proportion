@@ -11,12 +11,10 @@ import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../../axon/js/NumberProperty.js';
 import Property from '../../../../../axon/js/Property.js';
 import LinearFunction from '../../../../../dot/js/LinearFunction.js';
-import DotRandom from '../../../../../dot/js/Random.js';
 import Range from '../../../../../dot/js/Range.js';
 import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import saturatedSinWave from '../../../../../tambo/sounds/220hz-saturated-sine-loop_mp3.js';
-import randomBonk from '../../../../../tambo/sounds/proportion-random-clicks-single_mp3.js';
 import choirAhhSound from '../../../../sounds/choir-ahhh-loop_wav.js';
 import stringsSound from '../../../../sounds/strings-loop-c5_wav.js';
 import designingProperties from '../../../common/designingProperties.js';
@@ -27,17 +25,6 @@ import StaccatoFrequencySoundGenerator from './StaccatoFrequencySoundGenerator.j
 
 // constants
 const VIBRATO_PITCH = 220;
-
-// For Random Bonks
-const STARTING_TIME_BETWEEN_BONKS = 0.20;
-const timeBetweenBonksFunction = new LinearFunction( 0, 1, 0, -STARTING_TIME_BETWEEN_BONKS / 2, true );
-const playbackSpeeds = [];
-for ( let i = 0; i <= 16; i++ ) {
-  playbackSpeeds.push( Math.pow( 2, i / 12 ) );
-}
-const func = new LinearFunction( 0, 1, playbackSpeeds.length - 1, 0, true );
-const getMaxIndex = fitness => Math.floor( func( fitness ) );
-const random = new DotRandom();
 
 // For Proportion_Strings/Velocity
 const fitnessToPlaybackOutput = new LinearFunction( 0, 1, 0, .7, true );
@@ -135,25 +122,6 @@ class ProportionFitnessSoundGenerator extends SoundClip {
                                  VIBRATO_PITCH; // set back to default if not enabled, for next time.
     };
 
-    ///////////////////////////////////////////////////////////////////////////////////
-    // RANDOM BONKS
-    this.timeBetweenBonks = STARTING_TIME_BETWEEN_BONKS;
-    this.remainingBonkTime = this.timeBetweenBonks;
-    this.randomBonkSoundClip = new SoundClip( randomBonk, {
-      rateChangesAffectPlayingSounds: false,
-      enableControlProperties: [
-        isBeingInteractedWithProperty,
-        fitnessNotMinProperty,
-        new DerivedProperty( [ designingProperties.proportionFitnessSoundSelectorProperty ], value => value === 1 )
-      ]
-    } );
-    this.randomBonkSoundClip.connect( this.masterGainNode );
-    this.randomBonkSoundClip.fullyEnabledProperty.link( enabled => {
-      if ( !enabled ) {
-        this.remainingBonkTime = 0;
-      }
-    } );
-
     //////////////////////////////////////////////////////////////////
     // C MAJOR FUN!
 
@@ -167,10 +135,8 @@ class ProportionFitnessSoundGenerator extends SoundClip {
     cMajorSineSoundGenerator.connect( this.masterGainNode );
 
     //////////////////////////////////////////////////////////////////
-
     //////////////////////////////////////////////////////////////////
     // Proportion_strings!
-
 
     const stringsSoundClip = new SoundClip( stringsSound, {
       loop: true,
@@ -258,31 +224,7 @@ class ProportionFitnessSoundGenerator extends SoundClip {
    * @public
    */
   step( dt ) {
-
-    // For Random Bonks generation
-    if ( this.remainingBonkTime >= 0 && this.randomBonkSoundClip.fullyEnabledProperty.value ) {
-
-      this.remainingBonkTime = Math.max( this.remainingBonkTime - dt, 0 );
-
-      if ( this.remainingBonkTime === 0 ) {
-        this.randomBonkSoundClip.setPlaybackRate( this.getRandomBonkPlaybackRate() );
-        this.randomBonkSoundClip.play();
-        this.remainingBonkTime = STARTING_TIME_BETWEEN_BONKS + timeBetweenBonksFunction( this.proportionFitnessProperty.value );
-      }
-    }
     this.staccatoFrequencySoundGenerator.step( dt );
-  }
-
-  /**
-   * @private
-   */
-  getRandomBonkPlaybackRate() {
-    const fitness = this.proportionFitnessProperty.value;
-
-    const playbackIndex = random.nextIntBetween( 0, getMaxIndex( fitness ) );
-
-    assert && assert( playbackSpeeds[ playbackIndex ] );
-    return playbackSpeeds[ playbackIndex ];
   }
 
   /**

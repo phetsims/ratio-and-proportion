@@ -32,9 +32,6 @@ class ProportionOptionsDialogContent extends HBox {
             node: new OptionsText( 'Vibrato' ),
             value: 0
           }, {
-            node: new OptionsText( 'Random Clicks' ),
-            value: 1
-          }, {
             node: new OptionsText( 'C Major Sine' ),
             value: 2
           }, {
