@@ -9,9 +9,9 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -20,14 +20,14 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import ChallengeComboBoxItem from './ChallengeComboBoxItem.js';
 import GridDescriber from './GridDescriber.js';
-import RatioAndProportionScreenSummaryNode from './RatioAndProportionScreenSummaryNode.js';
-import RatioDescriber from './RatioDescriber.js';
-import RatioInteractionListener from './RatioInteractionListener.js';
-import ProportionFitnessSoundGenerator from './sound/ProportionFitnessSoundGenerator.js';
-import ProportionMarkerInput from './ProportionMarkerInput.js';
-import RatioHalf from './RatioHalf.js';
 import GridView from './GridView.js';
 import ProportionGridNode from './ProportionGridNode.js';
+import ProportionMarkerInput from './ProportionMarkerInput.js';
+import RatioAndProportionScreenSummaryNode from './RatioAndProportionScreenSummaryNode.js';
+import RatioDescriber from './RatioDescriber.js';
+import RatioHalf from './RatioHalf.js';
+import RatioInteractionListener from './RatioInteractionListener.js';
+import ProportionFitnessSoundGenerator from './sound/ProportionFitnessSoundGenerator.js';
 
 // constants
 const LAYOUT_BOUNDS = ScreenView.DEFAULT_LAYOUT_BOUNDS;
@@ -213,7 +213,7 @@ class FreeObjectsScreenView extends ScreenView {
 
       this.leftRatioHalf.layout( newRatioHalfBounds );
       this.rightRatioHalf.layout( newRatioHalfBounds );
-      backgroundNode.rectHeight = newRatioHalfBounds.height;
+      backgroundNode.rectBounds = this.visibleBoundsProperty.value;
       backgroundNode.bottom = this.layoutBounds.bottom;
 
       const ratioWidth = this.leftRatioHalf.width + this.rightRatioHalf.width + RATIO_HALF_SPACING;
