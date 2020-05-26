@@ -25,12 +25,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
    */
   constructor( fitnessProperty, fitnessRange, options ) {
     options = merge( {
-      initialOutputLevel: 0.7,
-      pitchRangeInSemitones: 36,
-      pitchCenterOffset: 2,
-      fadeStartDelay: 0.2, // in seconds, time to wait before starting fade
-      fadeTime: 0.15, // in seconds, duration of fade out
-      delayBeforeStop: 0.1 // in seconds, amount of time from full fade to stop of sound, done to avoid glitches
+      initialOutputLevel: 0.7
     }, options );
     super( options );
 

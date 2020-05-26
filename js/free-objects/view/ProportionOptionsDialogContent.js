@@ -38,9 +38,6 @@ class ProportionOptionsDialogContent extends HBox {
             node: new OptionsText( 'Vibrato + Strings (Velocity)' ),
             value: 3
           }, {
-            node: new OptionsText( 'Single Pitch change' ),
-            value: 4
-          }, {
             node: new OptionsText( 'Staccato Marimba' ),
             value: 5
           }, {
