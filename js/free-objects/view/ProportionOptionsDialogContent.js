@@ -9,8 +9,8 @@ import HBox from '../../../../scenery/js/nodes/HBox.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import CursorDisplay from '../../common/CursorDisplay.js';
+import ratioAndProportion from '../../ratioAndProportion.js';
 
 // constants
 const RADIO_BUTTON_FONT = new PhetFont( 12 );
@@ -34,9 +34,6 @@ class ProportionOptionsDialogContent extends HBox {
           }, {
             node: new OptionsText( 'C Major Sine' ),
             value: 2
-          }, {
-            node: new OptionsText( 'Vibrato + Strings (Velocity)' ),
-            value: 3
           }, {
             node: new OptionsText( 'Staccato Marimba' ),
             value: 5
@@ -90,8 +87,8 @@ class ProportionOptionsDialogContent extends HBox {
       ]
     } );
 
-    const gridBaseAndVelocitySoundContent = new VBox({
-      children:[
+    const gridBaseAndVelocitySoundContent = new VBox( {
+      children: [
         new VBox( {
           spacing: 10,
           align: 'left',
@@ -123,11 +120,14 @@ class ProportionOptionsDialogContent extends HBox {
             }, {
               node: new OptionsText( 'Choir (Ahhh)' ),
               value: 1
-            }] )
+            }, {
+              node: new OptionsText( 'No velocity sound' ),
+              value: -1
+            } ] )
           ]
         } )
       ]
-    });
+    } );
 
     super( {
       children: [ soundOptionsNode, ratioUISoundAndCursorContent, gridBaseAndVelocitySoundContent ],

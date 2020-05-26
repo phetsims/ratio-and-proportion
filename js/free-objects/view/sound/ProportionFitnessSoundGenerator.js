@@ -71,9 +71,7 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
     const enableControlProperties = [
       isBeingInteractedWithProperty,
       fitnessNotMinProperty,
-
-      // TODO: maybe separate out "strings" into its own vibrato code
-      new DerivedProperty( [ designingProperties.proportionFitnessSoundSelectorProperty ], value => value === 0 || value === 3 )
+      new DerivedProperty( [ designingProperties.proportionFitnessSoundSelectorProperty ], value => value === 0 )
     ];
 
     const sineWaveGenerator1 = new SineWaveGenerator( frequency1Property, {
@@ -129,21 +127,27 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
       else if ( selection === 1 ) {
         velocitySound = choirAhhSoundClip;
       }
+      else {
+        velocitySound = null;
+      }
     } );
 
+    // TODO: this may be weird for the first fitness change after switching to a different velocity sound.
     proportionFitnessProperty.link( fitness => {
-      velocitySound.setOutputLevel( fitnessToPlaybackOutput( fitness ) );
+      velocitySound && velocitySound.setOutputLevel( fitnessToPlaybackOutput( fitness ) );
     } );
 
     Property.multilink( [ isBeingInteractedWithProperty, leftVelocityProperty, rightVelocityProperty ],
       ( isBeingInteractedWith, leftVelocity, rightVelocity ) => {
-        if ( Math.abs( leftVelocity ) > VELOCITY_THRESHOLD && Math.abs( rightVelocity ) > VELOCITY_THRESHOLD && // both past threshold
-             isBeingInteractedWith && // must be being interacted with (no sound on reset etc)
-             ( leftVelocity > 0 === rightVelocity > 0 ) ) { // both pointers should move in the same direction
-          velocitySound.play();
-        }
-        else {
-          velocitySound.stop();
+        if ( velocitySound ) {
+          if ( Math.abs( leftVelocity ) > VELOCITY_THRESHOLD && Math.abs( rightVelocity ) > VELOCITY_THRESHOLD && // both past threshold
+               isBeingInteractedWith && // must be being interacted with (no sound on reset etc)
+               ( leftVelocity > 0 === rightVelocity > 0 ) ) { // both pointers should move in the same direction
+            velocitySound.play();
+          }
+          else {
+            velocitySound.stop();
+          }
         }
       } );
 
