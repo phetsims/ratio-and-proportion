@@ -47,6 +47,12 @@ class ProportionOptionsDialogContent extends HBox {
             node: new OptionsText( 'Staccato Marimba' ),
             value: 5
           }, {
+            node: new OptionsText( 'Staccato Pizz C3' ),
+            value: 6
+          }, {
+            node: new OptionsText( 'Staccato Pizz C4' ),
+            value: 7
+          }, {
             node: new OptionsText( 'No Sound' ),
             value: -1
           } ]
@@ -87,7 +93,6 @@ class ProportionOptionsDialogContent extends HBox {
             } ] )
           ]
         } )
-
       ]
     } );
 

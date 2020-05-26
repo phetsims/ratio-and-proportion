@@ -12,16 +12,16 @@ import NumberProperty from '../../../../../axon/js/NumberProperty.js';
 import Property from '../../../../../axon/js/Property.js';
 import LinearFunction from '../../../../../dot/js/LinearFunction.js';
 import DotRandom from '../../../../../dot/js/Random.js';
-import merge from '../../../../../phet-core/js/merge.js';
-import ratioAndProportion from '../../../ratioAndProportion.js';
 import Range from '../../../../../dot/js/Range.js';
+import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import saturatedSinWave from '../../../../../tambo/sounds/220hz-saturated-sine-loop_mp3.js';
 import randomBonk from '../../../../../tambo/sounds/proportion-random-clicks-single_mp3.js';
 import stringsSound from '../../../../sounds/strings-loop-c5_wav.js';
+import designingProperties from '../../../common/designingProperties.js';
+import ratioAndProportion from '../../../ratioAndProportion.js';
 import CMajorSineSoundGenerator from './CMajorSineSoundGenerator.js';
 import SineWaveGenerator from './SineWaveGenerator.js';
-import designingProperties from '../../../common/designingProperties.js';
 import StaccatoFrequencySoundGenerator from './StaccatoFrequencySoundGenerator.js';
 
 // constants
@@ -201,7 +201,8 @@ class ProportionFitnessSoundGenerator extends SoundClip {
       enableControlProperties: [
         isBeingInteractedWithProperty,
         fitnessNotMinProperty,
-        new DerivedProperty( [ designingProperties.proportionFitnessSoundSelectorProperty ], value => value === 5 )
+        new DerivedProperty( [ designingProperties.proportionFitnessSoundSelectorProperty ],
+          value => value === 5 || value === 6 || value === 7 )
       ]
     } );
     this.staccatoFrequencySoundGenerator.connect( this.masterGainNode );

@@ -10,8 +10,11 @@ import LinearFunction from '../../../../../dot/js/LinearFunction.js';
 import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
-import ratioAndProportion from '../../../ratioAndProportion.js';
 import brightMarimbaSound from '../../../../../tambo/sounds/bright-marimba_mp3.js';
+import pizzC3Sound from '../../../../sounds/pizz-C3_mp3.js';
+import pizzC4Sound from '../../../../sounds/pizz-C4_mp3.js';
+import designingProperties from '../../../common/designingProperties.js';
+import ratioAndProportion from '../../../ratioAndProportion.js';
 
 class StaccatoFrequencySoundGenerator extends SoundGenerator {
 
@@ -31,14 +34,47 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     }, options );
     super( options );
 
-    // @private
-    this.tonicMarimbaSoundClip = new SoundClip( brightMarimbaSound );
-    this.thirdMarimbaSoundClip = new SoundClip( brightMarimbaSound, {
+    const tonicMarimbaSoundClip = new SoundClip( brightMarimbaSound );
+    const thirdMarimbaSoundClip = new SoundClip( brightMarimbaSound, {
       initialPlaybackRate: 1 + ( 3 / 12 ) // a third above the tonic
     } );
+    tonicMarimbaSoundClip.connect( this.masterGainNode );
+    thirdMarimbaSoundClip.connect( this.masterGainNode );
 
-    this.tonicMarimbaSoundClip.connect( this.masterGainNode );
-    this.thirdMarimbaSoundClip.connect( this.masterGainNode );
+    const tonicPizzC3SoundClip = new SoundClip( pizzC3Sound );
+    const thirdPizzC3SoundClip = new SoundClip( pizzC3Sound, {
+      initialPlaybackRate: 1 + ( 3 / 12 ) // a third above the tonic
+    } );
+    tonicPizzC3SoundClip.connect( this.masterGainNode );
+    thirdPizzC3SoundClip.connect( this.masterGainNode );
+
+    const tonicPizzC4SoundClip = new SoundClip( pizzC4Sound );
+    const thirdPizzC4SoundClip = new SoundClip( pizzC4Sound, {
+      initialPlaybackRate: 1 + ( 3 / 12 ) // a third above the tonic
+    } );
+    tonicPizzC4SoundClip.connect( this.masterGainNode );
+    thirdPizzC4SoundClip.connect( this.masterGainNode );
+
+    // @private
+    this.tonicSoundClip = tonicMarimbaSoundClip;
+    this.thirdSoundClip = thirdMarimbaSoundClip;
+
+    designingProperties.proportionFitnessSoundSelectorProperty.link( selection => {
+
+      if ( selection === 5 ) {
+        this.tonicSoundClip = tonicMarimbaSoundClip;
+        this.thirdSoundClip = thirdMarimbaSoundClip;
+      }
+      if ( selection === 6 ) {
+        this.tonicSoundClip = tonicPizzC3SoundClip;
+        this.thirdSoundClip = thirdPizzC3SoundClip;
+      }
+      if ( selection === 7 ) {
+        this.tonicSoundClip = tonicPizzC4SoundClip;
+        this.thirdSoundClip = thirdPizzC4SoundClip;
+      }
+    } );
+
 
     // @private
     this.fitnessProperty = fitnessProperty;
@@ -65,9 +101,9 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     const normalizedFitness = ( this.fitnessProperty.value - this.fitnessRange.min ) / this.fitnessRange.getLength();
 
     if ( this.timeSinceLastPlay > this.timeLinearFunction( normalizedFitness ) ) {
-      let soundClip = this.tonicMarimbaSoundClip;
+      let soundClip = this.tonicSoundClip;
       if ( 1 - normalizedFitness < .05 && this.playCount % 2 === 0 ) {
-        soundClip = this.thirdMarimbaSoundClip;
+        soundClip = this.thirdSoundClip;
       }
       soundClip.play();
       this.timeSinceLastPlay = 0;
