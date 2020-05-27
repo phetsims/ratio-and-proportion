@@ -24,6 +24,12 @@ const RatioAndProportionQueryParameters = QueryStringMachine.getAll( {
     defaultValue: 600
   },
 
+  // For staccato sounds, what is the fastest frequency the sound will play when close or at successful ratio, in ms.
+  staccatoMaxFrequency: {
+    type: 'number',
+    defaultValue: 80
+  },
+
   // query parameters for a specific prototype case
   useClementPrototype1: { type: 'flag' },
   clement1AdjLen: { type: 'number', defaultValue: 88 },
