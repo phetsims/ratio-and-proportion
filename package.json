@@ -15,7 +15,8 @@
       "../tangible/js/preload/mechamarkers-21f16221e414ec2dca68bbfbb866369eea7abd70.js"
     ],
     "phetLibs": [
-      "tangible"
+      "tangible",
+      "griddle"
     ],
     "simulation": true,
     "runnable": true,
