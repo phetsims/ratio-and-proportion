@@ -7,7 +7,7 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
-import GridNode from '../../../../scenery-phet/js/GridNode.js';
+import GridNode from '../../../../griddle/js/GridNode.js';
 import designingProperties from '../../common/designingProperties.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import GridView from './GridView.js';
