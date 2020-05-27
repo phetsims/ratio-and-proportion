@@ -70,6 +70,9 @@ class ProportionOptionsDialogContent extends HBox {
               }, {
                 node: new OptionsText( 'Single major chord' ),
                 value: 3
+              }, {
+                node: new OptionsText( 'Single arpeggiated chord' ),
+                value: 4
               } ]
             ) ]
         } )

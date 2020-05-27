@@ -19,10 +19,16 @@ class SoundClipChord extends SoundGenerator {
   constructor( sound, options ) {
     options = merge( {
       initialOutputLevel: .7,
+      arpeggiate: false,
+      arpeggiateTime: .25,// in seconds
       chordPlaybackRates: [ 1, Math.pow( 2, 4 / 12 ), Math.pow( 2, 7 / 12 ) ] // default to major chord
     }, options );
 
     super( options );
+
+    // @private
+    this.arpeggiate = options.arpeggiate;
+    this.arpeggiateTime = options.arpeggiateTime;
 
     // @private
     this.playbackSoundClips = options.chordPlaybackRates.map( playbackRate => {
@@ -36,7 +42,10 @@ class SoundClipChord extends SoundGenerator {
    * @public
    */
   play() {
-    this.playbackSoundClips.forEach( soundClip => soundClip.play() );
+    this.playbackSoundClips.forEach( ( soundClip, index ) => {
+      const delay = this.arpeggiate ? index * this.arpeggiateTime / this.playbackSoundClips.length : 0;
+      soundClip.play( delay );
+    } );
   }
 
   /**

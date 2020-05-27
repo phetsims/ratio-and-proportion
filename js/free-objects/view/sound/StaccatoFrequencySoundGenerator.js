@@ -42,6 +42,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     this.singleSuccessSoundClip = null;
     this.singleSuccess7Chord = null;
     this.singleSuccessMajorChord = null;
+    this.singleArpeggiatedChord = null;
 
     // @private - possibly temporary, for making single success note sound more airy
     this.defaultReverb = soundManager.reverbLevel;
@@ -80,17 +81,12 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
 
     // dispose previous ones
     if ( this.tonicSoundClip ) {
-
-      // TODO: is this necessary?
-      this.tonicSoundClip.stop();
-      this.thirdSoundClip.stop();
-      this.singleSuccessSoundClip.stop();
-
       this.tonicSoundClip.dispose();
       this.thirdSoundClip.dispose();
       this.singleSuccessSoundClip.dispose();
       this.singleSuccess7Chord.dispose();
       this.singleSuccessMajorChord.dispose();
+      this.singleArpeggiatedChord.dispose();
     }
 
     this.tonicSoundClip = new SoundClip( sound );
@@ -106,12 +102,17 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     this.singleSuccessMajorChord = new SoundClipChord( sound, {
       chordPlaybackRates: [ 1, Math.pow( 2, 4 / 12 ), Math.pow( 2, 7 / 12 ), 2 ]
     } );
+    this.singleArpeggiatedChord = new SoundClipChord( sound, {
+      chordPlaybackRates: [ 1, Math.pow( 2, 4 / 12 ), Math.pow( 2, 7 / 12 ), Math.pow( 2, 11 / 12 ) ],
+      arpeggiate: true
+    } );
 
     this.tonicSoundClip.connect( this.masterGainNode );
     this.thirdSoundClip.connect( this.masterGainNode );
     this.singleSuccessSoundClip.connect( this.masterGainNode );
     this.singleSuccess7Chord.connect( this.masterGainNode );
     this.singleSuccessMajorChord.connect( this.masterGainNode );
+    this.singleArpeggiatedChord.connect( this.masterGainNode );
   }
 
   /**
@@ -149,6 +150,10 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
           }
           else if ( designingProperties.staccatoSuccessSoundSelectorProperty.value === 3 ) {
             this.singleSuccessMajorChord.play();
+          }
+          else if ( designingProperties.staccatoSuccessSoundSelectorProperty.value === 4 ) {
+            soundManager.reverbLevel = .3;
+            this.singleArpeggiatedChord.play();
           }
           this.ratioSuccess = true;
         }
