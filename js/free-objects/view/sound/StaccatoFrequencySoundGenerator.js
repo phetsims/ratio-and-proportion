@@ -17,6 +17,7 @@ import pizzC4Sound from '../../../../sounds/pizz-C4_mp3.js';
 import designingProperties from '../../../common/designingProperties.js';
 import RatioAndProportionQueryParameters from '../../../common/RatioAndProportionQueryParameters.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
+import SoundClipChord from './SoundClipChord.js';
 
 // constants
 const majorThirdPlaybackSpeed = Math.pow( 2, 4 / 12 );
@@ -39,6 +40,8 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     this.tonicSoundClip = null;
     this.thirdSoundClip = null;
     this.singleSuccessSoundClip = null;
+    this.singleSuccess7Chord = null;
+    this.singleSuccessMajorChord = null;
 
     // @private - possibly temporary, for making single success note sound more airy
     this.defaultReverb = soundManager.reverbLevel;
@@ -86,6 +89,8 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
       this.tonicSoundClip.dispose();
       this.thirdSoundClip.dispose();
       this.singleSuccessSoundClip.dispose();
+      this.singleSuccess7Chord.dispose();
+      this.singleSuccessMajorChord.dispose();
     }
 
     this.tonicSoundClip = new SoundClip( sound );
@@ -95,10 +100,18 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     this.singleSuccessSoundClip = new SoundClip( sound, {
       initialPlaybackRate: 2
     } );
+    this.singleSuccess7Chord = new SoundClipChord( sound, {
+      chordPlaybackRates: [ 1, Math.pow( 2, 4 / 12 ), Math.pow( 2, 7 / 12 ), Math.pow( 2, 11 / 12 ) ]
+    } );
+    this.singleSuccessMajorChord = new SoundClipChord( sound, {
+      chordPlaybackRates: [ 1, Math.pow( 2, 4 / 12 ), Math.pow( 2, 7 / 12 ), 2 ]
+    } );
 
     this.tonicSoundClip.connect( this.masterGainNode );
     this.thirdSoundClip.connect( this.masterGainNode );
     this.singleSuccessSoundClip.connect( this.masterGainNode );
+    this.singleSuccess7Chord.connect( this.masterGainNode );
+    this.singleSuccessMajorChord.connect( this.masterGainNode );
   }
 
   /**
@@ -126,12 +139,19 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
           this.timeSinceLastPlay = 0;
           this.playCount++;
         }
-        else if ( designingProperties.staccatoSuccessSoundSelectorProperty.value === 1 && !this.ratioSuccess ) {
+        else if ( !this.ratioSuccess ) {
           soundManager.reverbLevel = .8;
-          this.singleSuccessSoundClip.play();
+          if ( designingProperties.staccatoSuccessSoundSelectorProperty.value === 1 ) {
+            this.singleSuccessSoundClip.play();
+          }
+          else if ( designingProperties.staccatoSuccessSoundSelectorProperty.value === 2 ) {
+            this.singleSuccess7Chord.play();
+          }
+          else if ( designingProperties.staccatoSuccessSoundSelectorProperty.value === 3 ) {
+            this.singleSuccessMajorChord.play();
+          }
+          this.ratioSuccess = true;
         }
-
-        this.ratioSuccess = true;
       }
       else {
         if ( this.ratioSuccess ) {
