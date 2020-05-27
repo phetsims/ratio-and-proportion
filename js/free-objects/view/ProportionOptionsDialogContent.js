@@ -27,27 +27,47 @@ class ProportionOptionsDialogContent extends HBox {
       spacing: 10,
       align: 'left',
       children: [
-        new RichText( 'Ratio Fitness Sound:' ),
-        new VerticalAquaRadioButtonGroup( designingProperties.proportionFitnessSoundSelectorProperty, [ {
-            node: new OptionsText( 'Vibrato' ),
-            value: 0
-          }, {
-            node: new OptionsText( 'C Major Sine' ),
-            value: 2
-          }, {
-            node: new OptionsText( 'Staccato Marimba' ),
-            value: 5
-          }, {
-            node: new OptionsText( 'Staccato Pizz C3' ),
-            value: 6
-          }, {
-            node: new OptionsText( 'Staccato Pizz C4' ),
-            value: 7
-          }, {
-            node: new OptionsText( 'No Sound' ),
-            value: -1
-          } ]
-        ) ]
+        new VBox( {
+          spacing: 10,
+          align: 'left',
+          children: [
+            new RichText( 'Ratio Fitness Sound:' ),
+            new VerticalAquaRadioButtonGroup( designingProperties.proportionFitnessSoundSelectorProperty, [ {
+                node: new OptionsText( 'Vibrato' ),
+                value: 0
+              }, {
+                node: new OptionsText( 'C Major Sine' ),
+                value: 2
+              }, {
+                node: new OptionsText( 'Staccato Marimba' ),
+                value: 5
+              }, {
+                node: new OptionsText( 'Staccato Pizz C3' ),
+                value: 6
+              }, {
+                node: new OptionsText( 'Staccato Pizz C4' ),
+                value: 7
+              }, {
+                node: new OptionsText( 'No Sound' ),
+                value: -1
+              } ]
+            ) ]
+        } ),
+        new VBox( {
+          spacing: 10,
+          align: 'left',
+          children: [
+            new RichText( 'Staccato Success Sound:' ),
+            new VerticalAquaRadioButtonGroup( designingProperties.staccatoSuccessSoundSelectorProperty, [ {
+                node: new OptionsText( 'Tremolo to third' ),
+                value: 0
+              }, {
+                node: new OptionsText( 'Single high note' ),
+                value: 1
+              } ]
+            ) ]
+        } )
+      ]
     } );
 
     const ratioUISoundAndCursorContent = new VBox( {
@@ -88,6 +108,8 @@ class ProportionOptionsDialogContent extends HBox {
     } );
 
     const gridBaseAndVelocitySoundContent = new VBox( {
+      spacing: 10,
+      align: 'left',
       children: [
         new VBox( {
           spacing: 10,
