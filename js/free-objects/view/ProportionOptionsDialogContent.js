@@ -134,9 +134,6 @@ class ProportionOptionsDialogContent extends HBox {
             }, {
               node: new OptionsText( '3a:3b' ),
               value: 30
-            }, {
-              node: new OptionsText( '4a:4b' ),
-              value: 40
             } ] )
           ]
         } ),
