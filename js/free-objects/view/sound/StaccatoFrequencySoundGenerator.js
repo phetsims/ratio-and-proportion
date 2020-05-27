@@ -6,6 +6,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import Property from '../../../../../axon/js/Property.js';
 import LinearFunction from '../../../../../dot/js/LinearFunction.js';
 import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
@@ -44,7 +45,8 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     this.singleSuccessMajorChord = null;
     this.singleArpeggiatedChord = null;
 
-    // @private - possibly temporary, for making single success note sound more airy
+    // @private - possibly temporary, for making single success note sound more airy, and then being able to set the
+    // reverb back to its original state before this type changed it.
     this.defaultReverb = soundManager.reverbLevel;
 
     // this is to handle the case where proportionFitnessSoundSelectorProperty isn't a staccato sound on startup
@@ -141,24 +143,27 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
           this.playCount++;
         }
         else if ( !this.ratioSuccess ) {
+          this.defaultReverb = soundManager.reverbLevel;
           soundManager.reverbLevel = .8;
           if ( designingProperties.staccatoSuccessSoundSelectorProperty.value === 1 ) {
-            this.singleSuccessSoundClip.play();
+            this.playAndSetReverbBack( this.singleSuccessSoundClip );
           }
           else if ( designingProperties.staccatoSuccessSoundSelectorProperty.value === 2 ) {
-            this.singleSuccess7Chord.play();
+            this.playAndSetReverbBack( this.singleSuccess7Chord );
           }
           else if ( designingProperties.staccatoSuccessSoundSelectorProperty.value === 3 ) {
-            this.singleSuccessMajorChord.play();
+            this.playAndSetReverbBack( this.singleSuccessMajorChord );
           }
           else if ( designingProperties.staccatoSuccessSoundSelectorProperty.value === 4 ) {
-            soundManager.reverbLevel = .3;
-            this.singleArpeggiatedChord.play();
+            soundManager.reverbLevel = .5;
+            this.playAndSetReverbBack( this.singleArpeggiatedChord );
           }
           this.ratioSuccess = true;
         }
       }
       else {
+
+        // This handles the case when the fitness changes out of success before the sound has completed
         if ( this.ratioSuccess ) {
           soundManager.reverbLevel = this.defaultReverb;
         }
@@ -167,6 +172,29 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
         this.timeSinceLastPlay = 0;
       }
     }
+  }
+
+  /**
+   * @param {Playable} playable - must also have `isPlayingProperty`
+   * @private
+   */
+  playAndSetReverbBack( playable ) {
+    playable.play();
+    this.setReverbBackWhenDonePlaying( playable.isPlayingProperty );
+  }
+
+  /**
+   * Set a listener that will restore master reverb when isPlayingProperty is set back to false.
+   * @param {Property.<boolean>} isPlayingProperty
+   */
+  setReverbBackWhenDonePlaying( isPlayingProperty ) {
+    assert && assert( isPlayingProperty instanceof Property );
+    const isPlayingListener = isPlaying => {
+      assert && assert( !isPlaying, 'should have stopped playing' );
+      soundManager.reverbLevel = this.defaultReverb;
+      isPlayingProperty.unlink( isPlayingListener );
+    };
+    isPlayingProperty.lazyLink( isPlayingListener );
   }
 
   /**

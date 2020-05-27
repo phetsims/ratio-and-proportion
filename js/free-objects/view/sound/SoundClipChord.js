@@ -5,6 +5,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
 import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
@@ -36,6 +37,9 @@ class SoundClipChord extends SoundGenerator {
       soundClip.connect( this.masterGainNode );
       return soundClip;
     } );
+
+    // @public
+    this.isPlayingProperty = DerivedProperty.or( this.playbackSoundClips.map( soundClip => soundClip.isPlayingProperty ) );
   }
 
   /**
