@@ -299,7 +299,7 @@ class Pointer extends Node {
     // @private
     this.handNode = new Node();
     const handImage = new Image( filledInHandImage );
-    const handCircle = new Circle( 16, {
+    const handCircle = new Circle( 10, {
       fill: 'white'
     } );
 
