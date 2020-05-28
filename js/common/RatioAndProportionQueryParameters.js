@@ -14,7 +14,7 @@ const RatioAndProportionQueryParameters = QueryStringMachine.getAll( {
   // ground" is.
   tolerance: {
     type: 'number',
-    defaultValue: .1
+    defaultValue: .125
   },
 
   // For mechamarker input. Tweak this as needed depending on the input camera, and the range that you will to use in
@@ -27,7 +27,7 @@ const RatioAndProportionQueryParameters = QueryStringMachine.getAll( {
   // For staccato sounds, what is the fastest frequency the sound will play when close or at successful ratio, in ms.
   staccatoMaxFrequency: {
     type: 'number',
-    defaultValue: 80
+    defaultValue: 160
   },
 
   // query parameters for a specific prototype case
