@@ -21,7 +21,7 @@ class SoundClipChord extends SoundGenerator {
     options = merge( {
       initialOutputLevel: .7,
       arpeggiate: false,
-      arpeggiateTime: .25,// in seconds
+      arpeggiateTime: .10,// in seconds
       chordPlaybackRates: [ 1, Math.pow( 2, 4 / 12 ), Math.pow( 2, 7 / 12 ) ] // default to major chord
     }, options );
 
