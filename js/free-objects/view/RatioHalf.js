@@ -225,7 +225,9 @@ class RatioHalf extends Rectangle {
       // recenter cue arrows
       cueArrowUp.bottom = pointer.top - 20;
       cueArrowDown.top = pointer.bottom + 20;
-      cueArrowUp.centerX = cueArrowDown.centerX = pointer.centerX;
+
+      // This .1 is to offset the centering of the white circle in the Pointer class. Don't change this without changing that.
+      cueArrowUp.centerX = cueArrowDown.centerX = pointer.centerX + ( options.isRight ? 1 : -1 ) * pointer.width * .1;
     };
     positionProperty.link( updatePointer );
 
@@ -303,7 +305,7 @@ class Pointer extends Node {
       fill: 'white'
     } );
 
-    // empirical multipliers to center hand on palm.
+    // empirical multipliers to center hand on palm. Don't change these without altering the layout for the cue arrows too.
     handImage.right = handImage.width * .4;
     handImage.bottom = handImage.height * .28;
     this.handNode.children = [ handImage, handCircle ];
