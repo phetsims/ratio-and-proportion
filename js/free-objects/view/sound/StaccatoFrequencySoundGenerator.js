@@ -190,7 +190,6 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
   setReverbBackWhenDonePlaying( isPlayingProperty ) {
     assert && assert( isPlayingProperty instanceof Property );
     const isPlayingListener = isPlaying => {
-      assert && assert( !isPlaying, 'should have stopped playing' );
       soundManager.reverbLevel = this.defaultReverb;
       isPlayingProperty.unlink( isPlayingListener );
     };
