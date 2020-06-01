@@ -93,7 +93,8 @@ class RAPGridLabelsNode extends Node {
     for ( let y = 0; y <= this.totalHeight; y += horizontalSpacing ) {
       const text = new Text( i, {
         centerX: LABEL_X,
-        font: new PhetFont( 18 ),
+        font: new PhetFont( { size: 18, weight: 'bold' } ),
+        fill: 'grey',
         centerY: this.totalHeight - y
       } );
       this.heightOfText = text.height;
