@@ -8,8 +8,8 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import KeyStateTracker from '../../../../scenery/js/accessibility/KeyStateTracker.js';
-import designingProperties from '../designingProperties.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
+import designingProperties from '../designingProperties.js';
 
 class RatioInteractionListener {
 
