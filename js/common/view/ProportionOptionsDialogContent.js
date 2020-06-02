@@ -9,7 +9,7 @@ import HBox from '../../../../scenery/js/nodes/HBox.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
-import CursorDisplay from '../../common/CursorDisplay.js';
+import CursorDisplay from '../CursorDisplay.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 
 // constants

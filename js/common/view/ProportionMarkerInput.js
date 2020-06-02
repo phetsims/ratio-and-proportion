@@ -7,7 +7,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
-import RatioAndProportionQueryParameters from '../../common/RatioAndProportionQueryParameters.js';
+import RatioAndProportionQueryParameters from '../RatioAndProportionQueryParameters.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import MarkerInput from '../../../../tangible/js/MarkerInput.js';
 

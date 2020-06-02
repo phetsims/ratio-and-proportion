@@ -8,7 +8,7 @@
 
 import Property from '../../../../axon/js/Property.js';
 import GridNode from '../../../../griddle/js/GridNode.js';
-import designingProperties from '../../common/designingProperties.js';
+import designingProperties from '../designingProperties.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import GridView from './GridView.js';
 

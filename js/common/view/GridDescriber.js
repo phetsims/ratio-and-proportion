@@ -5,7 +5,7 @@
  */
 
 import Util from '../../../../dot/js/Utils.js';
-import designingProperties from '../../common/designingProperties.js';
+import designingProperties from '../designingProperties.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 

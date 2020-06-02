@@ -10,10 +10,9 @@ import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import RatioRatioAndProportionModel from '../common/model/RatioRatioAndProportionModel.js';
 import RandomIcon from '../common/view/RandomIcon.js';
 import ratioAndProportion from '../ratioAndProportion.js';
-import FreeObjectsScreenView from './view/FreeObjectsScreenView.js';
+import CustomRatioScreenView from './view/CustomRatioScreenView.js';
 
-// TODO: rename to RatioScreen
-class FreeObjectsScreen extends Screen {
+class CustomRatioScreen extends Screen {
 
   /**
    * @param {Tandem} tandem
@@ -23,20 +22,20 @@ class FreeObjectsScreen extends Screen {
     const options = {
       backgroundColorProperty: new Property( 'white' ),
       tandem: tandem,
-      homeScreenIcon: new ScreenIcon( new RandomIcon( 432140, 'free objects' ), {
+      homeScreenIcon: new ScreenIcon( new RandomIcon( 432140, 'Custom Ratio' ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
       } ),
-      name: 'Freely Moving Objects' // TODO: i18n
+      name: 'Custom Ratio' // TODO: i18n
     };
 
     super(
       () => new RatioRatioAndProportionModel( tandem.createTandem( 'model' ) ),
-      model => new FreeObjectsScreenView( model, tandem.createTandem( 'view' ) ),
+      model => new CustomRatioScreenView( model, tandem.createTandem( 'view' ) ),
       options
     );
   }
 }
 
-ratioAndProportion.register( 'FreeObjectsScreen', FreeObjectsScreen );
-export default FreeObjectsScreen;
+ratioAndProportion.register( 'CustomRatioScreen', CustomRatioScreen );
+export default CustomRatioScreen;

@@ -15,8 +15,8 @@ import soundManager from '../../../../../tambo/js/soundManager.js';
 import brightMarimbaSound from '../../../../../tambo/sounds/bright-marimba_mp3.js';
 import pizzC3Sound from '../../../../sounds/pizz-C3_mp3.js';
 import pizzC4Sound from '../../../../sounds/pizz-C4_mp3.js';
-import designingProperties from '../../../common/designingProperties.js';
-import RatioAndProportionQueryParameters from '../../../common/RatioAndProportionQueryParameters.js';
+import designingProperties from '../../designingProperties.js';
+import RatioAndProportionQueryParameters from '../../RatioAndProportionQueryParameters.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import SoundClipChord from './SoundClipChord.js';
 

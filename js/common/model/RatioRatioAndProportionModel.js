@@ -21,7 +21,7 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 const CORRECT_COLOR = new Color( '#639a67' );
 const INCORRECT_COLOR = new Color( 'white' );
 
-class FreeObjectsModel {
+class RatioRatioAndProportionModel {
 
   /**
    * @param {Tandem} tandem
@@ -139,5 +139,5 @@ class FreeObjectsModel {
   }
 }
 
-ratioAndProportion.register( 'FreeObjectsModel', FreeObjectsModel );
-export default FreeObjectsModel;
+ratioAndProportion.register( 'RatioRatioAndProportionModel', RatioRatioAndProportionModel );
+export default RatioRatioAndProportionModel;
