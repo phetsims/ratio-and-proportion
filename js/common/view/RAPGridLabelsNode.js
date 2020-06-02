@@ -103,7 +103,6 @@ class RAPGridLabelsNode extends Node {
       this.addChild( text );
       i++;
     }
-    assert && assert( this.heightOfText < horizontalSpacing, 'Text is too tall for the provided horizontal spacing' );
   }
 }
 
