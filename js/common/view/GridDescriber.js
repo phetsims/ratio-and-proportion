@@ -12,7 +12,7 @@ import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 class GridDescriber {
 
   /**
-   * @param {FreeObjectsModel} model
+   * @param {RatioAndProportionModel} model
    * @param {Tandem} tandem
    */
   constructor( valueRange ) {

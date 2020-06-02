@@ -32,7 +32,7 @@ const RATIO_FITNESS_STRINGS = [
 class RatioDescriber {
 
   /**
-   * @param {FreeObjectsModel} model
+   * @param {RatioAndProportionModel} model
    * @param {GridDescriber} gridDescriber
    */
   constructor( model, gridDescriber ) {
