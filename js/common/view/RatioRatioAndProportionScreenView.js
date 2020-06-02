@@ -11,11 +11,14 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
+import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import RichText from '../../../../scenery/js/nodes/RichText.js';
-import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
+import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
+import FontAwesomeNode from '../../../../sun/js/FontAwesomeNode.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import gridIconImage from '../../../images/grid-icon_png.js';
+import numberedGridIconImage from '../../../images/numbered-grid-icon_png.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import ProportionConstants from '../ProportionConstants.js';
@@ -161,20 +164,22 @@ class RatioRatioAndProportionScreenView extends ScreenView {
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
 
-    // @protected - must be layed out by subtype
-    this.gridViewAquaRadioButtonGroup = new VerticalAquaRadioButtonGroup( gridViewProperty, [ {
-      node: new RichText( 'None' ),
+    // @protected - subtype is responsible for layout
+    this.gridViewRadioButtonGroup = new RadioButtonGroup( gridViewProperty, [ {
+      node: new FontAwesomeNode( 'eye_close', { scale: 0.8 } ),
       value: GridView.NONE,
       labelContent: ratioAndProportionStrings.a11y.grid.showNo
     }, {
-      node: new RichText( 'Grid' ),
+      node: new Image( gridIconImage, { scale: .2 } ),
       value: GridView.HORIZONTAL,
       labelContent: ratioAndProportionStrings.a11y.grid.show
     }, {
-      node: new RichText( 'Numbered Grid' ),
+      node: new Image( numberedGridIconImage, { scale: .2 } ),
       value: GridView.HORIZONTAL_UNITS,
       labelContent: ratioAndProportionStrings.a11y.grid.showNumbered
     } ], {
+      orientation: 'horizontal',
+      baseColor: 'white',
       labelContent: ratioAndProportionStrings.a11y.grid.heading
     } );
 
@@ -184,7 +189,7 @@ class RatioRatioAndProportionScreenView extends ScreenView {
       labelsNode,
 
       // UI
-      this.gridViewAquaRadioButtonGroup,
+      this.gridViewRadioButtonGroup,
       this.resetAllButton,
 
       // Main ratio on top

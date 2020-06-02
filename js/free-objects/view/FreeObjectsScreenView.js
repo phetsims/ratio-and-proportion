@@ -38,8 +38,8 @@ class FreeObjectsScreenView extends RatioRatioAndProportionScreenView {
     // static layout
     comboBox.bottom = this.resetAllButton.top - 140;
     comboBox.right = this.resetAllButton.right + 5;
-    this.gridViewAquaRadioButtonGroup.left = comboBox.left;
-    this.gridViewAquaRadioButtonGroup.bottom = comboBox.top - 20;
+    this.gridViewRadioButtonGroup.left = comboBox.left;
+    this.gridViewRadioButtonGroup.bottom = comboBox.top - 20;
   }
 }
 

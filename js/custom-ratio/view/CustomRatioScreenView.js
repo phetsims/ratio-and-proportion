@@ -97,11 +97,11 @@ class CustomRatioScreenView extends RatioRatioAndProportionScreenView {
 
     // static layout
     myChallengeAccordionBox.right = this.resetAllButton.right;
-    this.gridViewAquaRadioButtonGroup.left = gridBaseUnitComboBox.left = myChallengeAccordionBox.left;
+    this.gridViewRadioButtonGroup.left = gridBaseUnitComboBox.left = myChallengeAccordionBox.left;
 
     myChallengeAccordionBox.bottom = this.resetAllButton.top - 20;
     gridBaseUnitComboBox.bottom = myChallengeAccordionBox.top - 20;
-    this.gridViewAquaRadioButtonGroup.bottom = gridBaseUnitComboBox.top - 20;
+    this.gridViewRadioButtonGroup.bottom = gridBaseUnitComboBox.top - 20;
 
     // @private
     this.resetCustomRatioScreenView = () => {
