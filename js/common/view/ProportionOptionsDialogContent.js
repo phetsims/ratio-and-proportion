@@ -9,8 +9,8 @@ import HBox from '../../../../scenery/js/nodes/HBox.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
-import CursorDisplay from '../CursorDisplay.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
+import CursorDisplay from '../CursorDisplay.js';
 
 // constants
 const RADIO_BUTTON_FONT = new PhetFont( 12 );
@@ -120,23 +120,6 @@ class ProportionOptionsDialogContent extends HBox {
       spacing: 10,
       align: 'left',
       children: [
-        new VBox( {
-          spacing: 10,
-          align: 'left',
-          children: [
-            new RichText( 'Grid Base Unit:' ),
-            new VerticalAquaRadioButtonGroup( designingProperties.gridBaseUnitProperty, [ {
-              node: new OptionsText( 'a:b' ),
-              value: 10
-            }, {
-              node: new OptionsText( '2a:2b' ),
-              value: 20
-            }, {
-              node: new OptionsText( '3a:3b' ),
-              value: 30
-            } ] )
-          ]
-        } ),
         new VBox( {
           spacing: 10,
           align: 'left',

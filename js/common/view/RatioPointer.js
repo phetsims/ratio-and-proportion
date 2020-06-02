@@ -21,7 +21,6 @@ import AccessibleSlider from '../../../../sun/js/accessibility/AccessibleSlider.
 import filledInHandImage from '../../../images/filled-in-hand_png.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import CursorDisplay from '../CursorDisplay.js';
-import designingProperties from '../designingProperties.js';
 
 class RatioPointer extends Node {
 
@@ -29,9 +28,10 @@ class RatioPointer extends Node {
    *
    * @param {Property.<number>} valueProperty
    * @param {Range} valueRange
+   * @param {Property.<number>} gridBaseUnitProperty
    * @param {Object} [options]
    */
-  constructor( valueProperty, valueRange, options ) {
+  constructor( valueProperty, valueRange, gridBaseUnitProperty, options ) {
 
     options = merge( {
       isRight: true, // right hand or left hand
@@ -75,7 +75,7 @@ class RatioPointer extends Node {
     this.crossNode.center = Vector2.ZERO;
 
     // don't change update this for icons
-    !options.asIcon && designingProperties.gridBaseUnitProperty.link( baseUnit => {
+    !options.asIcon && gridBaseUnitProperty.link( baseUnit => {
       const downDelta = 1 / baseUnit;
       this.setKeyboardStep( downDelta );
       this.setShiftKeyboardStep( downDelta / 10 );
@@ -107,11 +107,12 @@ class RatioPointer extends Node {
 
   /**
    * @param {boolean} isRight
+   * @param {Object} [options]
    * @returns {Node}
    */
   static createIcon( isRight, options ) {
     return new Node( {
-      children: [ new RatioPointer( new Property( 0 ), new Range( 0, 1 ), merge( {
+      children: [ new RatioPointer( new Property( 0 ), new Range( 0, 1 ), new Property( 10 ), merge( {
         isRight: isRight,
         asIcon: true,
         pickable: false

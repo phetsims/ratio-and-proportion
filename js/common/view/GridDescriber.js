@@ -5,24 +5,20 @@
  */
 
 import Util from '../../../../dot/js/Utils.js';
-import designingProperties from '../designingProperties.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
 class GridDescriber {
 
   /**
-   * @param {RatioAndProportionModel} model
-   * @param {Tandem} tandem
+   * @param {Range} valueRange
+   * @param {Property.<number>} gridBaseUnitProperty
    */
-  constructor( valueRange ) {
+  constructor( valueRange, gridBaseUnitProperty ) {
 
     // @private
     this.valueRange = valueRange;
-
-    // TODO: probably this means this is not a designing Property and should be refactored
-    // @private
-    this.gridBaseUnitProperty = designingProperties.gridBaseUnitProperty;
+    this.gridBaseUnitProperty = gridBaseUnitProperty;
   }
 
   /**

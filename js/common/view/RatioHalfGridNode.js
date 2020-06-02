@@ -8,7 +8,6 @@
 
 import Property from '../../../../axon/js/Property.js';
 import GridNode from '../../../../griddle/js/GridNode.js';
-import designingProperties from '../designingProperties.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import GridView from './GridView.js';
 
@@ -16,23 +15,25 @@ class RatioHalfGridNode extends GridNode {
 
   /**
    * @param {Property.<GridView>} gridViewProperty
+   * @param {Property.<number>} gridBaseUnitProperty
    * @param {number} width
    * @param {number} height
    * @param {Object} [options]
    */
-  constructor( gridViewProperty, width, height, options ) {
+  constructor( gridViewProperty, gridBaseUnitProperty, width, height, options ) {
 
     super( width, height );
 
     // @private
     this.gridViewProperty = gridViewProperty;
+    this.gridBaseUnitProperty = gridBaseUnitProperty;
 
     // TODO: is this line actually necessary?
     // support lines to begin with. This handles the case where the GridNode initialized to having no line.
     this.setLineSpacings( null, null, 10, 10 );
     this.mutate( options );
 
-    Property.multilink( [ designingProperties.gridBaseUnitProperty, gridViewProperty ], this.update.bind( this ) );
+    Property.multilink( [ gridBaseUnitProperty, gridViewProperty ], this.update.bind( this ) );
   }
 
   /**
@@ -41,7 +42,7 @@ class RatioHalfGridNode extends GridNode {
   layout( width, height ) {
     this.setGridWidth( width );
     this.setGridHeight( height );
-    this.update( designingProperties.gridBaseUnitProperty.value, this.gridViewProperty.value );
+    this.update( this.gridBaseUnitProperty.value, this.gridViewProperty.value );
   }
 
   /**

@@ -10,7 +10,6 @@ import Property from '../../../../axon/js/Property.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import designingProperties from '../designingProperties.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import GridView from './GridView.js';
 
@@ -20,10 +19,11 @@ class RAPGridLabelsNode extends Node {
 
   /**
    * @param {Property.<GridView>} gridViewProperty
+   * @param {Property.<number>} gridBaseUnitProperty
    * @param {number} height
    * @param {Object} [options]
    */
-  constructor( gridViewProperty, height, options ) {
+  constructor( gridViewProperty, gridBaseUnitProperty, height, options ) {
 
     if ( options ) {
       assert && assert( !options.hasOwnProperty( 'children' ), 'RAPGridLabelsNode sets its own children' );
@@ -39,10 +39,11 @@ class RAPGridLabelsNode extends Node {
 
     // @private
     this.gridViewProperty = gridViewProperty;
+    this.gridBaseUnitProperty = gridBaseUnitProperty;
 
     this.mutate( options );
 
-    Property.multilink( [ designingProperties.gridBaseUnitProperty, gridViewProperty ], this.update.bind( this ) );
+    Property.multilink( [ gridBaseUnitProperty, gridViewProperty ], this.update.bind( this ) );
   }
 
   /**
@@ -62,7 +63,7 @@ class RAPGridLabelsNode extends Node {
   layout( height ) {
 
     this.totalHeight = height;
-    this.update( designingProperties.gridBaseUnitProperty.value, this.gridViewProperty.value );
+    this.update( this.gridBaseUnitProperty.value, this.gridViewProperty.value );
   }
 
   /**

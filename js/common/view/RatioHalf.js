@@ -47,11 +47,12 @@ class RatioHalf extends Rectangle {
    * @param {Property.<boolean>} firstInteractionProperty - upon successful interaction, this will be marked as false
    * @param {Bounds2} bounds - the area that the node takes up
    * @param {EnumerationProperty.<GridView>} gridViewProperty
+   * @param {Property.<number>} gridBaseUnitProperty
    * @param {RatioDescriber} ratioDescriber
    * @param {GridDescriber} gridDescriber
    * @param {Object} [options]
    */
-  constructor( positionProperty, valueProperty, valueRange, firstInteractionProperty, bounds, gridViewProperty, ratioDescriber, gridDescriber, options ) {
+  constructor( positionProperty, valueProperty, valueRange, firstInteractionProperty, bounds, gridViewProperty, gridBaseUnitProperty, ratioDescriber, gridDescriber, options ) {
 
     options = merge( {
       cursor: 'pointer',
@@ -82,11 +83,11 @@ class RatioHalf extends Rectangle {
     // @private
     this.alertManager = new FreeObjectAlertManager( valueProperty, gridViewProperty, ratioDescriber, gridDescriber, options.isRight );
 
-    const gridNode = new RatioHalfGridNode( gridViewProperty, bounds.width, bounds.height - 2 * FRAMING_RECTANGLE_HEIGHT );
+    const gridNode = new RatioHalfGridNode( gridViewProperty, gridBaseUnitProperty, bounds.width, bounds.height - 2 * FRAMING_RECTANGLE_HEIGHT );
     this.addChild( gridNode );
 
     // The draggable element inside the Node framed with thick rectangles on the top and bottom.
-    const pointer = new RatioPointer( valueProperty, valueRange, {
+    const pointer = new RatioPointer( valueProperty, valueRange, gridBaseUnitProperty, {
       startDrag: () => { firstInteractionProperty.value = false; },
       isRight: options.isRight
     } );
@@ -132,8 +133,8 @@ class RatioHalf extends Rectangle {
         const value = valueProperty.value;
 
         // handle the sound as desired for mouse/touch style input
-        for ( let i = 0; i < designingProperties.gridBaseUnitProperty.value; i++ ) {
-          const tickValue = ( i / valueRange.getLength() ) / designingProperties.gridBaseUnitProperty.value;
+        for ( let i = 0; i < gridBaseUnitProperty.value; i++ ) {
+          const tickValue = ( i / valueRange.getLength() ) / gridBaseUnitProperty.value;
           if ( lastValue !== value && ( value === valueRange.min || value === valueRange.max ) ) {
             sliderBoundaryClickSoundClip.play();
             break;

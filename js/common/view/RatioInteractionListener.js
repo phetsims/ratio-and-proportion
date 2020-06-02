@@ -9,7 +9,6 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import KeyStateTracker from '../../../../scenery/js/accessibility/KeyStateTracker.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import designingProperties from '../designingProperties.js';
 
 class RatioInteractionListener {
 
@@ -19,13 +18,16 @@ class RatioInteractionListener {
    * @param {Property.<number>}rightValueProperty
    * @param {Range} valueRange
    * @param {Property.<boolean>} firstInteractionProperty
+   * @param {Property.<number>} gridBaseUnitProeprty
    */
-  constructor( targetNode, leftValueProperty, rightValueProperty, valueRange, firstInteractionProperty ) {
+  constructor( targetNode, leftValueProperty, rightValueProperty, valueRange, firstInteractionProperty, gridBaseUnitProperty ) {
 
+    // @private
     this.keyStateTracker = new KeyStateTracker();
     this.valueRange = valueRange;
     this.targetNode = targetNode;
     this.firstInteractionProperty = firstInteractionProperty;
+    this.gridBaseUnitProperty = gridBaseUnitProperty;
 
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
 
@@ -60,7 +62,7 @@ class RatioInteractionListener {
    */
   updateValue( property, increment ) {
     this.firstInteractionProperty.value = false;
-    const value = 1 / designingProperties.gridBaseUnitProperty.value;
+    const value = 1 / this.gridBaseUnitProperty.value;
     const amount = this.keyStateTracker.shiftKeyDown ? value / 10 : value;
     property.value = this.valueRange.constrainValue( property.value + ( amount * ( increment ? 1 : -1 ) ) );
   }

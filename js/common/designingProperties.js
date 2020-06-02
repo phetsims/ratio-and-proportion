@@ -29,10 +29,6 @@ class DesigningProperties {
 
     // @public {Property.<CursorDisplay>} - this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/17
     this.markerDisplayProperty = new EnumerationProperty( CursorDisplay, CursorDisplay.HAND );
-
-    // @public what is the unit value of the grid. Value reads as "1/x of the view height." This does not effect vertical
-    // grid lines. this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/36
-    this.gridBaseUnitProperty = new NumberProperty( 10 );
   }
 }
 

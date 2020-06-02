@@ -6,6 +6,8 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import merge from '../../../../phet-core/js/merge.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
@@ -39,12 +41,20 @@ const CONTROL_PANEL_WIDTH = 200;
 class RatioRatioAndProportionScreenView extends ScreenView {
 
   /**
+   * // TODO: rename from RatioRatioAndProportionModel
    * @param {RatioAndProportionModel} model
    * @param {Tandem} tandem
+   * @param options
    */
-  constructor( model, tandem ) {
+  constructor( model, tandem, options ) {
 
-    const gridDescriber = new GridDescriber( model.valueRange );
+    options = merge( {
+
+      // What is the unit value of the grid. Value reads as "1/x of the view height."
+      gridBaseUnitProperty: new NumberProperty( 10 )
+    }, options );
+
+    const gridDescriber = new GridDescriber( model.valueRange, options.gridBaseUnitProperty );
     const ratioDescriber = new RatioDescriber( model, gridDescriber );
 
     const gridViewProperty = new EnumerationProperty( GridView, GridView.NONE, {
@@ -76,6 +86,7 @@ class RatioRatioAndProportionScreenView extends ScreenView {
       model.firstInteractionProperty,
       defaultRatioHalfBounds,
       gridViewProperty,
+      options.gridBaseUnitProperty,
       ratioDescriber,
       gridDescriber, {
         labelContent: ratioAndProportionStrings.a11y.leftHand,
@@ -91,6 +102,7 @@ class RatioRatioAndProportionScreenView extends ScreenView {
       model.firstInteractionProperty,
       defaultRatioHalfBounds,
       gridViewProperty,
+      options.gridBaseUnitProperty,
       ratioDescriber,
       gridDescriber, {
         labelContent: ratioAndProportionStrings.a11y.rightHand
@@ -128,7 +140,7 @@ class RatioRatioAndProportionScreenView extends ScreenView {
     soundManager.addSoundGenerator( this.proportionFitnessSoundGenerator );
 
     // these dimensions are just temporary, and will be recomputed below in the layout function
-    const labelsNode = new RAPGridLabelsNode( gridViewProperty, 1000 );
+    const labelsNode = new RAPGridLabelsNode( gridViewProperty, options.gridBaseUnitProperty, 1000 );
 
     const backgroundNode = Rectangle.bounds( this.layoutBounds, {
       fill: 'black'
