@@ -25,7 +25,7 @@ import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 class CustomRatioScreenView extends RatioRatioAndProportionScreenView {
 
   /**
-   * @param {RatioRatioAndProportionModel} model
+   * @param {RatioAndProportionModel} model
    * @param {Tandem} tandem
    */
   constructor( model, tandem ) {

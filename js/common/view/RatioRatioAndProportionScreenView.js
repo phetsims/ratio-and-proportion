@@ -41,7 +41,6 @@ const CONTROL_PANEL_WIDTH = 200;
 class RatioRatioAndProportionScreenView extends ScreenView {
 
   /**
-   * // TODO: rename from RatioRatioAndProportionModel
    * @param {RatioAndProportionModel} model
    * @param {Tandem} tandem
    * @param options

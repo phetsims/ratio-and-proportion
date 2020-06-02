@@ -7,7 +7,7 @@
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
-import RatioRatioAndProportionModel from '../common/model/RatioRatioAndProportionModel.js';
+import RatioAndProportionModel from '../common/model/RatioAndProportionModel.js';
 import RandomIcon from '../common/view/RandomIcon.js';
 import ratioAndProportion from '../ratioAndProportion.js';
 import FreeObjectsScreenView from './view/FreeObjectsScreenView.js';
@@ -31,7 +31,7 @@ class FreeObjectsScreen extends Screen {
     };
 
     super(
-      () => new RatioRatioAndProportionModel( tandem.createTandem( 'model' ) ),
+      () => new RatioAndProportionModel( tandem.createTandem( 'model' ) ),
       model => new FreeObjectsScreenView( model, tandem.createTandem( 'view' ) ),
       options
     );
