@@ -6,10 +6,10 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import merge from '../../../../phet-core/js/merge.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
+import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
@@ -50,7 +50,8 @@ class RatioRatioAndProportionScreenView extends ScreenView {
 
     options = merge( {
 
-      // What is the unit value of the grid. Value reads as "1/x of the view height."
+      // What is the unit value of the grid. Value reads as "1/x of the view height." This type is responsible for
+      // resetting this on reset all.
       gridBaseUnitProperty: new NumberProperty( 10 )
     }, options );
 
@@ -155,6 +156,7 @@ class RatioRatioAndProportionScreenView extends ScreenView {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         model.reset();
+        options.gridBaseUnitProperty.reset();
         this.reset();
       },
       tandem: tandem.createTandem( 'resetAllButton' )
