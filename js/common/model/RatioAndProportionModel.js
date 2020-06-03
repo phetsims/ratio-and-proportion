@@ -62,6 +62,15 @@ class RatioAndProportionModel {
     // @public (read-only) - the Range that the proportionFitnessProperty can be.
     this.fitnessRange = new Range( 0, 1 );
 
+    // @private - keep track of which valueProperty is being changed most recently, because tolerance depends on it.
+    this.lastChanged = this.leftValueProperty;
+    this.leftValueProperty.link( () => {
+      this.lastChanged = this.leftValueProperty;
+    } );
+    this.rightValueProperty.link( () => {
+      this.lastChanged = this.rightValueProperty;
+    } );
+
     // @public {DerivedProperty.<number>}
     // How "correct" the proportion currently is. Can be between 0 and 1, if 1, the proportion of the two values is
     // exactly the value of the ratioProperty. If zero, it is outside the tolerance allowed for the proportion.
@@ -71,12 +80,20 @@ class RatioAndProportionModel {
       this.ratioProperty,
       this.toleranceProperty
     ], ( leftValue, rightValue, ratio, tolerance ) => {
-      const currentRatio = leftValue / rightValue;
-      if ( isNaN( currentRatio ) ) {
+      if ( isNaN( leftValue / rightValue ) ) {
         return 0;
       }
-      const ratioError = currentRatio - ratio;
-      return 1 - Util.clamp( Math.abs( ratioError ) / tolerance, 0, 1 );
+
+      let fitnessError = null;
+      if ( this.lastChanged === this.leftValueProperty ) {
+        const expectedLeftValue = ratio * rightValue;
+        fitnessError = Math.abs( leftValue - expectedLeftValue );
+      }
+      else {
+        const expectedLeftValue = leftValue / ratio;
+        fitnessError = Math.abs( rightValue - expectedLeftValue );
+      }
+      return 1 - Util.clamp( fitnessError / tolerance, 0, 1 );
     }, {
       isValidValue: value => this.fitnessRange.contains( value )
     } );

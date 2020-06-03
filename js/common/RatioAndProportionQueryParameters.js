@@ -11,10 +11,11 @@ import ratioAndProportion from '../ratioAndProportion.js';
 const RatioAndProportionQueryParameters = QueryStringMachine.getAll( {
 
   // Adjust the tolerance for the proportion fitness algorithm. The higher the tolerance, the wider the fitness "middle
-  // ground" is.
+  // ground" is. The specific unit is a percent of the height of the ratio, in either direction from the ratio. So a
+  // tolerance of .2 will map fitness of 0 to .2 above or below the target value for that ratio half. See https://github.com/phetsims/ratio-and-proportion/issues/14
   tolerance: {
     type: 'number',
-    defaultValue: .125
+    defaultValue: .2
   },
 
   // For mechamarker input. Tweak this as needed depending on the input camera, and the range that you will to use in
