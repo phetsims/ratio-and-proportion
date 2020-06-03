@@ -12,6 +12,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
@@ -119,10 +120,22 @@ class RatioHalf extends Rectangle {
     // Keep track of the last time a sound was played so that we don't play too often
     let timeOfLastClick = 0;
 
+    let modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
+      positionProperty.validBounds,
+      bounds );
+
+    // offset the bounds to account for the pointer's size, since the center of the pointer is controlled by the drag bounds.
+    const modelHalfPointerPointer = modelViewTransform.viewToModelDeltaXY( pointer.width / 2, -FRAMING_RECTANGLE_HEIGHT );
+
+    // constrain x dimension inside the RatioHalf so that pointer doesn't go beyond the width. Height is constrained
+    // via the modelViewTransform.
+    const dragBounds = positionProperty.validBounds.erodedX( modelHalfPointerPointer.x );
+
     // transform and dragBounds set in layout code below
     const dragListener = new DragListener( {
       positionProperty: positionProperty,
       tandem: options.tandem.createTandem( 'dragListener' ),
+      dragBoundsProperty: new Property( dragBounds ),
       start: () => {
         commonGrabSoundClip.play();
         firstInteractionProperty.value = false;
@@ -190,27 +203,6 @@ class RatioHalf extends Rectangle {
 
     this.mutate( options );
 
-    let modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
-      positionProperty.validBounds,
-      bounds );
-
-    const recomputeDragBounds = () => {
-
-      // offset the bounds to account for the pointer's size, since the center of the pointer is controlled by the drag bounds.
-      const modelHalfPointerPointer = modelViewTransform.viewToModelDeltaXY( pointer.width / 2, -FRAMING_RECTANGLE_HEIGHT );
-
-      // constrain x dimension inside the RatioHalf so that pointer doesn't go beyond the width. Height is constrained
-      // via the modelViewTransform.
-      const dragBounds = positionProperty.validBounds.erodedX( modelHalfPointerPointer.x );
-
-      dragListener.dragBounds = dragBounds;
-    };
-
-    designingProperties.markerDisplayProperty.link( displayType => {
-      pointer.updatePointerView( displayType );
-      recomputeDragBounds();
-    } );
-
     const updatePointer = position => {
       pointer.translation = modelViewTransform.modelToViewPosition( position );
 
@@ -244,7 +236,6 @@ class RatioHalf extends Rectangle {
 
       updatePointer( positionProperty.value );
 
-      recomputeDragBounds();
       dragListener.transform = modelViewTransform;
 
       gridNode.layout( boundsNoFramingRects.width, boundsNoFramingRects.height );

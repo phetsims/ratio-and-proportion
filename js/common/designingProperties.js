@@ -6,10 +6,8 @@
  */
 
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
-import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import ratioAndProportion from '../ratioAndProportion.js';
-import CursorDisplay from './CursorDisplay.js';
 
 class DesigningProperties {
 
@@ -26,9 +24,6 @@ class DesigningProperties {
 
     // border and click sounds for the vertical ratio pointer movement, this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/45
     this.ratioUISoundsEnabledProperty = new BooleanProperty( true );
-
-    // @public {Property.<CursorDisplay>} - this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/17
-    this.markerDisplayProperty = new EnumerationProperty( CursorDisplay, CursorDisplay.HAND );
   }
 }
 

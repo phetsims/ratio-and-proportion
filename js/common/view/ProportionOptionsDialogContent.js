@@ -10,7 +10,6 @@ import RichText from '../../../../scenery/js/nodes/RichText.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import CursorDisplay from '../CursorDisplay.js';
 
 // constants
 const RADIO_BUTTON_FONT = new PhetFont( 12 );
@@ -79,8 +78,8 @@ class ProportionOptionsDialogContent extends HBox {
       ]
     } );
 
-    const ratioUISoundAndCursorContent = new VBox( {
-      spacing: 15,
+    const gridBaseAndVelocitySoundContent = new VBox( {
+      spacing: 10,
       align: 'left',
       children: [
         new VBox( {
@@ -96,30 +95,7 @@ class ProportionOptionsDialogContent extends HBox {
               value: false
             } ] )
           ]
-        } ), new VBox( {
-          spacing: 10,
-          align: 'left',
-          children: [
-            new RichText( 'Cursor:' ),
-            new VerticalAquaRadioButtonGroup( designingProperties.markerDisplayProperty, [ {
-              node: new OptionsText( 'Hand' ),
-              value: CursorDisplay.HAND
-            }, {
-              node: new OptionsText( 'Circle' ),
-              value: CursorDisplay.CIRCLE
-            }, {
-              node: new OptionsText( 'Cross' ),
-              value: CursorDisplay.CROSS
-            } ] )
-          ]
-        } )
-      ]
-    } );
-
-    const gridBaseAndVelocitySoundContent = new VBox( {
-      spacing: 10,
-      align: 'left',
-      children: [
+        } ),
         new VBox( {
           spacing: 10,
           align: 'left',
@@ -141,7 +117,7 @@ class ProportionOptionsDialogContent extends HBox {
     } );
 
     super( {
-      children: [ soundOptionsNode, ratioUISoundAndCursorContent, gridBaseAndVelocitySoundContent ],
+      children: [ soundOptionsNode, gridBaseAndVelocitySoundContent ],
       spacing: 30,
       align: 'top'
     } );

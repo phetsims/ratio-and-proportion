@@ -8,19 +8,14 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
-import PlusNode from '../../../../scenery-phet/js/PlusNode.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import AccessibleSlider from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import filledInHandImage from '../../../images/filled-in-hand_png.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import CursorDisplay from '../CursorDisplay.js';
 
 class RatioPointer extends Node {
 
@@ -59,21 +54,6 @@ class RatioPointer extends Node {
 
     this.addChild( this.handNode );
 
-    // @private
-    this.circleNode = new Circle( 20, {
-      fill: 'black'
-    } );
-    this.circleNode.center = Vector2.ZERO;
-
-    const cross = new PlusNode( {
-      size: new Dimension2( 40, 8 )
-    } );
-    const crossBackground = Rectangle.bounds( cross.bounds );
-
-    // @private
-    this.crossNode = new Node( { children: [ cross, crossBackground ] } );
-    this.crossNode.center = Vector2.ZERO;
-
     // don't change update this for icons
     !options.asIcon && gridBaseUnitProperty.link( baseUnit => {
       const downDelta = 1 / baseUnit;
@@ -84,26 +64,6 @@ class RatioPointer extends Node {
 
     this.mutate( options );
   }
-
-  /**
-   * @public
-   * @param {CursorDisplay} cursorDisplay
-   */
-  updatePointerView( cursorDisplay ) {
-    if ( cursorDisplay === CursorDisplay.CIRCLE ) {
-      this.children = [ this.circleNode ];
-    }
-    else if ( cursorDisplay === CursorDisplay.CROSS ) {
-      this.children = [ this.crossNode ];
-    }
-    else if ( cursorDisplay === CursorDisplay.HAND ) {
-      this.children = [ this.handNode ];
-    }
-    else {
-      assert && assert( false, `unsupported cursorDisplay: ${cursorDisplay}` );
-    }
-  }
-
 
   /**
    * @param {boolean} isRight
