@@ -31,7 +31,7 @@ import designingProperties from '../designingProperties.js';
 import FreeObjectAlertManager from './FreeObjectAlertManager.js';
 import GridView from './GridView.js';
 import RatioHalfGridNode from './RatioHalfGridNode.js';
-import RatioPointer from './RatioPointer.js';
+import RatioHandNode from './RatioHandNode.js';
 
 // contants
 const FRAMING_RECTANGLE_HEIGHT = 16;
@@ -56,7 +56,7 @@ class RatioHalf extends Rectangle {
   constructor( positionProperty, valueProperty, valueRange, firstInteractionProperty, bounds, gridViewProperty, gridBaseUnitProperty, ratioDescriber, gridDescriber, options ) {
 
     options = merge( {
-      cursor: 'pointer',
+      cursor: 'ratioHandNode',
       isRight: true, // right ratio or the left ratio
       tandem: Tandem.OPTIONAL,
 
@@ -88,11 +88,11 @@ class RatioHalf extends Rectangle {
     this.addChild( gridNode );
 
     // The draggable element inside the Node framed with thick rectangles on the top and bottom.
-    const pointer = new RatioPointer( valueProperty, valueRange, gridBaseUnitProperty, {
+    const ratioHandNode = new RatioHandNode( valueProperty, valueRange, gridBaseUnitProperty, {
       startDrag: () => { firstInteractionProperty.value = false; },
       isRight: options.isRight
     } );
-    this.addChild( pointer );
+    this.addChild( ratioHandNode );
 
     // Sound for the wave slider clicks
     const addSoundOptions = { categoryName: 'user-interface' };
@@ -124,10 +124,10 @@ class RatioHalf extends Rectangle {
       positionProperty.validBounds,
       bounds );
 
-    // offset the bounds to account for the pointer's size, since the center of the pointer is controlled by the drag bounds.
-    const modelHalfPointerPointer = modelViewTransform.viewToModelDeltaXY( pointer.width / 2, -FRAMING_RECTANGLE_HEIGHT );
+    // offset the bounds to account for the ratioHandNode's size, since the center of the ratioHandNode is controlled by the drag bounds.
+    const modelHalfPointerPointer = modelViewTransform.viewToModelDeltaXY( ratioHandNode.width / 2, -FRAMING_RECTANGLE_HEIGHT );
 
-    // constrain x dimension inside the RatioHalf so that pointer doesn't go beyond the width. Height is constrained
+    // constrain x dimension inside the RatioHalf so that ratioHandNode doesn't go beyond the width. Height is constrained
     // via the modelViewTransform.
     const dragBounds = positionProperty.validBounds.erodedX( modelHalfPointerPointer.x );
 
@@ -169,8 +169,8 @@ class RatioHalf extends Rectangle {
         this.alertManager.dragEndListener( valueProperty.get() );
       }
     } );
-    pointer.addInputListener( dragListener );
-    pointer.addInputListener( {
+    ratioHandNode.addInputListener( dragListener );
+    ratioHandNode.addInputListener( {
       focus: () => {
         commonGrabSoundClip.play();
         this.isBeingInteractedWithProperty.value = true;
@@ -204,14 +204,14 @@ class RatioHalf extends Rectangle {
     this.mutate( options );
 
     const updatePointer = position => {
-      pointer.translation = modelViewTransform.modelToViewPosition( position );
+      ratioHandNode.translation = modelViewTransform.modelToViewPosition( position );
 
       // recenter cue arrows
-      cueArrowUp.bottom = pointer.top - 20;
-      cueArrowDown.top = pointer.bottom + 20;
+      cueArrowUp.bottom = ratioHandNode.top - 20;
+      cueArrowDown.top = ratioHandNode.bottom + 20;
 
       // This .1 is to offset the centering of the white circle in the Pointer class. Don't change this without changing that.
-      cueArrowUp.centerX = cueArrowDown.centerX = pointer.centerX + ( options.isRight ? 1 : -1 ) * pointer.width * .1;
+      cueArrowUp.centerX = cueArrowDown.centerX = ratioHandNode.centerX + ( options.isRight ? 1 : -1 ) * ratioHandNode.width * .1;
     };
     positionProperty.link( updatePointer );
 

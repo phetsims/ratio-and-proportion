@@ -17,7 +17,7 @@ import AccessibleSlider from '../../../../sun/js/accessibility/AccessibleSlider.
 import filledInHandImage from '../../../images/filled-in-hand_png.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 
-class RatioPointer extends Node {
+class RatioHandNode extends Node {
 
   /**
    *
@@ -72,7 +72,7 @@ class RatioPointer extends Node {
    */
   static createIcon( isRight, options ) {
     return new Node( {
-      children: [ new RatioPointer( new Property( 0 ), new Range( 0, 1 ), new Property( 10 ), merge( {
+      children: [ new RatioHandNode( new Property( 0 ), new Range( 0, 1 ), new Property( 10 ), merge( {
         isRight: isRight,
         asIcon: true,
         pickable: false
@@ -81,7 +81,7 @@ class RatioPointer extends Node {
   }
 }
 
-AccessibleSlider.mixInto( RatioPointer );
+AccessibleSlider.mixInto( RatioHandNode );
 
-ratioAndProportion.register( 'RatioPointer', RatioPointer );
-export default RatioPointer;
+ratioAndProportion.register( 'RatioHandNode', RatioHandNode );
+export default RatioHandNode;

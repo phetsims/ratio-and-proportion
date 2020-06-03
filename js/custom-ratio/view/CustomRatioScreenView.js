@@ -17,7 +17,7 @@ import VBox from '../../../../scenery/js/nodes/VBox.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
-import RatioPointer from '../../common/view/RatioPointer.js';
+import RatioHandNode from '../../common/view/RatioHandNode.js';
 import RatioRatioAndProportionScreenView from '../../common/view/RatioRatioAndProportionScreenView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
@@ -45,7 +45,7 @@ class CustomRatioScreenView extends RatioRatioAndProportionScreenView {
       align: 'center',
       spacing: 10,
       children: [
-        RatioPointer.createIcon( false, { scale: .8 } ),
+        RatioHandNode.createIcon( false, { scale: .8 } ),
         new NumberPicker( numberatorProperty, new Property( new Range( 1, 10 ) ) ) ]
     } );
 
@@ -54,7 +54,7 @@ class CustomRatioScreenView extends RatioRatioAndProportionScreenView {
       align: 'center',
       spacing: 10,
       children: [
-        RatioPointer.createIcon( true, { scale: .8 } ),
+        RatioHandNode.createIcon( true, { scale: .8 } ),
         new NumberPicker( denominatorProperty, new Property( new Range( 1, 10 ) ) ) ]
     } );
 
