@@ -71,6 +71,10 @@ class RatioAndProportionModel {
       this.lastChanged = this.rightValueProperty;
     } );
 
+    // @public (read-only) - the velocity of each value changing, adjusted in step
+    this.leftVelocityProperty = new NumberProperty( 0 );
+    this.rightVelocityProperty = new NumberProperty( 0 );
+
     // @public {DerivedProperty.<number>}
     // How "correct" the proportion currently is. Can be between 0 and 1, if 1, the proportion of the two values is
     // exactly the value of the ratioProperty. If zero, it is outside the tolerance allowed for the proportion.
@@ -85,7 +89,10 @@ class RatioAndProportionModel {
       }
 
       let fitnessError = null;
-      if ( this.lastChanged === this.leftValueProperty ) {
+      if ( this.lastChanged === this.leftValueProperty ||
+
+           // TODO: try to remove this in exchange for a better tolerance algorithm
+           ( this.leftValueProperty.value > 0 && this.rightVelocityProperty.value > 0 ) ) {
         const expectedLeftValue = ratio * rightValue;
         fitnessError = Math.abs( leftValue - expectedLeftValue );
       }
@@ -105,10 +112,6 @@ class RatioAndProportionModel {
 
     // @public - true before and until first user interaction with the simulation. Reset will apply to this Property.
     this.firstInteractionProperty = new BooleanProperty( true );
-
-    // @public (read-only) - the velocity of each value changing, adjusted in step
-    this.leftVelocityProperty = new NumberProperty( 0 );
-    this.rightVelocityProperty = new NumberProperty( 0 );
 
     // @private
     this.previousLeftValueProperty = new NumberProperty( this.leftValueProperty.value );
