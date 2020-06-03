@@ -67,7 +67,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
 
     // @private
     this.timeLinearFunction = new LinearFunction( fitnessRange.min, fitnessRange.max, 500,
-      RatioAndProportionQueryParameters.staccatoMaxFrequency, true );
+      RatioAndProportionQueryParameters.staccatoMinRepeatTime, true );
 
     // @private {number} - in ms
     this.timeSinceLastPlay = 0;

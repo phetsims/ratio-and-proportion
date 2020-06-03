@@ -24,10 +24,10 @@ const RatioAndProportionQueryParameters = QueryStringMachine.getAll( {
     defaultValue: 600
   },
 
-  // For staccato sounds, what is the fastest frequency the sound will play when close or at successful ratio, in ms.
-  staccatoMaxFrequency: {
+  // For staccato sounds, what is the quickest interval that the sound will play when close or at successful ratio, in ms.
+  staccatoMinRepeatTime: {
     type: 'number',
-    defaultValue: 160
+    defaultValue: 120
   },
 
   // query parameters for a specific prototype case
