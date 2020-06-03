@@ -122,7 +122,7 @@ class RatioRatioAndProportionScreenView extends ScreenView {
       ]
     } );
     const ratioInteractionListener = new RatioInteractionListener( a11yRatioContainer, model.leftValueProperty,
-      model.rightValueProperty, model.valueRange, model.firstInteractionProperty );
+      model.rightValueProperty, model.valueRange, model.firstInteractionProperty, options.gridBaseUnitProperty );
     a11yRatioContainer.addInputListener( ratioInteractionListener );
 
     // @private
