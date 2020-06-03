@@ -76,7 +76,7 @@ class RatioRatioAndProportionScreenView extends ScreenView {
       )
     } );
 
-    // @private
+    // @protected
     this.gridViewProperty = gridViewProperty;
 
     const defaultRatioHalfBounds = Bounds2.rect( 0, 0, RATIO_HALF_WIDTH, LAYOUT_BOUNDS.height );

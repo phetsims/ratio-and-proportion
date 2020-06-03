@@ -88,7 +88,7 @@ class RatioHalf extends Rectangle {
     this.addChild( gridNode );
 
     // The draggable element inside the Node framed with thick rectangles on the top and bottom.
-    const ratioHandNode = new RatioHandNode( valueProperty, valueRange, gridBaseUnitProperty, {
+    const ratioHandNode = new RatioHandNode( valueProperty, valueRange, gridViewProperty, gridBaseUnitProperty, {
       startDrag: () => { firstInteractionProperty.value = false; },
       isRight: options.isRight
     } );

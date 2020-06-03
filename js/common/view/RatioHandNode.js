@@ -16,6 +16,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import AccessibleSlider from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import filledInHandImage from '../../../images/filled-in-hand_png.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
+import GridView from './GridView.js';
 
 class RatioHandNode extends Node {
 
@@ -23,10 +24,11 @@ class RatioHandNode extends Node {
    *
    * @param {Property.<number>} valueProperty
    * @param {Range} valueRange
+   * @param {EnumerationProperty.<GridView>} gridViewProperty
    * @param {Property.<number>} gridBaseUnitProperty
    * @param {Object} [options]
    */
-  constructor( valueProperty, valueRange, gridBaseUnitProperty, options ) {
+  constructor( valueProperty, valueRange, gridViewProperty, gridBaseUnitProperty, options ) {
 
     options = merge( {
       isRight: true, // right hand or left hand
@@ -47,6 +49,11 @@ class RatioHandNode extends Node {
     handImage.right = handImage.width * .4;
     handImage.bottom = handImage.height * .28;
 
+    // Only display the "target circles" when the grid is being shown
+    gridViewProperty.link( gridView => {
+      handCircle.visible = GridView.displayHorizontal( gridView );
+    } );
+
     // don't change update this for icons
     !options.asIcon && gridBaseUnitProperty.link( baseUnit => {
       const downDelta = 1 / baseUnit;
@@ -66,12 +73,13 @@ class RatioHandNode extends Node {
 
   /**
    * @param {boolean} isRight
+   * @param {EnumerationProperty.<GridView>} gridViewProperty
    * @param {Object} [options]
    * @returns {Node}
    */
-  static createIcon( isRight, options ) {
+  static createIcon( isRight, gridViewProperty, options ) {
     return new Node( {
-      children: [ new RatioHandNode( new Property( 0 ), new Range( 0, 1 ), new Property( 10 ), merge( {
+      children: [ new RatioHandNode( new Property( 0 ), new Range( 0, 1 ), gridViewProperty, new Property( 10 ), merge( {
         isRight: isRight,
         asIcon: true,
         pickable: false

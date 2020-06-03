@@ -45,7 +45,7 @@ class CustomRatioScreenView extends RatioRatioAndProportionScreenView {
       align: 'center',
       spacing: 10,
       children: [
-        RatioHandNode.createIcon( false, { scale: .8 } ),
+        RatioHandNode.createIcon( false, this.gridViewProperty, { scale: .8 } ),
         new NumberPicker( numberatorProperty, new Property( new Range( 1, 10 ) ) ) ]
     } );
 
@@ -54,7 +54,7 @@ class CustomRatioScreenView extends RatioRatioAndProportionScreenView {
       align: 'center',
       spacing: 10,
       children: [
-        RatioHandNode.createIcon( true, { scale: .8 } ),
+        RatioHandNode.createIcon( true, this.gridViewProperty, { scale: .8 } ),
         new NumberPicker( denominatorProperty, new Property( new Range( 1, 10 ) ) ) ]
     } );
 
