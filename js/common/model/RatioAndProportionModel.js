@@ -97,8 +97,8 @@ class RatioAndProportionModel {
         fitnessError = Math.abs( leftValue - expectedLeftValue );
       }
       else {
-        const expectedLeftValue = leftValue / ratio;
-        fitnessError = Math.abs( rightValue - expectedLeftValue );
+        const expectedRightValue = leftValue / ratio;
+        fitnessError = Math.abs( rightValue - expectedRightValue );
       }
       return 1 - Util.clamp( fitnessError / tolerance, 0, 1 );
     }, {
