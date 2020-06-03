@@ -10,15 +10,14 @@
 import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../../axon/js/NumberProperty.js';
 import Property from '../../../../../axon/js/Property.js';
-import LinearFunction from '../../../../../dot/js/LinearFunction.js';
 import Range from '../../../../../dot/js/Range.js';
 import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
 import choirAhhSound from '../../../../sounds/choir-ahhh-loop_wav.js';
 import stringsSound from '../../../../sounds/strings-loop-c5_wav.js';
-import designingProperties from '../../designingProperties.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
+import designingProperties from '../../designingProperties.js';
 import CMajorSineSoundGenerator from './CMajorSineSoundGenerator.js';
 import SineWaveGenerator from './SineWaveGenerator.js';
 import StaccatoFrequencySoundGenerator from './StaccatoFrequencySoundGenerator.js';
@@ -27,9 +26,9 @@ import StaccatoFrequencySoundGenerator from './StaccatoFrequencySoundGenerator.j
 // For vibrato
 const VIBRATO_PITCH = 220;
 
-// For velocity success sound
-const fitnessToPlaybackOutput = new LinearFunction( .5, 1, 0, .7, true );
-const VELOCITY_THRESHOLD = .01;
+// To play velocity success sound. . .
+const VELOCITY_THRESHOLD = .01; // both velocities have to be larger than this
+const FITNESS_THRESHOLD = .5; // fitness has to be larger than this
 
 
 class ProportionFitnessSoundGenerator extends SoundGenerator {
@@ -108,45 +107,42 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
 
     const stringsSoundClip = new SoundClip( stringsSound, {
       loop: true,
-      initialOutputLevel: 0
+      initialOutputLevel: .7
     } );
 
     stringsSoundClip.connect( this.masterGainNode );
 
     const choirAhhSoundClip = new SoundClip( choirAhhSound, {
       loop: true,
-      initialOutputLevel: 0
+      initialOutputLevel: .7
     } );
     choirAhhSoundClip.connect( this.masterGainNode );
 
-    let velocitySound = stringsSoundClip;
+    let velocitySoundClip = stringsSoundClip;
     designingProperties.velocitySoundSelectorProperty.link( selection => {
       if ( selection === 0 ) {
-        velocitySound = stringsSoundClip;
+        velocitySoundClip = stringsSoundClip;
       }
       else if ( selection === 1 ) {
-        velocitySound = choirAhhSoundClip;
+        velocitySoundClip = choirAhhSoundClip;
       }
       else {
-        velocitySound = null;
+        velocitySoundClip = null;
       }
     } );
 
-    // TODO: this may be weird for the first fitness change after switching to a different velocity sound.
-    proportionFitnessProperty.link( fitness => {
-      velocitySound && velocitySound.setOutputLevel( fitnessToPlaybackOutput( fitness ) );
-    } );
-
-    Property.multilink( [ isBeingInteractedWithProperty, leftVelocityProperty, rightVelocityProperty ],
-      ( isBeingInteractedWith, leftVelocity, rightVelocity ) => {
-        if ( velocitySound ) {
+    Property.multilink( [ isBeingInteractedWithProperty, leftVelocityProperty, rightVelocityProperty, proportionFitnessProperty ],
+      ( isBeingInteractedWith, leftVelocity, rightVelocity, fitness ) => {
+        if ( velocitySoundClip ) {
           if ( Math.abs( leftVelocity ) > VELOCITY_THRESHOLD && Math.abs( rightVelocity ) > VELOCITY_THRESHOLD && // both past threshold
                isBeingInteractedWith && // must be being interacted with (no sound on reset etc)
-               ( leftVelocity > 0 === rightVelocity > 0 ) ) { // both pointers should move in the same direction
-            velocitySound.play();
+               fitness > FITNESS_THRESHOLD && // must be fit enough to play
+               ( leftVelocity > 0 === rightVelocity > 0 ) ) { // both hands should be moving in the same direction
+            velocitySoundClip.setOutputLevel( .7, .1 );
+            !velocitySoundClip.isPlaying && velocitySoundClip.play();
           }
           else {
-            velocitySound.stop();
+            velocitySoundClip.setOutputLevel( 0, .2 );
           }
         }
       } );
