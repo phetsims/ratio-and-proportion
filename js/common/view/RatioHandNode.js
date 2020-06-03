@@ -38,7 +38,6 @@ class RatioHandNode extends Node {
     !options.asIcon && this.initializeAccessibleSlider( valueProperty, new Property( valueRange ), new BooleanProperty( true ), options );
 
     // @private
-    this.handNode = new Node();
     const handImage = new Image( filledInHandImage );
     const handCircle = new Circle( 10, {
       fill: 'white'
@@ -47,12 +46,6 @@ class RatioHandNode extends Node {
     // empirical multipliers to center hand on palm. Don't change these without altering the layout for the cue arrows too.
     handImage.right = handImage.width * .4;
     handImage.bottom = handImage.height * .28;
-    this.handNode.children = [ handImage, handCircle ];
-
-    // Flip the hand if it isn't a right hand. Do this after the circle/hand relative positioning
-    this.handNode.setScaleMagnitude( ( options.isRight ? 1 : -1 ) * .4, .4 );
-
-    this.addChild( this.handNode );
 
     // don't change update this for icons
     !options.asIcon && gridBaseUnitProperty.link( baseUnit => {
@@ -61,6 +54,12 @@ class RatioHandNode extends Node {
       this.setShiftKeyboardStep( downDelta / 10 );
       this.setPageKeyboardStep( 1 / 5 );
     } );
+
+    assert && assert( !options.children, 'RatioHandeNode sets its own children' );
+    this.children = [ handImage, handCircle ];
+
+    // Flip the hand if it isn't a right hand. Do this after the circle/hand relative positioning
+    this.setScaleMagnitude( ( options.isRight ? 1 : -1 ) * .4, .4 );
 
     this.mutate( options );
   }
