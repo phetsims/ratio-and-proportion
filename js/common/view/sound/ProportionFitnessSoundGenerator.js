@@ -28,7 +28,7 @@ import StaccatoFrequencySoundGenerator from './StaccatoFrequencySoundGenerator.j
 const VIBRATO_PITCH = 220;
 
 // For velocity success sound
-const fitnessToPlaybackOutput = new LinearFunction( 0, 1, 0, .7, true );
+const fitnessToPlaybackOutput = new LinearFunction( .5, 1, 0, .7, true );
 const VELOCITY_THRESHOLD = .01;
 
 

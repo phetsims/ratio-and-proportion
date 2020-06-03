@@ -73,13 +73,12 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
   }
 
   /**
-   * TODO: why .05?
    * Is the ratio currently considered a success as it pertains to this sound generator
    * @param {number} fitness
    * @returns {boolean}
    */
   isInSuccessfulRatio( fitness ) {
-    return 1 - this.getNormalizedFitness( fitness ) < .05;
+    return 1 - this.getNormalizedFitness( fitness ) < .1;
   }
 
   /**
