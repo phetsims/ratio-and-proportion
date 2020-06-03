@@ -41,12 +41,6 @@ class ProportionOptionsDialogContent extends HBox {
                 node: new OptionsText( 'Staccato Marimba' ),
                 value: 5
               }, {
-                node: new OptionsText( 'Staccato Pizz C3' ),
-                value: 6
-              }, {
-                node: new OptionsText( 'Staccato Pizz C4' ),
-                value: 7
-              }, {
                 node: new OptionsText( 'No Sound' ),
                 value: -1
               } ]
@@ -58,20 +52,11 @@ class ProportionOptionsDialogContent extends HBox {
           children: [
             new RichText( 'Staccato Success Sound:' ),
             new VerticalAquaRadioButtonGroup( designingProperties.staccatoSuccessSoundSelectorProperty, [ {
-                node: new OptionsText( 'Tremolo to third' ),
+                node: new OptionsText( 'Single high note' ),
                 value: 0
               }, {
-                node: new OptionsText( 'Single high note' ),
+                node: new OptionsText( 'Arpeggiated maj 7 chord' ),
                 value: 1
-              }, {
-                node: new OptionsText( 'Single major 7th chord' ),
-                value: 2
-              }, {
-                node: new OptionsText( 'Single major chord' ),
-                value: 3
-              }, {
-                node: new OptionsText( 'Single arpeggiated chord' ),
-                value: 4
               } ]
             ) ]
         } )
