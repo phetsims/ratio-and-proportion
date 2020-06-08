@@ -76,6 +76,7 @@ class RatioHandNode extends Node {
    * @param {EnumerationProperty.<GridView>} gridViewProperty
    * @param {Object} [options]
    * @returns {Node}
+   * @public
    */
   static createIcon( isRight, gridViewProperty, options ) {
     return new Node( {
