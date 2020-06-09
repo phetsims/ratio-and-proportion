@@ -97,6 +97,26 @@ class ProportionOptionsDialogContent extends HBox {
               value: -1
             } ] )
           ]
+        } ),
+        new VBox( {
+          spacing: 10,
+          align: 'left',
+          children: [
+            new RichText( 'Staccato Sound:' ),
+            new VerticalAquaRadioButtonGroup( designingProperties.staccatoSoundSelectorProperty, [ {
+              node: new OptionsText( 'Marimba' ),
+              value: 0
+            }, {
+              node: new OptionsText( 'Computer button (thoink)' ),
+              value: 1
+            },{
+              node: new OptionsText( 'Prepared piano (ploink)' ),
+              value: 2
+            }, {
+              node: new OptionsText( 'Pluck against drywall' ),
+              value: 3
+            } ] )
+          ]
         } )
       ]
     } );

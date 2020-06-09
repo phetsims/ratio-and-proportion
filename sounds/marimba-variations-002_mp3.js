@@ -1,0 +1,21 @@
+/* eslint-disable */
+import simLauncher from '../../joist/js/simLauncher.js';
+import base64SoundToByteArray from '../../tambo/js/base64SoundToByteArray.js';
+import WrappedAudioBuffer from '../../tambo/js/WrappedAudioBuffer.js';
+import phetAudioContext from '../../tambo/js/phetAudioContext.js';
+
+const soundURI = 'data:audio/mpeg;base64,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';
+const soundByteArray = base64SoundToByteArray( phetAudioContext, soundURI );
+const unlock = simLauncher.createLock( soundURI );
+const wrappedAudioBuffer = new WrappedAudioBuffer();
+const onDecodeSuccess = decodedAudio => {
+  wrappedAudioBuffer.audioBufferProperty.set( decodedAudio );
+  unlock();
+};
+const onDecodeError = decodeError => {
+  console.warn( 'decode of audio data failed, using stubbed sound, error: ' + decodeError );
+  wrappedAudioBuffer.audioBufferProperty.set( phetAudioContext.createBuffer( 1, 0, phetAudioContext.sampleRate ) );
+  unlock();
+};
+phetAudioContext.decodeAudioData( soundByteArray.buffer, onDecodeSuccess, onDecodeError );
+export default wrappedAudioBuffer;

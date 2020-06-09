@@ -8,16 +8,27 @@
 
 import LinearFunction from '../../../../../dot/js/LinearFunction.js';
 import merge from '../../../../../phet-core/js/merge.js';
+import MultiClip from '../../../../../tambo/js/sound-generators/MultiClip.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
 import brightMarimbaSound from '../../../../../tambo/sounds/bright-marimba_mp3.js';
 import dingRingOutSound from '../../../../sounds/c4-ding-ring-out_mp3.js';
 import glockMarimbaCMaj7ArpeggioSound from '../../../../sounds/glock-marimba-c-maj-7-arp_mp3.js';
+import marimbaVariation0Sound from '../../../../sounds/marimba-variations-000_mp3.js';
+import marimbaVariation2Sound from '../../../../sounds/marimba-variations-002_mp3.js';
+import marimbaVariation3Sound from '../../../../sounds/marimba-variations-003_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import designingProperties from '../../designingProperties.js';
 import RatioAndProportionQueryParameters from '../../RatioAndProportionQueryParameters.js';
 
 const SUCCESS_OUTPUT_LEVEL = 1;
+
+// to support multiple sound options, this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/9
+const marimbaMap = new Map();
+marimbaMap.set( 0, brightMarimbaSound );
+marimbaMap.set( 1, marimbaVariation0Sound );
+marimbaMap.set( 2, marimbaVariation2Sound );
+marimbaMap.set( 3, marimbaVariation3Sound );
 
 class StaccatoFrequencySoundGenerator extends SoundGenerator {
 
@@ -28,7 +39,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
    */
   constructor( fitnessProperty, fitnessRange, options ) {
     options = merge( {
-      initialOutputLevel: 0.7
+      initialOutputLevel: 0.4
     }, options );
     super( options );
 
@@ -52,8 +63,8 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
       this.successSoundClip.setOutputLevel( SUCCESS_OUTPUT_LEVEL );
     } );
 
-    this.tonicSoundClip = new SoundClip( brightMarimbaSound );
-    this.tonicSoundClip.connect( this.masterGainNode );
+    this.staccatoSoundClip = new MultiClip( marimbaMap );
+    this.staccatoSoundClip.connect( this.masterGainNode );
 
     // @private
     this.fitnessProperty = fitnessProperty;
@@ -104,12 +115,14 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
       this.playedSuccessYet = true;
     }
     else if ( this.timeSinceLastPlay > this.timeLinearFunction( normalizedFitness ) && !isInRatio ) {
-      this.tonicSoundClip.play();
+      this.staccatoSoundClip.playAssociatedSound( designingProperties.staccatoSoundSelectorProperty.value );
       this.timeSinceLastPlay = 0;
     }
 
     // if we were in ratio, but now we are not, then fade out the successSoundClip
     if ( this.isInSuccessfulRatio( this.oldFitness ) && !isInRatio ) {
+
+      // TODO: is there a way to get a notification when this is done ramping down? #9
       this.successSoundClip.setOutputLevel( 0, .1 );
       this.playedSuccessYet = false;
     }
@@ -122,7 +135,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
    * @public
    */
   reset() {
-    this.tonicSoundClip.stop( 0 );
+    this.staccatoSoundClip.stop( 0 );
     this.successSoundClip.stop( 0 );
     this.timeSinceLastPlay = 0;
   }
