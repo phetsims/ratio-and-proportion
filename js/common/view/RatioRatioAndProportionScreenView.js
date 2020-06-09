@@ -113,7 +113,7 @@ class RatioRatioAndProportionScreenView extends ScreenView {
 
     const a11yRatioContainer = new Node( {
       tagName: 'div',
-      role: 'application',
+      ariaRole: 'application',
       focusable: true,
       labelContent: 'Ratio:',
       children: [
