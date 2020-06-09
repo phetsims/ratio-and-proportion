@@ -67,6 +67,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
   /**
    * @param {number} fitness
    * @returns {number}
+   * @private
    */
   getNormalizedFitness( fitness ) {
     return ( fitness - this.fitnessRange.min ) / this.fitnessRange.getLength();
@@ -76,6 +77,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
    * Is the ratio currently considered a success as it pertains to this sound generator
    * @param {number} fitness
    * @returns {boolean}
+   * @private
    */
   isInSuccessfulRatio( fitness ) {
     return 1 - this.getNormalizedFitness( fitness ) < .1;
