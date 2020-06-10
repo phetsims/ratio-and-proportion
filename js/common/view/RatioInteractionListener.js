@@ -61,7 +61,6 @@ class RatioInteractionListener {
             leftValueProperty.value = rightValueProperty.value = newValue;
           }
         }
-        console.log( typeof event.key );
       }
     } );
 
