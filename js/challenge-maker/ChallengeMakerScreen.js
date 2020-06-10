@@ -2,7 +2,7 @@
 
 /**
  * @author Michael Kauzmann (PhET Interactive Simulations)
-*/
+ */
 
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
@@ -10,7 +10,7 @@ import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import RatioAndProportionModel from '../common/model/RatioAndProportionModel.js';
 import RandomIcon from '../common/view/RandomIcon.js';
 import ratioAndProportion from '../ratioAndProportion.js';
-import ratioAndProportionStrings from "../ratioAndProportionStrings.js";
+import ratioAndProportionStrings from '../ratioAndProportionStrings.js';
 import ChallengeMakerScreenView from './view/ChallengeMakerScreenView.js';
 
 class ChallengeMakerScreen extends Screen {
@@ -23,7 +23,7 @@ class ChallengeMakerScreen extends Screen {
     const options = {
       backgroundColorProperty: new Property( 'white' ),
       tandem: tandem,
-      homeScreenIcon: new ScreenIcon( new RandomIcon( 432140,  ), {
+      homeScreenIcon: new ScreenIcon( new RandomIcon( 432140, '' ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
       } ),
