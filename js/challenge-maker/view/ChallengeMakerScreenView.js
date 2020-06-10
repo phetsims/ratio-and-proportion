@@ -22,7 +22,7 @@ import RatioRatioAndProportionScreenView from '../../common/view/RatioRatioAndPr
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
-class CustomRatioScreenView extends RatioRatioAndProportionScreenView {
+class ChallengeMakerScreenView extends RatioRatioAndProportionScreenView {
 
   /**
    * @param {RatioAndProportionModel} model
@@ -104,7 +104,7 @@ class CustomRatioScreenView extends RatioRatioAndProportionScreenView {
     this.gridViewRadioButtonGroup.bottom = gridBaseUnitComboBox.top - 20;
 
     // @private
-    this.resetCustomRatioScreenView = () => {
+    this.resetChallengeMakerScreenView = () => {
       numberatorProperty.reset();
       denominatorProperty.reset();
     };
@@ -115,10 +115,10 @@ class CustomRatioScreenView extends RatioRatioAndProportionScreenView {
    * @override
    */
   reset() {
-    this.resetCustomRatioScreenView();
+    this.resetChallengeMakerScreenView();
     super.reset();
   }
 }
 
-ratioAndProportion.register( 'CustomRatioScreenView', CustomRatioScreenView );
-export default CustomRatioScreenView;
+ratioAndProportion.register( 'ChallengeMakerScreenView', ChallengeMakerScreenView );
+export default ChallengeMakerScreenView;

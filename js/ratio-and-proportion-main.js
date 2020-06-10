@@ -11,7 +11,7 @@ import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import designingProperties from './common/designingProperties.js';
 import ProportionOptionsDialogContent from './common/view/ProportionOptionsDialogContent.js';
-import CustomRatioScreen from './custom-ratio/CustomRatioScreen.js';
+import ChallengeMakerScreen from './challenge-maker/ChallengeMakerScreen.js';
 import ExploreScreen from './explore/ExploreScreen.js';
 import ratioAndProportionStrings from './ratioAndProportionStrings.js';
 
@@ -36,7 +36,7 @@ const simOptions = {
 simLauncher.launch( () => {
   const sim = new Sim( ratioAndProportionTitleString, [
     new ExploreScreen( Tandem.ROOT.createTandem( 'exploreScreen' ) ),
-    new CustomRatioScreen( Tandem.ROOT.createTandem( 'exploreScreen' ) )
+    new ChallengeMakerScreen( Tandem.ROOT.createTandem( 'exploreScreen' ) )
   ], simOptions );
   sim.start();
 } );

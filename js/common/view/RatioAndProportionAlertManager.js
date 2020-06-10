@@ -21,7 +21,7 @@ const rightHandString = ratioAndProportionStrings.a11y.rightHand;
 const firstMovementAlertPatternString = ratioAndProportionStrings.a11y.pointerPosition.firstMovementAlertPattern;
 const movementAlertWithChangePatternString = ratioAndProportionStrings.a11y.pointerPosition.movementAlertWithChangePattern;
 
-class FreeObjectAlertManager {
+class RatioAndProportionAlertManager {
 
   /**
    * @param {DerivedProperty.<number>} valueProperty
@@ -205,6 +205,6 @@ class FreeObjectAlertManager {
   }
 }
 
-ratioAndProportion.register( 'FreeObjectAlertManager', FreeObjectAlertManager );
+ratioAndProportion.register( 'RatioAndProportionAlertManager', RatioAndProportionAlertManager );
 
-export default FreeObjectAlertManager;
+export default RatioAndProportionAlertManager;

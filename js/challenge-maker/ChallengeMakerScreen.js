@@ -10,9 +10,10 @@ import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import RatioAndProportionModel from '../common/model/RatioAndProportionModel.js';
 import RandomIcon from '../common/view/RandomIcon.js';
 import ratioAndProportion from '../ratioAndProportion.js';
-import CustomRatioScreenView from './view/CustomRatioScreenView.js';
+import ratioAndProportionStrings from "../ratioAndProportionStrings.js";
+import ChallengeMakerScreenView from './view/ChallengeMakerScreenView.js';
 
-class CustomRatioScreen extends Screen {
+class ChallengeMakerScreen extends Screen {
 
   /**
    * @param {Tandem} tandem
@@ -22,20 +23,20 @@ class CustomRatioScreen extends Screen {
     const options = {
       backgroundColorProperty: new Property( 'white' ),
       tandem: tandem,
-      homeScreenIcon: new ScreenIcon( new RandomIcon( 432140, 'Custom Ratio' ), {
+      homeScreenIcon: new ScreenIcon( new RandomIcon( 432140,  ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
       } ),
-      name: 'Custom Ratio' // TODO: i18n
+      name: ratioAndProportionStrings.challengeMaker
     };
 
     super(
       () => new RatioAndProportionModel( tandem.createTandem( 'model' ) ),
-      model => new CustomRatioScreenView( model, tandem.createTandem( 'view' ) ),
+      model => new ChallengeMakerScreenView( model, tandem.createTandem( 'view' ) ),
       options
     );
   }
 }
 
-ratioAndProportion.register( 'CustomRatioScreen', CustomRatioScreen );
-export default CustomRatioScreen;
+ratioAndProportion.register( 'ChallengeMakerScreen', ChallengeMakerScreen );
+export default ChallengeMakerScreen;

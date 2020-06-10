@@ -28,7 +28,7 @@ import sliderClickSound from '../../../../wave-interference/sounds/slider-clicks
 import sliderBoundaryClickSound from '../../../../wave-interference/sounds/slider-clicks-idea-c-lower-end-click_mp3.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import designingProperties from '../designingProperties.js';
-import FreeObjectAlertManager from './FreeObjectAlertManager.js';
+import RatioAndProportionAlertManager from './RatioAndProportionAlertManager.js';
 import GridView from './GridView.js';
 import RatioHalfGridNode from './RatioHalfGridNode.js';
 import RatioHandNode from './RatioHandNode.js';
@@ -82,7 +82,7 @@ class RatioHalf extends Rectangle {
     } );
 
     // @private
-    this.alertManager = new FreeObjectAlertManager( valueProperty, gridViewProperty, ratioDescriber, gridDescriber, options.isRight );
+    this.alertManager = new RatioAndProportionAlertManager( valueProperty, gridViewProperty, ratioDescriber, gridDescriber, options.isRight );
 
     const gridNode = new RatioHalfGridNode( gridViewProperty, gridBaseUnitProperty, bounds.width, bounds.height - 2 * FRAMING_RECTANGLE_HEIGHT );
     this.addChild( gridNode );
