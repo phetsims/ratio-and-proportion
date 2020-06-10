@@ -18,9 +18,10 @@ class RatioInteractionListener {
    * @param {Property.<number>}rightValueProperty
    * @param {Range} valueRange
    * @param {Property.<boolean>} firstInteractionProperty
-   * @param {Property.<number>} gridBaseUnitProeprty
+   * @param {Property.<number>} gridBaseUnitProperty
    */
-  constructor( targetNode, leftValueProperty, rightValueProperty, valueRange, firstInteractionProperty, gridBaseUnitProperty ) {
+  constructor( targetNode, leftValueProperty, rightValueProperty, valueRange,
+               firstInteractionProperty, gridBaseUnitProperty ) {
 
     // @private
     this.keyStateTracker = new KeyStateTracker();
@@ -35,16 +36,32 @@ class RatioInteractionListener {
       this.isBeingInteractedWithProperty.value = true;
 
       if ( event.key === 'ArrowDown' ) {
-        this.updateValue( rightValueProperty, false );
+        this.stepValue( rightValueProperty, false );
       }
       else if ( event.key === 'ArrowUp' ) {
-        this.updateValue( rightValueProperty, true );
+        this.stepValue( rightValueProperty, true );
       }
       else if ( event.key.toLowerCase() === 'w' ) {
-        this.updateValue( leftValueProperty, true );
+        this.stepValue( leftValueProperty, true );
       }
       else if ( event.key.toLowerCase() === 's' ) {
-        this.updateValue( leftValueProperty, false );
+        this.stepValue( leftValueProperty, false );
+      }
+      else if ( event.key.toLowerCase() === 'j' ) {
+
+        // jump both values to the lowest occupied value
+        rightValueProperty.value = leftValueProperty.value = Math.min( leftValueProperty.value, rightValueProperty.value );
+      }
+      else {
+
+        // for number keys 0-9, jump both values to that grid line number. This value changes based on the gridBaseUnitProperty
+        for ( let i = 0; i <= 9; i++ ) {
+          if ( event.key === i + '' ) {
+            const newValue = 1 / gridBaseUnitProperty.value * i;
+            leftValueProperty.value = rightValueProperty.value = newValue;
+          }
+        }
+        console.log( typeof event.key );
       }
     } );
 
@@ -60,7 +77,7 @@ class RatioInteractionListener {
    * @param property
    * @param increment
    */
-  updateValue( property, increment ) {
+  stepValue( property, increment ) {
     this.firstInteractionProperty.value = false;
     const value = 1 / this.gridBaseUnitProperty.value;
     const amount = this.keyStateTracker.shiftKeyDown ? value / 10 : value;
