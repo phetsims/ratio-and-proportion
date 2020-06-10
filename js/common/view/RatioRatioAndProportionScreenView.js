@@ -207,7 +207,7 @@ class RatioRatioAndProportionScreenView extends ScreenView {
     this.resetAllButton.bottom = this.layoutBounds.maxY - ProportionConstants.SCREEN_VIEW_Y_MARGIN;
 
     // @private - dynamic layout based on the current ScreenView coordinates
-    this.layoutFreeObjectsScreenView = newRatioHalfBounds => {
+    this.layoutExploreScreenView = newRatioHalfBounds => {
 
       this.leftRatioHalf.layout( newRatioHalfBounds );
       this.rightRatioHalf.layout( newRatioHalfBounds );
@@ -227,7 +227,7 @@ class RatioRatioAndProportionScreenView extends ScreenView {
 
       labelsNode.bottom = this.layoutBounds.bottom - RatioHalf.FRAMING_RECTANGLE_HEIGHT + labelsNode.labelHeight / 2;
     };
-    this.layoutFreeObjectsScreenView( defaultRatioHalfBounds );
+    this.layoutExploreScreenView( defaultRatioHalfBounds );
   }
 
   /**
@@ -263,7 +263,7 @@ class RatioRatioAndProportionScreenView extends ScreenView {
     this.visibleBoundsProperty.set( new Bounds2( -dx, -dy, width / scale - dx, height / scale - dy ) );
 
     // new bounds for each ratio half
-    this.layoutFreeObjectsScreenView( new Bounds2( 0, 0, ONE_QUARTER_LAYOUT_WIDTH, Math.min( height / scale, MAX_RATIO_HEIGHT ) ) );
+    this.layoutExploreScreenView( new Bounds2( 0, 0, ONE_QUARTER_LAYOUT_WIDTH, Math.min( height / scale, MAX_RATIO_HEIGHT ) ) );
   }
 
   /**

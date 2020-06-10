@@ -12,7 +12,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import designingProperties from './common/designingProperties.js';
 import ProportionOptionsDialogContent from './common/view/ProportionOptionsDialogContent.js';
 import CustomRatioScreen from './custom-ratio/CustomRatioScreen.js';
-import FreeObjectsScreen from './free-objects/FreeObjectsScreen.js';
+import ExploreScreen from './explore/ExploreScreen.js';
 import ratioAndProportionStrings from './ratioAndProportionStrings.js';
 
 const ratioAndProportionTitleString = ratioAndProportionStrings[ 'ratio-and-proportion' ].title;
@@ -35,8 +35,8 @@ const simOptions = {
 // until the images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70
 simLauncher.launch( () => {
   const sim = new Sim( ratioAndProportionTitleString, [
-    new FreeObjectsScreen( Tandem.ROOT.createTandem( 'freeObjectsScreen' ) ),
-    new CustomRatioScreen( Tandem.ROOT.createTandem( 'freeObjectsScreen' ) )
+    new ExploreScreen( Tandem.ROOT.createTandem( 'exploreScreen' ) ),
+    new CustomRatioScreen( Tandem.ROOT.createTandem( 'exploreScreen' ) )
   ], simOptions );
   sim.start();
 } );

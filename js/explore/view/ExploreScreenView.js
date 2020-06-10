@@ -11,10 +11,10 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import ChallengeComboBoxItem from './ChallengeComboBoxItem.js';
 
-class FreeObjectsScreenView extends RatioRatioAndProportionScreenView {
+class ExploreScreenView extends RatioRatioAndProportionScreenView {
 
   /**
-   * @param {FreeObjectsModel} model
+   * @param {ExploreModel} model
    * @param {Tandem} tandem
    */
   constructor( model, tandem ) {
@@ -43,5 +43,5 @@ class FreeObjectsScreenView extends RatioRatioAndProportionScreenView {
   }
 }
 
-ratioAndProportion.register( 'FreeObjectsScreenView', FreeObjectsScreenView );
-export default FreeObjectsScreenView;
+ratioAndProportion.register( 'ExploreScreenView', ExploreScreenView );
+export default ExploreScreenView;
