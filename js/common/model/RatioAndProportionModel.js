@@ -62,15 +62,6 @@ class RatioAndProportionModel {
     // @public (read-only) - the Range that the proportionFitnessProperty can be.
     this.fitnessRange = new Range( 0, 1 );
 
-    // @private - keep track of which valueProperty is being changed most recently, because tolerance depends on it.
-    this.lastChanged = this.leftValueProperty;
-    this.leftValueProperty.link( () => {
-      this.lastChanged = this.leftValueProperty;
-    } );
-    this.rightValueProperty.link( () => {
-      this.lastChanged = this.rightValueProperty;
-    } );
-
     // @public (read-only) - the velocity of each value changing, adjusted in step
     this.leftVelocityProperty = new NumberProperty( 0 );
     this.rightVelocityProperty = new NumberProperty( 0 );
@@ -84,22 +75,12 @@ class RatioAndProportionModel {
       this.ratioProperty,
       this.toleranceProperty
     ], ( leftValue, rightValue, ratio, tolerance ) => {
-      if ( isNaN( leftValue / rightValue ) ) {
+      const currentRatio = leftValue / rightValue;
+      if ( isNaN( currentRatio ) ) {
         return 0;
       }
 
-      let fitnessError = null;
-      if ( this.lastChanged === this.leftValueProperty ||
-
-           // TODO: try to remove this in exchange for a better tolerance algorithm
-           ( this.leftValueProperty.value > 0 && this.rightVelocityProperty.value > 0 ) ) {
-        const expectedLeftValue = ratio * rightValue;
-        fitnessError = Math.abs( leftValue - expectedLeftValue );
-      }
-      else {
-        const expectedRightValue = leftValue / ratio;
-        fitnessError = Math.abs( rightValue - expectedRightValue );
-      }
+      const fitnessError = Math.abs( currentRatio - ratio );
       return 1 - Util.clamp( fitnessError / tolerance, 0, 1 );
     }, {
       isValidValue: value => this.fitnessRange.contains( value )
