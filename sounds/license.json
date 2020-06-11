@@ -1,5 +1,5 @@
 {
-  "strings-loop-c5.wav": {
+  "choir-ahhh-loop.wav": {
     "text": [
       "Copyright 2020 University of Colorado Boulder"
     ],
@@ -7,7 +7,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "choir-ahhh-loop.wav": {
+  "c4-ding-ring-out.mp3": {
     "text": [
       "Copyright 2020 University of Colorado Boulder"
     ],
@@ -23,7 +23,31 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "c4-ding-ring-out.mp3": {
+  "marimba-variations-000.mp3": {
+    "text": [
+      "Copyright 2020 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
+  },
+  "marimba-variations-002.mp3": {
+    "text": [
+      "Copyright 2020 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
+  },
+  "marimba-variations-003.mp3": {
+    "text": [
+      "Copyright 2020 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
+  },
+  "strings-loop-c5.wav": {
     "text": [
       "Copyright 2020 University of Colorado Boulder"
     ],
