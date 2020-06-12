@@ -18,11 +18,11 @@ import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
-import RatioRatioAndProportionScreenView from '../../common/view/RatioRatioAndProportionScreenView.js';
+import RatioAndProportionScreenView from '../../common/view/RatioAndProportionScreenView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
-class ChallengeMakerScreenView extends RatioRatioAndProportionScreenView {
+class ChallengeMakerScreenView extends RatioAndProportionScreenView {
 
   /**
    * @param {RatioAndProportionModel} model

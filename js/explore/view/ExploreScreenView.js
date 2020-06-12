@@ -6,12 +6,12 @@
 
 import Node from '../../../../scenery/js/nodes/Node.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
-import RatioRatioAndProportionScreenView from '../../common/view/RatioRatioAndProportionScreenView.js';
+import RatioAndProportionScreenView from '../../common/view/RatioAndProportionScreenView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import ChallengeComboBoxItem from './ChallengeComboBoxItem.js';
 
-class ExploreScreenView extends RatioRatioAndProportionScreenView {
+class ExploreScreenView extends RatioAndProportionScreenView {
 
   /**
    * @param {ExploreModel} model
