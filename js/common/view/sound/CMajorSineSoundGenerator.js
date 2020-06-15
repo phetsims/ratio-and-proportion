@@ -37,9 +37,9 @@ class CMajorSineSoundGenerator extends SineWaveGenerator {
     const gGenerator = new SineWaveGenerator( new Property( G_FREQUENCY ), { initialOutputLevel: 0 } );
     const topCGenerator = new SineWaveGenerator( new Property( C_FREQUENCY * 2 ), { initialOutputLevel: 0 } ); // only plays when proportion perfect
 
-    eGenerator.connect( this.masterGainNode );
-    gGenerator.connect( this.masterGainNode );
-    topCGenerator.connect( this.masterGainNode );
+    eGenerator.connect( this.soundSourceDestination );
+    gGenerator.connect( this.soundSourceDestination );
+    topCGenerator.connect( this.soundSourceDestination );
 
     Property.multilink( [ this.fullyEnabledProperty, fitnessProperty ],
       ( enabled, fitness ) => {
