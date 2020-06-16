@@ -33,7 +33,7 @@ class RatioAndProportionModel {
     this.toleranceProperty = new NumberProperty( RatioAndProportionQueryParameters.tolerance );
 
     // @public
-    this.valueRange = new Range( 0, 1 );
+    this.valueRange = new Range( .0001, 1 ); // Do avoid devide-by zero errors
 
     const modelBounds = new Bounds2( -.5, this.valueRange.min, .5, this.valueRange.max );
 
