@@ -2,6 +2,7 @@
 
 /**
  * TODO: remove once design is better established
+ * TODO: if we keep it, name it like other sims, something like GlobalOptionsNode
  */
 
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -59,6 +60,20 @@ class ProportionOptionsDialogContent extends HBox {
                 value: 1
               } ]
             ) ]
+        } ),
+        new VBox( {
+          spacing: 10,
+          align: 'left',
+          children: [
+            new RichText( 'Staccato Alter Pitch?:' ),
+            new VerticalAquaRadioButtonGroup( designingProperties.staccatoAlterPitchProperty, [ {
+                node: new OptionsText( 'modulate pitch' ),
+                value: true
+              }, {
+                node: new OptionsText( 'Do not moulate pitch' ),
+                value: false
+              } ]
+            ) ]
         } )
       ]
     } );
@@ -109,7 +124,7 @@ class ProportionOptionsDialogContent extends HBox {
             }, {
               node: new OptionsText( 'Computer button (thoink)' ),
               value: 1
-            },{
+            }, {
               node: new OptionsText( 'Prepared piano (ploink)' ),
               value: 2
             }, {

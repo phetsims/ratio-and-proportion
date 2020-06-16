@@ -30,6 +30,9 @@ marimbaMap.set( 1, marimbaVariation0Sound );
 marimbaMap.set( 2, marimbaVariation2Sound );
 marimbaMap.set( 3, marimbaVariation3Sound );
 
+// pentatonic scale from the tonic
+const STACCATO_PLAYBACK_RATES = [ 1, Math.pow( 2, 3 / 12 ), Math.pow( 2, 5 / 12 ), Math.pow( 2, 8 / 12 ), Math.pow( 2, 10 / 12 ) ];
+
 class StaccatoFrequencySoundGenerator extends SoundGenerator {
 
   /**
@@ -73,6 +76,8 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
       RatioAndProportionQueryParameters.staccatoMinRepeatTime, true );
     this.timeSinceLastPlay = 0;
     this.oldFitness = this.fitnessProperty.value;
+
+    this.staccatoPlaybackRateLinearFunction = new LinearFunction( fitnessRange.min, fitnessRange.max, 0, STACCATO_PLAYBACK_RATES.length, true );
   }
 
   /**
@@ -105,7 +110,6 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     this.remainingFadeTime = Math.max( this.remainingFadeTime - dt, 0 );
 
     const newFitness = this.fitnessProperty.value;
-    const normalizedFitness = this.getNormalizedFitness( newFitness );
     const isInRatio = this.isInSuccessfulRatio( newFitness );
     if ( isInRatio && !this.playedSuccessYet ) {
 
@@ -114,7 +118,15 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
       this.successSoundClip.play();
       this.playedSuccessYet = true;
     }
-    else if ( this.timeSinceLastPlay > this.timeLinearFunction( normalizedFitness ) && !isInRatio ) {
+    else if ( this.timeSinceLastPlay > this.timeLinearFunction( newFitness ) && !isInRatio ) {
+      if ( designingProperties.staccatoAlterPitchProperty.value ) {
+        this.staccatoSoundClip.setPlaybackRate( STACCATO_PLAYBACK_RATES[ Math.floor( this.staccatoPlaybackRateLinearFunction( newFitness ) ) ] );
+      }
+      else if ( this.staccatoSoundClip.playbackRate !== 1 ) {
+        // set things back to 1 if we just changed staccatoAlterPitchProperty
+        this.staccatoSoundClip.setPlaybackRate( 1 );
+      }
+
       this.staccatoSoundClip.playAssociatedSound( designingProperties.staccatoSoundSelectorProperty.value );
       this.timeSinceLastPlay = 0;
     }
