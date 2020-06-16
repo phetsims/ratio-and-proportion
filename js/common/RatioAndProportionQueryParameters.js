@@ -18,6 +18,12 @@ const RatioAndProportionQueryParameters = QueryStringMachine.getAll( {
     defaultValue: .2
   },
 
+  // While discussing different fitness algorithms that use tolerance in https://github.com/phetsims/ratio-and-proportion/issues/14,
+  // this is used to prototype multiple algorithms.
+  useNormalizedFitness: {
+    type: 'flag'
+  },
+
   // For mechamarker input. Tweak this as needed depending on the input camera, and the range that you will to use in
   // the camera view port.
   heightInPixels: {

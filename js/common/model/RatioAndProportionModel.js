@@ -76,11 +76,17 @@ class RatioAndProportionModel {
       this.toleranceProperty
     ], ( leftValue, rightValue, ratio, tolerance ) => {
       const currentRatio = leftValue / rightValue;
+      assert && assert( rightValue !== 0, 'cannot divide by zero' );
       if ( isNaN( currentRatio ) ) {
         return 0;
       }
 
       const fitnessError = Math.abs( currentRatio - ratio );
+
+      // normalize based on the values of the ratio (so larger ratios still map to the same physical tolerance.
+      if ( RatioAndProportionQueryParameters.useNormalizedFitness ) {
+        return 1 - Util.clamp( ( fitnessError ) * rightValue / ( leftValue * ( tolerance ) ), 0, 1 );
+      }
       return 1 - Util.clamp( fitnessError / tolerance, 0, 1 );
     }, {
       isValidValue: value => this.fitnessRange.contains( value )
