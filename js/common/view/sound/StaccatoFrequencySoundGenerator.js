@@ -108,13 +108,12 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
    * @public
    */
   step( dt ) {
-
-    // TODO: only increment when fitness>0 so that we don't immediately get a sound when moving way too fast through the "tolerance zone"
-    this.timeSinceLastPlay += dt * 1000;
-
-    this.remainingFadeTime = Math.max( this.remainingFadeTime - dt, 0 );
-
     const newFitness = this.fitnessProperty.value;
+
+    // Only increment when within some amount of fitness. This helps prevent sporadic notes from playing when you move
+    // the ratio hands quickly and drastically.
+    this.timeSinceLastPlay = newFitness > 0 ? this.timeSinceLastPlay + dt * 1000 : 0;
+
     const isInRatio = this.isInSuccessfulRatio( newFitness );
     if ( isInRatio && !this.playedSuccessYet ) {
 
