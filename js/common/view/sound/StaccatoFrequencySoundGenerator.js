@@ -31,7 +31,6 @@ marimbaMap.set( 2, marimbaVariation2Sound );
 marimbaMap.set( 3, marimbaVariation3Sound );
 
 // pentatonic scale from the tonic
-const STACCATO_PLAYBACK_RATES = [ 1, Math.pow( 2, 3 / 12 ), Math.pow( 2, 5 / 12 ), Math.pow( 2, 8 / 12 ), Math.pow( 2, 10 / 12 ) ];
 
 class StaccatoFrequencySoundGenerator extends SoundGenerator {
 
@@ -76,8 +75,6 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
       RatioAndProportionQueryParameters.staccatoMinRepeatTime, true );
     this.timeSinceLastPlay = 0;
     this.oldFitness = this.fitnessProperty.value;
-
-    this.staccatoPlaybackRateLinearFunction = new LinearFunction( fitnessRange.min, fitnessRange.max, 0, STACCATO_PLAYBACK_RATES.length, true );
   }
 
   /**
@@ -120,7 +117,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     }
     else if ( this.timeSinceLastPlay > this.timeLinearFunction( newFitness ) && !isInRatio ) {
       if ( designingProperties.staccatoAlterPitchProperty.value ) {
-        this.staccatoSoundClip.setPlaybackRate( STACCATO_PLAYBACK_RATES[ Math.floor( this.staccatoPlaybackRateLinearFunction( newFitness ) ) ] );
+        this.staccatoSoundClip.setPlaybackRate( newFitness + 1 );
       }
       else if ( this.staccatoSoundClip.playbackRate !== 1 ) {
         // set things back to 1 if we just changed staccatoAlterPitchProperty
