@@ -11,7 +11,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
-import Util from '../../../../dot/js/Utils.js';
+import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Color from '../../../../scenery/js/util/Color.js';
@@ -80,14 +80,9 @@ class RatioAndProportionModel {
       if ( isNaN( currentRatio ) ) {
         return 0;
       }
-
-      const fitnessError = Math.abs( currentRatio - ratio );
-
-      // normalize based on the values of the ratio (so larger ratios still map to the same physical tolerance.
-      if ( RatioAndProportionQueryParameters.useNormalizedFitness ) {
-        return 1 - Util.clamp( ( fitnessError ) * rightValue / ( leftValue * ( tolerance ) ), 0, 1 );
-      }
-      return 1 - Util.clamp( fitnessError / tolerance, 0, 1 );
+      const desiredLeft = ratio * rightValue;
+      const fitnessError = Math.abs( desiredLeft - leftValue );
+      return 1 - Utils.clamp( fitnessError / tolerance, 0, 1 );
     }, {
       isValidValue: value => this.fitnessRange.contains( value )
     } );
