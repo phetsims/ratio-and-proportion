@@ -45,8 +45,8 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
 
     const singleSuccessSoundClip = new SoundClip( dingRingOutSound );
     const singleArpeggiatedChord = new SoundClip( glockMarimbaCMaj7ArpeggioSound );
-    singleSuccessSoundClip.connect( this.masterGainNode );
-    singleArpeggiatedChord.connect( this.masterGainNode );
+    singleSuccessSoundClip.connect( this.soundSourceDestination );
+    singleArpeggiatedChord.connect( this.soundSourceDestination );
 
     // @private
     this.successSoundClip = null;
@@ -64,7 +64,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     } );
 
     this.staccatoSoundClip = new MultiClip( marimbaMap );
-    this.staccatoSoundClip.connect( this.masterGainNode );
+    this.staccatoSoundClip.connect( this.soundSourceDestination );
 
     // @private
     this.fitnessProperty = fitnessProperty;

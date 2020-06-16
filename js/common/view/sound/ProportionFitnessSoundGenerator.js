@@ -79,8 +79,8 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
     const sineWaveGenerator2 = new SineWaveGenerator( frequency2Property, {
       enableControlProperties: enableControlProperties
     } );
-    sineWaveGenerator1.connect( this.masterGainNode );
-    sineWaveGenerator2.connect( this.masterGainNode );
+    sineWaveGenerator1.connect( this.soundSourceDestination );
+    sineWaveGenerator2.connect( this.soundSourceDestination );
 
     Property.multilink( [ proportionFitnessProperty ],
       fitness => {
@@ -99,7 +99,7 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
         new DerivedProperty( [ designingProperties.proportionFitnessSoundSelectorProperty ], value => value === 2 )
       ]
     } );
-    cMajorSineSoundGenerator.connect( this.masterGainNode );
+    cMajorSineSoundGenerator.connect( this.soundSourceDestination );
 
     //////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////
@@ -110,13 +110,13 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
       initialOutputLevel: .7
     } );
 
-    stringsSoundClip.connect( this.masterGainNode );
+    stringsSoundClip.connect( this.soundSourceDestination );
 
     const choirAhhSoundClip = new SoundClip( choirAhhSound, {
       loop: true,
       initialOutputLevel: .7
     } );
-    choirAhhSoundClip.connect( this.masterGainNode );
+    choirAhhSoundClip.connect( this.soundSourceDestination );
 
     let velocitySoundClip = stringsSoundClip;
     designingProperties.velocitySoundSelectorProperty.link( selection => {
@@ -158,7 +158,7 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
           value => value === 5 || value === 6 || value === 7 )
       ]
     } );
-    this.staccatoFrequencySoundGenerator.connect( this.masterGainNode );
+    this.staccatoFrequencySoundGenerator.connect( this.soundSourceDestination );
 
     //////////////////////////////////////////////////////////////////
   }
