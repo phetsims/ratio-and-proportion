@@ -23,10 +23,7 @@ class DesigningProperties {
     this.staccatoSuccessSoundSelectorProperty = new NumberProperty( 1 );
 
     // global Property for selecting the reoccurring staccato-type sound, this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/9
-    this.staccatoSoundSelectorProperty = new NumberProperty( 0 );
-
-    // global Property for determining if the staccato sound should get higher as the ratio gets fitter, this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/9
-    this.staccatoAlterPitchProperty = new BooleanProperty( true );
+    this.staccatoSoundSelectorProperty = new NumberProperty( 1 );
 
     // border and click sounds for the vertical ratio pointer movement, this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/45
     this.ratioUISoundsEnabledProperty = new BooleanProperty( true );

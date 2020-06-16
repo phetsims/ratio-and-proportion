@@ -60,20 +60,6 @@ class ProportionOptionsDialogContent extends HBox {
                 value: 1
               } ]
             ) ]
-        } ),
-        new VBox( {
-          spacing: 10,
-          align: 'left',
-          children: [
-            new RichText( 'Staccato Alter Pitch?:' ),
-            new VerticalAquaRadioButtonGroup( designingProperties.staccatoAlterPitchProperty, [ {
-                node: new OptionsText( 'modulate pitch' ),
-                value: true
-              }, {
-                node: new OptionsText( 'Do not moulate pitch' ),
-                value: false
-              } ]
-            ) ]
         } )
       ]
     } );
@@ -122,14 +108,8 @@ class ProportionOptionsDialogContent extends HBox {
               node: new OptionsText( 'Marimba' ),
               value: 0
             }, {
-              node: new OptionsText( 'Computer button (thoink)' ),
+              node: new OptionsText( 'Random Mix' ),
               value: 1
-            }, {
-              node: new OptionsText( 'Prepared piano (ploink)' ),
-              value: 2
-            }, {
-              node: new OptionsText( 'Pluck against drywall' ),
-              value: 3
             } ] )
           ]
         } )

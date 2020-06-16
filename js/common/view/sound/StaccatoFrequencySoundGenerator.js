@@ -22,15 +22,19 @@ import designingProperties from '../../designingProperties.js';
 import RatioAndProportionQueryParameters from '../../RatioAndProportionQueryParameters.js';
 
 const SUCCESS_OUTPUT_LEVEL = 1;
+const INITIAL_PLAYBACK_RATE = 1;
+
+// Playback rate will be between 1 and a major third above
+const getPlaybackRate = fitness => fitness * ( Math.pow( 2, 4 / 12 ) - INITIAL_PLAYBACK_RATE ) + INITIAL_PLAYBACK_RATE;
+
+const BRIGHT_MARIMBA_VALUE = 0;
 
 // to support multiple sound options, this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/9
-const marimbaMap = new Map();
-marimbaMap.set( 0, brightMarimbaSound );
-marimbaMap.set( 1, marimbaVariation0Sound );
-marimbaMap.set( 2, marimbaVariation2Sound );
-marimbaMap.set( 3, marimbaVariation3Sound );
-
-// pentatonic scale from the tonic
+const staccatoSoundMap = new Map();
+staccatoSoundMap.set( BRIGHT_MARIMBA_VALUE, brightMarimbaSound );
+staccatoSoundMap.set( 1, marimbaVariation0Sound );
+staccatoSoundMap.set( 2, marimbaVariation2Sound );
+staccatoSoundMap.set( 3, marimbaVariation3Sound );
 
 class StaccatoFrequencySoundGenerator extends SoundGenerator {
 
@@ -65,7 +69,9 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
       this.successSoundClip.setOutputLevel( SUCCESS_OUTPUT_LEVEL );
     } );
 
-    this.staccatoSoundClip = new MultiClip( marimbaMap );
+    this.staccatoSoundClip = new MultiClip( staccatoSoundMap, {
+      initialPlaybackRate: INITIAL_PLAYBACK_RATE
+    } );
     this.staccatoSoundClip.connect( this.soundSourceDestination );
 
     // @private
@@ -102,6 +108,8 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
    * @public
    */
   step( dt ) {
+
+    // TODO: only increment when fitness>0 so that we don't immediately get a sound when moving way too fast through the "tolerance zone"
     this.timeSinceLastPlay += dt * 1000;
 
     this.remainingFadeTime = Math.max( this.remainingFadeTime - dt, 0 );
@@ -110,33 +118,53 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     const isInRatio = this.isInSuccessfulRatio( newFitness );
     if ( isInRatio && !this.playedSuccessYet ) {
 
-      // TODO: is it possible that this will just bring a previous playing's reverb back to life and the play another instance on top of it?
+      // TODO: is it possible that this will just bring a previous playing's reverb back to life and the play another instance on top of it? https://github.com/phetsims/ratio-and-proportion/issues/63
       this.successSoundClip.setOutputLevel( SUCCESS_OUTPUT_LEVEL );
       this.successSoundClip.play();
       this.playedSuccessYet = true;
     }
     else if ( this.timeSinceLastPlay > this.timeLinearFunction( newFitness ) && !isInRatio ) {
-      if ( designingProperties.staccatoAlterPitchProperty.value ) {
-        this.staccatoSoundClip.setPlaybackRate( newFitness + 1 );
+
+      // Don't modulate pitch for marimba sound
+      if ( designingProperties.staccatoSoundSelectorProperty.value !== BRIGHT_MARIMBA_VALUE ) {
+        this.staccatoSoundClip.setPlaybackRate( getPlaybackRate( newFitness ) );
       }
       else if ( this.staccatoSoundClip.playbackRate !== 1 ) {
-        // set things back to 1 if we just changed staccatoAlterPitchProperty
+        // set things back to 1 if we just changed staccato sound
+        // TODO: this can likely get removed once a single sound design is solidified
         this.staccatoSoundClip.setPlaybackRate( 1 );
       }
 
-      this.staccatoSoundClip.playAssociatedSound( designingProperties.staccatoSoundSelectorProperty.value );
+      this.staccatoSoundClip.playAssociatedSound( this.getStaccatoSoundValueToPlay() );
       this.timeSinceLastPlay = 0;
     }
 
     // if we were in ratio, but now we are not, then fade out the successSoundClip
     if ( this.isInSuccessfulRatio( this.oldFitness ) && !isInRatio ) {
 
-      // TODO: is there a way to get a notification when this is done ramping down? #9
+      // TODO: is there a way to get a notification when this is done ramping down? https://github.com/phetsims/ratio-and-proportion/issues/63
       this.successSoundClip.setOutputLevel( 0, .1 );
       this.playedSuccessYet = false;
     }
 
     this.oldFitness = newFitness;
+  }
+
+  /**
+   * Get the value of the MultiClip map for the staccato sound to play, see "staccatoSoundMap"
+   * @returns {number}
+   * @private
+   */
+  getStaccatoSoundValueToPlay() {
+    if ( designingProperties.staccatoSoundSelectorProperty.value === 0 ) {
+      return BRIGHT_MARIMBA_VALUE;
+    }
+    else {
+      assert && assert( designingProperties.staccatoSoundSelectorProperty.value === 1 );
+
+      // TODO: no duplicates
+      return Math.floor( phet.joist.random.nextDouble() * 3 + 1 );
+    }
   }
 
   /**
