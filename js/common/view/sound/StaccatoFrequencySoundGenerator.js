@@ -83,7 +83,12 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     this.timeSinceLastPlay = 0;
     this.oldFitness = this.fitnessProperty.value;
 
-    this.lastStaccatoSoundValue = null;
+    // @private {number} - keep track of the last value to prevent the same sound from being played twice in a row.
+    this.lastStaccatoSoundValue = -1;
+
+    // @private - keep track of if the success sound has already played. This will be set back to false when the fitness
+    // goes back out of range for the success sound.
+    this.playedSuccessYet = false;
   }
 
   /**
