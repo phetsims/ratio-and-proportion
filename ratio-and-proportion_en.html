@@ -22,7 +22,7 @@
   window.phet.chipper.packageObject =
     {
       "name": "ratio-and-proportion",
-      "version": "1.0.0-dev.22",
+      "version": "1.0.0-dev.23",
       "license": "GPL-3.0",
       "repository": {
         "type": "git",
@@ -37,7 +37,8 @@
           "../tangible/js/preload/mechamarkers-21f16221e414ec2dca68bbfbb866369eea7abd70.js"
         ],
         "phetLibs": [
-          "tangible"
+          "tangible",
+          "griddle"
         ],
         "simulation": true,
         "runnable": true,
@@ -55,6 +56,10 @@
     };
   window.phet.chipper.stringRepos =
     [
+      {
+        "repo": "griddle",
+        "requirejsNamespace": "GRIDDLE"
+      },
       {
         "repo": "joist",
         "requirejsNamespace": "JOIST"
