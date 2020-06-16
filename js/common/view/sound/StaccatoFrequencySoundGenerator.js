@@ -1,7 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * TODO: isInteractingProperty should reset this.playedSuccessYet = false;???
+ * TODO: isInteractingProperty should reset this.playedSuccessYet = false;??? https://github.com/phetsims/ratio-and-proportion/issues/63
  * Marimba bonks that change frequency based on the fitness of the Proportion
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
