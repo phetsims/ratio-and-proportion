@@ -30,6 +30,7 @@ const getPlaybackRate = fitness => fitness * ( Math.pow( 2, 4 / 12 ) - INITIAL_P
 const BRIGHT_MARIMBA_VALUE = 0;
 
 // to support multiple sound options, this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/9
+// IMPORTANT: don't change the order here without looking at this.getStaccatoSoundValueToPlay()
 const staccatoSoundMap = new Map();
 staccatoSoundMap.set( BRIGHT_MARIMBA_VALUE, brightMarimbaSound );
 staccatoSoundMap.set( 1, marimbaVariation0Sound );
@@ -81,6 +82,8 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
       RatioAndProportionQueryParameters.staccatoMinRepeatTime, true );
     this.timeSinceLastPlay = 0;
     this.oldFitness = this.fitnessProperty.value;
+
+    this.lastStaccatoSoundValue = null;
   }
 
   /**
@@ -161,8 +164,15 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     else {
       assert && assert( designingProperties.staccatoSoundSelectorProperty.value === 1 );
 
-      // TODO: no duplicates
-      return Math.floor( phet.joist.random.nextDouble() * 3 + 1 );
+      let soundValue = this.lastStaccatoSoundValue;
+      while ( soundValue === this.lastStaccatoSoundValue ) {
+
+        // "3 + 1" is a hard coded number based on staccatoSoundMap
+        soundValue = Math.floor( phet.joist.random.nextDouble() * 3 + 1 );
+      }
+
+      this.lastStaccatoSoundValue = soundValue;
+      return soundValue;
     }
   }
 
