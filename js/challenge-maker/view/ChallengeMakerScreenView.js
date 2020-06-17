@@ -17,8 +17,9 @@ import VBox from '../../../../scenery/js/nodes/VBox.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
-import RatioHandNode from '../../common/view/RatioHandNode.js';
+import GridView from '../../common/view/GridView.js';
 import RatioAndProportionScreenView from '../../common/view/RatioAndProportionScreenView.js';
+import RatioHandNode from '../../common/view/RatioHandNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
@@ -85,6 +86,11 @@ class ChallengeMakerScreenView extends RatioAndProportionScreenView {
     ], gridBaseUnitProperty, gridBaseUnitComboBoxParent, {
       labelNode: new RichText( 'Grid Range:', { font: new PhetFont( 22 ) } ),
       accessibleName: 'Grid Range' // TODO: i18n
+    } );
+
+    // Hide the base unit selection unless you can see units in the grid.
+    this.gridViewProperty.link( gridView => {
+      gridBaseUnitComboBox.visible = GridView.displayUnits( gridView );
     } );
 
     // children
