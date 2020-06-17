@@ -1,11 +1,11 @@
 {
-  "comment": "# ratio-and-proportion 1.0.0-dev.27 Tue Jun 16 2020 15:32:08 GMT-0800 (Alaska Daylight Time)",
+  "comment": "# ratio-and-proportion 1.0.0-dev.28 Wed Jun 17 2020 13:45:03 GMT-0800 (Alaska Daylight Time)",
   "assert": {
     "sha": "0b7a48c6b9ba48af48ae7419bd30c280c785f2cc",
     "branch": "master"
   },
   "axon": {
-    "sha": "03af6115c89ddfee7c08d7554c56d10b58117357",
+    "sha": "f2d96d7c6f2de0b5662f5038c819c23eb1b428ac",
     "branch": "master"
   },
   "brand": {
@@ -13,7 +13,7 @@
     "branch": "master"
   },
   "chipper": {
-    "sha": "50963ae4bab8cc8d9aaa0aca66e88ac437b2e146",
+    "sha": "aaca7ea994f30c859d974e7438410b683717747b",
     "branch": "master"
   },
   "dot": {
@@ -37,11 +37,11 @@
     "branch": "master"
   },
   "phet-io": {
-    "sha": "5e249f15bfd58d4553163c30c0f50fbbbda64f6c",
+    "sha": "2f63e4331707be1b9305834351ce360c97900be9",
     "branch": "master"
   },
   "phet-io-client-guides": {
-    "sha": "5bdfaef0f60a9a7c2e155a64e5c6de53b8ceb625",
+    "sha": "f31ce582163ee4471f49c571edd54e7adff0175e",
     "branch": "master"
   },
   "phet-io-wrappers": {
@@ -49,7 +49,7 @@
     "branch": "master"
   },
   "phetcommon": {
-    "sha": "9f5ea542bef0cb05955cb150bd9e89d69c07220a",
+    "sha": "ffc04d02e9f5bd6fe462bc86a81bca9c06018816",
     "branch": "master"
   },
   "phetmarks": {
@@ -61,7 +61,7 @@
     "branch": "master"
   },
   "ratio-and-proportion": {
-    "sha": "ec79497303ece500e32e36f3d034e413f64e0bf9",
+    "sha": "4e64c7c9e0b0134a3cdf9cbae24a109ae548cc31",
     "branch": "master"
   },
   "scenery": {
@@ -69,7 +69,7 @@
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "5c0826794e0346460d9bc1b42c70c3b5cc6c3f2c",
+    "sha": "1df684958bc2bbe9b364696b8759d547bdb0b864",
     "branch": "master"
   },
   "sherpa": {
@@ -77,7 +77,7 @@
     "branch": "master"
   },
   "studio": {
-    "sha": "03d6b50ea0dcaa9f06b9662d544a2fe31a749e39",
+    "sha": "a5e778bf70f248d87c26e8c0faca657364032761",
     "branch": "master"
   },
   "sun": {
@@ -89,7 +89,7 @@
     "branch": "master"
   },
   "tandem": {
-    "sha": "4a035869c3e67a235c610b2ab77950f0cc2d5b56",
+    "sha": "461413d3f1d2a5b775f412225ea1c41101f46109",
     "branch": "master"
   },
   "tangible": {
