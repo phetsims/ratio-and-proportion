@@ -1,7 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * This file adds mechamarkers as an input controller to Ratio And Proportion
+ * This file adds mechamarkers as an input controller to Ratio and Proportion
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
