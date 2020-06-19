@@ -92,7 +92,7 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
     //////////////////////////////////////////////////////////////////
     // C MAJOR FUN!
 
-    const cMajorSineSoundGenerator = new CMajorSineSoundGenerator( proportionFitnessProperty, {
+    const cMajorSineSoundGenerator = new CMajorSineSoundGenerator( proportionFitnessProperty, fitnessRange, {
       enableControlProperties: [
         isBeingInteractedWithProperty,
         fitnessNotMinProperty,
