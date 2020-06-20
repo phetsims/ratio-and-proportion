@@ -47,7 +47,7 @@ class ChallengeMakerScreenView extends RatioAndProportionScreenView {
       spacing: 10,
       children: [
         RatioHandNode.createIcon( false, this.gridViewProperty, { scale: .8 } ),
-        new NumberPicker( numberatorProperty, new Property( new Range( 1, 10 ) ) ) ]
+        new NumberPicker( numberatorProperty, new Property( new Range( 1, 10 ) ), { scale: 1.2 } ) ]
     } );
 
     const denominatorProperty = new NumberProperty( initialRatioFration.denominator );
@@ -56,7 +56,7 @@ class ChallengeMakerScreenView extends RatioAndProportionScreenView {
       spacing: 10,
       children: [
         RatioHandNode.createIcon( true, this.gridViewProperty, { scale: .8 } ),
-        new NumberPicker( denominatorProperty, new Property( new Range( 1, 10 ) ) ) ]
+        new NumberPicker( denominatorProperty, new Property( new Range( 1, 10 ) ), { scale: 1.2 } ) ]
     } );
 
     Property.multilink( [ numberatorProperty, denominatorProperty ], ( leftValue, rightValue ) => {
