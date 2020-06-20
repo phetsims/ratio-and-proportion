@@ -8,8 +8,10 @@
 
 import Property from '../../../../axon/js/Property.js';
 import GridNode from '../../../../griddle/js/GridNode.js';
+import merge from '../../../../phet-core/js/merge.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import GridView from './GridView.js';
+import RatioAndProportionColorProfile from './RatioAndProportionColorProfile.js';
 
 class RatioHalfGridNode extends GridNode {
 
@@ -22,7 +24,13 @@ class RatioHalfGridNode extends GridNode {
    */
   constructor( gridViewProperty, gridBaseUnitProperty, width, height, options ) {
 
-    super( width, height );
+    options = merge( {
+      minorLineOptions: {
+        stroke: RatioAndProportionColorProfile.gridAndLabelsProperty
+      }
+    }, options );
+
+    super( width, height, options );
 
     // @private
     this.gridViewProperty = gridViewProperty;
@@ -31,7 +39,6 @@ class RatioHalfGridNode extends GridNode {
     // TODO: is this line actually necessary?
     // support lines to begin with. This handles the case where the GridNode initialized to having no line.
     this.setLineSpacings( null, null, 10, 10 );
-    this.mutate( options );
 
     Property.multilink( [ gridBaseUnitProperty, gridViewProperty ], this.update.bind( this ) );
   }

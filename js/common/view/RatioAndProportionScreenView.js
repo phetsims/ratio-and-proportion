@@ -14,6 +14,7 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
 import FontAwesomeNode from '../../../../sun/js/FontAwesomeNode.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -26,6 +27,7 @@ import GridDescriber from './GridDescriber.js';
 import GridView from './GridView.js';
 import ProportionMarkerInput from './ProportionMarkerInput.js';
 import RAPGridLabelsNode from './RAPGridLabelsNode.js';
+import RatioAndProportionColorProfile from './RatioAndProportionColorProfile.js';
 import RatioAndProportionScreenSummaryNode from './RatioAndProportionScreenSummaryNode.js';
 import RatioDescriber from './RatioDescriber.js';
 import RatioHalf from './RatioHalf.js';
@@ -59,6 +61,10 @@ class RatioAndProportionScreenView extends ScreenView {
 
     const gridDescriber = new GridDescriber( model.valueRange, options.gridBaseUnitProperty );
     const ratioDescriber = new RatioDescriber( model, gridDescriber );
+
+    model.proportionFitnessProperty.link( fitness => {
+      RatioAndProportionColorProfile.gridAndLabelsProperty.value = Color.interpolateRGBA( Color.GRAY, Color.DARK_GRAY, fitness );
+    } );
 
     const gridViewProperty = new EnumerationProperty( GridView, GridView.NONE, {
       tandem: tandem.createTandem( 'gridViewProperty' )

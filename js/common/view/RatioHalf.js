@@ -28,8 +28,9 @@ import sliderClickSound from '../../../../wave-interference/sounds/slider-clicks
 import sliderBoundaryClickSound from '../../../../wave-interference/sounds/slider-clicks-idea-c-lower-end-click_mp3.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import designingProperties from '../designingProperties.js';
-import RatioAndProportionAlertManager from './RatioAndProportionAlertManager.js';
 import GridView from './GridView.js';
+import RatioAndProportionAlertManager from './RatioAndProportionAlertManager.js';
+import RatioAndProportionColorProfile from './RatioAndProportionColorProfile.js';
 import RatioHalfGridNode from './RatioHalfGridNode.js';
 import RatioHandNode from './RatioHandNode.js';
 
@@ -71,9 +72,9 @@ class RatioHalf extends Rectangle {
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
 
     // "Framing" rectangles on the top and bottom of the drag area of the ratio half
-    const topRect = new Rectangle( 0, 0, 10, FRAMING_RECTANGLE_HEIGHT, { fill: 'black' } );
+    const topRect = new Rectangle( 0, 0, 10, FRAMING_RECTANGLE_HEIGHT, { fill: RatioAndProportionColorProfile.gridAndLabelsProperty } );
     this.addChild( topRect );
-    const bottomRect = new Rectangle( 0, 0, 10, FRAMING_RECTANGLE_HEIGHT, { fill: 'black' } );
+    const bottomRect = new Rectangle( 0, 0, 10, FRAMING_RECTANGLE_HEIGHT, { fill: RatioAndProportionColorProfile.gridAndLabelsProperty } );
     this.addChild( bottomRect );
 
     // hide framing border rectangles when the units are being displayed

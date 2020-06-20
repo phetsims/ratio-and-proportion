@@ -12,6 +12,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import GridView from './GridView.js';
+import RatioAndProportionColorProfile from './RatioAndProportionColorProfile.js';
 
 const LABEL_X = 0;
 
@@ -95,7 +96,7 @@ class RAPGridLabelsNode extends Node {
       const text = new Text( i, {
         centerX: LABEL_X,
         font: new PhetFont( { size: 18, weight: 'bold' } ),
-        fill: 'grey',
+        fill: RatioAndProportionColorProfile.gridAndLabelsProperty,
         centerY: this.totalHeight - y
       } );
       this.heightOfText = text.height;
