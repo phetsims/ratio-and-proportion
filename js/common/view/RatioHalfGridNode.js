@@ -1,7 +1,8 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * Sim specific grid implementation with that supports customization through passed in Properties.
+ * Sim specific grid implementation with that supports customization through passed in Properties. This uses minor lines
+ * from GridNode, but not major lines.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -11,7 +12,6 @@ import GridNode from '../../../../griddle/js/GridNode.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import GridView from './GridView.js';
-import RatioAndProportionColorProfile from './RatioAndProportionColorProfile.js';
 
 class RatioHalfGridNode extends GridNode {
 
@@ -20,13 +20,14 @@ class RatioHalfGridNode extends GridNode {
    * @param {Property.<number>} gridBaseUnitProperty
    * @param {number} width
    * @param {number} height
+   * @param {Property.<Color>} colorProperty
    * @param {Object} [options]
    */
-  constructor( gridViewProperty, gridBaseUnitProperty, width, height, options ) {
+  constructor( gridViewProperty, gridBaseUnitProperty, width, height, colorProperty, options ) {
 
     options = merge( {
       minorLineOptions: {
-        stroke: RatioAndProportionColorProfile.gridAndLabelsProperty
+        stroke: colorProperty
       }
     }, options );
 

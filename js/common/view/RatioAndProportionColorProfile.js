@@ -7,12 +7,22 @@
  */
 
 import ColorProfile from '../../../../scenery-phet/js/ColorProfile.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 
 // Even though there is only one Profile, it is still nice to use this pattern for color organizing.
 const RatioAndProportionColorProfile = new ColorProfile( [ 'default' ], {
-  gridAndLabels: {
-    default: 'grey' // This is edited by the simulation as proportionFitnessPropety changes
+  gridAndLabelsInFitness: {
+    default: Color.GRAY
+  },
+  gridAndLabelsOutOfFitness: {
+    default: Color.DARK_GRAY
+  },
+  backgroundInFitness: {
+    default: new Color( '#639a67' )
+  },
+  backgroundOutOfFitness: {
+    default: new Color( 'white' )
   }
 } );
 

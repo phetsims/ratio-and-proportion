@@ -30,7 +30,6 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import designingProperties from '../designingProperties.js';
 import GridView from './GridView.js';
 import RatioAndProportionAlertManager from './RatioAndProportionAlertManager.js';
-import RatioAndProportionColorProfile from './RatioAndProportionColorProfile.js';
 import RatioHalfGridNode from './RatioHalfGridNode.js';
 import RatioHandNode from './RatioHandNode.js';
 
@@ -52,9 +51,11 @@ class RatioHalf extends Rectangle {
    * @param {Property.<number>} gridBaseUnitProperty
    * @param {RatioDescriber} ratioDescriber
    * @param {GridDescriber} gridDescriber
+   * @param {Property.<Color>} colorProperty
    * @param {Object} [options]
    */
-  constructor( positionProperty, valueProperty, valueRange, firstInteractionProperty, bounds, gridViewProperty, gridBaseUnitProperty, ratioDescriber, gridDescriber, options ) {
+  constructor( positionProperty, valueProperty, valueRange, firstInteractionProperty, bounds, gridViewProperty,
+               gridBaseUnitProperty, ratioDescriber, gridDescriber, colorProperty, options ) {
 
     options = merge( {
       cursor: 'ratioHandNode',
@@ -72,9 +73,9 @@ class RatioHalf extends Rectangle {
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
 
     // "Framing" rectangles on the top and bottom of the drag area of the ratio half
-    const topRect = new Rectangle( 0, 0, 10, FRAMING_RECTANGLE_HEIGHT, { fill: RatioAndProportionColorProfile.gridAndLabelsProperty } );
+    const topRect = new Rectangle( 0, 0, 10, FRAMING_RECTANGLE_HEIGHT, { fill: colorProperty } );
     this.addChild( topRect );
-    const bottomRect = new Rectangle( 0, 0, 10, FRAMING_RECTANGLE_HEIGHT, { fill: RatioAndProportionColorProfile.gridAndLabelsProperty } );
+    const bottomRect = new Rectangle( 0, 0, 10, FRAMING_RECTANGLE_HEIGHT, { fill: colorProperty } );
     this.addChild( bottomRect );
 
     // hide framing border rectangles when the units are being displayed
@@ -85,7 +86,9 @@ class RatioHalf extends Rectangle {
     // @private
     this.alertManager = new RatioAndProportionAlertManager( valueProperty, gridViewProperty, ratioDescriber, gridDescriber, options.isRight );
 
-    const gridNode = new RatioHalfGridNode( gridViewProperty, gridBaseUnitProperty, bounds.width, bounds.height - 2 * FRAMING_RECTANGLE_HEIGHT );
+    const gridNode = new RatioHalfGridNode( gridViewProperty, gridBaseUnitProperty,
+      bounds.width, bounds.height - 2 * FRAMING_RECTANGLE_HEIGHT,
+      colorProperty );
     this.addChild( gridNode );
 
     // The draggable element inside the Node framed with thick rectangles on the top and bottom.

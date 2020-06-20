@@ -42,7 +42,6 @@ const RATIO_HALF_WIDTH = ONE_QUARTER_LAYOUT_WIDTH;
 const RATIO_HALF_SPACING = 10;
 const CONTROL_PANEL_WIDTH = 200;
 
-
 class RatioAndProportionScreenView extends ScreenView {
 
   /**
@@ -62,9 +61,11 @@ class RatioAndProportionScreenView extends ScreenView {
     const gridDescriber = new GridDescriber( model.valueRange, options.gridBaseUnitProperty );
     const ratioDescriber = new RatioDescriber( model, gridDescriber );
 
-    model.proportionFitnessProperty.link( fitness => {
-      RatioAndProportionColorProfile.gridAndLabelsProperty.value = Color.interpolateRGBA( Color.GRAY, Color.DARK_GRAY, fitness );
-    } );
+    const gridAndLabelsColorProperty = new DerivedProperty( [ model.proportionFitnessProperty ],
+      fitness => Color.interpolateRGBA(
+        RatioAndProportionColorProfile.gridAndLabelsInFitnessProperty.value,
+        RatioAndProportionColorProfile.gridAndLabelsOutOfFitnessProperty.value, fitness
+      ) );
 
     const gridViewProperty = new EnumerationProperty( GridView, GridView.NONE, {
       tandem: tandem.createTandem( 'gridViewProperty' )
@@ -97,7 +98,8 @@ class RatioAndProportionScreenView extends ScreenView {
       gridViewProperty,
       options.gridBaseUnitProperty,
       ratioDescriber,
-      gridDescriber, {
+      gridDescriber,
+      gridAndLabelsColorProperty, {
         labelContent: ratioAndProportionStrings.a11y.leftHand,
         isRight: false // this way we get a left hand
       }
@@ -113,7 +115,8 @@ class RatioAndProportionScreenView extends ScreenView {
       gridViewProperty,
       options.gridBaseUnitProperty,
       ratioDescriber,
-      gridDescriber, {
+      gridDescriber,
+      gridAndLabelsColorProperty, {
         labelContent: ratioAndProportionStrings.a11y.rightHand
       } );
 
@@ -149,13 +152,18 @@ class RatioAndProportionScreenView extends ScreenView {
     soundManager.addSoundGenerator( this.proportionFitnessSoundGenerator );
 
     // these dimensions are just temporary, and will be recomputed below in the layout function
-    const labelsNode = new RAPGridLabelsNode( gridViewProperty, options.gridBaseUnitProperty, 1000 );
+    const labelsNode = new RAPGridLabelsNode( gridViewProperty, options.gridBaseUnitProperty, 1000, gridAndLabelsColorProperty );
 
     const backgroundNode = Rectangle.bounds( this.layoutBounds, {
       fill: 'black'
     } );
-    model.colorProperty.link( color => {
-      backgroundNode.setFill( color );
+
+    model.proportionFitnessProperty.link( fitness => {
+      backgroundNode.setFill( Color.interpolateRGBA(
+        RatioAndProportionColorProfile.backgroundOutOfFitnessProperty.value,
+        RatioAndProportionColorProfile.backgroundInFitnessProperty.value,
+        fitness
+      ) );
     } );
 
 

@@ -14,12 +14,8 @@ import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
-import Color from '../../../../scenery/js/util/Color.js';
 import RatioAndProportionQueryParameters from '../../common/RatioAndProportionQueryParameters.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-
-const CORRECT_COLOR = new Color( '#639a67' );
-const INCORRECT_COLOR = new Color( 'white' );
 
 class RatioAndProportionModel {
 
@@ -86,11 +82,6 @@ class RatioAndProportionModel {
     }, {
       isValidValue: value => this.fitnessRange.contains( value )
     } );
-
-    // @public - based on the proportion fitness
-    this.colorProperty = new DerivedProperty( [ this.proportionFitnessProperty ], fitness => {
-      return Color.interpolateRGBA( INCORRECT_COLOR, CORRECT_COLOR, fitness );
-    }, { valueType: Color } );
 
     // @public - true before and until first user interaction with the simulation. Reset will apply to this Property.
     this.firstInteractionProperty = new BooleanProperty( true );

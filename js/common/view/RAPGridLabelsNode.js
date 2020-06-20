@@ -12,7 +12,6 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import GridView from './GridView.js';
-import RatioAndProportionColorProfile from './RatioAndProportionColorProfile.js';
 
 const LABEL_X = 0;
 
@@ -22,9 +21,10 @@ class RAPGridLabelsNode extends Node {
    * @param {Property.<GridView>} gridViewProperty
    * @param {Property.<number>} gridBaseUnitProperty
    * @param {number} height
+   * @param {Property.<Color>} colorProperty
    * @param {Object} [options]
    */
-  constructor( gridViewProperty, gridBaseUnitProperty, height, options ) {
+  constructor( gridViewProperty, gridBaseUnitProperty, height, colorProperty, options ) {
 
     if ( options ) {
       assert && assert( !options.hasOwnProperty( 'children' ), 'RAPGridLabelsNode sets its own children' );
@@ -41,6 +41,7 @@ class RAPGridLabelsNode extends Node {
     // @private
     this.gridViewProperty = gridViewProperty;
     this.gridBaseUnitProperty = gridBaseUnitProperty;
+    this.colorProperty = colorProperty;
 
     this.mutate( options );
 
@@ -96,7 +97,7 @@ class RAPGridLabelsNode extends Node {
       const text = new Text( i, {
         centerX: LABEL_X,
         font: new PhetFont( { size: 18, weight: 'bold' } ),
-        fill: RatioAndProportionColorProfile.gridAndLabelsProperty,
+        fill: this.colorProperty,
         centerY: this.totalHeight - y
       } );
       this.heightOfText = text.height;
