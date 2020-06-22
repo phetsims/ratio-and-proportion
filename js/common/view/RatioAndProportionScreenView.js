@@ -210,12 +210,18 @@ class RatioAndProportionScreenView extends ScreenView {
       a11yRatioContainer
     ];
 
-    // accessible order (markers first in nav order)
+    // accessible order (ratio first in nav order)
     this.pdomPlayAreaNode.accessibleOrder = [
       this.leftRatioHalf,
       this.rightRatioHalf,
       a11yRatioContainer,
-      null ];
+      this.gridViewRadioButtonGroup
+    ];
+
+    // accessible order
+    this.pdomControlAreaNode.accessibleOrder = [
+      this.resetAllButton
+    ];
 
     this.resetAllButton.right = this.layoutBounds.maxX - ProportionConstants.SCREEN_VIEW_X_MARGIN;
     this.resetAllButton.bottom = this.layoutBounds.maxY - ProportionConstants.SCREEN_VIEW_Y_MARGIN;
