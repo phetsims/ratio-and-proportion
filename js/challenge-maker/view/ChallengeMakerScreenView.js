@@ -94,12 +94,18 @@ class ChallengeMakerScreenView extends RatioAndProportionScreenView {
     const gridBaseUnitComboBoxParent = new Node();
 
     const gridBaseUnitComboBox = new ComboBox( [
-      new ComboBoxItem( new RichText( '0 to 10', { font: FONT } ), 10, { a11yLabel: '0 to 10' } ),
-      new ComboBoxItem( new RichText( '0 to 20', { font: FONT } ), 20, { a11yLabel: '0 to 20' } ),
-      new ComboBoxItem( new RichText( '0 to 30', { font: FONT } ), 30, { a11yLabel: '0 to 30' } )
+      new ComboBoxItem( new RichText( ratioAndProportionStrings.zeroToTen, { font: FONT } ), 10, {
+        a11yLabel: ratioAndProportionStrings.zeroToTen
+      } ),
+      new ComboBoxItem( new RichText( ratioAndProportionStrings.zeroToTwenty, { font: FONT } ), 20, {
+        a11yLabel: ratioAndProportionStrings.zeroToTwenty
+      } ),
+      new ComboBoxItem( new RichText( ratioAndProportionStrings.zeroToThirty, { font: FONT } ), 30, {
+        a11yLabel: ratioAndProportionStrings.zeroToThirty
+      } )
     ], gridBaseUnitProperty, gridBaseUnitComboBoxParent, {
-      labelNode: new RichText( 'Grid Range:', { font: FONT } ),
-      accessibleName: 'Grid Range' // TODO: i18n
+      labelNode: new RichText( ratioAndProportionStrings.range, { font: FONT } ),
+      accessibleName: ratioAndProportionStrings.range
     } );
 
     // Hide the base unit selection unless you can see units in the grid.
