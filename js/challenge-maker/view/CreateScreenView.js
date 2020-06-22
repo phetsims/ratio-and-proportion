@@ -7,6 +7,7 @@
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import Fraction from '../../../../phetcommon/js/model/Fraction.js';
 import NumberPicker from '../../../../scenery-phet/js/NumberPicker.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
@@ -45,25 +46,33 @@ class CreateScreenView extends RatioAndProportionScreenView {
     const initialRatioFration = new Fraction( model.leftValueProperty.value * 100, model.rightValueProperty.value * 100 );
     initialRatioFration.reduce();
 
-    const numberatorProperty = new NumberProperty( initialRatioFration.numerator );
+    const numeratorProperty = new NumberProperty( initialRatioFration.numerator );
+    const numeratorNumberPicker = new NumberPicker( numeratorProperty, new Property( new Range( 1, 10 ) ), {
+      scale: PICKER_SCALE,
+      center: Vector2.ZERO
+    } );
     const leftRatioSelector = new VBox( {
-      align: 'center',
+      align: 'origin',
       spacing: 10,
       children: [
         RatioHandNode.createIcon( false, this.gridViewProperty, { scale: ICON_SCALE } ),
-        new NumberPicker( numberatorProperty, new Property( new Range( 1, 10 ) ), { scale: PICKER_SCALE } ) ]
+        new Node( { children: [ numeratorNumberPicker ] } ) ]
     } );
 
     const denominatorProperty = new NumberProperty( initialRatioFration.denominator );
+    const denominatorNumberPicker = new NumberPicker( denominatorProperty, new Property( new Range( 1, 10 ) ), {
+      scale: PICKER_SCALE,
+      center: Vector2.ZERO
+    } );
     const rightRatioSelector = new VBox( {
-      align: 'center',
+      align: 'origin',
       spacing: 10,
       children: [
         RatioHandNode.createIcon( true, this.gridViewProperty, { scale: ICON_SCALE } ),
-        new NumberPicker( denominatorProperty, new Property( new Range( 1, 10 ) ), { scale: PICKER_SCALE } ) ]
+        new Node( { children: [ denominatorNumberPicker ] } ) ]
     } );
 
-    Property.multilink( [ numberatorProperty, denominatorProperty ], ( leftValue, rightValue ) => {
+    Property.multilink( [ numeratorProperty, denominatorProperty ], ( leftValue, rightValue ) => {
       model.ratioProperty.value = leftValue / rightValue;
     } );
 
@@ -129,7 +138,7 @@ class CreateScreenView extends RatioAndProportionScreenView {
 
     // @private
     this.resetCreateScreenView = () => {
-      numberatorProperty.reset();
+      numeratorProperty.reset();
       denominatorProperty.reset();
     };
   }
