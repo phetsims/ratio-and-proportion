@@ -97,23 +97,31 @@ class ChallengeMakerScreenView extends RatioAndProportionScreenView {
     this.addChild( gridBaseUnitComboBox );
     this.addChild( gridBaseUnitComboBoxParent );
 
-    // static layout
-    gridBaseUnitComboBox.bottom = this.resetAllButton.top - 140;
-    gridBaseUnitComboBox.right = this.resetAllButton.right + 5;
-
-    // static layout
-    myChallengeAccordionBox.right = this.resetAllButton.right;
-    this.gridViewRadioButtonGroup.left = gridBaseUnitComboBox.left = myChallengeAccordionBox.left;
-
-    myChallengeAccordionBox.bottom = this.resetAllButton.top - 20;
-    gridBaseUnitComboBox.bottom = myChallengeAccordionBox.top - 20;
-    this.gridViewRadioButtonGroup.bottom = gridBaseUnitComboBox.top - 20;
+    // @private
+    this.layoutChallengeMakerScreenView = () => {
+      gridBaseUnitComboBox.left = myChallengeAccordionBox.left = this.gridViewRadioButtonGroup.left;
+      this.resetAllButton.right = myChallengeAccordionBox.right;
+      gridBaseUnitComboBox.top = this.gridViewRadioButtonGroup.bottom + 20;
+      myChallengeAccordionBox.top = gridBaseUnitComboBox.bottom + 20;
+      this.resetAllButton.top = myChallengeAccordionBox.bottom + 20;
+    };
 
     // @private
     this.resetChallengeMakerScreenView = () => {
       numberatorProperty.reset();
       denominatorProperty.reset();
     };
+  }
+
+  /**
+   * @param {number} width
+   * @param {number} height
+   * @override
+   * @public
+   */
+  layout( width, height ) {
+    super.layout( width, height );
+    this.layoutChallengeMakerScreenView();
   }
 
   /**

@@ -167,7 +167,7 @@ class RatioAndProportionScreenView extends ScreenView {
     } );
 
 
-    // @protected
+    // @protected - layout of this should be done by the subtype
     this.resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
@@ -223,8 +223,10 @@ class RatioAndProportionScreenView extends ScreenView {
       this.resetAllButton
     ];
 
+    // static layout
+    this.gridViewRadioButtonGroup.top = this.layoutBounds.height * .15;
     this.resetAllButton.right = this.layoutBounds.maxX - ProportionConstants.SCREEN_VIEW_X_MARGIN;
-    this.resetAllButton.bottom = this.layoutBounds.maxY - ProportionConstants.SCREEN_VIEW_Y_MARGIN;
+    this.resetAllButton.bottom = this.layoutBounds.height - ProportionConstants.SCREEN_VIEW_Y_MARGIN;
 
     // @private - dynamic layout based on the current ScreenView coordinates
     this.layoutRatioAndProportionScreeView = newRatioHalfBounds => {
@@ -246,6 +248,7 @@ class RatioAndProportionScreenView extends ScreenView {
       this.leftRatioHalf.bottom = this.rightRatioHalf.bottom = this.layoutBounds.bottom;
 
       labelsNode.bottom = this.layoutBounds.bottom - RatioHalf.FRAMING_RECTANGLE_HEIGHT + labelsNode.labelHeight / 2;
+      this.gridViewRadioButtonGroup.left = a11yRatioContainer.right + ( this.layoutBounds.width * .04 );
     };
     this.layoutRatioAndProportionScreeView( defaultRatioHalfBounds );
   }
