@@ -194,7 +194,8 @@ class RatioAndProportionScreenView extends ScreenView {
     } ], {
       orientation: 'horizontal',
       baseColor: 'white',
-      labelContent: ratioAndProportionStrings.a11y.grid.heading
+      labelContent: ratioAndProportionStrings.a11y.grid.heading,
+      scale: 1.07 // calculated to try to match this width with other components in subtypes
     } );
 
     // children

@@ -24,7 +24,8 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
 const FONT = ProportionConstants.FONT;
-
+const PICKER_SCALE = 1.5;
+const ICON_SCALE = .9;
 
 class ChallengeMakerScreenView extends RatioAndProportionScreenView {
 
@@ -49,8 +50,8 @@ class ChallengeMakerScreenView extends RatioAndProportionScreenView {
       align: 'center',
       spacing: 10,
       children: [
-        RatioHandNode.createIcon( false, this.gridViewProperty, { scale: .8 } ),
-        new NumberPicker( numberatorProperty, new Property( new Range( 1, 10 ) ), { scale: 1.2 } ) ]
+        RatioHandNode.createIcon( false, this.gridViewProperty, { scale: ICON_SCALE } ),
+        new NumberPicker( numberatorProperty, new Property( new Range( 1, 10 ) ), { scale: PICKER_SCALE } ) ]
     } );
 
     const denominatorProperty = new NumberProperty( initialRatioFration.denominator );
@@ -58,8 +59,8 @@ class ChallengeMakerScreenView extends RatioAndProportionScreenView {
       align: 'center',
       spacing: 10,
       children: [
-        RatioHandNode.createIcon( true, this.gridViewProperty, { scale: .8 } ),
-        new NumberPicker( denominatorProperty, new Property( new Range( 1, 10 ) ), { scale: 1.2 } ) ]
+        RatioHandNode.createIcon( true, this.gridViewProperty, { scale: ICON_SCALE } ),
+        new NumberPicker( denominatorProperty, new Property( new Range( 1, 10 ) ), { scale: PICKER_SCALE } ) ]
     } );
 
     Property.multilink( [ numberatorProperty, denominatorProperty ], ( leftValue, rightValue ) => {
@@ -67,13 +68,13 @@ class ChallengeMakerScreenView extends RatioAndProportionScreenView {
     } );
 
     const myChallengeContent = new HBox( {
-      spacing: 80,
+      spacing: 40,
       children: [ leftRatioSelector, rightRatioSelector ]
     } );
     const myChallengeAccordionBox = new AccordionBox( myChallengeContent, {
       titleNode: new RichText( ratioAndProportionStrings.myChallenge, { font: FONT } ),
       titleAlignX: 'left',
-      contentXMargin: 60,
+      contentXMargin: 26,
       contentYMargin: 15,
       contentYSpacing: 15,
 
