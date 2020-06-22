@@ -9,7 +9,6 @@ import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import Fraction from '../../../../phetcommon/js/model/Fraction.js';
 import NumberPicker from '../../../../scenery-phet/js/NumberPicker.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
@@ -17,11 +16,15 @@ import VBox from '../../../../scenery/js/nodes/VBox.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
+import ProportionConstants from '../../common/ProportionConstants.js';
 import GridView from '../../common/view/GridView.js';
 import RatioAndProportionScreenView from '../../common/view/RatioAndProportionScreenView.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+
+const FONT = ProportionConstants.FONT;
+
 
 class ChallengeMakerScreenView extends RatioAndProportionScreenView {
 
@@ -68,7 +71,7 @@ class ChallengeMakerScreenView extends RatioAndProportionScreenView {
       children: [ leftRatioSelector, rightRatioSelector ]
     } );
     const myChallengeAccordionBox = new AccordionBox( myChallengeContent, {
-      titleNode: new RichText( ratioAndProportionStrings.myChallenge ),
+      titleNode: new RichText( ratioAndProportionStrings.myChallenge, { font: FONT } ),
       titleAlignX: 'left',
       contentXMargin: 60,
       contentYMargin: 15,
@@ -91,17 +94,17 @@ class ChallengeMakerScreenView extends RatioAndProportionScreenView {
     const gridBaseUnitComboBoxParent = new Node();
 
     const gridBaseUnitComboBox = new ComboBox( [
-      new ComboBoxItem( new RichText( '0 to 10' ), 10, { a11yLabel: '0 to 10' } ),
-      new ComboBoxItem( new RichText( '0 to 20' ), 20, { a11yLabel: '0 to 20' } ),
-      new ComboBoxItem( new RichText( '0 to 30' ), 30, { a11yLabel: '0 to 30' } )
+      new ComboBoxItem( new RichText( '0 to 10', { font: FONT } ), 10, { a11yLabel: '0 to 10' } ),
+      new ComboBoxItem( new RichText( '0 to 20', { font: FONT } ), 20, { a11yLabel: '0 to 20' } ),
+      new ComboBoxItem( new RichText( '0 to 30', { font: FONT } ), 30, { a11yLabel: '0 to 30' } )
     ], gridBaseUnitProperty, gridBaseUnitComboBoxParent, {
-      labelNode: new RichText( 'Grid Range:', { font: new PhetFont( 22 ) } ),
+      labelNode: new RichText( 'Grid Range:', { font: FONT } ),
       accessibleName: 'Grid Range' // TODO: i18n
     } );
 
     // Hide the base unit selection unless you can see units in the grid.
     this.gridViewProperty.link( gridView => {
-      gridBaseUnitComboBox.visible = GridView.displayUnits( gridView );
+      gridBaseUnitComboBox.enabledProperty.value = gridView !== GridView.NONE;
     } );
 
     // children
