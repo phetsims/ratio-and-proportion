@@ -48,6 +48,7 @@ class RatioInteractionListener {
         this.stepValue( leftValueProperty, false );
       }
       else if ( event.key.toLowerCase() === 'j' ) {
+        this.firstInteractionProperty.value = false;
 
         // jump both values to the lowest occupied value
         rightValueProperty.value = leftValueProperty.value = Math.min( leftValueProperty.value, rightValueProperty.value );
@@ -57,6 +58,7 @@ class RatioInteractionListener {
         // for number keys 0-9, jump both values to that grid line number. This value changes based on the gridBaseUnitProperty
         for ( let i = 0; i <= 9; i++ ) {
           if ( event.key === i + '' ) {
+            this.firstInteractionProperty.value = false;
             const newValue = 1 / gridBaseUnitProperty.value * i;
             leftValueProperty.value = rightValueProperty.value = newValue;
           }
