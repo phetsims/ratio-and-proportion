@@ -72,7 +72,18 @@ class ChallengeMakerScreenView extends RatioAndProportionScreenView {
       titleAlignX: 'left',
       contentXMargin: 60,
       contentYMargin: 15,
-      contentYSpacing: 15
+      contentYSpacing: 15,
+
+      // Copied from NLCConstants.js, see https://github.com/phetsims/ratio-and-proportion/issues/58#issuecomment-646377333
+      cornerRadius: 5,
+      buttonXMargin: 8,
+      buttonYMargin: 6,
+      expandCollapseButtonOptions: {
+        touchAreaXDilation: 15,
+        touchAreaYDilation: 15,
+        mouseAreaXDilation: 5,
+        mouseAreaYDilation: 5
+      }
     } );
     this.addChild( myChallengeAccordionBox );
     myChallengeAccordionBox.expandedProperty.value = false;
