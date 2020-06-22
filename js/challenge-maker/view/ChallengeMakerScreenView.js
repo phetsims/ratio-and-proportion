@@ -121,8 +121,8 @@ class ChallengeMakerScreenView extends RatioAndProportionScreenView {
     this.layoutChallengeMakerScreenView = () => {
       gridBaseUnitComboBox.left = myChallengeAccordionBox.left = this.gridViewRadioButtonGroup.left;
       this.resetAllButton.right = myChallengeAccordionBox.right;
-      gridBaseUnitComboBox.top = this.gridViewRadioButtonGroup.bottom + 20;
-      myChallengeAccordionBox.top = gridBaseUnitComboBox.bottom + 20;
+      gridBaseUnitComboBox.top = this.gridViewRadioButtonGroup.bottom + 10;
+      myChallengeAccordionBox.top = gridBaseUnitComboBox.bottom + 30;
       this.resetAllButton.top = myChallengeAccordionBox.bottom + 20;
     };
 
