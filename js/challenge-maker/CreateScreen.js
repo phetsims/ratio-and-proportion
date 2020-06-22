@@ -11,9 +11,9 @@ import RatioAndProportionModel from '../common/model/RatioAndProportionModel.js'
 import RandomIcon from '../common/view/RandomIcon.js';
 import ratioAndProportion from '../ratioAndProportion.js';
 import ratioAndProportionStrings from '../ratioAndProportionStrings.js';
-import ChallengeMakerScreenView from './view/ChallengeMakerScreenView.js';
+import CreateScreenView from './view/CreateScreenView.js';
 
-class ChallengeMakerScreen extends Screen {
+class CreateScreen extends Screen {
 
   /**
    * @param {Tandem} tandem
@@ -23,20 +23,20 @@ class ChallengeMakerScreen extends Screen {
     const options = {
       backgroundColorProperty: new Property( 'white' ),
       tandem: tandem,
-      homeScreenIcon: new ScreenIcon( new RandomIcon( 432140, '' ), {
+      homeScreenIcon: new ScreenIcon( new RandomIcon( 432432440, '' ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
       } ),
-      name: ratioAndProportionStrings.challengeMaker
+      name: ratioAndProportionStrings.create
     };
 
     super(
       () => new RatioAndProportionModel( tandem.createTandem( 'model' ) ),
-      model => new ChallengeMakerScreenView( model, tandem.createTandem( 'view' ) ),
+      model => new CreateScreenView( model, tandem.createTandem( 'view' ) ),
       options
     );
   }
 }
 
-ratioAndProportion.register( 'ChallengeMakerScreen', ChallengeMakerScreen );
-export default ChallengeMakerScreen;
+ratioAndProportion.register( 'CreateScreen', CreateScreen );
+export default CreateScreen;

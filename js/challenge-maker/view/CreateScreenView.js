@@ -27,7 +27,7 @@ const FONT = ProportionConstants.FONT;
 const PICKER_SCALE = 1.5;
 const ICON_SCALE = .9;
 
-class ChallengeMakerScreenView extends RatioAndProportionScreenView {
+class CreateScreenView extends RatioAndProportionScreenView {
 
   /**
    * @param {RatioAndProportionModel} model
@@ -119,7 +119,7 @@ class ChallengeMakerScreenView extends RatioAndProportionScreenView {
     this.addChild( gridBaseUnitComboBoxParent );
 
     // @private
-    this.layoutChallengeMakerScreenView = () => {
+    this.layoutCreateScreenView = () => {
       gridBaseUnitComboBox.left = myChallengeAccordionBox.left = this.gridViewRadioButtonGroup.left;
       this.resetAllButton.right = myChallengeAccordionBox.right;
       gridBaseUnitComboBox.top = this.gridViewRadioButtonGroup.bottom + 10;
@@ -128,7 +128,7 @@ class ChallengeMakerScreenView extends RatioAndProportionScreenView {
     };
 
     // @private
-    this.resetChallengeMakerScreenView = () => {
+    this.resetCreateScreenView = () => {
       numberatorProperty.reset();
       denominatorProperty.reset();
     };
@@ -142,7 +142,7 @@ class ChallengeMakerScreenView extends RatioAndProportionScreenView {
    */
   layout( width, height ) {
     super.layout( width, height );
-    this.layoutChallengeMakerScreenView();
+    this.layoutCreateScreenView();
   }
 
   /**
@@ -150,10 +150,10 @@ class ChallengeMakerScreenView extends RatioAndProportionScreenView {
    * @override
    */
   reset() {
-    this.resetChallengeMakerScreenView();
+    this.resetCreateScreenView();
     super.reset();
   }
 }
 
-ratioAndProportion.register( 'ChallengeMakerScreenView', ChallengeMakerScreenView );
-export default ChallengeMakerScreenView;
+ratioAndProportion.register( 'CreateScreenView', CreateScreenView );
+export default CreateScreenView;
