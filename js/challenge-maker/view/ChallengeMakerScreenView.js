@@ -75,7 +75,7 @@ class ChallengeMakerScreenView extends RatioAndProportionScreenView {
       contentYSpacing: 15
     } );
     this.addChild( myChallengeAccordionBox );
-
+    myChallengeAccordionBox.expandedProperty.value = false;
 
     const gridBaseUnitComboBoxParent = new Node();
 
