@@ -18,8 +18,11 @@ const RatioAndProportionColorProfile = new ColorProfile( [ 'default' ], {
   gridAndLabelsOutOfFitness: {
     default: Color.DARK_GRAY
   },
-  backgroundInFitness: {
+  backgroundInFitness: { // the color will jump from backgroundInterpolationToFitness to this when actually in ratio
     default: new Color( '#639a67' )
+  },
+  backgroundInterpolationToFitness: { // this will be the max of the interpolation for the background color
+    default: new Color( '#79B37D' )
   },
   backgroundOutOfFitness: {
     default: new Color( 'white' )

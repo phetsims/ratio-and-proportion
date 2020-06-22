@@ -159,11 +159,19 @@ class RatioAndProportionScreenView extends ScreenView {
     } );
 
     model.proportionFitnessProperty.link( fitness => {
-      backgroundNode.setFill( Color.interpolateRGBA(
-        RatioAndProportionColorProfile.backgroundOutOfFitnessProperty.value,
-        RatioAndProportionColorProfile.backgroundInFitnessProperty.value,
-        fitness
-      ) );
+      let color = null;
+      const number = .9;
+      if ( fitness > number ) {
+        color = RatioAndProportionColorProfile.backgroundInFitnessProperty.value;
+      }
+      else {
+        color = Color.interpolateRGBA(
+          RatioAndProportionColorProfile.backgroundOutOfFitnessProperty.value,
+          RatioAndProportionColorProfile.backgroundInterpolationToFitnessProperty.value,
+          fitness / number
+        );
+      }
+      backgroundNode.setFill( color );
     } );
 
 
