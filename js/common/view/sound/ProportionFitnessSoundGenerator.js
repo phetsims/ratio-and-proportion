@@ -56,8 +56,11 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
     // @private
     this.proportionFitnessProperty = proportionFitnessProperty;
 
+    // TODO: Can the following code code be completely removed?  See https://github.com/phetsims/ratio-and-proportion/issues/67.
+    //   It is commented out for now so that the sim behaves as desired.
+
     // start with the output level at zero so that the initial sound generation has a bit of fade in
-    this.setOutputLevel( 0, 0 );
+    // this.setOutputLevel( 0, 0 );
 
     const fitnessNotMinProperty = new DerivedProperty( [ proportionFitnessProperty ], fitness => fitness !== fitnessRange.min );
 
