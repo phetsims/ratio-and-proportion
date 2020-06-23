@@ -160,15 +160,15 @@ class RatioAndProportionScreenView extends ScreenView {
 
     model.proportionFitnessProperty.link( fitness => {
       let color = null;
-      const number = .9;
-      if ( fitness > number ) {
+      const toleranceThreshold = .975;
+      if ( fitness > toleranceThreshold ) {
         color = RatioAndProportionColorProfile.backgroundInFitnessProperty.value;
       }
       else {
         color = Color.interpolateRGBA(
           RatioAndProportionColorProfile.backgroundOutOfFitnessProperty.value,
           RatioAndProportionColorProfile.backgroundInterpolationToFitnessProperty.value,
-          fitness / number
+          fitness / toleranceThreshold
         );
       }
       backgroundNode.setFill( color );
