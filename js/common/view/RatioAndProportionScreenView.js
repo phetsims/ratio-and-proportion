@@ -176,7 +176,7 @@ class RatioAndProportionScreenView extends ScreenView {
 
 
     // @protected - layout of this should be done by the subtype
-    this.resetAllButton = new ResetAllButton( {
+    const resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         model.reset();
@@ -213,7 +213,7 @@ class RatioAndProportionScreenView extends ScreenView {
 
       // UI
       this.gridViewRadioButtonGroup,
-      this.resetAllButton,
+      resetAllButton,
 
       // Main ratio on top
       a11yRatioContainer
@@ -229,13 +229,13 @@ class RatioAndProportionScreenView extends ScreenView {
 
     // accessible order
     this.pdomControlAreaNode.accessibleOrder = [
-      this.resetAllButton
+      resetAllButton
     ];
 
     // static layout
     this.gridViewRadioButtonGroup.top = this.layoutBounds.height * .15;
-    this.resetAllButton.right = this.layoutBounds.maxX - ProportionConstants.SCREEN_VIEW_X_MARGIN;
-    this.resetAllButton.bottom = this.layoutBounds.height - ProportionConstants.SCREEN_VIEW_Y_MARGIN;
+    resetAllButton.right = this.layoutBounds.maxX - ProportionConstants.SCREEN_VIEW_X_MARGIN;
+    resetAllButton.bottom = this.layoutBounds.height - ProportionConstants.SCREEN_VIEW_Y_MARGIN;
 
     // @private - dynamic layout based on the current ScreenView coordinates
     this.layoutRatioAndProportionScreeView = newRatioHalfBounds => {

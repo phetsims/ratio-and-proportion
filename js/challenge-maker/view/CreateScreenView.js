@@ -130,10 +130,8 @@ class CreateScreenView extends RatioAndProportionScreenView {
     // @private
     this.layoutCreateScreenView = () => {
       gridBaseUnitComboBox.left = myChallengeAccordionBox.left = this.gridViewRadioButtonGroup.left;
-      this.resetAllButton.right = myChallengeAccordionBox.right;
       gridBaseUnitComboBox.top = this.gridViewRadioButtonGroup.bottom + 10;
       myChallengeAccordionBox.top = gridBaseUnitComboBox.bottom + 30;
-      this.resetAllButton.top = myChallengeAccordionBox.bottom + 20;
     };
 
     // @private

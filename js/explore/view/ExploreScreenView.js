@@ -35,16 +35,10 @@ class ExploreScreenView extends RatioAndProportionScreenView {
     this.addChild( comboBox );
     this.addChild( comboBoxParent );
 
-    // static layout
-    comboBox.bottom = this.resetAllButton.top - 140;
-    comboBox.right = this.resetAllButton.right + 5;
-
     // @private
     this.layoutExploreScreenView = () => {
       comboBox.left = this.gridViewRadioButtonGroup.left;
-      this.resetAllButton.right = comboBox.right;
       comboBox.top = this.gridViewRadioButtonGroup.bottom + 20;
-      this.resetAllButton.top = comboBox.bottom + 20;
     };
   }
 
