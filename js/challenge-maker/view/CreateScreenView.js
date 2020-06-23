@@ -10,6 +10,7 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Fraction from '../../../../phetcommon/js/model/Fraction.js';
 import NumberPicker from '../../../../scenery-phet/js/NumberPicker.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
@@ -17,14 +18,13 @@ import VBox from '../../../../scenery/js/nodes/VBox.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
-import ProportionConstants from '../../common/ProportionConstants.js';
 import GridView from '../../common/view/GridView.js';
 import RatioAndProportionScreenView from '../../common/view/RatioAndProportionScreenView.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
-const FONT = ProportionConstants.FONT;
+const GRID_RANGE_FONT = new PhetFont( 16 );
 const PICKER_SCALE = 1.5;
 const ICON_SCALE = .9;
 
@@ -81,7 +81,7 @@ class CreateScreenView extends RatioAndProportionScreenView {
       children: [ leftRatioSelector, rightRatioSelector ]
     } );
     const myChallengeAccordionBox = new AccordionBox( myChallengeContent, {
-      titleNode: new RichText( ratioAndProportionStrings.myChallenge, { font: FONT } ),
+      titleNode: new RichText( ratioAndProportionStrings.myChallenge, { font: new PhetFont( 22 ) } ),
       titleAlignX: 'left',
       contentXMargin: 26,
       contentYMargin: 15,
@@ -104,17 +104,17 @@ class CreateScreenView extends RatioAndProportionScreenView {
     const gridBaseUnitComboBoxParent = new Node();
 
     const gridBaseUnitComboBox = new ComboBox( [
-      new ComboBoxItem( new RichText( ratioAndProportionStrings.zeroToTen, { font: FONT } ), 10, {
+      new ComboBoxItem( new RichText( ratioAndProportionStrings.zeroToTen, { font: GRID_RANGE_FONT } ), 10, {
         a11yLabel: ratioAndProportionStrings.zeroToTen
       } ),
-      new ComboBoxItem( new RichText( ratioAndProportionStrings.zeroToTwenty, { font: FONT } ), 20, {
+      new ComboBoxItem( new RichText( ratioAndProportionStrings.zeroToTwenty, { font: GRID_RANGE_FONT } ), 20, {
         a11yLabel: ratioAndProportionStrings.zeroToTwenty
       } ),
-      new ComboBoxItem( new RichText( ratioAndProportionStrings.zeroToThirty, { font: FONT } ), 30, {
+      new ComboBoxItem( new RichText( ratioAndProportionStrings.zeroToThirty, { font: GRID_RANGE_FONT } ), 30, {
         a11yLabel: ratioAndProportionStrings.zeroToThirty
       } )
     ], gridBaseUnitProperty, gridBaseUnitComboBoxParent, {
-      labelNode: new RichText( ratioAndProportionStrings.range, { font: FONT } ),
+      labelNode: new RichText( ratioAndProportionStrings.range, { font: GRID_RANGE_FONT } ),
       accessibleName: ratioAndProportionStrings.range
     } );
 
@@ -130,10 +130,8 @@ class CreateScreenView extends RatioAndProportionScreenView {
     // @private
     this.layoutCreateScreenView = () => {
       gridBaseUnitComboBox.left = myChallengeAccordionBox.left = this.gridViewRadioButtonGroup.left;
-      this.resetAllButton.right = myChallengeAccordionBox.right;
       gridBaseUnitComboBox.top = this.gridViewRadioButtonGroup.bottom + 10;
       myChallengeAccordionBox.top = gridBaseUnitComboBox.bottom + 30;
-      this.resetAllButton.top = myChallengeAccordionBox.bottom + 20;
     };
 
     // @private
