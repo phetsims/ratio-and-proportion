@@ -76,6 +76,9 @@ class RatioAndProportionModel {
       if ( isNaN( currentRatio ) ) {
         return 0;
       }
+      if ( leftValue < .05 || rightValue < .05  ) {
+        return 0;
+      }
       const desiredLeft = ratio * rightValue;
       const fitnessError = Math.abs( desiredLeft - leftValue );
       return 1 - Utils.clamp( fitnessError / tolerance, 0, 1 );
