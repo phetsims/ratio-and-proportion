@@ -89,6 +89,10 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     // @private - keep track of if the success sound has already played. This will be set back to false when the fitness
     // goes back out of range for the success sound.
     this.playedSuccessYet = false;
+
+    // @private
+    this.fitnessChanged = true;
+    fitnessProperty.lazyLink( () => {this.fitnessChanged = true;} );
   }
 
   /**
@@ -142,7 +146,10 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
         this.staccatoSoundClip.setPlaybackRate( 1 );
       }
 
-      this.staccatoSoundClip.playAssociatedSound( this.getStaccatoSoundValueToPlay() );
+      if ( this.fitnessChanged ) {
+        this.staccatoSoundClip.playAssociatedSound( this.getStaccatoSoundValueToPlay() );
+        this.fitnessChanged = false;
+      }
       this.timeSinceLastPlay = 0;
     }
 
