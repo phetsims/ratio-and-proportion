@@ -69,6 +69,9 @@ class RatioHandNode extends Node {
     this.setScaleMagnitude( ( options.isRight ? 1 : -1 ) * .4, .4 );
 
     this.mutate( options );
+
+    // touchArea dilation
+    this.touchArea = this.localBounds.dilatedXY( this.width * 2, this.height * 2 );
   }
 
   /**
