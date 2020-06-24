@@ -47,7 +47,7 @@ class RatioHandNode extends Node {
 
     // empirical multipliers to center hand on palm. Don't change these without altering the layout for the cue arrows too.
     handImage.right = handImage.width * .4;
-    handImage.bottom = handImage.height * .28;
+    handImage.bottom = handImage.height * .475;
 
     // Only display the "target circles" when the grid is being shown
     gridViewProperty.link( gridView => {
