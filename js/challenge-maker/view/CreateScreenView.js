@@ -16,15 +16,13 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
-import ComboBox from '../../../../sun/js/ComboBox.js';
-import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
 import GridView from '../../common/view/GridView.js';
 import RatioAndProportionScreenView from '../../common/view/RatioAndProportionScreenView.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import GridRangeComboBox from './GridRangeComboBox.js';
 
-const GRID_RANGE_FONT = new PhetFont( 16 );
 const PICKER_SCALE = 1.5;
 const ICON_SCALE = .9;
 
@@ -103,20 +101,7 @@ class CreateScreenView extends RatioAndProportionScreenView {
 
     const gridBaseUnitComboBoxParent = new Node();
 
-    const gridBaseUnitComboBox = new ComboBox( [
-      new ComboBoxItem( new RichText( ratioAndProportionStrings.zeroToTen, { font: GRID_RANGE_FONT } ), 10, {
-        a11yLabel: ratioAndProportionStrings.zeroToTen
-      } ),
-      new ComboBoxItem( new RichText( ratioAndProportionStrings.zeroToTwenty, { font: GRID_RANGE_FONT } ), 20, {
-        a11yLabel: ratioAndProportionStrings.zeroToTwenty
-      } ),
-      new ComboBoxItem( new RichText( ratioAndProportionStrings.zeroToThirty, { font: GRID_RANGE_FONT } ), 30, {
-        a11yLabel: ratioAndProportionStrings.zeroToThirty
-      } )
-    ], gridBaseUnitProperty, gridBaseUnitComboBoxParent, {
-      labelNode: new RichText( ratioAndProportionStrings.range, { font: GRID_RANGE_FONT } ),
-      accessibleName: ratioAndProportionStrings.range
-    } );
+    const gridBaseUnitComboBox = new GridRangeComboBox( gridBaseUnitProperty, gridBaseUnitComboBoxParent, this.gridViewProperty );
 
     // Hide the base unit selection unless you can see units in the grid.
     this.gridViewProperty.link( gridView => {
