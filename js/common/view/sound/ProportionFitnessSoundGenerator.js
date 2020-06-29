@@ -150,7 +150,6 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
     this.staccatoFrequencySoundGenerator = new StaccatoFrequencySoundGenerator( proportionFitnessProperty, fitnessRange, {
       enableControlProperties: [
         isBeingInteractedWithProperty,
-        fitnessNotMinProperty,
         new DerivedProperty( [ designingProperties.proportionFitnessSoundSelectorProperty ],
           value => value === 5 || value === 6 || value === 7 )
       ]

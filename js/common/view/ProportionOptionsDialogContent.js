@@ -39,7 +39,7 @@ class ProportionOptionsDialogContent extends HBox {
                 node: new OptionsText( 'C Major Sine' ),
                 value: 2
               }, {
-                node: new OptionsText( 'Staccato Marimba' ),
+                node: new OptionsText( 'Staccato' ),
                 value: 5
               }, {
                 node: new OptionsText( 'No Sound' ),

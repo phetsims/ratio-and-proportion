@@ -148,6 +148,11 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
   step( dt ) {
     const newFitness = this.fitnessProperty.value;
 
+    // don't play staccato sounds when fitness is 0
+    if ( newFitness === this.fitnessRange.min ) {
+      return;
+    }
+
     // Only increment when within some amount of fitness. This helps prevent sporadic notes from playing when you move
     // the ratio hands quickly and drastically.
     this.timeSinceLastPlay = newFitness > 0 ? this.timeSinceLastPlay + dt * 1000 : 0;
