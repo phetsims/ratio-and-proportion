@@ -21,7 +21,7 @@ import ratioAndProportion from '../../../ratioAndProportion.js';
 import designingProperties from '../../designingProperties.js';
 import RatioAndProportionQueryParameters from '../../RatioAndProportionQueryParameters.js';
 
-const SUCCESS_OUTPUT_LEVEL = 1;
+const SUCCESS_OUTPUT_LEVEL = .8;
 const INITIAL_PLAYBACK_RATE = 1;
 
 // Playback rate will be between 1 and a major third above
