@@ -1,8 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * TODO: remove once design is better established
- * TODO: if we keep it, name it like other sims, something like GlobalOptionsNode
+ * Global options for RaP, mostly just for designing and will likely not stick around to production.
  */
 
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -15,7 +14,7 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 // constants
 const RADIO_BUTTON_FONT = new PhetFont( 12 );
 
-class ProportionOptionsDialogContent extends HBox {
+class RationAndProportionGlobalOptionsNode extends HBox {
 
   /**
    * @param {DesigningProperties} designingProperties
@@ -140,5 +139,5 @@ class ProportionOptionsDialogContent extends HBox {
 
 class OptionsText extends RichText {constructor( text ) {super( text, { font: RADIO_BUTTON_FONT } );}}
 
-ratioAndProportion.register( 'ProportionOptionsDialogContent', ProportionOptionsDialogContent );
-export default ProportionOptionsDialogContent;
+ratioAndProportion.register( 'RationAndProportionGlobalOptionsNode', RationAndProportionGlobalOptionsNode );
+export default RationAndProportionGlobalOptionsNode;

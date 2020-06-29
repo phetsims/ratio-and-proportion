@@ -10,7 +10,7 @@ import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import designingProperties from './common/designingProperties.js';
-import ProportionOptionsDialogContent from './common/view/ProportionOptionsDialogContent.js';
+import RationAndProportionGlobalOptionsNode from './common/view/RationAndProportionGlobalOptionsNode.js';
 import CreateScreen from './challenge-maker/CreateScreen.js';
 import ExploreScreen from './explore/ExploreScreen.js';
 import ratioAndProportionStrings from './ratioAndProportionStrings.js';
@@ -28,7 +28,7 @@ const simOptions = {
     soundDesign: '',
     thanks: ''
   },
-  createOptionsDialogContent: () => new ProportionOptionsDialogContent( designingProperties )
+  createOptionsDialogContent: () => new RationAndProportionGlobalOptionsNode( designingProperties )
 };
 
 // launch the sim - beware that scenery Image nodes created outside of simLauncher.launch() will have zero bounds
