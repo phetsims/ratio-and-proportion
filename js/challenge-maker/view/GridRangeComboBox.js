@@ -48,7 +48,6 @@ class GridRangeComboBoxItem extends ComboBoxItem {
    */
   constructor( label, value, gridViewProperty ) {
     const text = new RichText( label, { font: GRID_RANGE_FONT } );
-    console.log( text.height );
     const strut = new HSeparator( text.width, { centerY: -5 } );
 
     // when not displaying the grid, show the "blank" line instead of the RichText.
