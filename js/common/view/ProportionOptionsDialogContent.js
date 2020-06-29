@@ -60,6 +60,20 @@ class ProportionOptionsDialogContent extends HBox {
                 value: 1
               } ]
             ) ]
+        } ),
+        new VBox( {
+          spacing: 10,
+          align: 'left',
+          children: [
+            new RichText( 'Staccato Frequency Changes?' ),
+            new VerticalAquaRadioButtonGroup( designingProperties.staccatoChangesFrequencyProperty, [ {
+                node: new OptionsText( 'Yes' ),
+                value: true
+              }, {
+                node: new OptionsText( 'No' ),
+                value: false
+              } ]
+            ) ]
         } )
       ]
     } );

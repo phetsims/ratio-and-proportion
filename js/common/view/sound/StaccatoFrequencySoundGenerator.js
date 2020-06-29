@@ -25,7 +25,7 @@ const SUCCESS_OUTPUT_LEVEL = 1;
 const INITIAL_PLAYBACK_RATE = 1;
 
 // Playback rate will be between 1 and a major third above
-const getPlaybackRate = fitness => fitness * ( Math.pow( 2, 4 / 12 ) - INITIAL_PLAYBACK_RATE ) + INITIAL_PLAYBACK_RATE;
+const getPlaybackRate = fitness => fitness * ( Math.pow( 2, 7 / 12 ) - INITIAL_PLAYBACK_RATE ) + INITIAL_PLAYBACK_RATE;
 
 const BRIGHT_MARIMBA_VALUE = 0;
 
@@ -92,7 +92,33 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
 
     // @private
     this.fitnessChanged = true;
-    fitnessProperty.lazyLink( () => {this.fitnessChanged = true;} );
+    let previousFitness = fitnessProperty.value;
+    fitnessProperty.lazyLink( ( newValue, oldValue ) => {
+
+      // make sure that a sound plays right when fitness first changes from 0
+      if ( oldValue === fitnessRange.min ) {
+        this.fitnessChanged = true;
+        this.timeSinceLastPlay = 100000;
+      }
+
+      if ( Math.abs( previousFitness - newValue ) > RatioAndProportionQueryParameters.fitnessChangeThreshold ) {
+        this.fitnessChanged = true;
+        previousFitness = newValue;
+      }
+    } );
+  }
+
+  /**
+   * JUust needed to support time-related options in this sound generator, either increase frequency as fitness increases,
+   * or keep it constant, respecting a minimum time between sounds.
+   * @param {number} fitness
+   * @private
+   */
+  getTimeConstraintForFitness( fitness ) {
+    if ( designingProperties.staccatoChangesFrequencyProperty.value ) {
+      return this.timeLinearFunction( fitness );
+    }
+    return RatioAndProportionQueryParameters.staccatoMinRepeatTime;
   }
 
   /**
@@ -134,7 +160,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
       this.successSoundClip.play();
       this.playedSuccessYet = true;
     }
-    else if ( this.timeSinceLastPlay > this.timeLinearFunction( newFitness ) && !isInRatio ) {
+    else if ( this.timeSinceLastPlay > this.getTimeConstraintForFitness( newFitness ) && !isInRatio ) {
 
       // Don't modulate pitch for marimba sound
       if ( designingProperties.staccatoSoundSelectorProperty.value !== BRIGHT_MARIMBA_VALUE ) {
@@ -146,7 +172,9 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
         this.staccatoSoundClip.setPlaybackRate( 1 );
       }
 
-      if ( this.fitnessChanged ) {
+      // if changing frequency, then always play this sound, otherwise, wait until fitness has changed above the threshold
+      if ( designingProperties.staccatoChangesFrequencyProperty.value ||
+           ( !designingProperties.staccatoChangesFrequencyProperty.value && this.fitnessChanged ) ) {
         this.staccatoSoundClip.playAssociatedSound( this.getStaccatoSoundValueToPlay() );
         this.fitnessChanged = false;
       }
