@@ -79,7 +79,7 @@ class CreateScreenView extends RatioAndProportionScreenView {
       children: [ leftRatioSelector, rightRatioSelector ]
     } );
     const myChallengeAccordionBox = new AccordionBox( myChallengeContent, {
-      titleNode: new RichText( ratioAndProportionStrings.myChallenge, { font: new PhetFont( 22 ) } ),
+      titleNode: new RichText( ratioAndProportionStrings.myChallenge, { font: new PhetFont( 20 ) } ),
       titleAlignX: 'left',
       contentXMargin: 26,
       contentYMargin: 15,
