@@ -11,7 +11,7 @@ import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import designingProperties from './common/designingProperties.js';
 import RationAndProportionGlobalOptionsNode from './common/view/RationAndProportionGlobalOptionsNode.js';
-import CreateScreen from './challenge-maker/CreateScreen.js';
+import CreateScreen from './create/CreateScreen.js';
 import ExploreScreen from './explore/ExploreScreen.js';
 import ratioAndProportionStrings from './ratioAndProportionStrings.js';
 
