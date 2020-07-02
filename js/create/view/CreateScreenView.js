@@ -16,7 +16,6 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
-import GridView from '../../common/view/GridView.js';
 import RatioAndProportionScreenView from '../../common/view/RatioAndProportionScreenView.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -102,11 +101,6 @@ class CreateScreenView extends RatioAndProportionScreenView {
     const gridBaseUnitComboBoxParent = new Node();
 
     const gridBaseUnitComboBox = new GridRangeComboBox( gridBaseUnitProperty, gridBaseUnitComboBoxParent, this.gridViewProperty );
-
-    // Hide the base unit selection unless you can see units in the grid.
-    this.gridViewProperty.link( gridView => {
-      gridBaseUnitComboBox.enabledProperty.value = gridView !== GridView.NONE;
-    } );
 
     // children
     this.addChild( gridBaseUnitComboBox );

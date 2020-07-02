@@ -1,10 +1,16 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * A combo box that displays the possible ranges for the grid lines and labels.
+ * A combo box that displays the possible ranges for the grid lines and labels. The design requirements for this
+ * component state that when disabled, that the elements aren't shown (as they are a distraction to the pedagogy. Instead
+ * they are replaced with a solid horizontal line. To accomplish this, two ComboBoxes are created and then swapped out.
+ * This ended up being easier and simpler than trying to add the ability to swap-out Nodes (and their PDOM content)
+ * dynamically.
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
@@ -17,7 +23,7 @@ import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
 const GRID_RANGE_FONT = new PhetFont( 16 );
 
-class GridRangeComboBox extends ComboBox {
+class GridRangeComboBox extends Node {
 
   /**
    *
@@ -27,38 +33,42 @@ class GridRangeComboBox extends ComboBox {
    * @param {Object} [options]
    */
   constructor( gridBaseUnitProperty, comboBoxParent, gridViewProperty, options ) {
-    super( [
-      new GridRangeComboBoxItem( ratioAndProportionStrings.zeroToTen, 10, gridViewProperty ),
-      new GridRangeComboBoxItem( ratioAndProportionStrings.zeroToTwenty, 20, gridViewProperty ),
-      new GridRangeComboBoxItem( ratioAndProportionStrings.zeroToThirty, 30, gridViewProperty )
-    ], gridBaseUnitProperty, comboBoxParent, {
+    super();
+
+    const items = [
+      new ComboBoxItem( new RichText( ratioAndProportionStrings.zeroToTen, { font: GRID_RANGE_FONT } ), 10, {
+        a11yLabel: ratioAndProportionStrings.zeroToTen
+      } ),
+      new ComboBoxItem( new RichText( ratioAndProportionStrings.zeroToTwenty, { font: GRID_RANGE_FONT } ), 20, {
+        a11yLabel: ratioAndProportionStrings.zeroToTwenty
+      } ),
+      new ComboBoxItem( new RichText( ratioAndProportionStrings.zeroToThirty, { font: GRID_RANGE_FONT } ), 30, {
+        a11yLabel: ratioAndProportionStrings.zeroToThirty
+      } )
+    ];
+
+    const widestItem = Math.max( ...items.map( item => item.node.width ) );
+
+    const comboBoxOptions = {
       labelNode: new RichText( ratioAndProportionStrings.range, { font: GRID_RANGE_FONT } ),
       accessibleName: ratioAndProportionStrings.range
-    } );
-  }
-}
+    };
 
-// @private
-class GridRangeComboBoxItem extends ComboBoxItem {
+    const enabledComboBox = new ComboBox( items, gridBaseUnitProperty, comboBoxParent, comboBoxOptions );
 
-  /**
-   * @param {string} label
-   * @param {number} value
-   * @param {Property.<GridView>} gridViewProperty
-   */
-  constructor( label, value, gridViewProperty ) {
-    const text = new RichText( label, { font: GRID_RANGE_FONT } );
-    const strut = new HSeparator( text.width, { centerY: -5 } );
+    const value = true;
+
+    const disabledComboBox = new ComboBox( [
+      new ComboBoxItem( new HSeparator( widestItem, { centerY: -5 } ), value, { a11yLabel: '' } ),
+      items[ 0 ] // add this one to get the proper height of the text.
+    ], new BooleanProperty( value ), new Node(), comboBoxOptions );
+
+    // always disabled
+    disabledComboBox.enabledProperty.value = false;
 
     // when not displaying the grid, show the "blank" line instead of the RichText.
     gridViewProperty.link( gridView => {
-      strut.visible = gridView === GridView.NONE;
-      text.visible = gridView !== GridView.NONE;
-    } );
-
-    const content = new Node( { children: [ strut, text ] } );
-    super( content, value, {
-      a11yLabel: label
+      this.children = gridView === GridView.NONE ? [ disabledComboBox ] : [ enabledComboBox ];
     } );
   }
 }
