@@ -34,15 +34,6 @@ const RatioAndProportionQueryParameters = QueryStringMachine.getAll( {
     defaultValue: 120
   },
 
-  // For staccato sounds when frequency is not changing only: what is the amount that fitness has to change to trigger
-  // a sound to be played (fitness is from 0-1). Note that the "number of total notes" in the range is roughly calculated
-  // with `2 * (1/fitnessChangeThreshold), because there will be a fitness range on either side of the correct ratio
-  // position.
-  fitnessChangeThreshold: {
-    type: 'number',
-    defaultValue: .2
-  },
-
   // query parameters for a specific prototype case
   useClementPrototype1: { type: 'flag' },
   clement1AdjLen: { type: 'number', defaultValue: 88 },

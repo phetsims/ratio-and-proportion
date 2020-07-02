@@ -90,35 +90,9 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     // goes back out of range for the success sound.
     this.playedSuccessYet = false;
 
-    // @private
-    this.fitnessChanged = true;
-    let previousFitness = fitnessProperty.value;
-    fitnessProperty.lazyLink( ( newValue, oldValue ) => {
-
-      // make sure that a sound plays right when fitness first changes from 0
-      if ( oldValue === fitnessRange.min ) {
-        this.fitnessChanged = true;
-        this.timeSinceLastPlay = 100000;
-      }
-
-      if ( Math.abs( previousFitness - newValue ) > RatioAndProportionQueryParameters.fitnessChangeThreshold ) {
-        this.fitnessChanged = true;
-        previousFitness = newValue;
-      }
-    } );
-  }
-
-  /**
-   * JUust needed to support time-related options in this sound generator, either increase frequency as fitness increases,
-   * or keep it constant, respecting a minimum time between sounds.
-   * @param {number} fitness
-   * @private
-   */
-  getTimeConstraintForFitness( fitness ) {
-    if ( designingProperties.staccatoChangesFrequencyProperty.value ) {
-      return this.timeLinearFunction( fitness );
-    }
-    return RatioAndProportionQueryParameters.staccatoMinRepeatTime;
+    // @private - only play a new sound if fitness has changed since the last play
+    this.fitnessChangedSinceLastPlay = true;
+    fitnessProperty.lazyLink( () => { this.fitnessChangedSinceLastPlay = true; } );
   }
 
   /**
@@ -165,7 +139,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
       this.successSoundClip.play();
       this.playedSuccessYet = true;
     }
-    else if ( this.timeSinceLastPlay > this.getTimeConstraintForFitness( newFitness ) && !isInRatio ) {
+    else if ( this.timeSinceLastPlay > this.timeLinearFunction( newFitness ) && !isInRatio ) {
 
       // Don't modulate pitch for marimba sound
       if ( designingProperties.staccatoSoundSelectorProperty.value !== BRIGHT_MARIMBA_VALUE ) {
@@ -177,11 +151,9 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
         this.staccatoSoundClip.setPlaybackRate( 1 );
       }
 
-      // if changing frequency, then always play this sound, otherwise, wait until fitness has changed above the threshold
-      if ( designingProperties.staccatoChangesFrequencyProperty.value ||
-           ( !designingProperties.staccatoChangesFrequencyProperty.value && this.fitnessChanged ) ) {
+      if ( this.fitnessChangedSinceLastPlay ) {
         this.staccatoSoundClip.playAssociatedSound( this.getStaccatoSoundValueToPlay() );
-        this.fitnessChanged = false;
+        this.fitnessChangedSinceLastPlay = false;
       }
       this.timeSinceLastPlay = 0;
     }
