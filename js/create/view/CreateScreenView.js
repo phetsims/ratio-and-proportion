@@ -95,7 +95,6 @@ class CreateScreenView extends RatioAndProportionScreenView {
         mouseAreaYDilation: 5
       }
     } );
-    this.addChild( myChallengeAccordionBox );
     myChallengeAccordionBox.expandedProperty.value = false;
 
     const gridBaseUnitComboBoxParent = new Node();
@@ -105,6 +104,12 @@ class CreateScreenView extends RatioAndProportionScreenView {
     // children
     this.addChild( gridBaseUnitComboBox );
     this.addChild( gridBaseUnitComboBoxParent );
+    this.addChild( myChallengeAccordionBox );
+
+    // pdom
+    this.pdomPlayAreaNode.accessibleOrder.push( gridBaseUnitComboBox );
+    this.pdomPlayAreaNode.accessibleOrder.push( gridBaseUnitComboBoxParent );
+    this.pdomPlayAreaNode.accessibleOrder.push( myChallengeAccordionBox );
 
     // @private
     this.layoutCreateScreenView = () => {

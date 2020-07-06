@@ -35,6 +35,9 @@ class ExploreScreenView extends RatioAndProportionScreenView {
     this.addChild( comboBox );
     this.addChild( comboBoxParent );
 
+    this.pdomPlayAreaNode.accessibleOrder.push( comboBox );
+    this.pdomPlayAreaNode.accessibleOrder.push( comboBoxParent );
+
     // @private
     this.layoutExploreScreenView = () => {
       comboBox.left = this.gridViewRadioButtonGroup.left;
