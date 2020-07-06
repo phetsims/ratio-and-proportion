@@ -16,6 +16,10 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import RatioAndProportionQueryParameters from '../../common/RatioAndProportionQueryParameters.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
+import ProportionConstants from '../ProportionConstants.js';
+
+// The threshold for velocity of a moving ratio value to indivate that it is "moving."
+const VELOCITY_THRESHOLD = .01;
 
 class RatioAndProportionModel {
 
@@ -62,6 +66,7 @@ class RatioAndProportionModel {
     this.leftVelocityProperty = new NumberProperty( 0 );
     this.rightVelocityProperty = new NumberProperty( 0 );
 
+    // TODO: rename to have ratio in it?
     // @public {DerivedProperty.<number>}
     // How "correct" the proportion currently is. Can be between 0 and 1, if 1, the proportion of the two values is
     // exactly the value of the ratioProperty. If zero, it is outside the tolerance allowed for the proportion.
@@ -76,7 +81,7 @@ class RatioAndProportionModel {
       if ( isNaN( currentRatio ) ) {
         return 0;
       }
-      if ( leftValue < .05 || rightValue < .05  ) {
+      if ( leftValue < .05 || rightValue < .05 ) {
         return 0;
       }
       const desiredLeft = ratio * rightValue;
@@ -93,6 +98,41 @@ class RatioAndProportionModel {
     this.previousLeftValueProperty = new NumberProperty( this.leftValueProperty.value );
     this.previousRightValueProperty = new NumberProperty( this.rightValueProperty.value );
     this.stepCountTracker = 0;
+  }
+
+
+  /**
+   * Whether or not the two hands are moving fast enough together in the same direction. This indicates a bimodal interaction.
+   * @public
+   * @returns {boolean}
+   */
+  movingInDirection() {
+    return Math.abs( this.leftVelocityProperty.value ) > VELOCITY_THRESHOLD && // right past threshold
+           Math.abs( this.rightVelocityProperty.value ) > VELOCITY_THRESHOLD && // right past threshold
+           ( this.leftVelocityProperty.value > 0 === this.rightVelocityProperty.value > 0 ); // both hands should be moving in the same direction
+  }
+
+  /**
+   * @public
+   * @returns {number}
+   */
+  getInProportionThreshold() {
+    let threshold = ProportionConstants.IN_PROPORTION_FITNESS_THRESHOLD;
+    if ( this.movingInDirection() ) {
+      threshold = ProportionConstants.MOVING_IN_PROPORTION_FITNESS_THRESHOLD;
+    }
+    return threshold;
+  }
+
+  /**
+   * This is the sim's definition of if the ratio is in the "success" metric, what we call "in proportion." This changes
+   * based on if moving in proportion (bimodal interaction), or not.
+   * @public
+   * @param {number} [fitness] - if provided, calculate if this fitness is in proportion
+   * @returns {boolean}
+   */
+  inProportion( fitness = this.proportionFitnessProperty.value ) {
+    return fitness > this.fitnessRange.max - this.getInProportionThreshold();
   }
 
   /**

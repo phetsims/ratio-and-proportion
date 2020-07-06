@@ -147,8 +147,7 @@ class RatioAndProportionScreenView extends ScreenView {
         this.markerInput.isBeingInteractedWithProperty,
         ratioInteractionListener.isBeingInteractedWithProperty
       ] ),
-      model.leftVelocityProperty,
-      model.rightVelocityProperty );
+      model );
     soundManager.addSoundGenerator( this.proportionFitnessSoundGenerator );
 
     // these dimensions are just temporary, and will be recomputed below in the layout function
@@ -160,15 +159,14 @@ class RatioAndProportionScreenView extends ScreenView {
 
     model.proportionFitnessProperty.link( fitness => {
       let color = null;
-      const toleranceThreshold = .975;
-      if ( fitness > toleranceThreshold ) {
+      if ( model.inProportion() ) {
         color = RatioAndProportionColorProfile.backgroundInFitnessProperty.value;
       }
       else {
         color = Color.interpolateRGBA(
           RatioAndProportionColorProfile.backgroundOutOfFitnessProperty.value,
           RatioAndProportionColorProfile.backgroundInterpolationToFitnessProperty.value,
-          fitness / toleranceThreshold
+          ( fitness - model.fitnessRange.min ) / ( 1 - model.getInProportionThreshold() )
         );
       }
       backgroundNode.setFill( color );

@@ -25,9 +25,6 @@ import StaccatoFrequencySoundGenerator from './StaccatoFrequencySoundGenerator.j
 // constants
 // For vibrato
 const VIBRATO_PITCH = 220;
-
-// To play velocity success sound. . .
-const VELOCITY_THRESHOLD = .01; // both velocities have to be larger than this
 const FITNESS_THRESHOLD = .5; // fitness has to be larger than this
 
 
@@ -37,14 +34,13 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
    * @param {Property.<number>} proportionFitnessProperty
    * @param {Range} fitnessRange
    * @param {Property.<boolean>} isBeingInteractedWithProperty - if there is any interaction occurring to either left/right object
-   * @param {Property.<number>} leftVelocityProperty
-   * @param {Property.<number>} rightVelocityProperty
+   * @param {RatioAndProportionModel} model - TODO: pass all of model in here? At least factor out fitness stuff above
    * @param {Object} [options]
    */
   constructor( proportionFitnessProperty,
                fitnessRange,
                isBeingInteractedWithProperty,
-               leftVelocityProperty, rightVelocityProperty,
+               model,
                options ) {
 
     options = merge( {
@@ -128,13 +124,12 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
       }
     } );
 
-    Property.multilink( [ isBeingInteractedWithProperty, leftVelocityProperty, rightVelocityProperty, proportionFitnessProperty ],
+    Property.multilink( [ isBeingInteractedWithProperty, model.leftVelocityProperty, model.rightVelocityProperty, proportionFitnessProperty ],
       ( isBeingInteractedWith, leftVelocity, rightVelocity, fitness ) => {
         if ( velocitySoundClip ) {
-          if ( Math.abs( leftVelocity ) > VELOCITY_THRESHOLD && Math.abs( rightVelocity ) > VELOCITY_THRESHOLD && // both past threshold
-               isBeingInteractedWith && // must be being interacted with (no sound on reset etc)
-               fitness > FITNESS_THRESHOLD && // must be fit enough to play
-               ( leftVelocity > 0 === rightVelocity > 0 ) ) { // both hands should be moving in the same direction
+          if ( model.movingInDirection() &&
+               fitness > FITNESS_THRESHOLD && // must be fit enough to play this special bimodal sound
+               isBeingInteractedWith ) {
             velocitySoundClip.setOutputLevel( .7, .1 );
             !velocitySoundClip.isPlaying && velocitySoundClip.play();
           }
@@ -147,7 +142,7 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
     //////////////////////////////////////////////////////////////////
     // staccato
 
-    this.staccatoFrequencySoundGenerator = new StaccatoFrequencySoundGenerator( proportionFitnessProperty, fitnessRange, {
+    this.staccatoFrequencySoundGenerator = new StaccatoFrequencySoundGenerator( proportionFitnessProperty, fitnessRange, model, {
       enableControlProperties: [
         isBeingInteractedWithProperty,
         new DerivedProperty( [ designingProperties.proportionFitnessSoundSelectorProperty ],
