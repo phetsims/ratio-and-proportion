@@ -107,7 +107,7 @@ class CreateScreenView extends RatioAndProportionScreenView {
     this.addChild( gridBaseUnitComboBoxParent ); // Should be on top
 
     // pdom
-    this.pdomPlayAreaNode.accessibleOrder.concat( [ gridBaseUnitComboBox, gridBaseUnitComboBoxParent, myChallengeAccordionBox ] );
+    this.pdomPlayAreaNode.accessibleOrder = this.pdomPlayAreaNode.accessibleOrder.concat( [ gridBaseUnitComboBox, gridBaseUnitComboBoxParent, myChallengeAccordionBox ] );
 
     // @private
     this.layoutCreateScreenView = () => {
