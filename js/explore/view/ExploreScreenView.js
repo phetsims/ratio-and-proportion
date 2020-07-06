@@ -35,8 +35,7 @@ class ExploreScreenView extends RatioAndProportionScreenView {
     this.addChild( comboBox );
     this.addChild( comboBoxParent );
 
-    this.pdomPlayAreaNode.accessibleOrder.push( comboBox );
-    this.pdomPlayAreaNode.accessibleOrder.push( comboBoxParent );
+    this.pdomPlayAreaNode.accessibleOrder = this.pdomPlayAreaNode.accessibleOrder.concat( [ comboBox, comboBoxParent ] );
 
     // @private
     this.layoutExploreScreenView = () => {

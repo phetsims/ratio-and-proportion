@@ -102,14 +102,12 @@ class CreateScreenView extends RatioAndProportionScreenView {
     const gridBaseUnitComboBox = new GridRangeComboBox( gridBaseUnitProperty, gridBaseUnitComboBoxParent, this.gridViewProperty );
 
     // children
-    this.addChild( gridBaseUnitComboBox );
-    this.addChild( gridBaseUnitComboBoxParent );
     this.addChild( myChallengeAccordionBox );
+    this.addChild( gridBaseUnitComboBox );
+    this.addChild( gridBaseUnitComboBoxParent ); // Should be on top
 
     // pdom
-    this.pdomPlayAreaNode.accessibleOrder.push( gridBaseUnitComboBox );
-    this.pdomPlayAreaNode.accessibleOrder.push( gridBaseUnitComboBoxParent );
-    this.pdomPlayAreaNode.accessibleOrder.push( myChallengeAccordionBox );
+    this.pdomPlayAreaNode.accessibleOrder.concat( [ gridBaseUnitComboBox, gridBaseUnitComboBoxParent, myChallengeAccordionBox ] );
 
     // @private
     this.layoutCreateScreenView = () => {
