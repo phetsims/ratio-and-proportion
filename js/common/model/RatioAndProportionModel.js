@@ -21,6 +21,9 @@ import ProportionConstants from '../ProportionConstants.js';
 // The threshold for velocity of a moving ratio value to indivate that it is "moving."
 const VELOCITY_THRESHOLD = .01;
 
+// The value in which when either the left or right value is less than this, the ratio cannot be "in proportion"
+const NO_SUCCUSS_VALUE_THRESHOLD = .05;
+
 class RatioAndProportionModel {
 
   /**
@@ -81,12 +84,19 @@ class RatioAndProportionModel {
       if ( isNaN( currentRatio ) ) {
         return 0;
       }
-      if ( leftValue < .05 || rightValue < .05 ) {
+      if ( leftValue === this.valueRange.min || rightValue === this.valueRange.min ) {
         return 0;
       }
       const desiredLeft = ratio * rightValue;
       const fitnessError = Math.abs( desiredLeft - leftValue );
-      return 1 - Utils.clamp( fitnessError / tolerance, 0, 1 );
+      const fitness = this.fitnessRange.max - Utils.clamp( fitnessError / tolerance, this.fitnessRange.min, this.fitnessRange.max );
+
+      // If either value is small enough, then we don't allow an "in proportion" fitness level, so make it just below that threshold.
+      if ( fitness >= this.fitnessRange.max - ProportionConstants.IN_PROPORTION_FITNESS_THRESHOLD &&
+           ( leftValue <= NO_SUCCUSS_VALUE_THRESHOLD || rightValue <= NO_SUCCUSS_VALUE_THRESHOLD ) ) {
+        return this.fitnessRange.max - ProportionConstants.IN_PROPORTION_FITNESS_THRESHOLD - .01;
+      }
+      return fitness;
     }, {
       isValidValue: value => this.fitnessRange.contains( value )
     } );
