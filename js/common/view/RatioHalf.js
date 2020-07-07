@@ -52,10 +52,11 @@ class RatioHalf extends Rectangle {
    * @param {RatioDescriber} ratioDescriber
    * @param {GridDescriber} gridDescriber
    * @param {Property.<Color>} colorProperty
+   * @param {number} keyboardStep
    * @param {Object} [options]
    */
   constructor( positionProperty, valueProperty, valueRange, firstInteractionProperty, bounds, gridViewProperty,
-               gridBaseUnitProperty, ratioDescriber, gridDescriber, colorProperty, options ) {
+               gridBaseUnitProperty, ratioDescriber, gridDescriber, colorProperty, keyboardStep, options ) {
 
     options = merge( {
       cursor: 'ratioHandNode',
@@ -92,7 +93,7 @@ class RatioHalf extends Rectangle {
     this.addChild( gridNode );
 
     // The draggable element inside the Node framed with thick rectangles on the top and bottom.
-    const ratioHandNode = new RatioHandNode( valueProperty, valueRange, gridViewProperty, gridBaseUnitProperty, {
+    const ratioHandNode = new RatioHandNode( valueProperty, valueRange, gridViewProperty, keyboardStep, {
       startDrag: () => { firstInteractionProperty.value = false; },
       isRight: options.isRight
     } );

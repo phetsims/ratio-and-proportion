@@ -9,6 +9,7 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import KeyStateTracker from '../../../../scenery/js/accessibility/KeyStateTracker.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
+import ProportionConstants from '../ProportionConstants.js';
 
 class RatioInteractionListener {
 
@@ -19,9 +20,10 @@ class RatioInteractionListener {
    * @param {Range} valueRange
    * @param {Property.<boolean>} firstInteractionProperty
    * @param {Property.<number>} gridBaseUnitProperty
+   * @param {number} keyboardStep
    */
   constructor( targetNode, leftValueProperty, rightValueProperty, valueRange,
-               firstInteractionProperty, gridBaseUnitProperty ) {
+               firstInteractionProperty, gridBaseUnitProperty, keyboardStep ) {
 
     // @private
     this.keyStateTracker = new KeyStateTracker();
@@ -31,6 +33,7 @@ class RatioInteractionListener {
     this.gridBaseUnitProperty = gridBaseUnitProperty;
     this.leftValueProperty = leftValueProperty;
     this.rightValueProperty = rightValueProperty;
+    this.keyboardStep = keyboardStep;
 
     // @private - true whenever the user is interacting with this listener
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
@@ -49,8 +52,7 @@ class RatioInteractionListener {
    */
   stepValue( property, increment ) {
     this.firstInteractionProperty.value = false;
-    const value = 1 / this.gridBaseUnitProperty.value;
-    const amount = this.keyStateTracker.shiftKeyDown ? value / 10 : value;
+    const amount = this.keyStateTracker.shiftKeyDown ? this.keyboardStep * ProportionConstants.SHIFT_KEY_MULTIPLIER : this.keyboardStep;
     property.value = this.valueRange.constrainValue( property.value + ( amount * ( increment ? 1 : -1 ) ) );
   }
 

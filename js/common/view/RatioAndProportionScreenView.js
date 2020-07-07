@@ -86,6 +86,9 @@ class RatioAndProportionScreenView extends ScreenView {
     // @protected
     this.gridViewProperty = gridViewProperty;
 
+    // by default, the keyboard step size should be half of one default grid line width. See https://github.com/phetsims/ratio-and-proportion/issues/85
+    const keyboardStep = 1 / 2 / options.gridBaseUnitProperty.value;
+
     const defaultRatioHalfBounds = Bounds2.rect( 0, 0, RATIO_HALF_WIDTH, LAYOUT_BOUNDS.height );
 
     // @private {RatioHalf}
@@ -99,7 +102,8 @@ class RatioAndProportionScreenView extends ScreenView {
       options.gridBaseUnitProperty,
       ratioDescriber,
       gridDescriber,
-      gridAndLabelsColorProperty, {
+      gridAndLabelsColorProperty,
+      keyboardStep, {
         labelContent: ratioAndProportionStrings.a11y.leftHand,
         isRight: false // this way we get a left hand
       }
@@ -116,7 +120,8 @@ class RatioAndProportionScreenView extends ScreenView {
       options.gridBaseUnitProperty,
       ratioDescriber,
       gridDescriber,
-      gridAndLabelsColorProperty, {
+      gridAndLabelsColorProperty,
+      keyboardStep, {
         labelContent: ratioAndProportionStrings.a11y.rightHand
       } );
 
@@ -131,7 +136,7 @@ class RatioAndProportionScreenView extends ScreenView {
       ]
     } );
     const ratioInteractionListener = new RatioInteractionListener( a11yRatioContainer, model.leftValueProperty,
-      model.rightValueProperty, model.valueRange, model.firstInteractionProperty, options.gridBaseUnitProperty );
+      model.rightValueProperty, model.valueRange, model.firstInteractionProperty, options.gridBaseUnitProperty, keyboardStep );
     a11yRatioContainer.addInputListener( ratioInteractionListener );
 
     // @private

@@ -16,6 +16,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import AccessibleSlider from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import filledInHandImage from '../../../images/filled-in-hand_png.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
+import ProportionConstants from '../ProportionConstants.js';
 import GridView from './GridView.js';
 
 class RatioHandNode extends Node {
@@ -25,14 +26,18 @@ class RatioHandNode extends Node {
    * @param {Property.<number>} valueProperty
    * @param {Range} valueRange
    * @param {EnumerationProperty.<GridView>} gridViewProperty
-   * @param {Property.<number>} gridBaseUnitProperty
+   * @param {number} keyboardStep
    * @param {Object} [options]
    */
-  constructor( valueProperty, valueRange, gridViewProperty, gridBaseUnitProperty, options ) {
+  constructor( valueProperty, valueRange, gridViewProperty, keyboardStep, options ) {
 
     options = merge( {
       isRight: true, // right hand or left hand
-      asIcon: false // when true, no input will be attached
+      asIcon: false, // when true, no input will be attached
+
+      keyboardStep: keyboardStep,
+      shiftKeyboardStep: keyboardStep * ProportionConstants.SHIFT_KEY_MULTIPLIER,
+      pageKeyboardStep: 1 / 5
     }, options );
     super();
 
@@ -52,14 +57,6 @@ class RatioHandNode extends Node {
     // Only display the "target circles" when the grid is being shown
     gridViewProperty.link( gridView => {
       handCircle.visible = GridView.displayHorizontal( gridView );
-    } );
-
-    // don't change update this for icons
-    !options.asIcon && gridBaseUnitProperty.link( baseUnit => {
-      const downDelta = 1 / baseUnit;
-      this.setKeyboardStep( downDelta );
-      this.setShiftKeyboardStep( downDelta / 10 );
-      this.setPageKeyboardStep( 1 / 5 );
     } );
 
     assert && assert( !options.children, 'RatioHandeNode sets its own children' );
