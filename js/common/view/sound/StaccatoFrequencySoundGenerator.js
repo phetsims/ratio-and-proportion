@@ -118,7 +118,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     if ( isInRatio && !this.playedSuccessYet ) {
 
       // TODO: is it possible that this will just bring a previous playing's reverb back to life and the play another instance on top of it? https://github.com/phetsims/ratio-and-proportion/issues/63
-      this.successSoundClip.setOutputLevel( SUCCESS_OUTPUT_LEVEL );
+      this.successSoundClip.setOutputLevel( SUCCESS_OUTPUT_LEVEL, 0 );
       this.successSoundClip.play();
       this.playedSuccessYet = true;
     }
