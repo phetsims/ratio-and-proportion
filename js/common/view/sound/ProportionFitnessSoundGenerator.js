@@ -7,7 +7,6 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../../axon/js/Property.js';
 import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
@@ -97,11 +96,7 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
     // staccato
 
     this.staccatoFrequencySoundGenerator = new StaccatoFrequencySoundGenerator( proportionFitnessProperty, fitnessRange, model, {
-      enableControlProperties: [
-        isBeingInteractedWithProperty,
-        new DerivedProperty( [ designingProperties.proportionFitnessSoundSelectorProperty ],
-          value => value === 5 || value === 6 || value === 7 )
-      ]
+      enableControlProperties: [ isBeingInteractedWithProperty ]
     } );
     this.staccatoFrequencySoundGenerator.connect( this.soundSourceDestination );
 
@@ -109,11 +104,7 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
     // in proportion
 
     this.inProportionSoundGenerator = new InProportionSoundGenerator( proportionFitnessProperty, fitnessRange, model, {
-      enableControlProperties: [
-        isBeingInteractedWithProperty,
-        new DerivedProperty( [ designingProperties.proportionFitnessSoundSelectorProperty ],
-          value => value === 5 || value === 6 || value === 7 )
-      ]
+      enableControlProperties: [ isBeingInteractedWithProperty ]
     } );
     this.inProportionSoundGenerator.connect( this.soundSourceDestination );
 

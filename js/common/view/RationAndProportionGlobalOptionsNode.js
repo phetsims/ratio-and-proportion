@@ -26,40 +26,15 @@ class RationAndProportionGlobalOptionsNode extends HBox {
       spacing: 10,
       align: 'left',
       children: [
-        new VBox( {
-          spacing: 10,
-          align: 'left',
-          children: [
-            new RichText( 'Ratio Fitness Sound:' ),
-            new VerticalAquaRadioButtonGroup( designingProperties.proportionFitnessSoundSelectorProperty, [ {
-                node: new OptionsText( 'Vibrato' ),
-                value: 0
-              }, {
-                node: new OptionsText( 'C Major Sine' ),
-                value: 2
-              }, {
-                node: new OptionsText( 'Staccato' ),
-                value: 5
-              }, {
-                node: new OptionsText( 'No Sound' ),
-                value: -1
-              } ]
-            ) ]
-        } ),
-        new VBox( {
-          spacing: 10,
-          align: 'left',
-          children: [
-            new RichText( 'Staccato Success Sound:' ),
-            new VerticalAquaRadioButtonGroup( designingProperties.staccatoSuccessSoundSelectorProperty, [ {
-                node: new OptionsText( 'Single high note' ),
-                value: 0
-              }, {
-                node: new OptionsText( 'Arpeggiated maj 7 chord' ),
-                value: 1
-              } ]
-            ) ]
-        } )
+        new RichText( 'Staccato Success Sound:' ),
+        new VerticalAquaRadioButtonGroup( designingProperties.staccatoSuccessSoundSelectorProperty, [ {
+            node: new OptionsText( 'Single high note' ),
+            value: 0
+          }, {
+            node: new OptionsText( 'Arpeggiated maj 7 chord' ),
+            value: 1
+          } ]
+        )
       ]
     } );
 
