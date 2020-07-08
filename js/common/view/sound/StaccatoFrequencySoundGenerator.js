@@ -1,7 +1,6 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * TODO: isInteractingProperty should reset this.playedSuccessYet = false;??? https://github.com/phetsims/ratio-and-proportion/issues/63
  * Marimba bonks that change frequency based on the fitness of the Proportion
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -10,8 +9,6 @@ import LinearFunction from '../../../../../dot/js/LinearFunction.js';
 import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
-import dingRingOutSound from '../../../../sounds/c4-ding-ring-out_mp3.js';
-import glockMarimbaCMaj7ArpeggioSound from '../../../../sounds/glock-marimba-c-maj-7-arp_mp3.js';
 import c001Sound from '../../../../sounds/marimba-variation-v2-c-001_mp3.js';
 import c002Sound from '../../../../sounds/marimba-variation-v2-c-002_mp3.js';
 import cSharp001Sound from '../../../../sounds/marimba-variation-v2-c-sharp-001_mp3.js';
@@ -37,7 +34,6 @@ import g001Sound from '../../../../sounds/marimba-variation-v2-g-001_mp3.js';
 import g002Sound from '../../../../sounds/marimba-variation-v2-g-002_mp3.js';
 import gSound from '../../../../sounds/marimba-variation-v2-g_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
-import designingProperties from '../../designingProperties.js';
 import RatioAndProportionQueryParameters from '../../RatioAndProportionQueryParameters.js';
 
 // organize the sounds by variation and note
@@ -52,9 +48,6 @@ const staccatoSounds = [
   [ gSound, g001Sound, g002Sound ]
 ];
 
-// TODO: success sound should be its own generator, #9
-const SUCCESS_OUTPUT_LEVEL = .8;
-
 class StaccatoFrequencySoundGenerator extends SoundGenerator {
 
   /**
@@ -68,26 +61,6 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
       initialOutputLevel: 0.4
     }, options );
     super( options );
-
-    const singleSuccessSoundClip = new SoundClip( dingRingOutSound );
-    const singleArpeggiatedChord = new SoundClip( glockMarimbaCMaj7ArpeggioSound );
-    singleSuccessSoundClip.connect( this.soundSourceDestination );
-    singleArpeggiatedChord.connect( this.soundSourceDestination );
-
-    // @private
-    this.successSoundClip = null;
-    designingProperties.staccatoSuccessSoundSelectorProperty.link( selector => {
-      if ( selector === 0 ) {
-        this.successSoundClip = singleSuccessSoundClip;
-      }
-      else if ( selector === 1 ) {
-        this.successSoundClip = singleArpeggiatedChord;
-      }
-      else {
-        assert && assert( false, 'unexpected staccato success sound selected' );
-      }
-      this.successSoundClip.setOutputLevel( SUCCESS_OUTPUT_LEVEL );
-    } );
 
 
     // @private {SoundClip[]}
@@ -129,11 +102,8 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     // TODO: do we need this, or would it be ok to repeat these sounds sometimes?
     this.lastStaccatoSoundValue = -1;
 
-    // @private - keep track of if the success sound has already played. This will be set back to false when the fitness
-    // goes back out of range for the success sound.
-    this.playedSuccessYet = false;
-
     // @private - only play a new sound if fitness has changed since the last play
+    // TODO: this will need to go, see #9
     this.fitnessChangedSinceLastPlay = true;
     fitnessProperty.lazyLink( () => { this.fitnessChangedSinceLastPlay = true; } );
   }
@@ -157,14 +127,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     this.timeSinceLastPlay = newFitness > 0 ? this.timeSinceLastPlay + dt * 1000 : 0;
 
     const isInRatio = this.model.inProportion();
-    if ( isInRatio && !this.playedSuccessYet ) {
-
-      // TODO: is it possible that this will just bring a previous playing's reverb back to life and the play another instance on top of it? https://github.com/phetsims/ratio-and-proportion/issues/63
-      this.successSoundClip.setOutputLevel( SUCCESS_OUTPUT_LEVEL, 0 );
-      this.successSoundClip.play();
-      this.playedSuccessYet = true;
-    }
-    else if ( this.timeSinceLastPlay > this.timeLinearFunction( newFitness ) && !isInRatio ) {
+    if ( this.timeSinceLastPlay > this.timeLinearFunction( newFitness ) && !isInRatio ) {
 
       if ( this.fitnessChangedSinceLastPlay ) {
         const sounds = this.staccatoSoundClips[ Math.floor( newFitness * this.staccatoSoundClips.length ) ];
@@ -173,16 +136,6 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
       }
       this.timeSinceLastPlay = 0;
     }
-
-    // if we were in ratio, but now we are not, then fade out the successSoundClip
-    if ( this.model.inProportion( this.oldFitness ) && !isInRatio ) {
-
-      // TODO: is there a way to get a notification when this is done ramping down? https://github.com/phetsims/ratio-and-proportion/issues/63
-      this.successSoundClip.setOutputLevel( 0, .1 );
-      this.playedSuccessYet = false;
-    }
-
-    this.oldFitness = newFitness;
   }
 
   /**
@@ -209,7 +162,6 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
    */
   reset() {
     this.staccatoSoundClip.stop( 0 );
-    this.successSoundClip.stop( 0 );
     this.timeSinceLastPlay = 0;
   }
 }

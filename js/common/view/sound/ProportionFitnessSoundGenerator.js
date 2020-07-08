@@ -8,9 +8,7 @@
  */
 
 import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
-import NumberProperty from '../../../../../axon/js/NumberProperty.js';
 import Property from '../../../../../axon/js/Property.js';
-import Range from '../../../../../dot/js/Range.js';
 import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
@@ -18,13 +16,11 @@ import choirAhhSound from '../../../../sounds/choir-ahhh-loop_wav.js';
 import stringsSound from '../../../../sounds/strings-loop-c5_wav.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import designingProperties from '../../designingProperties.js';
-import CMajorSineSoundGenerator from './CMajorSineSoundGenerator.js';
-import SineWaveGenerator from './SineWaveGenerator.js';
+import InProportionSoundGenerator from './InProportionSoundGenerator.js';
 import StaccatoFrequencySoundGenerator from './StaccatoFrequencySoundGenerator.js';
 
 // constants
 // For vibrato
-const VIBRATO_PITCH = 220;
 const FITNESS_THRESHOLD = .5; // fitness has to be larger than this
 
 
@@ -52,49 +48,7 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
     // @private
     this.proportionFitnessProperty = proportionFitnessProperty;
 
-    const fitnessNotMinProperty = new DerivedProperty( [ proportionFitnessProperty ], fitness => fitness !== fitnessRange.min );
 
-    //////////////////////////////////////////////////////////////////////////////
-    // VIBRATO
-    const frequency1Range = new Range( 0, 10 );
-    const frequency1Property = new NumberProperty( VIBRATO_PITCH );
-    const frequency2Property = new NumberProperty( VIBRATO_PITCH );
-
-    const enableControlProperties = [
-      isBeingInteractedWithProperty,
-      fitnessNotMinProperty,
-      new DerivedProperty( [ designingProperties.proportionFitnessSoundSelectorProperty ], value => value === 0 )
-    ];
-
-    const sineWaveGenerator1 = new SineWaveGenerator( frequency1Property, {
-      enableControlProperties: enableControlProperties
-    } );
-    const sineWaveGenerator2 = new SineWaveGenerator( frequency2Property, {
-      enableControlProperties: enableControlProperties
-    } );
-    sineWaveGenerator1.connect( this.soundSourceDestination );
-    sineWaveGenerator2.connect( this.soundSourceDestination );
-
-    Property.multilink( [ proportionFitnessProperty ],
-      fitness => {
-        frequency1Property.value = sineWaveGenerator1.fullyEnabled ?
-                                   VIBRATO_PITCH + ( ( 1 - fitness ) * frequency1Range.getLength() + frequency1Range.min ) :
-                                   VIBRATO_PITCH; // set back to default if not enabled, for next time.
-      } );
-
-    //////////////////////////////////////////////////////////////////
-    // C MAJOR FUN!
-
-    const cMajorSineSoundGenerator = new CMajorSineSoundGenerator( proportionFitnessProperty, fitnessRange, {
-      enableControlProperties: [
-        isBeingInteractedWithProperty,
-        fitnessNotMinProperty,
-        new DerivedProperty( [ designingProperties.proportionFitnessSoundSelectorProperty ], value => value === 2 )
-      ]
-    } );
-    cMajorSineSoundGenerator.connect( this.soundSourceDestination );
-
-    //////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////
     // Velocity success sound
 
@@ -151,6 +105,18 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
     } );
     this.staccatoFrequencySoundGenerator.connect( this.soundSourceDestination );
 
+    //////////////////////////////////////////////////////////////////   //////////////////////////////////////////////////////////////////
+    // in proportion
+
+    this.inProportionSoundGenerator = new InProportionSoundGenerator( proportionFitnessProperty, fitnessRange, model, {
+      enableControlProperties: [
+        isBeingInteractedWithProperty,
+        new DerivedProperty( [ designingProperties.proportionFitnessSoundSelectorProperty ],
+          value => value === 5 || value === 6 || value === 7 )
+      ]
+    } );
+    this.inProportionSoundGenerator.connect( this.soundSourceDestination );
+
     //////////////////////////////////////////////////////////////////
   }
 
@@ -160,6 +126,7 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
    * @public
    */
   step( dt ) {
+    this.inProportionSoundGenerator.step( dt );
     this.staccatoFrequencySoundGenerator.step( dt );
   }
 }
