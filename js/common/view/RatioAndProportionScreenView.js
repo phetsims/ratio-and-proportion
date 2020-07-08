@@ -129,7 +129,7 @@ class RatioAndProportionScreenView extends ScreenView {
       tagName: 'div',
       ariaRole: 'application',
       focusable: true,
-      labelContent: 'Ratio:',
+      innerContent: 'Ratio:',
       children: [
         this.leftRatioHalf,
         this.rightRatioHalf
