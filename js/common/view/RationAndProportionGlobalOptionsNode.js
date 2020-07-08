@@ -97,20 +97,6 @@ class RationAndProportionGlobalOptionsNode extends HBox {
               value: -1
             } ] )
           ]
-        } ),
-        new VBox( {
-          spacing: 10,
-          align: 'left',
-          children: [
-            new RichText( 'Staccato Sound:' ),
-            new VerticalAquaRadioButtonGroup( designingProperties.staccatoSoundSelectorProperty, [ {
-              node: new OptionsText( 'Marimba' ),
-              value: 0
-            }, {
-              node: new OptionsText( 'Random Mix' ),
-              value: 1
-            } ] )
-          ]
         } )
       ]
     } );
