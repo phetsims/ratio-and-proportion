@@ -27,7 +27,7 @@ class RationAndProportionGlobalOptionsNode extends HBox {
       align: 'left',
       children: [
         new RichText( 'Staccato Success Sound:' ),
-        new VerticalAquaRadioButtonGroup( designingProperties.staccatoSuccessSoundSelectorProperty, [ {
+        new VerticalAquaRadioButtonGroup( designingProperties.inProportionSoundSelectorProperty, [ {
             node: new OptionsText( 'Single high note' ),
             value: 0
           }, {

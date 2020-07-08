@@ -37,7 +37,7 @@ class InProportionSoundGenerator extends SoundGenerator {
 
     // @private
     this.successSoundClip = null;
-    designingProperties.staccatoSuccessSoundSelectorProperty.link( selector => {
+    designingProperties.inProportionSoundSelectorProperty.link( selector => {
       if ( selector === 0 ) {
         this.successSoundClip = singleSuccessSoundClip;
       }
