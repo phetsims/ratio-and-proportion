@@ -101,11 +101,6 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     // @private {number} - keep track of the last value to prevent the same sound from being played twice in a row.
     // TODO: do we need this, or would it be ok to repeat these sounds sometimes?
     this.lastStaccatoSoundValue = -1;
-
-    // @private - only play a new sound if fitness has changed since the last play
-    // TODO: this will need to go, see #9
-    this.fitnessChangedSinceLastPlay = true;
-    fitnessProperty.lazyLink( () => { this.fitnessChangedSinceLastPlay = true; } );
   }
 
   /**
@@ -128,12 +123,8 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
 
     const isInRatio = this.model.inProportion();
     if ( this.timeSinceLastPlay > this.timeLinearFunction( newFitness ) && !isInRatio ) {
-
-      if ( this.fitnessChangedSinceLastPlay ) {
-        const sounds = this.staccatoSoundClips[ Math.floor( newFitness * this.staccatoSoundClips.length ) ];
-        sounds[ this.getStaccatoSoundValueToPlay() ].play();
-        this.fitnessChangedSinceLastPlay = false;
-      }
+      const sounds = this.staccatoSoundClips[ Math.floor( newFitness * this.staccatoSoundClips.length ) ];
+      sounds[ this.getStaccatoSoundValueToPlay() ].play();
       this.timeSinceLastPlay = 0;
     }
   }
