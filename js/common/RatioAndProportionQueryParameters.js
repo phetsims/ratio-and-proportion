@@ -24,6 +24,14 @@ const RatioAndProportionQueryParameters = QueryStringMachine.getAll( {
     defaultValue: 600
   },
 
+  // The distance that you must move away from being in Proportion until you can then come back in proportion and get a
+  // success sound to play. See InProportionSoundGenerator. In "fitness" units, so the default value is a space of 10%
+  // of the fitness range.
+  hysteresisThreshold: {
+    type: 'number',
+    defaultValue: .1
+  },
+
   // For staccato sounds when frequnecy is changing (faster notes at higher fitness): what is the quickest interval
   //    that the sound will play when close or at successful ratio, in ms.
   // For staccoto sounds when frequency is not changing: what is the minimum amount of time that must occur between two

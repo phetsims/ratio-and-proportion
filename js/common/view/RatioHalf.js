@@ -70,7 +70,8 @@ class RatioHalf extends Rectangle {
 
     super( 0, 0, bounds.width, bounds.height );
 
-    // @public (read-only)
+    // @public (read-only) - this behaves a bit differently depending on modality. For mouse/touch, any time you are
+    // dragging this will be considered interaction, for keyboard, you must press a key before the interaction starts.
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
 
     // "Framing" rectangles on the top and bottom of the drag area of the ratio half
@@ -94,7 +95,10 @@ class RatioHalf extends Rectangle {
 
     // The draggable element inside the Node framed with thick rectangles on the top and bottom.
     const ratioHandNode = new RatioHandNode( valueProperty, valueRange, gridViewProperty, keyboardStep, {
-      startDrag: () => { firstInteractionProperty.value = false; },
+      startDrag: () => {
+        firstInteractionProperty.value = false;
+        this.isBeingInteractedWithProperty.value = true;
+      },
       isRight: options.isRight
     } );
     this.addChild( ratioHandNode );
@@ -144,9 +148,9 @@ class RatioHalf extends Rectangle {
       start: () => {
         commonGrabSoundClip.play();
         firstInteractionProperty.value = false;
-        this.isBeingInteractedWithProperty.value = true;
       },
       drag: () => {
+        this.isBeingInteractedWithProperty.value = true;
 
         const value = valueProperty.value;
 
@@ -178,7 +182,6 @@ class RatioHalf extends Rectangle {
     ratioHandNode.addInputListener( {
       focus: () => {
         commonGrabSoundClip.play();
-        this.isBeingInteractedWithProperty.value = true;
       },
       blur: () => {
         commonReleaseSoundClip.play();

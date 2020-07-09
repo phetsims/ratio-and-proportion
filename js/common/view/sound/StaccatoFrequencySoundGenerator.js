@@ -1,41 +1,52 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * TODO: isInteractingProperty should reset this.playedSuccessYet = false;??? https://github.com/phetsims/ratio-and-proportion/issues/63
  * Marimba bonks that change frequency based on the fitness of the Proportion
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
 import LinearFunction from '../../../../../dot/js/LinearFunction.js';
 import merge from '../../../../../phet-core/js/merge.js';
-import MultiClip from '../../../../../tambo/js/sound-generators/MultiClip.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
-import brightMarimbaSound from '../../../../../tambo/sounds/bright-marimba_mp3.js';
-import dingRingOutSound from '../../../../sounds/c4-ding-ring-out_mp3.js';
-import glockMarimbaCMaj7ArpeggioSound from '../../../../sounds/glock-marimba-c-maj-7-arp_mp3.js';
-import marimbaVariation0Sound from '../../../../sounds/marimba-variations-000_mp3.js';
-import marimbaVariation2Sound from '../../../../sounds/marimba-variations-002_mp3.js';
-import marimbaVariation3Sound from '../../../../sounds/marimba-variations-003_mp3.js';
+import c001Sound from '../../../../sounds/marimba-variation-v2-c-001_mp3.js';
+import c002Sound from '../../../../sounds/marimba-variation-v2-c-002_mp3.js';
+import cSharp001Sound from '../../../../sounds/marimba-variation-v2-c-sharp-001_mp3.js';
+import cSharp002Sound from '../../../../sounds/marimba-variation-v2-c-sharp-002_mp3.js';
+import cSharpSound from '../../../../sounds/marimba-variation-v2-c-sharp_mp3.js';
+import cSound from '../../../../sounds/marimba-variation-v2-c_mp3.js';
+import d001Sound from '../../../../sounds/marimba-variation-v2-d-001_mp3.js';
+import d002Sound from '../../../../sounds/marimba-variation-v2-d-002_mp3.js';
+import dSharp001Sound from '../../../../sounds/marimba-variation-v2-d-sharp-001_mp3.js';
+import dSharp002Sound from '../../../../sounds/marimba-variation-v2-d-sharp-002_mp3.js';
+import dSharpSound from '../../../../sounds/marimba-variation-v2-d-sharp_mp3.js';
+import dSound from '../../../../sounds/marimba-variation-v2-d_mp3.js';
+import e001Sound from '../../../../sounds/marimba-variation-v2-e-001_mp3.js';
+import e002Sound from '../../../../sounds/marimba-variation-v2-e-002_mp3.js';
+import eSound from '../../../../sounds/marimba-variation-v2-e_mp3.js';
+import f001Sound from '../../../../sounds/marimba-variation-v2-f-001_mp3.js';
+import f002Sound from '../../../../sounds/marimba-variation-v2-f-002_mp3.js';
+import fSharp001Sound from '../../../../sounds/marimba-variation-v2-f-sharp-001_mp3.js';
+import fSharp002Sound from '../../../../sounds/marimba-variation-v2-f-sharp-002_mp3.js';
+import fSharpSound from '../../../../sounds/marimba-variation-v2-f-sharp_mp3.js';
+import fSound from '../../../../sounds/marimba-variation-v2-f_mp3.js';
+import g001Sound from '../../../../sounds/marimba-variation-v2-g-001_mp3.js';
+import g002Sound from '../../../../sounds/marimba-variation-v2-g-002_mp3.js';
+import gSound from '../../../../sounds/marimba-variation-v2-g_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
-import designingProperties from '../../designingProperties.js';
 import RatioAndProportionQueryParameters from '../../RatioAndProportionQueryParameters.js';
 
-const SUCCESS_OUTPUT_LEVEL = .8;
-const INITIAL_PLAYBACK_RATE = 1;
-
-// Playback rate will be between 1 and a major third above
-const getPlaybackRate = fitness => fitness * ( Math.pow( 2, 7 / 12 ) - INITIAL_PLAYBACK_RATE ) + INITIAL_PLAYBACK_RATE;
-
-const BRIGHT_MARIMBA_VALUE = 0;
-
-// to support multiple sound options, this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/9
-// IMPORTANT: don't change the order here without looking at this.getStaccatoSoundValueToPlay()
-const staccatoSoundMap = new Map();
-staccatoSoundMap.set( BRIGHT_MARIMBA_VALUE, brightMarimbaSound );
-staccatoSoundMap.set( 1, marimbaVariation0Sound );
-staccatoSoundMap.set( 2, marimbaVariation2Sound );
-staccatoSoundMap.set( 3, marimbaVariation3Sound );
+// organize the sounds by variation and note
+const staccatoSounds = [
+  [ cSound, c001Sound, c002Sound ],
+  [ cSharpSound, cSharp001Sound, cSharp002Sound ],
+  [ dSound, d001Sound, d002Sound ],
+  [ dSharpSound, dSharp001Sound, dSharp002Sound ],
+  [ eSound, e001Sound, e002Sound ],
+  [ fSound, f001Sound, f002Sound ],
+  [ fSharpSound, fSharp001Sound, fSharp002Sound ],
+  [ gSound, g001Sound, g002Sound ]
+];
 
 class StaccatoFrequencySoundGenerator extends SoundGenerator {
 
@@ -51,50 +62,45 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     }, options );
     super( options );
 
-    const singleSuccessSoundClip = new SoundClip( dingRingOutSound );
-    const singleArpeggiatedChord = new SoundClip( glockMarimbaCMaj7ArpeggioSound );
-    singleSuccessSoundClip.connect( this.soundSourceDestination );
-    singleArpeggiatedChord.connect( this.soundSourceDestination );
 
-    // @private
-    this.successSoundClip = null;
-    designingProperties.staccatoSuccessSoundSelectorProperty.link( selector => {
-      if ( selector === 0 ) {
-        this.successSoundClip = singleSuccessSoundClip;
-      }
-      else if ( selector === 1 ) {
-        this.successSoundClip = singleArpeggiatedChord;
-      }
-      else {
-        assert && assert( false, 'unexpected staccato success sound selected' );
-      }
-      this.successSoundClip.setOutputLevel( SUCCESS_OUTPUT_LEVEL );
-    } );
+    // @private {SoundClip[]}
+    this.staccatoSoundClips = [];
 
-    this.staccatoSoundClip = new MultiClip( staccatoSoundMap, {
-      initialPlaybackRate: INITIAL_PLAYBACK_RATE
-    } );
-    this.staccatoSoundClip.connect( this.soundSourceDestination );
+    // create a SoundClip for each sound
+    for ( let i = 0; i < staccatoSounds.length; i++ ) {
+      const variationSounds = staccatoSounds[ i ];
+      const soundClipsForVariation = [];
+      for ( let j = 0; j < variationSounds.length; j++ ) {
+        const variationSound = variationSounds[ j ];
+        const soundClip = new SoundClip( variationSound );
+        soundClip.connect( this.soundSourceDestination );
+        soundClipsForVariation.push( soundClip );
+      }
+      this.staccatoSoundClips.push( soundClipsForVariation );
+    }
 
     // @private
     this.model = model;
     this.fitnessProperty = fitnessProperty;
     this.fitnessRange = fitnessRange;
-    this.timeLinearFunction = new LinearFunction( fitnessRange.min, fitnessRange.max, 500,
-      RatioAndProportionQueryParameters.staccatoMinRepeatTime, true );
+
+    // @private - the minimum amount of gap between two sounds, which increases based on the fitness
+    this.timeLinearFunction = new LinearFunction(
+      fitnessRange.min,
+      fitnessRange.max,
+      500,
+      RatioAndProportionQueryParameters.staccatoMinRepeatTime,
+      true );
+
+    // @private - in ms, keep track of the amount of time that has passed since the last staccato sound played
     this.timeSinceLastPlay = 0;
+
+    // @private - TODO we may get rid of this in exchange for a better hysterisis algorithm for in proportion sounds
     this.oldFitness = this.fitnessProperty.value;
 
     // @private {number} - keep track of the last value to prevent the same sound from being played twice in a row.
+    // TODO: do we need this, or would it be ok to repeat these sounds sometimes?
     this.lastStaccatoSoundValue = -1;
-
-    // @private - keep track of if the success sound has already played. This will be set back to false when the fitness
-    // goes back out of range for the success sound.
-    this.playedSuccessYet = false;
-
-    // @private - only play a new sound if fitness has changed since the last play
-    this.fitnessChangedSinceLastPlay = true;
-    fitnessProperty.lazyLink( () => { this.fitnessChangedSinceLastPlay = true; } );
   }
 
   /**
@@ -106,6 +112,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     const newFitness = this.fitnessProperty.value;
 
     // don't play staccato sounds when fitness is 0
+    // TODO: isn't this taken care of by another part of the model?
     if ( newFitness === this.fitnessRange.min ) {
       return;
     }
@@ -115,41 +122,11 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     this.timeSinceLastPlay = newFitness > 0 ? this.timeSinceLastPlay + dt * 1000 : 0;
 
     const isInRatio = this.model.inProportion();
-    if ( isInRatio && !this.playedSuccessYet ) {
-
-      // TODO: is it possible that this will just bring a previous playing's reverb back to life and the play another instance on top of it? https://github.com/phetsims/ratio-and-proportion/issues/63
-      this.successSoundClip.setOutputLevel( SUCCESS_OUTPUT_LEVEL );
-      this.successSoundClip.play();
-      this.playedSuccessYet = true;
-    }
-    else if ( this.timeSinceLastPlay > this.timeLinearFunction( newFitness ) && !isInRatio ) {
-
-      // Don't modulate pitch for marimba sound
-      if ( designingProperties.staccatoSoundSelectorProperty.value !== BRIGHT_MARIMBA_VALUE ) {
-        this.staccatoSoundClip.setPlaybackRate( getPlaybackRate( newFitness ) );
-      }
-      else if ( this.staccatoSoundClip.playbackRate !== 1 ) {
-        // set things back to 1 if we just changed staccato sound
-        // TODO: this can likely get removed once a single sound design is solidified
-        this.staccatoSoundClip.setPlaybackRate( 1 );
-      }
-
-      if ( this.fitnessChangedSinceLastPlay ) {
-        this.staccatoSoundClip.playAssociatedSound( this.getStaccatoSoundValueToPlay() );
-        this.fitnessChangedSinceLastPlay = false;
-      }
+    if ( this.timeSinceLastPlay > this.timeLinearFunction( newFitness ) && !isInRatio ) {
+      const sounds = this.staccatoSoundClips[ Math.floor( newFitness * this.staccatoSoundClips.length ) ];
+      sounds[ this.getStaccatoSoundValueToPlay() ].play();
       this.timeSinceLastPlay = 0;
     }
-
-    // if we were in ratio, but now we are not, then fade out the successSoundClip
-    if ( this.model.inProportion( this.oldFitness ) && !isInRatio ) {
-
-      // TODO: is there a way to get a notification when this is done ramping down? https://github.com/phetsims/ratio-and-proportion/issues/63
-      this.successSoundClip.setOutputLevel( 0, .1 );
-      this.playedSuccessYet = false;
-    }
-
-    this.oldFitness = newFitness;
   }
 
   /**
@@ -158,22 +135,16 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
    * @private
    */
   getStaccatoSoundValueToPlay() {
-    if ( designingProperties.staccatoSoundSelectorProperty.value === 0 ) {
-      return BRIGHT_MARIMBA_VALUE;
+
+    let soundValue = this.lastStaccatoSoundValue;
+    while ( soundValue === this.lastStaccatoSoundValue ) {
+
+      // "3 + 1" is a hard coded number based on staccatoSoundMap
+      soundValue = Math.floor( phet.joist.random.nextDouble() * 3 );
     }
-    else {
-      assert && assert( designingProperties.staccatoSoundSelectorProperty.value === 1 );
 
-      let soundValue = this.lastStaccatoSoundValue;
-      while ( soundValue === this.lastStaccatoSoundValue ) {
-
-        // "3 + 1" is a hard coded number based on staccatoSoundMap
-        soundValue = Math.floor( phet.joist.random.nextDouble() * 3 + 1 );
-      }
-
-      this.lastStaccatoSoundValue = soundValue;
-      return soundValue;
-    }
+    this.lastStaccatoSoundValue = soundValue;
+    return soundValue;
   }
 
   /**
@@ -182,7 +153,6 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
    */
   reset() {
     this.staccatoSoundClip.stop( 0 );
-    this.successSoundClip.stop( 0 );
     this.timeSinceLastPlay = 0;
   }
 }
