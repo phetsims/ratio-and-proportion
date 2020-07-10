@@ -23,9 +23,8 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import commonGrabSound from '../../../../tambo/sounds/grab_mp3.js';
 import commonReleaseSound from '../../../../tambo/sounds/release_mp3.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-// TODO: don't depend on wave-interference
-import sliderClickSound from '../../../../wave-interference/sounds/slider-clicks-idea-c-example_mp3.js';
-import sliderBoundaryClickSound from '../../../../wave-interference/sounds/slider-clicks-idea-c-lower-end-click_mp3.js';
+import sliderClickSound from '../../../../tambo/sounds/slider-clicks-idea-c-example_mp3.js';
+import sliderBoundaryClickSound from '../../../../tambo/sounds/slider-clicks-idea-c-lower-end-click_mp3.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import designingProperties from '../designingProperties.js';
 import GridView from './GridView.js';
