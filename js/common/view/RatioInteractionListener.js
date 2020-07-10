@@ -9,7 +9,7 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import KeyStateTracker from '../../../../scenery/js/accessibility/KeyStateTracker.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import ProportionConstants from '../ProportionConstants.js';
+import RatioAndProportionConstants from '../RatioAndProportionConstants.js';
 
 class RatioInteractionListener {
 
@@ -52,7 +52,7 @@ class RatioInteractionListener {
    */
   stepValue( property, increment ) {
     this.firstInteractionProperty.value = false;
-    const amount = this.keyStateTracker.shiftKeyDown ? this.keyboardStep * ProportionConstants.SHIFT_KEY_MULTIPLIER : this.keyboardStep;
+    const amount = this.keyStateTracker.shiftKeyDown ? this.keyboardStep * RatioAndProportionConstants.SHIFT_KEY_MULTIPLIER : this.keyboardStep;
     property.value = this.valueRange.constrainValue( property.value + ( amount * ( increment ? 1 : -1 ) ) );
   }
 

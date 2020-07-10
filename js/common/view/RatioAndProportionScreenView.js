@@ -22,7 +22,7 @@ import gridIconImage from '../../../images/grid-icon_png.js';
 import numberedGridIconImage from '../../../images/numbered-grid-icon_png.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
-import ProportionConstants from '../ProportionConstants.js';
+import RatioAndProportionConstants from '../RatioAndProportionConstants.js';
 import GridDescriber from './GridDescriber.js';
 import GridView from './GridView.js';
 import ProportionMarkerInput from './ProportionMarkerInput.js';
@@ -237,8 +237,8 @@ class RatioAndProportionScreenView extends ScreenView {
 
     // static layout
     this.gridViewRadioButtonGroup.top = this.layoutBounds.height * .15;
-    resetAllButton.right = this.layoutBounds.maxX - ProportionConstants.SCREEN_VIEW_X_MARGIN;
-    resetAllButton.bottom = this.layoutBounds.height - ProportionConstants.SCREEN_VIEW_Y_MARGIN;
+    resetAllButton.right = this.layoutBounds.maxX - RatioAndProportionConstants.SCREEN_VIEW_X_MARGIN;
+    resetAllButton.bottom = this.layoutBounds.height - RatioAndProportionConstants.SCREEN_VIEW_Y_MARGIN;
 
     // @private - dynamic layout based on the current ScreenView coordinates
     this.layoutRatioAndProportionScreeView = newRatioHalfBounds => {

@@ -8,8 +8,7 @@
 
 import ratioAndProportion from '../ratioAndProportion.js';
 
-// TODO: rename
-const ProportionConstants = {
+const RatioAndProportionConstants = {
 
   SCREEN_VIEW_X_MARGIN: 15,
   SCREEN_VIEW_Y_MARGIN: 15,
@@ -25,5 +24,5 @@ const ProportionConstants = {
   SHIFT_KEY_MULTIPLIER: 1 / 5
 };
 
-ratioAndProportion.register( 'ProportionConstants', ProportionConstants );
-export default ProportionConstants;
+ratioAndProportion.register( 'RatioAndProportionConstants', RatioAndProportionConstants );
+export default RatioAndProportionConstants;

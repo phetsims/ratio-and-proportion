@@ -16,7 +16,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import AccessibleSlider from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import filledInHandImage from '../../../images/filled-in-hand_png.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import ProportionConstants from '../ProportionConstants.js';
+import RatioAndProportionConstants from '../RatioAndProportionConstants.js';
 import GridView from './GridView.js';
 
 class RatioHandNode extends Node {
@@ -36,7 +36,7 @@ class RatioHandNode extends Node {
       asIcon: false, // when true, no input will be attached
 
       keyboardStep: keyboardStep,
-      shiftKeyboardStep: keyboardStep * ProportionConstants.SHIFT_KEY_MULTIPLIER,
+      shiftKeyboardStep: keyboardStep * RatioAndProportionConstants.SHIFT_KEY_MULTIPLIER,
       pageKeyboardStep: 1 / 5
     }, options );
     super();

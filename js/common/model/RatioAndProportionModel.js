@@ -16,7 +16,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import RatioAndProportionQueryParameters from '../../common/RatioAndProportionQueryParameters.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import ProportionConstants from '../ProportionConstants.js';
+import RatioAndProportionConstants from '../RatioAndProportionConstants.js';
 
 // The threshold for velocity of a moving ratio value to indivate that it is "moving."
 const VELOCITY_THRESHOLD = .01;
@@ -92,9 +92,9 @@ class RatioAndProportionModel {
       const fitness = this.fitnessRange.max - Utils.clamp( fitnessError / tolerance, this.fitnessRange.min, this.fitnessRange.max );
 
       // If either value is small enough, then we don't allow an "in proportion" fitness level, so make it just below that threshold.
-      if ( fitness >= this.fitnessRange.max - ProportionConstants.IN_PROPORTION_FITNESS_THRESHOLD &&
+      if ( fitness >= this.fitnessRange.max - RatioAndProportionConstants.IN_PROPORTION_FITNESS_THRESHOLD &&
            ( leftValue <= NO_SUCCUSS_VALUE_THRESHOLD || rightValue <= NO_SUCCUSS_VALUE_THRESHOLD ) ) {
-        return this.fitnessRange.max - ProportionConstants.IN_PROPORTION_FITNESS_THRESHOLD - .01;
+        return this.fitnessRange.max - RatioAndProportionConstants.IN_PROPORTION_FITNESS_THRESHOLD - .01;
       }
       return fitness;
     }, {
@@ -127,9 +127,9 @@ class RatioAndProportionModel {
    * @returns {number}
    */
   getInProportionThreshold() {
-    let threshold = ProportionConstants.IN_PROPORTION_FITNESS_THRESHOLD;
+    let threshold = RatioAndProportionConstants.IN_PROPORTION_FITNESS_THRESHOLD;
     if ( this.movingInDirection() ) {
-      threshold = ProportionConstants.MOVING_IN_PROPORTION_FITNESS_THRESHOLD;
+      threshold = RatioAndProportionConstants.MOVING_IN_PROPORTION_FITNESS_THRESHOLD;
     }
     return threshold;
   }
