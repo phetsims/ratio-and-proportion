@@ -55,7 +55,7 @@ class InProportionSoundGenerator extends SoundGenerator {
     this.fitnessProperty = fitnessProperty;
     this.fitnessRange = fitnessRange;
 
-    // @private - TODO we may get rid of this in exchange for a better hysterisis algorithm for in proportion sounds
+    // @private - used to determine when no longer in ratio, so that the success sound can be silenced
     this.oldFitness = this.fitnessProperty.value;
 
     // @private - keep track of if the success sound has already played. This will be set back to false when the fitness
@@ -70,12 +70,6 @@ class InProportionSoundGenerator extends SoundGenerator {
    */
   step( dt ) {
     const newFitness = this.fitnessProperty.value;
-
-    // don't play staccato sounds when fitness is 0
-    // TODO: isn't this taken care of by another part of the model?
-    if ( newFitness === this.fitnessRange.min ) {
-      return;
-    }
 
     const isInRatio = this.model.inProportion();
     if ( isInRatio && !this.playedSuccessYet ) {
@@ -93,7 +87,6 @@ class InProportionSoundGenerator extends SoundGenerator {
     }
 
     // if we were in ratio, but now we are not, then fade out the successSoundClip
-    // TODO: instead of looking at old fitness, can we just use `SoundClip.isPlayingProperty`?
     if ( this.model.inProportion( this.oldFitness ) && !isInRatio ) {
 
       // TODO: is there a way to get a notification when this is done ramping down? https://github.com/phetsims/ratio-and-proportion/issues/63

@@ -95,9 +95,6 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     // @private - in ms, keep track of the amount of time that has passed since the last staccato sound played
     this.timeSinceLastPlay = 0;
 
-    // @private - TODO we may get rid of this in exchange for a better hysterisis algorithm for in proportion sounds
-    this.oldFitness = this.fitnessProperty.value;
-
     // @private {number} - keep track of the last value to prevent the same sound from being played twice in a row.
     // TODO: do we need this, or would it be ok to repeat these sounds sometimes?
     this.lastStaccatoSoundValue = -1;
@@ -110,12 +107,6 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
    */
   step( dt ) {
     const newFitness = this.fitnessProperty.value;
-
-    // don't play staccato sounds when fitness is 0
-    // TODO: isn't this taken care of by another part of the model?
-    if ( newFitness === this.fitnessRange.min ) {
-      return;
-    }
 
     // Only increment when within some amount of fitness. This helps prevent sporadic notes from playing when you move
     // the ratio hands quickly and drastically.
