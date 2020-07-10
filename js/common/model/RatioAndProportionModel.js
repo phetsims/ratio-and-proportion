@@ -84,9 +84,6 @@ class RatioAndProportionModel {
       if ( isNaN( currentRatio ) ) {
         return 0;
       }
-      if ( leftValue === this.valueRange.min || rightValue === this.valueRange.min ) {
-        return 0;
-      }
       const desiredLeft = ratio * rightValue;
       const fitnessError = Math.abs( desiredLeft - leftValue );
       const fitness = this.fitnessRange.max - Utils.clamp( fitnessError / tolerance, this.fitnessRange.min, this.fitnessRange.max );
