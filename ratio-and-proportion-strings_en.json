@@ -104,6 +104,11 @@
         "value": "Ratio Challenges"
       }
     },
+    "create": {
+      "gridRangeHelpText": {
+        "value": "Choose range for grid."
+      }
+    },
     "pointerPosition": {
       "atTheTop": {
         "value": "at the top"

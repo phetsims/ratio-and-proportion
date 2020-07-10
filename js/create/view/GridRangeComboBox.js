@@ -51,7 +51,7 @@ class GridRangeComboBox extends Node {
 
     const comboBoxOptions = {
       labelNode: new RichText( ratioAndProportionStrings.range, { font: GRID_RANGE_FONT } ),
-      accessibleName: ratioAndProportionStrings.range
+      helpText: ratioAndProportionStrings.a11y.create.gridRangeHelpText
     };
 
     const enabledComboBox = new ComboBox( items, gridBaseUnitProperty, comboBoxParent, comboBoxOptions );
