@@ -15,13 +15,13 @@ import GridView from './GridView.js';
 class RatioAndProportionScreenSummaryNode extends Node {
 
   /**
-   * @param {Property.<number>} proportionFitnessProperty
+   * @param {Property.<number>} ratioFitnessProperty
    * @param {Property.<number>} leftValueProperty
    * @param {Property.<number>} rightValueProperty
    * @param {Property.<GridView>} gridViewProperty
    * @param {RatioDescriber} ratioDescriber
    */
-  constructor( proportionFitnessProperty, leftValueProperty, rightValueProperty, gridViewProperty, ratioDescriber ) {
+  constructor( ratioFitnessProperty, leftValueProperty, rightValueProperty, gridViewProperty, ratioDescriber ) {
 
     const stateOfSimNode = new Node( {
       tagName: 'p'
@@ -49,9 +49,8 @@ class RatioAndProportionScreenSummaryNode extends Node {
     this.ratioDescriber = ratioDescriber;
 
     // This derivedProperty is already dependent on all other dependencies for getStateOfSimString
-    Property.multilink( [ gridViewProperty, proportionFitnessProperty, leftValueProperty, rightValueProperty ], gridView => {
-      const isQualitative = gridView === GridView.NONE; // TODO: likely factor this out into a GridView method for general description
-      stateOfSimNode.innerContent = this.getStateOfSimString( isQualitative, leftValueProperty, rightValueProperty );
+    Property.multilink( [ gridViewProperty, ratioFitnessProperty, leftValueProperty, rightValueProperty ], gridView => {
+      stateOfSimNode.innerContent = this.getStateOfSimString( GridView.describeQualitative( gridView ), leftValueProperty, rightValueProperty );
     } );
   }
 

@@ -26,13 +26,13 @@ const FITNESS_THRESHOLD = .5; // fitness has to be larger than this
 class ProportionFitnessSoundGenerator extends SoundGenerator {
 
   /**
-   * @param {Property.<number>} proportionFitnessProperty
+   * @param {Property.<number>} ratioFitnessProperty
    * @param {Range} fitnessRange
    * @param {Property.<boolean>} isBeingInteractedWithProperty - if there is any interaction occurring to either left/right object
    * @param {RatioAndProportionModel} model - TODO: pass all of model in here? At least factor out fitness stuff above
    * @param {Object} [options]
    */
-  constructor( proportionFitnessProperty,
+  constructor( ratioFitnessProperty,
                fitnessRange,
                isBeingInteractedWithProperty,
                model,
@@ -45,7 +45,7 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
     super( options );
 
     // @private
-    this.proportionFitnessProperty = proportionFitnessProperty;
+    this.ratioFitnessProperty = ratioFitnessProperty;
 
 
     //////////////////////////////////////////////////////////////////
@@ -77,7 +77,7 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
       }
     } );
 
-    Property.multilink( [ isBeingInteractedWithProperty, model.leftVelocityProperty, model.rightVelocityProperty, proportionFitnessProperty ],
+    Property.multilink( [ isBeingInteractedWithProperty, model.leftVelocityProperty, model.rightVelocityProperty, ratioFitnessProperty ],
       ( isBeingInteractedWith, leftVelocity, rightVelocity, fitness ) => {
         if ( velocitySoundClip ) {
           if ( model.movingInDirection() &&
@@ -95,7 +95,7 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
     //////////////////////////////////////////////////////////////////
     // staccato
 
-    this.staccatoFrequencySoundGenerator = new StaccatoFrequencySoundGenerator( proportionFitnessProperty, fitnessRange, model, {
+    this.staccatoFrequencySoundGenerator = new StaccatoFrequencySoundGenerator( ratioFitnessProperty, fitnessRange, model, {
       enableControlProperties: [ isBeingInteractedWithProperty ]
     } );
     this.staccatoFrequencySoundGenerator.connect( this.soundSourceDestination );
@@ -103,7 +103,7 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
     //////////////////////////////////////////////////////////////////   //////////////////////////////////////////////////////////////////
     // in proportion
 
-    this.inProportionSoundGenerator = new InProportionSoundGenerator( proportionFitnessProperty, fitnessRange, model, {
+    this.inProportionSoundGenerator = new InProportionSoundGenerator( ratioFitnessProperty, fitnessRange, model, {
       enableControlProperties: [ isBeingInteractedWithProperty ]
     } );
     this.inProportionSoundGenerator.connect( this.soundSourceDestination );

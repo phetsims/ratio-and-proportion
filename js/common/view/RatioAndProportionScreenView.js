@@ -61,7 +61,7 @@ class RatioAndProportionScreenView extends ScreenView {
     const gridDescriber = new GridDescriber( model.valueRange, options.gridBaseUnitProperty );
     const ratioDescriber = new RatioDescriber( model, gridDescriber );
 
-    const gridAndLabelsColorProperty = new DerivedProperty( [ model.proportionFitnessProperty ],
+    const gridAndLabelsColorProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
       fitness => Color.interpolateRGBA(
         RatioAndProportionColorProfile.gridAndLabelsInFitnessProperty.value,
         RatioAndProportionColorProfile.gridAndLabelsOutOfFitnessProperty.value, fitness
@@ -75,7 +75,7 @@ class RatioAndProportionScreenView extends ScreenView {
       tandem: tandem,
       layoutBounds: LAYOUT_BOUNDS,
       screenSummaryContent: new RatioAndProportionScreenSummaryNode(
-        model.proportionFitnessProperty,
+        model.ratioFitnessProperty,
         model.leftValueProperty,
         model.rightValueProperty,
         gridViewProperty,
@@ -144,7 +144,7 @@ class RatioAndProportionScreenView extends ScreenView {
 
     // @private
     this.proportionFitnessSoundGenerator = new ProportionFitnessSoundGenerator(
-      model.proportionFitnessProperty,
+      model.ratioFitnessProperty,
       model.fitnessRange,
       DerivedProperty.or( [
         this.leftRatioHalf.isBeingInteractedWithProperty,
@@ -162,7 +162,7 @@ class RatioAndProportionScreenView extends ScreenView {
       fill: 'black'
     } );
 
-    model.proportionFitnessProperty.link( fitness => {
+    model.ratioFitnessProperty.link( fitness => {
       let color = null;
       if ( model.inProportion() ) {
         color = RatioAndProportionColorProfile.backgroundInFitnessProperty.value;

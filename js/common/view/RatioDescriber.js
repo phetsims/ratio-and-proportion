@@ -38,11 +38,11 @@ class RatioDescriber {
   constructor( model, gridDescriber ) {
 
     // @private - from model
-    this.proportionFitnessProperty = model.proportionFitnessProperty;
+    this.ratioFitnessProperty = model.ratioFitnessProperty;
     this.leftValueProperty = model.leftValueProperty;
     this.rightValueProperty = model.rightValueProperty;
     this.valueRange = model.valueRange;
-    this.proportionFitnessProperty = model.proportionFitnessProperty;
+    this.ratioFitnessProperty = model.ratioFitnessProperty;
     this.fitnessRange = model.fitnessRange;
 
     // @private
@@ -126,7 +126,7 @@ class RatioDescriber {
    * @returns {number}
    */
   getRatioFitnessIndex() {
-    const normalizedFitness = ( this.proportionFitnessProperty.value - this.fitnessRange.min ) / this.fitnessRange.getLength();
+    const normalizedFitness = ( this.ratioFitnessProperty.value - this.fitnessRange.min ) / this.fitnessRange.getLength();
     return Math.floor( normalizedFitness * ( RATIO_FITNESS_STRINGS.length - 1 ) );
   }
 

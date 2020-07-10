@@ -62,18 +62,17 @@ class RatioAndProportionModel {
       inverseMap: number => this.rightPositionProperty.value.copy().setY( number )
     } );
 
-    // @public (read-only) - the Range that the proportionFitnessProperty can be.
+    // @public (read-only) - the Range that the ratioFitnessProperty can be.
     this.fitnessRange = new Range( 0, 1 );
 
     // @public (read-only) - the velocity of each value changing, adjusted in step
     this.leftVelocityProperty = new NumberProperty( 0 );
     this.rightVelocityProperty = new NumberProperty( 0 );
 
-    // TODO: rename to have ratio in it?
     // @public {DerivedProperty.<number>}
     // How "correct" the proportion currently is. Can be between 0 and 1, if 1, the proportion of the two values is
     // exactly the value of the ratioProperty. If zero, it is outside the tolerance allowed for the proportion.
-    this.proportionFitnessProperty = new DerivedProperty( [
+    this.ratioFitnessProperty = new DerivedProperty( [
       this.leftValueProperty,
       this.rightValueProperty,
       this.ratioProperty,
@@ -138,7 +137,7 @@ class RatioAndProportionModel {
    * @param {number} [fitness] - if provided, calculate if this fitness is in proportion
    * @returns {boolean}
    */
-  inProportion( fitness = this.proportionFitnessProperty.value ) {
+  inProportion( fitness = this.ratioFitnessProperty.value ) {
     return fitness > this.fitnessRange.max - this.getInProportionThreshold();
   }
 
