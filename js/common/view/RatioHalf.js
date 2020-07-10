@@ -253,9 +253,10 @@ class RatioHalf extends Rectangle {
   /**
    * This component's accessibleName is forwarded to its ratioHandNode, which is the only piece displayed in the PDOM.
    * @override
+   * @public
    * @param {string} accessibleName
    */
-  set accessibleName( accessibleName ) {
+  setAccessibleName( accessibleName ) {
     this.ratioHandNode.accessibleName = accessibleName;
   }
 
