@@ -47,18 +47,33 @@
     "rightHand": {
       "value": "Right Hand"
     },
+    "rightHandHelpText": {
+      "value": "Move the hand positions to explore this challenge."
+    },
+    "bothHands": {
+      "value": "Both Hands"
+    },
+    "moveable": {
+      "value": "moveable"
+    },
+    "bothHandsHelpText": {
+      "value": "Use W and S keys to move left hand and Up and Down Arrow keys to move right hand to try and keep the same ratio."
+    },
     "grid": {
       "heading": {
-        "value": "Grid Control"
+        "value": "Grid Options"
+      },
+      "helpText": {
+        "value": "Choose how you see or hear grid information."
       },
       "showNo": {
-        "value": "Show no grid"
+        "value": "Hide Grid"
       },
       "show": {
         "value": "Show grid"
       },
       "showNumbered": {
-        "value": "Show numbered grid"
+        "value": "Show Numbered Grid"
       },
       "relative": {
         "above": {
@@ -70,6 +85,23 @@
         "below": {
           "value": "below"
         }
+      }
+    },
+    "explore": {
+      "challenge1": {
+        "value": "Challenge 1"
+      },
+      "challenge2": {
+        "value": "Challenge 2"
+      },
+      "challenge3": {
+        "value": "Challenge 3"
+      },
+      "challengesHelpText": {
+        "value": "Choose between three different ratio challenges."
+      },
+      "ratioChallenges": {
+        "value": "Ratio Challenges"
       }
     },
     "pointerPosition": {
@@ -129,9 +161,6 @@
       "descriptionPattern": {
         "value": "{{fitness}} ratio."
       }
-    },
-    "ratioChallenges": {
-      "value": "Ratio Challenges"
     }
   }
 }

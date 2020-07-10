@@ -122,19 +122,23 @@ class RatioAndProportionScreenView extends ScreenView {
       gridDescriber,
       gridAndLabelsColorProperty,
       keyboardStep, {
-        labelContent: ratioAndProportionStrings.a11y.rightHand
+        labelContent: ratioAndProportionStrings.a11y.rightHand,
+        helpText: ratioAndProportionStrings.a11y.rightHandHelpText
       } );
 
     const a11yRatioContainer = new Node( {
-      tagName: 'div',
       ariaRole: 'application',
       focusable: true,
-      innerContent: 'Ratio:',
+      tagName: 'div',
+      innerContent: ratioAndProportionStrings.a11y.bothHands,
+      helpText: ratioAndProportionStrings.a11y.bothHandsHelpText,
       children: [
         this.leftRatioHalf,
         this.rightRatioHalf
       ]
     } );
+    a11yRatioContainer.setAccessibleAttribute( 'aria-roledescription', ratioAndProportionStrings.a11y.moveable );
+
     const ratioInteractionListener = new RatioInteractionListener( a11yRatioContainer, model.leftValueProperty,
       model.rightValueProperty, model.valueRange, model.firstInteractionProperty, options.gridBaseUnitProperty, keyboardStep );
     a11yRatioContainer.addInputListener( ratioInteractionListener );
@@ -206,6 +210,7 @@ class RatioAndProportionScreenView extends ScreenView {
       orientation: 'horizontal',
       baseColor: 'white',
       labelContent: ratioAndProportionStrings.a11y.grid.heading,
+      helpText: ratioAndProportionStrings.a11y.grid.helpText,
       scale: 1.07 // calculated to try to match this width with other components in subtypes
     } );
 

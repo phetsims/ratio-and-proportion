@@ -21,21 +21,32 @@ class ExploreScreenView extends RatioAndProportionScreenView {
 
     super( model, tandem );
 
-    const comboBoxParent = new Node();
+    const comboBoxListParent = new Node();
 
+    const comboBoxHeading = new Node( {
+      innerContent: ratioAndProportionStrings.a11y.explore.ratioChallenges,
+      tagName: 'h3'
+    } );
     const comboBox = new ComboBox( [
-      new ChallengeComboBoxItem( 'Challenge 1', 'green', 1 / 2, { a11yLabel: 'Challenge 1' } ),
-      new ChallengeComboBoxItem( 'Challenge 2', 'blue', 1 / 3, { a11yLabel: 'Challenge 2' } ),
-      new ChallengeComboBoxItem( 'Challenge 3', 'magenta', 3 / 4, { a11yLabel: 'Challenge 3' } )
-    ], model.ratioProperty, comboBoxParent, {
-      accessibleName: ratioAndProportionStrings.a11y.ratioChallenges
+      new ChallengeComboBoxItem( ratioAndProportionStrings.a11y.explore.challenge1, 'green', 1 / 2, {
+        a11yLabel: ratioAndProportionStrings.a11y.explore.challenge1
+      } ),
+      new ChallengeComboBoxItem( ratioAndProportionStrings.a11y.explore.challenge2, 'blue', 1 / 3, {
+        a11yLabel: ratioAndProportionStrings.a11y.explore.challenge2
+      } ),
+      new ChallengeComboBoxItem( ratioAndProportionStrings.a11y.explore.challenge3, 'magenta', 3 / 4, {
+        a11yLabel: ratioAndProportionStrings.a11y.explore.challenge3
+      } )
+    ], model.ratioProperty, comboBoxListParent, {
+      helpText: ratioAndProportionStrings.a11y.explore.challengesHelpText
     } );
 
     // children
+    this.addChild( comboBoxHeading );
     this.addChild( comboBox );
-    this.addChild( comboBoxParent );
+    this.addChild( comboBoxListParent );
 
-    this.pdomPlayAreaNode.accessibleOrder = this.pdomPlayAreaNode.accessibleOrder.concat( [ comboBox, comboBoxParent ] );
+    this.pdomPlayAreaNode.accessibleOrder = this.pdomPlayAreaNode.accessibleOrder.concat( [ comboBoxHeading, comboBox, comboBoxListParent ] );
 
     // @private
     this.layoutExploreScreenView = () => {
