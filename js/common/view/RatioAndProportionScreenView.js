@@ -104,7 +104,7 @@ class RatioAndProportionScreenView extends ScreenView {
       gridDescriber,
       gridAndLabelsColorProperty,
       keyboardStep, {
-        labelContent: ratioAndProportionStrings.a11y.leftHand,
+        accessibleName: ratioAndProportionStrings.a11y.leftHand,
         isRight: false // this way we get a left hand
       }
     );
@@ -122,7 +122,7 @@ class RatioAndProportionScreenView extends ScreenView {
       gridDescriber,
       gridAndLabelsColorProperty,
       keyboardStep, {
-        labelContent: ratioAndProportionStrings.a11y.rightHand,
+        accessibleName: ratioAndProportionStrings.a11y.rightHand,
         helpText: ratioAndProportionStrings.a11y.rightHandHelpText
       } );
 

@@ -46,7 +46,8 @@ class CreateScreenView extends RatioAndProportionScreenView {
     const numeratorProperty = new NumberProperty( initialRatioFration.numerator );
     const numeratorNumberPicker = new NumberPicker( numeratorProperty, new Property( new Range( 1, 10 ) ), {
       scale: PICKER_SCALE,
-      center: Vector2.ZERO
+      center: Vector2.ZERO,
+      accessibleName: ratioAndProportionStrings.a11y.leftHand
     } );
     const leftRatioSelector = new VBox( {
       align: 'origin',
@@ -59,7 +60,8 @@ class CreateScreenView extends RatioAndProportionScreenView {
     const denominatorProperty = new NumberProperty( initialRatioFration.denominator );
     const denominatorNumberPicker = new NumberPicker( denominatorProperty, new Property( new Range( 1, 10 ) ), {
       scale: PICKER_SCALE,
-      center: Vector2.ZERO
+      center: Vector2.ZERO,
+      accessibleName: ratioAndProportionStrings.a11y.rightHand
     } );
     const rightRatioSelector = new VBox( {
       align: 'origin',

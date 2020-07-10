@@ -22,9 +22,9 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import commonGrabSound from '../../../../tambo/sounds/grab_mp3.js';
 import commonReleaseSound from '../../../../tambo/sounds/release_mp3.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import sliderClickSound from '../../../../tambo/sounds/slider-clicks-idea-c-example_mp3.js';
 import sliderBoundaryClickSound from '../../../../tambo/sounds/slider-clicks-idea-c-lower-end-click_mp3.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import designingProperties from '../designingProperties.js';
 import GridView from './GridView.js';
@@ -63,8 +63,7 @@ class RatioHalf extends Rectangle {
       tandem: Tandem.OPTIONAL,
 
       // pdom
-      tagName: 'div',
-      labelTagName: 'h3'
+      tagName: 'div'
     }, options );
 
     super( 0, 0, bounds.width, bounds.height );
@@ -92,15 +91,15 @@ class RatioHalf extends Rectangle {
       colorProperty );
     this.addChild( gridNode );
 
-    // The draggable element inside the Node framed with thick rectangles on the top and bottom.
-    const ratioHandNode = new RatioHandNode( valueProperty, valueRange, gridViewProperty, keyboardStep, {
+    // @private - The draggable element inside the Node framed with thick rectangles on the top and bottom.
+    this.ratioHandNode = new RatioHandNode( valueProperty, valueRange, gridViewProperty, keyboardStep, {
       startDrag: () => {
         firstInteractionProperty.value = false;
         this.isBeingInteractedWithProperty.value = true;
       },
       isRight: options.isRight
     } );
-    this.addChild( ratioHandNode );
+    this.addChild( this.ratioHandNode );
 
     // Sound for the wave slider clicks
     const addSoundOptions = { categoryName: 'user-interface' };
@@ -133,9 +132,9 @@ class RatioHalf extends Rectangle {
       bounds );
 
     // offset the bounds to account for the ratioHandNode's size, since the center of the ratioHandNode is controlled by the drag bounds.
-    const modelHalfPointerPointer = modelViewTransform.viewToModelDeltaXY( ratioHandNode.width / 2, -FRAMING_RECTANGLE_HEIGHT );
+    const modelHalfPointerPointer = modelViewTransform.viewToModelDeltaXY( this.ratioHandNode.width / 2, -FRAMING_RECTANGLE_HEIGHT );
 
-    // constrain x dimension inside the RatioHalf so that ratioHandNode doesn't go beyond the width. Height is constrained
+    // constrain x dimension inside the RatioHalf so that this.ratioHandNode doesn't go beyond the width. Height is constrained
     // via the modelViewTransform.
     const dragBounds = positionProperty.validBounds.erodedX( modelHalfPointerPointer.x );
 
@@ -177,8 +176,8 @@ class RatioHalf extends Rectangle {
         this.alertManager.dragEndListener( valueProperty.get() );
       }
     } );
-    ratioHandNode.addInputListener( dragListener );
-    ratioHandNode.addInputListener( {
+    this.ratioHandNode.addInputListener( dragListener );
+    this.ratioHandNode.addInputListener( {
       focus: () => {
         commonGrabSoundClip.play();
       },
@@ -211,14 +210,14 @@ class RatioHalf extends Rectangle {
     this.mutate( options );
 
     const updatePointer = position => {
-      ratioHandNode.translation = modelViewTransform.modelToViewPosition( position );
+      this.ratioHandNode.translation = modelViewTransform.modelToViewPosition( position );
 
       // recenter cue arrows
-      cueArrowUp.bottom = ratioHandNode.top - 20;
-      cueArrowDown.top = ratioHandNode.bottom + 20;
+      cueArrowUp.bottom = this.ratioHandNode.top - 20;
+      cueArrowDown.top = this.ratioHandNode.bottom + 20;
 
       // This .1 is to offset the centering of the white circle in the Pointer class. Don't change this without changing that.
-      cueArrowUp.centerX = cueArrowDown.centerX = ratioHandNode.centerX + ( options.isRight ? 1 : -1 ) * ratioHandNode.width * .1;
+      cueArrowUp.centerX = cueArrowDown.centerX = this.ratioHandNode.centerX + ( options.isRight ? 1 : -1 ) * this.ratioHandNode.width * .1;
     };
     positionProperty.link( updatePointer );
 
@@ -249,6 +248,15 @@ class RatioHalf extends Rectangle {
       gridNode.bottom = bottomRect.top;
       gridNode.left = 0;
     };
+  }
+
+  /**
+   * This component's accessibleName is forwarded to its ratioHandNode, which is the only piece displayed in the PDOM.
+   * @override
+   * @param {string} accessibleName
+   */
+  set accessibleName( accessibleName ) {
+    this.ratioHandNode.accessibleName = accessibleName;
   }
 
   /**
