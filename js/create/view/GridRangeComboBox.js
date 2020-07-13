@@ -59,7 +59,7 @@ class GridRangeComboBox extends Node {
     const value = true;
 
     const disabledComboBox = new ComboBox( [
-      new ComboBoxItem( new HSeparator( widestItem, { centerY: -5 } ), value, { a11yLabel: '' } ),
+      new ComboBoxItem( new HSeparator( widestItem, { centerY: -5 } ), value, { a11yLabel: ratioAndProportionStrings.a11y.grid.disabled } ),
       items[ 0 ] // add this one to get the proper height of the text.
     ], new BooleanProperty( value ), new Node(), comboBoxOptions );
 

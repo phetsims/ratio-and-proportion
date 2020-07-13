@@ -75,6 +75,9 @@
       "showNumbered": {
         "value": "Show Numbered Grid"
       },
+      "disabled": {
+        "value": "Grid Disabled"
+      },
       "relative": {
         "above": {
           "value": "above"
