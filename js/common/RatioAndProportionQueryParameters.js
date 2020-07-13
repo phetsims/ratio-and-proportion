@@ -32,6 +32,14 @@ const RatioAndProportionQueryParameters = QueryStringMachine.getAll( {
     defaultValue: .1
   },
 
+  /**
+   * The fitness must be at least this big to allow the "moving in proportion" sound (choir "ahhh").
+   */
+  movingInProportionThreshold: {
+    type: 'number',
+    defaultValue: .6
+  },
+
   // For staccato sounds when frequnecy is changing (faster notes at higher fitness): what is the quickest interval
   //    that the sound will play when close or at successful ratio, in ms.
   // For staccoto sounds when frequency is not changing: what is the minimum amount of time that must occur between two

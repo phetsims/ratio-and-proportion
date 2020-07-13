@@ -15,12 +15,12 @@ import choirAhhSound from '../../../../sounds/choir-ahhh-loop_wav.js';
 import stringsSound from '../../../../sounds/strings-loop-c5_wav.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import designingProperties from '../../designingProperties.js';
+import RatioAndProportionQueryParameters from '../../RatioAndProportionQueryParameters.js';
 import InProportionSoundGenerator from './InProportionSoundGenerator.js';
 import StaccatoFrequencySoundGenerator from './StaccatoFrequencySoundGenerator.js';
 
 // constants
-// For vibrato
-const FITNESS_THRESHOLD = .5; // fitness has to be larger than this
+const FITNESS_THRESHOLD = RatioAndProportionQueryParameters.movingInProportionThreshold;
 
 
 class ProportionFitnessSoundGenerator extends SoundGenerator {
