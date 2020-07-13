@@ -37,7 +37,7 @@ const RatioAndProportionQueryParameters = QueryStringMachine.getAll( {
    */
   movingInProportionThreshold: {
     type: 'number',
-    defaultValue: .6
+    defaultValue: .8
   },
 
   // For staccato sounds when frequnecy is changing (faster notes at higher fitness): what is the quickest interval
