@@ -110,6 +110,9 @@
     "create": {
       "gridRangeHelpText": {
         "value": "Choose range for grid."
+      },
+      "myChallengeHelpText": {
+        "value": "Set left hand and right hand values to explore custom challenge."
       }
     },
     "pointerPosition": {
