@@ -53,8 +53,8 @@
     "bothHands": {
       "value": "Both Hands"
     },
-    "moveable": {
-      "value": "moveable"
+    "movable": {
+      "value": "movable"
     },
     "bothHandsHelpText": {
       "value": "Use W and S keys to move left hand and Up and Down Arrow keys to move right hand to try and keep the same ratio."

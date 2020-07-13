@@ -137,7 +137,7 @@ class RatioAndProportionScreenView extends ScreenView {
         this.rightRatioHalf
       ]
     } );
-    a11yRatioContainer.setAccessibleAttribute( 'aria-roledescription', ratioAndProportionStrings.a11y.moveable );
+    a11yRatioContainer.setAccessibleAttribute( 'aria-roledescription', ratioAndProportionStrings.a11y.movable );
 
     const ratioInteractionListener = new RatioInteractionListener( a11yRatioContainer, model.leftValueProperty,
       model.rightValueProperty, model.valueRange, model.firstInteractionProperty, options.gridBaseUnitProperty, keyboardStep );
