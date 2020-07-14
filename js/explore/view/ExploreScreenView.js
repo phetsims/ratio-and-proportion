@@ -10,7 +10,7 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import challenge1SelectionSound from '../../../sounds/compound-w-low-pass-filter-001_mp3.js';
 import challenge2SelectionSound from '../../../sounds/compound-w-low-pass-filter-004_mp3.js';
-import challenge3SelectionSound from '../../../sounds/compound-w-low-pass-filter-007_mp3.js';
+import challenge3SelectionSound from '../../../sounds/compound-w-low-pass-filter-006_mp3.js';
 import RatioAndProportionScreenView from '../../common/view/RatioAndProportionScreenView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
