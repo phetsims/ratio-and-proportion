@@ -6,10 +6,20 @@
 
 import Node from '../../../../scenery/js/nodes/Node.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
+import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
+import challenge1SelectionSound from '../../../sounds/compound-w-low-pass-filter-001_mp3.js';
+import challenge2SelectionSound from '../../../sounds/compound-w-low-pass-filter-004_mp3.js';
+import challenge3SelectionSound from '../../../sounds/compound-w-low-pass-filter-007_mp3.js';
 import RatioAndProportionScreenView from '../../common/view/RatioAndProportionScreenView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import ChallengeComboBoxItem from './ChallengeComboBoxItem.js';
+
+// constants
+const SELECTION_SOUND_OPTIONS = {
+  initialOutputLevel: 0.5
+};
 
 class ExploreScreenView extends RatioAndProportionScreenView {
 
@@ -23,18 +33,28 @@ class ExploreScreenView extends RatioAndProportionScreenView {
 
     const comboBoxListParent = new Node();
 
+    // sound generators
+    const soundGenerators = [];
+    soundGenerators.push( new SoundClip( challenge1SelectionSound, SELECTION_SOUND_OPTIONS ) );
+    soundGenerators.push( new SoundClip( challenge2SelectionSound, SELECTION_SOUND_OPTIONS ) );
+    soundGenerators.push( new SoundClip( challenge3SelectionSound, SELECTION_SOUND_OPTIONS ) );
+    soundGenerators.forEach( sg => { soundManager.addSoundGenerator( sg ); } );
+
     const comboBoxHeading = new Node( {
       innerContent: ratioAndProportionStrings.a11y.explore.ratioChallenges,
       tagName: 'h3'
     } );
     const comboBox = new ComboBox( [
       new ChallengeComboBoxItem( ratioAndProportionStrings.a11y.explore.challenge1, 'green', 1 / 2, {
+        soundPlayer: soundGenerators[ 0 ],
         a11yLabel: ratioAndProportionStrings.a11y.explore.challenge1
       } ),
       new ChallengeComboBoxItem( ratioAndProportionStrings.a11y.explore.challenge2, 'blue', 1 / 3, {
+        soundPlayer: soundGenerators[ 1 ],
         a11yLabel: ratioAndProportionStrings.a11y.explore.challenge2
       } ),
       new ChallengeComboBoxItem( ratioAndProportionStrings.a11y.explore.challenge3, 'magenta', 3 / 4, {
+        soundPlayer: soundGenerators[ 2 ],
         a11yLabel: ratioAndProportionStrings.a11y.explore.challenge3
       } )
     ], model.ratioProperty, comboBoxListParent, {
