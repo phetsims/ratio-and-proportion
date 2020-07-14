@@ -15,6 +15,7 @@ import RatioAndProportionScreenView from '../../common/view/RatioAndProportionSc
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import ChallengeComboBoxItem from './ChallengeComboBoxItem.js';
+import ExploreScreenSummaryNode from './ExploreScreenSummaryNode.js';
 
 // constants
 const SELECTION_SOUND_OPTIONS = {
@@ -67,6 +68,15 @@ class ExploreScreenView extends RatioAndProportionScreenView {
     this.addChild( comboBoxListParent );
 
     this.pdomPlayAreaNode.accessibleOrder = this.pdomPlayAreaNode.accessibleOrder.concat( [ comboBoxHeading, comboBox, comboBoxListParent ] );
+
+    // set this after the supertype has initialized the view code needed to create the screen summary
+    this.setScreenSummaryContent( new ExploreScreenSummaryNode(
+      model.ratioFitnessProperty,
+      model.leftValueProperty,
+      model.rightValueProperty,
+      this.gridViewProperty,
+      this.ratioDescriber
+    ) );
 
     // @private
     this.layoutExploreScreenView = () => {

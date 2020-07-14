@@ -24,23 +24,6 @@
     "value": "0 to 30"
   },
   "a11y": {
-    "screenSummary": {
-      "playAreaDescription": {
-        "value": "The Play Area has two freely moving objects that can be moved around to find the current proportions and five mystery scene selection buttons."
-      },
-      "controlAreaDescription": {
-        "value": "The Control Area has a button to reset the sim."
-      },
-      "qualitativeStateOfSim": {
-        "value": "Currently, left hand is {{leftPosition}}, right hand is {{rightPosition}}. {{ratioFitness}} ratio."
-      },
-      "quantitativeStateOfSim": {
-        "value": "Currently, left hand {{leftRelativePosition}} grid position {{leftGridPosition}}, right hand {{rightRelativePosition}} grid position {{rightGridPosition}}. {{ratioFitness}} ratio."
-      },
-      "simSpecificInteractionHint": {
-        "value": "Explore the two movable objects to begin."
-      }
-    },
     "leftHand": {
       "value": "Left Hand"
     },
@@ -90,7 +73,27 @@
         }
       }
     },
+    "leftHandBullet": {
+      "value": "Left Hand {{position}}."
+    },
+    "rightHandBullet": {
+      "value": "Right Hand {{position}}."
+    },
     "explore": {
+      "screenSummary": {
+        "introParagraph": {
+          "value": "The Play Area has two freely moving objects that can be moved around to find the current proportions and five mystery scene selection buttons. The Control Area has a button to reset the sim."
+        },
+        "qualitativeStateOfSim": {
+          "value": "Currently, {{ratioFitness}} ratio, on {{currentChallenge}}"
+        },
+        "leftHandBullet": {
+          "value": "Left Hand {{position}}"
+        },
+        "rightHandBullet": {
+          "value": "Right Hand {{position}}"
+        }
+      },
       "challenge1": {
         "value": "Challenge 1"
       },
@@ -151,26 +154,48 @@
       }
     },
     "ratio": {
-      "at": {
-        "value": "At"
-      },
-      "veryCloseTo": {
-        "value": "Very close to"
-      },
-      "somewhatCloseTo": {
-        "value": "Somewhat close to"
-      },
-      "notCloseTo": {
-        "value": "Not close to"
-      },
-      "farFrom": {
-        "value": "Far from"
-      },
-      "veryFarFrom": {
-        "value": "Very far from"
-      },
       "descriptionPattern": {
         "value": "{{fitness}} ratio."
+      },
+      "capitalized": {
+        "at": {
+          "value": "At"
+        },
+        "veryCloseTo": {
+          "value": "Very close to"
+        },
+        "somewhatCloseTo": {
+          "value": "Somewhat close to"
+        },
+        "notCloseTo": {
+          "value": "Not close to"
+        },
+        "farFrom": {
+          "value": "Far from"
+        },
+        "veryFarFrom": {
+          "value": "Very far from"
+        }
+      },
+      "lowercase": {
+        "at": {
+          "value": "at"
+        },
+        "veryCloseTo": {
+          "value": "very close to"
+        },
+        "somewhatCloseTo": {
+          "value": "somewhat close to"
+        },
+        "notCloseTo": {
+          "value": "not close to"
+        },
+        "farFrom": {
+          "value": "far from"
+        },
+        "veryFarFrom": {
+          "value": "very far from"
+        }
       }
     }
   }

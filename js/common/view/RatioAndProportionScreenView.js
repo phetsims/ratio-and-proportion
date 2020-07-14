@@ -28,7 +28,6 @@ import GridView from './GridView.js';
 import ProportionMarkerInput from './ProportionMarkerInput.js';
 import RAPGridLabelsNode from './RAPGridLabelsNode.js';
 import RatioAndProportionColorProfile from './RatioAndProportionColorProfile.js';
-import RatioAndProportionScreenSummaryNode from './RatioAndProportionScreenSummaryNode.js';
 import RatioDescriber from './RatioDescriber.js';
 import RatioHalf from './RatioHalf.js';
 import RatioInteractionListener from './RatioInteractionListener.js';
@@ -52,14 +51,13 @@ class RatioAndProportionScreenView extends ScreenView {
   constructor( model, tandem, options ) {
 
     options = merge( {
+      tandem: tandem,
+      layoutBounds: LAYOUT_BOUNDS,
 
       // What is the unit value of the grid. Value reads as "1/x of the view height." This type is responsible for
       // resetting this on reset all.
       gridBaseUnitProperty: new NumberProperty( 10 )
     }, options );
-
-    const gridDescriber = new GridDescriber( model.valueRange, options.gridBaseUnitProperty );
-    const ratioDescriber = new RatioDescriber( model, gridDescriber );
 
     const gridAndLabelsColorProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
       fitness => Color.interpolateRGBA(
@@ -71,17 +69,12 @@ class RatioAndProportionScreenView extends ScreenView {
       tandem: tandem.createTandem( 'gridViewProperty' )
     } );
 
-    super( {
-      tandem: tandem,
-      layoutBounds: LAYOUT_BOUNDS,
-      screenSummaryContent: new RatioAndProportionScreenSummaryNode(
-        model.ratioFitnessProperty,
-        model.leftValueProperty,
-        model.rightValueProperty,
-        gridViewProperty,
-        ratioDescriber
-      )
-    } );
+    super( options );
+
+    const gridDescriber = new GridDescriber( model.valueRange, options.gridBaseUnitProperty );
+
+    // @protected (read-only)
+    this.ratioDescriber = new RatioDescriber( model, gridDescriber );
 
     // @protected
     this.gridViewProperty = gridViewProperty;
@@ -100,7 +93,7 @@ class RatioAndProportionScreenView extends ScreenView {
       defaultRatioHalfBounds,
       gridViewProperty,
       options.gridBaseUnitProperty,
-      ratioDescriber,
+      this.ratioDescriber,
       gridDescriber,
       gridAndLabelsColorProperty,
       keyboardStep, {
@@ -118,7 +111,7 @@ class RatioAndProportionScreenView extends ScreenView {
       defaultRatioHalfBounds,
       gridViewProperty,
       options.gridBaseUnitProperty,
-      ratioDescriber,
+      this.ratioDescriber,
       gridDescriber,
       gridAndLabelsColorProperty,
       keyboardStep, {

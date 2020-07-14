@@ -20,14 +20,25 @@ const QUALITATIVE_POSITIONS = [
   ratioAndProportionStrings.a11y.pointerPosition.nearTheTop,
   ratioAndProportionStrings.a11y.pointerPosition.atTheTop
 ];
-const RATIO_FITNESS_STRINGS = [
-  ratioAndProportionStrings.a11y.ratio.veryFarFrom,
-  ratioAndProportionStrings.a11y.ratio.farFrom,
-  ratioAndProportionStrings.a11y.ratio.notCloseTo,
-  ratioAndProportionStrings.a11y.ratio.somewhatCloseTo,
-  ratioAndProportionStrings.a11y.ratio.veryCloseTo,
-  ratioAndProportionStrings.a11y.ratio.at
+const RATIO_FITNESS_STRINGS_CAPITALIZED = [
+  ratioAndProportionStrings.a11y.ratio.capitalized.veryFarFrom,
+  ratioAndProportionStrings.a11y.ratio.capitalized.farFrom,
+  ratioAndProportionStrings.a11y.ratio.capitalized.notCloseTo,
+  ratioAndProportionStrings.a11y.ratio.capitalized.somewhatCloseTo,
+  ratioAndProportionStrings.a11y.ratio.capitalized.veryCloseTo,
+  ratioAndProportionStrings.a11y.ratio.capitalized.at
 ];
+
+const RATIO_FITNESS_STRINGS_LOWERCASE = [
+  ratioAndProportionStrings.a11y.ratio.lowercase.veryFarFrom,
+  ratioAndProportionStrings.a11y.ratio.lowercase.farFrom,
+  ratioAndProportionStrings.a11y.ratio.lowercase.notCloseTo,
+  ratioAndProportionStrings.a11y.ratio.lowercase.somewhatCloseTo,
+  ratioAndProportionStrings.a11y.ratio.lowercase.veryCloseTo,
+  ratioAndProportionStrings.a11y.ratio.lowercase.at
+];
+
+assert && assert( RATIO_FITNESS_STRINGS_LOWERCASE.length === RATIO_FITNESS_STRINGS_CAPITALIZED.length, 'should be the same length' );
 
 class RatioDescriber {
 
@@ -120,22 +131,23 @@ class RatioDescriber {
 
   /**
    * Get an index for the current fitness of the ratio, relative to the number of possible fitness descriptions. Low
-   * values are very far from the ratios and high values are closer to the ratio from 0 to RATIO_FITNESS_STRINGS.length.
+   * values are very far from the ratios and high values are closer to the ratio from 0 to RATIO_FITNESS_STRINGS_CAPITALIZED.length.
    * @public
    *
    * @returns {number}
    */
   getRatioFitnessIndex() {
     const normalizedFitness = ( this.ratioFitnessProperty.value - this.fitnessRange.min ) / this.fitnessRange.getLength();
-    return Math.floor( normalizedFitness * ( RATIO_FITNESS_STRINGS.length - 1 ) );
+    return Math.floor( normalizedFitness * ( RATIO_FITNESS_STRINGS_CAPITALIZED.length - 1 ) );
   }
 
   /**
    * @public
    * @returns {string}
    */
-  getRatioFitness() {
-    return RATIO_FITNESS_STRINGS[ this.getRatioFitnessIndex() ];
+  getRatioFitness( capitalized = true ) {
+    const ratioRegions = capitalized ? RATIO_FITNESS_STRINGS_CAPITALIZED : RATIO_FITNESS_STRINGS_LOWERCASE;
+    return ratioRegions[ this.getRatioFitnessIndex() ];
   }
 
   /**

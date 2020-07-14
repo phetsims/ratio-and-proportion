@@ -8,11 +8,11 @@
 import Property from '../../../../axon/js/Property.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
+import GridView from '../../common/view/GridView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
-import GridView from './GridView.js';
 
-class RatioAndProportionScreenSummaryNode extends Node {
+class ExploreScreenSummaryNode extends Node {
 
   /**
    * @param {Property.<number>} ratioFitnessProperty
@@ -27,21 +27,21 @@ class RatioAndProportionScreenSummaryNode extends Node {
       tagName: 'p'
     } );
 
+    const leftHandBullet = new Node( { tagName: 'li' } );
+    const rightHandBullet = new Node( { tagName: 'li' } );
+    const descriptionBullets = new Node( {
+      tagName: 'ul',
+      children: [ leftHandBullet, rightHandBullet ]
+    } );
+
     super( {
       children: [
         new Node( {
           tagName: 'p',
-          innerContent: ratioAndProportionStrings.a11y.screenSummary.playAreaDescription
-        } ),
-        new Node( {
-          tagName: 'p',
-          innerContent: ratioAndProportionStrings.a11y.screenSummary.controlAreaDescription
+          innerContent: ratioAndProportionStrings.a11y.explore.screenSummary.introParagraph
         } ),
         stateOfSimNode,
-        new Node( {
-          tagName: 'p',
-          innerContent: ratioAndProportionStrings.a11y.screenSummary.simSpecificInteractionHint
-        } )
+        descriptionBullets
       ]
     } );
 
@@ -51,6 +51,13 @@ class RatioAndProportionScreenSummaryNode extends Node {
     // This derivedProperty is already dependent on all other dependencies for getStateOfSimString
     Property.multilink( [ gridViewProperty, ratioFitnessProperty, leftValueProperty, rightValueProperty ], gridView => {
       stateOfSimNode.innerContent = this.getStateOfSimString( GridView.describeQualitative( gridView ), leftValueProperty, rightValueProperty );
+
+      leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
+        position: ratioDescriber.getLeftQualitativePointerPosition()
+      } );
+      rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
+        position: ratioDescriber.getRightQualitativePointerPosition()
+      } );
     } );
   }
 
@@ -62,29 +69,13 @@ class RatioAndProportionScreenSummaryNode extends Node {
    * @returns {string}
    */
   getStateOfSimString( qualitative, leftValueProperty, rightValueProperty ) {
-    const ratioFitness = this.ratioDescriber.getRatioFitness();
 
-    if ( qualitative ) {
-      return StringUtils.fillIn( ratioAndProportionStrings.a11y.screenSummary.qualitativeStateOfSim, {
-        leftPosition: this.ratioDescriber.getLeftQualitativePointerPosition(),
-        rightPosition: this.ratioDescriber.getRightQualitativePointerPosition(),
-        ratioFitness: ratioFitness
-      } );
-    }
-    else {
-      const leftGridAndPosition = this.ratioDescriber.getLeftQuantitativePositionObject();
-      const rightGridAndPosition = this.ratioDescriber.getRightQuantitativePositionObject();
-
-      return StringUtils.fillIn( ratioAndProportionStrings.a11y.screenSummary.quantitativeStateOfSim, {
-        leftRelativePosition: leftGridAndPosition.relativePosition,
-        leftGridPosition: leftGridAndPosition.gridPosition,
-        rightRelativePosition: rightGridAndPosition.relativePosition,
-        rightGridPosition: rightGridAndPosition.gridPosition,
-        ratioFitness: ratioFitness
-      } );
-    }
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.explore.screenSummary.qualitativeStateOfSim, {
+      ratioFitness: this.ratioDescriber.getRatioFitness( false ), // lowercase
+      currentChallenge: 'CHALLENGE_1' // TODO: implement https://github.com/phetsims/ratio-and-proportion/issues/87!
+    } );
   }
 }
 
-ratioAndProportion.register( 'RatioAndProportionScreenSummaryNode', RatioAndProportionScreenSummaryNode );
-export default RatioAndProportionScreenSummaryNode;
+ratioAndProportion.register( 'ExploreScreenSummaryNode', ExploreScreenSummaryNode );
+export default ExploreScreenSummaryNode;
