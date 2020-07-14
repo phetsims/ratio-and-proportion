@@ -12,7 +12,7 @@ import GridView from '../../common/view/GridView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
-class ExploreScreenSummaryNode extends Node {
+class CreateScreenSummaryNode extends Node {
 
   /**
    * @param {Property.<number>} ratioFitnessProperty
@@ -21,24 +21,28 @@ class ExploreScreenSummaryNode extends Node {
    * @param {Property.<GridView>} gridViewProperty
    * @param {RatioDescriber} ratioDescriber
    */
-  constructor( ratioFitnessProperty, leftValueProperty, rightValueProperty, gridViewProperty, ratioDescriber ) {
+  constructor( ratioFitnessProperty, leftValueProperty, rightValueProperty, gridViewProperty, accordionBoxExpandedProperty, ratioDescriber ) {
 
-    const stateOfSimNode = new Node( {
-      tagName: 'p'
-    } );
+    const stateOfSimNode = new Node( { tagName: 'p' } );
+
+    const myChallengeSubBullet = new Node( { tagName: 'li' } );
+    const myChallengeSubList = new Node( { tagName: 'ul', children: [ myChallengeSubBullet ] } );
+    const myChallengeSpan = new Node( { tagName: 'span' } );
+    const myChallengeBullet = new Node( { tagName: 'li', children: [ myChallengeSpan, myChallengeSubList ] } );
 
     const leftHandBullet = new Node( { tagName: 'li' } );
     const rightHandBullet = new Node( { tagName: 'li' } );
+    const gridRangeBullet = new Node( { tagName: 'li' } );
     const descriptionBullets = new Node( {
       tagName: 'ul',
-      children: [ leftHandBullet, rightHandBullet ]
+      children: [ myChallengeBullet, leftHandBullet, rightHandBullet, gridRangeBullet ]
     } );
 
     super( {
       children: [
         new Node( {
           tagName: 'p',
-          innerContent: ratioAndProportionStrings.a11y.explore.screenSummary.introParagraph
+          innerContent: ratioAndProportionStrings.a11y.create.screenSummary.introParagraph
         } ),
         stateOfSimNode,
         descriptionBullets
@@ -48,9 +52,24 @@ class ExploreScreenSummaryNode extends Node {
     // @private
     this.ratioDescriber = ratioDescriber;
 
-    // This derivedProperty is already dependent on all other dependencies for getStateOfSimString
-    Property.multilink( [ gridViewProperty, ratioFitnessProperty, leftValueProperty, rightValueProperty ], gridView => {
-      stateOfSimNode.innerContent = this.getStateOfSimString( GridView.describeQualitative( gridView ), leftValueProperty, rightValueProperty );
+    Property.multilink( [
+      accordionBoxExpandedProperty,
+      gridViewProperty,
+      ratioFitnessProperty,
+      leftValueProperty,
+      rightValueProperty ], ( expanded, gridView ) => {
+      stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.screenSummary.qualitativeStateOfSim, {
+        ratioFitness: this.ratioDescriber.getRatioFitness( false ) // lowercase
+      } );
+
+      myChallengeSpan.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.screenSummary.myChallengeBullet, {
+        expanded: expanded ? ratioAndProportionStrings.a11y.create.screenSummary.expanded : ratioAndProportionStrings.a11y.create.screenSummary.collapsed
+      } );
+
+      myChallengeSubBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.screenSummary.myChallengeLeftRightValues, {
+        leftValue: this.ratioDescriber.getLeftQualitativePointerPosition(),
+        rightValue: this.ratioDescriber.getRightQualitativePointerPosition()
+      } );
 
       leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
         position: ratioDescriber.getLeftQualitativePointerPosition()
@@ -58,24 +77,15 @@ class ExploreScreenSummaryNode extends Node {
       rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
         position: ratioDescriber.getRightQualitativePointerPosition()
       } );
-    } );
-  }
 
-  /**
-   * @private
-   * @param {boolean} qualitative - vs quantitative
-   * @param {Property.<number>} leftValueProperty
-   * @param {Property.<number>} rightValueProperty
-   * @returns {string}
-   */
-  getStateOfSimString( qualitative, leftValueProperty, rightValueProperty ) {
+      gridRangeBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.screenSummary.gridRangeBullet, {
+        range: '0_TO_10'
+      } );
 
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.explore.screenSummary.qualitativeStateOfSim, {
-      ratioFitness: this.ratioDescriber.getRatioFitness( false ), // lowercase
-      currentChallenge: 'CHALLENGE_1' // TODO: implement https://github.com/phetsims/ratio-and-proportion/issues/87!
+      gridRangeBullet.visible = gridView !== GridView.NONE;
     } );
   }
 }
 
-ratioAndProportion.register( 'ExploreScreenSummaryNode', ExploreScreenSummaryNode );
-export default ExploreScreenSummaryNode;
+ratioAndProportion.register( 'CreateScreenSummaryNode', CreateScreenSummaryNode );
+export default CreateScreenSummaryNode;

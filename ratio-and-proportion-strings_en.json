@@ -68,7 +68,7 @@
         "value": "Show Numbered Grid"
       },
       "disabled": {
-        "value": "Grid Disabled"
+        "value": "Grid Hidden"
       },
       "relative": {
         "above": {
@@ -83,10 +83,10 @@
       }
     },
     "leftHandBullet": {
-      "value": "Left Hand {{position}}."
+      "value": "Left hand {{position}}."
     },
     "rightHandBullet": {
-      "value": "Right Hand {{position}}."
+      "value": "Right hand {{position}}."
     },
     "explore": {
       "screenSummary": {
@@ -105,8 +105,31 @@
       }
     },
     "create": {
+      "screenSummary": {
+        "introParagraph": {
+          "value": "The Play Area has two hands that can be moved up and down to explore the current challenge ratio along with three radio buttons to either hide grid, show grid, or show a numbered grid, and a Combobox to change the range of the numbered grid, and an Accordion Box to create your own ratio challenges."
+        },
+        "qualitativeStateOfSim": {
+          "value": "Currently, {{ratioFitness}} ratio"
+        },
+        "myChallengeBullet": {
+          "value": "My challenge values {{expanded}}"
+        },
+        "myChallengeLeftRightValues": {
+          "value": "left {{leftValue}}, and right {{rightValue}}"
+        },
+        "expanded": {
+          "value": "expanded"
+        },
+        "collapsed": {
+          "value": "collapsed"
+        },
+        "gridRangeBullet": {
+          "value": "Grid range is {{range}}"
+        }
+      },
       "gridRangeHelpText": {
-        "value": "Choose range for grid."
+        "value": "When grid shown, choose range for grid."
       },
       "myChallengeHelpText": {
         "value": "Set left hand and right hand values to explore custom challenge."

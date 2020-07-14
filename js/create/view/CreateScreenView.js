@@ -20,6 +20,7 @@ import RatioAndProportionScreenView from '../../common/view/RatioAndProportionSc
 import RatioHandNode from '../../common/view/RatioHandNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import CreateScreenSummaryNode from './CreateScreenSummaryNode.js';
 import GridRangeComboBox from './GridRangeComboBox.js';
 
 const PICKER_SCALE = 1.5;
@@ -105,13 +106,27 @@ class CreateScreenView extends RatioAndProportionScreenView {
 
     const gridBaseUnitComboBox = new GridRangeComboBox( gridBaseUnitProperty, gridBaseUnitComboBoxParent, this.gridViewProperty );
 
+    // set this after the supertype has initialized the view code needed to create the screen summary
+    this.setScreenSummaryContent( new CreateScreenSummaryNode(
+      model.ratioFitnessProperty,
+      model.leftValueProperty,
+      model.rightValueProperty,
+      this.gridViewProperty,
+      myChallengeAccordionBox.expandedProperty,
+      this.ratioDescriber
+    ) );
+
     // children
     this.addChild( myChallengeAccordionBox );
     this.addChild( gridBaseUnitComboBox );
     this.addChild( gridBaseUnitComboBoxParent ); // Should be on top
 
     // pdom
-    this.pdomPlayAreaNode.accessibleOrder = this.pdomPlayAreaNode.accessibleOrder.concat( [ gridBaseUnitComboBox, gridBaseUnitComboBoxParent, myChallengeAccordionBox ] );
+    this.pdomPlayAreaNode.accessibleOrder = this.pdomPlayAreaNode.accessibleOrder.concat( [
+      gridBaseUnitComboBox,
+      gridBaseUnitComboBoxParent,
+      myChallengeAccordionBox
+    ] );
 
     // @private
     this.layoutCreateScreenView = () => {
