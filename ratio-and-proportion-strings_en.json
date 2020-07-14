@@ -23,6 +23,15 @@
   "zeroToThirty": {
     "value": "0 to 30"
   },
+  "challenge1": {
+    "value": "Challenge 1"
+  },
+  "challenge2": {
+    "value": "Challenge 2"
+  },
+  "challenge3": {
+    "value": "Challenge 3"
+  },
   "a11y": {
     "leftHand": {
       "value": "Left Hand"
@@ -87,15 +96,6 @@
         "qualitativeStateOfSim": {
           "value": "Currently, {{ratioFitness}} ratio, on {{currentChallenge}}"
         }
-      },
-      "challenge1": {
-        "value": "Challenge 1"
-      },
-      "challenge2": {
-        "value": "Challenge 2"
-      },
-      "challenge3": {
-        "value": "Challenge 3"
       },
       "challengesHelpText": {
         "value": "Choose between three different ratio challenges."
