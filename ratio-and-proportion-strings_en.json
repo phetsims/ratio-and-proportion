@@ -86,12 +86,6 @@
         },
         "qualitativeStateOfSim": {
           "value": "Currently, {{ratioFitness}} ratio, on {{currentChallenge}}"
-        },
-        "leftHandBullet": {
-          "value": "Left Hand {{position}}"
-        },
-        "rightHandBullet": {
-          "value": "Right Hand {{position}}"
         }
       },
       "challenge1": {
