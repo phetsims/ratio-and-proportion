@@ -46,17 +46,17 @@ class ExploreScreenView extends RatioAndProportionScreenView {
       tagName: 'h3'
     } );
     const comboBox = new ComboBox( [
-      new ChallengeComboBoxItem( ratioAndProportionStrings.a11y.explore.challenge1, 'green', 1 / 2, {
+      new ChallengeComboBoxItem( ratioAndProportionStrings.challenge1, 'green', 1 / 2, {
         soundPlayer: soundGenerators[ 0 ],
-        a11yLabel: ratioAndProportionStrings.a11y.explore.challenge1
+        a11yLabel: ratioAndProportionStrings.challenge1
       } ),
-      new ChallengeComboBoxItem( ratioAndProportionStrings.a11y.explore.challenge2, 'blue', 1 / 3, {
+      new ChallengeComboBoxItem( ratioAndProportionStrings.challenge2, 'blue', 1 / 3, {
         soundPlayer: soundGenerators[ 1 ],
-        a11yLabel: ratioAndProportionStrings.a11y.explore.challenge2
+        a11yLabel: ratioAndProportionStrings.challenge2
       } ),
-      new ChallengeComboBoxItem( ratioAndProportionStrings.a11y.explore.challenge3, 'magenta', 3 / 4, {
+      new ChallengeComboBoxItem( ratioAndProportionStrings.challenge3, 'magenta', 3 / 4, {
         soundPlayer: soundGenerators[ 2 ],
-        a11yLabel: ratioAndProportionStrings.a11y.explore.challenge3
+        a11yLabel: ratioAndProportionStrings.challenge3
       } )
     ], model.ratioProperty, comboBoxListParent, {
       helpText: ratioAndProportionStrings.a11y.explore.challengesHelpText
