@@ -56,6 +56,7 @@ class RatioAndProportionScreenView extends ScreenView {
 
       // What is the unit value of the grid. Value reads as "1/x of the view height." This type is responsible for
       // resetting this on reset all.
+      // TODO: rename to "gridRangeProperty"
       gridBaseUnitProperty: new NumberProperty( 10 )
     }, options );
 

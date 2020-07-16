@@ -113,7 +113,9 @@ class CreateScreenView extends RatioAndProportionScreenView {
       model.rightValueProperty,
       this.gridViewProperty,
       myChallengeAccordionBox.expandedProperty,
-      this.ratioDescriber
+      this.ratioDescriber,
+      gridBaseUnitProperty,
+      gridBaseUnitComboBox.gridRangeToRangeLabelMap
     ) );
 
     // children

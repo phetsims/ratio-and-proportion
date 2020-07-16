@@ -19,9 +19,13 @@ class CreateScreenSummaryNode extends Node {
    * @param {Property.<number>} leftValueProperty
    * @param {Property.<number>} rightValueProperty
    * @param {Property.<GridView>} gridViewProperty
+   * @param {Property.<boolean>} accordionBoxExpandedProperty
    * @param {RatioDescriber} ratioDescriber
+   * @param {Property.<number>} gridBaseUnitProperty
+   * @param {Map.<number, string>} gridRangeToRangeLabelMap - map from grid range to the label for that specified range
    */
-  constructor( ratioFitnessProperty, leftValueProperty, rightValueProperty, gridViewProperty, accordionBoxExpandedProperty, ratioDescriber ) {
+  constructor( ratioFitnessProperty, leftValueProperty, rightValueProperty, gridViewProperty,
+               accordionBoxExpandedProperty, ratioDescriber, gridBaseUnitProperty, gridRangeToRangeLabelMap ) {
 
     const stateOfSimNode = new Node( { tagName: 'p' } );
 
@@ -55,9 +59,11 @@ class CreateScreenSummaryNode extends Node {
     Property.multilink( [
       accordionBoxExpandedProperty,
       gridViewProperty,
+      gridBaseUnitProperty,
       ratioFitnessProperty,
       leftValueProperty,
-      rightValueProperty ], ( expanded, gridView ) => {
+      rightValueProperty
+    ], ( expanded, gridView, gridBaseUnit ) => {
       stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.screenSummary.qualitativeStateOfSim, {
         ratioFitness: this.ratioDescriber.getRatioFitness( false ) // lowercase
       } );
@@ -79,7 +85,7 @@ class CreateScreenSummaryNode extends Node {
       } );
 
       gridRangeBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.screenSummary.gridRangeBullet, {
-        range: '0_TO_10'
+        range: gridRangeToRangeLabelMap.get( gridBaseUnit )
       } );
 
       gridRangeBullet.visible = gridView !== GridView.NONE;
