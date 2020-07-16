@@ -12,13 +12,13 @@ class GridDescriber {
 
   /**
    * @param {Range} valueRange
-   * @param {Property.<number>} gridBaseUnitProperty
+   * @param {Property.<number>} gridRangeProperty
    */
-  constructor( valueRange, gridBaseUnitProperty ) {
+  constructor( valueRange, gridRangeProperty ) {
 
     // @private
     this.valueRange = valueRange;
-    this.gridBaseUnitProperty = gridBaseUnitProperty;
+    this.gridRangeProperty = gridRangeProperty;
   }
 
   /**
@@ -32,7 +32,7 @@ class GridDescriber {
   getFlooredGridPosition( newPosition ) {
     assert && assert( this.valueRange.contains( newPosition ) );
 
-    const numberOfGridLines = this.gridBaseUnitProperty.value;
+    const numberOfGridLines = this.gridRangeProperty.value;
 
     const expandedValue = newPosition * numberOfGridLines;
     return Math.floor( expandedValue );
@@ -46,7 +46,7 @@ class GridDescriber {
   getRelativePositionAndGridNumberForProperty( property ) {
     assert && assert( this.valueRange.contains( property.value ) );
 
-    const numberOfGridLines = this.gridBaseUnitProperty.value;
+    const numberOfGridLines = this.gridRangeProperty.value;
 
     const expandedValue = property.value * numberOfGridLines;
 

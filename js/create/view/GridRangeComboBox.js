@@ -27,12 +27,12 @@ class GridRangeComboBox extends Node {
 
   /**
    *
-   * @param {Property.<number>} gridBaseUnitProperty
+   * @param {Property.<number>} gridRangeProperty
    * @param {Node} comboBoxParent
    * @param {Property.<GridView>}gridViewProperty
    * @param {Object} [options]
    */
-  constructor( gridBaseUnitProperty, comboBoxParent, gridViewProperty, options ) {
+  constructor( gridRangeProperty, comboBoxParent, gridViewProperty, options ) {
     super();
 
     // a general map from grid range value to the description string that it displays. This is created so that this
@@ -62,7 +62,7 @@ class GridRangeComboBox extends Node {
       accessibleName: ratioAndProportionStrings.range
     };
 
-    const enabledComboBox = new ComboBox( items, gridBaseUnitProperty, comboBoxParent, comboBoxOptions );
+    const enabledComboBox = new ComboBox( items, gridRangeProperty, comboBoxParent, comboBoxOptions );
 
     const value = true;
 

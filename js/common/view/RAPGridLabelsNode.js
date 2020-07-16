@@ -19,12 +19,12 @@ class RAPGridLabelsNode extends Node {
 
   /**
    * @param {Property.<GridView>} gridViewProperty
-   * @param {Property.<number>} gridBaseUnitProperty
+   * @param {Property.<number>} gridRangeProperty
    * @param {number} height
    * @param {Property.<Color>} colorProperty
    * @param {Object} [options]
    */
-  constructor( gridViewProperty, gridBaseUnitProperty, height, colorProperty, options ) {
+  constructor( gridViewProperty, gridRangeProperty, height, colorProperty, options ) {
 
     if ( options ) {
       assert && assert( !options.hasOwnProperty( 'children' ), 'RAPGridLabelsNode sets its own children' );
@@ -40,12 +40,12 @@ class RAPGridLabelsNode extends Node {
 
     // @private
     this.gridViewProperty = gridViewProperty;
-    this.gridBaseUnitProperty = gridBaseUnitProperty;
+    this.gridRangeProperty = gridRangeProperty;
     this.colorProperty = colorProperty;
 
     this.mutate( options );
 
-    Property.multilink( [ gridBaseUnitProperty, gridViewProperty ], this.update.bind( this ) );
+    Property.multilink( [ gridRangeProperty, gridViewProperty ], this.update.bind( this ) );
   }
 
   /**
@@ -65,16 +65,16 @@ class RAPGridLabelsNode extends Node {
   layout( height ) {
 
     this.totalHeight = height;
-    this.update( this.gridBaseUnitProperty.value, this.gridViewProperty.value );
+    this.update( this.gridRangeProperty.value, this.gridViewProperty.value );
   }
 
   /**
    * @private
    */
-  update( baseUnit, gridView ) {
+  update( gridRange, gridView ) {
 
     // subtract one to account for potential rounding errors. This helps guarantee that the last line is drawn.
-    const horizontalSpacing = ( this.totalHeight - 1 ) / baseUnit;
+    const horizontalSpacing = ( this.totalHeight - 1 ) / gridRange;
 
     this.visible = GridView.displayUnits( gridView );
 

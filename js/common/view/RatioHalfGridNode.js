@@ -17,13 +17,13 @@ class RatioHalfGridNode extends GridNode {
 
   /**
    * @param {Property.<GridView>} gridViewProperty
-   * @param {Property.<number>} gridBaseUnitProperty
+   * @param {Property.<number>} gridRangeProperty
    * @param {number} width
    * @param {number} height
    * @param {Property.<Color>} colorProperty
    * @param {Object} [options]
    */
-  constructor( gridViewProperty, gridBaseUnitProperty, width, height, colorProperty, options ) {
+  constructor( gridViewProperty, gridRangeProperty, width, height, colorProperty, options ) {
 
     options = merge( {
       minorLineOptions: {
@@ -35,13 +35,13 @@ class RatioHalfGridNode extends GridNode {
 
     // @private
     this.gridViewProperty = gridViewProperty;
-    this.gridBaseUnitProperty = gridBaseUnitProperty;
+    this.gridRangeProperty = gridRangeProperty;
 
     // TODO: is this line actually necessary?
     // support lines to begin with. This handles the case where the GridNode initialized to having no line.
     this.setLineSpacings( null, null, 10, 10 );
 
-    Property.multilink( [ gridBaseUnitProperty, gridViewProperty ], this.update.bind( this ) );
+    Property.multilink( [ gridRangeProperty, gridViewProperty ], this.update.bind( this ) );
   }
 
   /**
@@ -50,16 +50,16 @@ class RatioHalfGridNode extends GridNode {
   layout( width, height ) {
     this.setGridWidth( width );
     this.setGridHeight( height );
-    this.update( this.gridBaseUnitProperty.value, this.gridViewProperty.value );
+    this.update( this.gridRangeProperty.value, this.gridViewProperty.value );
   }
 
   /**
    * @private
    */
-  update( baseUnit, gridView ) {
+  update( gridRange, gridView ) {
 
     // subtract one to account for potential rounding errors. This helps guarantee that the last line is drawn.
-    this.setLineSpacings( null, null, null, ( this.gridHeight - 1 ) / baseUnit );
+    this.setLineSpacings( null, null, null, ( this.gridHeight - 1 ) / gridRange );
 
     this.visible = GridView.displayVertical( gridView ) || GridView.displayHorizontal( gridView );
   }

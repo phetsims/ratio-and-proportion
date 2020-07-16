@@ -56,8 +56,7 @@ class RatioAndProportionScreenView extends ScreenView {
 
       // What is the unit value of the grid. Value reads as "1/x of the view height." This type is responsible for
       // resetting this on reset all.
-      // TODO: rename to "gridRangeProperty"
-      gridBaseUnitProperty: new NumberProperty( 10 )
+      gridRangeProperty: new NumberProperty( 10 )
     }, options );
 
     const gridAndLabelsColorProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
@@ -72,7 +71,7 @@ class RatioAndProportionScreenView extends ScreenView {
 
     super( options );
 
-    const gridDescriber = new GridDescriber( model.valueRange, options.gridBaseUnitProperty );
+    const gridDescriber = new GridDescriber( model.valueRange, options.gridRangeProperty );
 
     // @protected (read-only)
     this.ratioDescriber = new RatioDescriber( model, gridDescriber );
@@ -81,7 +80,7 @@ class RatioAndProportionScreenView extends ScreenView {
     this.gridViewProperty = gridViewProperty;
 
     // by default, the keyboard step size should be half of one default grid line width. See https://github.com/phetsims/ratio-and-proportion/issues/85
-    const keyboardStep = 1 / 2 / options.gridBaseUnitProperty.value;
+    const keyboardStep = 1 / 2 / options.gridRangeProperty.value;
 
     const defaultRatioHalfBounds = Bounds2.rect( 0, 0, RATIO_HALF_WIDTH, LAYOUT_BOUNDS.height );
 
@@ -93,7 +92,7 @@ class RatioAndProportionScreenView extends ScreenView {
       model.firstInteractionProperty,
       defaultRatioHalfBounds,
       gridViewProperty,
-      options.gridBaseUnitProperty,
+      options.gridRangeProperty,
       this.ratioDescriber,
       gridDescriber,
       gridAndLabelsColorProperty,
@@ -111,7 +110,7 @@ class RatioAndProportionScreenView extends ScreenView {
       model.firstInteractionProperty,
       defaultRatioHalfBounds,
       gridViewProperty,
-      options.gridBaseUnitProperty,
+      options.gridRangeProperty,
       this.ratioDescriber,
       gridDescriber,
       gridAndLabelsColorProperty,
@@ -134,7 +133,7 @@ class RatioAndProportionScreenView extends ScreenView {
     a11yRatioContainer.setAccessibleAttribute( 'aria-roledescription', ratioAndProportionStrings.a11y.movable );
 
     const ratioInteractionListener = new RatioInteractionListener( a11yRatioContainer, model.leftValueProperty,
-      model.rightValueProperty, model.valueRange, model.firstInteractionProperty, options.gridBaseUnitProperty, keyboardStep );
+      model.rightValueProperty, model.valueRange, model.firstInteractionProperty, options.gridRangeProperty, keyboardStep );
     a11yRatioContainer.addInputListener( ratioInteractionListener );
 
     // @private
@@ -154,7 +153,7 @@ class RatioAndProportionScreenView extends ScreenView {
     soundManager.addSoundGenerator( this.proportionFitnessSoundGenerator );
 
     // these dimensions are just temporary, and will be recomputed below in the layout function
-    const labelsNode = new RAPGridLabelsNode( gridViewProperty, options.gridBaseUnitProperty, 1000, gridAndLabelsColorProperty );
+    const labelsNode = new RAPGridLabelsNode( gridViewProperty, options.gridRangeProperty, 1000, gridAndLabelsColorProperty );
 
     const backgroundNode = Rectangle.bounds( this.layoutBounds, {
       fill: 'black'
@@ -181,7 +180,7 @@ class RatioAndProportionScreenView extends ScreenView {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         model.reset();
-        options.gridBaseUnitProperty.reset();
+        options.gridRangeProperty.reset();
         this.reset();
       },
       tandem: tandem.createTandem( 'resetAllButton' )

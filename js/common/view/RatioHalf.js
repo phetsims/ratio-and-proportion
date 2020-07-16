@@ -47,7 +47,7 @@ class RatioHalf extends Rectangle {
    * @param {Property.<boolean>} firstInteractionProperty - upon successful interaction, this will be marked as false
    * @param {Bounds2} bounds - the area that the node takes up
    * @param {EnumerationProperty.<GridView>} gridViewProperty
-   * @param {Property.<number>} gridBaseUnitProperty
+   * @param {Property.<number>} gridRangeProperty
    * @param {RatioDescriber} ratioDescriber
    * @param {GridDescriber} gridDescriber
    * @param {Property.<Color>} colorProperty
@@ -55,7 +55,7 @@ class RatioHalf extends Rectangle {
    * @param {Object} [options]
    */
   constructor( positionProperty, valueProperty, valueRange, firstInteractionProperty, bounds, gridViewProperty,
-               gridBaseUnitProperty, ratioDescriber, gridDescriber, colorProperty, keyboardStep, options ) {
+               gridRangeProperty, ratioDescriber, gridDescriber, colorProperty, keyboardStep, options ) {
 
     options = merge( {
       cursor: 'ratioHandNode',
@@ -86,7 +86,7 @@ class RatioHalf extends Rectangle {
     // @private
     this.alertManager = new RatioAndProportionAlertManager( valueProperty, gridViewProperty, ratioDescriber, gridDescriber, options.isRight );
 
-    const gridNode = new RatioHalfGridNode( gridViewProperty, gridBaseUnitProperty,
+    const gridNode = new RatioHalfGridNode( gridViewProperty, gridRangeProperty,
       bounds.width, bounds.height - 2 * FRAMING_RECTANGLE_HEIGHT,
       colorProperty );
     this.addChild( gridNode );
@@ -153,8 +153,8 @@ class RatioHalf extends Rectangle {
         const value = valueProperty.value;
 
         // handle the sound as desired for mouse/touch style input
-        for ( let i = 0; i < gridBaseUnitProperty.value; i++ ) {
-          const tickValue = ( i / valueRange.getLength() ) / gridBaseUnitProperty.value;
+        for ( let i = 0; i < gridRangeProperty.value; i++ ) {
+          const tickValue = ( i / valueRange.getLength() ) / gridRangeProperty.value;
           if ( lastValue !== value && ( value === valueRange.min || value === valueRange.max ) ) {
             sliderBoundaryClickSoundClip.play();
             break;

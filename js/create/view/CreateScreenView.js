@@ -34,10 +34,10 @@ class CreateScreenView extends RatioAndProportionScreenView {
    */
   constructor( model, tandem ) {
 
-    const gridBaseUnitProperty = new NumberProperty( 10 );
+    const gridRangeProperty = new NumberProperty( 10 );
 
     super( model, tandem, {
-      gridBaseUnitProperty: gridBaseUnitProperty
+      gridRangeProperty: gridRangeProperty
     } );
 
     // Allow us to get the reduced fraction as the initial value of the custom "My Challenge"
@@ -102,9 +102,9 @@ class CreateScreenView extends RatioAndProportionScreenView {
     } );
     myChallengeAccordionBox.expandedProperty.value = false;
 
-    const gridBaseUnitComboBoxParent = new Node();
+    const gridRangeComboBoxParent = new Node();
 
-    const gridBaseUnitComboBox = new GridRangeComboBox( gridBaseUnitProperty, gridBaseUnitComboBoxParent, this.gridViewProperty );
+    const gridRangeComboBox = new GridRangeComboBox( gridRangeProperty, gridRangeComboBoxParent, this.gridViewProperty );
 
     // set this after the supertype has initialized the view code needed to create the screen summary
     this.setScreenSummaryContent( new CreateScreenSummaryNode(
@@ -114,27 +114,27 @@ class CreateScreenView extends RatioAndProportionScreenView {
       this.gridViewProperty,
       myChallengeAccordionBox.expandedProperty,
       this.ratioDescriber,
-      gridBaseUnitProperty,
-      gridBaseUnitComboBox.gridRangeToRangeLabelMap
+      gridRangeProperty,
+      gridRangeComboBox.gridRangeToRangeLabelMap
     ) );
 
     // children
     this.addChild( myChallengeAccordionBox );
-    this.addChild( gridBaseUnitComboBox );
-    this.addChild( gridBaseUnitComboBoxParent ); // Should be on top
+    this.addChild( gridRangeComboBox );
+    this.addChild( gridRangeComboBoxParent ); // Should be on top
 
     // pdom
     this.pdomPlayAreaNode.accessibleOrder = this.pdomPlayAreaNode.accessibleOrder.concat( [
-      gridBaseUnitComboBox,
-      gridBaseUnitComboBoxParent,
+      gridRangeComboBox,
+      gridRangeComboBoxParent,
       myChallengeAccordionBox
     ] );
 
     // @private
     this.layoutCreateScreenView = () => {
-      gridBaseUnitComboBox.left = myChallengeAccordionBox.left = this.gridViewRadioButtonGroup.left;
-      gridBaseUnitComboBox.top = this.gridViewRadioButtonGroup.bottom + 10;
-      myChallengeAccordionBox.top = gridBaseUnitComboBox.bottom + 30;
+      gridRangeComboBox.left = myChallengeAccordionBox.left = this.gridViewRadioButtonGroup.left;
+      gridRangeComboBox.top = this.gridViewRadioButtonGroup.bottom + 10;
+      myChallengeAccordionBox.top = gridRangeComboBox.bottom + 30;
     };
 
     // @private
