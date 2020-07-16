@@ -130,29 +130,16 @@ class CreateScreenView extends RatioAndProportionScreenView {
       myChallengeAccordionBox
     ] );
 
-    // @private
-    this.layoutCreateScreenView = () => {
-      gridRangeComboBox.left = myChallengeAccordionBox.left = this.gridViewRadioButtonGroup.left;
-      gridRangeComboBox.top = this.gridViewRadioButtonGroup.bottom + 10;
-      myChallengeAccordionBox.top = gridRangeComboBox.bottom + 30;
-    };
+    // static layout
+    gridRangeComboBox.right = myChallengeAccordionBox.right = this.gridViewRadioButtonGroup.right;
+    gridRangeComboBox.top = this.gridViewRadioButtonGroup.bottom + 10;
+    myChallengeAccordionBox.top = gridRangeComboBox.bottom + 30;
 
     // @private
     this.resetCreateScreenView = () => {
       numeratorProperty.reset();
       denominatorProperty.reset();
     };
-  }
-
-  /**
-   * @param {number} width
-   * @param {number} height
-   * @override
-   * @public
-   */
-  layout( width, height ) {
-    super.layout( width, height );
-    this.layoutCreateScreenView();
   }
 
   /**

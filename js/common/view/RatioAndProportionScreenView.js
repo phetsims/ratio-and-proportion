@@ -234,9 +234,10 @@ class RatioAndProportionScreenView extends ScreenView {
     ];
 
     // static layout
-    this.gridViewRadioButtonGroup.top = this.layoutBounds.height * .15;
     resetAllButton.right = this.layoutBounds.maxX - RatioAndProportionConstants.SCREEN_VIEW_X_MARGIN;
     resetAllButton.bottom = this.layoutBounds.height - RatioAndProportionConstants.SCREEN_VIEW_Y_MARGIN;
+    this.gridViewRadioButtonGroup.top = this.layoutBounds.height * .15;
+    this.gridViewRadioButtonGroup.right = resetAllButton.right;
 
     // @private - dynamic layout based on the current ScreenView coordinates
     this.layoutRatioAndProportionScreeView = newRatioHalfBounds => {
@@ -258,7 +259,6 @@ class RatioAndProportionScreenView extends ScreenView {
       this.leftRatioHalf.bottom = this.rightRatioHalf.bottom = this.layoutBounds.bottom;
 
       labelsNode.bottom = this.layoutBounds.bottom - RatioHalf.FRAMING_RECTANGLE_HEIGHT + labelsNode.labelHeight / 2;
-      this.gridViewRadioButtonGroup.left = a11yRatioContainer.right + ( this.layoutBounds.width * .04 );
     };
     this.layoutRatioAndProportionScreeView( defaultRatioHalfBounds );
   }

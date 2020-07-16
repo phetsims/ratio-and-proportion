@@ -85,22 +85,9 @@ class ExploreScreenView extends RatioAndProportionScreenView {
       this.ratioDescriber, ratioToChallengeNameMap
     ) );
 
-    // @private
-    this.layoutExploreScreenView = () => {
-      comboBox.left = this.gridViewRadioButtonGroup.left;
-      comboBox.top = this.gridViewRadioButtonGroup.bottom + 20;
-    };
-  }
-
-  /**
-   * @param {number} width
-   * @param {number} height
-   * @override
-   * @public
-   */
-  layout( width, height ) {
-    super.layout( width, height );
-    this.layoutExploreScreenView();
+    // layout
+    comboBox.left = this.gridViewRadioButtonGroup.left;
+    comboBox.top = this.gridViewRadioButtonGroup.bottom + 20;
   }
 }
 
