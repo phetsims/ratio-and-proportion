@@ -83,10 +83,10 @@
       }
     },
     "leftHandBullet": {
-      "value": "Left hand {{position}}."
+      "value": "Left hand {{position}}"
     },
     "rightHandBullet": {
-      "value": "Right hand {{position}}."
+      "value": "Right hand {{position}}"
     },
     "explore": {
       "screenSummary": {
