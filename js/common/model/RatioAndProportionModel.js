@@ -80,9 +80,8 @@ class RatioAndProportionModel {
     ], ( leftValue, rightValue, ratio, tolerance ) => {
       const currentRatio = leftValue / rightValue;
       assert && assert( rightValue !== 0, 'cannot divide by zero' );
-      if ( isNaN( currentRatio ) ) {
-        return 0;
-      }
+      assert && assert( !isNaN( currentRatio ), 'ratio should be defined' );
+
       const desiredLeft = ratio * rightValue;
       const fitnessError = Math.abs( desiredLeft - leftValue );
       const fitness = this.fitnessRange.max - Utils.clamp( fitnessError / tolerance, this.fitnessRange.min, this.fitnessRange.max );
