@@ -88,9 +88,8 @@ class RatioAndProportionModel {
       const fitness = this.fitnessRange.max - Utils.clamp( fitnessError / tolerance, this.fitnessRange.min, this.fitnessRange.max );
 
       // If either value is small enough, then we don't allow an "in proportion" fitness level, so make it just below that threshold.
-      if ( fitness >= this.fitnessRange.max - RatioAndProportionConstants.IN_PROPORTION_FITNESS_THRESHOLD &&
-           ( leftValue <= NO_SUCCUSS_VALUE_THRESHOLD || rightValue <= NO_SUCCUSS_VALUE_THRESHOLD ) ) {
-        return this.fitnessRange.max - RatioAndProportionConstants.IN_PROPORTION_FITNESS_THRESHOLD - .01;
+      if ( this.inProportion( fitness ) && this.valuesTooSmallForSuccess() ) {
+        return this.fitnessRange.max - this.getInProportionThreshold() - .01;
       }
       return fitness;
     }, {
@@ -104,6 +103,16 @@ class RatioAndProportionModel {
     this.previousLeftValueProperty = new NumberProperty( this.leftValueProperty.value );
     this.previousRightValueProperty = new NumberProperty( this.rightValueProperty.value );
     this.stepCountTracker = 0;
+  }
+
+  /**
+   * If either value is smaller than a threshold, then some model functionality changes. This function will return true
+   * when the model is in that state. When true, one or both value is too small to allow for a success state.
+   * @public
+   * @returns {boolean}
+   */
+  valuesTooSmallForSuccess() {
+    return this.leftValueProperty.value <= NO_SUCCUSS_VALUE_THRESHOLD || this.rightValueProperty.value <= NO_SUCCUSS_VALUE_THRESHOLD;
   }
 
 

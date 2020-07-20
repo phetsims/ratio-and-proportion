@@ -49,7 +49,7 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
 
 
     //////////////////////////////////////////////////////////////////
-    // Velocity success sound
+    // "Moving in Proportion" sound
 
     const stringsSoundClip = new SoundClip( stringsSound, {
       loop: true,
