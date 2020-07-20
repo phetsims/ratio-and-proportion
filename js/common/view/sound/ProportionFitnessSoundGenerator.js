@@ -81,7 +81,8 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
       ( isBeingInteractedWith, leftVelocity, rightVelocity, fitness ) => {
         if ( velocitySoundClip ) {
           if ( model.movingInDirection() &&
-               fitness > FITNESS_THRESHOLD && // must be fit enough to play this special bimodal sound
+               !model.valuesTooSmallForSuccess() && // no moving in proportion success if too small
+               fitness > FITNESS_THRESHOLD && // must be fit enough to play the moving in proportion success
                isBeingInteractedWith ) {
             velocitySoundClip.setOutputLevel( .7, .1 );
             !velocitySoundClip.isPlaying && velocitySoundClip.play();
