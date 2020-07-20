@@ -78,13 +78,27 @@ class RatioAndProportionModel {
       this.ratioProperty,
       this.toleranceProperty
     ], ( leftValue, rightValue, ratio, tolerance ) => {
-      const currentRatio = leftValue / rightValue;
       assert && assert( rightValue !== 0, 'cannot divide by zero' );
-      assert && assert( !isNaN( currentRatio ), 'ratio should be defined' );
+      assert && assert( !isNaN( leftValue / rightValue ), 'ratio should be defined' );
 
-      const desiredLeft = ratio * rightValue;
-      const fitnessError = Math.abs( desiredLeft - leftValue );
-      const fitness = this.fitnessRange.max - Utils.clamp( fitnessError / tolerance, this.fitnessRange.min, this.fitnessRange.max );
+      // constant to help achieve feedback in 40% of the visual screen height.
+      const toleranceFactor = 0.5;
+
+      // fitness according to treating the right value as "correct" in relation to the target ratio
+      const fLeft = ( left, rightOptimal, targetRatio ) => 1 - toleranceFactor * Math.abs( left - targetRatio * rightOptimal );
+
+      // fitness according to treating the left value as "correct" in relation to the target ratio
+      const fRight = ( leftOptimal, right, targetRatio ) => 1 - toleranceFactor * Math.abs( right - leftOptimal / targetRatio );
+
+      // Calculate both possible fitness values, and take the minimum. In experience this works well at creating a
+      // tolerance range that is independent of the target ratio or the positions of the values. This algorithm can
+      // make the tolerance of the left value a bit too small for small target ratios.
+      const getFitness = ( left, right ) => Math.min( fLeft( left, right, ratio ), fRight( left, right, ratio ) );
+
+      const unclampedFitness = getFitness( leftValue * 10, rightValue * 10 );
+
+      const fitness = Utils.clamp( unclampedFitness, this.fitnessRange.min, this.fitnessRange.max );
+      // console.log( leftValue * 10, rightValue * 10, ratio, fitness );
 
       // If either value is small enough, then we don't allow an "in proportion" fitness level, so make it just below that threshold.
       if ( this.inProportion( fitness ) && this.valuesTooSmallForSuccess() ) {
