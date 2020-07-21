@@ -23,9 +23,12 @@ class CreateScreenSummaryNode extends Node {
    * @param {RatioDescriber} ratioDescriber
    * @param {Property.<number>} gridRangeProperty
    * @param {Map.<number, string>} gridRangeToRangeLabelMap - map from grid range to the label for that specified range
+   * @param {NumberProperty} numeratorProperty
+   * @param {NumberProperty} denominatorProperty
    */
   constructor( ratioFitnessProperty, leftValueProperty, rightValueProperty, gridViewProperty,
-               accordionBoxExpandedProperty, ratioDescriber, gridRangeProperty, gridRangeToRangeLabelMap ) {
+               accordionBoxExpandedProperty, ratioDescriber, gridRangeProperty, gridRangeToRangeLabelMap,
+               numeratorProperty, denominatorProperty ) {
 
     const stateOfSimNode = new Node( { tagName: 'p' } );
 
@@ -60,10 +63,12 @@ class CreateScreenSummaryNode extends Node {
       accordionBoxExpandedProperty,
       gridViewProperty,
       gridRangeProperty,
+      numeratorProperty,
+      denominatorProperty,
       ratioFitnessProperty,
       leftValueProperty,
       rightValueProperty
-    ], ( expanded, gridView, gridRange ) => {
+    ], ( expanded, gridView, gridRange, numerator, denominator ) => {
       stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.screenSummary.qualitativeStateOfSim, {
         ratioFitness: this.ratioDescriber.getRatioFitness( false ) // lowercase
       } );
@@ -72,10 +77,9 @@ class CreateScreenSummaryNode extends Node {
         expanded: expanded ? ratioAndProportionStrings.a11y.create.screenSummary.expanded : ratioAndProportionStrings.a11y.create.screenSummary.collapsed
       } );
 
-      // TODO: implement with myChallenge values
       myChallengeSubBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.screenSummary.myChallengeLeftRightValues, {
-        leftValue: this.ratioDescriber.getHandPosition( leftValueProperty, gridView ),
-        rightValue: this.ratioDescriber.getHandPosition( rightValueProperty, gridView )
+        leftValue: numerator,
+        rightValue: denominator
       } );
 
       leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {

@@ -70,4 +70,5 @@ QUnit.test( 'Fitness algorithm', assert => {
   // testFitness( .5, 'moving right value now' );
 
   // TODO: also test left->.1, right->.3, right->.2 Why is fitness getting larger than 1? I don't think it ever should!!!!
+  // TODO: test changing the ratioProperty and resetting the model.
 } );
