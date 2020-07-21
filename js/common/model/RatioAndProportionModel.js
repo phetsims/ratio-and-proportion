@@ -64,6 +64,9 @@ class RatioAndProportionModel {
       inverseMap: number => this.rightPositionProperty.value.copy().setY( number )
     } );
 
+    // @public - when true, moving one ratio value will maintain the current ratio by updating the other value Property
+    this.lockRatioProperty = new BooleanProperty( false );
+
     // @public (read-only) - the Range that the ratioFitnessProperty can be.
     this.fitnessRange = new Range( 0, 1 );
 
@@ -118,6 +121,26 @@ class RatioAndProportionModel {
     this.previousLeftValueProperty = new NumberProperty( this.leftValueProperty.value );
     this.previousRightValueProperty = new NumberProperty( this.rightValueProperty.value );
     this.stepCountTracker = 0;
+
+    // Avoid reentrancy by guarding each time one valueProperty change then sets the other.
+    let adjustingFromLock = false;
+
+    this.leftValueProperty.lazyLink( ( newValue, oldValue ) => {
+      if ( this.lockRatioProperty.value && !adjustingFromLock ) {
+        const previousRatio = oldValue / this.rightValueProperty.value;
+        adjustingFromLock = true;
+        this.rightValueProperty.value = Utils.clamp( newValue / previousRatio, this.valueRange.min, this.valueRange.max );
+        adjustingFromLock = false;
+      }
+    } );
+    this.rightValueProperty.lazyLink( ( newValue, oldValue ) => {
+      if ( this.lockRatioProperty.value && !adjustingFromLock ) {
+        const previousRatio = this.leftValueProperty.value / oldValue;
+        adjustingFromLock = true;
+        this.leftValueProperty.value = Utils.clamp( newValue * previousRatio, this.valueRange.min, this.valueRange.max );
+        adjustingFromLock = false;
+      }
+    } );
   }
 
   /**
@@ -129,7 +152,6 @@ class RatioAndProportionModel {
   valuesTooSmallForSuccess() {
     return this.leftValueProperty.value <= NO_SUCCUSS_VALUE_THRESHOLD || this.rightValueProperty.value <= NO_SUCCUSS_VALUE_THRESHOLD;
   }
-
 
   /**
    * Whether or not the two hands are moving fast enough together in the same direction. This indicates a bimodal interaction.

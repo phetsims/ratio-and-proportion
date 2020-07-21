@@ -14,8 +14,10 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
+import Checkbox from '../../../../sun/js/Checkbox.js';
 import FontAwesomeNode from '../../../../sun/js/FontAwesomeNode.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import gridIconImage from '../../../images/grid-icon_png.js';
@@ -174,6 +176,7 @@ class RatioAndProportionScreenView extends ScreenView {
       backgroundNode.setFill( color );
     } );
 
+    const lockRatioCheckbox = new Checkbox( new RichText( 'Lock Ratio' ), model.lockRatioProperty );
 
     // @protected - layout of this should be done by the subtype
     const resetAllButton = new ResetAllButton( {
@@ -214,6 +217,7 @@ class RatioAndProportionScreenView extends ScreenView {
 
       // UI
       this.gridViewRadioButtonGroup,
+      lockRatioCheckbox,
       resetAllButton,
 
       // Main ratio on top
@@ -234,10 +238,10 @@ class RatioAndProportionScreenView extends ScreenView {
     ];
 
     // static layout
-    resetAllButton.right = this.layoutBounds.maxX - RatioAndProportionConstants.SCREEN_VIEW_X_MARGIN;
+    resetAllButton.right = this.gridViewRadioButtonGroup.right = lockRatioCheckbox.right = this.layoutBounds.maxX - RatioAndProportionConstants.SCREEN_VIEW_X_MARGIN;
     resetAllButton.bottom = this.layoutBounds.height - RatioAndProportionConstants.SCREEN_VIEW_Y_MARGIN;
+    lockRatioCheckbox.bottom = resetAllButton.top - 20;
     this.gridViewRadioButtonGroup.top = this.layoutBounds.height * .15;
-    this.gridViewRadioButtonGroup.right = resetAllButton.right;
 
     // @private - dynamic layout based on the current ScreenView coordinates
     this.layoutRatioAndProportionScreeView = newRatioHalfBounds => {
