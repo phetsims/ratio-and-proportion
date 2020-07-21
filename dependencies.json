@@ -1,5 +1,5 @@
 {
-  "comment": "# ratio-and-proportion 1.0.0-dev.38 Tue Jul 21 2020 13:48:36 GMT-0800 (Alaska Daylight Time)",
+  "comment": "# ratio-and-proportion 1.0.0-dev.39 Tue Jul 21 2020 14:38:16 GMT-0800 (Alaska Daylight Time)",
   "assert": {
     "sha": "1a41cef653bbed1025af5768bea958d7e3e0f8ae",
     "branch": "master"
@@ -61,7 +61,7 @@
     "branch": "master"
   },
   "ratio-and-proportion": {
-    "sha": "4c292498b00b710f170a200371588708953d8786",
+    "sha": "e8ecaf20f89e85fc64da49282a0c15909d5152be",
     "branch": "master"
   },
   "scenery": {
