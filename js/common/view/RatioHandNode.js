@@ -32,6 +32,7 @@ class RatioHandNode extends Node {
   constructor( valueProperty, valueRange, gridViewProperty, keyboardStep, options ) {
 
     options = merge( {
+      cursor: 'pointer',
       isRight: true, // right hand or left hand
       asIcon: false, // when true, no input will be attached
 

@@ -58,7 +58,6 @@ class RatioHalf extends Rectangle {
                gridRangeProperty, ratioDescriber, gridDescriber, colorProperty, keyboardStep, options ) {
 
     options = merge( {
-      cursor: 'ratioHandNode',
       isRight: true, // right ratio or the left ratio
       tandem: Tandem.OPTIONAL,
 
