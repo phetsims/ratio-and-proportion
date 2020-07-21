@@ -27,7 +27,6 @@ import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import RatioAndProportionConstants from '../RatioAndProportionConstants.js';
 import GridDescriber from './GridDescriber.js';
 import GridView from './GridView.js';
-import ProportionMarkerInput from './ProportionMarkerInput.js';
 import RAPGridLabelsNode from './RAPGridLabelsNode.js';
 import RatioAndProportionColorProfile from './RatioAndProportionColorProfile.js';
 import RatioDescriber from './RatioDescriber.js';
@@ -138,8 +137,8 @@ class RatioAndProportionScreenView extends ScreenView {
       model.rightValueProperty, model.valueRange, model.firstInteractionProperty, options.gridRangeProperty, keyboardStep );
     a11yRatioContainer.addInputListener( ratioInteractionListener );
 
-    // @private
-    this.markerInput = new ProportionMarkerInput( model );
+    // @private TODO: add support for mechamarker input again https://github.com/phetsims/ratio-and-proportion/issues/89
+    // this.markerInput = new ProportionMarkerInput( model );
 
     // @private
     this.proportionFitnessSoundGenerator = new ProportionFitnessSoundGenerator(
@@ -148,7 +147,7 @@ class RatioAndProportionScreenView extends ScreenView {
       DerivedProperty.or( [
         this.leftRatioHalf.isBeingInteractedWithProperty,
         this.rightRatioHalf.isBeingInteractedWithProperty,
-        this.markerInput.isBeingInteractedWithProperty,
+        // this.markerInput.isBeingInteractedWithProperty, // TODO: add support for mechamarker input again https://github.com/phetsims/ratio-and-proportion/issues/89
         ratioInteractionListener.isBeingInteractedWithProperty
       ] ),
       model );
@@ -321,7 +320,9 @@ class RatioAndProportionScreenView extends ScreenView {
    * @param {number} dt
    */
   step( dt ) {
-    this.markerInput.step( dt );
+
+    // TODO: add support for mechamarker input, https://github.com/phetsims/ratio-and-proportion/issues/89
+    // this.markerInput.step( dt );
     this.proportionFitnessSoundGenerator.step( dt );
   }
 }

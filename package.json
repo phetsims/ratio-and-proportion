@@ -12,7 +12,6 @@
   "phet": {
     "requirejsNamespace": "RATIO_AND_PROPORTION",
     "phetLibs": [
-      "tangible",
       "griddle"
     ],
     "simulation": true,
