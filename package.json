@@ -12,7 +12,7 @@
   "phet": {
     "requirejsNamespace": "RATIO_AND_PROPORTION",
     "preload": [
-      "../tangible/js/preload/mechamarkers-21f16221e414ec2dca68bbfbb866369eea7abd70.js"
+      "../sherpa/lib/mechamarkers-21f16221e414ec2dca68bbfbb866369eea7abd70.js"
     ],
     "phetLibs": [
       "tangible",
