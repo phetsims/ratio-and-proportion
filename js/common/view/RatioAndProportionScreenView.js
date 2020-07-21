@@ -308,6 +308,7 @@ class RatioAndProportionScreenView extends ScreenView {
 
     this.leftRatioHalf.reset();
     this.rightRatioHalf.reset();
+    this.proportionFitnessSoundGenerator.reset();
   }
 
   /**

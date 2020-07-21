@@ -7,20 +7,13 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import Property from '../../../../../axon/js/Property.js';
-import merge from '../../../../../phet-core/js/merge.js';
-import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
-import choirAhhSound from '../../../../sounds/moving-in-proportion/choir-ahhh-loop_wav.js';
-import stringsSound from '../../../../sounds/moving-in-proportion/strings-loop-c5_wav.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
-import designingProperties from '../../designingProperties.js';
-import RatioAndProportionQueryParameters from '../../RatioAndProportionQueryParameters.js';
 import InProportionSoundGenerator from './InProportionSoundGenerator.js';
+import MovingInProportionSoundGenerator from './MovingInProportionSoundGenerator.js';
 import StaccatoFrequencySoundGenerator from './StaccatoFrequencySoundGenerator.js';
 
 // constants
-const FITNESS_THRESHOLD = RatioAndProportionQueryParameters.movingInProportionThreshold;
 
 
 class ProportionFitnessSoundGenerator extends SoundGenerator {
@@ -38,78 +31,25 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
                model,
                options ) {
 
-    options = merge( {
-      initialOutputLevel: 0.7
-    }, options );
-
     super( options );
 
     // @private
     this.ratioFitnessProperty = ratioFitnessProperty;
-
-
-    //////////////////////////////////////////////////////////////////
-    // "Moving in Proportion" sound
-
-    const stringsSoundClip = new SoundClip( stringsSound, {
-      loop: true,
-      initialOutputLevel: .7
-    } );
-
-    stringsSoundClip.connect( this.soundSourceDestination );
-
-    const choirAhhSoundClip = new SoundClip( choirAhhSound, {
-      loop: true,
-      initialOutputLevel: .7
-    } );
-    choirAhhSoundClip.connect( this.soundSourceDestination );
-
-    let velocitySoundClip = stringsSoundClip;
-    designingProperties.velocitySoundSelectorProperty.link( selection => {
-      if ( selection === 0 ) {
-        velocitySoundClip = stringsSoundClip;
-      }
-      else if ( selection === 1 ) {
-        velocitySoundClip = choirAhhSoundClip;
-      }
-      else {
-        velocitySoundClip = null;
-      }
-    } );
-
-    Property.multilink( [ isBeingInteractedWithProperty, model.leftVelocityProperty, model.rightVelocityProperty, ratioFitnessProperty ],
-      ( isBeingInteractedWith, leftVelocity, rightVelocity, fitness ) => {
-        if ( velocitySoundClip ) {
-          if ( model.movingInDirection() &&
-               !model.valuesTooSmallForSuccess() && // no moving in proportion success if too small
-               fitness > FITNESS_THRESHOLD && // must be fit enough to play the moving in proportion success
-               isBeingInteractedWith ) {
-            velocitySoundClip.setOutputLevel( .7, .1 );
-            !velocitySoundClip.isPlaying && velocitySoundClip.play();
-          }
-          else {
-            velocitySoundClip.setOutputLevel( 0, .2 );
-          }
-        }
-      } );
-
-    //////////////////////////////////////////////////////////////////
-    // staccato
 
     this.staccatoFrequencySoundGenerator = new StaccatoFrequencySoundGenerator( ratioFitnessProperty, fitnessRange, model, {
       enableControlProperties: [ isBeingInteractedWithProperty ]
     } );
     this.staccatoFrequencySoundGenerator.connect( this.soundSourceDestination );
 
-    //////////////////////////////////////////////////////////////////   //////////////////////////////////////////////////////////////////
-    // in proportion
-
     this.inProportionSoundGenerator = new InProportionSoundGenerator( ratioFitnessProperty, fitnessRange, model, {
       enableControlProperties: [ isBeingInteractedWithProperty ]
     } );
     this.inProportionSoundGenerator.connect( this.soundSourceDestination );
 
-    //////////////////////////////////////////////////////////////////
+    this.movingInProportionSoundGenerator = new MovingInProportionSoundGenerator( ratioFitnessProperty, model, {
+      enableControlProperties: [ isBeingInteractedWithProperty ]
+    } );
+    this.movingInProportionSoundGenerator.connect( this.soundSourceDestination );
   }
 
   /**
@@ -120,6 +60,15 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
   step( dt ) {
     this.inProportionSoundGenerator.step( dt );
     this.staccatoFrequencySoundGenerator.step( dt );
+  }
+
+  /**
+   * @public
+   */
+  reset() {
+    this.staccatoFrequencySoundGenerator.reset();
+    this.inProportionSoundGenerator.reset();
+    this.movingInProportionSoundGenerator.reset();
   }
 }
 

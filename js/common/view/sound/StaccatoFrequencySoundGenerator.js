@@ -143,7 +143,6 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
    * @public
    */
   reset() {
-    this.staccatoSoundClip.stop( 0 );
     this.timeSinceLastPlay = 0;
   }
 }
