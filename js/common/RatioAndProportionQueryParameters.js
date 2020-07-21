@@ -37,7 +37,7 @@ const RatioAndProportionQueryParameters = QueryStringMachine.getAll( {
    */
   movingInProportionThreshold: {
     type: 'number',
-    defaultValue: .8
+    defaultValue: .7
   },
 
   // For staccato sounds when frequnecy is changing (faster notes at higher fitness): what is the quickest interval
@@ -48,12 +48,7 @@ const RatioAndProportionQueryParameters = QueryStringMachine.getAll( {
   staccatoMinRepeatTime: {
     type: 'number',
     defaultValue: 120
-  },
-
-  // query parameters for a specific prototype case
-  useClementPrototype1: { type: 'flag' },
-  clement1AdjLen: { type: 'number', defaultValue: 88 },
-  clement1HalfHeight: { type: 'number', defaultValue: 100 }
+  }
 } );
 
 ratioAndProportion.register( 'RatioAndProportionQueryParameters', RatioAndProportionQueryParameters );
