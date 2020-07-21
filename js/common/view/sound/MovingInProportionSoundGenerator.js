@@ -10,6 +10,10 @@ import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
 import choirAhhSound from '../../../../sounds/moving-in-proportion/choir-ahhh-loop_wav.js';
+import movingInProportionOption1 from '../../../../sounds/moving-in-proportion/moving-in-proportion-loop-option-1_wav.js';
+import movingInProportionOption2 from '../../../../sounds/moving-in-proportion/moving-in-proportion-loop-option-2_wav.js';
+import movingInProportionOption3 from '../../../../sounds/moving-in-proportion/moving-in-proportion-loop-option-3_wav.js';
+import movingInProportionOption4 from '../../../../sounds/moving-in-proportion/moving-in-proportion-loop-option-4_wav.js';
 import stringsSound from '../../../../sounds/moving-in-proportion/strings-loop-c5_wav.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import designingProperties from '../../designingProperties.js';
@@ -20,7 +24,11 @@ const FITNESS_THRESHOLD = RatioAndProportionQueryParameters.movingInProportionTh
 
 const MOVING_IN_PROPORTION_SOUNDS = [
   stringsSound,
-  choirAhhSound
+  choirAhhSound,
+  movingInProportionOption1,
+  movingInProportionOption2,
+  movingInProportionOption3,
+  movingInProportionOption4
 ];
 
 class MovingInProportionSoundGenerator extends SoundGenerator {
@@ -40,7 +48,7 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
     // @private
     this.movingInProportionSoundClip = null;
 
-    designingProperties.velocitySoundSelectorProperty.link( selection => {
+    designingProperties.movingInProportionSoundSelectorProperty.link( selection => {
       if ( selection === -1 ) {
         this.movingInProportionSoundClip = null;
       }

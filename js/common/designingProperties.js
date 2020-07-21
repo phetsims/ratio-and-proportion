@@ -14,7 +14,7 @@ class DesigningProperties {
   constructor() {
 
     // global Property for selecting sound when velocities indicate successful ratio movement, this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/9
-    this.velocitySoundSelectorProperty = new NumberProperty( 1 );
+    this.movingInProportionSoundSelectorProperty = new NumberProperty( 5 );
 
     // global Property for selecting sound when staccato-type sound is at the "perfect" ratio, this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/9
     this.inProportionSoundSelectorProperty = new NumberProperty( 0 );
