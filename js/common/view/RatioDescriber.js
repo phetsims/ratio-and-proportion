@@ -7,6 +7,7 @@
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import GridView from './GridView.js';
 
 const ratioDescriptionPatternString = ratioAndProportionStrings.a11y.ratio.descriptionPattern;
 
@@ -60,6 +61,31 @@ class RatioDescriber {
     this.gridDescriber = gridDescriber;
   }
 
+
+  /**
+   * @private
+   * @param {NumberProperty} valueProperty
+   * @param {GridView} gridView
+   * @returns {string}
+   */
+  getHandPosition( valueProperty, gridView ) {
+    return GridView.describeQualitative( gridView ) ? this.getQualitativePointerPosition( valueProperty ) :
+           this.getQuantitativePointerPosition( valueProperty );
+  }
+
+  /**
+   * @private
+   * @param {NumberProperty} valueProperty
+   * @returns {string}
+   */
+  getQuantitativePointerPosition( valueProperty ) {
+    const gridObject = this.gridDescriber.getRelativePositionAndGridNumberForProperty( valueProperty );
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.grid.quantitativeHandPositionPattern, {
+      relativePosition: gridObject.relativePosition,
+      gridPosition: gridObject.gridPosition
+    } );
+  }
+
   /**
    * @public
    * @returns {string}
@@ -111,22 +137,6 @@ class RatioDescriber {
       }
       assert && assert( false, 'we should not get here' );
     }
-  }
-
-  /**
-   * @public
-   * @returns {{grid: number, relativePosition: string}}
-   */
-  getLeftQuantitativePositionObject() {
-    return this.gridDescriber.getRelativePositionAndGridNumberForProperty( this.leftValueProperty );
-  }
-
-  /**
-   * @public
-   * @returns {{grid: number, relativePosition: string}}
-   */
-  getRightQuantitativePositionObject() {
-    return this.gridDescriber.getRelativePositionAndGridNumberForProperty( this.rightValueProperty );
   }
 
   /**

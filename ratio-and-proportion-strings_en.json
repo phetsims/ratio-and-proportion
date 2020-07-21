@@ -71,6 +71,9 @@
         "value": "Grid Hidden"
       },
       "relative": {
+        "justAbove": {
+          "value": "just above"
+        },
         "above": {
           "value": "above"
         },
@@ -79,7 +82,16 @@
         },
         "below": {
           "value": "below"
+        },
+        "justBelow": {
+          "value": "just below"
+        },
+        "on": {
+          "value": "on"
         }
+      },
+      "quantitativeHandPositionPattern": {
+        "value": "{{relativePosition}} grid position {{gridPosition}}"
       }
     },
     "leftHandBullet": {

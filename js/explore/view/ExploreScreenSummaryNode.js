@@ -50,18 +50,19 @@ class ExploreScreenSummaryNode extends Node {
     this.ratioDescriber = ratioDescriber;
 
     // This derivedProperty is already dependent on all other dependencies for getStateOfSimString
-    Property.multilink( [ ratioProperty, gridViewProperty, ratioFitnessProperty, leftValueProperty, rightValueProperty ], currentTargetRatio => {
-      stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.explore.screenSummary.qualitativeStateOfSim, {
-        ratioFitness: this.ratioDescriber.getRatioFitness( false ), // lowercase
-        currentChallenge: ratioToChallengeNameMap.get( currentTargetRatio )
+    Property.multilink( [ ratioProperty, gridViewProperty, ratioFitnessProperty, leftValueProperty, rightValueProperty ],
+      ( currentTargetRatio, gridView ) => {
+        stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.explore.screenSummary.qualitativeStateOfSim, {
+          ratioFitness: this.ratioDescriber.getRatioFitness( false ), // lowercase
+          currentChallenge: ratioToChallengeNameMap.get( currentTargetRatio )
+        } );
+        leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
+          position: ratioDescriber.getHandPosition( leftValueProperty, gridView )
+        } );
+        rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
+          position: ratioDescriber.getHandPosition( rightValueProperty, gridView )
+        } );
       } );
-      leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
-        position: ratioDescriber.getLeftQualitativePointerPosition()
-      } );
-      rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
-        position: ratioDescriber.getRightQualitativePointerPosition()
-      } );
-    } );
   }
 }
 

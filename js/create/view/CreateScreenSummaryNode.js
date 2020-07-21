@@ -72,16 +72,17 @@ class CreateScreenSummaryNode extends Node {
         expanded: expanded ? ratioAndProportionStrings.a11y.create.screenSummary.expanded : ratioAndProportionStrings.a11y.create.screenSummary.collapsed
       } );
 
+      // TODO: implement with myChallenge values
       myChallengeSubBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.screenSummary.myChallengeLeftRightValues, {
-        leftValue: this.ratioDescriber.getLeftQualitativePointerPosition(),
-        rightValue: this.ratioDescriber.getRightQualitativePointerPosition()
+        leftValue: this.ratioDescriber.getHandPosition( leftValueProperty, gridView ),
+        rightValue: this.ratioDescriber.getHandPosition( rightValueProperty, gridView )
       } );
 
       leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
-        position: ratioDescriber.getLeftQualitativePointerPosition()
+        position: ratioDescriber.getHandPosition( leftValueProperty, gridView )
       } );
       rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
-        position: ratioDescriber.getRightQualitativePointerPosition()
+        position: ratioDescriber.getHandPosition( rightValueProperty, gridView )
       } );
 
       gridRangeBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.screenSummary.gridRangeBullet, {
