@@ -11,11 +11,28 @@ import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
 import dingRingOutSound from '../../../../sounds/in-proportion/c4-ding-ring-out_mp3.js';
 import glockMarimbaCMaj7ArpeggioSound from '../../../../sounds/in-proportion/glock-marimba-c-maj-7-arp_mp3.js';
+import fifthsOption1Sound from '../../../../sounds/in-proportion/in-proportion-fifths-option-1_mp3.js';
+import fifthsOption2Sound from '../../../../sounds/in-proportion/in-proportion-fifths-option-2_mp3.js';
+import fifthsOption3Sound from '../../../../sounds/in-proportion/in-proportion-fifths-option-3_mp3.js';
+import chordOption1Sound from '../../../../sounds/in-proportion/in-proportion-major-chord-option-1_mp3.js';
+import chordOption2Sound from '../../../../sounds/in-proportion/in-proportion-major-chord-option-2_mp3.js';
+import chordOption3Sound from '../../../../sounds/in-proportion/in-proportion-major-chord-option-3_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import designingProperties from '../../designingProperties.js';
 import RatioAndProportionQueryParameters from '../../RatioAndProportionQueryParameters.js';
 
 const SUCCESS_OUTPUT_LEVEL = .8;
+
+const IN_PROPORTION_SOUNDS = [
+  dingRingOutSound,
+  glockMarimbaCMaj7ArpeggioSound,
+  fifthsOption1Sound,
+  fifthsOption2Sound,
+  fifthsOption3Sound,
+  chordOption1Sound,
+  chordOption2Sound,
+  chordOption3Sound
+];
 
 class InProportionSoundGenerator extends SoundGenerator {
 
@@ -31,23 +48,13 @@ class InProportionSoundGenerator extends SoundGenerator {
     }, options );
     super( options );
 
-    const singleSuccessSoundClip = new SoundClip( dingRingOutSound );
-    const singleArpeggiatedChord = new SoundClip( glockMarimbaCMaj7ArpeggioSound );
-    singleSuccessSoundClip.connect( this.soundSourceDestination );
-    singleArpeggiatedChord.connect( this.soundSourceDestination );
-
     // @private
     this.successSoundClip = null;
     designingProperties.inProportionSoundSelectorProperty.link( selector => {
-      if ( selector === 0 ) {
-        this.successSoundClip = singleSuccessSoundClip;
-      }
-      else if ( selector === 1 ) {
-        this.successSoundClip = singleArpeggiatedChord;
-      }
-      else {
-        assert && assert( false, 'unexpected staccato success sound selected' );
-      }
+      assert && assert( IN_PROPORTION_SOUNDS[ selector ] );
+      this.successSoundClip && this.successSoundClip.dispose();
+      this.successSoundClip = new SoundClip( IN_PROPORTION_SOUNDS[ selector ] );
+      this.successSoundClip.connect( this.soundSourceDestination );
     } );
 
     // @private
