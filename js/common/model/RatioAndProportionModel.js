@@ -35,7 +35,9 @@ class RatioAndProportionModel {
     this.toleranceProperty = new NumberProperty( RatioAndProportionQueryParameters.tolerance );
 
     // @public
-    this.valueRange = new Range( .0001, 1 ); // Do avoid devide-by zero errors
+    // To avoid divide-by zero errors. NOTE: GridDescriber relies on the min of this mapping to "zero" as it pertains
+    // to Interactive description
+    this.valueRange = new Range( .0001, 1 );
 
     const modelBounds = new Bounds2( -.5, this.valueRange.min, .5, this.valueRange.max );
 

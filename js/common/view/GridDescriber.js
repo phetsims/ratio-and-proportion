@@ -67,7 +67,7 @@ class GridDescriber {
     const remainder = Utils.toFixedNumber( expandedValue % 1, 6 );
     assert && assert( remainder < 1 && remainder >= 0 );
 
-    const relativePosition = this.getRelativePosition( remainder );
+    const relativePosition = this.getRelativePosition( remainder, numberOfGridLines );
 
     const gridValue = remainder >= BIGGER_THAN_MIDDLE_THRESHOLD ? Math.ceil( expandedValue ) : Math.floor( expandedValue );
 
@@ -82,15 +82,17 @@ class GridDescriber {
    * @private
    * @param {number} value - must be in range [0,1) (not including 1). Basically this is the "remainder" position in
    * between two grid lines
+   * @param {number} numberOfGridLines
    * @returns {string} the relative position given the position from a grid line.
    */
-  getRelativePosition( value ) {
+  getRelativePosition( value, numberOfGridLines ) {
     assert && assert( RELATIVE_POSITION_STRINGS.length === 6, '6 regions expected' );
     assert && assert( value < 1 && value >= 0, 'value not in range' );
 
     let index = null;
-    // TODO: is exactly 0 too strict? My guess is yes, and we maybe want to compare to valueRange.min so that the bottom 0 marker ends up being no-fitness
-    if ( value === 0 ) {
+    if ( value <= this.valueRange.min * numberOfGridLines ) {
+      // multiple by the numberOfGridLines to make sure that the value is properly mapped
+
       index = 0;
     }
     else if ( value <= .2 ) {
