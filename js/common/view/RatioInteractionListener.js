@@ -7,6 +7,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Utils from '../../../../dot/js/Utils.js';
 import KeyStateTracker from '../../../../scenery/js/accessibility/KeyStateTracker.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionConstants from '../RatioAndProportionConstants.js';
@@ -103,7 +104,7 @@ class RatioInteractionListener {
           if ( event.key === i + '' ) {
             this.firstInteractionProperty.value = false;
             const newValue = 1 / this.gridRangeProperty.value * i;
-            this.leftValueProperty.value = this.rightValueProperty.value = newValue;
+            this.leftValueProperty.value = this.rightValueProperty.value = Utils.clamp( newValue, this.valueRange.min, this.valueRange.max );
           }
         }
       }
