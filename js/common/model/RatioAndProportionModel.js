@@ -5,6 +5,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
@@ -70,10 +71,43 @@ class RatioAndProportionModel {
     this.leftVelocityProperty = new NumberProperty( 0 );
     this.rightVelocityProperty = new NumberProperty( 0 );
 
-    // @public {Property.<number>}
+    // @public {DerivedProperty.<number>}
     // How "correct" the proportion currently is. Can be between 0 and 1, if 1, the proportion of the two values is
     // exactly the value of the ratioProperty. If zero, it is outside the tolerance allowed for the proportion.
-    this.ratioFitnessProperty = new NumberProperty( 1, {
+    this.ratioFitnessProperty = new DerivedProperty( [
+      this.leftValueProperty,
+      this.rightValueProperty,
+      this.ratioProperty,
+      this.toleranceProperty
+    ], ( leftValue, rightValue, ratio, tolerance ) => {
+      assert && assert( rightValue !== 0, 'cannot divide by zero' );
+      assert && assert( !isNaN( leftValue / rightValue ), 'ratio should be defined' );
+
+      // constant to help achieve feedback in 40% of the visual screen height.
+      const toleranceFactor = 0.5;
+
+      // fitness according to treating the right value as "correct" in relation to the target ratio
+      const fLeft = ( left, rightOptimal, targetRatio ) => 1 - toleranceFactor * Math.abs( left - targetRatio * rightOptimal );
+
+      // fitness according to treating the left value as "correct" in relation to the target ratio
+      const fRight = ( leftOptimal, right, targetRatio ) => 1 - toleranceFactor * Math.abs( right - leftOptimal / targetRatio );
+
+      // Calculate both possible fitness values, and take the minimum. In experience this works well at creating a
+      // tolerance range that is independent of the target ratio or the positions of the values. This algorithm can
+      // make the tolerance of the left value a bit too small for small target ratios.
+      const getFitness = ( left, right ) => Math.min( fLeft( left, right, ratio ), fRight( left, right, ratio ) );
+
+      const unclampedFitness = getFitness( leftValue * 10, rightValue * 10 );
+
+      const fitness = Utils.clamp( unclampedFitness, this.fitnessRange.min, this.fitnessRange.max );
+      // console.log( leftValue * 10, rightValue * 10, ratio, fitness );
+
+      // If either value is small enough, then we don't allow an "in proportion" fitness level, so make it just below that threshold.
+      if ( this.inProportion( fitness ) && this.valuesTooSmallForSuccess() ) {
+        return this.fitnessRange.max - this.getInProportionThreshold() - .01;
+      }
+      return fitness;
+    }, {
       isValidValue: value => this.fitnessRange.contains( value )
     } );
 
@@ -84,56 +118,6 @@ class RatioAndProportionModel {
     this.previousLeftValueProperty = new NumberProperty( this.leftValueProperty.value );
     this.previousRightValueProperty = new NumberProperty( this.rightValueProperty.value );
     this.stepCountTracker = 0;
-
-    // @private - implementation detail, see this.ratioFitnessProperty instead
-    this.unclampedFitness = 1;
-
-    this.leftValueProperty.lazyLink( ( newValue, oldValue ) => {
-      const previousRatio = oldValue / this.rightValueProperty.value;
-      const newRatio = newValue / this.rightValueProperty.value;
-      this.adjustFitness( previousRatio, newRatio, newValue, oldValue, this.ratioProperty.value * this.rightValueProperty.value );
-    } );
-    this.rightValueProperty.lazyLink( ( newValue, oldValue ) => {
-      const previousRatio = this.leftValueProperty.value / oldValue;
-      const newRatio = this.leftValueProperty.value / newValue;
-      this.adjustFitness( previousRatio, newRatio, newValue, oldValue, this.leftValueProperty.value / this.ratioProperty.value );
-    } );
-  }
-
-  /**
-   * Adjust the fitness of the ratio based on a movement of either the left or right values.
-   * @private
-   * @param previousRatio
-   * @param newRatio
-   * @param newValue
-   * @param oldValue
-   * @param idealValue
-   */
-  adjustFitness( previousRatio, newRatio, newValue, oldValue, idealValue ) {
-    const targetRatio = this.ratioProperty.value;
-
-
-    // If a change would span through the target ratio, then the signs would be different, and so should be treated as
-    // two separate adjustments, one going to a max fitness, and then the next going away from max fitness.
-    if ( idealValue && newValue !== idealValue && oldValue !== idealValue && newValue > idealValue !== oldValue > idealValue ) {
-      idealValue = Utils.toFixedNumber( idealValue, 6 );
-      this.adjustFitness( previousRatio, targetRatio, oldValue, idealValue );
-      this.adjustFitness( targetRatio, newRatio, idealValue, newValue );
-    }
-    else {
-
-      const newError = Math.abs( newRatio - targetRatio );
-      const previousError = Math.abs( previousRatio - targetRatio );
-
-      assert && assert( newError !== previousError, 'have not thought through this case, but should soon!' );
-
-      const sign = newError > previousError ? -1 : 1;
-
-      const dx = sign * Math.abs( newValue - oldValue );
-      this.unclampedFitness = this.unclampedFitness + 1 / 2 * dx * 10;
-
-      this.ratioFitnessProperty.value = Utils.clamp( this.unclampedFitness, 0, 1 );
-    }
   }
 
   /**
