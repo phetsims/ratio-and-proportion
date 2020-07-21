@@ -20,9 +20,6 @@ import RatioAndProportionConstants from '../RatioAndProportionConstants.js';
 // The threshold for velocity of a moving ratio value to indivate that it is "moving."
 const VELOCITY_THRESHOLD = .01;
 
-// For fitness - constant to help achieve feedback in 40% of the visual screen height.
-const TOLERANCE_FACTOR = .5;
-
 // The value in which when either the left or right value is less than this, the ratio cannot be "in proportion"
 const NO_SUCCUSS_VALUE_THRESHOLD = .05;
 
@@ -101,9 +98,6 @@ class RatioAndProportionModel {
       const newRatio = this.leftValueProperty.value / newValue;
       this.adjustFitness( previousRatio, newRatio, newValue, oldValue, this.leftValueProperty.value / this.ratioProperty.value );
     } );
-
-    // But how do we know that recalculating this like so works equally well for both values. Still need to come up with a place to solve.
-    this.ratioProperty.link( () => this.recalculateFitness() );
   }
 
   /**
@@ -136,49 +130,10 @@ class RatioAndProportionModel {
       const sign = newError > previousError ? -1 : 1;
 
       const dx = sign * Math.abs( newValue - oldValue );
+      this.unclampedFitness = this.unclampedFitness + 1 / 2 * dx * 10;
 
-      this.unclampedFitness = this.unclampedFitness + dx * 10 * TOLERANCE_FACTOR;
-      assert && assert( this.unclampedFitness <= 1, 'unclampedFitness should never be larger than 1' );
-
-      this.setFitness( this.unclampedFitness );
+      this.ratioFitnessProperty.value = Utils.clamp( this.unclampedFitness, 0, 1 );
     }
-  }
-
-  /**
-   * @private
-   */
-  recalculateFitness() {
-    const ratio = this.ratioProperty.value;
-
-    // fitness according to treating the right value as "correct" in relation to the target ratio
-    const fLeft = ( left, rightOptimal, targetRatio ) => 1 - TOLERANCE_FACTOR * Math.abs( left - targetRatio * rightOptimal );
-
-    // fitness according to treating the left value as "correct" in relation to the target ratio
-    const fRight = ( leftOptimal, right, targetRatio ) => 1 - TOLERANCE_FACTOR * Math.abs( right - leftOptimal / targetRatio );
-
-    // Calculate both possible fitness values, and take the minimum. In experience this works well at creating a
-    // tolerance range that is independent of the target ratio or the positions of the values. This algorithm can
-    // make the tolerance of the left value a bit too small for small target ratios.
-    const getFitness = ( left, right ) => Math.min( fLeft( left, right, ratio ), fRight( left, right, ratio ) );
-
-    this.setFitness( getFitness( this.leftValueProperty.value * 10, this.rightValueProperty.value * 10 ) );
-    this.unclampedFitness = this.ratioFitnessProperty.value;
-
-  }
-
-  /**
-   * @private
-   * @param fitness
-   */
-  setFitness( fitness ) {
-
-    // If either value is small enough, then we don't allow an "in proportion" fitness level, so make it just below that threshold.
-    if ( this.inProportion( fitness ) && this.valuesTooSmallForSuccess() ) {
-      fitness = this.fitnessRange.max - this.getInProportionThreshold() - .01;
-    }
-
-    this.ratioFitnessProperty.value = Utils.clamp( fitness, this.fitnessRange.min, this.fitnessRange.max );
-    console.log( this.ratioFitnessProperty.value );
   }
 
   /**
@@ -263,7 +218,6 @@ class RatioAndProportionModel {
     this.leftValueProperty.reset();
     this.rightValueProperty.reset();
     this.firstInteractionProperty.reset();
-    this.recalculateFitness();
   }
 }
 
