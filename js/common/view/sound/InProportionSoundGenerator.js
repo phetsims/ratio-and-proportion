@@ -13,10 +13,8 @@ import dingRingOutSound from '../../../../sounds/in-proportion/c4-ding-ring-out_
 import glockMarimbaCMaj7ArpeggioSound from '../../../../sounds/in-proportion/glock-marimba-c-maj-7-arp_mp3.js';
 import fifthsOption1Sound from '../../../../sounds/in-proportion/in-proportion-fifths-option-1_mp3.js';
 import fifthsOption2Sound from '../../../../sounds/in-proportion/in-proportion-fifths-option-2_mp3.js';
-import fifthsOption3Sound from '../../../../sounds/in-proportion/in-proportion-fifths-option-3_mp3.js';
 import chordOption1Sound from '../../../../sounds/in-proportion/in-proportion-major-chord-option-1_mp3.js';
 import chordOption2Sound from '../../../../sounds/in-proportion/in-proportion-major-chord-option-2_mp3.js';
-import chordOption3Sound from '../../../../sounds/in-proportion/in-proportion-major-chord-option-3_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import designingProperties from '../../designingProperties.js';
 import RatioAndProportionQueryParameters from '../../RatioAndProportionQueryParameters.js';
@@ -28,10 +26,8 @@ const IN_PROPORTION_SOUNDS = [
   glockMarimbaCMaj7ArpeggioSound,
   fifthsOption1Sound,
   fifthsOption2Sound,
-  fifthsOption3Sound,
   chordOption1Sound,
-  chordOption2Sound,
-  chordOption3Sound
+  chordOption2Sound
 ];
 
 class InProportionSoundGenerator extends SoundGenerator {
