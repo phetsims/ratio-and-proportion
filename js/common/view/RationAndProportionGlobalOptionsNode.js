@@ -98,6 +98,9 @@ class RationAndProportionGlobalOptionsNode extends HBox {
               node: new OptionsText( 'Peaceful tranquility' ),
               value: 5
             }, {
+              node: new OptionsText( 'Choir/Peaceful tranquility blend' ),
+              value: 6
+            }, {
               node: new OptionsText( 'No sound' ),
               value: -1
             } ] )

@@ -21,6 +21,7 @@ import RatioAndProportionQueryParameters from '../../RatioAndProportionQueryPara
 
 // constants
 const FITNESS_THRESHOLD = RatioAndProportionQueryParameters.movingInProportionThreshold;
+const CHOIR_TRANQUILITY_BLEND = 'how wonderful this world is, ahhh.';
 
 const MOVING_IN_PROPORTION_SOUNDS = [
   stringsSound,
@@ -28,7 +29,8 @@ const MOVING_IN_PROPORTION_SOUNDS = [
   movingInProportionOption1,
   movingInProportionOption2,
   movingInProportionOption3,
-  movingInProportionOption4
+  movingInProportionOption4,
+  CHOIR_TRANQUILITY_BLEND
 ];
 
 class MovingInProportionSoundGenerator extends SoundGenerator {
@@ -40,12 +42,12 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
    */
   constructor( ratioFitnessProperty, model, options ) {
     options = merge( {
-      initialOutputLevel: .8
+      initialOutputLevel: .05
     }, options );
 
-    super();
+    super( options );
 
-    // @private
+    // @private {SoundClip|MultiSoundClip|null} - null when no sound
     this.movingInProportionSoundClip = null;
 
     designingProperties.movingInProportionSoundSelectorProperty.link( selection => {
@@ -55,11 +57,20 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
       else {
         assert && assert( MOVING_IN_PROPORTION_SOUNDS[ selection ] );
         this.movingInProportionSoundClip && this.movingInProportionSoundClip.dispose();
-        this.movingInProportionSoundClip = new SoundClip( MOVING_IN_PROPORTION_SOUNDS[ selection ], {
-          loop: true,
-          initialOutputLevel: .7
-        } );
-        this.movingInProportionSoundClip.connect( this.soundSourceDestination );
+
+        if ( MOVING_IN_PROPORTION_SOUNDS[ selection ] === CHOIR_TRANQUILITY_BLEND ) {
+          this.movingInProportionSoundClip = new MultiSoundClip( [
+            { sound: choirAhhSound, options: { loop: true } },
+            { sound: movingInProportionOption4, options: { loop: true, initialOutputLevel: .6 } }
+          ] );
+          this.movingInProportionSoundClip.connect( this.soundSourceDestination );
+        }
+        else {
+          this.movingInProportionSoundClip = new SoundClip( MOVING_IN_PROPORTION_SOUNDS[ selection ], {
+            loop: true
+          } );
+          this.movingInProportionSoundClip.connect( this.soundSourceDestination );
+        }
       }
     } );
 
@@ -69,7 +80,7 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
         if ( model.movingInDirection() &&
              !model.valuesTooSmallForSuccess() && // no moving in proportion success if too small
              fitness > FITNESS_THRESHOLD ) { // must be fit enough to play the moving in proportion success
-          this.movingInProportionSoundClip.setOutputLevel( .7, .1 );
+          this.movingInProportionSoundClip.setOutputLevel( 1, .1 );
           !this.movingInProportionSoundClip.isPlaying && this.movingInProportionSoundClip.play();
         }
         else {
@@ -85,6 +96,66 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
    */
   reset() {
     this.movingInProportionSoundClip.stop( 0 );
+  }
+}
+
+// Private class used to blend two sounds together
+class MultiSoundClip extends SoundGenerator {
+
+  /**
+   * @param {Array.<sound:SoundClip,options:Object>} soundsAndOptionsTuples
+   * @param {Object} [options]
+   */
+  constructor( soundsAndOptionsTuples, options ) {
+    super( options );
+    this.soundClips = [];
+    for ( let i = 0; i < soundsAndOptionsTuples.length; i++ ) {
+      const soundAndOptions = soundsAndOptionsTuples[ i ];
+      const soundClip = new SoundClip( soundAndOptions.sound, soundAndOptions.options );
+      soundClip.connect( this.soundSourceDestination );
+      this.soundClips.push( soundClip );
+    }
+  }
+
+  /**
+   * @public
+   */
+  play() {
+    this.soundClips.forEach( soundClip => soundClip.play() );
+  }
+
+  /**
+   * @public
+   */
+  stop() {
+    this.soundClips.forEach( soundClip => soundClip.stop() );
+  }
+
+  /**
+   * @public
+   */
+  connect( destination ) {
+    this.soundClips.forEach( soundClip => soundClip.connect( destination ) );
+  }
+
+  /**
+   * @public
+   */
+  dispose() {
+    this.soundClips.forEach( soundClip => soundClip.dispose() );
+  }
+
+  get isPlaying() {
+    return _.some( this.soundClips, soundClip => soundClip.isPlaying );
+  }
+
+  /**
+   * @public
+   * @param {number} outputLevel
+   * @param {number} timeConstant
+   */
+  setOutputLevel( outputLevel, timeConstant ) {
+    this.soundClips.forEach( soundClip => soundClip.setOutputLevel( outputLevel, timeConstant ) );
   }
 }
 
