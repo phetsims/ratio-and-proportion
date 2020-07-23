@@ -80,26 +80,17 @@ class RationAndProportionGlobalOptionsNode extends HBox {
           children: [
             new RichText( 'Velocity Sound:' ),
             new VerticalAquaRadioButtonGroup( designingProperties.movingInProportionSoundSelectorProperty, [ {
-              node: new OptionsText( 'Strings' ),
+              node: new OptionsText( 'Choir (Ahhh)' ),
               value: 0
             }, {
-              node: new OptionsText( 'Choir (Ahhh)' ),
+              node: new OptionsText( 'Dream time' ),
               value: 1
             }, {
-              node: new OptionsText( 'Star Pop Orchestra' ),
+              node: new OptionsText( 'Peaceful tranquility' ),
               value: 2
             }, {
-              node: new OptionsText( 'Sleep time (with bells)' ),
-              value: 3
-            }, {
-              node: new OptionsText( 'Dream time' ),
-              value: 4
-            }, {
-              node: new OptionsText( 'Peaceful tranquility' ),
-              value: 5
-            }, {
               node: new OptionsText( 'Choir/Peaceful tranquility blend' ),
-              value: 6
+              value: 3
             }, {
               node: new OptionsText( 'No sound' ),
               value: -1
