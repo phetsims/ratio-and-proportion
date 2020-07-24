@@ -41,10 +41,10 @@ class RationAndProportionGlobalOptionsNode extends HBox {
             value: 3
           }, {
             node: new OptionsText( 'Chord option1' ),
-            value: 5
+            value: 4
           }, {
             node: new OptionsText( 'Chord option2' ),
-            value: 6
+            value: 5
           } ]
         )
       ]
