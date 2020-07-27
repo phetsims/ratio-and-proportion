@@ -103,7 +103,7 @@
     "explore": {
       "screenSummary": {
         "introParagraph": {
-          "value": "The Play Area has two freely moving objects that can be moved around to find the current proportions and five mystery scene selection buttons. The Control Area has a button to reset the sim."
+          "value": "The Play Area is an open space with two movable hands. Hands can be moved individually or simultaneously to explore a challenge. There are options to adjust the look and feel of the open space that may help you master the challenges. The Control Area has a button to reset the sim."
         },
         "qualitativeStateOfSim": {
           "value": "Currently, {{ratioFitness}} ratio, on {{currentChallenge}}"
