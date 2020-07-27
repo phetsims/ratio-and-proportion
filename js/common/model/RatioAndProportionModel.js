@@ -44,10 +44,12 @@ class RatioAndProportionModel {
 
     this.leftPositionProperty = new Vector2Property( new Vector2( 0, .2 ), {
       tandem: tandem.createTandem( 'leftBarProperty' ),
+      reentrant: true,
       validBounds: modelBounds
     } );
     this.rightPositionProperty = new Vector2Property( new Vector2( 0, .4 ), {
       tandem: tandem.createTandem( 'rightBarProperty' ),
+      reentrant: true,
       validBounds: modelBounds
     } );
 
@@ -55,11 +57,13 @@ class RatioAndProportionModel {
     // TODO: this may not be needed because horizontal movement is not important to the model.
     this.leftValueProperty = new DynamicProperty( new Property( this.leftPositionProperty ), {
       bidirectional: true,
+      reentrant: true,
       map: vector2 => vector2.y,
       inverseMap: number => this.leftPositionProperty.value.copy().setY( number )
     } );
     this.rightValueProperty = new DynamicProperty( new Property( this.rightPositionProperty ), {
       bidirectional: true,
+      reentrant: true,
       map: vector2 => vector2.y,
       inverseMap: number => this.rightPositionProperty.value.copy().setY( number )
     } );
@@ -132,6 +136,9 @@ class RatioAndProportionModel {
         const previousRatio = oldValue / this.rightValueProperty.value;
         adjustingFromLock = true;
         this.rightValueProperty.value = Utils.clamp( newValue / previousRatio, this.valueRange.min, this.valueRange.max );
+        if ( this.rightValueProperty.value === this.valueRange.min || this.rightValueProperty.value === this.valueRange.max ) {
+          this.leftValueProperty.value = previousRatio * this.rightValueProperty.value;
+        }
         adjustingFromLock = false;
       }
     } );
@@ -140,6 +147,9 @@ class RatioAndProportionModel {
         const previousRatio = this.leftValueProperty.value / oldValue;
         adjustingFromLock = true;
         this.leftValueProperty.value = Utils.clamp( newValue * previousRatio, this.valueRange.min, this.valueRange.max );
+        if ( this.leftValueProperty.value === this.valueRange.min || this.leftValueProperty.value === this.valueRange.max ) {
+          this.rightValueProperty.value = this.leftValueProperty.value / previousRatio;
+        }
         adjustingFromLock = false;
       }
     } );
