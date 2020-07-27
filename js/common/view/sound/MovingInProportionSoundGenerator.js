@@ -12,6 +12,7 @@ import SoundGenerator from '../../../../../tambo/js/sound-generators/SoundGenera
 import choirAhhSound from '../../../../sounds/moving-in-proportion/choir-ahhh-loop_wav.js';
 import movingInProportionOption3 from '../../../../sounds/moving-in-proportion/moving-in-proportion-loop-option-3_wav.js';
 import movingInProportionOption4 from '../../../../sounds/moving-in-proportion/moving-in-proportion-loop-option-4_wav.js';
+import peacefulAndChoirSound from '../../../../sounds/moving-in-proportion/moving-in-proportion-loop-peaceful-and-choir_wav.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import designingProperties from '../../designingProperties.js';
 
@@ -22,7 +23,8 @@ const MOVING_IN_PROPORTION_SOUNDS = [
   choirAhhSound,
   movingInProportionOption3,
   movingInProportionOption4,
-  CHOIR_TRANQUILITY_BLEND
+  CHOIR_TRANQUILITY_BLEND,
+  peacefulAndChoirSound
 ];
 
 class MovingInProportionSoundGenerator extends SoundGenerator {
