@@ -32,6 +32,9 @@
   "challenge3": {
     "value": "Challenge 3"
   },
+  "lockRatio": {
+    "value": "Lock Ratio"
+  },
   "a11y": {
     "leftHand": {
       "value": "Left Hand"

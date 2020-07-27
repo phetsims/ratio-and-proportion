@@ -14,10 +14,8 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
-import Checkbox from '../../../../sun/js/Checkbox.js';
 import FontAwesomeNode from '../../../../sun/js/FontAwesomeNode.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import gridIconImage from '../../../images/grid-icon_png.js';
@@ -175,10 +173,8 @@ class RatioAndProportionScreenView extends ScreenView {
       backgroundNode.setFill( color );
     } );
 
-    const lockRatioCheckbox = new Checkbox( new RichText( 'Lock Ratio' ), model.lockRatioProperty );
-
-    // @protected - layout of this should be done by the subtype
-    const resetAllButton = new ResetAllButton( {
+    // @protected - used only for subtype layout
+    this.resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         model.reset();
@@ -216,8 +212,7 @@ class RatioAndProportionScreenView extends ScreenView {
 
       // UI
       this.gridViewRadioButtonGroup,
-      lockRatioCheckbox,
-      resetAllButton,
+      this.resetAllButton,
 
       // Main ratio on top
       a11yRatioContainer
@@ -233,13 +228,12 @@ class RatioAndProportionScreenView extends ScreenView {
 
     // accessible order
     this.pdomControlAreaNode.accessibleOrder = [
-      resetAllButton
+      this.resetAllButton
     ];
 
     // static layout
-    resetAllButton.right = this.gridViewRadioButtonGroup.right = lockRatioCheckbox.right = this.layoutBounds.maxX - RatioAndProportionConstants.SCREEN_VIEW_X_MARGIN;
-    resetAllButton.bottom = this.layoutBounds.height - RatioAndProportionConstants.SCREEN_VIEW_Y_MARGIN;
-    lockRatioCheckbox.bottom = resetAllButton.top - 20;
+    this.resetAllButton.right = this.gridViewRadioButtonGroup.right = this.layoutBounds.maxX - RatioAndProportionConstants.SCREEN_VIEW_X_MARGIN;
+    this.resetAllButton.bottom = this.layoutBounds.height - RatioAndProportionConstants.SCREEN_VIEW_Y_MARGIN;
     this.gridViewRadioButtonGroup.top = this.layoutBounds.height * .15;
 
     // @private - dynamic layout based on the current ScreenView coordinates

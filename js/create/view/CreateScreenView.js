@@ -16,6 +16,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
+import Checkbox from '../../../../sun/js/Checkbox.js';
 import RatioAndProportionScreenView from '../../common/view/RatioAndProportionScreenView.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -119,8 +120,13 @@ class CreateScreenView extends RatioAndProportionScreenView {
       numeratorProperty, denominatorProperty
     ) );
 
-    // children
+    const lockRatioCheckbox = new Checkbox( new RichText( ratioAndProportionStrings.lockRatio ), model.lockRatioProperty, {
+      accessibleName: ratioAndProportionStrings.lockRatio
+    } );
+
+    // children - remember to not blow away children set by parent
     this.addChild( myChallengeAccordionBox );
+    this.addChild( lockRatioCheckbox );
     this.addChild( gridRangeComboBox );
     this.addChild( gridRangeComboBoxParent ); // Should be on top
 
@@ -128,11 +134,13 @@ class CreateScreenView extends RatioAndProportionScreenView {
     this.pdomPlayAreaNode.accessibleOrder = this.pdomPlayAreaNode.accessibleOrder.concat( [
       gridRangeComboBox,
       gridRangeComboBoxParent,
-      myChallengeAccordionBox
+      myChallengeAccordionBox,
+      lockRatioCheckbox
     ] );
 
     // static layout
-    gridRangeComboBox.right = myChallengeAccordionBox.right = this.gridViewRadioButtonGroup.right;
+    lockRatioCheckbox.right = gridRangeComboBox.right = myChallengeAccordionBox.right = this.gridViewRadioButtonGroup.right;
+    lockRatioCheckbox.bottom = this.resetAllButton.top - 20;
     gridRangeComboBox.top = this.gridViewRadioButtonGroup.bottom + 10;
     myChallengeAccordionBox.top = gridRangeComboBox.bottom + 30;
 
