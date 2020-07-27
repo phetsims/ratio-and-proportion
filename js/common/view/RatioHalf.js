@@ -13,6 +13,7 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
@@ -20,10 +21,10 @@ import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import sliderBoundaryClickSound from '../../../../tambo/sounds/general-boundary-boop_mp3.js';
+import sliderClickSound from '../../../../tambo/sounds/general-soft-click_mp3.js';
 import commonGrabSound from '../../../../tambo/sounds/grab_mp3.js';
 import commonReleaseSound from '../../../../tambo/sounds/release_mp3.js';
-import sliderClickSound from '../../../../tambo/sounds/general-soft-click_mp3.js';
-import sliderBoundaryClickSound from '../../../../tambo/sounds/general-boundary-boop_mp3.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import designingProperties from '../designingProperties.js';
@@ -52,10 +53,11 @@ class RatioHalf extends Rectangle {
    * @param {GridDescriber} gridDescriber
    * @param {Property.<Color>} colorProperty
    * @param {number} keyboardStep
+   * @param {BooleanProperty} horizontalMovementAllowed
    * @param {Object} [options]
    */
   constructor( positionProperty, valueProperty, valueRange, firstInteractionProperty, bounds, gridViewProperty,
-               gridRangeProperty, ratioDescriber, gridDescriber, colorProperty, keyboardStep, options ) {
+               gridRangeProperty, ratioDescriber, gridDescriber, colorProperty, keyboardStep, horizontalMovementAllowed, options ) {
 
     options = merge( {
       isRight: true, // right ratio or the left ratio
@@ -137,17 +139,25 @@ class RatioHalf extends Rectangle {
     // via the modelViewTransform.
     const dragBounds = positionProperty.validBounds.erodedX( modelHalfPointerPointer.x );
 
+    let startingX = null;
+
     // transform and dragBounds set in layout code below
     const dragListener = new DragListener( {
       positionProperty: positionProperty,
       tandem: options.tandem.createTandem( 'dragListener' ),
       dragBoundsProperty: new Property( dragBounds ),
       start: () => {
+        if ( horizontalMovementAllowed.value ) {
+          startingX = positionProperty.value.x;
+        }
         commonGrabSoundClip.play();
         firstInteractionProperty.value = false;
       },
       drag: () => {
         this.isBeingInteractedWithProperty.value = true;
+        if ( startingX ) {
+          positionProperty.value = new Vector2( startingX, positionProperty.value.y );
+        }
 
         const value = valueProperty.value;
 
@@ -170,6 +180,7 @@ class RatioHalf extends Rectangle {
       },
 
       end: () => {
+        startingX = null;
         commonReleaseSoundClip.play();
         this.isBeingInteractedWithProperty.value = false;
         this.alertManager.dragEndListener( valueProperty.get() );
