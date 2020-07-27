@@ -33,11 +33,12 @@ const RatioAndProportionQueryParameters = QueryStringMachine.getAll( {
   },
 
   /**
-   * The fitness must be at least this big to allow the "moving in proportion" sound (choir "ahhh").
+   * The distance (in fitness) from max fitness that still indicates a successful proportion when both hands moving in the
+   * same direction. See RatioAndProportionModel.movingInDirection()
    */
   movingInProportionThreshold: {
     type: 'number',
-    defaultValue: .7
+    defaultValue: .3
   },
 
   // For staccato sounds when frequnecy is changing (faster notes at higher fitness): what is the quickest interval

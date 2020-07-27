@@ -14,10 +14,8 @@ import movingInProportionOption3 from '../../../../sounds/moving-in-proportion/m
 import movingInProportionOption4 from '../../../../sounds/moving-in-proportion/moving-in-proportion-loop-option-4_wav.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import designingProperties from '../../designingProperties.js';
-import RatioAndProportionQueryParameters from '../../RatioAndProportionQueryParameters.js';
 
 // constants
-const FITNESS_THRESHOLD = RatioAndProportionQueryParameters.movingInProportionThreshold;
 const CHOIR_TRANQUILITY_BLEND = 'how wonderful this world is, ahhh.';
 
 const MOVING_IN_PROPORTION_SOUNDS = [
@@ -71,9 +69,9 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
     Property.multilink( [ model.leftVelocityProperty, model.rightVelocityProperty, ratioFitnessProperty ], (
       leftVelocity, rightVelocity, fitness ) => {
       if ( this.movingInProportionSoundClip ) {
-        if ( model.movingInDirection() &&
+        if ( model.movingInDirection() && // only when moving
              !model.valuesTooSmallForSuccess() && // no moving in proportion success if too small
-             fitness > FITNESS_THRESHOLD ) { // must be fit enough to play the moving in proportion success
+             model.inProportion() ) { // must be fit enough to play the moving in proportion success
           this.movingInProportionSoundClip.setOutputLevel( 1, .1 );
           !this.movingInProportionSoundClip.isPlaying && this.movingInProportionSoundClip.play();
         }

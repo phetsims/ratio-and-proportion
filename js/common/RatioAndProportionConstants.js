@@ -7,6 +7,7 @@
  */
 
 import ratioAndProportion from '../ratioAndProportion.js';
+import RatioAndProportionQueryParameters from './RatioAndProportionQueryParameters.js';
 
 const RatioAndProportionConstants = {
 
@@ -18,7 +19,7 @@ const RatioAndProportionConstants = {
 
   // distance (in fitness) from max fitness that still indicates a successful proportion when both hands moving in the
   // same direction. See RatioAndProportionModel.movingInDirection()
-  MOVING_IN_PROPORTION_FITNESS_THRESHOLD: .3,
+  MOVING_IN_PROPORTION_FITNESS_THRESHOLD: RatioAndProportionQueryParameters.movingInProportionThreshold,
 
   // The value to multiple the keyboard step size by to get the shift + keydown step size
   SHIFT_KEY_MULTIPLIER: 1 / 5
