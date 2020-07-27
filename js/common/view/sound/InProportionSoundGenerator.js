@@ -75,6 +75,10 @@ class InProportionSoundGenerator extends SoundGenerator {
     const newFitness = this.fitnessProperty.value;
 
     const isInRatio = this.model.inProportion();
+
+    // Only use hysteresis when both hands are moving.
+    const hysteresisThreshold = this.model.movingInDirection() ? RatioAndProportionQueryParameters.hysteresisThreshold : 0;
+
     if ( isInRatio && !this.playedSuccessYet ) {
 
       // TODO: is it possible that this will just bring a previous playing's reverb back to life and the play another instance on top of it? https://github.com/phetsims/ratio-and-proportion/issues/63
@@ -82,8 +86,7 @@ class InProportionSoundGenerator extends SoundGenerator {
       this.successSoundClip.play();
       this.playedSuccessYet = true;
     }
-    else if ( this.playedSuccessYet &&
-              newFitness < 1 - this.model.getInProportionThreshold() - RatioAndProportionQueryParameters.hysteresisThreshold ) {
+    else if ( this.playedSuccessYet && newFitness < 1 - this.model.getInProportionThreshold() - hysteresisThreshold ) {
 
       // The fitness has gone away from being in proportion enough that you can now get the sound again
       this.playedSuccessYet = false;
