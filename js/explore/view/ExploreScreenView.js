@@ -5,6 +5,7 @@
  */
 
 import Node from '../../../../scenery/js/nodes/Node.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -52,15 +53,15 @@ class ExploreScreenView extends RatioAndProportionScreenView {
       tagName: 'h3'
     } );
     const comboBox = new ComboBox( [
-      new ChallengeComboBoxItem( ratioToChallengeNameMap.get( 1 / 2 ), 'green', 1 / 2, {
+      new ChallengeComboBoxItem( ratioToChallengeNameMap.get( 1 / 2 ), new Color( 233, 69, 69 ), 1 / 2, {
         soundPlayer: soundGenerators[ 0 ],
         a11yLabel: ratioAndProportionStrings.challenge1
       } ),
-      new ChallengeComboBoxItem( ratioToChallengeNameMap.get( 1 / 3 ), 'blue', 1 / 3, {
+      new ChallengeComboBoxItem( ratioToChallengeNameMap.get( 1 / 3 ), new Color( 87, 182, 221 ), 1 / 3, {
         soundPlayer: soundGenerators[ 1 ],
         a11yLabel: ratioAndProportionStrings.challenge2
       } ),
-      new ChallengeComboBoxItem( ratioToChallengeNameMap.get( 3 / 4 ), 'magenta', 3 / 4, {
+      new ChallengeComboBoxItem( ratioToChallengeNameMap.get( 3 / 4 ), new Color( 255, 200, 0 ), 3 / 4, {
         soundPlayer: soundGenerators[ 2 ],
         a11yLabel: ratioAndProportionStrings.challenge3
       } )
