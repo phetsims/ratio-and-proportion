@@ -102,13 +102,15 @@ class RatioAndProportionModel {
 
       const unclampedFitness = getFitness( leftValue * 10, rightValue * 10 );
 
-      const fitness = Utils.clamp( unclampedFitness, this.fitnessRange.min, this.fitnessRange.max );
-      // console.log( leftValue * 10, rightValue * 10, ratio, fitness );
+      let fitness = Utils.clamp( unclampedFitness, this.fitnessRange.min, this.fitnessRange.max );
 
       // If either value is small enough, then we don't allow an "in proportion" fitness level, so make it just below that threshold.
       if ( this.inProportion( fitness ) && this.valuesTooSmallForSuccess() ) {
-        return this.fitnessRange.max - this.getInProportionThreshold() - .01;
+        fitness = this.fitnessRange.max - this.getInProportionThreshold() - .01;
       }
+
+      phet.log && phet.log( `left: ${leftValue},\n right: ${rightValue},\n current ratio: ${leftValue / rightValue},\n fitness: ${fitness}\n\n` );
+
       return fitness;
     }, {
       isValidValue: value => this.fitnessRange.contains( value )
