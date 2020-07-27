@@ -161,9 +161,16 @@ class RatioAndProportionModel {
    * @returns {boolean}
    */
   movingInDirection() {
-    return Math.abs( this.leftVelocityProperty.value ) > VELOCITY_THRESHOLD && // right past threshold
-           Math.abs( this.rightVelocityProperty.value ) > VELOCITY_THRESHOLD && // right past threshold
-           ( this.leftVelocityProperty.value > 0 === this.rightVelocityProperty.value > 0 ); // both hands should be moving in the same direction
+    const bothMoving = this.leftVelocityProperty.value !== 0 && this.rightVelocityProperty.value !== 0;
+
+    // both hands should be moving in the same direction
+    const movingInSameDirection = this.leftVelocityProperty.value > 0 === this.rightVelocityProperty.value > 0;
+
+    const movingFastEnough = Math.abs( this.leftVelocityProperty.value ) > VELOCITY_THRESHOLD && // right past threshold
+                             Math.abs( this.rightVelocityProperty.value ) > VELOCITY_THRESHOLD; // right past threshold
+
+    // Ignore the speed component when the ratio is locked
+    return bothMoving && movingInSameDirection && ( movingFastEnough || this.lockRatioProperty.value );
   }
 
   /**
