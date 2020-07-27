@@ -77,6 +77,7 @@ class CreateScreenSummaryNode extends Node {
         expanded: expanded ? ratioAndProportionStrings.a11y.create.screenSummary.expanded : ratioAndProportionStrings.a11y.create.screenSummary.collapsed
       } );
 
+      myChallengeSubList.visible = expanded;
       myChallengeSubBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.screenSummary.myChallengeLeftRightValues, {
         leftValue: numerator,
         rightValue: denominator
