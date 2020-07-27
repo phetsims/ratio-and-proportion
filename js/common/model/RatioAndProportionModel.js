@@ -218,6 +218,10 @@ class RatioAndProportionModel {
    * @public
    */
   reset() {
+
+    // it is easiest if this is reset first
+    this.lockRatioProperty.reset();
+
     this.leftPositionProperty.reset();
     this.rightPositionProperty.reset();
 
