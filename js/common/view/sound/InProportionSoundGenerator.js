@@ -40,7 +40,7 @@ class InProportionSoundGenerator extends SoundGenerator {
    */
   constructor( fitnessProperty, fitnessRange, model, options ) {
     options = merge( {
-      initialOutputLevel: .8
+      initialOutputLevel: .5
     }, options );
     super( options );
 

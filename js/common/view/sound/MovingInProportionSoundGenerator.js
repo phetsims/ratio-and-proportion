@@ -36,7 +36,7 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
    */
   constructor( ratioFitnessProperty, model, options ) {
     options = merge( {
-      initialOutputLevel: .05
+      initialOutputLevel: .15
     }, options );
 
     super( options );
