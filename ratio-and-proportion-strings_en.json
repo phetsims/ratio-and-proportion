@@ -103,6 +103,9 @@
     "rightHandBullet": {
       "value": "Right hand {{position}}"
     },
+    "ofPlayAreaPattern": {
+      "value": "{{position}} of Play Area"
+    },
     "explore": {
       "screenSummary": {
         "introParagraph": {

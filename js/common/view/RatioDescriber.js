@@ -67,7 +67,7 @@ class RatioDescriber {
    * @returns {string}
    */
   getLeftAriaValuetext( gridView ) {
-    return this.getHandPosition( this.leftValueProperty, gridView );
+    return this.getHandPositionAriaValuetext( this.leftValueProperty, gridView );
   }
 
   /**
@@ -76,7 +76,19 @@ class RatioDescriber {
    * @returns {string}
    */
   getRightAriaValuetext( gridView ) {
-    return this.getHandPosition( this.rightValueProperty, gridView );
+    return this.getHandPositionAriaValuetext( this.rightValueProperty, gridView );
+  }
+
+  /**
+   * @private
+   * @param {NumberProperty} valueProperty
+   * @param {GridView} gridView
+   * @returns {string}
+   */
+  getHandPositionAriaValuetext( valueProperty, gridView ) {
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ofPlayAreaPattern, {
+      position: this.getHandPosition( valueProperty, gridView )
+    } );
   }
 
   /**
