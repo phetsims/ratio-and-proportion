@@ -83,6 +83,9 @@ class RatioAndProportionScreenView extends ScreenView {
 
     const defaultRatioHalfBounds = Bounds2.rect( 0, 0, RATIO_HALF_WIDTH, LAYOUT_BOUNDS.height );
 
+    // description on each ratioHalf should be updated whenever these change
+    const a11yDependencies = [ gridViewProperty, options.gridRangeProperty, model.ratioProperty ];
+
     // @private {RatioHalf}
     this.leftRatioHalf = new RatioHalf(
       model.leftPositionProperty,
@@ -97,6 +100,7 @@ class RatioAndProportionScreenView extends ScreenView {
       gridAndLabelsColorProperty,
       keyboardStep, model.lockRatioProperty, {
         accessibleName: ratioAndProportionStrings.a11y.leftHand,
+        a11yDependencies: a11yDependencies,
         isRight: false // this way we get a left hand
       }
     );
@@ -115,6 +119,7 @@ class RatioAndProportionScreenView extends ScreenView {
       gridAndLabelsColorProperty,
       keyboardStep, model.lockRatioProperty, {
         accessibleName: ratioAndProportionStrings.a11y.rightHand,
+        a11yDependencies: a11yDependencies,
         helpText: ratioAndProportionStrings.a11y.rightHandHelpText
       } );
 

@@ -61,6 +61,23 @@ class RatioDescriber {
     this.gridDescriber = gridDescriber;
   }
 
+  /**
+   * @public
+   * @param {GridView} gridView
+   * @returns {string}
+   */
+  getLeftAriaValuetext( gridView ) {
+    return this.getHandPosition( this.leftValueProperty, gridView );
+  }
+
+  /**
+   * @public
+   * @param {GridView} gridView
+   * @returns {string}
+   */
+  getRightAriaValuetext( gridView ) {
+    return this.getHandPosition( this.rightValueProperty, gridView );
+  }
 
   /**
    * @private

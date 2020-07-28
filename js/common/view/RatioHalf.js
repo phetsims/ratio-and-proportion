@@ -63,6 +63,9 @@ class RatioHalf extends Rectangle {
       isRight: true, // right ratio or the left ratio
       tandem: Tandem.OPTIONAL,
 
+      // AccessibleValueHandler via RatioHandNode
+      a11yDependencies: [],
+
       // pdom
       tagName: 'div'
     }, options );
@@ -98,7 +101,12 @@ class RatioHalf extends Rectangle {
         firstInteractionProperty.value = false;
         this.isBeingInteractedWithProperty.value = true;
       },
-      isRight: options.isRight
+      isRight: options.isRight,
+      a11yCreateAriaValueText: () => {
+        const gridView = gridViewProperty.value;
+        return options.isRight ? ratioDescriber.getRightAriaValuetext( gridView ) : ratioDescriber.getLeftAriaValuetext( gridView );
+      },
+      a11yDependencies: options.a11yDependencies
     } );
     this.addChild( this.ratioHandNode );
 
