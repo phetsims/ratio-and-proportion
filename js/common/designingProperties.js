@@ -17,7 +17,7 @@ class DesigningProperties {
     this.movingInProportionSoundSelectorProperty = new NumberProperty( 3 );
 
     // global Property for selecting sound when staccato-type sound is at the "perfect" ratio, this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/9
-    this.inProportionSoundSelectorProperty = new NumberProperty( 0 );
+    this.inProportionSoundSelectorProperty = new NumberProperty( 3 );
 
     // border and click sounds for the vertical ratio pointer movement, this is temporary, see https://github.com/phetsims/ratio-and-proportion/issues/45
     this.ratioUISoundsEnabledProperty = new BooleanProperty( true );
