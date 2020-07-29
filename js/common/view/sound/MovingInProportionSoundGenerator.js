@@ -89,7 +89,7 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
    * @public
    */
   reset() {
-    this.movingInProportionSoundClip.stop( 0 );
+    this.movingInProportionSoundClip && this.movingInProportionSoundClip.stop( 0 );
   }
 }
 
