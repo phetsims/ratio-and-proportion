@@ -1,11 +1,11 @@
 {
-  "comment": "# ratio-and-proportion 1.0.0-dev.42 Tue Jul 28 2020 09:08:59 GMT-0800 (Alaska Daylight Time)",
+  "comment": "# ratio-and-proportion 1.0.0-dev.44 Tue Jul 28 2020 16:23:41 GMT-0800 (Alaska Daylight Time)",
   "assert": {
     "sha": "1a41cef653bbed1025af5768bea958d7e3e0f8ae",
     "branch": "master"
   },
   "axon": {
-    "sha": "3a8521006b46abfc4db5b359d0a57eb8c5353f03",
+    "sha": "ce62c0a1f99f39a0e8c1946ca4e6bc4ee6a5401f",
     "branch": "master"
   },
   "brand": {
@@ -21,7 +21,7 @@
     "branch": "master"
   },
   "griddle": {
-    "sha": "4113f80f21767f9e5e95f0fc402cb0639c5aefd3",
+    "sha": "1ac5dcd9ca87cdab86342bd9a6aa02d158c94015",
     "branch": "master"
   },
   "joist": {
@@ -61,11 +61,11 @@
     "branch": "master"
   },
   "ratio-and-proportion": {
-    "sha": "3b130466c4ff1b5c114ea17b03bc167aa96db936",
+    "sha": "65b049a3ee43c35317c4ad940c271bc450e8a62a",
     "branch": "master"
   },
   "scenery": {
-    "sha": "40eb3c92a6ae990a0142a6c4a81ae71abc5e503b",
+    "sha": "38a9dbcf82728ed93ab83d56048e25b14f347bc0",
     "branch": "master"
   },
   "scenery-phet": {
@@ -89,7 +89,7 @@
     "branch": "master"
   },
   "tandem": {
-    "sha": "d1579d7384127ff241ab71934cc55355a7c8938c",
+    "sha": "0e151349e5c670e309da03c4f403af997592feae",
     "branch": "master"
   },
   "utterance-queue": {
