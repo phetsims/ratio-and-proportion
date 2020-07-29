@@ -96,7 +96,6 @@ class RatioAndProportionScreenView extends ScreenView {
       gridViewProperty,
       options.gridRangeProperty,
       this.ratioDescriber,
-      gridDescriber,
       gridAndLabelsColorProperty,
       keyboardStep, model.lockRatioProperty, {
         accessibleName: ratioAndProportionStrings.a11y.leftHand,
@@ -115,7 +114,6 @@ class RatioAndProportionScreenView extends ScreenView {
       gridViewProperty,
       options.gridRangeProperty,
       this.ratioDescriber,
-      gridDescriber,
       gridAndLabelsColorProperty,
       keyboardStep, model.lockRatioProperty, {
         accessibleName: ratioAndProportionStrings.a11y.rightHand,

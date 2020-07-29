@@ -175,12 +175,6 @@
       "atTheBottom": {
         "value": "at the bottom"
       },
-      "qualitativeAlertPattern": {
-        "value": "{{object}} {{position}}."
-      },
-      "quantitativeAlertPattern": {
-        "value": "Grid position {{value}}."
-      },
       "firstMovementAlertPattern": {
         "value": "Moving {{object}} {{direction}}."
       },

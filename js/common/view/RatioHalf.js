@@ -50,14 +50,13 @@ class RatioHalf extends Rectangle {
    * @param {EnumerationProperty.<GridView>} gridViewProperty
    * @param {Property.<number>} gridRangeProperty
    * @param {RatioDescriber} ratioDescriber
-   * @param {GridDescriber} gridDescriber
    * @param {Property.<Color>} colorProperty
    * @param {number} keyboardStep
    * @param {BooleanProperty} horizontalMovementAllowed
    * @param {Object} [options]
    */
   constructor( positionProperty, valueProperty, valueRange, firstInteractionProperty, bounds, gridViewProperty,
-               gridRangeProperty, ratioDescriber, gridDescriber, colorProperty, keyboardStep, horizontalMovementAllowed, options ) {
+               gridRangeProperty, ratioDescriber, colorProperty, keyboardStep, horizontalMovementAllowed, options ) {
 
     options = merge( {
       isRight: true, // right ratio or the left ratio
@@ -88,7 +87,7 @@ class RatioHalf extends Rectangle {
     } );
 
     // @private
-    this.alertManager = new RatioAndProportionAlertManager( valueProperty, gridViewProperty, ratioDescriber, gridDescriber, options.isRight );
+    this.alertManager = new RatioAndProportionAlertManager( valueProperty, gridViewProperty, ratioDescriber, options.isRight );
 
     const gridNode = new RatioHalfGridNode( gridViewProperty, gridRangeProperty,
       bounds.width, bounds.height - 2 * FRAMING_RECTANGLE_HEIGHT,
@@ -106,6 +105,7 @@ class RatioHalf extends Rectangle {
         const gridView = gridViewProperty.value;
         return options.isRight ? ratioDescriber.getRightAriaValuetext( gridView ) : ratioDescriber.getLeftAriaValuetext( gridView );
       },
+      endDrag: () => this.alertManager.alertRatioChange( valueProperty.get() ),
       a11yDependencies: options.a11yDependencies
     } );
     this.addChild( this.ratioHandNode );
@@ -191,7 +191,7 @@ class RatioHalf extends Rectangle {
         startingX = null;
         commonReleaseSoundClip.play();
         this.isBeingInteractedWithProperty.value = false;
-        this.alertManager.dragEndListener( valueProperty.get() );
+        this.alertManager.alertRatioChange( valueProperty.get() );
       }
     } );
     this.ratioHandNode.addInputListener( dragListener );

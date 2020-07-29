@@ -116,22 +116,6 @@ class RatioDescriber {
   }
 
   /**
-   * @public
-   * @returns {string}
-   */
-  getLeftQualitativePointerPosition() {
-    return this.getQualitativePointerPosition( this.leftValueProperty );
-  }
-
-  /**
-   * @public
-   * @returns {string}
-   */
-  getRightQualitativePointerPosition() {
-    return this.getQualitativePointerPosition( this.rightValueProperty );
-  }
-
-  /**
    * @private
    * @param {Property.<number>} property
    * @returns {string}
