@@ -63,6 +63,18 @@ class RatioDescriber {
   }
 
   /**
+   * @param {GridView} gridView
+   * @returns {string}
+   * @public
+   */
+  getBothHandsPositionText( gridView ) {
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHandsValuetext, {
+      leftPosition: this.getHandPosition( this.leftValueProperty, gridView ),
+      rightPosition: this.getHandPosition( this.rightValueProperty, gridView )
+    } );
+  }
+
+  /**
    * @private
    * @param {NumberProperty} valueProperty
    * @param {GridView} gridView

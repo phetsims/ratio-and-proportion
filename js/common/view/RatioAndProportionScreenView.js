@@ -18,6 +18,7 @@ import Color from '../../../../scenery/js/util/Color.js';
 import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
 import FontAwesomeNode from '../../../../sun/js/FontAwesomeNode.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import gridIconImage from '../../../images/grid-icon_png.js';
 import numberedGridIconImage from '../../../images/numbered-grid-icon_png.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -121,7 +122,8 @@ class RatioAndProportionScreenView extends ScreenView {
         helpText: ratioAndProportionStrings.a11y.rightHandHelpText
       } );
 
-    const a11yRatioContainer = new Node( {
+    // TODO: this should probably be its own class
+    const bothHandsInteractionNode = new Node( {
       ariaRole: 'application',
       focusable: true,
       tagName: 'div',
@@ -133,11 +135,21 @@ class RatioAndProportionScreenView extends ScreenView {
         this.rightRatioHalf
       ]
     } );
-    a11yRatioContainer.setAccessibleAttribute( 'aria-roledescription', ratioAndProportionStrings.a11y.movableOnFocus );
+    bothHandsInteractionNode.setAccessibleAttribute( 'aria-roledescription', ratioAndProportionStrings.a11y.movableOnFocus );
 
-    const ratioInteractionListener = new RatioInteractionListener( a11yRatioContainer, model.leftValueProperty,
+    const ratioInteractionListener = new RatioInteractionListener( bothHandsInteractionNode, model.leftValueProperty,
       model.rightValueProperty, model.valueRange, model.firstInteractionProperty, options.gridRangeProperty, keyboardStep );
-    a11yRatioContainer.addInputListener( ratioInteractionListener );
+    bothHandsInteractionNode.addInputListener( ratioInteractionListener );
+
+    const bothHandsPositionUtterance = new Utterance();
+    ratioInteractionListener.isBeingInteractedWithProperty.lazyLink( isBeingInteractedWith => {
+
+      // when no longer being interacted with, trigger an alert
+      if ( !isBeingInteractedWith ) {
+        bothHandsPositionUtterance.alert = this.ratioDescriber.getBothHandsPositionText( gridViewProperty.value );
+        phet.joist.sim.utteranceQueue.addToBack( bothHandsPositionUtterance );
+      }
+    } );
 
     // @private TODO: add support for mechamarker input again https://github.com/phetsims/ratio-and-proportion/issues/89
     // this.markerInput = new ProportionMarkerInput( model );
@@ -219,14 +231,14 @@ class RatioAndProportionScreenView extends ScreenView {
       this.resetAllButton,
 
       // Main ratio on top
-      a11yRatioContainer
+      bothHandsInteractionNode
     ];
 
     // accessible order (ratio first in nav order)
     this.pdomPlayAreaNode.accessibleOrder = [
       this.leftRatioHalf,
       this.rightRatioHalf,
-      a11yRatioContainer,
+      bothHandsInteractionNode,
       this.gridViewRadioButtonGroup
     ];
 

@@ -103,6 +103,9 @@
     "rightHandBullet": {
       "value": "Right hand {{position}}"
     },
+    "bothHandsValuetext": {
+      "value": "left hand {{leftPosition}}, right hand {{rightPosition}}"
+    },
     "ofPlayAreaPattern": {
       "value": "{{position}} of Play Area"
     },
