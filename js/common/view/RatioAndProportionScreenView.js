@@ -11,6 +11,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
+import sceneryPhetStrings from '../../../../scenery-phet/js/sceneryPhetStrings.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
@@ -135,7 +136,7 @@ class RatioAndProportionScreenView extends ScreenView {
         this.rightRatioHalf
       ]
     } );
-    bothHandsInteractionNode.setAccessibleAttribute( 'aria-roledescription', ratioAndProportionStrings.a11y.movableOnFocus );
+    bothHandsInteractionNode.setAccessibleAttribute( 'aria-roledescription', sceneryPhetStrings.a11y.grabDrag.movable );
 
     const ratioInteractionListener = new RatioInteractionListener( bothHandsInteractionNode, model.leftValueProperty,
       model.rightValueProperty, model.valueRange, model.firstInteractionProperty, options.gridRangeProperty, keyboardStep );
