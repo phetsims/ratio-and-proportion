@@ -101,10 +101,7 @@ class RatioHalf extends Rectangle {
         this.isBeingInteractedWithProperty.value = true;
       },
       isRight: options.isRight,
-      a11yCreateAriaValueText: () => {
-        const gridView = gridViewProperty.value;
-        return options.isRight ? ratioDescriber.getRightAriaValuetext( gridView ) : ratioDescriber.getLeftAriaValuetext( gridView );
-      },
+      a11yCreateAriaValueText: () => ratioDescriber.getHandPosition( valueProperty, gridViewProperty.value ),
       endDrag: () => this.alertManager.alertRatioChange( valueProperty.get() ),
       a11yDependencies: options.a11yDependencies
     } );

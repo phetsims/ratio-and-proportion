@@ -62,44 +62,18 @@ class RatioDescriber {
   }
 
   /**
-   * @public
-   * @param {GridView} gridView
-   * @returns {string}
-   */
-  getLeftAriaValuetext( gridView ) {
-    return this.getHandPositionAriaValuetext( this.leftValueProperty, gridView );
-  }
-
-  /**
-   * @public
-   * @param {GridView} gridView
-   * @returns {string}
-   */
-  getRightAriaValuetext( gridView ) {
-    return this.getHandPositionAriaValuetext( this.rightValueProperty, gridView );
-  }
-
-  /**
-   * @private
-   * @param {NumberProperty} valueProperty
-   * @param {GridView} gridView
-   * @returns {string}
-   */
-  getHandPositionAriaValuetext( valueProperty, gridView ) {
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ofPlayAreaPattern, {
-      position: this.getHandPosition( valueProperty, gridView )
-    } );
-  }
-
-  /**
    * @private
    * @param {NumberProperty} valueProperty
    * @param {GridView} gridView
    * @returns {string}
    */
   getHandPosition( valueProperty, gridView ) {
-    return GridView.describeQualitative( gridView ) ? this.getQualitativePointerPosition( valueProperty ) :
-           this.getQuantitativePointerPosition( valueProperty );
+    const position = GridView.describeQualitative( gridView ) ? this.getQualitativePointerPosition( valueProperty ) :
+                     this.getQuantitativePointerPosition( valueProperty );
+
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ofPlayAreaPattern, {
+      position: position
+    } );
   }
 
   /**
