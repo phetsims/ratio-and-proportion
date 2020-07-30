@@ -56,6 +56,7 @@ class RatioDescriber {
     this.valueRange = model.valueRange;
     this.ratioFitnessProperty = model.ratioFitnessProperty;
     this.fitnessRange = model.fitnessRange;
+    this.model = model;
 
     // @private
     this.gridDescriber = gridDescriber;
@@ -134,8 +135,20 @@ class RatioDescriber {
    * @returns {number}
    */
   getRatioFitnessIndex() {
-    const normalizedFitness = ( this.ratioFitnessProperty.value - this.fitnessRange.min ) / this.fitnessRange.getLength();
-    return Math.floor( normalizedFitness * ( RATIO_FITNESS_STRINGS_CAPITALIZED.length - 1 ) );
+
+    // hard coded region for in proportion
+    // TODO: should this even be part of the list, perhaps it is a list of non-in-proportion regions. Not sure what's best.
+    if ( this.model.inProportion() ) {
+      return RATIO_FITNESS_STRINGS_CAPITALIZED.length - 1;
+    }
+
+    // normalize based on the fitness that is not in proportion
+    const normalizedMax = this.fitnessRange.max - this.model.getInProportionThreshold();
+    const normalizedFitness = ( this.ratioFitnessProperty.value - this.fitnessRange.min ) /
+                              ( normalizedMax - this.fitnessRange.min );
+
+    // don't count the "at" region
+    return Math.floor( normalizedFitness * ( RATIO_FITNESS_STRINGS_CAPITALIZED.length - 2 ) );
   }
 
   /**
