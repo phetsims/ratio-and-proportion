@@ -81,11 +81,6 @@ class RatioHalf extends Rectangle {
     const bottomRect = new Rectangle( 0, 0, 10, FRAMING_RECTANGLE_HEIGHT, { fill: colorProperty } );
     this.addChild( bottomRect );
 
-    // hide framing border rectangles when the units are being displayed
-    gridViewProperty.link( gridView => {
-      topRect.visible = bottomRect.visible = gridView === GridView.NONE;
-    } );
-
     // @private
     this.alertManager = new RatioAndProportionAlertManager( valueProperty, gridViewProperty, ratioDescriber, options.isRight );
 
