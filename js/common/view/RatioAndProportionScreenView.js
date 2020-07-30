@@ -143,12 +143,16 @@ class RatioAndProportionScreenView extends ScreenView {
     bothHandsInteractionNode.addInputListener( ratioInteractionListener );
 
     const bothHandsPositionUtterance = new Utterance();
+    const bothHandsRatioUtterance = new Utterance();
     ratioInteractionListener.isBeingInteractedWithProperty.lazyLink( isBeingInteractedWith => {
 
       // when no longer being interacted with, trigger an alert
       if ( !isBeingInteractedWith ) {
         bothHandsPositionUtterance.alert = this.ratioDescriber.getBothHandsPositionText( gridViewProperty.value );
         phet.joist.sim.utteranceQueue.addToBack( bothHandsPositionUtterance );
+
+        bothHandsRatioUtterance.alert = this.ratioDescriber.getRatioDescriptionString();
+        phet.joist.sim.utteranceQueue.addToBack( bothHandsRatioUtterance );
       }
     } );
 
