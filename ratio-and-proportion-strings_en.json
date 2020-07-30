@@ -106,6 +106,9 @@
     "ofPlayAreaPattern": {
       "value": "{{position}} of Play Area"
     },
+    "lockRatioHelpText": {
+      "value": "Explore hands with their ratio locked."
+    },
     "explore": {
       "homeScreenDescription": {
         "value": "Choose set challenges to explore ratio and proportion."

@@ -121,7 +121,8 @@ class CreateScreenView extends RatioAndProportionScreenView {
     ) );
 
     const lockRatioCheckbox = new Checkbox( new RichText( ratioAndProportionStrings.lockRatio ), model.lockRatioProperty, {
-      accessibleName: ratioAndProportionStrings.lockRatio
+      accessibleName: ratioAndProportionStrings.lockRatio,
+      helpText: ratioAndProportionStrings.a11y.lockRatioHelpText
     } );
 
     // children - remember to not blow away children set by parent
