@@ -107,6 +107,9 @@
       "value": "{{position}} of Play Area"
     },
     "explore": {
+      "homeScreenDescription": {
+        "value": "Choose set challenges to explore ratio and proportion."
+      },
       "screenSummary": {
         "introParagraph": {
           "value": "The Play Area is an open space with two movable hands. Hands can be moved individually or simultaneously to explore a challenge. There are options to adjust the look and feel of the open space that may help you master the challenges. The Control Area has a button to reset the sim."
@@ -123,6 +126,9 @@
       }
     },
     "create": {
+      "homeScreenDescription": {
+        "value": "Create custom challenges to explore ratio and proportion."
+      },
       "screenSummary": {
         "introParagraph": {
           "value": "The Play Area has two hands that can be moved up and down to explore the current challenge ratio along with three radio buttons to either hide grid, show grid, or show a numbered grid, and a Combobox to change the range of the numbered grid, and an Accordion Box to create your own ratio challenges."

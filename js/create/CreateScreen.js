@@ -27,7 +27,8 @@ class CreateScreen extends Screen {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
       } ),
-      name: ratioAndProportionStrings.create
+      name: ratioAndProportionStrings.create,
+      descriptionContent: ratioAndProportionStrings.a11y.create.homeScreenDescription
     };
 
     super(

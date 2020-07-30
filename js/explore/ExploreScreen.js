@@ -27,7 +27,8 @@ class ExploreScreen extends Screen {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
       } ),
-      name: ratioAndProportionStrings.explore
+      name: ratioAndProportionStrings.explore,
+      descriptionContent: ratioAndProportionStrings.a11y.explore.homeScreenDescription
     };
 
     super(
