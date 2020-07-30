@@ -92,8 +92,8 @@ class CreateScreenView extends RatioAndProportionScreenView {
 
       // Copied from NLCConstants.js, see https://github.com/phetsims/ratio-and-proportion/issues/58#issuecomment-646377333
       cornerRadius: 5,
-      buttonXMargin: 8,
-      buttonYMargin: 6,
+      buttonXMargin: 10,
+      buttonYMargin: 10,
       expandCollapseButtonOptions: {
         touchAreaXDilation: 15,
         touchAreaYDilation: 15,
