@@ -180,12 +180,6 @@
       },
       "atTheBottom": {
         "value": "at the bottom"
-      },
-      "firstMovementAlertPattern": {
-        "value": "Moving {{object}} {{direction}}."
-      },
-      "movementAlertWithChangePattern": {
-        "value": "{{movementAlert}} {{change}}"
       }
     },
     "ratio": {
