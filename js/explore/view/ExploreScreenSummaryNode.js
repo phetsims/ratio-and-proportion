@@ -42,7 +42,11 @@ class ExploreScreenSummaryNode extends Node {
           innerContent: ratioAndProportionStrings.a11y.explore.screenSummary.introParagraph
         } ),
         stateOfSimNode,
-        descriptionBullets
+        descriptionBullets,
+        new Node( {
+          tagName: 'p',
+          innerContent: ratioAndProportionStrings.a11y.explore.screenSummary.interactionHint
+        } )
       ]
     } );
 

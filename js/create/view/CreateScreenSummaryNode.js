@@ -52,7 +52,11 @@ class CreateScreenSummaryNode extends Node {
           innerContent: ratioAndProportionStrings.a11y.create.screenSummary.introParagraph
         } ),
         stateOfSimNode,
-        descriptionBullets
+        descriptionBullets,
+        new Node( {
+          tagName: 'p',
+          innerContent: ratioAndProportionStrings.a11y.create.screenSummary.interactionHint
+        } )
       ]
     } );
 

@@ -117,6 +117,9 @@
         "introParagraph": {
           "value": "The Play Area is an open space with two movable hands. Hands can be moved individually or simultaneously to explore a challenge. There are options to adjust the look and feel of the open space that may help you master the challenges. The Control Area has a button to reset the sim."
         },
+        "interactionHint": {
+          "value": "Move hands individually or at the same time to explore the challenge."
+        },
         "qualitativeStateOfSim": {
           "value": "Currently, {{ratioFitness}} ratio, on {{currentChallenge}}"
         }
@@ -134,7 +137,10 @@
       },
       "screenSummary": {
         "introParagraph": {
-          "value": "The Play Area has two hands that can be moved up and down to explore the current challenge ratio along with three radio buttons to either hide grid, show grid, or show a numbered grid, and a Combobox to change the range of the numbered grid, and an Accordion Box to create your own ratio challenges."
+          "value": "On this screen you can set your own challenge. The Play Area is an open space with two movable hands. Hands can be moved individually or simultaneously or with ratio locked to explore a challenge. There are options to adjust the look and feel of the open space that may help you master the challenges that you set. The Control Area has a button to reset the sim."
+        },
+        "interactionHint": {
+          "value": "Explore current challenge or set your own."
         },
         "qualitativeStateOfSim": {
           "value": "Currently, {{ratioFitness}} ratio"
