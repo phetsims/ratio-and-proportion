@@ -1,5 +1,5 @@
 {
-  "comment": "# ratio-and-proportion 1.0.0-dev.47 Thu Jul 30 2020 15:42:16 GMT-0800 (Alaska Daylight Time)",
+  "comment": "# ratio-and-proportion 1.0.0-dev.48 Fri Jul 31 2020 18:40:27 GMT-0400 (Eastern Daylight Time)",
   "assert": {
     "sha": "1a41cef653bbed1025af5768bea958d7e3e0f8ae",
     "branch": "master"
@@ -25,7 +25,7 @@
     "branch": "master"
   },
   "joist": {
-    "sha": "12c8cdaec22e2cbdf81b452523c00378657ee4f6",
+    "sha": "7ea8fb32ce82a7d2543bd09a906c358bd6675ebb",
     "branch": "master"
   },
   "kite": {
@@ -41,7 +41,7 @@
     "branch": "master"
   },
   "phet-io-client-guides": {
-    "sha": "f3009b35e22d31bf9560db32328bd690d9360e32",
+    "sha": "524682272188b21bf14f5768e9e6b82152efaf86",
     "branch": "master"
   },
   "phet-io-wrappers": {
@@ -61,7 +61,7 @@
     "branch": "master"
   },
   "ratio-and-proportion": {
-    "sha": "d022e523e1b68969369970eba01d793675b074bc",
+    "sha": "f95e5cb568a03e5b88dd0b5fb448dcc4adbbcacc",
     "branch": "master"
   },
   "scenery": {
