@@ -142,8 +142,20 @@ class RatioAndProportionScreenView extends ScreenView {
       model.rightValueProperty, model.valueRange, model.firstInteractionProperty, options.gridRangeProperty, keyboardStep );
     bothHandsInteractionNode.addInputListener( ratioInteractionListener );
 
-    const bothHandsPositionUtterance = new Utterance();
-    const bothHandsRatioUtterance = new Utterance();
+    const bothHandsPositionUtterance = new Utterance( {
+
+      // give enough time for the user to stop interacting with te hands
+      // before describing current positions, to prevent too many of these
+      // from queuing up in rapid presses
+      alertStableDelay: 500
+    });
+    const bothHandsRatioUtterance = new Utterance( {
+
+      // a longer delay before speaking the bothHandsPositionUtterance gives
+      // more consistent behavior on Safari, where often the alerts would be
+      // lost
+      alertStableDelay: 1000
+    } );
     ratioInteractionListener.isBeingInteractedWithProperty.lazyLink( isBeingInteractedWith => {
 
       // when no longer being interacted with, trigger an alert
