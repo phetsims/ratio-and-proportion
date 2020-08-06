@@ -10,22 +10,8 @@ import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
 import choirAhhSound from '../../../../sounds/moving-in-proportion/choir-ahhh-loop_wav.js';
-import movingInProportionOption3 from '../../../../sounds/moving-in-proportion/moving-in-proportion-loop-option-3_wav.js';
 import movingInProportionOption4 from '../../../../sounds/moving-in-proportion/moving-in-proportion-loop-option-4_wav.js';
-import peacefulAndChoirSound from '../../../../sounds/moving-in-proportion/moving-in-proportion-loop-peaceful-and-choir_wav.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
-import designingProperties from '../../designingProperties.js';
-
-// constants
-const CHOIR_TRANQUILITY_BLEND = 'how wonderful this world is, ahhh.';
-
-const MOVING_IN_PROPORTION_SOUNDS = [
-  choirAhhSound,
-  movingInProportionOption3,
-  movingInProportionOption4,
-  CHOIR_TRANQUILITY_BLEND,
-  peacefulAndChoirSound
-];
 
 class MovingInProportionSoundGenerator extends SoundGenerator {
 
@@ -44,42 +30,25 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
     // @private {SoundClip|MultiSoundClip|null} - null when no sound
     this.movingInProportionSoundClip = null;
 
-    designingProperties.movingInProportionSoundSelectorProperty.link( selection => {
-      if ( selection === -1 ) {
-        this.movingInProportionSoundClip = null;
+    this.movingInProportionSoundClip = new MultiSoundClip( [
+      { sound: choirAhhSound, options: { loop: true } },
+      { sound: movingInProportionOption4, options: { loop: true, initialOutputLevel: .6 } }
+    ] );
+    this.movingInProportionSoundClip.connect( this.soundSourceDestination );
+
+    Property.multilink( [
+      model.leftVelocityProperty,
+      model.rightVelocityProperty,
+      ratioFitnessProperty
+    ], () => {
+      if ( model.movingInDirection() && // only when moving
+           !model.valuesTooSmallForSuccess() && // no moving in proportion success if too small
+           model.inProportion() ) { // must be fit enough to play the moving in proportion success
+        this.movingInProportionSoundClip.setOutputLevel( 1, .1 );
+        !this.movingInProportionSoundClip.isPlaying && this.movingInProportionSoundClip.play();
       }
       else {
-        assert && assert( MOVING_IN_PROPORTION_SOUNDS[ selection ] );
-        this.movingInProportionSoundClip && this.movingInProportionSoundClip.dispose();
-
-        if ( MOVING_IN_PROPORTION_SOUNDS[ selection ] === CHOIR_TRANQUILITY_BLEND ) {
-          this.movingInProportionSoundClip = new MultiSoundClip( [
-            { sound: choirAhhSound, options: { loop: true } },
-            { sound: movingInProportionOption4, options: { loop: true, initialOutputLevel: .6 } }
-          ] );
-          this.movingInProportionSoundClip.connect( this.soundSourceDestination );
-        }
-        else {
-          this.movingInProportionSoundClip = new SoundClip( MOVING_IN_PROPORTION_SOUNDS[ selection ], {
-            loop: true
-          } );
-          this.movingInProportionSoundClip.connect( this.soundSourceDestination );
-        }
-      }
-    } );
-
-    Property.multilink( [ model.leftVelocityProperty, model.rightVelocityProperty, ratioFitnessProperty ], (
-      leftVelocity, rightVelocity, fitness ) => {
-      if ( this.movingInProportionSoundClip ) {
-        if ( model.movingInDirection() && // only when moving
-             !model.valuesTooSmallForSuccess() && // no moving in proportion success if too small
-             model.inProportion() ) { // must be fit enough to play the moving in proportion success
-          this.movingInProportionSoundClip.setOutputLevel( 1, .1 );
-          !this.movingInProportionSoundClip.isPlaying && this.movingInProportionSoundClip.play();
-        }
-        else {
-          this.movingInProportionSoundClip.setOutputLevel( 0, .2 );
-        }
+        this.movingInProportionSoundClip.setOutputLevel( 0, .2 );
       }
     } );
   }
@@ -89,11 +58,12 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
    * @public
    */
   reset() {
-    this.movingInProportionSoundClip && this.movingInProportionSoundClip.stop( 0 );
+    this.movingInProportionSoundClip.stop( 0 );
   }
 }
 
 // Private class used to blend two sounds together
+// TODO: get rid of this or move to common code
 class MultiSoundClip extends SoundGenerator {
 
   /**

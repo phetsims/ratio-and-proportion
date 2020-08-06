@@ -12,7 +12,7 @@ import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioBu
 import ratioAndProportion from '../../ratioAndProportion.js';
 
 // constants
-const RADIO_BUTTON_FONT = new PhetFont( 12 );
+const RADIO_BUTTON_FONT = new PhetFont( 16 );
 
 class RationAndProportionGlobalOptionsNode extends HBox {
 
@@ -20,35 +20,6 @@ class RationAndProportionGlobalOptionsNode extends HBox {
    * @param {DesigningProperties} designingProperties
    */
   constructor( designingProperties ) {
-
-    // set up a global variable to control this option (this is only acceptable because it's temporary code)
-    const soundOptionsNode = new VBox( {
-      spacing: 10,
-      align: 'left',
-      children: [
-        new RichText( 'Staccato Success Sound:' ),
-        new VerticalAquaRadioButtonGroup( designingProperties.inProportionSoundSelectorProperty, [ {
-            node: new OptionsText( 'Single ding high note' ),
-            value: 0
-          }, {
-            node: new OptionsText( 'Arpeggiated maj 7 chord' ),
-            value: 1
-          }, {
-            node: new OptionsText( 'Fifths option1' ),
-            value: 2
-          }, {
-            node: new OptionsText( 'Fifths option2' ),
-            value: 3
-          }, {
-            node: new OptionsText( 'Chord option1' ),
-            value: 4
-          }, {
-            node: new OptionsText( 'Chord option2' ),
-            value: 5
-          } ]
-        )
-      ]
-    } );
 
     const gridBaseAndVelocitySoundContent = new VBox( {
       spacing: 10,
@@ -67,38 +38,11 @@ class RationAndProportionGlobalOptionsNode extends HBox {
               value: false
             } ] )
           ]
-        } ),
-        new VBox( {
-          spacing: 10,
-          align: 'left',
-          children: [
-            new RichText( 'Velocity Sound:' ),
-            new VerticalAquaRadioButtonGroup( designingProperties.movingInProportionSoundSelectorProperty, [ {
-              node: new OptionsText( 'Choir (Ahhh)' ),
-              value: 0
-            }, {
-              node: new OptionsText( 'Dream time' ),
-              value: 1
-            }, {
-              node: new OptionsText( 'Peaceful tranquility' ),
-              value: 2
-            }, {
-              node: new OptionsText( 'Choir/Peaceful tranquility blend (combined from code)' ),
-              value: 3
-            }, {
-              node: new OptionsText( 'Choir/Peaceful tranquility blend (single sound)' ),
-              value: 4
-            }, {
-              node: new OptionsText( 'No sound' ),
-              value: -1
-            } ] )
-          ]
-        } )
-      ]
+        } ) ]
     } );
 
     super( {
-      children: [ soundOptionsNode, gridBaseAndVelocitySoundContent ],
+      children: [ gridBaseAndVelocitySoundContent ],
       spacing: 30,
       align: 'top'
     } );
