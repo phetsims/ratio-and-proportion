@@ -88,6 +88,9 @@ class RatioAndProportionScreenView extends ScreenView {
     // description on each ratioHalf should be updated whenever these change
     const a11yDependencies = [ gridViewProperty, options.gridRangeProperty, model.ratioProperty ];
 
+    const playUISoundsProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
+      fitness => fitness === model.fitnessRange.min || model.inProportion() );
+
     // @private {RatioHalf}
     this.leftRatioHalf = new RatioHalf(
       model.leftPositionProperty,
@@ -99,7 +102,9 @@ class RatioAndProportionScreenView extends ScreenView {
       options.gridRangeProperty,
       this.ratioDescriber,
       gridAndLabelsColorProperty,
-      keyboardStep, model.lockRatioProperty, {
+      keyboardStep,
+      model.lockRatioProperty,
+      playUISoundsProperty, {
         accessibleName: ratioAndProportionStrings.a11y.leftHand,
         a11yDependencies: a11yDependencies,
         isRight: false // this way we get a left hand
@@ -117,7 +122,9 @@ class RatioAndProportionScreenView extends ScreenView {
       options.gridRangeProperty,
       this.ratioDescriber,
       gridAndLabelsColorProperty,
-      keyboardStep, model.lockRatioProperty, {
+      keyboardStep,
+      model.lockRatioProperty,
+      playUISoundsProperty, {
         accessibleName: ratioAndProportionStrings.a11y.rightHand,
         a11yDependencies: a11yDependencies,
         helpText: ratioAndProportionStrings.a11y.rightHandHelpText
@@ -148,7 +155,7 @@ class RatioAndProportionScreenView extends ScreenView {
       // before describing current positions, to prevent too many of these
       // from queuing up in rapid presses
       alertStableDelay: 500
-    });
+    } );
     const bothHandsRatioUtterance = new Utterance( {
 
       // a longer delay before speaking the bothHandsPositionUtterance gives

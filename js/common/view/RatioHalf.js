@@ -56,7 +56,7 @@ class RatioHalf extends Rectangle {
    * @param {Object} [options]
    */
   constructor( positionProperty, valueProperty, valueRange, firstInteractionProperty, bounds, gridViewProperty,
-               gridRangeProperty, ratioDescriber, colorProperty, keyboardStep, horizontalMovementAllowed, options ) {
+               gridRangeProperty, ratioDescriber, colorProperty, keyboardStep, horizontalMovementAllowed, playUISoundsProperty, options ) {
 
     options = merge( {
       isRight: true, // right ratio or the left ratio
@@ -106,7 +106,7 @@ class RatioHalf extends Rectangle {
     const addSoundOptions = { categoryName: 'user-interface' };
     const soundClipOptions = {
       initialOutputLevel: 0.3, // TODO: I made this louder than waves intro, https://github.com/phetsims/ratio-and-proportion/issues/45
-      enableControlProperties: [ designingProperties.ratioUISoundsEnabledProperty ]
+      enableControlProperties: [ designingProperties.ratioUISoundsEnabledProperty, playUISoundsProperty ]
     };
     const commonGrabSoundClip = new SoundClip( commonGrabSound, soundClipOptions );
     const commonReleaseSoundClip = new SoundClip( commonReleaseSound, soundClipOptions );
