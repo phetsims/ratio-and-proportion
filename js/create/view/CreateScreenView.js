@@ -26,6 +26,7 @@ import GridRangeComboBox from './GridRangeComboBox.js';
 
 const PICKER_SCALE = 1.5;
 const ICON_SCALE = .9;
+const DEFAULT_EXPANDED = false;
 
 class CreateScreenView extends RatioAndProportionScreenView {
 
@@ -101,7 +102,7 @@ class CreateScreenView extends RatioAndProportionScreenView {
         mouseAreaYDilation: 5
       }
     } );
-    myChallengeAccordionBox.expandedProperty.value = false;
+    myChallengeAccordionBox.expandedProperty.value = DEFAULT_EXPANDED;
 
     const gridRangeComboBoxParent = new Node();
 
@@ -149,6 +150,7 @@ class CreateScreenView extends RatioAndProportionScreenView {
     this.resetCreateScreenView = () => {
       numeratorProperty.reset();
       denominatorProperty.reset();
+      myChallengeAccordionBox.expandedProperty.value = DEFAULT_EXPANDED;
     };
   }
 
