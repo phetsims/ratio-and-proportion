@@ -213,7 +213,7 @@ class RatioAndProportionModel {
    * @param {Property.<number>} velocityProperty
    */
   calculateCurrentVelocity( previousValueProperty, currentValue, velocityProperty ) {
-    velocityProperty.value = currentValue - previousValueProperty.value / this.valueRange.getLength();
+    velocityProperty.value = currentValue - previousValueProperty.value;
     previousValueProperty.value = currentValue;
   }
 
