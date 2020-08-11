@@ -21,8 +21,9 @@ import RatioAndProportionConstants from '../RatioAndProportionConstants.js';
 // The threshold for velocity of a moving ratio value to indivate that it is "moving."
 const VELOCITY_THRESHOLD = .01;
 
-// The value in which when either the left or right value is less than this, the ratio cannot be "in proportion"
-const NO_SUCCUSS_VALUE_THRESHOLD = .05;
+// The value in which when either the left or right value is less than this, the ratio cannot be "in proportion".
+// Add .001 to support two keyboard nav motions above 0 (counting the min range being >0).
+const NO_SUCCUSS_VALUE_THRESHOLD = .021;
 
 class RatioAndProportionModel {
 
