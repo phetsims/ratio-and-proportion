@@ -126,6 +126,11 @@ class CreateScreenView extends RatioAndProportionScreenView {
       helpText: ratioAndProportionStrings.a11y.lockRatioHelpText
     } );
 
+    // The "lock ratio" checkbox should not be enabled when the ratio is not in proportion.
+    model.ratioFitnessProperty.link( () => {
+      lockRatioCheckbox.enabledProperty.value = model.inProportion();
+    } );
+
     // children - remember to not blow away children set by parent
     this.addChild( myChallengeAccordionBox );
     this.addChild( lockRatioCheckbox );
