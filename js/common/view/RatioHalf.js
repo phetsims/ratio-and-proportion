@@ -13,7 +13,6 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
@@ -36,6 +35,9 @@ import RatioHandNode from './RatioHandNode.js';
 // contants
 const FRAMING_RECTANGLE_HEIGHT = 16;
 
+// This value was calculated based on the design of snapping within the range of the ratio hand center circle, see https://github.com/phetsims/ratio-and-proportion/issues/122#issuecomment-672281015
+const SNAP_TO_GRID_LINE_THRESHOLD = .135842179584 / 2;
+
 // TODO: copied from WaveInterferenceSlider
 const MIN_INTER_CLICK_TIME = ( 1 / 60 * 1000 ) * 2; // min time between clicks, in milliseconds, empirically determined
 
@@ -52,11 +54,12 @@ class RatioHalf extends Rectangle {
    * @param {RatioDescriber} ratioDescriber
    * @param {Property.<Color>} colorProperty
    * @param {number} keyboardStep
-   * @param {BooleanProperty} horizontalMovementAllowed
+   * @param {BooleanProperty} horizontalMovementAllowedProperty
+   * @param {BooleanProperty} playUISoundsProperty
    * @param {Object} [options]
    */
   constructor( positionProperty, valueProperty, valueRange, firstInteractionProperty, bounds, gridViewProperty,
-               gridRangeProperty, ratioDescriber, colorProperty, keyboardStep, horizontalMovementAllowed, playUISoundsProperty, options ) {
+               gridRangeProperty, ratioDescriber, colorProperty, keyboardStep, horizontalMovementAllowedProperty, playUISoundsProperty, options ) {
 
     options = merge( {
       isRight: true, // right ratio or the left ratio
@@ -139,6 +142,23 @@ class RatioHalf extends Rectangle {
     // via the modelViewTransform.
     const dragBounds = positionProperty.validBounds.erodedX( modelHalfPointerPointer.x );
 
+    // Snap mouse/touch input to the nearest grid line if close enough. This helps with reproducible precision
+    const getSnapToGridLineValue = yValue => {
+      if ( GridView.displayHorizontal( gridViewProperty.value ) && gridRangeProperty.value === gridRangeProperty.initialValue ) {
+        const gridLineStep = 1 / gridRangeProperty.value;
+
+        // iterate through model values of each grid line
+        for ( let i = valueRange.min; i < valueRange.max; i += gridLineStep ) {
+          if ( Math.abs( yValue - i ) < gridLineStep * SNAP_TO_GRID_LINE_THRESHOLD ) {
+            return i;
+          }
+        }
+      }
+
+      // No snapping in this case, just return the provided value.
+      return yValue;
+    };
+
     let startingX = null;
 
     // transform and dragBounds set in layout code below
@@ -147,7 +167,7 @@ class RatioHalf extends Rectangle {
       tandem: options.tandem.createTandem( 'dragListener' ),
       dragBoundsProperty: new Property( dragBounds ),
       start: () => {
-        if ( horizontalMovementAllowed.value ) {
+        if ( horizontalMovementAllowedProperty.value ) {
           startingX = positionProperty.value.x;
         }
         commonGrabSoundClip.play();
@@ -155,9 +175,12 @@ class RatioHalf extends Rectangle {
       },
       drag: () => {
         this.isBeingInteractedWithProperty.value = true;
+
         if ( startingX ) {
-          positionProperty.value = new Vector2( startingX, positionProperty.value.y );
+          positionProperty.value.setX( startingX );
         }
+        positionProperty.value.setY( getSnapToGridLineValue( positionProperty.value.y ) );
+        positionProperty.notifyListenersStatic();
 
         const value = valueProperty.value;
 
