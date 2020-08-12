@@ -176,12 +176,10 @@ class RatioHalf extends Rectangle {
       drag: () => {
         this.isBeingInteractedWithProperty.value = true;
 
-        if ( startingX ) {
+        if ( typeof startingX === 'number' ) {
           positionProperty.value.setX( startingX );
+          positionProperty.notifyListenersStatic();
         }
-        positionProperty.value.setY( getSnapToGridLineValue( positionProperty.value.y ) );
-        positionProperty.notifyListenersStatic();
-
         const value = valueProperty.value;
 
         // handle the sound as desired for mouse/touch style input
@@ -203,6 +201,14 @@ class RatioHalf extends Rectangle {
       },
 
       end: () => {
+
+        // snap final value to grid line if applicable
+        const newY = getSnapToGridLineValue( positionProperty.value.y );
+        if ( positionProperty.value.y !== newY ) {
+          positionProperty.value.setY( newY );
+          positionProperty.notifyListenersStatic();
+        }
+
         startingX = null;
         commonReleaseSoundClip.play();
         this.isBeingInteractedWithProperty.value = false;
