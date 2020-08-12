@@ -145,18 +145,6 @@
         "qualitativeStateOfSim": {
           "value": "Currently, {{ratioFitness}} ratio"
         },
-        "myChallengeBullet": {
-          "value": "My challenge values {{expanded}}"
-        },
-        "myChallengeLeftRightValues": {
-          "value": "left {{leftValue}}, and right {{rightValue}}"
-        },
-        "expanded": {
-          "value": "expanded"
-        },
-        "collapsed": {
-          "value": "collapsed"
-        },
         "gridRangeBullet": {
           "value": "Grid range is {{range}}"
         }

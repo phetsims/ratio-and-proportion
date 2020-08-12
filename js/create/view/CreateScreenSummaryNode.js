@@ -27,22 +27,16 @@ class CreateScreenSummaryNode extends Node {
    * @param {NumberProperty} denominatorProperty
    */
   constructor( ratioFitnessProperty, leftValueProperty, rightValueProperty, gridViewProperty,
-               accordionBoxExpandedProperty, ratioDescriber, gridRangeProperty, gridRangeToRangeLabelMap,
+               ratioDescriber, gridRangeProperty, gridRangeToRangeLabelMap,
                numeratorProperty, denominatorProperty ) {
 
     const stateOfSimNode = new Node( { tagName: 'p' } );
-
-    const myChallengeSubBullet = new Node( { tagName: 'li' } );
-    const myChallengeSubList = new Node( { tagName: 'ul', children: [ myChallengeSubBullet ] } );
-    const myChallengeSpan = new Node( { tagName: 'span' } );
-    const myChallengeBullet = new Node( { tagName: 'li', children: [ myChallengeSpan, myChallengeSubList ] } );
-
     const leftHandBullet = new Node( { tagName: 'li' } );
     const rightHandBullet = new Node( { tagName: 'li' } );
     const gridRangeBullet = new Node( { tagName: 'li' } );
     const descriptionBullets = new Node( {
       tagName: 'ul',
-      children: [ myChallengeBullet, leftHandBullet, rightHandBullet, gridRangeBullet ]
+      children: [ leftHandBullet, rightHandBullet, gridRangeBullet ]
     } );
 
     super( {
@@ -64,7 +58,6 @@ class CreateScreenSummaryNode extends Node {
     this.ratioDescriber = ratioDescriber;
 
     Property.multilink( [
-      accordionBoxExpandedProperty,
       gridViewProperty,
       gridRangeProperty,
       numeratorProperty,
@@ -72,19 +65,9 @@ class CreateScreenSummaryNode extends Node {
       ratioFitnessProperty,
       leftValueProperty,
       rightValueProperty
-    ], ( expanded, gridView, gridRange, numerator, denominator ) => {
+    ], ( gridView, gridRange ) => {
       stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.screenSummary.qualitativeStateOfSim, {
         ratioFitness: this.ratioDescriber.getRatioFitness( false ) // lowercase
-      } );
-
-      myChallengeSpan.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.screenSummary.myChallengeBullet, {
-        expanded: expanded ? ratioAndProportionStrings.a11y.create.screenSummary.expanded : ratioAndProportionStrings.a11y.create.screenSummary.collapsed
-      } );
-
-      myChallengeSubList.visible = expanded;
-      myChallengeSubBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.screenSummary.myChallengeLeftRightValues, {
-        leftValue: numerator,
-        rightValue: denominator
       } );
 
       leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
