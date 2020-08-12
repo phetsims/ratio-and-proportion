@@ -53,19 +53,19 @@
     },
     "grid": {
       "heading": {
-        "value": "Grid Options"
+        "value": "Guide Options"
       },
       "helpText": {
-        "value": "Choose how you see or hear grid information."
+        "value": "Choose how you see or hear your guided exploration."
       },
       "showNo": {
-        "value": "Hide Grid"
+        "value": "No Tick Marks"
       },
       "show": {
-        "value": "Show grid"
+        "value": "Tick Marks"
       },
       "showNumbered": {
-        "value": "Show Numbered Grid"
+        "value": "Numbered Tick Marks"
       },
       "disabled": {
         "value": "Grid Hidden"
