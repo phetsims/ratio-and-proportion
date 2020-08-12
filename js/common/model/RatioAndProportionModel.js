@@ -241,7 +241,6 @@ class RatioAndProportionModel {
     this.rightPositionProperty.reset();
 
     this.targetRatioProperty.reset();
-    this.toleranceProperty.reset();
     this.leftValueProperty.reset();
     this.rightValueProperty.reset();
     this.firstInteractionProperty.reset();
