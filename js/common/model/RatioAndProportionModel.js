@@ -151,6 +151,11 @@ class RatioAndProportionModel {
         adjustingFromLock = false;
       }
     } );
+
+    // This must be done here, because of the reentrant nature of how fitness changes when the ratio is locked
+    this.targetRatioProperty.link( () => {
+      this.lockRatioProperty.value = false;
+    } );
   }
 
   /**
