@@ -14,7 +14,6 @@ import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
-import RatioAndProportionQueryParameters from '../../common/RatioAndProportionQueryParameters.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionConstants from '../RatioAndProportionConstants.js';
 
@@ -34,7 +33,6 @@ class RatioAndProportionModel {
 
     // The desired ratio of the left value as compared to the right value. As in 1:2 (initial value).
     this.targetRatioProperty = new NumberProperty( .5 );
-    this.toleranceProperty = new NumberProperty( RatioAndProportionQueryParameters.tolerance );
 
     // @public
     // To avoid divide-by zero errors. NOTE: GridDescriber relies on the min of this mapping to "zero" as it pertains
@@ -85,9 +83,8 @@ class RatioAndProportionModel {
     this.ratioFitnessProperty = new DerivedProperty( [
       this.leftValueProperty,
       this.rightValueProperty,
-      this.targetRatioProperty,
-      this.toleranceProperty
-    ], ( leftValue, rightValue, ratio, tolerance ) => {
+      this.targetRatioProperty
+    ], ( leftValue, rightValue, ratio ) => {
       assert && assert( rightValue !== 0, 'cannot divide by zero' );
       assert && assert( !isNaN( leftValue / rightValue ), 'ratio should be defined' );
 
