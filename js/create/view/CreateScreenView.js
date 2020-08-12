@@ -75,7 +75,7 @@ class CreateScreenView extends RatioAndProportionScreenView {
     } );
 
     Property.multilink( [ numeratorProperty, denominatorProperty ], ( leftValue, rightValue ) => {
-      model.ratioProperty.value = leftValue / rightValue;
+      model.targetRatioProperty.value = leftValue / rightValue;
     } );
 
     const myChallengeContent = new HBox( {

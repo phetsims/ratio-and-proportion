@@ -86,7 +86,7 @@ class RatioAndProportionScreenView extends ScreenView {
     const defaultRatioHalfBounds = Bounds2.rect( 0, 0, RATIO_HALF_WIDTH, LAYOUT_BOUNDS.height );
 
     // description on each ratioHalf should be updated whenever these change
-    const a11yDependencies = [ gridViewProperty, options.gridRangeProperty, model.ratioProperty ];
+    const a11yDependencies = [ gridViewProperty, options.gridRangeProperty, model.targetRatioProperty ];
 
     const playUISoundsProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
       fitness => fitness === model.fitnessRange.min || model.inProportion() );

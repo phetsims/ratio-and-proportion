@@ -65,7 +65,7 @@ class ExploreScreenView extends RatioAndProportionScreenView {
         soundPlayer: soundGenerators[ 2 ],
         a11yLabel: ratioAndProportionStrings.challenge3
       } )
-    ], model.ratioProperty, comboBoxListParent, {
+    ], model.targetRatioProperty, comboBoxListParent, {
       helpText: ratioAndProportionStrings.a11y.explore.challengesHelpText
     } );
 
@@ -81,7 +81,7 @@ class ExploreScreenView extends RatioAndProportionScreenView {
       model.ratioFitnessProperty,
       model.leftValueProperty,
       model.rightValueProperty,
-      model.ratioProperty,
+      model.targetRatioProperty,
       this.gridViewProperty,
       this.ratioDescriber, ratioToChallengeNameMap
     ) );

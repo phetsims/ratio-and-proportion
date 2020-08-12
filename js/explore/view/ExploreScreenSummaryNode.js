@@ -17,12 +17,12 @@ class ExploreScreenSummaryNode extends Node {
    * @param {Property.<number>} ratioFitnessProperty
    * @param {Property.<number>} leftValueProperty
    * @param {Property.<number>} rightValueProperty
-   * @param {Property.<number>} ratioProperty
+   * @param {Property.<number>} targetRatioProperty
    * @param {Property.<GridView>} gridViewProperty
    * @param {RatioDescriber} ratioDescriber
    * @param {Map.<number,string>} ratioToChallengeNameMap - map from target ratio to name of challenge
    */
-  constructor( ratioFitnessProperty, leftValueProperty, rightValueProperty, ratioProperty, gridViewProperty, ratioDescriber, ratioToChallengeNameMap ) {
+  constructor( ratioFitnessProperty, leftValueProperty, rightValueProperty, targetRatioProperty, gridViewProperty, ratioDescriber, ratioToChallengeNameMap ) {
 
     const stateOfSimNode = new Node( {
       tagName: 'p'
@@ -54,7 +54,7 @@ class ExploreScreenSummaryNode extends Node {
     this.ratioDescriber = ratioDescriber;
 
     // This derivedProperty is already dependent on all other dependencies for getStateOfSimString
-    Property.multilink( [ ratioProperty, gridViewProperty, ratioFitnessProperty, leftValueProperty, rightValueProperty ],
+    Property.multilink( [ targetRatioProperty, gridViewProperty, ratioFitnessProperty, leftValueProperty, rightValueProperty ],
       ( currentTargetRatio, gridView ) => {
         stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.explore.screenSummary.qualitativeStateOfSim, {
           ratioFitness: this.ratioDescriber.getRatioFitness( false ), // lowercase

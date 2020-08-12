@@ -33,7 +33,7 @@ class RatioAndProportionModel {
   constructor( tandem ) {
 
     // The desired ratio of the left value as compared to the right value. As in 1:2 (initial value).
-    this.ratioProperty = new NumberProperty( .5 );
+    this.targetRatioProperty = new NumberProperty( .5 );
     this.toleranceProperty = new NumberProperty( RatioAndProportionQueryParameters.tolerance );
 
     // @public
@@ -81,11 +81,11 @@ class RatioAndProportionModel {
 
     // @public {DerivedProperty.<number>}
     // How "correct" the proportion currently is. Can be between 0 and 1, if 1, the proportion of the two values is
-    // exactly the value of the ratioProperty. If zero, it is outside the tolerance allowed for the proportion.
+    // exactly the value of the targetRatioProperty. If zero, it is outside the tolerance allowed for the proportion.
     this.ratioFitnessProperty = new DerivedProperty( [
       this.leftValueProperty,
       this.rightValueProperty,
-      this.ratioProperty,
+      this.targetRatioProperty,
       this.toleranceProperty
     ], ( leftValue, rightValue, ratio, tolerance ) => {
       assert && assert( rightValue !== 0, 'cannot divide by zero' );
@@ -243,7 +243,7 @@ class RatioAndProportionModel {
     this.leftPositionProperty.reset();
     this.rightPositionProperty.reset();
 
-    this.ratioProperty.reset();
+    this.targetRatioProperty.reset();
     this.toleranceProperty.reset();
     this.leftValueProperty.reset();
     this.rightValueProperty.reset();
