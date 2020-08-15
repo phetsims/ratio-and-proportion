@@ -43,13 +43,13 @@
       "value": "Right Hand"
     },
     "rightHandHelpText": {
-      "value": "Move the hand positions to explore this challenge."
+      "value": "Move hands up and down to maintain the mystery challenge ratio."
     },
     "bothHands": {
       "value": "Both hands"
     },
     "bothHandsHelpText": {
-      "value": "Use W and S keys to move left hand and Up and Down Arrow keys to move right hand to try and keep the same ratio."
+      "value": "Use W and S keys to move left hand, and Up and Down Arrow keys to move right hand. Move both hands at the same time to maintain the challenge ratio."
     },
     "grid": {
       "heading": {
