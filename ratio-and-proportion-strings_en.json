@@ -115,7 +115,7 @@
       },
       "screenSummary": {
         "introParagraph": {
-          "value": "The Play Area is an open space with two movable hands. Hands can be moved individually or simultaneously to explore a challenge. There are options to adjust the look and feel of the open space that may help you master the challenges. The Control Area has a button to reset the sim."
+          "value": "In the Play Area you have two movable hands and a set of ratio challenges to discover. Hands can be moved up and down individually or simultaneously to discover multiple places where the chosen ratio challenge is true. There are options to add plain or numbered tick marks shown as evenly-spaced horizontal lines that divide up the vertical space of the Play Area. The Control Area has a button to reset the sim."
         },
         "interactionHint": {
           "value": "Move hands individually or at the same time to explore the challenge."
@@ -137,7 +137,7 @@
       },
       "screenSummary": {
         "introParagraph": {
-          "value": "On this screen you can set your own challenge. The Play Area is an open space with two movable hands. Hands can be moved individually or simultaneously or with ratio locked to explore a challenge. There are options to adjust the look and feel of the open space that may help you master the challenges that you set. The Control Area has a button to reset the sim."
+          "value": "On this screen you can create your own ratio challenge. The Play Area has two movable hands that can be moved freely individually or simultaneously, or as a single interaction with the ratio locked to explore the ratio challenges you create. There are options to add plain or numbered tick marks shown as evenly-spaced horizontal lines that divide up the vertical space of the Play Area. In addition, you can increase the range of tick marks for a finer exploration of your ratio challenges. The Control Area has a button to reset the sim."
         },
         "interactionHint": {
           "value": "Explore current challenge or set your own."
