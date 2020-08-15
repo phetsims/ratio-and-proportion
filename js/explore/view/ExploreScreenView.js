@@ -42,26 +42,26 @@ class ExploreScreenView extends RatioAndProportionScreenView {
     soundGenerators.push( new SoundClip( challenge3SelectionSound, SELECTION_SOUND_OPTIONS ) );
     soundGenerators.forEach( sg => { soundManager.addSoundGenerator( sg ); } );
 
-    // Used to get the names of challenges based on the target ratio
+    // Used to get the names of challenges based on the target ratio, NOTE: lowercase strings are only available in the PDOM (not yet i18n)
     const ratioToChallengeNameMap = new Map();
-    ratioToChallengeNameMap.set( 1 / 2, ratioAndProportionStrings.challenge1 );
-    ratioToChallengeNameMap.set( 1 / 3, ratioAndProportionStrings.challenge2 );
-    ratioToChallengeNameMap.set( 3 / 4, ratioAndProportionStrings.challenge3 );
+    ratioToChallengeNameMap.set( 1 / 2, { capitalized: ratioAndProportionStrings.challenge1, lowercase: ratioAndProportionStrings.a11y.explore.challenge1Lowercase } );
+    ratioToChallengeNameMap.set( 1 / 3, { capitalized: ratioAndProportionStrings.challenge2, lowercase: ratioAndProportionStrings.a11y.explore.challenge2Lowercase } );
+    ratioToChallengeNameMap.set( 3 / 4, { capitalized: ratioAndProportionStrings.challenge3, lowercase: ratioAndProportionStrings.a11y.explore.challenge3Lowercase } );
 
     const comboBoxHeading = new Node( {
       innerContent: ratioAndProportionStrings.a11y.explore.ratioChallenges,
       tagName: 'h3'
     } );
     const comboBox = new ComboBox( [
-      new ChallengeComboBoxItem( ratioToChallengeNameMap.get( 1 / 2 ), new Color( 233, 69, 69 ), 1 / 2, {
+      new ChallengeComboBoxItem( ratioToChallengeNameMap.get( 1 / 2 ).capitalized, new Color( 233, 69, 69 ), 1 / 2, {
         soundPlayer: soundGenerators[ 0 ],
         a11yLabel: ratioAndProportionStrings.challenge1
       } ),
-      new ChallengeComboBoxItem( ratioToChallengeNameMap.get( 1 / 3 ), new Color( 87, 182, 221 ), 1 / 3, {
+      new ChallengeComboBoxItem( ratioToChallengeNameMap.get( 1 / 3 ).capitalized, new Color( 87, 182, 221 ), 1 / 3, {
         soundPlayer: soundGenerators[ 1 ],
         a11yLabel: ratioAndProportionStrings.challenge2
       } ),
-      new ChallengeComboBoxItem( ratioToChallengeNameMap.get( 3 / 4 ), new Color( 255, 200, 0 ), 3 / 4, {
+      new ChallengeComboBoxItem( ratioToChallengeNameMap.get( 3 / 4 ).capitalized, new Color( 255, 200, 0 ), 3 / 4, {
         soundPlayer: soundGenerators[ 2 ],
         a11yLabel: ratioAndProportionStrings.challenge3
       } )

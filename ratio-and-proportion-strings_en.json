@@ -121,7 +121,7 @@
           "value": "Move hands individually or at the same time to explore the challenge."
         },
         "qualitativeStateOfSim": {
-          "value": "Currently, {{ratioFitness}} ratio, on {{currentChallenge}}"
+          "value": "Currently, hands are {{ratioFitness}} the {{currentChallenge}} ratio with"
         }
       },
       "challengesHelpText": {
@@ -129,6 +129,15 @@
       },
       "ratioChallenges": {
         "value": "Ratio Challenges"
+      },
+      "challenge1Lowercase": {
+        "value": "challenge 1"
+      },
+      "challenge2Lowercase": {
+        "value": "challenge 2"
+      },
+      "challenge3Lowercase": {
+        "value": "challenge 3"
       }
     },
     "create": {
@@ -143,7 +152,7 @@
           "value": "Explore current challenge or set your own."
         },
         "qualitativeStateOfSim": {
-          "value": "Currently, {{ratioFitness}} ratio"
+          "value": "Currently, {{ratioFitness}} the my challenge ratio with"
         }
       },
       "gridRangeHelpText": {

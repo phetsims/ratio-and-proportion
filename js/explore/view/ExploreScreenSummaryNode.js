@@ -58,7 +58,7 @@ class ExploreScreenSummaryNode extends Node {
       ( currentTargetRatio, gridView ) => {
         stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.explore.screenSummary.qualitativeStateOfSim, {
           ratioFitness: this.ratioDescriber.getRatioFitness( false ), // lowercase
-          currentChallenge: ratioToChallengeNameMap.get( currentTargetRatio )
+          currentChallenge: ratioToChallengeNameMap.get( currentTargetRatio ).lowercase
         } );
         leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
           position: ratioDescriber.getHandPosition( leftValueProperty, gridView )
