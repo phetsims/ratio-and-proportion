@@ -75,18 +75,22 @@ class RatioDescriber {
   }
 
   /**
-   * @private
+   * only ends with "of Play Area" if qualitative
+   * @public
    * @param {NumberProperty} valueProperty
    * @param {GridView} gridView
    * @returns {string}
    */
   getHandPosition( valueProperty, gridView ) {
-    const position = GridView.describeQualitative( gridView ) ? this.getQualitativePointerPosition( valueProperty ) :
-                     this.getQuantitativePointerPosition( valueProperty );
+    if ( GridView.describeQualitative( gridView ) ) {
 
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ofPlayAreaPattern, {
-      position: position
-    } );
+      return StringUtils.fillIn( ratioAndProportionStrings.a11y.ofPlayAreaPattern, {
+        position: this.getQualitativePointerPosition( valueProperty )
+      } );
+    }
+    else {
+      return this.getQuantitativePointerPosition( valueProperty );
+    }
   }
 
   /**
