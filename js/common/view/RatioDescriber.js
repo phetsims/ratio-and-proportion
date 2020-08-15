@@ -13,13 +13,15 @@ const ratioDescriptionPatternString = ratioAndProportionStrings.a11y.ratio.descr
 
 // constants
 const QUALITATIVE_POSITIONS = [
-  ratioAndProportionStrings.a11y.pointerPosition.atTheBottom,
-  ratioAndProportionStrings.a11y.pointerPosition.nearTheBottom,
-  ratioAndProportionStrings.a11y.pointerPosition.somewhatCloseToTheBottom,
-  ratioAndProportionStrings.a11y.pointerPosition.inTheMiddle,
-  ratioAndProportionStrings.a11y.pointerPosition.somewhatCloseToTheTop,
-  ratioAndProportionStrings.a11y.pointerPosition.nearTheTop,
-  ratioAndProportionStrings.a11y.pointerPosition.atTheTop
+  ratioAndProportionStrings.a11y.pointerPosition.atBottom,
+  ratioAndProportionStrings.a11y.pointerPosition.nearBottom,
+  ratioAndProportionStrings.a11y.pointerPosition.somewhatNearBottom,
+  ratioAndProportionStrings.a11y.pointerPosition.justBelowMiddle,
+  ratioAndProportionStrings.a11y.pointerPosition.atMiddle,
+  ratioAndProportionStrings.a11y.pointerPosition.justAboveMiddle,
+  ratioAndProportionStrings.a11y.pointerPosition.somewhatNearTop,
+  ratioAndProportionStrings.a11y.pointerPosition.nearTop,
+  ratioAndProportionStrings.a11y.pointerPosition.atTop
 ];
 const RATIO_FITNESS_STRINGS_CAPITALIZED = [
   ratioAndProportionStrings.a11y.ratio.capitalized.veryFarFrom,
@@ -123,24 +125,35 @@ class RatioDescriber {
   getQualitativePositionIndex( position ) {
     assert && assert( this.valueRange.contains( position ), 'position expected to be in valueRange' );
 
-    if ( position === this.valueRange.min ) {
+    if ( position === this.valueRange.max ) {
+      return 8;
+    }
+    else if ( position >= .9 ) {
+      return 7;
+    }
+    else if ( position > .7 ) {
+      return 6;
+    }
+    else if ( position > .501 ) { // TODO: weirdness about how valueRange.min is .001
+      return 5;
+    }
+    else if ( position >= .5 ) {
+      return 4;
+    }
+    else if ( position >= .4 ) {
+      return 3;
+    }
+    else if ( position > .2 ) {
+      return 2;
+    }
+    else if ( position > this.valueRange.min ) {
+      return 1;
+    }
+    else if ( position === this.valueRange.min ) {
       return 0;
     }
-    else if ( position === this.valueRange.max ) {
-      return QUALITATIVE_POSITIONS.length - 1;
-    }
-    else {
 
-      // TODO: support this based on this.valueRange
-      // Get the length without counting the first or last
-      const stringsWithoutExtremeties = QUALITATIVE_POSITIONS.length - 2;
-      for ( let i = 1; i <= stringsWithoutExtremeties; i++ ) {
-        if ( position < i * ( 1 / stringsWithoutExtremeties ) ) {
-          return i;
-        }
-      }
-      assert && assert( false, 'we should not get here' );
-    }
+    assert && assert( false, 'we should not get here' );
   }
 
   /**

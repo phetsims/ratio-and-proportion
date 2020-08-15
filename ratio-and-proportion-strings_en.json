@@ -163,26 +163,32 @@
       }
     },
     "pointerPosition": {
-      "atTheTop": {
-        "value": "at the top"
+      "atTop": {
+        "value": "at top"
       },
-      "nearTheTop": {
-        "value": "near the top"
+      "nearTop": {
+        "value": "near top"
       },
-      "somewhatCloseToTheTop": {
-        "value": "somewhat close to the top"
+      "somewhatNearTop": {
+        "value": "somewhat near top"
       },
-      "inTheMiddle": {
-        "value": "in the middle"
+      "justAboveMiddle": {
+        "value": "just above middle"
       },
-      "somewhatCloseToTheBottom": {
-        "value": "somewhat close to the bottom"
+      "atMiddle": {
+        "value": "at middle"
       },
-      "nearTheBottom": {
-        "value": "near the bottom"
+      "justBelowMiddle": {
+        "value": "just below middle"
       },
-      "atTheBottom": {
-        "value": "at the bottom"
+      "somewhatNearBottom": {
+        "value": "somewhat near bottom"
+      },
+      "nearBottom": {
+        "value": "near bottom"
+      },
+      "atBottom": {
+        "value": "at bottom"
       }
     },
     "ratio": {
