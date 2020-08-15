@@ -91,7 +91,7 @@
         }
       },
       "quantitativeHandPositionPattern": {
-        "value": "{{relativePosition}} grid position {{gridPosition}}"
+        "value": "{{relativePosition}} tick mark {{gridPosition}}"
       }
     },
     "leftHandBullet": {
