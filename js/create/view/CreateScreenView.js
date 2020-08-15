@@ -116,8 +116,8 @@ class CreateScreenView extends RatioAndProportionScreenView {
       this.gridViewProperty,
       this.ratioDescriber,
       gridRangeProperty,
-      gridRangeComboBox.gridRangeToRangeLabelMap,
-      numeratorProperty, denominatorProperty
+      numeratorProperty,
+      denominatorProperty
     ) );
 
     const lockRatioCheckbox = new Checkbox( new RichText( ratioAndProportionStrings.lockRatio ), model.lockRatioProperty, {

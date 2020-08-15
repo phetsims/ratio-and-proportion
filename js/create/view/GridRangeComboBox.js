@@ -35,21 +35,14 @@ class GridRangeComboBox extends Node {
   constructor( gridRangeProperty, comboBoxParent, gridViewProperty, options ) {
     super();
 
-    // a general map from grid range value to the description string that it displays. This is created so that this
-    // mapping can be reused.
-    const gridRangeToRangeLabelMap = new Map();
-    gridRangeToRangeLabelMap.set( 10, ratioAndProportionStrings.zeroToTen );
-    gridRangeToRangeLabelMap.set( 20, ratioAndProportionStrings.zeroToTwenty );
-    gridRangeToRangeLabelMap.set( 30, ratioAndProportionStrings.zeroToThirty );
-
     const items = [
-      new ComboBoxItem( new RichText( gridRangeToRangeLabelMap.get( 10 ), { font: GRID_RANGE_FONT } ), 10, {
+      new ComboBoxItem( new RichText( ratioAndProportionStrings.zeroToTen, { font: GRID_RANGE_FONT } ), 10, {
         a11yLabel: ratioAndProportionStrings.zeroToTen
       } ),
-      new ComboBoxItem( new RichText( gridRangeToRangeLabelMap.get( 20 ), { font: GRID_RANGE_FONT } ), 20, {
+      new ComboBoxItem( new RichText( ratioAndProportionStrings.zeroToTwenty, { font: GRID_RANGE_FONT } ), 20, {
         a11yLabel: ratioAndProportionStrings.zeroToTwenty
       } ),
-      new ComboBoxItem( new RichText( gridRangeToRangeLabelMap.get( 30 ), { font: GRID_RANGE_FONT } ), 30, {
+      new ComboBoxItem( new RichText( ratioAndProportionStrings.zeroToThirty, { font: GRID_RANGE_FONT } ), 30, {
         a11yLabel: ratioAndProportionStrings.zeroToThirty
       } )
     ];
@@ -78,9 +71,6 @@ class GridRangeComboBox extends Node {
     gridViewProperty.link( gridView => {
       this.children = gridView === GridView.NONE ? [ disabledComboBox ] : [ enabledComboBox ];
     } );
-
-    // @public (read-only) - for use in other description-related places (like the screen summary)
-    this.gridRangeToRangeLabelMap = gridRangeToRangeLabelMap;
   }
 }
 

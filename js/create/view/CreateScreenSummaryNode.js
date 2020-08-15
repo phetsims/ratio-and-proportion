@@ -8,7 +8,6 @@
 import Property from '../../../../axon/js/Property.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import GridView from '../../common/view/GridView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
@@ -19,24 +18,21 @@ class CreateScreenSummaryNode extends Node {
    * @param {Property.<number>} leftValueProperty
    * @param {Property.<number>} rightValueProperty
    * @param {Property.<GridView>} gridViewProperty
-   * @param {Property.<boolean>} accordionBoxExpandedProperty
    * @param {RatioDescriber} ratioDescriber
    * @param {Property.<number>} gridRangeProperty
-   * @param {Map.<number, string>} gridRangeToRangeLabelMap - map from grid range to the label for that specified range
    * @param {NumberProperty} numeratorProperty
    * @param {NumberProperty} denominatorProperty
    */
   constructor( ratioFitnessProperty, leftValueProperty, rightValueProperty, gridViewProperty,
-               ratioDescriber, gridRangeProperty, gridRangeToRangeLabelMap,
+               ratioDescriber, gridRangeProperty,
                numeratorProperty, denominatorProperty ) {
 
     const stateOfSimNode = new Node( { tagName: 'p' } );
     const leftHandBullet = new Node( { tagName: 'li' } );
     const rightHandBullet = new Node( { tagName: 'li' } );
-    const gridRangeBullet = new Node( { tagName: 'li' } );
     const descriptionBullets = new Node( {
       tagName: 'ul',
-      children: [ leftHandBullet, rightHandBullet, gridRangeBullet ]
+      children: [ leftHandBullet, rightHandBullet ]
     } );
 
     super( {
@@ -76,12 +72,6 @@ class CreateScreenSummaryNode extends Node {
       rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
         position: ratioDescriber.getHandPosition( rightValueProperty, gridView )
       } );
-
-      gridRangeBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.screenSummary.gridRangeBullet, {
-        range: gridRangeToRangeLabelMap.get( gridRange )
-      } );
-
-      gridRangeBullet.visible = gridView !== GridView.NONE;
     } );
   }
 }
