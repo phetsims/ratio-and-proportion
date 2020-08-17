@@ -134,10 +134,10 @@ class RatioDescriber {
     else if ( position > .7 ) {
       return 6;
     }
-    else if ( position > .501 ) { // TODO: weirdness about how valueRange.min is .001, see https://github.com/phetsims/ratio-and-proportion/issues/143
+    else if ( position >.5 ) {
       return 5;
     }
-    else if ( position >= .5 ) {
+    else if ( position === .5 ) {
       return 4;
     }
     else if ( position >= .4 ) {

@@ -73,9 +73,7 @@ class GridDescriber {
     assert && assert( value < 1 && value >= 0, 'value not in range' );
 
     let index = null;
-    if ( value <= this.valueRange.min * numberOfGridLines ) {
-      // multiple by the numberOfGridLines to make sure that the value is properly mapped
-
+    if ( value === this.valueRange.min ) {
       index = 0;
     }
     else if ( value <= .2 ) {

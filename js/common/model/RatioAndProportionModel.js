@@ -20,6 +20,9 @@ import RatioAndProportionConstants from '../RatioAndProportionConstants.js';
 // The threshold for velocity of a moving ratio value to indivate that it is "moving."
 const VELOCITY_THRESHOLD = .01;
 
+// constant to help achieve feedback in 40% of the visual screen height.
+const FITNESS_TOLERANCE_FACTOR = 0.5;
+
 // The value in which when either the left or right value is less than this, the ratio cannot be "in proportion".
 // Add .001 to support two keyboard nav motions above 0 (counting the min range being >0).
 const NO_SUCCUSS_VALUE_THRESHOLD = .021;
@@ -37,7 +40,7 @@ class RatioAndProportionModel {
     // @public
     // To avoid divide-by zero errors. NOTE: GridDescriber relies on the min of this mapping to "zero" as it pertains
     // to Interactive description
-    this.valueRange = new Range( .0001, 1 );
+    this.valueRange = new Range( 0, 1 );
 
     const modelBounds = new Bounds2( -.5, this.valueRange.min, .5, this.valueRange.max );
 
@@ -85,17 +88,19 @@ class RatioAndProportionModel {
       this.rightValueProperty,
       this.targetRatioProperty
     ], ( leftValue, rightValue, ratio ) => {
-      assert && assert( rightValue !== 0, 'cannot divide by zero' );
+
+      // Instead of dividing by zero, just say this case is not in proportion
+      if ( rightValue === 0 ) {
+        return this.fitnessRange.min;
+      }
+
       assert && assert( !isNaN( leftValue / rightValue ), 'ratio should be defined' );
 
-      // constant to help achieve feedback in 40% of the visual screen height.
-      const toleranceFactor = 0.5;
-
       // fitness according to treating the right value as "correct" in relation to the target ratio
-      const fLeft = ( left, rightOptimal, targetRatio ) => 1 - toleranceFactor * Math.abs( left - targetRatio * rightOptimal );
+      const fLeft = ( left, rightOptimal, targetRatio ) => 1 - FITNESS_TOLERANCE_FACTOR * Math.abs( left - targetRatio * rightOptimal );
 
       // fitness according to treating the left value as "correct" in relation to the target ratio
-      const fRight = ( leftOptimal, right, targetRatio ) => 1 - toleranceFactor * Math.abs( right - leftOptimal / targetRatio );
+      const fRight = ( leftOptimal, right, targetRatio ) => 1 - FITNESS_TOLERANCE_FACTOR * Math.abs( right - leftOptimal / targetRatio );
 
       // Calculate both possible fitness values, and take the minimum. In experience this works well at creating a
       // tolerance range that is independent of the target ratio or the positions of the values. This algorithm can
