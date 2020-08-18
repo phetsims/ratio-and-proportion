@@ -34,7 +34,6 @@ import g001Sound from '../../../../sounds/staccato/marimba-variation-v2-g-001_mp
 import g002Sound from '../../../../sounds/staccato/marimba-variation-v2-g-002_mp3.js';
 import gSound from '../../../../sounds/staccato/marimba-variation-v2-g_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
-import RatioAndProportionQueryParameters from '../../RatioAndProportionQueryParameters.js';
 
 // organize the sounds by variation and note
 const staccatoSounds = [
@@ -89,7 +88,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
       fitnessRange.min,
       fitnessRange.max,
       500,
-      RatioAndProportionQueryParameters.staccatoMinRepeatTime,
+      120,
       true );
 
     // @private - in ms, keep track of the amount of time that has passed since the last staccato sound played

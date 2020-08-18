@@ -39,16 +39,6 @@ const RatioAndProportionQueryParameters = QueryStringMachine.getAll( {
   movingInProportionThreshold: {
     type: 'number',
     defaultValue: .3
-  },
-
-  // For staccato sounds when frequnecy is changing (faster notes at higher fitness): what is the quickest interval
-  //    that the sound will play when close or at successful ratio, in ms.
-  // For staccoto sounds when frequency is not changing: what is the minimum amount of time that must occur between two
-  //    notes playing, even if fitness changes above fitnessChangeThreshold (prevents hearing all notes when mousing
-  //    from top to bottom in 1ms).
-  staccatoMinRepeatTime: {
-    type: 'number',
-    defaultValue: 120
   }
 } );
 
