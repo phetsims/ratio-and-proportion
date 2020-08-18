@@ -24,12 +24,12 @@ class RatioHandNode extends Node {
   /**
    *
    * @param {Property.<number>} valueProperty
-   * @param {Range} valueRange
+   * @param {Range} enabledValueRangeProperty
    * @param {EnumerationProperty.<GridView>} gridViewProperty
    * @param {number} keyboardStep
    * @param {Object} [options]
    */
-  constructor( valueProperty, valueRange, gridViewProperty, keyboardStep, options ) {
+  constructor( valueProperty, enabledValueRangeProperty, gridViewProperty, keyboardStep, options ) {
 
     options = merge( {
       cursor: 'pointer',
@@ -43,7 +43,7 @@ class RatioHandNode extends Node {
     super();
 
     // Always the same range, always enabled
-    !options.asIcon && this.initializeAccessibleSlider( valueProperty, new Property( valueRange ), new BooleanProperty( true ), options );
+    !options.asIcon && this.initializeAccessibleSlider( valueProperty, enabledValueRangeProperty, new BooleanProperty( true ), options );
 
     // @private
     const filledInHandNode = new Image( filledInHandImage );

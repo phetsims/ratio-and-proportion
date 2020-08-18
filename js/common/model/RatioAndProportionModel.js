@@ -6,14 +6,10 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionConstants from '../RatioAndProportionConstants.js';
 
@@ -27,6 +23,10 @@ const FITNESS_TOLERANCE_FACTOR = 0.5;
 // Add .001 to support two keyboard nav motions above 0 (counting the min range being >0).
 const NO_SUCCUSS_VALUE_THRESHOLD = .021;
 
+const VALUE_RANGE_MIN = 0;
+const VALUE_RANGE = new Range( VALUE_RANGE_MIN, 1 );
+const LOCK_RATIO_RANGE_MIN = .05;
+
 class RatioAndProportionModel {
 
   /**
@@ -38,36 +38,16 @@ class RatioAndProportionModel {
     this.targetRatioProperty = new NumberProperty( .5 );
 
     // @public
-    // To avoid divide-by zero errors. NOTE: GridDescriber relies on the min of this mapping to "zero" as it pertains
-    // to Interactive description
-    this.valueRange = new Range( 0, 1 );
-
-    const modelBounds = new Bounds2( -.5, this.valueRange.min, .5, this.valueRange.max );
-
-    this.leftPositionProperty = new Vector2Property( new Vector2( 0, .2 ), {
-      tandem: tandem.createTandem( 'leftBarProperty' ),
-      reentrant: true,
-      validBounds: modelBounds
-    } );
-    this.rightPositionProperty = new Vector2Property( new Vector2( 0, .4 ), {
-      tandem: tandem.createTandem( 'rightBarProperty' ),
-      reentrant: true,
-      validBounds: modelBounds
-    } );
+    // To avoid divide-by zero errors. TODO: perhaps rename "value" to "position"
+    this.valueRange = VALUE_RANGE; // TODO: constant to instance var. . . .
+    this.enabledValueRangeProperty = new Property( this.valueRange );
 
     // @public - settable positions of the two values on the screen
-    // TODO: this may not be needed because horizontal movement is not important to the model.
-    this.leftValueProperty = new DynamicProperty( new Property( this.leftPositionProperty ), {
-      bidirectional: true,
-      reentrant: true,
-      map: vector2 => vector2.y,
-      inverseMap: number => this.leftPositionProperty.value.copy().setY( number )
+    this.leftValueProperty = new NumberProperty( .2, {
+      reentrant: true
     } );
-    this.rightValueProperty = new DynamicProperty( new Property( this.rightPositionProperty ), {
-      bidirectional: true,
-      reentrant: true,
-      map: vector2 => vector2.y,
-      inverseMap: number => this.rightPositionProperty.value.copy().setY( number )
+    this.rightValueProperty = new NumberProperty( .4, {
+      reentrant: true
     } );
 
     // @public - when true, moving one ratio value will maintain the current ratio by updating the other value Property
@@ -161,6 +141,16 @@ class RatioAndProportionModel {
     this.targetRatioProperty.link( () => {
       this.lockRatioProperty.value = false;
     } );
+
+    this.lockRatioProperty.link( ratioLocked => {
+      this.enabledValueRangeProperty.value = new Range( ratioLocked ? LOCK_RATIO_RANGE_MIN : VALUE_RANGE_MIN, VALUE_RANGE.max );
+    } );
+
+    this.enabledValueRangeProperty.link( enabledRange => {
+      const clampPropertyIntoRange = property => !enabledRange.contains( property.value ) && property.set( enabledRange.constrainValue( property.value ) );
+      clampPropertyIntoRange( this.leftValueProperty );
+      clampPropertyIntoRange( this.rightValueProperty );
+    } );
   }
 
   /**
@@ -247,12 +237,10 @@ class RatioAndProportionModel {
     // it is easiest if this is reset first
     this.lockRatioProperty.reset();
 
-    this.leftPositionProperty.reset();
-    this.rightPositionProperty.reset();
-
     this.targetRatioProperty.reset();
     this.leftValueProperty.reset();
     this.rightValueProperty.reset();
+    this.enabledValueRangeProperty.reset();
     this.firstInteractionProperty.reset();
   }
 }

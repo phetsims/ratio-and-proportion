@@ -93,9 +93,9 @@ class RatioAndProportionScreenView extends ScreenView {
 
     // @private {RatioHalf}
     this.leftRatioHalf = new RatioHalf(
-      model.leftPositionProperty,
       model.leftValueProperty,
       model.valueRange,
+      model.enabledValueRangeProperty,
       model.firstInteractionProperty,
       defaultRatioHalfBounds,
       gridViewProperty,
@@ -113,9 +113,9 @@ class RatioAndProportionScreenView extends ScreenView {
 
     // @private {RatioHalf}
     this.rightRatioHalf = new RatioHalf(
-      model.rightPositionProperty,
       model.rightValueProperty,
       model.valueRange,
+      model.enabledValueRangeProperty,
       model.firstInteractionProperty,
       defaultRatioHalfBounds,
       gridViewProperty,

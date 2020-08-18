@@ -12,7 +12,10 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
@@ -41,12 +44,18 @@ const SNAP_TO_GRID_LINE_THRESHOLD = .135842179584 / 2;
 // TODO: copied from WaveInterferenceSlider
 const MIN_INTER_CLICK_TIME = ( 1 / 60 * 1000 ) * 2; // min time between clicks, in milliseconds, empirically determined
 
+// total horizontal drag distance;
+const X_MODEL_DRAG_DISTANCE = 1;
+const INITIAL_X_VALUE = 0;
+const getModelBoundsFromRange = range => new Bounds2( -1 * X_MODEL_DRAG_DISTANCE / 2, range.min, X_MODEL_DRAG_DISTANCE / 2, range.max );
+
+
 class RatioHalf extends Rectangle {
 
   /**
-   * @param {Vector2Property} positionProperty
    * @param {NumberProperty} valueProperty
-   * @param {Range} valueRange
+   * @param {Range} valueRange - the total range of the hand
+   * @param {Property.<Range>} enabledValueRangeProperty - the current range that the hand can move
    * @param {Property.<boolean>} firstInteractionProperty - upon successful interaction, this will be marked as false
    * @param {Bounds2} bounds - the area that the node takes up
    * @param {EnumerationProperty.<GridView>} gridViewProperty
@@ -58,7 +67,7 @@ class RatioHalf extends Rectangle {
    * @param {BooleanProperty} playUISoundsProperty
    * @param {Object} [options]
    */
-  constructor( positionProperty, valueProperty, valueRange, firstInteractionProperty, bounds, gridViewProperty,
+  constructor( valueProperty, valueRange, enabledValueRangeProperty, firstInteractionProperty, bounds, gridViewProperty,
                gridRangeProperty, ratioDescriber, colorProperty, keyboardStep, horizontalMovementAllowedProperty, playUISoundsProperty, options ) {
 
     options = merge( {
@@ -85,6 +94,9 @@ class RatioHalf extends Rectangle {
     this.addChild( bottomRect );
 
     // @private
+    this.enabledValueRangeProperty = enabledValueRangeProperty;
+
+    // @private
     this.alertManager = new RatioAndProportionAlertManager( valueProperty, gridViewProperty, ratioDescriber, options.isRight );
 
     const gridNode = new RatioHalfGridNode( gridViewProperty, gridRangeProperty,
@@ -93,7 +105,7 @@ class RatioHalf extends Rectangle {
     this.addChild( gridNode );
 
     // @private - The draggable element inside the Node framed with thick rectangles on the top and bottom.
-    this.ratioHandNode = new RatioHandNode( valueProperty, valueRange, gridViewProperty, keyboardStep, {
+    this.ratioHandNode = new RatioHandNode( valueProperty, enabledValueRangeProperty, gridViewProperty, keyboardStep, {
       startDrag: () => {
         firstInteractionProperty.value = false;
         this.isBeingInteractedWithProperty.value = true;
@@ -132,15 +144,8 @@ class RatioHalf extends Rectangle {
     let timeOfLastClick = 0;
 
     let modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
-      positionProperty.validBounds,
+      getModelBoundsFromRange( valueRange ),
       bounds );
-
-    // offset the bounds to account for the ratioHandNode's size, since the center of the ratioHandNode is controlled by the drag bounds.
-    const modelHalfPointerPointer = modelViewTransform.viewToModelDeltaXY( this.ratioHandNode.width / 2, -FRAMING_RECTANGLE_HEIGHT );
-
-    // constrain x dimension inside the RatioHalf so that this.ratioHandNode doesn't go beyond the width. Height is constrained
-    // via the modelViewTransform.
-    const dragBounds = positionProperty.validBounds.erodedX( modelHalfPointerPointer.x );
 
     // Snap mouse/touch input to the nearest grid line if close enough. This helps with reproducible precision
     const getSnapToGridLineValue = yValue => {
@@ -159,13 +164,38 @@ class RatioHalf extends Rectangle {
       return yValue;
     };
 
+
+    const positionVector = new Vector2( INITIAL_X_VALUE, 0 );
+    let mappingInitialValue = true;
+
+    // Only the Ratio Half dragging allows for horizontal movement, so support that here.
+    const positionProperty = new DynamicProperty( new Property( valueProperty ), {
+      reentrant: true,
+      bidirectional: true,
+      valueType: Vector2,
+      inverseMap: vector2 => vector2.y,
+      map: number => {
+
+        // initial case
+        if ( mappingInitialValue ) {
+          mappingInitialValue = false;
+          return positionVector.setY( number );
+        }
+        else {
+          return positionProperty.value.copy().setY( number );
+        }
+      }
+    } );
+
+    const dragBoundsProperty = new Property( new Bounds2( 0, 0, 1, 1 ) );
+
     let startingX = null;
 
     // transform and dragBounds set in layout code below
     const dragListener = new DragListener( {
       positionProperty: positionProperty,
       tandem: options.tandem.createTandem( 'dragListener' ),
-      dragBoundsProperty: new Property( dragBounds ),
+      dragBoundsProperty: dragBoundsProperty,
       start: () => {
         if ( horizontalMovementAllowedProperty.value ) {
           startingX = positionProperty.value.x;
@@ -215,6 +245,20 @@ class RatioHalf extends Rectangle {
         this.alertManager.alertRatioChange( valueProperty.get() );
       }
     } );
+
+    // When the range changes, update the dragBounds of the drag listener
+    enabledValueRangeProperty.link( enabledRange => {
+      const newBounds = getModelBoundsFromRange( enabledRange );
+
+
+      // offset the bounds to account for the ratioHandNode's size, since the center of the ratioHandNode is controlled by the drag bounds.
+      const modelHalfPointerPointer = modelViewTransform.viewToModelDeltaXY( this.ratioHandNode.width / 2, -FRAMING_RECTANGLE_HEIGHT );
+
+      // constrain x dimension inside the RatioHalf so that this.ratioHandNode doesn't go beyond the width. Height is constrained
+      // via the modelViewTransform.
+      dragBoundsProperty.value = newBounds.erodedX( modelHalfPointerPointer.x );
+    } );
+
     this.ratioHandNode.addInputListener( dragListener );
     this.ratioHandNode.addInputListener( {
       focus: () => {
@@ -276,8 +320,9 @@ class RatioHalf extends Rectangle {
 
       // Don't count the space the framing rectangles take up as part of the draggableArea.
       modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
-        positionProperty.validBounds,
-        boundsNoFramingRects );
+        getModelBoundsFromRange( this.enabledValueRangeProperty.value ),
+        boundsNoFramingRects
+      );
 
       updatePointer( positionProperty.value );
 
