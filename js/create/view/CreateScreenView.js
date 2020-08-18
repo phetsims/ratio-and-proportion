@@ -80,12 +80,13 @@ class CreateScreenView extends RatioAndProportionScreenView {
 
     const myChallengeContent = new HBox( {
       spacing: 40,
+      tagName: 'div',
+      descriptionContent: ratioAndProportionStrings.a11y.create.myChallengeHelpText, // help text for the content
       children: [ leftRatioSelector, rightRatioSelector ]
     } );
     const myChallengeAccordionBox = new AccordionBox( myChallengeContent, {
       titleNode: new RichText( ratioAndProportionStrings.myChallenge, { font: new PhetFont( 20 ) } ),
       accessibleName: ratioAndProportionStrings.myChallenge,
-      helpText: ratioAndProportionStrings.a11y.create.myChallengeHelpText,
       titleAlignX: 'left',
       contentXMargin: 26,
       contentYMargin: 15,
