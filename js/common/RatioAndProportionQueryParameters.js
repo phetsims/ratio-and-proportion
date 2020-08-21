@@ -48,7 +48,7 @@ const RatioAndProportionQueryParameters = QueryStringMachine.getAll( {
    */
   velocityThreshold: {
     type: 'number',
-    defaultValue: .009
+    defaultValue: .002
   }
 } );
 
