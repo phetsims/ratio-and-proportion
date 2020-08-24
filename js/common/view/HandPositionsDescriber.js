@@ -12,15 +12,15 @@ import GridView from './GridView.js';
 
 // constants
 const QUALITATIVE_POSITIONS = [
-  ratioAndProportionStrings.a11y.pointerPosition.atBottom,
-  ratioAndProportionStrings.a11y.pointerPosition.nearBottom,
-  ratioAndProportionStrings.a11y.pointerPosition.somewhatNearBottom,
-  ratioAndProportionStrings.a11y.pointerPosition.justBelowMiddle,
-  ratioAndProportionStrings.a11y.pointerPosition.atMiddle,
-  ratioAndProportionStrings.a11y.pointerPosition.justAboveMiddle,
-  ratioAndProportionStrings.a11y.pointerPosition.somewhatNearTop,
-  ratioAndProportionStrings.a11y.pointerPosition.nearTop,
-  ratioAndProportionStrings.a11y.pointerPosition.atTop
+  ratioAndProportionStrings.a11y.handPosition.atBottom,
+  ratioAndProportionStrings.a11y.handPosition.nearBottom,
+  ratioAndProportionStrings.a11y.handPosition.somewhatNearBottom,
+  ratioAndProportionStrings.a11y.handPosition.justBelowMiddle,
+  ratioAndProportionStrings.a11y.handPosition.atMiddle,
+  ratioAndProportionStrings.a11y.handPosition.justAboveMiddle,
+  ratioAndProportionStrings.a11y.handPosition.somewhatNearTop,
+  ratioAndProportionStrings.a11y.handPosition.nearTop,
+  ratioAndProportionStrings.a11y.handPosition.atTop
 ];
 
 class HandPositionsDescriber {
@@ -63,11 +63,11 @@ class HandPositionsDescriber {
     if ( GridView.describeQualitative( gridView ) ) {
 
       return StringUtils.fillIn( ratioAndProportionStrings.a11y.ofPlayAreaPattern, {
-        position: this.getQualitativePointerPosition( valueProperty )
+        position: this.getQualitativehandPosition( valueProperty )
       } );
     }
     else {
-      return this.getQuantitativePointerPosition( valueProperty );
+      return this.getQuantitativehandPosition( valueProperty );
     }
   }
 
@@ -76,7 +76,7 @@ class HandPositionsDescriber {
    * @param {NumberProperty} valueProperty
    * @returns {string}
    */
-  getQuantitativePointerPosition( valueProperty ) {
+  getQuantitativehandPosition( valueProperty ) {
     const gridObject = this.gridDescriber.getRelativePositionAndGridNumberForProperty( valueProperty );
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.grid.quantitativeHandPositionPattern, {
       relativePosition: gridObject.relativePosition,
@@ -89,7 +89,7 @@ class HandPositionsDescriber {
    * @param {Property.<number>} property
    * @returns {string}
    */
-  getQualitativePointerPosition( property ) {
+  getQualitativehandPosition( property ) {
     return QUALITATIVE_POSITIONS[ this.getQualitativePositionIndex( property.value ) ];
   }
 

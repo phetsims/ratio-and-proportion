@@ -162,7 +162,7 @@
         "value": "Set left hand and right hand values to create your custom ratio challenge."
       }
     },
-    "pointerPosition": {
+    "handPosition": {
       "atTop": {
         "value": "at top"
       },
