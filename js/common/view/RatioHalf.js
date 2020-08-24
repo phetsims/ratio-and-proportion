@@ -31,7 +31,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import designingProperties from '../designingProperties.js';
 import GridView from './GridView.js';
-import RatioAndProportionAlertManager from './RatioAndProportionAlertManager.js';
+import RatioHalfAlertManager from './RatioHalfAlertManager.js';
 import RatioHalfGridNode from './RatioHalfGridNode.js';
 import RatioHandNode from './RatioHandNode.js';
 
@@ -97,7 +97,7 @@ class RatioHalf extends Rectangle {
     this.enabledValueRangeProperty = enabledValueRangeProperty;
 
     // @private
-    this.alertManager = new RatioAndProportionAlertManager( valueProperty, ratioDescriber );
+    this.alertManager = new RatioHalfAlertManager( valueProperty, ratioDescriber );
 
     const gridNode = new RatioHalfGridNode( gridViewProperty, gridRangeProperty,
       bounds.width, bounds.height - 2 * FRAMING_RECTANGLE_HEIGHT,

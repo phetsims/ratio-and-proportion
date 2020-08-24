@@ -13,7 +13,7 @@
 
 import ratioAndProportion from '../../ratioAndProportion.js';
 
-class RatioAndProportionAlertManager {
+class RatioHalfAlertManager {
 
   /**
    * @param {DerivedProperty.<number>} valueProperty
@@ -72,6 +72,6 @@ class RatioAndProportionAlertManager {
   }
 }
 
-ratioAndProportion.register( 'RatioAndProportionAlertManager', RatioAndProportionAlertManager );
+ratioAndProportion.register( 'RatioHalfAlertManager', RatioHalfAlertManager );
 
-export default RatioAndProportionAlertManager;
+export default RatioHalfAlertManager;
