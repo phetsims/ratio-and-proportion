@@ -12,43 +12,24 @@
  */
 
 import ratioAndProportion from '../../ratioAndProportion.js';
-import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
-
-const leftHandString = ratioAndProportionStrings.a11y.leftHand;
-const rightHandString = ratioAndProportionStrings.a11y.rightHand;
 
 class RatioAndProportionAlertManager {
 
   /**
    * @param {DerivedProperty.<number>} valueProperty
-   * @param {Property.<GridView>} gridViewProperty
    * @param {RatioDescriber} ratioDescriber
-   * @param {boolean} isRight - right or left object?
    */
-  constructor( valueProperty, gridViewProperty, ratioDescriber, isRight ) {
+  constructor( valueProperty, ratioDescriber ) {
 
     // @private {RatioDescriber}
     this.ratioDescriber = ratioDescriber;
 
-    // @private {Property.<GridView>}
-    this.gridViewProperty = gridViewProperty;
-
-    // @private {boolean}
-    this.isRight = isRight;
-
     // @private {DerivedProperty.<number>}
     this.valueProperty = valueProperty;
-
-    // @private {string}
-    this.objectString = this.isRight ? rightHandString : leftHandString;
 
     // @private {number|null} - indexes point to the previous value that will change, only null on startup and reset
     // as there was no previous value
     this.describedRatioIndex = null;
-
-    // @private {boolean}
-    this.firstMovementUp = true;
-    this.firstMovementDown = true;
 
     // @private {number} - reference to the last describe value so we can describe how it changes since last time, only
     // null on startup and reset since there was no described value
@@ -86,9 +67,6 @@ class RatioAndProportionAlertManager {
    */
   reset() {
     this.describedRatioIndex = null;
-
-    this.firstMovementUp = true;
-    this.firstMovementDown = true;
 
     this.previouslyDescribedValue = this.valueProperty.get();
   }

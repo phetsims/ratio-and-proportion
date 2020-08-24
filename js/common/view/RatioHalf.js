@@ -97,7 +97,7 @@ class RatioHalf extends Rectangle {
     this.enabledValueRangeProperty = enabledValueRangeProperty;
 
     // @private
-    this.alertManager = new RatioAndProportionAlertManager( valueProperty, gridViewProperty, ratioDescriber, options.isRight );
+    this.alertManager = new RatioAndProportionAlertManager( valueProperty, ratioDescriber );
 
     const gridNode = new RatioHalfGridNode( gridViewProperty, gridRangeProperty,
       bounds.width, bounds.height - 2 * FRAMING_RECTANGLE_HEIGHT,
