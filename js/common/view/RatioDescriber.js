@@ -189,7 +189,8 @@ class RatioDescriber {
     const normalizedMax = this.fitnessRange.max - this.model.getInProportionThreshold();
 
     const lessThanZeroMapping = new LinearFunction( FITNESS_MIN_FOR_RATIO_REGIONS, this.fitnessRange.min, 0, ZERO_FITNESS_REGION_INDEX, true );
-    const greaterThanZeroMapping = new LinearFunction( this.fitnessRange.min, normalizedMax, ZERO_FITNESS_REGION_INDEX, RATIO_FITNESS_STRINGS_CAPITALIZED.length - 1, true );
+    const greaterThanZeroMapping = new LinearFunction( this.fitnessRange.min, normalizedMax,
+      ZERO_FITNESS_REGION_INDEX, RATIO_FITNESS_STRINGS_CAPITALIZED.length - 1, true );
 
     const unclampedFitness = this.unclampedFitnessProperty.value;
 
