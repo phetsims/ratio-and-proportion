@@ -83,7 +83,9 @@ class ExploreScreenView extends RatioAndProportionScreenView {
       model.rightValueProperty,
       model.targetRatioProperty,
       this.gridViewProperty,
-      this.ratioDescriber, ratioToChallengeNameMap
+      this.ratioDescriber,
+      this.handPositionsDescriber,
+      ratioToChallengeNameMap
     ) );
 
     // layout

@@ -19,12 +19,13 @@ class CreateScreenSummaryNode extends Node {
    * @param {Property.<number>} rightValueProperty
    * @param {Property.<GridView>} gridViewProperty
    * @param {RatioDescriber} ratioDescriber
+   * @param {HandPositionsDescriber} handPositionsDescriber
    * @param {Property.<number>} gridRangeProperty
    * @param {NumberProperty} numeratorProperty
    * @param {NumberProperty} denominatorProperty
    */
   constructor( ratioFitnessProperty, leftValueProperty, rightValueProperty, gridViewProperty,
-               ratioDescriber, gridRangeProperty,
+               ratioDescriber, handPositionsDescriber, gridRangeProperty,
                numeratorProperty, denominatorProperty ) {
 
     const stateOfSimNode = new Node( { tagName: 'p' } );
@@ -50,9 +51,6 @@ class CreateScreenSummaryNode extends Node {
       ]
     } );
 
-    // @private
-    this.ratioDescriber = ratioDescriber;
-
     Property.multilink( [
       gridViewProperty,
       gridRangeProperty,
@@ -63,14 +61,14 @@ class CreateScreenSummaryNode extends Node {
       rightValueProperty
     ], ( gridView, gridRange ) => {
       stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.screenSummary.qualitativeStateOfSim, {
-        ratioFitness: this.ratioDescriber.getRatioFitness( false ) // lowercase
+        ratioFitness: ratioDescriber.getRatioFitness( false ) // lowercase
       } );
 
       leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
-        position: ratioDescriber.getHandPosition( leftValueProperty, gridView )
+        position: handPositionsDescriber.getHandPosition( leftValueProperty, gridView )
       } );
       rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
-        position: ratioDescriber.getHandPosition( rightValueProperty, gridView )
+        position: handPositionsDescriber.getHandPosition( rightValueProperty, gridView )
       } );
     } );
   }

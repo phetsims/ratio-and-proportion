@@ -27,6 +27,7 @@ import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import RatioAndProportionConstants from '../RatioAndProportionConstants.js';
 import GridDescriber from './GridDescriber.js';
 import GridView from './GridView.js';
+import HandPositionsDescriber from './HandPositionsDescriber.js';
 import RAPGridLabelsNode from './RAPGridLabelsNode.js';
 import RatioAndProportionColorProfile from './RatioAndProportionColorProfile.js';
 import RatioDescriber from './RatioDescriber.js';
@@ -75,7 +76,8 @@ class RatioAndProportionScreenView extends ScreenView {
     const gridDescriber = new GridDescriber( model.valueRange, options.gridRangeProperty );
 
     // @protected (read-only)
-    this.ratioDescriber = new RatioDescriber( model, gridDescriber );
+    this.ratioDescriber = new RatioDescriber( model );
+    this.handPositionsDescriber = new HandPositionsDescriber( model.leftValueProperty, model.rightValueProperty, model.valueRange, gridDescriber );
 
     // @protected
     this.gridViewProperty = gridViewProperty;
@@ -101,6 +103,7 @@ class RatioAndProportionScreenView extends ScreenView {
       gridViewProperty,
       options.gridRangeProperty,
       this.ratioDescriber,
+      this.handPositionsDescriber,
       gridAndLabelsColorProperty,
       keyboardStep,
       model.lockRatioProperty,
@@ -121,6 +124,7 @@ class RatioAndProportionScreenView extends ScreenView {
       gridViewProperty,
       options.gridRangeProperty,
       this.ratioDescriber,
+      this.handPositionsDescriber,
       gridAndLabelsColorProperty,
       keyboardStep,
       model.lockRatioProperty,
@@ -167,7 +171,7 @@ class RatioAndProportionScreenView extends ScreenView {
 
       // when no longer being interacted with, trigger an alert
       if ( !isBeingInteractedWith ) {
-        bothHandsPositionUtterance.alert = this.ratioDescriber.getBothHandsPositionText( gridViewProperty.value );
+        bothHandsPositionUtterance.alert = this.handPositionsDescriber.getBothHandsPositionText( gridViewProperty.value );
         phet.joist.sim.utteranceQueue.addToBack( bothHandsPositionUtterance );
 
         bothHandsRatioUtterance.alert = this.ratioDescriber.getRatioDescriptionString();

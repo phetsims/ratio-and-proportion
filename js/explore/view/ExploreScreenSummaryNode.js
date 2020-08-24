@@ -20,9 +20,11 @@ class ExploreScreenSummaryNode extends Node {
    * @param {Property.<number>} targetRatioProperty
    * @param {Property.<GridView>} gridViewProperty
    * @param {RatioDescriber} ratioDescriber
+   * @param {HandPositionsDescriber} handPositionsDescriber
    * @param {Map.<number,string>} ratioToChallengeNameMap - map from target ratio to name of challenge
    */
-  constructor( ratioFitnessProperty, leftValueProperty, rightValueProperty, targetRatioProperty, gridViewProperty, ratioDescriber, ratioToChallengeNameMap ) {
+  constructor( ratioFitnessProperty, leftValueProperty, rightValueProperty, targetRatioProperty, gridViewProperty,
+               ratioDescriber, handPositionsDescriber, ratioToChallengeNameMap ) {
 
     const stateOfSimNode = new Node( {
       tagName: 'p'
@@ -50,21 +52,18 @@ class ExploreScreenSummaryNode extends Node {
       ]
     } );
 
-    // @private
-    this.ratioDescriber = ratioDescriber;
-
     // This derivedProperty is already dependent on all other dependencies for getStateOfSimString
     Property.multilink( [ targetRatioProperty, gridViewProperty, ratioFitnessProperty, leftValueProperty, rightValueProperty ],
       ( currentTargetRatio, gridView ) => {
         stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.explore.screenSummary.qualitativeStateOfSim, {
-          ratioFitness: this.ratioDescriber.getRatioFitness( false ), // lowercase
+          ratioFitness: ratioDescriber.getRatioFitness( false ), // lowercase
           currentChallenge: ratioToChallengeNameMap.get( currentTargetRatio ).lowercase
         } );
         leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
-          position: ratioDescriber.getHandPosition( leftValueProperty, gridView )
+          position: handPositionsDescriber.getHandPosition( leftValueProperty, gridView )
         } );
         rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
-          position: ratioDescriber.getHandPosition( rightValueProperty, gridView )
+          position: handPositionsDescriber.getHandPosition( rightValueProperty, gridView )
         } );
       } );
   }

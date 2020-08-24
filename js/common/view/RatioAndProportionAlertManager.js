@@ -63,6 +63,8 @@ class RatioAndProportionAlertManager {
    * @param {number} newValue
    */
   alertRatioChange( newValue ) {
+
+    // TODO: why not get the same alert if you don't move it?
     if ( newValue !== this.previouslyDescribedValue ) {
 
       const nextRatioIndex = this.ratioDescriber.getRatioFitnessIndex();

@@ -68,7 +68,7 @@ class RatioHalf extends Rectangle {
    * @param {Object} [options]
    */
   constructor( valueProperty, valueRange, enabledValueRangeProperty, firstInteractionProperty, bounds, gridViewProperty,
-               gridRangeProperty, ratioDescriber, colorProperty, keyboardStep, horizontalMovementAllowedProperty, playUISoundsProperty, options ) {
+               gridRangeProperty, ratioDescriber, handPositionsDescriber, colorProperty, keyboardStep, horizontalMovementAllowedProperty, playUISoundsProperty, options ) {
 
     options = merge( {
       isRight: true, // right ratio or the left ratio
@@ -111,7 +111,7 @@ class RatioHalf extends Rectangle {
         this.isBeingInteractedWithProperty.value = true;
       },
       isRight: options.isRight,
-      a11yCreateAriaValueText: () => ratioDescriber.getHandPosition( valueProperty, gridViewProperty.value ),
+      a11yCreateAriaValueText: () => handPositionsDescriber.getHandPosition( valueProperty, gridViewProperty.value ),
       endDrag: () => this.alertManager.alertRatioChange( valueProperty.get() ),
       a11yDependencies: options.a11yDependencies
     } );

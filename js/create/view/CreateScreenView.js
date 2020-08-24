@@ -116,6 +116,7 @@ class CreateScreenView extends RatioAndProportionScreenView {
       model.rightValueProperty,
       this.gridViewProperty,
       this.ratioDescriber,
+      this.handPositionsDescriber,
       gridRangeProperty,
       numeratorProperty,
       denominatorProperty
