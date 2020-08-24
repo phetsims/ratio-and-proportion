@@ -199,6 +199,9 @@
         "at": {
           "value": "At"
         },
+        "extremelyCloseTo": {
+          "value": "Extremely close to"
+        },
         "veryCloseTo": {
           "value": "Very close to"
         },
@@ -213,11 +216,17 @@
         },
         "veryFarFrom": {
           "value": "Very far from"
+        },
+        "extremelyFarFrom": {
+          "value": "Extremely far from"
         }
       },
       "lowercase": {
         "at": {
           "value": "at"
+        },
+        "extremelyCloseTo": {
+          "value": "extremely close to"
         },
         "veryCloseTo": {
           "value": "very close to"
@@ -233,6 +242,9 @@
         },
         "veryFarFrom": {
           "value": "very far from"
+        },
+        "extremelyFarFrom": {
+          "value": "extremely far from"
         }
       }
     }

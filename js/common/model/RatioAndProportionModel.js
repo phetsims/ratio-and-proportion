@@ -64,6 +64,9 @@ class RatioAndProportionModel {
     // @public (read-only) - the Range that the ratioFitnessProperty can be.
     this.fitnessRange = new Range( 0, 1 );
 
+    // @private
+    this.unclampedFitnessRange = new Range( -50, 1 );
+
     // @public (read-only) - the velocity of each value changing, adjusted in step
     this.leftVelocityProperty = new NumberProperty( 0 );
     this.rightVelocityProperty = new NumberProperty( 0 );
@@ -71,7 +74,7 @@ class RatioAndProportionModel {
     // @public {DerivedProperty.<number>}
     // How "correct" the proportion currently is. Can be between 0 and 1, if 1, the proportion of the two values is
     // exactly the value of the targetRatioProperty. If zero, it is outside the tolerance allowed for the proportion.
-    this.ratioFitnessProperty = new DerivedProperty( [
+    this.unclampedFitnessProperty = new DerivedProperty( [
       this.leftValueProperty,
       this.rightValueProperty,
       this.targetRatioProperty
@@ -79,10 +82,11 @@ class RatioAndProportionModel {
 
       // Instead of dividing by zero, just say this case is not in proportion
       if ( rightValue === 0 ) {
-        return this.fitnessRange.min;
+        rightValue = .0000001; // calculate the fitness as if the value was very small, but not 0
       }
 
       assert && assert( !isNaN( leftValue / rightValue ), 'ratio should be defined' );
+      assert && assert( leftValue / rightValue >= 0, 'ratio should be positive' );
 
       // fitness according to treating the right value as "correct" in relation to the target ratio
       const fLeft = ( left, rightOptimal, targetRatio ) => 1 - FITNESS_TOLERANCE_FACTOR * Math.abs( left - targetRatio * rightOptimal );
@@ -95,21 +99,29 @@ class RatioAndProportionModel {
       // make the tolerance of the left value a bit too small for small target ratios.
       const getFitness = ( left, right ) => Math.min( fLeft( left, right, ratio ), fRight( left, right, ratio ) );
 
-      const unclampedFitness = getFitness( leftValue * 10, rightValue * 10 );
-
-      let fitness = Utils.clamp( unclampedFitness, this.fitnessRange.min, this.fitnessRange.max );
+      let unclampedFitness = getFitness( leftValue * 10, rightValue * 10 );
 
       // If either value is small enough, then we don't allow an "in proportion" fitness level, so make it just below that threshold.
-      if ( this.inProportion( fitness ) && this.valuesTooSmallForSuccess() ) {
-        fitness = this.fitnessRange.max - this.getInProportionThreshold() - .01;
+      if ( this.inProportion( unclampedFitness ) && this.valuesTooSmallForSuccess() ) {
+        unclampedFitness = this.fitnessRange.max - this.getInProportionThreshold() - .01;
       }
 
-      phet.log && phet.log( `left: ${leftValue},\n right: ${rightValue},\n current ratio: ${leftValue / rightValue},\n fitness: ${fitness}\n\n` );
+      phet.log && phet.log( `left: ${leftValue},\n right: ${rightValue},\n current ratio: ${leftValue / rightValue},\n unclampedFitness: ${unclampedFitness}\n\n` );
 
-      return fitness;
+      return unclampedFitness;
     }, {
-      isValidValue: value => this.fitnessRange.contains( value )
+      isValidValue: value => this.unclampedFitnessRange.contains( value )
     } );
+
+
+    // @public {DerivedProperty.<number>}
+    // How "correct" the proportion currently is. clamped within this.fitnessRange. If at max (1), the proportion of the two values is
+    // exactly the value of the targetRatioProperty. If min (0), it is outside the tolerance allowed for the proportion
+    // to give many feedbacks.
+    this.ratioFitnessProperty = new DerivedProperty( [ this.unclampedFitnessProperty ],
+      unclampedFitness => Utils.clamp( unclampedFitness, this.fitnessRange.min, this.fitnessRange.max ), {
+        isValidValue: value => this.fitnessRange.contains( value )
+      } );
 
     // @public - true before and until first user interaction with the simulation. Reset will apply to this Property.
     this.firstInteractionProperty = new BooleanProperty( true );

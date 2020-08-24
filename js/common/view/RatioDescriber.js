@@ -4,14 +4,16 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import GridView from './GridView.js';
 
-const ratioDescriptionPatternString = ratioAndProportionStrings.a11y.ratio.descriptionPattern;
-
 // constants
+// This arbitrary fitness value mapped a reasonable range for the regions.
+const FITNESS_MIN_FOR_RATIO_REGIONS = -3;
+
 const QUALITATIVE_POSITIONS = [
   ratioAndProportionStrings.a11y.pointerPosition.atBottom,
   ratioAndProportionStrings.a11y.pointerPosition.nearBottom,
@@ -24,20 +26,24 @@ const QUALITATIVE_POSITIONS = [
   ratioAndProportionStrings.a11y.pointerPosition.atTop
 ];
 const RATIO_FITNESS_STRINGS_CAPITALIZED = [
+  ratioAndProportionStrings.a11y.ratio.capitalized.extremelyFarFrom,
   ratioAndProportionStrings.a11y.ratio.capitalized.veryFarFrom,
   ratioAndProportionStrings.a11y.ratio.capitalized.farFrom,
   ratioAndProportionStrings.a11y.ratio.capitalized.notCloseTo,
   ratioAndProportionStrings.a11y.ratio.capitalized.somewhatCloseTo,
   ratioAndProportionStrings.a11y.ratio.capitalized.veryCloseTo,
+  ratioAndProportionStrings.a11y.ratio.capitalized.extremelyCloseTo,
   ratioAndProportionStrings.a11y.ratio.capitalized.at
 ];
 
 const RATIO_FITNESS_STRINGS_LOWERCASE = [
+  ratioAndProportionStrings.a11y.ratio.lowercase.extremelyFarFrom,
   ratioAndProportionStrings.a11y.ratio.lowercase.veryFarFrom,
   ratioAndProportionStrings.a11y.ratio.lowercase.farFrom,
   ratioAndProportionStrings.a11y.ratio.lowercase.notCloseTo,
   ratioAndProportionStrings.a11y.ratio.lowercase.somewhatCloseTo,
   ratioAndProportionStrings.a11y.ratio.lowercase.veryCloseTo,
+  ratioAndProportionStrings.a11y.ratio.lowercase.extremelyCloseTo,
   ratioAndProportionStrings.a11y.ratio.lowercase.at
 ];
 
@@ -53,10 +59,10 @@ class RatioDescriber {
 
     // @private - from model
     this.ratioFitnessProperty = model.ratioFitnessProperty;
+    this.unclampedFitnessProperty = model.unclampedFitnessProperty;
     this.leftValueProperty = model.leftValueProperty;
     this.rightValueProperty = model.rightValueProperty;
     this.valueRange = model.valueRange;
-    this.ratioFitnessProperty = model.ratioFitnessProperty;
     this.fitnessRange = model.fitnessRange;
     this.model = model;
 
@@ -163,6 +169,9 @@ class RatioDescriber {
    * values are very far from the ratios and high values are closer to the ratio from 0 to RATIO_FITNESS_STRINGS_CAPITALIZED.length.
    * @public
    *
+   * Design for ratio regions was solidified in https://github.com/phetsims/ratio-and-proportion/issues/137#issuecomment-676828657
+   * In this comment, a subset of regions were set for <=0 fitness, and a subset were for >0.
+   *
    * @returns {number}
    */
   getRatioFitnessIndex() {
@@ -175,11 +184,12 @@ class RatioDescriber {
 
     // normalize based on the fitness that is not in proportion
     const normalizedMax = this.fitnessRange.max - this.model.getInProportionThreshold();
-    const normalizedFitness = ( this.ratioFitnessProperty.value - this.fitnessRange.min ) /
-                              ( normalizedMax - this.fitnessRange.min );
+
+    // account for excluding "in proportion" region above.
+    const linearFunction = new LinearFunction( FITNESS_MIN_FOR_RATIO_REGIONS, normalizedMax, 0, RATIO_FITNESS_STRINGS_CAPITALIZED.length - 2, true );
 
     // don't count the "at" region
-    return Math.floor( normalizedFitness * ( RATIO_FITNESS_STRINGS_CAPITALIZED.length - 2 ) );
+    return Math.floor( linearFunction( this.unclampedFitnessProperty.value ) );
   }
 
   /**
@@ -198,7 +208,7 @@ class RatioDescriber {
    * @public
    */
   getRatioDescriptionString() {
-    return StringUtils.fillIn( ratioDescriptionPatternString, {
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.descriptionPattern, {
       fitness: this.getRatioFitness()
     } );
   }
