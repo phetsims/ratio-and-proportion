@@ -11,9 +11,6 @@ import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import GridView from './GridView.js';
 
 // constants
-// This arbitrary fitness value mapped a reasonable range for the regions.
-const FITNESS_MIN_FOR_RATIO_REGIONS = -3;
-
 const QUALITATIVE_POSITIONS = [
   ratioAndProportionStrings.a11y.pointerPosition.atBottom,
   ratioAndProportionStrings.a11y.pointerPosition.nearBottom,
@@ -46,6 +43,12 @@ const RATIO_FITNESS_STRINGS_LOWERCASE = [
   ratioAndProportionStrings.a11y.ratio.lowercase.extremelyCloseTo,
   ratioAndProportionStrings.a11y.ratio.lowercase.at
 ];
+
+// This arbitrary fitness value mapped a reasonable range for the regions.
+const FITNESS_MIN_FOR_RATIO_REGIONS = -3;
+
+// an unclamped fitness of 0 should map to "somewhatCloseTo" region
+const ZERO_FITNESS_REGION_INDEX = 4;
 
 assert && assert( RATIO_FITNESS_STRINGS_LOWERCASE.length === RATIO_FITNESS_STRINGS_CAPITALIZED.length, 'should be the same length' );
 
@@ -186,10 +189,14 @@ class RatioDescriber {
     const normalizedMax = this.fitnessRange.max - this.model.getInProportionThreshold();
 
     // account for excluding "in proportion" region above.
-    const linearFunction = new LinearFunction( FITNESS_MIN_FOR_RATIO_REGIONS, normalizedMax, 0, RATIO_FITNESS_STRINGS_CAPITALIZED.length - 2, true );
+    const lessThanZeroMapping = new LinearFunction( FITNESS_MIN_FOR_RATIO_REGIONS, this.fitnessRange.min, 0, ZERO_FITNESS_REGION_INDEX - 1, true );
+    const greaterThanZeroMapping = new LinearFunction( this.fitnessRange.min, normalizedMax, ZERO_FITNESS_REGION_INDEX, RATIO_FITNESS_STRINGS_CAPITALIZED.length - 1, true );
 
-    // don't count the "at" region
-    return Math.floor( linearFunction( this.unclampedFitnessProperty.value ) );
+    const unclampedFitness = this.unclampedFitnessProperty.value;
+
+    const mappingFuntion = unclampedFitness >= 0 ? greaterThanZeroMapping : lessThanZeroMapping;
+
+    return Math.floor( mappingFuntion( unclampedFitness ) );
   }
 
   /**
