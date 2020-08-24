@@ -42,6 +42,12 @@
     "rightHand": {
       "value": "Right Hand"
     },
+    "leftHandLower": {
+      "value": "left hand"
+    },
+    "rightHandLower": {
+      "value": "right hand"
+    },
     "rightHandHelpText": {
       "value": "Move hands up and down to maintain the mystery challenge ratio."
     },
@@ -189,11 +195,49 @@
       },
       "atBottom": {
         "value": "at bottom"
+      },
+      "distance": {
+        "farthestFrom": {
+          "value": "Farthest from"
+        },
+        "extremelyFarFrom": {
+          "value": "Extremely far from"
+        },
+        "veryFarFrom": {
+          "value": "Very far from"
+        },
+        "farFrom": {
+          "value": "Far from"
+        },
+        "notSoCloseTo": {
+          "value": "Not so close to"
+        },
+        "somewhatCloseTo": {
+          "value": "Somewhat close to"
+        },
+        "veryCloseTo": {
+          "value": "Very close to"
+        },
+        "extremelyCloseTo": {
+          "value": "Extremely close to"
+        },
+        "evenWith": {
+          "value": "Even with"
+        }
+      },
+      "closerTo": {
+        "value": "Closer to"
+      },
+      "fartherFrom": {
+        "value": "Farther from"
+      },
+      "distanceOrDirectionClause": {
+        "value": "{{distanceOrDirection}} {{otherHand}}"
       }
     },
     "ratio": {
-      "descriptionPattern": {
-        "value": "{{fitness}} ratio."
+      "fitnessAlertPattern": {
+        "value": "{{distanceOrDirection}}, {{fitness}} challenge ratio."
       },
       "capitalized": {
         "at": {

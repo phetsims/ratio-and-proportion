@@ -5,6 +5,8 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
@@ -23,6 +25,9 @@ const QUALITATIVE_POSITIONS = [
   ratioAndProportionStrings.a11y.handPosition.atTop
 ];
 
+const leftHandLowerString = ratioAndProportionStrings.a11y.leftHandLower;
+const rightHandLowerString = ratioAndProportionStrings.a11y.rightHandLower;
+
 class HandPositionsDescriber {
 
   /**
@@ -38,6 +43,14 @@ class HandPositionsDescriber {
     this.rightValueProperty = rightValueProperty;
     this.valueRange = valueRange;
     this.gridDescriber = gridDescriber;
+
+    // @private
+    this.previousLeftValueProperty = new NumberProperty( leftValueProperty.value );
+    this.previousRightValueProperty = new NumberProperty( rightValueProperty.value );
+
+    // @private - initialized to null, but only set to boolean
+    this.previousLeftChangeProperty = new Property( null );
+    this.previousRightChangeProperty = new Property( null );
   }
 
   /**
@@ -132,6 +145,80 @@ class HandPositionsDescriber {
     }
 
     assert && assert( false, 'we should not get here' );
+  }
+
+  /**
+   * @private
+   * @returns {string}
+   */
+  getDistanceRegion() {
+    const distance = Math.abs( this.leftValueProperty.value - this.rightValueProperty.value );
+    assert && assert( this.valueRange.getLength() === 1, 'these hard coded values depend on a range of 1' );
+
+    if ( distance === this.valueRange.getLength() ) {
+      return ratioAndProportionStrings.a11y.handPosition.distance.farthestFrom;
+    }
+    else if ( distance >= .9 ) {
+      return ratioAndProportionStrings.a11y.handPosition.distance.extremelyFarFrom;
+    }
+    else if ( distance >= .75 ) {
+      return ratioAndProportionStrings.a11y.handPosition.distance.veryFarFrom;
+    }
+    else if ( distance >= .6 ) {
+      return ratioAndProportionStrings.a11y.handPosition.distance.farFrom;
+    }
+    else if ( distance >= .5 ) {
+      return ratioAndProportionStrings.a11y.handPosition.distance.notSoCloseTo;
+    }
+    else if ( distance >= .35 ) {
+      return ratioAndProportionStrings.a11y.handPosition.distance.somewhatCloseTo;
+    }
+    else if ( distance >= .2 ) {
+      return ratioAndProportionStrings.a11y.handPosition.distance.veryCloseTo;
+    }
+    else if ( distance > 0 ) {
+      return ratioAndProportionStrings.a11y.handPosition.distance.extremelyCloseTo;
+    }
+    else if ( distance === 0 ) {
+      return ratioAndProportionStrings.a11y.handPosition.distance.evenWith;
+    }
+    assert && assert( false, 'distance should be in an above bucket' );
+  }
+
+  /**
+   * @public
+   * @param {NumberProperty} valueProperty
+   * @returns {string}
+   */
+  getDistanceClauseForProperty( valueProperty ) {
+
+    const previousValueProperty = valueProperty === this.leftValueProperty ? this.previousLeftValueProperty : this.previousRightValueProperty;
+    const previousChangeProperty = valueProperty === this.leftValueProperty ? this.previousLeftChangeProperty : this.previousRightChangeProperty;
+    const otherValueProperty = valueProperty === this.leftValueProperty ? this.rightValueProperty : this.leftValueProperty;
+    const otherHand = valueProperty === this.leftValueProperty ? rightHandLowerString : leftHandLowerString;
+
+    const increasing = valueProperty.value > previousValueProperty.value;
+    const otherValueLarger = otherValueProperty.value > valueProperty.value;
+    const directionChange = increasing !== previousChangeProperty.value;
+
+    let prefix = null;
+
+    // never give a "direction changed" region if the two value positions are the same
+    if ( directionChange && valueProperty.value !== otherValueProperty.value ) {
+      prefix = increasing === otherValueLarger ? ratioAndProportionStrings.a11y.handPosition.closerTo :
+               ratioAndProportionStrings.a11y.handPosition.fartherFrom;
+    }
+    else {
+      prefix = this.getDistanceRegion();
+    }
+
+    previousValueProperty.value = valueProperty.value;
+    previousChangeProperty.value = increasing;
+
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDirectionClause, {
+      otherHand: otherHand,
+      distanceOrDirection: prefix
+    } );
   }
 }
 

@@ -97,7 +97,7 @@ class RatioHalf extends Rectangle {
     this.enabledValueRangeProperty = enabledValueRangeProperty;
 
     // @private
-    this.alertManager = new RatioHalfAlertManager( valueProperty, ratioDescriber );
+    this.alertManager = new RatioHalfAlertManager( valueProperty, ratioDescriber, handPositionsDescriber );
 
     const gridNode = new RatioHalfGridNode( gridViewProperty, gridRangeProperty,
       bounds.width, bounds.height - 2 * FRAMING_RECTANGLE_HEIGHT,
@@ -112,7 +112,7 @@ class RatioHalf extends Rectangle {
       },
       isRight: options.isRight,
       a11yCreateAriaValueText: () => handPositionsDescriber.getHandPosition( valueProperty, gridViewProperty.value ),
-      endDrag: () => this.alertManager.alertRatioChange( valueProperty.get() ),
+      endDrag: () => this.alertManager.alertRatioChange(),
       a11yDependencies: options.a11yDependencies
     } );
     this.addChild( this.ratioHandNode );
@@ -242,7 +242,7 @@ class RatioHalf extends Rectangle {
         startingX = null;
         commonReleaseSoundClip.play();
         this.isBeingInteractedWithProperty.value = false;
-        this.alertManager.alertRatioChange( valueProperty.get() );
+        this.alertManager.alertRatioChange();
       }
     } );
 

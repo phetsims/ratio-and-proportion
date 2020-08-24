@@ -5,35 +5,44 @@
  * to the end of drag input for the object which generates alert content and sends it to the simulation
  * utteranceQueue, see alertRatioChange.
  *
- * TODO: rename to RatioHalfAlertManager.js
- *
  * @author Jesse Greenberg
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
+import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
 class RatioHalfAlertManager {
 
   /**
-   * @param {DerivedProperty.<number>} valueProperty
+   * @param {Property.<number>} valueProperty
    * @param {RatioDescriber} ratioDescriber
+   * @param {HandPositionsDescriber} handPositionsDescriber
    */
-  constructor( valueProperty, ratioDescriber ) {
+  constructor( valueProperty, ratioDescriber, handPositionsDescriber ) {
 
-    // @private {RatioDescriber}
-    this.ratioDescriber = ratioDescriber;
+    // @private
+    this.ratioDescriber = ratioDescriber; // {RatioDescriber}
+    this.handPositionsDescriber = handPositionsDescriber; // {HandPositionsDescriber}
 
-    // @private {DerivedProperty.<number>}
+    // @private {Property.<number>}
     this.valueProperty = valueProperty;
-
-    // @private {number|null} - indexes point to the previous value that will change, only null on startup and reset
-    // as there was no previous value
-    this.describedRatioIndex = null;
 
     // @private {number} - reference to the last describe value so we can describe how it changes since last time, only
     // null on startup and reset since there was no described value
-    this.previouslyDescribedValue = valueProperty.get();
+    this.previousRatioAlertText = this.getRatioChangeAlert();
+  }
+
+  /**
+   * @private
+   * @returns {string}
+   */
+  getRatioChangeAlert() {
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.fitnessAlertPattern, {
+      distanceOrDirection: this.handPositionsDescriber.getDistanceClauseForProperty( this.valueProperty ),
+      fitness: this.ratioDescriber.getRatioFitness( false )
+    } );
   }
 
   /**
@@ -41,22 +50,15 @@ class RatioHalfAlertManager {
    * in ratio. Use at the end of a user interaction.
    * @public
    *
-   * @param {number} newValue
    */
-  alertRatioChange( newValue ) {
+  alertRatioChange() {
+    const newAlert = this.getRatioChangeAlert();
 
-    // TODO: why not get the same alert if you don't move it?
-    if ( newValue !== this.previouslyDescribedValue ) {
+    if ( newAlert !== this.previousRatioAlertText ) {
 
-      const nextRatioIndex = this.ratioDescriber.getRatioFitnessIndex();
+      phet.joist.sim.utteranceQueue.addToBack( newAlert );
 
-      // if the ratio description changed
-      if ( this.describedRatioIndex !== nextRatioIndex ) {
-        phet.joist.sim.utteranceQueue.addToBack( this.ratioDescriber.getRatioDescriptionString() );
-      }
-
-      this.describedRatioIndex = nextRatioIndex;
-      this.previouslyDescribedValue = newValue;
+      this.previousRatioAlertText = newAlert;
     }
   }
 
@@ -66,9 +68,7 @@ class RatioHalfAlertManager {
    * @public
    */
   reset() {
-    this.describedRatioIndex = null;
-
-    this.previouslyDescribedValue = this.valueProperty.get();
+    this.previousRatioAlertText = this.getRatioChangeAlert();
   }
 }
 
