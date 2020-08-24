@@ -50,6 +50,14 @@ class RatioAndProportionModel {
       reentrant: true
     } );
 
+    // Clamp to decimal places to make sure that javascript rounding errors don't effect some views for interpreting position
+    this.leftValueProperty.link( value => {
+      this.leftValueProperty.value = Utils.toFixedNumber( value, 6 );
+    } );
+    this.rightValueProperty.link( value => {
+      this.rightValueProperty.value = Utils.toFixedNumber( value, 6 );
+    } );
+
     // @public - when true, moving one ratio value will maintain the current ratio by updating the other value Property
     this.lockRatioProperty = new BooleanProperty( false );
 

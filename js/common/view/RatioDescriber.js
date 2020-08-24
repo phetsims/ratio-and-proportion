@@ -125,31 +125,33 @@ class RatioDescriber {
   getQualitativePositionIndex( position ) {
     assert && assert( this.valueRange.contains( position ), 'position expected to be in valueRange' );
 
-    if ( position === this.valueRange.max ) {
+    const normalizedPosition = this.valueRange.getNormalizedValue( position );
+
+    if ( normalizedPosition === this.valueRange.max ) {
       return 8;
     }
-    else if ( position >= .9 ) {
+    else if ( normalizedPosition >= .9 ) {
       return 7;
     }
-    else if ( position > .7 ) {
+    else if ( normalizedPosition > .7 ) {
       return 6;
     }
-    else if ( position >.5 ) {
+    else if ( normalizedPosition > .5 ) {
       return 5;
     }
-    else if ( position === .5 ) {
+    else if ( normalizedPosition === .5 ) {
       return 4;
     }
-    else if ( position >= .4 ) {
+    else if ( normalizedPosition >= .4 ) {
       return 3;
     }
-    else if ( position > .2 ) {
+    else if ( normalizedPosition > .2 ) {
       return 2;
     }
-    else if ( position > this.valueRange.min ) {
+    else if ( normalizedPosition > this.valueRange.min ) {
       return 1;
     }
-    else if ( position === this.valueRange.min ) {
+    else if ( normalizedPosition === this.valueRange.min ) {
       return 0;
     }
 
