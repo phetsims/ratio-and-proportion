@@ -88,6 +88,7 @@ class RatioAndProportionModel {
       assert && assert( !isNaN( leftValue / rightValue ), 'ratio should be defined' );
       assert && assert( leftValue / rightValue >= 0, 'ratio should be positive' );
 
+      // TODO: these functions shouldn't be declared each time.
       // fitness according to treating the right value as "correct" in relation to the target ratio
       const fLeft = ( left, rightOptimal, targetRatio ) => 1 - FITNESS_TOLERANCE_FACTOR * Math.abs( left - targetRatio * rightOptimal );
 
