@@ -25,6 +25,32 @@ const QUALITATIVE_POSITIONS = [
   ratioAndProportionStrings.a11y.handPosition.atTop
 ];
 
+const DISTANCE_REGIONS_CAPITALIZED = [
+  ratioAndProportionStrings.a11y.handPosition.distance.capitalized.farthestFrom,
+  ratioAndProportionStrings.a11y.handPosition.distance.capitalized.extremelyFarFrom,
+  ratioAndProportionStrings.a11y.handPosition.distance.capitalized.veryFarFrom,
+  ratioAndProportionStrings.a11y.handPosition.distance.capitalized.farFrom,
+  ratioAndProportionStrings.a11y.handPosition.distance.capitalized.notSoCloseTo,
+  ratioAndProportionStrings.a11y.handPosition.distance.capitalized.somewhatCloseTo,
+  ratioAndProportionStrings.a11y.handPosition.distance.capitalized.veryCloseTo,
+  ratioAndProportionStrings.a11y.handPosition.distance.capitalized.extremelyCloseTo,
+  ratioAndProportionStrings.a11y.handPosition.distance.capitalized.evenWith
+];
+
+const DISTANCE_REGIONS_LOWERCASE = [
+  ratioAndProportionStrings.a11y.handPosition.distance.lowercase.farthestFrom,
+  ratioAndProportionStrings.a11y.handPosition.distance.lowercase.extremelyFarFrom,
+  ratioAndProportionStrings.a11y.handPosition.distance.lowercase.veryFarFrom,
+  ratioAndProportionStrings.a11y.handPosition.distance.lowercase.farFrom,
+  ratioAndProportionStrings.a11y.handPosition.distance.lowercase.notSoCloseTo,
+  ratioAndProportionStrings.a11y.handPosition.distance.lowercase.somewhatCloseTo,
+  ratioAndProportionStrings.a11y.handPosition.distance.lowercase.veryCloseTo,
+  ratioAndProportionStrings.a11y.handPosition.distance.lowercase.extremelyCloseTo,
+  ratioAndProportionStrings.a11y.handPosition.distance.lowercase.evenWith
+];
+
+assert && assert( DISTANCE_REGIONS_CAPITALIZED.length === DISTANCE_REGIONS_LOWERCASE.length, 'should be the same regions' );
+
 const leftHandLowerString = ratioAndProportionStrings.a11y.leftHandLower;
 const rightHandLowerString = ratioAndProportionStrings.a11y.rightHandLower;
 
@@ -151,38 +177,40 @@ class HandPositionsDescriber {
    * @private
    * @returns {string}
    */
-  getDistanceRegion() {
+  getDistanceRegion( lowercase = false ) {
     const distance = Math.abs( this.leftValueProperty.value - this.rightValueProperty.value );
     assert && assert( this.valueRange.getLength() === 1, 'these hard coded values depend on a range of 1' );
 
+    let index = null;
     if ( distance === this.valueRange.getLength() ) {
-      return ratioAndProportionStrings.a11y.handPosition.distance.farthestFrom;
+      index = 0;
     }
     else if ( distance >= .9 ) {
-      return ratioAndProportionStrings.a11y.handPosition.distance.extremelyFarFrom;
+      index = 1;
     }
     else if ( distance >= .75 ) {
-      return ratioAndProportionStrings.a11y.handPosition.distance.veryFarFrom;
+      index = 2;
     }
     else if ( distance >= .6 ) {
-      return ratioAndProportionStrings.a11y.handPosition.distance.farFrom;
+      index = 3;
     }
     else if ( distance >= .5 ) {
-      return ratioAndProportionStrings.a11y.handPosition.distance.notSoCloseTo;
+      index = 4;
     }
     else if ( distance >= .35 ) {
-      return ratioAndProportionStrings.a11y.handPosition.distance.somewhatCloseTo;
+      index = 5;
     }
     else if ( distance >= .2 ) {
-      return ratioAndProportionStrings.a11y.handPosition.distance.veryCloseTo;
+      index = 6;
     }
     else if ( distance > 0 ) {
-      return ratioAndProportionStrings.a11y.handPosition.distance.extremelyCloseTo;
+      index = 7;
     }
     else if ( distance === 0 ) {
-      return ratioAndProportionStrings.a11y.handPosition.distance.evenWith;
+      index = 8;
     }
-    assert && assert( false, 'distance should be in an above bucket' );
+    assert && assert( index < DISTANCE_REGIONS_CAPITALIZED.length, 'out of range' );
+    return ( lowercase ? DISTANCE_REGIONS_LOWERCASE : DISTANCE_REGIONS_CAPITALIZED )[ index ];
   }
 
   /**

@@ -31,9 +31,10 @@ class CreateScreenSummaryNode extends Node {
     const stateOfSimNode = new Node( { tagName: 'p' } );
     const leftHandBullet = new Node( { tagName: 'li' } );
     const rightHandBullet = new Node( { tagName: 'li' } );
+    const distanceBullet = new Node( { tagName: 'li' } );
     const descriptionBullets = new Node( {
       tagName: 'ul',
-      children: [ leftHandBullet, rightHandBullet ]
+      children: [ leftHandBullet, rightHandBullet, distanceBullet ]
     } );
 
     super( {
@@ -69,6 +70,9 @@ class CreateScreenSummaryNode extends Node {
       } );
       rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
         position: handPositionsDescriber.getHandPosition( rightValueProperty, gridView )
+      } );
+      distanceBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.distanceBullet, {
+        distance: handPositionsDescriber.getDistanceRegion( true )
       } );
     } );
   }

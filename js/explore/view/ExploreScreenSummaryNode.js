@@ -32,9 +32,10 @@ class ExploreScreenSummaryNode extends Node {
 
     const leftHandBullet = new Node( { tagName: 'li' } );
     const rightHandBullet = new Node( { tagName: 'li' } );
+    const distanceBullet = new Node( { tagName: 'li' } );
     const descriptionBullets = new Node( {
       tagName: 'ul',
-      children: [ leftHandBullet, rightHandBullet ]
+      children: [ leftHandBullet, rightHandBullet, distanceBullet ]
     } );
 
     super( {
@@ -64,6 +65,9 @@ class ExploreScreenSummaryNode extends Node {
         } );
         rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
           position: handPositionsDescriber.getHandPosition( rightValueProperty, gridView )
+        } );
+        distanceBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.distanceBullet, {
+          distance: handPositionsDescriber.getDistanceRegion( true )
         } );
       } );
   }

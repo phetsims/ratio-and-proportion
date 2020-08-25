@@ -106,6 +106,9 @@
     "rightHandBullet": {
       "value": "Right hand {{position}}"
     },
+    "distanceBullet": {
+      "value": "Hands are {{distance}} each other."
+    },
     "bothHandsValuetext": {
       "value": "left hand {{leftPosition}}, right hand {{rightPosition}}"
     },
@@ -197,32 +200,63 @@
         "value": "at bottom"
       },
       "distance": {
-        "farthestFrom": {
-          "value": "Farthest from"
+        "capitalized": {
+          "farthestFrom": {
+            "value": "Farthest from"
+          },
+          "extremelyFarFrom": {
+            "value": "Extremely far from"
+          },
+          "veryFarFrom": {
+            "value": "Very far from"
+          },
+          "farFrom": {
+            "value": "Far from"
+          },
+          "notSoCloseTo": {
+            "value": "Not so close to"
+          },
+          "somewhatCloseTo": {
+            "value": "Somewhat close to"
+          },
+          "veryCloseTo": {
+            "value": "Very close to"
+          },
+          "extremelyCloseTo": {
+            "value": "Extremely close to"
+          },
+          "evenWith": {
+            "value": "Even with"
+          }
         },
-        "extremelyFarFrom": {
-          "value": "Extremely far from"
-        },
-        "veryFarFrom": {
-          "value": "Very far from"
-        },
-        "farFrom": {
-          "value": "Far from"
-        },
-        "notSoCloseTo": {
-          "value": "Not so close to"
-        },
-        "somewhatCloseTo": {
-          "value": "Somewhat close to"
-        },
-        "veryCloseTo": {
-          "value": "Very close to"
-        },
-        "extremelyCloseTo": {
-          "value": "Extremely close to"
-        },
-        "evenWith": {
-          "value": "Even with"
+        "lowercase": {
+          "farthestFrom": {
+            "value": "farthest from"
+          },
+          "extremelyFarFrom": {
+            "value": "extremely far from"
+          },
+          "veryFarFrom": {
+            "value": "very far from"
+          },
+          "farFrom": {
+            "value": "far from"
+          },
+          "notSoCloseTo": {
+            "value": "not so close to"
+          },
+          "somewhatCloseTo": {
+            "value": "somewhat close to"
+          },
+          "veryCloseTo": {
+            "value": "very close to"
+          },
+          "extremelyCloseTo": {
+            "value": "extremely close to"
+          },
+          "evenWith": {
+            "value": "even with"
+          }
         }
       },
       "closerTo": {
