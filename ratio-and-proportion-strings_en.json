@@ -236,6 +236,9 @@
       }
     },
     "ratio": {
+      "descriptionPattern": {
+        "value": "{{fitness}} ratio."
+      },
       "fitnessAlertPattern": {
         "value": "{{distanceOrDirection}}, {{fitness}} challenge ratio."
       },
