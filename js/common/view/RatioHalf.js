@@ -335,6 +335,7 @@ class RatioHalf extends Rectangle {
   }
 
   /**
+   * TODO: use behavior function with `callbacksForOtherNodes`
    * This component's accessibleName is forwarded to its ratioHandNode, which is the only piece displayed in the PDOM.
    * @override
    * @public
