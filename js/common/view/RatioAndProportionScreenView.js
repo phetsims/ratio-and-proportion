@@ -12,6 +12,7 @@ import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import sceneryPhetStrings from '../../../../scenery-phet/js/sceneryPhetStrings.js';
+import A11yBehaviorFunctionDef from '../../../../scenery/js/accessibility/A11yBehaviorFunctionDef.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
@@ -246,6 +247,7 @@ class RatioAndProportionScreenView extends ScreenView {
       baseColor: 'white',
       labelContent: ratioAndProportionStrings.a11y.grid.heading,
       helpText: ratioAndProportionStrings.a11y.grid.helpText,
+      helpTextBehavior: A11yBehaviorFunctionDef.HELP_TEXT_BEFORE_CONTENT,
       scale: 1.07 // calculated to try to match this width with other components in subtypes
     } );
 
