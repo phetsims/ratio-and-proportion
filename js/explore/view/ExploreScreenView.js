@@ -20,7 +20,7 @@ import ExploreScreenSummaryNode from './ExploreScreenSummaryNode.js';
 
 // constants
 const SELECTION_SOUND_OPTIONS = {
-  initialOutputLevel: 0.5
+  initialOutputLevel: 0.4
 };
 
 class ExploreScreenView extends RatioAndProportionScreenView {
