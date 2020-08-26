@@ -96,8 +96,40 @@
           "value": "on"
         }
       },
+      "semiQuantitativeHandPositionPattern": {
+        "value": "{{relativePosition}} {{ordinal}} tick mark"
+      },
       "quantitativeHandPositionPattern": {
         "value": "{{relativePosition}} tick mark {{gridPosition}}"
+      },
+      "ordinal": {
+        "first": {
+          "value": "first"
+        },
+        "second": {
+          "value": "second"
+        },
+        "third": {
+          "value": "third"
+        },
+        "fourth": {
+          "value": "fourth"
+        },
+        "fifth": {
+          "value": "fifth"
+        },
+        "sixth": {
+          "value": "sixth"
+        },
+        "seventh": {
+          "value": "seventh"
+        },
+        "eighth": {
+          "value": "eighth"
+        },
+        "ninth": {
+          "value": "ninth"
+        }
       }
     },
     "leftHandBullet": {

@@ -106,17 +106,27 @@ class HandPositionsDescriber {
       } );
     }
     else {
-      return this.getQuantitativeHandPosition( valueProperty );
+      return this.getQuantitativeHandPosition( valueProperty, GridView.describeSemiQualitative( gridView ) );
     }
   }
 
   /**
    * @private
    * @param {NumberProperty} valueProperty
+   * @param {boolean} semiQuantitative=false
    * @returns {string}
    */
-  getQuantitativeHandPosition( valueProperty ) {
+  getQuantitativeHandPosition( valueProperty, semiQuantitative = false ) {
     const gridObject = this.gridDescriber.getRelativePositionAndGridNumberForProperty( valueProperty );
+
+    // semi quantitative description uses ordinal numbers instead of full numbers.
+    if ( semiQuantitative && typeof gridObject.ordinalPosition === 'string' ) {
+      return StringUtils.fillIn( ratioAndProportionStrings.a11y.grid.semiQuantitativeHandPositionPattern, {
+        relativePosition: gridObject.relativePosition,
+        ordinal: gridObject.ordinalPosition
+      } );
+    }
+
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.grid.quantitativeHandPositionPattern, {
       relativePosition: gridObject.relativePosition,
       gridPosition: gridObject.gridPosition

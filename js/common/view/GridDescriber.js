@@ -18,6 +18,18 @@ const RELATIVE_POSITION_STRINGS = [
   ratioAndProportionStrings.a11y.grid.relative.justBelow
 ];
 
+const ORDINAL_TICK_MARKS = [
+  null,
+  ratioAndProportionStrings.a11y.grid.ordinal.first,
+  ratioAndProportionStrings.a11y.grid.ordinal.second,
+  ratioAndProportionStrings.a11y.grid.ordinal.third,
+  ratioAndProportionStrings.a11y.grid.ordinal.fourth,
+  ratioAndProportionStrings.a11y.grid.ordinal.fifth,
+  ratioAndProportionStrings.a11y.grid.ordinal.sixth,
+  ratioAndProportionStrings.a11y.grid.ordinal.seventh,
+  ratioAndProportionStrings.a11y.grid.ordinal.eighth,
+  ratioAndProportionStrings.a11y.grid.ordinal.ninth
+];
 const BIGGER_THAN_MIDDLE_THRESHOLD = .6;
 
 class GridDescriber {
@@ -57,7 +69,8 @@ class GridDescriber {
     assert && assert( relativePosition );
     return {
       gridPosition: gridValue,
-      relativePosition: relativePosition
+      relativePosition: relativePosition,
+      ordinalPosition: ORDINAL_TICK_MARKS[ gridValue ] || null
     };
   }
 
@@ -89,7 +102,7 @@ class GridDescriber {
 
       // Use the constant "BIGGER_THAN_MIDDLE_THRESHOLD" to make sure that "in the middle of" refers to the grid line below, and everything higher refers to
       // the next grid line up.
-      assert && assert( RELATIVE_POSITION_STRINGS[ 3 ].toLowerCase().includes( 'middle' ), 'this middle position should be the previous' );
+      assert && assert( RELATIVE_POSITION_STRINGS[ 3 ].toLowerCase().includes( 'halfway' ), 'this middle position should be the previous' );
       index = 4;
     }
     else if ( value < 1 ) {

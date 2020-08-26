@@ -41,6 +41,14 @@ const GridView = Enumeration.byKeys( [ 'HORIZONTAL', 'BOTH', 'NONE', 'HORIZONTAL
     GridView.describeQualitative = gridView => {
       return gridView === GridView.NONE;
     };
+
+    /**
+     * @param gridView
+     * @returns {boolean} - whether or not the value indicates PDOM descriptions should be semi-quantitative
+     */
+    GridView.describeSemiQualitative = gridView => {
+      return gridView === GridView.HORIZONTAL;
+    };
   }
 } );
 ratioAndProportion.register( 'GridView', GridView );
