@@ -13,7 +13,7 @@ const RELATIVE_POSITION_STRINGS = [
   ratioAndProportionStrings.a11y.grid.relative.on,
   ratioAndProportionStrings.a11y.grid.relative.justAbove,
   ratioAndProportionStrings.a11y.grid.relative.above,
-  ratioAndProportionStrings.a11y.grid.relative.inTheMiddleOf,
+  ratioAndProportionStrings.a11y.grid.relative.halfwayPast,
   ratioAndProportionStrings.a11y.grid.relative.below,
   ratioAndProportionStrings.a11y.grid.relative.justBelow
 ];

@@ -106,7 +106,7 @@ class HandPositionsDescriber {
       } );
     }
     else {
-      return this.getQuantitativehandPosition( valueProperty );
+      return this.getQuantitativeHandPosition( valueProperty );
     }
   }
 
@@ -115,7 +115,7 @@ class HandPositionsDescriber {
    * @param {NumberProperty} valueProperty
    * @returns {string}
    */
-  getQuantitativehandPosition( valueProperty ) {
+  getQuantitativeHandPosition( valueProperty ) {
     const gridObject = this.gridDescriber.getRelativePositionAndGridNumberForProperty( valueProperty );
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.grid.quantitativeHandPositionPattern, {
       relativePosition: gridObject.relativePosition,
