@@ -32,9 +32,6 @@ const RATIO_FITNESS_STRINGS_LOWERCASE = [
   ratioAndProportionStrings.a11y.ratio.lowercase.at
 ];
 
-// This arbitrary fitness value mapped a reasonable range for the regions.
-const FITNESS_MIN_FOR_RATIO_REGIONS = -3;
-
 // an unclamped fitness of 0 should map to "somewhatCloseTo" region
 const ZERO_FITNESS_REGION_INDEX = 4;
 
@@ -75,7 +72,7 @@ class RatioDescriber {
     // normalize based on the fitness that is not in proportion
     const normalizedMax = this.fitnessRange.max - this.model.getInProportionThreshold();
 
-    const lessThanZeroMapping = new LinearFunction( FITNESS_MIN_FOR_RATIO_REGIONS, this.fitnessRange.min, 0, ZERO_FITNESS_REGION_INDEX, true );
+    const lessThanZeroMapping = new LinearFunction( this.model.getMinFitness(), this.fitnessRange.min, 0, ZERO_FITNESS_REGION_INDEX, true );
     const greaterThanZeroMapping = new LinearFunction( this.fitnessRange.min, normalizedMax,
       ZERO_FITNESS_REGION_INDEX, RATIO_FITNESS_STRINGS_CAPITALIZED.length - 1, true );
 

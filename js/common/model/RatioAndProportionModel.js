@@ -27,6 +27,9 @@ const VALUE_RANGE_MIN = 0;
 const VALUE_RANGE = new Range( VALUE_RANGE_MIN, 1 );
 const LOCK_RATIO_RANGE_MIN = .05;
 
+// TODO: RIGHT_VALUE_ZERO_REPLACEMENT is messy, how else to avoid divide by 0 error?
+const RIGHT_VALUE_ZERO_REPLACEMENT = .000001;
+
 class RatioAndProportionModel {
 
   /**
@@ -82,25 +85,13 @@ class RatioAndProportionModel {
 
       // Instead of dividing by zero, just say this case is not in proportion
       if ( rightValue === 0 ) {
-        rightValue = .0000001; // calculate the fitness as if the value was very small, but not 0
+        rightValue = RIGHT_VALUE_ZERO_REPLACEMENT; // calculate the fitness as if the value was very small, but not 0
       }
 
       assert && assert( !isNaN( leftValue / rightValue ), 'ratio should be defined' );
       assert && assert( leftValue / rightValue >= 0, 'ratio should be positive' );
 
-      // TODO: these functions shouldn't be declared each time.
-      // fitness according to treating the right value as "correct" in relation to the target ratio
-      const fLeft = ( left, rightOptimal, targetRatio ) => 1 - FITNESS_TOLERANCE_FACTOR * Math.abs( left - targetRatio * rightOptimal );
-
-      // fitness according to treating the left value as "correct" in relation to the target ratio
-      const fRight = ( leftOptimal, right, targetRatio ) => 1 - FITNESS_TOLERANCE_FACTOR * Math.abs( right - leftOptimal / targetRatio );
-
-      // Calculate both possible fitness values, and take the minimum. In experience this works well at creating a
-      // tolerance range that is independent of the target ratio or the positions of the values. This algorithm can
-      // make the tolerance of the left value a bit too small for small target ratios.
-      const getFitness = ( left, right ) => Math.min( fLeft( left, right, ratio ), fRight( left, right, ratio ) );
-
-      let unclampedFitness = getFitness( leftValue * 10, rightValue * 10 );
+      let unclampedFitness = this.calculateFitness( leftValue, rightValue, ratio );
 
       // If either value is small enough, then we don't allow an "in proportion" fitness level, so make it just below that threshold.
       if ( this.inProportion( unclampedFitness ) && this.valuesTooSmallForSuccess() ) {
@@ -172,6 +163,57 @@ class RatioAndProportionModel {
       clampPropertyIntoRange( this.leftValueProperty );
       clampPropertyIntoRange( this.rightValueProperty );
     } );
+  }
+
+  /**
+   * fitness according to treating the right value as "correct" in relation to the target ratio
+   * @param {number} left
+   * @param {number} rightOptimal
+   * @param {number} targetRatio
+   * @returns {number}
+   * @private
+   */
+  fitnessBasedOnLeft( left, rightOptimal, targetRatio ) {
+    return 1 - FITNESS_TOLERANCE_FACTOR * Math.abs( left - targetRatio * rightOptimal );
+  }
+
+  /**
+   * fitness according to treating the left value as "correct" in relation to the target ratio
+   * @param {number} leftOptimal
+   * @param {number} right
+   * @param {number} targetRatio
+   * @returns {number}
+   * @private
+   */
+  fitnessBasedOnRight( leftOptimal, right, targetRatio ) {
+    return 1 - FITNESS_TOLERANCE_FACTOR * Math.abs( right - leftOptimal / targetRatio );
+  }
+
+  /**
+   *
+   * @param {number} leftValue - from leftValueProperty
+   * @param {number} rightValue - from rightValueProperty
+   * @param {number} targetRatio
+   * @returns {number}
+   * @private
+   */
+  calculateFitness( leftValue, rightValue, targetRatio ) {
+
+    // multiply because the model values only span from 0-1
+    const left = leftValue * 10;
+    const right = rightValue * 10;
+    return Math.min( this.fitnessBasedOnLeft( left, right, targetRatio ), this.fitnessBasedOnRight( left, right, targetRatio ) );
+  }
+
+  /**
+   * Get the minimum fitness value (unclamped) for the provided target ratio
+   * @public
+   * @returns {number}
+   */
+  getMinFitness( ratio = this.targetRatioProperty.value ) {
+    const minRatioFitness = this.calculateFitness( this.valueRange.min, this.valueRange.max, ratio );
+    const maxRatioFitness = this.calculateFitness( this.valueRange.max, RIGHT_VALUE_ZERO_REPLACEMENT, ratio );
+    return Math.min( minRatioFitness, maxRatioFitness );
   }
 
   /**
