@@ -107,12 +107,11 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
   step( dt ) {
     const newFitness = this.fitnessProperty.value;
 
-    // Only increment when within some amount of fitness. This helps prevent sporadic notes from playing when you move
-    // the ratio hands quickly and drastically.
-    this.timeSinceLastPlay = newFitness > 0 ? this.timeSinceLastPlay + dt * 1000 : 0;
+    // If fitness is less than zero, make sure enough time has past that it will play a sound immediately.
+    this.timeSinceLastPlay = newFitness > 0 ? this.timeSinceLastPlay + dt * 1000 : 1000000;
 
     const isInRatio = this.model.inProportion();
-    if ( this.timeSinceLastPlay > this.timeLinearFunction( newFitness ) && !isInRatio ) {
+    if ( this.timeSinceLastPlay > this.timeLinearFunction( newFitness ) && !isInRatio && newFitness > 0 ) {
       const sounds = this.staccatoSoundClips[ Math.floor( newFitness * this.staccatoSoundClips.length ) ];
       sounds[ this.getStaccatoSoundValueToPlay() ].play();
       this.timeSinceLastPlay = 0;
