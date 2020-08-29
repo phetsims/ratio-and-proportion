@@ -60,7 +60,7 @@ class CreateScreenSummaryNode extends Node {
       ratioFitnessProperty,
       leftValueProperty,
       rightValueProperty
-    ], ( tickMarkView, gridRange ) => {
+    ], tickMarkView  => {
       stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.screenSummary.qualitativeStateOfSim, {
         ratioFitness: ratioDescriber.getRatioFitness( false ) // lowercase
       } );

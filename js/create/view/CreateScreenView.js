@@ -22,7 +22,7 @@ import RatioHandNode from '../../common/view/RatioHandNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import CreateScreenSummaryNode from './CreateScreenSummaryNode.js';
-import GridRangeComboBox from './GridRangeComboBox.js';
+import TickMarkRangeComboBox from './TickMarkRangeComboBox.js';
 
 const PICKER_SCALE = 1.5;
 const ICON_SCALE = .9;
@@ -105,9 +105,9 @@ class CreateScreenView extends RatioAndProportionScreenView {
     } );
     myChallengeAccordionBox.expandedProperty.value = DEFAULT_EXPANDED;
 
-    const gridRangeComboBoxParent = new Node();
+    const tickMarkRangeComboBoxParent = new Node();
 
-    const gridRangeComboBox = new GridRangeComboBox( tickMarkRangeProperty, gridRangeComboBoxParent, this.tickMarkViewProperty );
+    const tickMarkRangeComboBox = new TickMarkRangeComboBox( tickMarkRangeProperty, tickMarkRangeComboBoxParent, this.tickMarkViewProperty );
 
     // set this after the supertype has initialized the view code needed to create the screen summary
     this.setScreenSummaryContent( new CreateScreenSummaryNode(
@@ -135,22 +135,22 @@ class CreateScreenView extends RatioAndProportionScreenView {
     // children - remember to not blow away children set by parent
     this.addChild( myChallengeAccordionBox );
     this.addChild( lockRatioCheckbox );
-    this.addChild( gridRangeComboBox );
-    this.addChild( gridRangeComboBoxParent ); // Should be on top
+    this.addChild( tickMarkRangeComboBox );
+    this.addChild( tickMarkRangeComboBoxParent ); // Should be on top
 
     // pdom
     this.pdomPlayAreaNode.accessibleOrder = this.pdomPlayAreaNode.accessibleOrder.concat( [
-      gridRangeComboBox,
-      gridRangeComboBoxParent,
+      tickMarkRangeComboBox,
+      tickMarkRangeComboBoxParent,
       myChallengeAccordionBox,
       lockRatioCheckbox
     ] );
 
     // static layout
-    lockRatioCheckbox.right = gridRangeComboBox.right = myChallengeAccordionBox.right = this.tickMarkViewRadioButtonGroup.right;
+    lockRatioCheckbox.right = tickMarkRangeComboBox.right = myChallengeAccordionBox.right = this.tickMarkViewRadioButtonGroup.right;
     lockRatioCheckbox.bottom = this.resetAllButton.top - 20;
-    gridRangeComboBox.top = this.tickMarkViewRadioButtonGroup.bottom + 10;
-    myChallengeAccordionBox.top = gridRangeComboBox.bottom + 30;
+    tickMarkRangeComboBox.top = this.tickMarkViewRadioButtonGroup.bottom + 10;
+    myChallengeAccordionBox.top = tickMarkRangeComboBox.bottom + 30;
 
     // @private
     this.resetCreateScreenView = () => {
