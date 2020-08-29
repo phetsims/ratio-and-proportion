@@ -17,7 +17,7 @@ import cutOutHandImage from '../../../images/cutout-hand_png.js';
 import filledInHandImage from '../../../images/filled-in-hand_png.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionConstants from '../RatioAndProportionConstants.js';
-import GridView from './GridView.js';
+import TickMarkView from './TickMarkView.js';
 
 class RatioHandNode extends Node {
 
@@ -25,11 +25,11 @@ class RatioHandNode extends Node {
    *
    * @param {Property.<number>} valueProperty
    * @param {Range} enabledValueRangeProperty
-   * @param {EnumerationProperty.<GridView>} gridViewProperty
+   * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
    * @param {number} keyboardStep
    * @param {Object} [options]
    */
-  constructor( valueProperty, enabledValueRangeProperty, gridViewProperty, keyboardStep, options ) {
+  constructor( valueProperty, enabledValueRangeProperty, tickMarkViewProperty, keyboardStep, options ) {
 
     options = merge( {
       cursor: 'pointer',
@@ -61,9 +61,9 @@ class RatioHandNode extends Node {
     container.right = container.width * .365;
     container.bottom = container.height * .5;
 
-    // Only display the "target circles" when the grid is being shown
-    gridViewProperty.link( gridView => {
-      const displayCutOut = GridView.displayHorizontal( gridView );
+    // Only display the "target circles" when the tick marks are being shown
+    tickMarkViewProperty.link( tickMarkView => {
+      const displayCutOut = TickMarkView.displayHorizontal( tickMarkView );
       cutOutHandNode.visible = displayCutOut;
       filledInHandNode.visible = !displayCutOut;
     } );
@@ -79,14 +79,14 @@ class RatioHandNode extends Node {
 
   /**
    * @param {boolean} isRight
-   * @param {EnumerationProperty.<GridView>} gridViewProperty
+   * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
    * @param {Object} [options]
    * @returns {Node}
    * @public
    */
-  static createIcon( isRight, gridViewProperty, options ) {
+  static createIcon( isRight, tickMarkViewProperty, options ) {
     return new Node( {
-      children: [ new RatioHandNode( new Property( 0 ), new Range( 0, 1 ), gridViewProperty, new Property( 10 ), merge( {
+      children: [ new RatioHandNode( new Property( 0 ), new Range( 0, 1 ), tickMarkViewProperty, new Property( 10 ), merge( {
         isRight: isRight,
         asIcon: true,
         pickable: false

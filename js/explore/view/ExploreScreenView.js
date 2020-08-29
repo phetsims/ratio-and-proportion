@@ -82,15 +82,15 @@ class ExploreScreenView extends RatioAndProportionScreenView {
       model.leftValueProperty,
       model.rightValueProperty,
       model.targetRatioProperty,
-      this.gridViewProperty,
+      this.tickMarkViewProperty,
       this.ratioDescriber,
       this.handPositionsDescriber,
       ratioToChallengeNameMap
     ) );
 
     // layout
-    comboBox.left = this.gridViewRadioButtonGroup.left;
-    comboBox.top = this.gridViewRadioButtonGroup.bottom + 20;
+    comboBox.left = this.tickMarkViewRadioButtonGroup.left;
+    comboBox.top = this.tickMarkViewRadioButtonGroup.bottom + 20;
   }
 }
 

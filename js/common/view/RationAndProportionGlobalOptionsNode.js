@@ -21,7 +21,7 @@ class RationAndProportionGlobalOptionsNode extends HBox {
    */
   constructor( designingProperties ) {
 
-    const gridBaseAndVelocitySoundContent = new VBox( {
+    const tickMarkBaseAndVelocitySoundContent = new VBox( {
       spacing: 10,
       align: 'left',
       children: [
@@ -42,7 +42,7 @@ class RationAndProportionGlobalOptionsNode extends HBox {
     } );
 
     super( {
-      children: [ gridBaseAndVelocitySoundContent ],
+      children: [ tickMarkBaseAndVelocitySoundContent ],
       spacing: 30,
       align: 'top'
     } );

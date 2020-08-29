@@ -36,10 +36,10 @@ class CreateScreenView extends RatioAndProportionScreenView {
    */
   constructor( model, tandem ) {
 
-    const gridRangeProperty = new NumberProperty( 10 );
+    const tickMarkRangeProperty = new NumberProperty( 10 );
 
     super( model, tandem, {
-      gridRangeProperty: gridRangeProperty
+      tickMarkRangeProperty: tickMarkRangeProperty
     } );
 
     // Allow us to get the reduced fraction as the initial value of the custom "My Challenge"
@@ -56,7 +56,7 @@ class CreateScreenView extends RatioAndProportionScreenView {
       align: 'origin',
       spacing: 10,
       children: [
-        RatioHandNode.createIcon( false, this.gridViewProperty, { scale: ICON_SCALE } ),
+        RatioHandNode.createIcon( false, this.tickMarkViewProperty, { scale: ICON_SCALE } ),
         new Node( { children: [ numeratorNumberPicker ] } ) ]
     } );
 
@@ -70,7 +70,7 @@ class CreateScreenView extends RatioAndProportionScreenView {
       align: 'origin',
       spacing: 10,
       children: [
-        RatioHandNode.createIcon( true, this.gridViewProperty, { scale: ICON_SCALE } ),
+        RatioHandNode.createIcon( true, this.tickMarkViewProperty, { scale: ICON_SCALE } ),
         new Node( { children: [ denominatorNumberPicker ] } ) ]
     } );
 
@@ -107,17 +107,17 @@ class CreateScreenView extends RatioAndProportionScreenView {
 
     const gridRangeComboBoxParent = new Node();
 
-    const gridRangeComboBox = new GridRangeComboBox( gridRangeProperty, gridRangeComboBoxParent, this.gridViewProperty );
+    const gridRangeComboBox = new GridRangeComboBox( tickMarkRangeProperty, gridRangeComboBoxParent, this.tickMarkViewProperty );
 
     // set this after the supertype has initialized the view code needed to create the screen summary
     this.setScreenSummaryContent( new CreateScreenSummaryNode(
       model.ratioFitnessProperty,
       model.leftValueProperty,
       model.rightValueProperty,
-      this.gridViewProperty,
+      this.tickMarkViewProperty,
       this.ratioDescriber,
       this.handPositionsDescriber,
-      gridRangeProperty,
+      tickMarkRangeProperty,
       numeratorProperty,
       denominatorProperty
     ) );
@@ -147,9 +147,9 @@ class CreateScreenView extends RatioAndProportionScreenView {
     ] );
 
     // static layout
-    lockRatioCheckbox.right = gridRangeComboBox.right = myChallengeAccordionBox.right = this.gridViewRadioButtonGroup.right;
+    lockRatioCheckbox.right = gridRangeComboBox.right = myChallengeAccordionBox.right = this.tickMarkViewRadioButtonGroup.right;
     lockRatioCheckbox.bottom = this.resetAllButton.top - 20;
-    gridRangeComboBox.top = this.gridViewRadioButtonGroup.bottom + 10;
+    gridRangeComboBox.top = this.tickMarkViewRadioButtonGroup.bottom + 10;
     myChallengeAccordionBox.top = gridRangeComboBox.bottom + 30;
 
     // @private

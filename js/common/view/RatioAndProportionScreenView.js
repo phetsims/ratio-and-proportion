@@ -21,15 +21,15 @@ import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
 import FontAwesomeNode from '../../../../sun/js/FontAwesomeNode.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
-import gridIconImage from '../../../images/grid-icon_png.js';
-import numberedGridIconImage from '../../../images/numbered-grid-icon_png.js';
+import tickMarkIconImage from '../../../images/tick-mark-icon_png.js';
+import numberedTickMarkIconImage from '../../../images/numbered-tick-mark-icon_png.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import RatioAndProportionConstants from '../RatioAndProportionConstants.js';
-import GridDescriber from './GridDescriber.js';
-import GridView from './GridView.js';
+import TickMarkDescriber from './TickMarkDescriber.js';
+import TickMarkView from './TickMarkView.js';
 import HandPositionsDescriber from './HandPositionsDescriber.js';
-import RAPGridLabelsNode from './RAPGridLabelsNode.js';
+import RAPTickMarkLabelsNode from './RAPTickMarkLabelsNode.js';
 import RatioAndProportionColorProfile from './RatioAndProportionColorProfile.js';
 import RatioDescriber from './RatioDescriber.js';
 import RatioHalf from './RatioHalf.js';
@@ -57,39 +57,39 @@ class RatioAndProportionScreenView extends ScreenView {
       tandem: tandem,
       layoutBounds: LAYOUT_BOUNDS,
 
-      // What is the unit value of the grid. Value reads as "1/x of the view height." This type is responsible for
+      // What is the unit value of the tick marks. Value reads as "1/x of the view height." This type is responsible for
       // resetting this on reset all.
-      gridRangeProperty: new NumberProperty( 10 )
+      tickMarkRangeProperty: new NumberProperty( 10 )
     }, options );
 
-    const gridAndLabelsColorProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
+    const tickMarksAndLabelsColorProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
       fitness => Color.interpolateRGBA(
-        RatioAndProportionColorProfile.gridAndLabelsInFitnessProperty.value,
-        RatioAndProportionColorProfile.gridAndLabelsOutOfFitnessProperty.value, fitness
+        RatioAndProportionColorProfile.tickMarksAndLabelsInFitnessProperty.value,
+        RatioAndProportionColorProfile.tickMarksAndLabelsOutOfFitnessProperty.value, fitness
       ) );
 
-    const gridViewProperty = new EnumerationProperty( GridView, GridView.NONE, {
-      tandem: tandem.createTandem( 'gridViewProperty' )
+    const tickMarkViewProperty = new EnumerationProperty( TickMarkView, TickMarkView.NONE, {
+      tandem: tandem.createTandem( 'tickMarkViewProperty' )
     } );
 
     super( options );
 
-    const gridDescriber = new GridDescriber( model.valueRange, options.gridRangeProperty );
+    const tickMarkDescriber = new TickMarkDescriber( model.valueRange, options.tickMarkRangeProperty );
 
     // @protected (read-only)
     this.ratioDescriber = new RatioDescriber( model );
-    this.handPositionsDescriber = new HandPositionsDescriber( model.leftValueProperty, model.rightValueProperty, model.valueRange, gridDescriber );
+    this.handPositionsDescriber = new HandPositionsDescriber( model.leftValueProperty, model.rightValueProperty, model.valueRange, tickMarkDescriber );
 
     // @protected
-    this.gridViewProperty = gridViewProperty;
+    this.tickMarkViewProperty = tickMarkViewProperty;
 
-    // by default, the keyboard step size should be half of one default grid line width. See https://github.com/phetsims/ratio-and-proportion/issues/85
-    const keyboardStep = 1 / 2 / options.gridRangeProperty.value;
+    // by default, the keyboard step size should be half of one default tick mark width. See https://github.com/phetsims/ratio-and-proportion/issues/85
+    const keyboardStep = 1 / 2 / options.tickMarkRangeProperty.value;
 
     const defaultRatioHalfBounds = Bounds2.rect( 0, 0, RATIO_HALF_WIDTH, LAYOUT_BOUNDS.height );
 
     // description on each ratioHalf should be updated whenever these change
-    const a11yDependencies = [ gridViewProperty, options.gridRangeProperty, model.targetRatioProperty ];
+    const a11yDependencies = [ tickMarkViewProperty, options.tickMarkRangeProperty, model.targetRatioProperty ];
 
     const playUISoundsProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
       fitness => fitness === model.fitnessRange.min || model.inProportion() );
@@ -101,11 +101,11 @@ class RatioAndProportionScreenView extends ScreenView {
       model.enabledValueRangeProperty,
       model.firstInteractionProperty,
       defaultRatioHalfBounds,
-      gridViewProperty,
-      options.gridRangeProperty,
+      tickMarkViewProperty,
+      options.tickMarkRangeProperty,
       this.ratioDescriber,
       this.handPositionsDescriber,
-      gridAndLabelsColorProperty,
+      tickMarksAndLabelsColorProperty,
       keyboardStep,
       model.lockRatioProperty,
       playUISoundsProperty, {
@@ -122,11 +122,11 @@ class RatioAndProportionScreenView extends ScreenView {
       model.enabledValueRangeProperty,
       model.firstInteractionProperty,
       defaultRatioHalfBounds,
-      gridViewProperty,
-      options.gridRangeProperty,
+      tickMarkViewProperty,
+      options.tickMarkRangeProperty,
       this.ratioDescriber,
       this.handPositionsDescriber,
-      gridAndLabelsColorProperty,
+      tickMarksAndLabelsColorProperty,
       keyboardStep,
       model.lockRatioProperty,
       playUISoundsProperty, {
@@ -151,7 +151,7 @@ class RatioAndProportionScreenView extends ScreenView {
     bothHandsInteractionNode.setAccessibleAttribute( 'aria-roledescription', sceneryPhetStrings.a11y.grabDrag.movable );
 
     const ratioInteractionListener = new RatioInteractionListener( bothHandsInteractionNode, model.leftValueProperty,
-      model.rightValueProperty, model.valueRange, model.firstInteractionProperty, options.gridRangeProperty, keyboardStep );
+      model.rightValueProperty, model.valueRange, model.firstInteractionProperty, options.tickMarkRangeProperty, keyboardStep );
     bothHandsInteractionNode.addInputListener( ratioInteractionListener );
 
     const bothHandsPositionUtterance = new Utterance( {
@@ -172,7 +172,7 @@ class RatioAndProportionScreenView extends ScreenView {
 
       // when no longer being interacted with, trigger an alert
       if ( !isBeingInteractedWith ) {
-        bothHandsPositionUtterance.alert = this.handPositionsDescriber.getBothHandsPositionText( gridViewProperty.value );
+        bothHandsPositionUtterance.alert = this.handPositionsDescriber.getBothHandsPositionText( tickMarkViewProperty.value );
         phet.joist.sim.utteranceQueue.addToBack( bothHandsPositionUtterance );
 
         bothHandsRatioUtterance.alert = this.ratioDescriber.getRatioDescriptionString();
@@ -197,7 +197,7 @@ class RatioAndProportionScreenView extends ScreenView {
     soundManager.addSoundGenerator( this.proportionFitnessSoundGenerator );
 
     // these dimensions are just temporary, and will be recomputed below in the layout function
-    const labelsNode = new RAPGridLabelsNode( gridViewProperty, options.gridRangeProperty, 1000, gridAndLabelsColorProperty );
+    const labelsNode = new RAPTickMarkLabelsNode( tickMarkViewProperty, options.tickMarkRangeProperty, 1000, tickMarksAndLabelsColorProperty );
 
     const backgroundNode = Rectangle.bounds( this.layoutBounds, {
       fill: 'black'
@@ -223,30 +223,30 @@ class RatioAndProportionScreenView extends ScreenView {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         model.reset();
-        options.gridRangeProperty.reset();
+        options.tickMarkRangeProperty.reset();
         this.reset();
       },
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
 
     // @protected - subtype is responsible for layout
-    this.gridViewRadioButtonGroup = new RadioButtonGroup( gridViewProperty, [ {
+    this.tickMarkViewRadioButtonGroup = new RadioButtonGroup( tickMarkViewProperty, [ {
       node: new FontAwesomeNode( 'eye_close', { scale: 0.8 } ),
-      value: GridView.NONE,
-      labelContent: ratioAndProportionStrings.a11y.grid.showNo
+      value: TickMarkView.NONE,
+      labelContent: ratioAndProportionStrings.a11y.tickMark.showNo
     }, {
-      node: new Image( gridIconImage, { scale: .2 } ),
-      value: GridView.HORIZONTAL,
-      labelContent: ratioAndProportionStrings.a11y.grid.show
+      node: new Image( tickMarkIconImage, { scale: .2 } ),
+      value: TickMarkView.HORIZONTAL,
+      labelContent: ratioAndProportionStrings.a11y.tickMark.show
     }, {
-      node: new Image( numberedGridIconImage, { scale: .2 } ),
-      value: GridView.HORIZONTAL_UNITS,
-      labelContent: ratioAndProportionStrings.a11y.grid.showNumbered
+      node: new Image( numberedTickMarkIconImage, { scale: .2 } ),
+      value: TickMarkView.HORIZONTAL_UNITS,
+      labelContent: ratioAndProportionStrings.a11y.tickMark.showNumbered
     } ], {
       orientation: 'horizontal',
       baseColor: 'white',
-      labelContent: ratioAndProportionStrings.a11y.grid.heading,
-      helpText: ratioAndProportionStrings.a11y.grid.helpText,
+      labelContent: ratioAndProportionStrings.a11y.tickMark.heading,
+      helpText: ratioAndProportionStrings.a11y.tickMark.helpText,
       helpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT,
       scale: 1.07 // calculated to try to match this width with other components in subtypes
     } );
@@ -257,7 +257,7 @@ class RatioAndProportionScreenView extends ScreenView {
       labelsNode,
 
       // UI
-      this.gridViewRadioButtonGroup,
+      this.tickMarkViewRadioButtonGroup,
       this.resetAllButton,
 
       // Main ratio on top
@@ -269,7 +269,7 @@ class RatioAndProportionScreenView extends ScreenView {
       this.leftRatioHalf,
       this.rightRatioHalf,
       bothHandsInteractionNode,
-      this.gridViewRadioButtonGroup
+      this.tickMarkViewRadioButtonGroup
     ];
 
     // accessible order
@@ -278,9 +278,9 @@ class RatioAndProportionScreenView extends ScreenView {
     ];
 
     // static layout
-    this.resetAllButton.right = this.gridViewRadioButtonGroup.right = this.layoutBounds.maxX - RatioAndProportionConstants.SCREEN_VIEW_X_MARGIN;
+    this.resetAllButton.right = this.tickMarkViewRadioButtonGroup.right = this.layoutBounds.maxX - RatioAndProportionConstants.SCREEN_VIEW_X_MARGIN;
     this.resetAllButton.bottom = this.layoutBounds.height - RatioAndProportionConstants.SCREEN_VIEW_Y_MARGIN;
-    this.gridViewRadioButtonGroup.top = this.layoutBounds.height * .15;
+    this.tickMarkViewRadioButtonGroup.top = this.layoutBounds.height * .15;
 
     // @private - dynamic layout based on the current ScreenView coordinates
     this.layoutRatioAndProportionScreeView = newRatioHalfBounds => {
@@ -290,7 +290,7 @@ class RatioAndProportionScreenView extends ScreenView {
       backgroundNode.rectBounds = this.visibleBoundsProperty.value;
       backgroundNode.bottom = this.layoutBounds.bottom;
 
-      // subtract the top and bottom rectangles from the grid height
+      // subtract the top and bottom rectangles from the tick marks height
       labelsNode.layout( newRatioHalfBounds.height - ( 2 * RatioHalf.FRAMING_RECTANGLE_HEIGHT ) );
 
       const ratioWidth = this.leftRatioHalf.width + this.rightRatioHalf.width + ( 2 * RATIO_HALF_SPACING ) + labelsNode.width;
@@ -347,7 +347,7 @@ class RatioAndProportionScreenView extends ScreenView {
    * @override
    */
   reset() {
-    this.gridViewProperty.reset();
+    this.tickMarkViewProperty.reset();
 
     this.leftRatioHalf.reset();
     this.rightRatioHalf.reset();

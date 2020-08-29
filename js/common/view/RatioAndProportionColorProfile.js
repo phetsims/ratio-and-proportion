@@ -12,10 +12,10 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 
 // Even though there is only one Profile, it is still nice to use this pattern for color organizing.
 const RatioAndProportionColorProfile = new ColorProfile( [ 'default' ], {
-  gridAndLabelsInFitness: {
+  tickMarksAndLabelsInFitness: {
     default: Color.GRAY
   },
-  gridAndLabelsOutOfFitness: {
+  tickMarksAndLabelsOutOfFitness: {
     default: Color.DARK_GRAY
   },
   backgroundInFitness: { // the color will jump from backgroundInterpolationToFitness to this when actually in ratio

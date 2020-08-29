@@ -15,7 +15,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Amy Rouinfar "
   },
-  "grid-icon.png": {
+  "tick-mark-icon.png": {
     "text": [
       "Copyright 2002-2020 University of Colorado Boulder"
     ],
@@ -23,7 +23,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Cheryl McCutchan"
   },
-  "numbered-grid-icon.png": {
+  "numbered-tick-mark-icon.png": {
     "text": [
       "Copyright 2002-2020 University of Colorado Boulder"
     ],

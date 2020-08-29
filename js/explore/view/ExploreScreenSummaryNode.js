@@ -18,12 +18,12 @@ class ExploreScreenSummaryNode extends Node {
    * @param {Property.<number>} leftValueProperty
    * @param {Property.<number>} rightValueProperty
    * @param {Property.<number>} targetRatioProperty
-   * @param {Property.<GridView>} gridViewProperty
+   * @param {Property.<TickMarkView>} tickMarkViewProperty
    * @param {RatioDescriber} ratioDescriber
    * @param {HandPositionsDescriber} handPositionsDescriber
    * @param {Map.<number,string>} ratioToChallengeNameMap - map from target ratio to name of challenge
    */
-  constructor( ratioFitnessProperty, leftValueProperty, rightValueProperty, targetRatioProperty, gridViewProperty,
+  constructor( ratioFitnessProperty, leftValueProperty, rightValueProperty, targetRatioProperty, tickMarkViewProperty,
                ratioDescriber, handPositionsDescriber, ratioToChallengeNameMap ) {
 
     const stateOfSimNode = new Node( {
@@ -54,17 +54,17 @@ class ExploreScreenSummaryNode extends Node {
     } );
 
     // This derivedProperty is already dependent on all other dependencies for getStateOfSimString
-    Property.multilink( [ targetRatioProperty, gridViewProperty, ratioFitnessProperty, leftValueProperty, rightValueProperty ],
-      ( currentTargetRatio, gridView ) => {
+    Property.multilink( [ targetRatioProperty, tickMarkViewProperty, ratioFitnessProperty, leftValueProperty, rightValueProperty ],
+      ( currentTargetRatio, tickMarkView ) => {
         stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.explore.screenSummary.qualitativeStateOfSim, {
           ratioFitness: ratioDescriber.getRatioFitness( false ), // lowercase
           currentChallenge: ratioToChallengeNameMap.get( currentTargetRatio ).lowercase
         } );
         leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
-          position: handPositionsDescriber.getHandPosition( leftValueProperty, gridView )
+          position: handPositionsDescriber.getHandPosition( leftValueProperty, tickMarkView )
         } );
         rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
-          position: handPositionsDescriber.getHandPosition( rightValueProperty, gridView )
+          position: handPositionsDescriber.getHandPosition( rightValueProperty, tickMarkView )
         } );
         distanceBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.distanceBullet, {
           distance: handPositionsDescriber.getDistanceRegion( true )

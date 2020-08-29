@@ -57,7 +57,7 @@
     "bothHandsHelpText": {
       "value": "Use W and S keys to move left hand, and Up and Down Arrow keys to move right hand. Move both hands at the same time to maintain the challenge ratio."
     },
-    "grid": {
+    "tickMark": {
       "heading": {
         "value": "Guide Options"
       },
@@ -100,7 +100,7 @@
         "value": "{{relativePosition}} {{ordinal}} tick mark"
       },
       "quantitativeHandPositionPattern": {
-        "value": "{{relativePosition}} tick mark {{gridPosition}}"
+        "value": "{{relativePosition}} tick mark {{tickMarkPosition}}"
       },
       "ordinal": {
         "first": {
@@ -196,7 +196,7 @@
           "value": "Currently, {{ratioFitness}} the my challenge ratio with"
         }
       },
-      "gridRangeHelpText": {
+      "tickMarkRangeHelpText": {
         "value": "When tick marks shown, choose range for tick marks."
       },
       "myChallengeHelpText": {

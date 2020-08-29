@@ -10,7 +10,7 @@ import Property from '../../../../axon/js/Property.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
-import GridView from './GridView.js';
+import TickMarkView from './TickMarkView.js';
 
 // constants
 const QUALITATIVE_POSITIONS = [
@@ -60,15 +60,15 @@ class HandPositionsDescriber {
    * @param leftValueProperty
    * @param rightValueProperty
    * @param valueRange
-   * @param {GridDescriber} gridDescriber
+   * @param {TickMarkDescriber} tickMarkDescriber
    */
-  constructor( leftValueProperty, rightValueProperty, valueRange, gridDescriber ) {
+  constructor( leftValueProperty, rightValueProperty, valueRange, tickMarkDescriber ) {
 
     // @private - from model
     this.leftValueProperty = leftValueProperty;
     this.rightValueProperty = rightValueProperty;
     this.valueRange = valueRange;
-    this.gridDescriber = gridDescriber;
+    this.tickMarkDescriber = tickMarkDescriber;
 
     // @private
     this.previousLeftValueProperty = new NumberProperty( leftValueProperty.value );
@@ -80,14 +80,14 @@ class HandPositionsDescriber {
   }
 
   /**
-   * @param {GridView} gridView
+   * @param {TickMarkView} tickMarkView
    * @returns {string}
    * @public
    */
-  getBothHandsPositionText( gridView ) {
+  getBothHandsPositionText( tickMarkView ) {
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHandsValuetext, {
-      leftPosition: this.getHandPosition( this.leftValueProperty, gridView ),
-      rightPosition: this.getHandPosition( this.rightValueProperty, gridView )
+      leftPosition: this.getHandPosition( this.leftValueProperty, tickMarkView ),
+      rightPosition: this.getHandPosition( this.rightValueProperty, tickMarkView )
     } );
   }
 
@@ -95,18 +95,18 @@ class HandPositionsDescriber {
    * only ends with "of Play Area" if qualitative
    * @public
    * @param {NumberProperty} valueProperty
-   * @param {GridView} gridView
+   * @param {TickMarkView} tickMarkView
    * @returns {string}
    */
-  getHandPosition( valueProperty, gridView ) {
-    if ( GridView.describeQualitative( gridView ) ) {
+  getHandPosition( valueProperty, tickMarkView ) {
+    if ( TickMarkView.describeQualitative( tickMarkView ) ) {
 
       return StringUtils.fillIn( ratioAndProportionStrings.a11y.ofPlayAreaPattern, {
         position: this.getQualitativehandPosition( valueProperty )
       } );
     }
     else {
-      return this.getQuantitativeHandPosition( valueProperty, GridView.describeSemiQualitative( gridView ) );
+      return this.getQuantitativeHandPosition( valueProperty, TickMarkView.describeSemiQualitative( tickMarkView ) );
     }
   }
 
@@ -117,19 +117,19 @@ class HandPositionsDescriber {
    * @returns {string}
    */
   getQuantitativeHandPosition( valueProperty, semiQuantitative = false ) {
-    const gridObject = this.gridDescriber.getRelativePositionAndGridNumberForProperty( valueProperty );
+    const tickMarkData = this.tickMarkDescriber.getRelativePositionAndTickMarkNumberForProperty( valueProperty );
 
     // semi quantitative description uses ordinal numbers instead of full numbers.
-    if ( semiQuantitative && typeof gridObject.ordinalPosition === 'string' ) {
-      return StringUtils.fillIn( ratioAndProportionStrings.a11y.grid.semiQuantitativeHandPositionPattern, {
-        relativePosition: gridObject.relativePosition,
-        ordinal: gridObject.ordinalPosition
+    if ( semiQuantitative && typeof tickMarkData.ordinalPosition === 'string' ) {
+      return StringUtils.fillIn( ratioAndProportionStrings.a11y.tickMark.semiQuantitativeHandPositionPattern, {
+        relativePosition: tickMarkData.relativePosition,
+        ordinal: tickMarkData.ordinalPosition
       } );
     }
 
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.grid.quantitativeHandPositionPattern, {
-      relativePosition: gridObject.relativePosition,
-      gridPosition: gridObject.gridPosition
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.tickMark.quantitativeHandPositionPattern, {
+      relativePosition: tickMarkData.relativePosition,
+      tickMarkPosition: tickMarkData.tickMarkPosition
     } );
   }
 

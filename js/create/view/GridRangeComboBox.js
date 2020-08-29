@@ -17,7 +17,7 @@ import RichText from '../../../../scenery/js/nodes/RichText.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
 import HSeparator from '../../../../sun/js/HSeparator.js';
-import GridView from '../../common/view/GridView.js';
+import TickMarkView from '../../common/view/TickMarkView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
@@ -27,12 +27,12 @@ class GridRangeComboBox extends Node {
 
   /**
    *
-   * @param {Property.<number>} gridRangeProperty
+   * @param {Property.<number>} tickMarkRangeProperty
    * @param {Node} comboBoxParent
-   * @param {Property.<GridView>}gridViewProperty
+   * @param {Property.<TickMarkView>}tickMarkViewProperty
    * @param {Object} [options]
    */
-  constructor( gridRangeProperty, comboBoxParent, gridViewProperty, options ) {
+  constructor( tickMarkRangeProperty, comboBoxParent, tickMarkViewProperty, options ) {
     super();
 
     const items = [
@@ -51,16 +51,16 @@ class GridRangeComboBox extends Node {
 
     const comboBoxOptions = {
       labelNode: new RichText( ratioAndProportionStrings.range, { font: GRID_RANGE_FONT } ),
-      helpText: ratioAndProportionStrings.a11y.create.gridRangeHelpText,
+      helpText: ratioAndProportionStrings.a11y.create.tickMarkRangeHelpText,
       accessibleName: ratioAndProportionStrings.range
     };
 
-    const enabledComboBox = new ComboBox( items, gridRangeProperty, comboBoxParent, comboBoxOptions );
+    const enabledComboBox = new ComboBox( items, tickMarkRangeProperty, comboBoxParent, comboBoxOptions );
 
     const value = true;
 
     const disabledComboBox = new ComboBox( [
-      new ComboBoxItem( new HSeparator( widestItem, { centerY: -5 } ), value, { a11yLabel: ratioAndProportionStrings.a11y.grid.disabled } ),
+      new ComboBoxItem( new HSeparator( widestItem, { centerY: -5 } ), value, { a11yLabel: ratioAndProportionStrings.a11y.tickMark.disabled } ),
       items[ 0 ] // add this one to get the proper height of the text.
     ], new BooleanProperty( value ), new Node(), comboBoxOptions );
 
@@ -68,8 +68,8 @@ class GridRangeComboBox extends Node {
     disabledComboBox.enabledProperty.value = false;
 
     // when not displaying the grid, show the "blank" line instead of the RichText.
-    gridViewProperty.link( gridView => {
-      this.children = gridView === GridView.NONE ? [ disabledComboBox ] : [ enabledComboBox ];
+    tickMarkViewProperty.link( tickMarkView => {
+      this.children = tickMarkView === TickMarkView.NONE ? [ disabledComboBox ] : [ enabledComboBox ];
     } );
   }
 }

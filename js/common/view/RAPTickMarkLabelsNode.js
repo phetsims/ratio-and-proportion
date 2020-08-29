@@ -1,7 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * Labels for the ratio grid that are centered on the horizontal grid lines.
+ * Labels for the ratio tick marks that are centered on the horizontal tick marks.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -11,23 +11,23 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import GridView from './GridView.js';
+import TickMarkView from './TickMarkView.js';
 
 const LABEL_X = 0;
 
-class RAPGridLabelsNode extends Node {
+class RAPTickMarkLabelsNode extends Node {
 
   /**
-   * @param {Property.<GridView>} gridViewProperty
-   * @param {Property.<number>} gridRangeProperty
+   * @param {Property.<TickMarkView>} tickMarkViewProperty
+   * @param {Property.<number>} tickMarkRangeProperty
    * @param {number} height
    * @param {Property.<Color>} colorProperty
    * @param {Object} [options]
    */
-  constructor( gridViewProperty, gridRangeProperty, height, colorProperty, options ) {
+  constructor( tickMarkViewProperty, tickMarkRangeProperty, height, colorProperty, options ) {
 
     if ( options ) {
-      assert && assert( !options.hasOwnProperty( 'children' ), 'RAPGridLabelsNode sets its own children' );
+      assert && assert( !options.hasOwnProperty( 'children' ), 'RAPTickMarkLabelsNode sets its own children' );
     }
 
     super();
@@ -39,13 +39,13 @@ class RAPGridLabelsNode extends Node {
     this.heightOfText = null;
 
     // @private
-    this.gridViewProperty = gridViewProperty;
-    this.gridRangeProperty = gridRangeProperty;
+    this.tickMarkViewProperty = tickMarkViewProperty;
+    this.tickMarkRangeProperty = tickMarkRangeProperty;
     this.colorProperty = colorProperty;
 
     this.mutate( options );
 
-    Property.multilink( [ gridRangeProperty, gridViewProperty ], this.update.bind( this ) );
+    Property.multilink( [ tickMarkRangeProperty, tickMarkViewProperty ], this.update.bind( this ) );
   }
 
   /**
@@ -65,28 +65,28 @@ class RAPGridLabelsNode extends Node {
   layout( height ) {
 
     this.totalHeight = height;
-    this.update( this.gridRangeProperty.value, this.gridViewProperty.value );
+    this.update( this.tickMarkRangeProperty.value, this.tickMarkViewProperty.value );
   }
 
   /**
    * @private
    */
-  update( gridRange, gridView ) {
+  update( tickMarkRange, tickMarkView ) {
 
     // subtract one to account for potential rounding errors. This helps guarantee that the last line is drawn.
-    const horizontalSpacing = ( this.totalHeight - 1 ) / gridRange;
+    const horizontalSpacing = ( this.totalHeight - 1 ) / tickMarkRange;
 
-    this.visible = GridView.displayUnits( gridView );
+    this.visible = TickMarkView.displayUnits( tickMarkView );
 
-    this.updateUnitLabels( GridView.displayUnits( gridView ), horizontalSpacing );
+    this.updateUnitLabels( TickMarkView.displayUnits( tickMarkView ), horizontalSpacing );
   }
 
   /**
    * @private
-   * @param {boolean} showGridUnits
+   * @param {boolean} showTickMarkUnits
    * @param {number} horizontalSpacing
    */
-  updateUnitLabels( showGridUnits, horizontalSpacing ) {
+  updateUnitLabels( showTickMarkUnits, horizontalSpacing ) {
     this.children = [];
 
     assert && assert( typeof horizontalSpacing === 'number', 'Unit Labels only supported for horizontal lines' );
@@ -108,5 +108,5 @@ class RAPGridLabelsNode extends Node {
   }
 }
 
-ratioAndProportion.register( 'RAPGridLabelsNode', RAPGridLabelsNode );
-export default RAPGridLabelsNode;
+ratioAndProportion.register( 'RAPTickMarkLabelsNode', RAPTickMarkLabelsNode );
+export default RAPTickMarkLabelsNode;

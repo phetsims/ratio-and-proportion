@@ -30,16 +30,16 @@ import commonReleaseSound from '../../../../tambo/sounds/release_mp3.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import designingProperties from '../designingProperties.js';
-import GridView from './GridView.js';
+import TickMarkView from './TickMarkView.js';
 import RatioHalfAlertManager from './RatioHalfAlertManager.js';
-import RatioHalfGridNode from './RatioHalfGridNode.js';
+import RatioHalfTickMarksNode from './RatioHalfTickMarksNode.js';
 import RatioHandNode from './RatioHandNode.js';
 
 // contants
 const FRAMING_RECTANGLE_HEIGHT = 16;
 
 // This value was calculated based on the design of snapping within the range of the ratio hand center circle, see https://github.com/phetsims/ratio-and-proportion/issues/122#issuecomment-672281015
-const SNAP_TO_GRID_LINE_THRESHOLD = .135842179584 / 2;
+const SNAP_TO_TICK_MARK_THRESHOLD = .135842179584 / 2;
 
 // TODO: copied from WaveInterferenceSlider
 const MIN_INTER_CLICK_TIME = ( 1 / 60 * 1000 ) * 2; // min time between clicks, in milliseconds, empirically determined
@@ -58,8 +58,8 @@ class RatioHalf extends Rectangle {
    * @param {Property.<Range>} enabledValueRangeProperty - the current range that the hand can move
    * @param {Property.<boolean>} firstInteractionProperty - upon successful interaction, this will be marked as false
    * @param {Bounds2} bounds - the area that the node takes up
-   * @param {EnumerationProperty.<GridView>} gridViewProperty
-   * @param {Property.<number>} gridRangeProperty
+   * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
+   * @param {Property.<number>} tickMarkRangeProperty
    * @param {RatioDescriber} ratioDescriber
    * @param {Property.<Color>} colorProperty
    * @param {number} keyboardStep
@@ -67,8 +67,8 @@ class RatioHalf extends Rectangle {
    * @param {BooleanProperty} playUISoundsProperty
    * @param {Object} [options]
    */
-  constructor( valueProperty, valueRange, enabledValueRangeProperty, firstInteractionProperty, bounds, gridViewProperty,
-               gridRangeProperty, ratioDescriber, handPositionsDescriber, colorProperty, keyboardStep, horizontalMovementAllowedProperty, playUISoundsProperty, options ) {
+  constructor( valueProperty, valueRange, enabledValueRangeProperty, firstInteractionProperty, bounds, tickMarkViewProperty,
+               tickMarkRangeProperty, ratioDescriber, handPositionsDescriber, colorProperty, keyboardStep, horizontalMovementAllowedProperty, playUISoundsProperty, options ) {
 
     options = merge( {
       isRight: true, // right ratio or the left ratio
@@ -99,19 +99,19 @@ class RatioHalf extends Rectangle {
     // @private
     this.alertManager = new RatioHalfAlertManager( valueProperty, ratioDescriber, handPositionsDescriber );
 
-    const gridNode = new RatioHalfGridNode( gridViewProperty, gridRangeProperty,
+    const tickMarksNode = new RatioHalfTickMarksNode( tickMarkViewProperty, tickMarkRangeProperty,
       bounds.width, bounds.height - 2 * FRAMING_RECTANGLE_HEIGHT,
       colorProperty );
-    this.addChild( gridNode );
+    this.addChild( tickMarksNode );
 
     // @private - The draggable element inside the Node framed with thick rectangles on the top and bottom.
-    this.ratioHandNode = new RatioHandNode( valueProperty, enabledValueRangeProperty, gridViewProperty, keyboardStep, {
+    this.ratioHandNode = new RatioHandNode( valueProperty, enabledValueRangeProperty, tickMarkViewProperty, keyboardStep, {
       startDrag: () => {
         firstInteractionProperty.value = false;
         this.isBeingInteractedWithProperty.value = true;
       },
       isRight: options.isRight,
-      a11yCreateAriaValueText: () => handPositionsDescriber.getHandPosition( valueProperty, gridViewProperty.value ),
+      a11yCreateAriaValueText: () => handPositionsDescriber.getHandPosition( valueProperty, tickMarkViewProperty.value ),
       endDrag: () => this.alertManager.alertRatioChange(),
       a11yDependencies: options.a11yDependencies
     } );
@@ -130,7 +130,7 @@ class RatioHalf extends Rectangle {
 
     // add sound generators that will play a sound when the value controlled by the slider changes
     const sliderClickSoundClip = new SoundClip( sliderClickSound, merge( soundClipOptions, {
-      enableControlProperties: soundClipOptions.enableControlProperties.concat( [ new DerivedProperty( [ gridViewProperty ], gridView => gridView !== GridView.NONE ) ] )
+      enableControlProperties: soundClipOptions.enableControlProperties.concat( [ new DerivedProperty( [ tickMarkViewProperty ], tickMarkView => tickMarkView !== TickMarkView.NONE ) ] )
     } ) );
     soundManager.addSoundGenerator( sliderClickSoundClip, addSoundOptions );
 
@@ -147,14 +147,14 @@ class RatioHalf extends Rectangle {
       getModelBoundsFromRange( valueRange ),
       bounds );
 
-    // Snap mouse/touch input to the nearest grid line if close enough. This helps with reproducible precision
-    const getSnapToGridLineValue = yValue => {
-      if ( GridView.displayHorizontal( gridViewProperty.value ) && gridRangeProperty.value === gridRangeProperty.initialValue ) {
-        const gridLineStep = 1 / gridRangeProperty.value;
+    // Snap mouse/touch input to the nearest tick mark if close enough. This helps with reproducible precision
+    const getSnapToTickMarkValue = yValue => {
+      if ( TickMarkView.displayHorizontal( tickMarkViewProperty.value ) && tickMarkRangeProperty.value === tickMarkRangeProperty.initialValue ) {
+        const tickMarkStep = 1 / tickMarkRangeProperty.value;
 
-        // iterate through model values of each grid line
-        for ( let i = valueRange.min; i < valueRange.max; i += gridLineStep ) {
-          if ( Math.abs( yValue - i ) < gridLineStep * SNAP_TO_GRID_LINE_THRESHOLD ) {
+        // iterate through model values of each tick mark
+        for ( let i = valueRange.min; i < valueRange.max; i += tickMarkStep ) {
+          if ( Math.abs( yValue - i ) < tickMarkStep * SNAP_TO_TICK_MARK_THRESHOLD ) {
             return i;
           }
         }
@@ -213,8 +213,8 @@ class RatioHalf extends Rectangle {
         const value = valueProperty.value;
 
         // handle the sound as desired for mouse/touch style input
-        for ( let i = 0; i < gridRangeProperty.value; i++ ) {
-          const tickValue = ( i / valueRange.getLength() ) / gridRangeProperty.value;
+        for ( let i = 0; i < tickMarkRangeProperty.value; i++ ) {
+          const tickValue = ( i / valueRange.getLength() ) / tickMarkRangeProperty.value;
           if ( lastValue !== value && ( value === valueRange.min || value === valueRange.max ) ) {
             sliderBoundaryClickSoundClip.play();
             break;
@@ -232,8 +232,8 @@ class RatioHalf extends Rectangle {
 
       end: () => {
 
-        // snap final value to grid line if applicable
-        const newY = getSnapToGridLineValue( positionProperty.value.y );
+        // snap final value to tick mark if applicable
+        const newY = getSnapToTickMarkValue( positionProperty.value.y );
         if ( positionProperty.value.y !== newY ) {
           positionProperty.value.setY( newY );
           positionProperty.notifyListenersStatic();
@@ -328,9 +328,9 @@ class RatioHalf extends Rectangle {
 
       dragListener.transform = modelViewTransform;
 
-      gridNode.layout( boundsNoFramingRects.width, boundsNoFramingRects.height );
-      gridNode.bottom = bottomRect.top;
-      gridNode.left = 0;
+      tickMarksNode.layout( boundsNoFramingRects.width, boundsNoFramingRects.height );
+      tickMarksNode.bottom = bottomRect.top;
+      tickMarksNode.left = 0;
     };
   }
 

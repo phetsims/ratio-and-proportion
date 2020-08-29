@@ -20,18 +20,18 @@ class RatioInteractionListener {
    * @param {Property.<number>}rightValueProperty
    * @param {Range} valueRange
    * @param {Property.<boolean>} firstInteractionProperty
-   * @param {Property.<number>} gridRangeProperty
+   * @param {Property.<number>} tickMarkRangeProperty
    * @param {number} keyboardStep
    */
   constructor( targetNode, leftValueProperty, rightValueProperty, valueRange,
-               firstInteractionProperty, gridRangeProperty, keyboardStep ) {
+               firstInteractionProperty, tickMarkRangeProperty, keyboardStep ) {
 
     // @private
     this.keyStateTracker = new KeyStateTracker();
     this.valueRange = valueRange;
     this.targetNode = targetNode;
     this.firstInteractionProperty = firstInteractionProperty;
-    this.gridRangeProperty = gridRangeProperty;
+    this.tickMarkRangeProperty = tickMarkRangeProperty;
     this.leftValueProperty = leftValueProperty;
     this.rightValueProperty = rightValueProperty;
     this.keyboardStep = keyboardStep;
@@ -99,11 +99,11 @@ class RatioInteractionListener {
       }
       else {
 
-        // for number keys 0-9, jump both values to that grid line number. This value changes based on the gridRangeProperty
+        // for number keys 0-9, jump both values to that tick mark number. This value changes based on the tickMarkRangeProperty
         for ( let i = 0; i <= 9; i++ ) {
           if ( event.key === i + '' ) {
             this.firstInteractionProperty.value = false;
-            const newValue = 1 / this.gridRangeProperty.value * i;
+            const newValue = 1 / this.tickMarkRangeProperty.value * i;
             this.leftValueProperty.value = this.rightValueProperty.value = Utils.clamp( newValue, this.valueRange.min, this.valueRange.max );
           }
         }

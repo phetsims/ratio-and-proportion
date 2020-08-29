@@ -2,7 +2,7 @@
 
 /**
  * Sim specific grid implementation with that supports customization through passed in Properties. This uses minor lines
- * from GridNode, but not major lines.
+ * from GridNode, but not major lines. In Ration and Proportion, these grid lines are called "tick marks"
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -11,20 +11,19 @@ import Property from '../../../../axon/js/Property.js';
 import GridNode from '../../../../griddle/js/GridNode.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import GridView from './GridView.js';
+import TickMarkView from './TickMarkView.js';
 
-class RatioHalfGridNode extends GridNode {
+class RatioHalfTickMarksNode extends GridNode {
 
   /**
-   * @param {Property.<GridView>} gridViewProperty
-   * @param {Property.<number>} gridRangeProperty
+   * @param {Property.<TickMarkView>} tickMarkViewProperty
+   * @param {Property.<number>} tickMarkRangeProperty
    * @param {number} width
    * @param {number} height
    * @param {Property.<Color>} colorProperty
    * @param {Object} [options]
    */
-  constructor( gridViewProperty, gridRangeProperty, width, height, colorProperty, options ) {
-
+  constructor( tickMarkViewProperty, tickMarkRangeProperty, width, height, colorProperty, options ) {
     options = merge( {
       minorLineOptions: {
         stroke: colorProperty
@@ -34,14 +33,14 @@ class RatioHalfGridNode extends GridNode {
     super( width, height, options );
 
     // @private
-    this.gridViewProperty = gridViewProperty;
-    this.gridRangeProperty = gridRangeProperty;
+    this.tickMarkViewProperty = tickMarkViewProperty;
+    this.tickMarkRangeProperty = tickMarkRangeProperty;
 
     // TODO: is this line actually necessary?
     // support lines to begin with. This handles the case where the GridNode initialized to having no line.
     this.setLineSpacings( null, null, 10, 10 );
 
-    Property.multilink( [ gridRangeProperty, gridViewProperty ], this.update.bind( this ) );
+    Property.multilink( [ tickMarkRangeProperty, tickMarkViewProperty ], this.update.bind( this ) );
   }
 
   /**
@@ -50,20 +49,20 @@ class RatioHalfGridNode extends GridNode {
   layout( width, height ) {
     this.setGridWidth( width );
     this.setGridHeight( height );
-    this.update( this.gridRangeProperty.value, this.gridViewProperty.value );
+    this.update( this.tickMarkRangeProperty.value, this.tickMarkViewProperty.value );
   }
 
   /**
    * @private
    */
-  update( gridRange, gridView ) {
+  update( tickMarkRange, tickMarkView ) {
 
     // subtract one to account for potential rounding errors. This helps guarantee that the last line is drawn.
-    this.setLineSpacings( null, null, null, ( this.gridHeight - 1 ) / gridRange );
+    this.setLineSpacings( null, null, null, ( this.gridHeight - 1 ) / tickMarkRange );
 
-    this.visible = GridView.displayVertical( gridView ) || GridView.displayHorizontal( gridView );
+    this.visible = TickMarkView.displayVertical( tickMarkView ) || TickMarkView.displayHorizontal( tickMarkView );
   }
 }
 
-ratioAndProportion.register( 'RatioHalfGridNode', RatioHalfGridNode );
-export default RatioHalfGridNode;
+ratioAndProportion.register( 'RatioHalfTickMarksNode', RatioHalfTickMarksNode );
+export default RatioHalfTickMarksNode;
