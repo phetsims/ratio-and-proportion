@@ -30,10 +30,10 @@ import commonReleaseSound from '../../../../tambo/sounds/release_mp3.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import designingProperties from '../designingProperties.js';
-import TickMarkView from './TickMarkView.js';
 import RatioHalfAlertManager from './RatioHalfAlertManager.js';
 import RatioHalfTickMarksNode from './RatioHalfTickMarksNode.js';
 import RatioHandNode from './RatioHandNode.js';
+import TickMarkView from './TickMarkView.js';
 
 // contants
 const FRAMING_RECTANGLE_HEIGHT = 16;
@@ -49,6 +49,13 @@ const X_MODEL_DRAG_DISTANCE = 1;
 const INITIAL_X_VALUE = 0;
 const getModelBoundsFromRange = range => new Bounds2( -1 * X_MODEL_DRAG_DISTANCE / 2, range.min, X_MODEL_DRAG_DISTANCE / 2, range.max );
 
+function ratioHalfAccessibleNameBehavior( node, options, accessibleName, callbacksForOtherNodes ) {
+  callbacksForOtherNodes.push( () => {
+    node.ratioHandNode.accessibleName = accessibleName;
+  } );
+  return options;
+}
+
 
 class RatioHalf extends Rectangle {
 
@@ -61,6 +68,7 @@ class RatioHalf extends Rectangle {
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
    * @param {Property.<number>} tickMarkRangeProperty
    * @param {RatioDescriber} ratioDescriber
+   * @param {HandPositionsDescriber} handPositionsDescriber
    * @param {Property.<Color>} colorProperty
    * @param {number} keyboardStep
    * @param {BooleanProperty} horizontalMovementAllowedProperty
@@ -78,7 +86,8 @@ class RatioHalf extends Rectangle {
       a11yDependencies: [],
 
       // pdom
-      tagName: 'div'
+      tagName: 'div',
+      accessibleNameBehavior: ratioHalfAccessibleNameBehavior
     }, options );
 
     super( 0, 0, bounds.width, bounds.height );
@@ -332,17 +341,6 @@ class RatioHalf extends Rectangle {
       tickMarksNode.bottom = bottomRect.top;
       tickMarksNode.left = 0;
     };
-  }
-
-  /**
-   * TODO: use behavior function with `callbacksForOtherNodes`
-   * This component's accessibleName is forwarded to its ratioHandNode, which is the only piece displayed in the PDOM.
-   * @override
-   * @public
-   * @param {string} accessibleName
-   */
-  setAccessibleName( accessibleName ) {
-    this.ratioHandNode.accessibleName = accessibleName;
   }
 
   /**
