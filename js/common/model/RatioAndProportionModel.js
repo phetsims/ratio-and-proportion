@@ -98,7 +98,7 @@ class RatioAndProportionModel {
         unclampedFitness = this.fitnessRange.max - this.getInProportionThreshold() - .01;
       }
 
-      phet.log && phet.log( `left: ${leftValue},\n right: ${rightValue},\n current ratio: ${leftValue / rightValue},\n unclampedFitness: ${unclampedFitness}\n\n` );
+      phet.log && phet.log( `left: ${leftValue},\n right: ${rightValue},\n distance: ${Math.abs( rightValue - leftValue )},\n current ratio: ${leftValue / rightValue},\n unclampedFitness: ${unclampedFitness}\n\n` );
 
       return unclampedFitness;
     }, {
