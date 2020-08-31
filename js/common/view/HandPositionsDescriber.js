@@ -195,22 +195,22 @@ class HandPositionsDescriber {
     if ( distance === this.valueRange.getLength() ) {
       index = 0;
     }
-    else if ( distance >= .9 ) {
+    else if ( distance >= .8 ) {
       index = 1;
     }
-    else if ( distance >= .75 ) {
+    else if ( distance >= .6 ) {
       index = 2;
     }
-    else if ( distance >= .6 ) {
+    else if ( distance >= .4 ) {
       index = 3;
     }
-    else if ( distance >= .5 ) {
+    else if ( distance >= .3 ) {
       index = 4;
     }
-    else if ( distance >= .35 ) {
+    else if ( distance >= .2 ) {
       index = 5;
     }
-    else if ( distance >= .2 ) {
+    else if ( distance >= .05 ) {
       index = 6;
     }
     else if ( distance > 0 ) {
