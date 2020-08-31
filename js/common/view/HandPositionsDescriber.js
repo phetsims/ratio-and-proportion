@@ -236,13 +236,14 @@ class HandPositionsDescriber {
     const otherHand = valueProperty === this.leftValueProperty ? rightHandLowerString : leftHandLowerString;
 
     const increasing = valueProperty.value > previousValueProperty.value;
-    const otherValueLarger = otherValueProperty.value > valueProperty.value;
     const directionChange = increasing !== previousChangeProperty.value;
 
     let prefix = null;
 
-    // never give a "direction changed" region if the two value positions are the same
-    if ( directionChange && valueProperty.value !== otherValueProperty.value ) {
+    if ( directionChange && // if the direction changed
+         valueProperty.value !== otherValueProperty.value && // if the two value positions are the same
+         valueProperty.value !== previousValueProperty.value ) { // if the value position didn't change
+      const otherValueLarger = otherValueProperty.value > valueProperty.value;
       prefix = increasing === otherValueLarger ? ratioAndProportionStrings.a11y.handPosition.closerTo :
                ratioAndProportionStrings.a11y.handPosition.fartherFrom;
     }
