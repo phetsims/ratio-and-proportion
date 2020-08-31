@@ -53,6 +53,18 @@ class RatioAndProportionModel {
       reentrant: true
     } );
 
+    // @public - the current value of the ratio
+    this.currentRatioProperty = new DerivedProperty( [ this.leftValueProperty, this.rightValueProperty ],
+      ( left, right ) => {
+
+        // Instead of dividing by zero, just say this case is not in proportion
+        if ( right === 0 ) {
+          right = RIGHT_VALUE_ZERO_REPLACEMENT; // calculate the fitness as if the value was very small, but not 0
+        }
+
+        return left / right;
+      }, { valueType: 'number' } );
+
     // Clamp to decimal places to make sure that javascript rounding errors don't effect some views for interpreting position
     this.leftValueProperty.link( value => {
       this.leftValueProperty.value = Utils.toFixedNumber( value, 6 );

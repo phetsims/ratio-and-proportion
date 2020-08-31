@@ -2,6 +2,7 @@
 
 /**
  * Sound generator that plays a sound based on the fitness of the ratioAndProportion.
+ * TODO: delete this type?
  *
  * @author John Blanco (PhET Interactive Simulations)
  * @author Michael Kauzmann (PhET Interactive Simulations)
@@ -41,7 +42,7 @@ class ProportionFitnessSoundGenerator extends SoundGenerator {
     } );
     this.staccatoFrequencySoundGenerator.connect( this.soundSourceDestination );
 
-    this.inProportionSoundGenerator = new InProportionSoundGenerator( ratioFitnessProperty, fitnessRange, model, {
+    this.inProportionSoundGenerator = new InProportionSoundGenerator( ratioFitnessProperty, model, {
       enableControlProperties: [ isBeingInteractedWithProperty ]
     } );
     this.inProportionSoundGenerator.connect( this.soundSourceDestination );
