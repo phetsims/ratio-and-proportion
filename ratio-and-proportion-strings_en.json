@@ -321,8 +321,8 @@
         "somewhatCloseTo": {
           "value": "Somewhat close to"
         },
-        "notCloseTo": {
-          "value": "Not close to"
+        "notSoCloseTo": {
+          "value": "Not so close to"
         },
         "farFrom": {
           "value": "Far from"
@@ -347,8 +347,8 @@
         "somewhatCloseTo": {
           "value": "somewhat close to"
         },
-        "notCloseTo": {
-          "value": "not close to"
+        "notSoCloseTo": {
+          "value": "not so close to"
         },
         "farFrom": {
           "value": "far from"
