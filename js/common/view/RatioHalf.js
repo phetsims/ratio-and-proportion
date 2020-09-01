@@ -129,7 +129,7 @@ class RatioHalf extends Rectangle {
     // Sound for the wave slider clicks
     const addSoundOptions = { categoryName: 'user-interface' };
     const soundClipOptions = {
-      initialOutputLevel: 0.15, // TODO: I made this louder than waves intro, https://github.com/phetsims/ratio-and-proportion/issues/45
+      initialOutputLevel: 0.15,
       enableControlProperties: [ designingProperties.ratioUISoundsEnabledProperty, playUISoundsProperty ]
     };
     const commonGrabSoundClip = new SoundClip( commonGrabSound, soundClipOptions );

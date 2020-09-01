@@ -27,7 +27,6 @@ const VALUE_RANGE_MIN = 0;
 const VALUE_RANGE = new Range( VALUE_RANGE_MIN, 1 );
 const LOCK_RATIO_RANGE_MIN = .05;
 
-// TODO: RIGHT_VALUE_ZERO_REPLACEMENT is messy, how else to avoid divide by 0 error?
 const RIGHT_VALUE_ZERO_REPLACEMENT = .000001;
 
 class RatioAndProportionModel {
@@ -41,8 +40,8 @@ class RatioAndProportionModel {
     this.targetRatioProperty = new NumberProperty( .5 );
 
     // @public
-    // To avoid divide-by zero errors. TODO: perhaps rename "value" to "position"
-    this.valueRange = VALUE_RANGE; // TODO: constant to instance var. . . .
+    // TODO: perhaps rename "value" to "position"
+    this.valueRange = VALUE_RANGE;
     this.enabledValueRangeProperty = new Property( this.valueRange );
 
     // @public - settable positions of the two values on the screen
