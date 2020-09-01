@@ -135,7 +135,6 @@ class RatioAndProportionScreenView extends ScreenView {
         helpText: ratioAndProportionStrings.a11y.rightHandHelpText
       } );
 
-    // TODO: this should probably be its own class
     const bothHandsInteractionNode = new Node( {
       ariaRole: 'application',
       focusable: true,
