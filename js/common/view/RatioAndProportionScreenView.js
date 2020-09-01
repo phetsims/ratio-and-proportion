@@ -21,13 +21,11 @@ import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
 import FontAwesomeNode from '../../../../sun/js/FontAwesomeNode.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
-import tickMarkIconImage from '../../../images/tick-mark-icon_png.js';
 import numberedTickMarkIconImage from '../../../images/numbered-tick-mark-icon_png.js';
+import tickMarkIconImage from '../../../images/tick-mark-icon_png.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import RatioAndProportionConstants from '../RatioAndProportionConstants.js';
-import TickMarkDescriber from './TickMarkDescriber.js';
-import TickMarkView from './TickMarkView.js';
 import HandPositionsDescriber from './HandPositionsDescriber.js';
 import RAPTickMarkLabelsNode from './RAPTickMarkLabelsNode.js';
 import RatioAndProportionColorProfile from './RatioAndProportionColorProfile.js';
@@ -35,6 +33,8 @@ import RatioDescriber from './RatioDescriber.js';
 import RatioHalf from './RatioHalf.js';
 import RatioInteractionListener from './RatioInteractionListener.js';
 import ProportionFitnessSoundGenerator from './sound/ProportionFitnessSoundGenerator.js';
+import TickMarkDescriber from './TickMarkDescriber.js';
+import TickMarkView from './TickMarkView.js';
 
 // constants
 const LAYOUT_BOUNDS = ScreenView.DEFAULT_LAYOUT_BOUNDS;
@@ -298,7 +298,9 @@ class RatioAndProportionScreenView extends ScreenView {
       this.leftRatioHalf.left = ( this.layoutBounds.width - CONTROL_PANEL_WIDTH - ratioWidth ) / 2;
       labelsNode.left = this.leftRatioHalf.right + RATIO_HALF_SPACING;
       this.rightRatioHalf.left = labelsNode.right + RATIO_HALF_SPACING;
-      this.leftRatioHalf.bottom = this.rightRatioHalf.bottom = this.layoutBounds.bottom;
+
+      this.leftRatioHalf.setBottomOfRatioHalf( this.layoutBounds.bottom );
+      this.rightRatioHalf.setBottomOfRatioHalf( this.layoutBounds.bottom );
 
       labelsNode.bottom = this.layoutBounds.bottom - RatioHalf.FRAMING_RECTANGLE_HEIGHT + labelsNode.labelHeight / 2;
     };

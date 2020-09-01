@@ -344,6 +344,18 @@ class RatioHalf extends Rectangle {
   }
 
   /**
+   * The bottom of the Rectangle that contains the RatioHandNode is not the complete bounds of the Node. With that in
+   * mind, offset the bottom by the height that extends beyond the Rectangle.
+   * @public
+   * @param {number} desiredBottom
+   */
+  setBottomOfRatioHalf( desiredBottom ) {
+
+    // `selfBounds` is used for the position of the Rectangle, since RatioHalf extends Rectangle
+    this.bottom = desiredBottom + ( this.bounds.bottom - this.localToParentBounds( this.selfBounds ).bottom );
+  }
+
+  /**
    * @public
    * @param {Bounds2} bounds - the bounds of this RatioHalf, effects dimensions, dragBounds, and width of guiding rectangles
    */
