@@ -8,6 +8,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
@@ -42,7 +43,10 @@ const MAX_RATIO_HEIGHT = LAYOUT_BOUNDS.width * 2; // relatively arbitrary, but g
 const ONE_QUARTER_LAYOUT_WIDTH = LAYOUT_BOUNDS.width * .25;
 const RATIO_HALF_WIDTH = ONE_QUARTER_LAYOUT_WIDTH;
 const RATIO_HALF_SPACING = 10;
-const CONTROL_PANEL_WIDTH = 200;
+
+const uiScaleFunction = new LinearFunction( LAYOUT_BOUNDS.height, MAX_RATIO_HEIGHT, 1, 1.5, true );
+const uiPositionFunction = new LinearFunction( 1, 1.5, LAYOUT_BOUNDS.height * .15, -LAYOUT_BOUNDS.height * .2, true );
+
 
 class RatioAndProportionScreenView extends ScreenView {
 
@@ -217,6 +221,10 @@ class RatioAndProportionScreenView extends ScreenView {
       backgroundNode.setFill( color );
     } );
 
+    // @protected - Keep a separate layer for "Control panel" like UI on the right. This allows them to be scaled
+    // to maximize their size within the horizontal space in vertical aspect ratios, see https://github.com/phetsims/ratio-and-proportion/issues/79
+    this.scalingUILayerNode = new Node();
+
     // @protected - used only for subtype layout
     this.resetAllButton = new ResetAllButton( {
       listener: () => {
@@ -250,13 +258,16 @@ class RatioAndProportionScreenView extends ScreenView {
       scale: 1.07 // calculated to try to match this width with other components in subtypes
     } );
 
+    // add this Node to the layer that is scaled up to support vertical aspect ratios
+    this.scalingUILayerNode.addChild( this.tickMarkViewRadioButtonGroup );
+
     // children
     this.children = [
       backgroundNode,
       labelsNode,
 
       // UI
-      this.tickMarkViewRadioButtonGroup,
+      this.scalingUILayerNode,
       this.resetAllButton,
 
       // Main ratio on top
@@ -277,9 +288,8 @@ class RatioAndProportionScreenView extends ScreenView {
     ];
 
     // static layout
-    this.resetAllButton.right = this.tickMarkViewRadioButtonGroup.right = this.layoutBounds.maxX - RatioAndProportionConstants.SCREEN_VIEW_X_MARGIN;
+    this.scalingUILayerNode.right = this.resetAllButton.right = this.layoutBounds.maxX - RatioAndProportionConstants.SCREEN_VIEW_X_MARGIN;
     this.resetAllButton.bottom = this.layoutBounds.height - RatioAndProportionConstants.SCREEN_VIEW_Y_MARGIN;
-    this.tickMarkViewRadioButtonGroup.top = this.layoutBounds.height * .15;
 
     // @private - dynamic layout based on the current ScreenView coordinates
     this.layoutRatioAndProportionScreeView = newRatioHalfBounds => {
@@ -294,8 +304,13 @@ class RatioAndProportionScreenView extends ScreenView {
 
       const ratioWidth = this.leftRatioHalf.width + this.rightRatioHalf.width + ( 2 * RATIO_HALF_SPACING ) + labelsNode.width;
 
+      const uiLayerScale = uiScaleFunction( newRatioHalfBounds.height );
+      this.scalingUILayerNode.setScaleMagnitude( uiLayerScale );
+      this.scalingUILayerNode.right = this.layoutBounds.maxX - RatioAndProportionConstants.SCREEN_VIEW_X_MARGIN;
+      this.scalingUILayerNode.top = uiPositionFunction( uiLayerScale );
+
       // combo box is a proxy for the width of the controls
-      this.leftRatioHalf.left = ( this.layoutBounds.width - CONTROL_PANEL_WIDTH - ratioWidth ) / 2;
+      this.leftRatioHalf.left = ( this.scalingUILayerNode.left - ratioWidth ) / 2;
       labelsNode.left = this.leftRatioHalf.right + RATIO_HALF_SPACING;
       this.rightRatioHalf.left = labelsNode.right + RATIO_HALF_SPACING;
 

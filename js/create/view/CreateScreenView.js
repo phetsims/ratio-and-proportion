@@ -133,10 +133,10 @@ class CreateScreenView extends RatioAndProportionScreenView {
     } );
 
     // children - remember to not blow away children set by parent
-    this.addChild( myChallengeAccordionBox );
     this.addChild( lockRatioCheckbox );
-    this.addChild( tickMarkRangeComboBox );
-    this.addChild( tickMarkRangeComboBoxParent ); // Should be on top
+    this.scalingUILayerNode.addChild( myChallengeAccordionBox );
+    this.scalingUILayerNode.addChild( tickMarkRangeComboBox );
+    this.scalingUILayerNode.addChild( tickMarkRangeComboBoxParent ); // Should be on top
 
     // pdom
     this.pdomPlayAreaNode.accessibleOrder = this.pdomPlayAreaNode.accessibleOrder.concat( [
@@ -147,9 +147,12 @@ class CreateScreenView extends RatioAndProportionScreenView {
     ] );
 
     // static layout
-    lockRatioCheckbox.right = tickMarkRangeComboBox.right = myChallengeAccordionBox.right = this.tickMarkViewRadioButtonGroup.right;
+    lockRatioCheckbox.right = this.resetAllButton.right;
     lockRatioCheckbox.bottom = this.resetAllButton.top - 20;
-    tickMarkRangeComboBox.top = this.tickMarkViewRadioButtonGroup.bottom + 10;
+
+    // ui layer node layout (scales based on width). This only needs to be layed out once, as the container is scaled.
+    tickMarkRangeComboBox.right = myChallengeAccordionBox.right = tickMarkRangeComboBoxParent.right = this.tickMarkViewRadioButtonGroup.right;
+    tickMarkRangeComboBox.top = tickMarkRangeComboBoxParent.top = this.tickMarkViewRadioButtonGroup.bottom + 10;
     myChallengeAccordionBox.top = tickMarkRangeComboBox.bottom + 30;
 
     // @private

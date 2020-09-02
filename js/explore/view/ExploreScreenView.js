@@ -69,10 +69,10 @@ class ExploreScreenView extends RatioAndProportionScreenView {
       helpText: ratioAndProportionStrings.a11y.explore.challengesHelpText
     } );
 
-    // children
-    this.addChild( comboBoxHeading );
-    this.addChild( comboBox );
-    this.addChild( comboBoxListParent );
+    // children - scale all of these components to support vertical aspect ratios better.
+    this.scalingUILayerNode.addChild( comboBoxHeading );
+    this.scalingUILayerNode.addChild( comboBox );
+    this.scalingUILayerNode.addChild( comboBoxListParent );
 
     this.pdomPlayAreaNode.accessibleOrder = this.pdomPlayAreaNode.accessibleOrder.concat( [ comboBoxHeading, comboBox, comboBoxListParent ] );
 
