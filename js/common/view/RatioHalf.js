@@ -350,6 +350,13 @@ class RatioHalf extends Rectangle {
       tickMarksNode.bottom = bottomRect.top;
       tickMarksNode.left = 0;
     };
+
+    // @private
+    this.resetRatioHalf = () => {
+      this.alertManager.reset();
+      positionProperty.value.setX( INITIAL_X_VALUE );
+      positionProperty.notifyListenersStatic();
+    };
   }
 
   /**
@@ -376,7 +383,7 @@ class RatioHalf extends Rectangle {
    * @public
    */
   reset() {
-    this.alertManager.reset();
+    this.resetRatioHalf();
   }
 }
 
