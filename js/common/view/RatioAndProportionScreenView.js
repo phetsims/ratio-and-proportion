@@ -89,6 +89,16 @@ class RatioAndProportionScreenView extends ScreenView {
     // @protected
     this.tickMarkViewProperty = tickMarkViewProperty;
 
+    // @private - SoundGenerators that sonify different aspects of the model
+    this.inProportionSoundGenerator = new InProportionSoundGenerator( model );
+    this.movingInProportionSoundGenerator = new MovingInProportionSoundGenerator( model );
+    this.staccatoFrequencySoundGenerator = new StaccatoFrequencySoundGenerator( model.ratioFitnessProperty, model.fitnessRange,
+      model.inProportion.bind( model ) );
+
+    soundManager.addSoundGenerator( this.staccatoFrequencySoundGenerator );
+    soundManager.addSoundGenerator( this.inProportionSoundGenerator );
+    soundManager.addSoundGenerator( this.movingInProportionSoundGenerator );
+
     // by default, the keyboard step size should be half of one default tick mark width. See https://github.com/phetsims/ratio-and-proportion/issues/85
     const keyboardStep = 1 / 2 / options.tickMarkRangeProperty.value;
 
@@ -114,7 +124,7 @@ class RatioAndProportionScreenView extends ScreenView {
       tickMarksAndLabelsColorProperty,
       keyboardStep,
       model.lockRatioProperty,
-      playUISoundsProperty, {
+      playUISoundsProperty, this.inProportionSoundGenerator, {
         accessibleName: ratioAndProportionStrings.a11y.leftHand,
         a11yDependencies: a11yDependencies,
         isRight: false // this way we get a left hand
@@ -135,7 +145,7 @@ class RatioAndProportionScreenView extends ScreenView {
       tickMarksAndLabelsColorProperty,
       keyboardStep,
       model.lockRatioProperty,
-      playUISoundsProperty, {
+      playUISoundsProperty, this.inProportionSoundGenerator, {
         accessibleName: ratioAndProportionStrings.a11y.rightHand,
         a11yDependencies: a11yDependencies,
         helpText: ratioAndProportionStrings.a11y.rightHandHelpText
@@ -188,24 +198,16 @@ class RatioAndProportionScreenView extends ScreenView {
     // @private TODO: add support for mechamarker input again https://github.com/phetsims/ratio-and-proportion/issues/89
     // this.markerInput = new ProportionMarkerInput( model );
 
-    const soundGeneratorOptions = {
-      enableControlProperties: [ DerivedProperty.or( [
-        this.leftRatioHalf.isBeingInteractedWithProperty,
-        this.rightRatioHalf.isBeingInteractedWithProperty,
-        // this.markerInput.isBeingInteractedWithProperty, // TODO: add support for mechamarker input again https://github.com/phetsims/ratio-and-proportion/issues/89
-        ratioInteractionListener.isBeingInteractedWithProperty
-      ] ) ]
-    };
+    const soundGeneratorEnabledProperty = DerivedProperty.or( [
+      this.leftRatioHalf.isBeingInteractedWithProperty,
+      this.rightRatioHalf.isBeingInteractedWithProperty,
+      // this.markerInput.isBeingInteractedWithProperty, // TODO: add support for mechamarker input again https://github.com/phetsims/ratio-and-proportion/issues/89
+      ratioInteractionListener.isBeingInteractedWithProperty
+    ] );
 
-    // @private - SoundGenerators that sonify different aspects of the model
-    this.inProportionSoundGenerator = new InProportionSoundGenerator( model, soundGeneratorOptions );
-    this.movingInProportionSoundGenerator = new MovingInProportionSoundGenerator( model, soundGeneratorOptions );
-    this.staccatoFrequencySoundGenerator = new StaccatoFrequencySoundGenerator( model.ratioFitnessProperty, model.fitnessRange,
-      model.inProportion.bind( model ), soundGeneratorOptions );
-
-    soundManager.addSoundGenerator( this.staccatoFrequencySoundGenerator );
-    soundManager.addSoundGenerator( this.inProportionSoundGenerator );
-    soundManager.addSoundGenerator( this.movingInProportionSoundGenerator );
+    this.inProportionSoundGenerator.addEnableControlProperty( soundGeneratorEnabledProperty );
+    this.movingInProportionSoundGenerator.addEnableControlProperty( soundGeneratorEnabledProperty );
+    this.staccatoFrequencySoundGenerator.addEnableControlProperty( soundGeneratorEnabledProperty );
 
     // these dimensions are just temporary, and will be recomputed below in the layout function
     const labelsNode = new RAPTickMarkLabelsNode( tickMarkViewProperty, options.tickMarkRangeProperty, 1000, tickMarksAndLabelsColorProperty );

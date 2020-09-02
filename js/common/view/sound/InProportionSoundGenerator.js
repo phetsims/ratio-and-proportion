@@ -41,6 +41,12 @@ class InProportionSoundGenerator extends SoundClip {
     // @private - True when, in the previous step, the current ratio (calculated from leftValue/rightValue) is larger than
     // the target ratio.
     this.currentRatioWasLargerThanTarget = this.calculateCurrentRatioLargerThanTarget();
+
+    // @private - in certain cases ratio hand positions can move so quickly "through" the in-proportion range that an
+    // actual "in proportion" value is never set. When this boolean is true, then this SoundGenerator will note when
+    // this "jump over in proportion" occurs, and still play the sound. This is useful for mouse interaction, but not
+    // so much for keyboard interaction. See https://github.com/phetsims/ratio-and-proportion/issues/162
+    this.jumpingOverShouldSound = false;
   }
 
   /**
@@ -49,6 +55,25 @@ class InProportionSoundGenerator extends SoundClip {
    */
   calculateCurrentRatioLargerThanTarget() {
     return this.currentRatioProperty.value > this.model.targetRatioProperty.value;
+  }
+
+  /**
+   * When true, the InProportionSoundGenerator will play when the ratio "jumps" over in proportion in two consecutive
+   * values of the current ratio.
+   * @public
+   * @param {boolean} jumpingOverShouldSound
+   */
+  setJumpingOverProportionShouldTriggerSound( jumpingOverShouldSound ) {
+    this.jumpingOverShouldSound = jumpingOverShouldSound;
+  }
+
+  /**
+   * True when the ratio jumped over being in proportion, but it should still sound that it was in proportion
+   * @private
+   * @returns {boolean}
+   */
+  jumpedOverInProportionAndShouldSound() {
+    return this.jumpingOverShouldSound && this.calculateCurrentRatioLargerThanTarget() !== this.currentRatioWasLargerThanTarget;
   }
 
   /**
@@ -61,12 +86,11 @@ class InProportionSoundGenerator extends SoundClip {
 
     const isInRatio = this.model.inProportion();
 
-    const currentRatioIsLargerThanTarget = this.calculateCurrentRatioLargerThanTarget();
 
     // Only use hysteresis when both hands are moving.
     const hysteresisThreshold = this.model.movingInDirection() ? RatioAndProportionQueryParameters.hysteresisThreshold : 0;
 
-    if ( !this.playedSuccessYet && ( isInRatio || currentRatioIsLargerThanTarget !== this.currentRatioWasLargerThanTarget ) ) {
+    if ( !this.playedSuccessYet && ( isInRatio || this.jumpedOverInProportionAndShouldSound() ) ) {
       this.setOutputLevel( SUCCESS_OUTPUT_LEVEL, 0 );
       this.play();
       this.playedSuccessYet = true;
@@ -82,7 +106,8 @@ class InProportionSoundGenerator extends SoundClip {
       this.setOutputLevel( SILENT_LEVEL, .1 );
     }
 
-    this.currentRatioWasLargerThanTarget = currentRatioIsLargerThanTarget;
+    // for testing during next step()
+    this.currentRatioWasLargerThanTarget = this.calculateCurrentRatioLargerThanTarget();
   }
 
   /**

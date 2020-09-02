@@ -73,10 +73,13 @@ class RatioHalf extends Rectangle {
    * @param {number} keyboardStep
    * @param {BooleanProperty} horizontalMovementAllowedProperty
    * @param {BooleanProperty} playUISoundsProperty
+   * @param {InProportionSoundGenerator} inProportionSoundGenerator
    * @param {Object} [options]
    */
   constructor( valueProperty, valueRange, enabledValueRangeProperty, firstInteractionProperty, bounds, tickMarkViewProperty,
-               tickMarkRangeProperty, ratioDescriber, handPositionsDescriber, colorProperty, keyboardStep, horizontalMovementAllowedProperty, playUISoundsProperty, options ) {
+               tickMarkRangeProperty, ratioDescriber, handPositionsDescriber, colorProperty, keyboardStep,
+               horizontalMovementAllowedProperty, playUISoundsProperty, inProportionSoundGenerator,
+               options ) {
 
     options = merge( {
       isRight: true, // right ratio or the left ratio
@@ -211,6 +214,8 @@ class RatioHalf extends Rectangle {
         }
         commonGrabSoundClip.play();
         firstInteractionProperty.value = false;
+
+        inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( true );
       },
       drag: () => {
         this.isBeingInteractedWithProperty.value = true;
@@ -252,6 +257,7 @@ class RatioHalf extends Rectangle {
         commonReleaseSoundClip.play();
         this.isBeingInteractedWithProperty.value = false;
         this.alertManager.alertRatioChange();
+        inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( false );
       }
     } );
 
