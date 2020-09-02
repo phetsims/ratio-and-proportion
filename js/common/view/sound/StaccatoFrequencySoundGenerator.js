@@ -52,15 +52,19 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
   /**
    * @param {Property.<number>} fitnessProperty
    * @param {Range} fitnessRange
-   * @param {RatioAndProportionModel} model - TODO: pass all of model in here? At least factor out fitness stuff above
+   * @param {function():boolean} isInProportion - true when the model ratio is in proportion
    * @param {Object} [options]
    */
-  constructor( fitnessProperty, fitnessRange, model, options ) {
+  constructor( fitnessProperty, fitnessRange, isInProportion, options ) {
     options = merge( {
       initialOutputLevel: 0.3
     }, options );
+
     super( options );
 
+    // @private
+    this.isInProportion = isInProportion;
+    this.fitnessProperty = fitnessProperty;
 
     // @private {SoundClip[]}
     this.staccatoSoundClips = [];
@@ -77,11 +81,6 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
       }
       this.staccatoSoundClips.push( soundClipsForVariation );
     }
-
-    // @private
-    this.model = model;
-    this.fitnessProperty = fitnessProperty;
-    this.fitnessRange = fitnessRange;
 
     // @private - the minimum amount of gap between two sounds, which increases based on the fitness
     this.timeLinearFunction = new LinearFunction(
@@ -110,7 +109,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     // If fitness is less than zero, make sure enough time has past that it will play a sound immediately.
     this.timeSinceLastPlay = newFitness > 0 ? this.timeSinceLastPlay + dt * 1000 : 1000000;
 
-    const isInRatio = this.model.inProportion();
+    const isInRatio = this.isInProportion();
     if ( this.timeSinceLastPlay > this.timeLinearFunction( newFitness ) && !isInRatio && newFitness > 0 ) {
       const sounds = this.staccatoSoundClips[ Math.floor( newFitness * this.staccatoSoundClips.length ) ];
       sounds[ this.getStaccatoSoundValueToPlay() ].play();

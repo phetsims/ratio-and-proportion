@@ -16,11 +16,10 @@ import ratioAndProportion from '../../../ratioAndProportion.js';
 class MovingInProportionSoundGenerator extends SoundGenerator {
 
   /**
-   * @param {Property.<number>} ratioFitnessProperty
    * @param {RatioAndProportionModel} model
    * @param {Object} [options]
    */
-  constructor( ratioFitnessProperty, model, options ) {
+  constructor( model, options ) {
     options = merge( {
       initialOutputLevel: .13
     }, options );
@@ -39,7 +38,7 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
     Property.multilink( [
       model.leftVelocityProperty,
       model.rightVelocityProperty,
-      ratioFitnessProperty
+      model.ratioFitnessProperty
     ], () => {
       if ( model.movingInDirection() && // only when moving
            !model.valuesTooSmallForSuccess() && // no moving in proportion success if too small

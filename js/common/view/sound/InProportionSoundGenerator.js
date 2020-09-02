@@ -18,11 +18,10 @@ const SILENT_LEVEL = 0;
 class InProportionSoundGenerator extends SoundClip {
 
   /**
-   * @param {Property.<number>} fitnessProperty
-   * @param {RatioAndProportionModel} model - TODO: pass all of model in here? At least factor out fitness stuff above
+   * @param {RatioAndProportionModel} model
    * @param {Object} [options]
    */
-  constructor( fitnessProperty, model, options ) {
+  constructor( model, options ) {
     options = merge( {
       initialOutputLevel: .5
     }, options );
@@ -33,7 +32,7 @@ class InProportionSoundGenerator extends SoundClip {
     this.currentRatioProperty = model.currentRatioProperty;
     this.rightValueProperty = model.rightValueProperty;
     this.targetRatioProperty = model.targetRatioProperty;
-    this.fitnessProperty = fitnessProperty;
+    this.fitnessProperty = model.ratioFitnessProperty;
 
     // @private - keep track of if the success sound has already played. This will be set back to false when the fitness
     // goes back out of range for the success sound.

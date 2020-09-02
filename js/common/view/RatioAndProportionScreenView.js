@@ -33,7 +33,9 @@ import RatioAndProportionColorProfile from './RatioAndProportionColorProfile.js'
 import RatioDescriber from './RatioDescriber.js';
 import RatioHalf from './RatioHalf.js';
 import RatioInteractionListener from './RatioInteractionListener.js';
-import ProportionFitnessSoundGenerator from './sound/ProportionFitnessSoundGenerator.js';
+import InProportionSoundGenerator from './sound/InProportionSoundGenerator.js';
+import MovingInProportionSoundGenerator from './sound/MovingInProportionSoundGenerator.js';
+import StaccatoFrequencySoundGenerator from './sound/StaccatoFrequencySoundGenerator.js';
 import TickMarkDescriber from './TickMarkDescriber.js';
 import TickMarkView from './TickMarkView.js';
 
@@ -186,18 +188,24 @@ class RatioAndProportionScreenView extends ScreenView {
     // @private TODO: add support for mechamarker input again https://github.com/phetsims/ratio-and-proportion/issues/89
     // this.markerInput = new ProportionMarkerInput( model );
 
-    // @private
-    this.proportionFitnessSoundGenerator = new ProportionFitnessSoundGenerator(
-      model.ratioFitnessProperty,
-      model.fitnessRange,
-      DerivedProperty.or( [
+    const soundGeneratorOptions = {
+      enableControlProperties: [ DerivedProperty.or( [
         this.leftRatioHalf.isBeingInteractedWithProperty,
         this.rightRatioHalf.isBeingInteractedWithProperty,
         // this.markerInput.isBeingInteractedWithProperty, // TODO: add support for mechamarker input again https://github.com/phetsims/ratio-and-proportion/issues/89
         ratioInteractionListener.isBeingInteractedWithProperty
-      ] ),
-      model );
-    soundManager.addSoundGenerator( this.proportionFitnessSoundGenerator );
+      ] ) ]
+    };
+
+    // @private - SoundGenerators that sonify different aspects of the model
+    this.inProportionSoundGenerator = new InProportionSoundGenerator( model, soundGeneratorOptions );
+    this.movingInProportionSoundGenerator = new MovingInProportionSoundGenerator( model, soundGeneratorOptions );
+    this.staccatoFrequencySoundGenerator = new StaccatoFrequencySoundGenerator( model.ratioFitnessProperty, model.fitnessRange,
+      model.inProportion.bind( model ), soundGeneratorOptions );
+
+    soundManager.addSoundGenerator( this.staccatoFrequencySoundGenerator );
+    soundManager.addSoundGenerator( this.inProportionSoundGenerator );
+    soundManager.addSoundGenerator( this.movingInProportionSoundGenerator );
 
     // these dimensions are just temporary, and will be recomputed below in the layout function
     const labelsNode = new RAPTickMarkLabelsNode( tickMarkViewProperty, options.tickMarkRangeProperty, 1000, tickMarksAndLabelsColorProperty );
@@ -367,7 +375,9 @@ class RatioAndProportionScreenView extends ScreenView {
 
     this.leftRatioHalf.reset();
     this.rightRatioHalf.reset();
-    this.proportionFitnessSoundGenerator.reset();
+    this.staccatoFrequencySoundGenerator.reset();
+    this.inProportionSoundGenerator.reset();
+    this.movingInProportionSoundGenerator.reset();
   }
 
   /**
@@ -379,7 +389,8 @@ class RatioAndProportionScreenView extends ScreenView {
 
     // TODO: add support for mechamarker input, https://github.com/phetsims/ratio-and-proportion/issues/89
     // this.markerInput.step( dt );
-    this.proportionFitnessSoundGenerator.step( dt );
+    this.inProportionSoundGenerator.step( dt );
+    this.staccatoFrequencySoundGenerator.step( dt );
   }
 }
 
