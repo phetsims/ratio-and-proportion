@@ -105,8 +105,9 @@ class RatioAndProportionScreenView extends ScreenView {
     // description on each ratioHalf should be updated whenever these change
     const a11yDependencies = [ tickMarkViewProperty, options.tickMarkRangeProperty, model.targetRatioProperty ];
 
-    const playUISoundsProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
-      fitness => fitness === model.fitnessRange.min || model.inProportion() );
+    // Tick mark sounds get played when ratio isn't locked, and when staccato sounds aren't playing
+    const playTickMarkSoundProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
+      fitness => !model.lockRatioProperty.value && ( fitness === model.fitnessRange.min || model.inProportion() ) );
 
     // @private {RatioHalf}
     this.leftRatioHalf = new RatioHalf(
@@ -122,7 +123,7 @@ class RatioAndProportionScreenView extends ScreenView {
       tickMarksAndLabelsColorProperty,
       keyboardStep,
       model.lockRatioProperty,
-      playUISoundsProperty, this.inProportionSoundGenerator, {
+      playTickMarkSoundProperty, this.inProportionSoundGenerator, {
         accessibleName: ratioAndProportionStrings.a11y.leftHand,
         a11yDependencies: a11yDependencies,
         isRight: false // this way we get a left hand
@@ -143,7 +144,7 @@ class RatioAndProportionScreenView extends ScreenView {
       tickMarksAndLabelsColorProperty,
       keyboardStep,
       model.lockRatioProperty,
-      playUISoundsProperty, this.inProportionSoundGenerator, {
+      playTickMarkSoundProperty, this.inProportionSoundGenerator, {
         accessibleName: ratioAndProportionStrings.a11y.rightHand,
         a11yDependencies: a11yDependencies,
         helpText: ratioAndProportionStrings.a11y.rightHandHelpText

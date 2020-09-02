@@ -72,13 +72,13 @@ class RatioHalf extends Rectangle {
    * @param {Property.<Color>} colorProperty
    * @param {number} keyboardStep
    * @param {BooleanProperty} horizontalMovementAllowedProperty
-   * @param {BooleanProperty} playUISoundsProperty
+   * @param {BooleanProperty} playTickMarkBumpSoundProperty
    * @param {InProportionSoundGenerator} inProportionSoundGenerator
    * @param {Object} [options]
    */
   constructor( valueProperty, valueRange, enabledValueRangeProperty, firstInteractionProperty, bounds, tickMarkViewProperty,
                tickMarkRangeProperty, ratioDescriber, handPositionsDescriber, colorProperty, keyboardStep,
-               horizontalMovementAllowedProperty, playUISoundsProperty, inProportionSoundGenerator,
+               horizontalMovementAllowedProperty, playTickMarkBumpSoundProperty, inProportionSoundGenerator,
                options ) {
 
     options = merge( {
@@ -133,18 +133,19 @@ class RatioHalf extends Rectangle {
     const addSoundOptions = { categoryName: 'user-interface' };
     const soundClipOptions = {
       initialOutputLevel: 0.15,
-      enableControlProperties: [ designingProperties.ratioUISoundsEnabledProperty, playUISoundsProperty ]
+      enableControlProperties: [ designingProperties.ratioUISoundsEnabledProperty ]
     };
     const commonGrabSoundClip = new SoundClip( commonGrabSound, soundClipOptions );
     const commonReleaseSoundClip = new SoundClip( commonReleaseSound, soundClipOptions );
     soundManager.addSoundGenerator( commonGrabSoundClip, addSoundOptions );
     soundManager.addSoundGenerator( commonReleaseSoundClip, addSoundOptions );
 
-    // add sound generators that will play a sound when the value controlled by the slider changes
-    const sliderClickSoundClip = new SoundClip( sliderClickSound, merge( soundClipOptions, {
-      enableControlProperties: soundClipOptions.enableControlProperties.concat( [ new DerivedProperty( [ tickMarkViewProperty ], tickMarkView => tickMarkView !== TickMarkView.NONE ) ] )
+    const tickMarksDisplayedProperty = new DerivedProperty( [ tickMarkViewProperty ], tickMarkView => tickMarkView !== TickMarkView.NONE );
+
+    const tickMarkBumpSoundClip = new SoundClip( sliderClickSound, merge( soundClipOptions, {
+      enableControlProperties: soundClipOptions.enableControlProperties.concat( [ tickMarksDisplayedProperty, playTickMarkBumpSoundProperty ] )
     } ) );
-    soundManager.addSoundGenerator( sliderClickSoundClip, addSoundOptions );
+    soundManager.addSoundGenerator( tickMarkBumpSoundClip, addSoundOptions );
 
     const sliderBoundaryClickSoundClip = new SoundClip( sliderBoundaryClickSound, soundClipOptions );
     soundManager.addSoundGenerator( sliderBoundaryClickSoundClip, addSoundOptions );
@@ -235,7 +236,7 @@ class RatioHalf extends Rectangle {
           }
           else if ( lastValue < tickValue && value >= tickValue || lastValue > tickValue && value <= tickValue ) {
             if ( phet.joist.elapsedTime - timeOfLastClick >= MIN_INTER_CLICK_TIME ) {
-              sliderClickSoundClip.play();
+              tickMarkBumpSoundClip.play();
               timeOfLastClick = phet.joist.elapsedTime;
             }
             break;
