@@ -145,13 +145,12 @@ class RatioHalf extends Rectangle {
       enableControlProperties: soundClipOptions.enableControlProperties.concat( [ tickMarksDisplayedProperty, playTickMarkBumpSoundProperty ] )
     } ) );
 
-    const enhancedAddSoundOptions = merge( {
+    soundManager.addSoundGenerator( tickMarkBumpSoundClip, merge( {
       sonificationLevel: SoundLevelEnum.ENHANCED
-    }, addSoundOptions );
-    soundManager.addSoundGenerator( tickMarkBumpSoundClip, enhancedAddSoundOptions );
+    }, addSoundOptions ) );
 
     const boundaryClickSoundClip = new SoundClip( sliderBoundaryClickSound, soundClipOptions );
-    soundManager.addSoundGenerator( boundaryClickSoundClip, enhancedAddSoundOptions );
+    soundManager.addSoundGenerator( boundaryClickSoundClip, addSoundOptions );
 
     // Keep track of the previous value on slider drag for playing sounds
     let lastValue = valueProperty.value;
