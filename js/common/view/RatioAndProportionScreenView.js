@@ -12,7 +12,6 @@ import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import sceneryPhetStrings from '../../../../scenery-phet/js/sceneryPhetStrings.js';
 import ParallelDOM from '../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -21,18 +20,17 @@ import Color from '../../../../scenery/js/util/Color.js';
 import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
 import FontAwesomeNode from '../../../../sun/js/FontAwesomeNode.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import numberedTickMarkIconImage from '../../../images/numbered-tick-mark-icon_png.js';
 import tickMarkIconImage from '../../../images/tick-mark-icon_png.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import RatioAndProportionConstants from '../RatioAndProportionConstants.js';
+import BothHandsPDOMNode from './BothHandsPDOMNode.js';
 import HandPositionsDescriber from './HandPositionsDescriber.js';
 import RAPTickMarkLabelsNode from './RAPTickMarkLabelsNode.js';
 import RatioAndProportionColorProfile from './RatioAndProportionColorProfile.js';
 import RatioDescriber from './RatioDescriber.js';
 import RatioHalf from './RatioHalf.js';
-import RatioInteractionListener from './RatioInteractionListener.js';
 import InProportionSoundGenerator from './sound/InProportionSoundGenerator.js';
 import MovingInProportionSoundGenerator from './sound/MovingInProportionSoundGenerator.js';
 import StaccatoFrequencySoundGenerator from './sound/StaccatoFrequencySoundGenerator.js';
@@ -151,49 +149,11 @@ class RatioAndProportionScreenView extends ScreenView {
         helpText: ratioAndProportionStrings.a11y.rightHandHelpText
       } );
 
-    const bothHandsInteractionNode = new Node( {
-      ariaRole: 'application',
-      focusable: true,
-      tagName: 'div',
-      innerContent: ratioAndProportionStrings.a11y.bothHands,
-      ariaLabel: ratioAndProportionStrings.a11y.bothHands,
-      helpText: ratioAndProportionStrings.a11y.bothHandsHelpText,
-      children: [
-        this.leftRatioHalf,
-        this.rightRatioHalf
-      ]
-    } );
-    bothHandsInteractionNode.setAccessibleAttribute( 'aria-roledescription', sceneryPhetStrings.a11y.grabDrag.movable );
-
-    const ratioInteractionListener = new RatioInteractionListener( bothHandsInteractionNode, model.leftValueProperty,
-      model.rightValueProperty, model.valueRange, model.firstInteractionProperty, options.tickMarkRangeProperty, keyboardStep );
-    bothHandsInteractionNode.addInputListener( ratioInteractionListener );
-
-    const bothHandsPositionUtterance = new Utterance( {
-
-      // give enough time for the user to stop interacting with te hands
-      // before describing current positions, to prevent too many of these
-      // from queuing up in rapid presses
-      alertStableDelay: 500
-    } );
-    const bothHandsRatioUtterance = new Utterance( {
-
-      // a longer delay before speaking the bothHandsPositionUtterance gives
-      // more consistent behavior on Safari, where often the alerts would be
-      // lost
-      alertStableDelay: 1000
-    } );
-    ratioInteractionListener.isBeingInteractedWithProperty.lazyLink( isBeingInteractedWith => {
-
-      // when no longer being interacted with, trigger an alert
-      if ( !isBeingInteractedWith ) {
-        bothHandsPositionUtterance.alert = this.handPositionsDescriber.getBothHandsPositionText( tickMarkViewProperty.value );
-        phet.joist.sim.utteranceQueue.addToBack( bothHandsPositionUtterance );
-
-        bothHandsRatioUtterance.alert = this.ratioDescriber.getRatioDescriptionString();
-        phet.joist.sim.utteranceQueue.addToBack( bothHandsRatioUtterance );
-      }
-    } );
+    const bothHandsPDOMNode = new BothHandsPDOMNode( model.leftValueProperty, model.rightValueProperty, model.valueRange,
+      model.firstInteractionProperty, keyboardStep, tickMarkViewProperty, options.tickMarkRangeProperty,
+      this.handPositionsDescriber, this.ratioDescriber, {
+        children: [ this.leftRatioHalf, this.rightRatioHalf ]
+      } );
 
     // @private TODO: add support for mechamarker input again https://github.com/phetsims/ratio-and-proportion/issues/89
     // this.markerInput = new ProportionMarkerInput( model );
@@ -202,7 +162,7 @@ class RatioAndProportionScreenView extends ScreenView {
       this.leftRatioHalf.isBeingInteractedWithProperty,
       this.rightRatioHalf.isBeingInteractedWithProperty,
       // this.markerInput.isBeingInteractedWithProperty, // TODO: add support for mechamarker input again https://github.com/phetsims/ratio-and-proportion/issues/89
-      ratioInteractionListener.isBeingInteractedWithProperty
+      bothHandsPDOMNode.isBeingInteractedWithProperty
     ] );
 
     this.inProportionSoundGenerator.addEnableControlProperty( soundGeneratorEnabledProperty );
@@ -281,14 +241,14 @@ class RatioAndProportionScreenView extends ScreenView {
       this.resetAllButton,
 
       // Main ratio on top
-      bothHandsInteractionNode
+      bothHandsPDOMNode
     ];
 
     // accessible order (ratio first in nav order)
     this.pdomPlayAreaNode.accessibleOrder = [
       this.leftRatioHalf,
       this.rightRatioHalf,
-      bothHandsInteractionNode,
+      bothHandsPDOMNode,
       this.tickMarkViewRadioButtonGroup
     ];
 
