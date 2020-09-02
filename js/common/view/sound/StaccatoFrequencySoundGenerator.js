@@ -57,7 +57,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
    */
   constructor( fitnessProperty, fitnessRange, isInProportion, options ) {
     options = merge( {
-      initialOutputLevel: 0.3
+      initialOutputLevel: 0.25
     }, options );
 
     super( options );
