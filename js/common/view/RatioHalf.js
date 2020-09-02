@@ -109,8 +109,7 @@ class RatioHalf extends Rectangle {
     // @private
     this.enabledValueRangeProperty = enabledValueRangeProperty;
 
-    // @private
-    this.alertManager = new RatioHalfAlertManager( valueProperty, ratioDescriber, handPositionsDescriber );
+    const alertManager = new RatioHalfAlertManager( valueProperty, ratioDescriber, handPositionsDescriber );
 
     const tickMarksNode = new RatioHalfTickMarksNode( tickMarkViewProperty, tickMarkRangeProperty,
       bounds.width, bounds.height - 2 * FRAMING_RECTANGLE_HEIGHT,
@@ -125,7 +124,7 @@ class RatioHalf extends Rectangle {
       },
       isRight: options.isRight,
       a11yCreateAriaValueText: () => handPositionsDescriber.getHandPosition( valueProperty, tickMarkViewProperty.value ),
-      endDrag: () => this.alertManager.alertRatioChange(),
+      endDrag: () => alertManager.alertRatioChange(),
       a11yDependencies: options.a11yDependencies
     } );
     this.addChild( this.ratioHandNode );
@@ -259,7 +258,7 @@ class RatioHalf extends Rectangle {
         startingX = null;
         commonReleaseSoundClip.play();
         this.isBeingInteractedWithProperty.value = false;
-        this.alertManager.alertRatioChange();
+        alertManager.alertRatioChange();
         inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( false );
       }
     } );
@@ -353,7 +352,7 @@ class RatioHalf extends Rectangle {
 
     // @private
     this.resetRatioHalf = () => {
-      this.alertManager.reset();
+      alertManager.reset();
       positionProperty.value.setX( INITIAL_X_VALUE );
       positionProperty.notifyListenersStatic();
     };
