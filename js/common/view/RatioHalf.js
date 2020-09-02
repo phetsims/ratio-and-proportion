@@ -22,6 +22,7 @@ import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
+import SoundLevelEnum from '../../../../tambo/js/SoundLevelEnum.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import sliderBoundaryClickSound from '../../../../tambo/sounds/general-boundary-boop_mp3.js';
 import sliderClickSound from '../../../../tambo/sounds/general-soft-click_mp3.js';
@@ -129,7 +130,6 @@ class RatioHalf extends Rectangle {
     } );
     this.addChild( this.ratioHandNode );
 
-    // Sound for the wave slider clicks
     const addSoundOptions = { categoryName: 'user-interface' };
     const soundClipOptions = {
       initialOutputLevel: 0.15,
@@ -141,14 +141,17 @@ class RatioHalf extends Rectangle {
     soundManager.addSoundGenerator( commonReleaseSoundClip, addSoundOptions );
 
     const tickMarksDisplayedProperty = new DerivedProperty( [ tickMarkViewProperty ], tickMarkView => tickMarkView !== TickMarkView.NONE );
-
-    const tickMarkBumpSoundClip = new SoundClip( sliderClickSound, merge( soundClipOptions, {
+    const tickMarkBumpSoundClip = new SoundClip( sliderClickSound, merge( {}, soundClipOptions, {
       enableControlProperties: soundClipOptions.enableControlProperties.concat( [ tickMarksDisplayedProperty, playTickMarkBumpSoundProperty ] )
     } ) );
-    soundManager.addSoundGenerator( tickMarkBumpSoundClip, addSoundOptions );
 
-    const sliderBoundaryClickSoundClip = new SoundClip( sliderBoundaryClickSound, soundClipOptions );
-    soundManager.addSoundGenerator( sliderBoundaryClickSoundClip, addSoundOptions );
+    const enhancedAddSoundOptions = merge( {
+      sonificationLevel: SoundLevelEnum.ENHANCED
+    }, addSoundOptions );
+    soundManager.addSoundGenerator( tickMarkBumpSoundClip, enhancedAddSoundOptions );
+
+    const boundaryClickSoundClip = new SoundClip( sliderBoundaryClickSound, soundClipOptions );
+    soundManager.addSoundGenerator( boundaryClickSoundClip, enhancedAddSoundOptions );
 
     // Keep track of the previous value on slider drag for playing sounds
     let lastValue = valueProperty.value;
@@ -231,7 +234,7 @@ class RatioHalf extends Rectangle {
         for ( let i = 0; i < tickMarkRangeProperty.value; i++ ) {
           const tickValue = ( i / valueRange.getLength() ) / tickMarkRangeProperty.value;
           if ( lastValue !== value && ( value === valueRange.min || value === valueRange.max ) ) {
-            sliderBoundaryClickSoundClip.play();
+            boundaryClickSoundClip.play();
             break;
           }
           else if ( lastValue < tickValue && value >= tickValue || lastValue > tickValue && value <= tickValue ) {

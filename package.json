@@ -18,6 +18,7 @@
     "runnable": true,
     "readmeCreatedManually": true,
     "supportsSound": true,
+    "supportsEnhancedSound": true,
     "supportsZoom": true,
     "supportsInteractiveDescriptions": true,
     "supportedBrands": [
