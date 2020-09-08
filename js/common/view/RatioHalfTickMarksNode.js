@@ -25,6 +25,10 @@ class RatioHalfTickMarksNode extends GridNode {
    */
   constructor( tickMarkViewProperty, tickMarkRangeProperty, width, height, colorProperty, options ) {
     options = merge( {
+
+      // initial line spacings
+      minorVerticalLineSpacing: 10,
+      minorHorizontalLineSpacing: 10,
       minorLineOptions: {
         stroke: colorProperty
       }
@@ -35,10 +39,6 @@ class RatioHalfTickMarksNode extends GridNode {
     // @private
     this.tickMarkViewProperty = tickMarkViewProperty;
     this.tickMarkRangeProperty = tickMarkRangeProperty;
-
-    // TODO: is this line actually necessary?
-    // support lines to begin with. This handles the case where the GridNode initialized to having no line.
-    this.setLineSpacings( null, null, 10, 10 );
 
     Property.multilink( [ tickMarkRangeProperty, tickMarkViewProperty ], this.update.bind( this ) );
   }
@@ -58,7 +58,9 @@ class RatioHalfTickMarksNode extends GridNode {
   update( tickMarkRange, tickMarkView ) {
 
     // subtract one to account for potential rounding errors. This helps guarantee that the last line is drawn.
-    this.setLineSpacings( null, null, null, ( this.gridHeight - 1 ) / tickMarkRange );
+    this.setLineSpacings( {
+      minorHorizontalLineSpacing: ( this.gridHeight - 1 ) / tickMarkRange
+    } );
 
     this.visible = TickMarkView.displayVertical( tickMarkView ) || TickMarkView.displayHorizontal( tickMarkView );
   }
