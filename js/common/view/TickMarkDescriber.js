@@ -30,8 +30,29 @@ const ORDINAL_TICK_MARKS = [
   ratioAndProportionStrings.a11y.tickMark.ordinal.sixth,
   ratioAndProportionStrings.a11y.tickMark.ordinal.seventh,
   ratioAndProportionStrings.a11y.tickMark.ordinal.eighth,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.ninth
+  ratioAndProportionStrings.a11y.tickMark.ordinal.ninth,
+  ratioAndProportionStrings.a11y.tickMark.ordinal.tenth,
+  ratioAndProportionStrings.a11y.tickMark.ordinal.eleventh,
+  ratioAndProportionStrings.a11y.tickMark.ordinal.twelfth,
+  ratioAndProportionStrings.a11y.tickMark.ordinal.thirteenth,
+  ratioAndProportionStrings.a11y.tickMark.ordinal.fourteenth,
+  ratioAndProportionStrings.a11y.tickMark.ordinal.fifteenth,
+  ratioAndProportionStrings.a11y.tickMark.ordinal.sixteenth,
+  ratioAndProportionStrings.a11y.tickMark.ordinal.seventeenth,
+  ratioAndProportionStrings.a11y.tickMark.ordinal.eighteenth,
+  ratioAndProportionStrings.a11y.tickMark.ordinal.nineteenth,
+  ratioAndProportionStrings.a11y.tickMark.ordinal.twentieth,
+  ratioAndProportionStrings.a11y.tickMark.ordinal.twentyFirst,
+  ratioAndProportionStrings.a11y.tickMark.ordinal.twentySecond,
+  ratioAndProportionStrings.a11y.tickMark.ordinal.twentyThird,
+  ratioAndProportionStrings.a11y.tickMark.ordinal.twentyFourth,
+  ratioAndProportionStrings.a11y.tickMark.ordinal.twentyFifth,
+  ratioAndProportionStrings.a11y.tickMark.ordinal.twentySixth,
+  ratioAndProportionStrings.a11y.tickMark.ordinal.twentySeventh,
+  ratioAndProportionStrings.a11y.tickMark.ordinal.twentyEighth,
+  ratioAndProportionStrings.a11y.tickMark.ordinal.twentyNinth
 ];
+
 const BIGGER_THAN_MIDDLE_THRESHOLD = .6;
 
 class TickMarkDescriber {
@@ -126,11 +147,14 @@ class TickMarkDescriber {
 
     const tickMarkNumber = remainder >= BIGGER_THAN_MIDDLE_THRESHOLD ? Math.ceil( expandedValue ) : Math.floor( expandedValue );
 
+    const ordinalPosition = tickMarkNumber === numberOfTickMarks ? null : ORDINAL_TICK_MARKS[ tickMarkNumber ];
+    assert && assert( ordinalPosition !== undefined );
+
     assert && assert( relativePosition );
     return {
       tickMarkPosition: tickMarkNumber,
       relativePosition: relativePosition,
-      ordinalPosition: ORDINAL_TICK_MARKS[ tickMarkNumber ] || null
+      ordinalPosition: ordinalPosition
     };
   }
 

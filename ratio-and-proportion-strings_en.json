@@ -149,6 +149,66 @@
         },
         "ninth": {
           "value": "ninth"
+        },
+        "tenth": {
+          "value": "tenth"
+        },
+        "eleventh": {
+          "value": "eleventh"
+        },
+        "twelfth": {
+          "value": "twelfth"
+        },
+        "thirteenth": {
+          "value": "thirteenth"
+        },
+        "fourteenth": {
+          "value": "fourteenth"
+        },
+        "fifteenth": {
+          "value": "fifteenth"
+        },
+        "sixteenth": {
+          "value": "sixteenth"
+        },
+        "seventeenth": {
+          "value": "seventeenth"
+        },
+        "eighteenth": {
+          "value": "eighteenth"
+        },
+        "nineteenth": {
+          "value": "nineteenth"
+        },
+        "twentieth": {
+          "value": "twentieth"
+        },
+        "twentyFirst": {
+          "value": "twenty-first"
+        },
+        "twentySecond": {
+          "value": "twenty-second"
+        },
+        "twentyThird": {
+          "value": "twenty-third"
+        },
+        "twentyFourth": {
+          "value": "twenty-fourth"
+        },
+        "twentyFifth": {
+          "value": "twenty-fifth"
+        },
+        "twentySixth": {
+          "value": "twenty-sixth"
+        },
+        "twentySeventh": {
+          "value": "twenty-seventh"
+        },
+        "twentyEighth": {
+          "value": "twenty-eighth"
+        },
+        "twentyNinth": {
+          "value": "twenty-ninth"
         }
       }
     },
