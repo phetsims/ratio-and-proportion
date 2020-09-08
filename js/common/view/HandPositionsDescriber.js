@@ -80,12 +80,13 @@ class HandPositionsDescriber {
   }
 
   /**
+   * TODO: use this
    * @param {TickMarkView} tickMarkView
    * @returns {string}
    * @public
    */
   getBothHandsPositionText( tickMarkView ) {
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHandsValuetext, {
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.bothHandsValuetext, {
       leftPosition: this.getHandPosition( this.leftValueProperty, tickMarkView ),
       rightPosition: this.getHandPosition( this.rightValueProperty, tickMarkView )
     } );
@@ -185,10 +186,19 @@ class HandPositionsDescriber {
 
   /**
    * @private
+   * @returns {number}
+   */
+  getDistanceBetweenHands() {
+    return Math.abs( this.leftValueProperty.value - this.rightValueProperty.value );
+  }
+
+  /**
+   * @private
    * @returns {string}
    */
   getDistanceRegion( lowercase = false ) {
-    const distance = Math.abs( this.leftValueProperty.value - this.rightValueProperty.value );
+    const distance = this.getDistanceBetweenHands();
+
     assert && assert( this.valueRange.getLength() === 1, 'these hard coded values depend on a range of 1' );
 
     let index = null;
@@ -257,6 +267,19 @@ class HandPositionsDescriber {
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDirectionClause, {
       otherHand: otherHand,
       distanceOrDirection: prefix
+    } );
+  }
+
+  /**
+   * @public
+   * @param tickMarkView
+   * @returns {string}
+   */
+  getBothHandsDistance( tickMarkView ) {
+    const distance = TickMarkView.describeQualitative( tickMarkView ) ? this.getDistanceRegion( true ) :
+                     this.tickMarkDescriber.getDistanceInTickMarks( tickMarkView, this.getDistanceBetweenHands() );
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.handsDistancePattern, {
+      distance: distance
     } );
   }
 }

@@ -151,9 +151,11 @@ class RatioAndProportionScreenView extends ScreenView {
       } );
 
     const bothHandsPDOMNode = new BothHandsPDOMNode( model.leftValueProperty, model.rightValueProperty, model.valueRange,
-      model.firstInteractionProperty, keyboardStep, tickMarkViewProperty, options.tickMarkRangeProperty,
+      model.firstInteractionProperty, keyboardStep, tickMarkViewProperty, options.tickMarkRangeProperty, model.unclampedFitnessProperty,
       this.handPositionsDescriber, this.ratioDescriber, {
-        children: [ this.leftRatioHalf, this.rightRatioHalf ]
+        interactiveNodeOptions: {
+          children: [ this.leftRatioHalf, this.rightRatioHalf ]
+        }
       } );
 
     // @private TODO: add support for mechamarker input again https://github.com/phetsims/ratio-and-proportion/issues/89

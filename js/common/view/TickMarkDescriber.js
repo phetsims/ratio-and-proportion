@@ -5,8 +5,10 @@
  */
 
 import Utils from '../../../../dot/js/Utils.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import TickMarkView from './TickMarkView.js';
 
 // constants
 const RELATIVE_POSITION_STRINGS = [
@@ -46,6 +48,63 @@ class TickMarkDescriber {
   }
 
   /**
+   * Get the distance between the two hands in tick marks. Changes based on quantitative vs semi-quantitative
+   * @public
+   * @param tickMarkView
+   * @param distanceBetweenHands
+   */
+  getDistanceInTickMarks( tickMarkView, distanceBetweenHands ) {
+    assert && assert( !TickMarkView.describeQualitative( tickMarkView ), 'no qualitative description here' );
+
+    const numberOfTickMarks = this.tickMarkRangeProperty.value;
+
+    // account for javascript rounding error
+    const expandedValue = Utils.toFixedNumber( distanceBetweenHands * numberOfTickMarks, 6 );
+
+    // account for javascript rounding error
+    const remainder = Utils.toFixedNumber( expandedValue % 1, 6 );
+    assert && assert( remainder < 1 && remainder >= 0 );
+
+    const flooredTickMark = Math.floor( expandedValue );
+
+    const REMAINDER_THRESHOLD = .5;
+
+    let distance = null;
+    let justAround = '';
+
+    if ( remainder === 0 ) {
+      distance = expandedValue;
+    }
+    else if ( remainder === REMAINDER_THRESHOLD ) { // TODO: .5 exact too strict?
+
+      if ( TickMarkView.describeSemiQualitative( tickMarkView ) ) {
+        distance = StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.andAndAHalf, {
+          number: flooredTickMark
+        } );
+      }
+      else {
+        distance = Utils.toFixedNumber( expandedValue, 1 );
+      }
+    }
+    else if ( remainder > REMAINDER_THRESHOLD ) {
+
+      distance = Math.ceil( expandedValue );
+      justAround = ratioAndProportionStrings.a11y.bothHands.justUnder;
+
+    }
+    else if ( remainder < REMAINDER_THRESHOLD ) {
+      distance = flooredTickMark;
+      justAround = ratioAndProportionStrings.a11y.bothHands.justOver;
+    }
+    assert && assert( distance !== null );
+
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.tickMarksApart, {
+      number: distance,
+      justAround: justAround
+    } );
+  }
+
+  /**
    * @public
    * @param {Property.<number>} property
    * @returns {{tickMarkPosition: number, relativePosition: string}}
@@ -53,10 +112,11 @@ class TickMarkDescriber {
   getRelativePositionAndTickMarkNumberForProperty( property ) {
     assert && assert( this.valueRange.contains( property.value ) );
 
+    const normalized = this.valueRange.getNormalizedValue( property.value );
     const numberOfTickMarks = this.tickMarkRangeProperty.value;
 
     // account for javascript rounding error
-    const expandedValue = Utils.toFixedNumber( property.value * numberOfTickMarks, 6 );
+    const expandedValue = Utils.toFixedNumber( normalized * numberOfTickMarks, 6 );
 
     // account for javascript rounding error
     const remainder = Utils.toFixedNumber( expandedValue % 1, 6 );

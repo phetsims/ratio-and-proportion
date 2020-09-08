@@ -7,8 +7,10 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import Property from '../../../../axon/js/Property.js';
 import merge from '../../../../phet-core/js/merge.js';
 import sceneryPhetStrings from '../../../../scenery-phet/js/sceneryPhetStrings.js';
+import PDOMPeer from '../../../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -25,39 +27,49 @@ class BothHandsPDOMNode extends Node {
    * @param {number} keyboardStep
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
    * @param {Property.<number>} tickMarkRangeProperty
+   * @param {Property.<number>} unclampedFitnessProperty
    * @param {HandPositionsDescriber} handPositionsDescriber
    * @param {RatioDescriber} ratioDescriber
    * @param {Object} [options]
    */
   constructor( leftValueProperty, rightValueProperty, valueRange, firstInteractionProperty, keyboardStep,
-               tickMarkViewProperty, tickMarkRangeProperty, handPositionsDescriber,
+               tickMarkViewProperty, tickMarkRangeProperty, unclampedFitnessProperty, handPositionsDescriber,
                ratioDescriber, options ) {
 
     options = merge( {
-      ariaRole: 'application',
-      focusable: true,
-      containerTagName: 'div', // @zepumph thought this was a bit easier to navigate in the PDOM
       tagName: 'div',
-      innerContent: ratioAndProportionStrings.a11y.bothHands,
-      ariaLabel: ratioAndProportionStrings.a11y.bothHands,
-      helpText: ratioAndProportionStrings.a11y.bothHandsHelpText
+      helpText: ratioAndProportionStrings.a11y.bothHands.bothHandsHelpText,
+
+      interactiveNodeOptions: {
+        ariaRole: 'application',
+        focusable: true,
+        tagName: 'div',
+        innerContent: ratioAndProportionStrings.a11y.bothHands.bothHands,
+        ariaLabel: ratioAndProportionStrings.a11y.bothHands.bothHands
+      }
+
     }, options );
 
     super();
 
-    this.setAccessibleAttribute( 'aria-roledescription', sceneryPhetStrings.a11y.grabDrag.movable );
+    const interactiveNode = new Node( options.interactiveNodeOptions );
+    this.addChild( interactiveNode );
 
-    const ratioInteractionListener = new RatioInteractionListener( this, leftValueProperty,
-      rightValueProperty, valueRange, firstInteractionProperty, tickMarkRangeProperty, keyboardStep );
-    this.addInputListener( ratioInteractionListener );
+    const dynamicDescription = new Node( { tagName: 'p' } );
+    this.addChild( dynamicDescription );
 
-    const bothHandsPositionUtterance = new Utterance( {
-
-      // give enough time for the user to stop interacting with te hands
-      // before describing current positions, to prevent too many of these
-      // from queuing up in rapid presses
-      alertStableDelay: 500
+    interactiveNode.addAriaDescribedbyAssociation( {
+      otherNode: dynamicDescription,
+      otherElementName: PDOMPeer.PRIMARY_SIBLING,
+      thisElementName: PDOMPeer.PRIMARY_SIBLING
     } );
+
+    interactiveNode.setAccessibleAttribute( 'aria-roledescription', sceneryPhetStrings.a11y.grabDrag.movable );
+
+    const ratioInteractionListener = new RatioInteractionListener( interactiveNode, leftValueProperty,
+      rightValueProperty, valueRange, firstInteractionProperty, tickMarkRangeProperty, keyboardStep );
+    interactiveNode.addInputListener( ratioInteractionListener );
+
     const bothHandsRatioUtterance = new Utterance( {
 
       // a longer delay before speaking the bothHandsPositionUtterance gives
@@ -65,17 +77,19 @@ class BothHandsPDOMNode extends Node {
       // lost
       alertStableDelay: 1000
     } );
-    ratioInteractionListener.isBeingInteractedWithProperty.lazyLink( isBeingInteractedWith => {
 
-      // when no longer being interacted with, trigger an alert
-      if ( !isBeingInteractedWith ) {
-        bothHandsPositionUtterance.alert = handPositionsDescriber.getBothHandsPositionText( tickMarkViewProperty.value );
-        phet.joist.sim.utteranceQueue.addToBack( bothHandsPositionUtterance );
-
-        bothHandsRatioUtterance.alert = ratioDescriber.getRatioDescriptionString();
-        phet.joist.sim.utteranceQueue.addToBack( bothHandsRatioUtterance );
-      }
-    } );
+    Property.multilink( [
+        ratioInteractionListener.isBeingInteractedWithProperty,
+        unclampedFitnessProperty, // use unclamped so that it changes with any change to the model.
+        tickMarkViewProperty ],
+      isBeingInteractedWith => {
+        dynamicDescription.innerContent = '';
+        dynamicDescription.innerContent = handPositionsDescriber.getBothHandsDistance( tickMarkViewProperty.value );
+        if ( isBeingInteractedWith ) {
+          bothHandsRatioUtterance.alert = ratioDescriber.getRatioDescriptionString();
+          phet.joist.sim.utteranceQueue.addToBack( bothHandsRatioUtterance );
+        }
+      } );
 
     // @public (read-only) - expose this from the listener for general consumption
     this.isBeingInteractedWithProperty = ratioInteractionListener.isBeingInteractedWithProperty;

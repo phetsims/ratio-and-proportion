@@ -52,10 +52,30 @@
       "value": "Move hands up and down to find the challenge ratio in different locations."
     },
     "bothHands": {
-      "value": "Both hands"
-    },
-    "bothHandsHelpText": {
-      "value": "Use W and S keys to move left hand, and Up and Down Arrow keys to move right hand. Move both hands at the same time to maintain the challenge ratio."
+      "bothHands": {
+        "value": "Both hands"
+      },
+      "bothHandsHelpText": {
+        "value": "Use W and S keys to move left hand, and Up and Down Arrow keys to move right hand. Move both hands at the same time to maintain the challenge ratio."
+      },
+      "handsDistancePattern": {
+        "value": "Hands {{distance}} each other."
+      },
+      "tickMarksApart": {
+        "value": "{{justAround}}{{number}} tick marks apart from"
+      },
+      "andAndAHalf": {
+        "value": "{{number}} and a half"
+      },
+      "justOver": {
+        "value": "just over "
+      },
+      "justUnder": {
+        "value": "just under "
+      },
+      "bothHandsValuetext": {
+        "value": "left hand {{leftPosition}}, right hand {{rightPosition}}"
+      }
     },
     "tickMark": {
       "heading": {
@@ -140,9 +160,6 @@
     },
     "distanceBullet": {
       "value": "Hands are {{distance}} each other."
-    },
-    "bothHandsValuetext": {
-      "value": "left hand {{leftPosition}}, right hand {{rightPosition}}"
     },
     "ofPlayAreaPattern": {
       "value": "{{position}} of Play Area"
