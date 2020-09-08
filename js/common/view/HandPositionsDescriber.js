@@ -57,9 +57,9 @@ const rightHandLowerString = ratioAndProportionStrings.a11y.rightHandLower;
 class HandPositionsDescriber {
 
   /**
-   * @param leftValueProperty
-   * @param rightValueProperty
-   * @param valueRange
+   * @param {Property.<number>}leftValueProperty
+   * @param {Property.<number>}rightValueProperty
+   * @param {Range} valueRange
    * @param {TickMarkDescriber} tickMarkDescriber
    */
   constructor( leftValueProperty, rightValueProperty, valueRange, tickMarkDescriber ) {

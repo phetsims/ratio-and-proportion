@@ -25,6 +25,7 @@ import tickMarkIconImage from '../../../images/tick-mark-icon_png.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import RatioAndProportionConstants from '../RatioAndProportionConstants.js';
+import BothHandsDescriber from './BothHandsDescriber.js';
 import BothHandsPDOMNode from './BothHandsPDOMNode.js';
 import HandPositionsDescriber from './HandPositionsDescriber.js';
 import RAPTickMarkLabelsNode from './RAPTickMarkLabelsNode.js';
@@ -83,6 +84,8 @@ class RatioAndProportionScreenView extends ScreenView {
     // @protected (read-only)
     this.ratioDescriber = new RatioDescriber( model );
     this.handPositionsDescriber = new HandPositionsDescriber( model.leftValueProperty, model.rightValueProperty, model.valueRange, tickMarkDescriber );
+    const bothHandsDescriber = new BothHandsDescriber( model.leftValueProperty, model.rightValueProperty, tickMarkViewProperty,
+      this.ratioDescriber, this.handPositionsDescriber );
 
     // @protected
     this.tickMarkViewProperty = tickMarkViewProperty;
@@ -120,10 +123,13 @@ class RatioAndProportionScreenView extends ScreenView {
       options.tickMarkRangeProperty,
       this.ratioDescriber,
       this.handPositionsDescriber,
+      bothHandsDescriber,
       tickMarksAndLabelsColorProperty,
       keyboardStep,
       model.lockRatioProperty,
-      playTickMarkSoundProperty, this.inProportionSoundGenerator, {
+      model.lockRatioProperty, // not a bug
+      playTickMarkSoundProperty,
+      this.inProportionSoundGenerator, {
         accessibleName: ratioAndProportionStrings.a11y.leftHand,
         a11yDependencies: a11yDependencies,
         isRight: false // this way we get a left hand
@@ -141,10 +147,13 @@ class RatioAndProportionScreenView extends ScreenView {
       options.tickMarkRangeProperty,
       this.ratioDescriber,
       this.handPositionsDescriber,
+      bothHandsDescriber,
       tickMarksAndLabelsColorProperty,
       keyboardStep,
       model.lockRatioProperty,
-      playTickMarkSoundProperty, this.inProportionSoundGenerator, {
+      model.lockRatioProperty, // not a bug
+      playTickMarkSoundProperty,
+      this.inProportionSoundGenerator, {
         accessibleName: ratioAndProportionStrings.a11y.rightHand,
         a11yDependencies: a11yDependencies,
         helpText: ratioAndProportionStrings.a11y.rightHandHelpText
@@ -152,7 +161,7 @@ class RatioAndProportionScreenView extends ScreenView {
 
     const bothHandsPDOMNode = new BothHandsPDOMNode( model.leftValueProperty, model.rightValueProperty, model.valueRange,
       model.firstInteractionProperty, keyboardStep, tickMarkViewProperty, options.tickMarkRangeProperty, model.unclampedFitnessProperty,
-      this.handPositionsDescriber, this.ratioDescriber, {
+      this.handPositionsDescriber, this.ratioDescriber, bothHandsDescriber, {
         interactiveNodeOptions: {
           children: [ this.leftRatioHalf, this.rightRatioHalf ]
         }

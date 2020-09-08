@@ -9,7 +9,6 @@
 
 import Property from '../../../../axon/js/Property.js';
 import merge from '../../../../phet-core/js/merge.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import sceneryPhetStrings from '../../../../scenery-phet/js/sceneryPhetStrings.js';
 import PDOMPeer from '../../../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -31,11 +30,12 @@ class BothHandsPDOMNode extends Node {
    * @param {Property.<number>} unclampedFitnessProperty
    * @param {HandPositionsDescriber} handPositionsDescriber
    * @param {RatioDescriber} ratioDescriber
+   * @param {BothHandsDescriber} bothHandsDescriber
    * @param {Object} [options]
    */
   constructor( leftValueProperty, rightValueProperty, valueRange, firstInteractionProperty, keyboardStep,
                tickMarkViewProperty, tickMarkRangeProperty, unclampedFitnessProperty, handPositionsDescriber,
-               ratioDescriber, options ) {
+               ratioDescriber, bothHandsDescriber, options ) {
 
     options = merge( {
       tagName: 'div',
@@ -48,7 +48,6 @@ class BothHandsPDOMNode extends Node {
         innerContent: ratioAndProportionStrings.a11y.bothHands.bothHands,
         ariaLabel: ratioAndProportionStrings.a11y.bothHands.bothHands
       }
-
     }, options );
 
     super();
@@ -84,15 +83,14 @@ class BothHandsPDOMNode extends Node {
         tickMarkViewProperty,
         unclampedFitnessProperty ], // use unclamped so that it changes with any change to the model.
       ( isBeingInteractedWith, tickMarkView ) => {
+
+        // By clearing it out first, we increase the likelyhood that description will be repeated when it hasn't changed.
+        // This is the same strategy as https://github.com/phetsims/utterance-queue/blob/b275895573d6c878faa2e61b7f27305b901d3939/js/AriaHerald.js#L103-L105
         dynamicDescription.innerContent = '';
         dynamicDescription.innerContent = handPositionsDescriber.getBothHandsDistance( tickMarkView );
 
         if ( isBeingInteractedWith ) {
-          bothHandsRatioUtterance.alert = StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.bothHandsAlert, {
-            leftPosition: handPositionsDescriber.getHandPosition( leftValueProperty, tickMarkView ),
-            rightPosition: handPositionsDescriber.getHandPosition( rightValueProperty, tickMarkView, false ),
-            fitness: ratioDescriber.getRatioFitness()
-          } );
+          bothHandsRatioUtterance.alert = bothHandsDescriber.getRatioAndBothHandPositionsText();
           phet.joist.sim.utteranceQueue.addToBack( bothHandsRatioUtterance );
         }
       } );

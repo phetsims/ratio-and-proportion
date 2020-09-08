@@ -70,16 +70,18 @@ class RatioHalf extends Rectangle {
    * @param {Property.<number>} tickMarkRangeProperty
    * @param {RatioDescriber} ratioDescriber
    * @param {HandPositionsDescriber} handPositionsDescriber
+   * @param {BothHandsDescriber} bothHandsDescriber
    * @param {Property.<Color>} colorProperty
    * @param {number} keyboardStep
    * @param {BooleanProperty} horizontalMovementAllowedProperty
+   * @param {BooleanProperty} lockRatioProperty
    * @param {BooleanProperty} playTickMarkBumpSoundProperty
    * @param {InProportionSoundGenerator} inProportionSoundGenerator
    * @param {Object} [options]
    */
   constructor( valueProperty, valueRange, enabledValueRangeProperty, firstInteractionProperty, bounds, tickMarkViewProperty,
-               tickMarkRangeProperty, ratioDescriber, handPositionsDescriber, colorProperty, keyboardStep,
-               horizontalMovementAllowedProperty, playTickMarkBumpSoundProperty, inProportionSoundGenerator,
+               tickMarkRangeProperty, ratioDescriber, handPositionsDescriber, bothHandsDescriber, colorProperty, keyboardStep,
+               horizontalMovementAllowedProperty, lockRatioProperty, playTickMarkBumpSoundProperty, inProportionSoundGenerator,
                options ) {
 
     options = merge( {
@@ -109,7 +111,8 @@ class RatioHalf extends Rectangle {
     // @private
     this.enabledValueRangeProperty = enabledValueRangeProperty;
 
-    const alertManager = new RatioHalfAlertManager( valueProperty, ratioDescriber, handPositionsDescriber );
+    const alertManager = new RatioHalfAlertManager( valueProperty, ratioDescriber, handPositionsDescriber,
+      bothHandsDescriber, lockRatioProperty );
 
     const tickMarksNode = new RatioHalfTickMarksNode( tickMarkViewProperty, tickMarkRangeProperty,
       bounds.width, bounds.height - 2 * FRAMING_RECTANGLE_HEIGHT,
@@ -123,9 +126,10 @@ class RatioHalf extends Rectangle {
         this.isBeingInteractedWithProperty.value = true;
       },
       isRight: options.isRight,
-      a11yCreateAriaValueText: () => handPositionsDescriber.getHandPosition( valueProperty, tickMarkViewProperty.value ),
+      a11yCreateAriaValueText: () => lockRatioProperty.value ? handPositionsDescriber.getBothHandsDistance( tickMarkViewProperty.value ) :
+                                     handPositionsDescriber.getHandPosition( valueProperty, tickMarkViewProperty.value ),
       endDrag: () => alertManager.alertRatioChange(),
-      a11yDependencies: options.a11yDependencies
+      a11yDependencies: options.a11yDependencies.concat( [ lockRatioProperty ] )
     } );
     this.addChild( this.ratioHandNode );
 

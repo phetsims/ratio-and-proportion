@@ -19,12 +19,16 @@ class RatioHalfAlertManager {
    * @param {Property.<number>} valueProperty
    * @param {RatioDescriber} ratioDescriber
    * @param {HandPositionsDescriber} handPositionsDescriber
+   * @param bothHandsDescriber
+   * @param lockRatioProperty
    */
-  constructor( valueProperty, ratioDescriber, handPositionsDescriber ) {
+  constructor( valueProperty, ratioDescriber, handPositionsDescriber, bothHandsDescriber, lockRatioProperty ) {
 
     // @private
     this.ratioDescriber = ratioDescriber; // {RatioDescriber}
     this.handPositionsDescriber = handPositionsDescriber; // {HandPositionsDescriber}
+    this.bothHandsDescriber = bothHandsDescriber; // {BothHandsDescriber}
+    this.lockRatioProperty = lockRatioProperty; // {BooleanProperty}
 
     // @private {Property.<number>}
     this.valueProperty = valueProperty;
@@ -39,6 +43,11 @@ class RatioHalfAlertManager {
    * @returns {string}
    */
   getRatioChangeAlert() {
+
+    // When locked, treat the alert like a "Both hands" interaction alert
+    if ( this.lockRatioProperty.value ) {
+      return this.bothHandsDescriber.getRatioAndBothHandPositionsText();
+    }
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.fitnessAlertPattern, {
       distanceOrDirection: this.handPositionsDescriber.getDistanceClauseForProperty( this.valueProperty ),
       fitness: this.ratioDescriber.getRatioFitness( false )
