@@ -80,30 +80,18 @@ class HandPositionsDescriber {
   }
 
   /**
-   * TODO: use this
-   * @param {TickMarkView} tickMarkView
-   * @returns {string}
-   * @public
-   */
-  getBothHandsPositionText( tickMarkView ) {
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.bothHandsValuetext, {
-      leftPosition: this.getHandPosition( this.leftValueProperty, tickMarkView ),
-      rightPosition: this.getHandPosition( this.rightValueProperty, tickMarkView )
-    } );
-  }
-
-  /**
    * only ends with "of Play Area" if qualitative
    * @public
    * @param {NumberProperty} valueProperty
    * @param {TickMarkView} tickMarkView
+   * @param {boolean} useOfPlayArea - whether the position should end with "of Play Area", like "at bottom of Play Area"
    * @returns {string}
    */
-  getHandPosition( valueProperty, tickMarkView ) {
+  getHandPosition( valueProperty, tickMarkView, useOfPlayArea = true ) {
     if ( TickMarkView.describeQualitative( tickMarkView ) ) {
-
-      return StringUtils.fillIn( ratioAndProportionStrings.a11y.ofPlayAreaPattern, {
-        position: this.getQualitativehandPosition( valueProperty )
+      const handPosition = this.getQualitativeHandPosition( valueProperty );
+      return !useOfPlayArea ? handPosition : StringUtils.fillIn( ratioAndProportionStrings.a11y.ofPlayAreaPattern, {
+        position: handPosition
       } );
     }
     else {
@@ -139,7 +127,7 @@ class HandPositionsDescriber {
    * @param {Property.<number>} property
    * @returns {string}
    */
-  getQualitativehandPosition( property ) {
+  getQualitativeHandPosition( property ) {
     return QUALITATIVE_POSITIONS[ this.getQualitativePositionIndex( property.value ) ];
   }
 

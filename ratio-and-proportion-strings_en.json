@@ -73,8 +73,8 @@
       "justUnder": {
         "value": "just under "
       },
-      "bothHandsValuetext": {
-        "value": "left hand {{leftPosition}}, right hand {{rightPosition}}"
+      "bothHandsAlert": {
+        "value": "{{fitness}} challenge ratio. Left hand {{leftPosition}} of Play area, right hand {{rightPosition}}"
       }
     },
     "tickMark": {

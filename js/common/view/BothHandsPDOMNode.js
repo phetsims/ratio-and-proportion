@@ -9,6 +9,7 @@
 
 import Property from '../../../../axon/js/Property.js';
 import merge from '../../../../phet-core/js/merge.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import sceneryPhetStrings from '../../../../scenery-phet/js/sceneryPhetStrings.js';
 import PDOMPeer from '../../../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -80,13 +81,18 @@ class BothHandsPDOMNode extends Node {
 
     Property.multilink( [
         ratioInteractionListener.isBeingInteractedWithProperty,
-        unclampedFitnessProperty, // use unclamped so that it changes with any change to the model.
-        tickMarkViewProperty ],
-      isBeingInteractedWith => {
+        tickMarkViewProperty,
+        unclampedFitnessProperty ], // use unclamped so that it changes with any change to the model.
+      ( isBeingInteractedWith, tickMarkView ) => {
         dynamicDescription.innerContent = '';
-        dynamicDescription.innerContent = handPositionsDescriber.getBothHandsDistance( tickMarkViewProperty.value );
+        dynamicDescription.innerContent = handPositionsDescriber.getBothHandsDistance( tickMarkView );
+
         if ( isBeingInteractedWith ) {
-          bothHandsRatioUtterance.alert = ratioDescriber.getRatioDescriptionString();
+          bothHandsRatioUtterance.alert = StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.bothHandsAlert, {
+            leftPosition: handPositionsDescriber.getHandPosition( leftValueProperty, tickMarkView ),
+            rightPosition: handPositionsDescriber.getHandPosition( rightValueProperty, tickMarkView, false ),
+            fitness: ratioDescriber.getRatioFitness()
+          } );
           phet.joist.sim.utteranceQueue.addToBack( bothHandsRatioUtterance );
         }
       } );

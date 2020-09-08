@@ -5,7 +5,6 @@
  */
 
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
@@ -90,18 +89,6 @@ class RatioDescriber {
   getRatioFitness( capitalized = true ) {
     const ratioRegions = capitalized ? RATIO_FITNESS_STRINGS_CAPITALIZED : RATIO_FITNESS_STRINGS_LOWERCASE;
     return ratioRegions[ this.getRatioFitnessIndex() ];
-  }
-
-  /**
-   * Get a description of the current ratio. Returns something like
-   * "At ratio." or
-   * "Very far from ratio."
-   * @public
-   */
-  getRatioDescriptionString() {
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.descriptionPattern, {
-      fitness: this.getRatioFitness()
-    } );
   }
 }
 
