@@ -30,7 +30,6 @@ import commonGrabSound from '../../../../tambo/sounds/grab_mp3.js';
 import commonReleaseSound from '../../../../tambo/sounds/release_mp3.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import designingProperties from '../designingProperties.js';
 import RatioHalfAlertManager from './RatioHalfAlertManager.js';
 import RatioHalfTickMarksNode from './RatioHalfTickMarksNode.js';
 import RatioHandNode from './RatioHandNode.js';
@@ -134,10 +133,7 @@ class RatioHalf extends Rectangle {
     this.addChild( this.ratioHandNode );
 
     const addSoundOptions = { categoryName: 'user-interface' };
-    const soundClipOptions = {
-      initialOutputLevel: 0.15,
-      enableControlProperties: [ designingProperties.ratioUISoundsEnabledProperty ]
-    };
+    const soundClipOptions = { initialOutputLevel: 0.15 };
     const commonGrabSoundClip = new SoundClip( commonGrabSound, soundClipOptions );
     const commonReleaseSoundClip = new SoundClip( commonReleaseSound, soundClipOptions );
     soundManager.addSoundGenerator( commonGrabSoundClip, addSoundOptions );
@@ -145,7 +141,7 @@ class RatioHalf extends Rectangle {
 
     const tickMarksDisplayedProperty = new DerivedProperty( [ tickMarkViewProperty ], tickMarkView => tickMarkView !== TickMarkView.NONE );
     const tickMarkBumpSoundClip = new SoundClip( sliderClickSound, merge( {}, soundClipOptions, {
-      enableControlProperties: soundClipOptions.enableControlProperties.concat( [ tickMarksDisplayedProperty, playTickMarkBumpSoundProperty ] )
+      enableControlProperties: [ tickMarksDisplayedProperty, playTickMarkBumpSoundProperty ]
     } ) );
 
     soundManager.addSoundGenerator( tickMarkBumpSoundClip, merge( {
