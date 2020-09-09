@@ -1,5 +1,5 @@
 {
-  "comment": "# ratio-and-proportion 1.0.0-dev.62 Tue Sep 08 2020 17:03:17 GMT-0800 (Alaska Daylight Time)",
+  "comment": "# ratio-and-proportion 1.0.0-dev.63 Wed Sep 09 2020 13:20:35 GMT-0800 (Alaska Daylight Time)",
   "assert": {
     "sha": "1a41cef653bbed1025af5768bea958d7e3e0f8ae",
     "branch": "master"
@@ -21,7 +21,7 @@
     "branch": "master"
   },
   "griddle": {
-    "sha": "2d122be8246f3e2dbf2e37097e12d813fa18d279",
+    "sha": "75c26767be9423fbb3e576403db7d8556adf2417",
     "branch": "master"
   },
   "joist": {
@@ -61,7 +61,7 @@
     "branch": "master"
   },
   "ratio-and-proportion": {
-    "sha": "0c241c02bbef92c1773218c6d410946614f69f37",
+    "sha": "62d75267031340135fe065b2c07df05c08db54fc",
     "branch": "master"
   },
   "scenery": {
@@ -69,11 +69,11 @@
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "8cfd98f8dd5fb8cbb0f4a723778bd9ba91090ad1",
+    "sha": "6226b2d3dafd986c0ec73ba6eb2c14779ce2da1f",
     "branch": "master"
   },
   "sherpa": {
-    "sha": "13aba9e75e334a64d67728217e8963f99740d3e5",
+    "sha": "4ae9b0e9a22fa569ec4608e39171be7d7f9ffc21",
     "branch": "master"
   },
   "studio": {
@@ -81,7 +81,7 @@
     "branch": "master"
   },
   "sun": {
-    "sha": "a002e8cc4a9c2d6af92dd3f2fd9c0faf8d8d473a",
+    "sha": "f0f8a2d5a7ab7f261f1fdc64c0b44880558d240c",
     "branch": "master"
   },
   "tambo": {
@@ -89,7 +89,7 @@
     "branch": "master"
   },
   "tandem": {
-    "sha": "5022f07128fae9c3b8298cf7ec594d7d128af4fc",
+    "sha": "3420fef7da5d83f6948ff1eba9850e93aa251307",
     "branch": "master"
   },
   "utterance-queue": {
