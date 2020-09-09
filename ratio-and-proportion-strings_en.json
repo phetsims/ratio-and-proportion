@@ -74,7 +74,7 @@
         "value": "just under "
       },
       "bothHandsAlert": {
-        "value": "{{fitness}} challenge ratio. Left hand {{leftPosition}} of Play area, right hand {{rightPosition}}"
+        "value": "{{fitness}} challenge ratio. Left hand {{leftPosition}}, right hand {{rightPosition}}"
       }
     },
     "tickMark": {
