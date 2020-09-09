@@ -70,9 +70,9 @@ class ExploreScreenView extends RAPScreenView {
     } );
 
     // children - scale all of these components to support vertical aspect ratios better.
-    this.scalingUILayerNode.addChild( comboBoxHeading );
-    this.scalingUILayerNode.addChild( comboBox );
-    this.scalingUILayerNode.addChild( comboBoxListParent );
+    this.topScalingUILayerNode.addChild( comboBoxHeading );
+    this.topScalingUILayerNode.addChild( comboBox );
+    this.topScalingUILayerNode.addChild( comboBoxListParent );
 
     this.pdomPlayAreaNode.accessibleOrder = this.pdomPlayAreaNode.accessibleOrder.concat( [ comboBoxHeading, comboBox, comboBoxListParent ] );
 

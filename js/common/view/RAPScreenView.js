@@ -205,7 +205,7 @@ class RAPScreenView extends ScreenView {
 
     // @protected - Keep a separate layer for "Control panel" like UI on the right. This allows them to be scaled
     // to maximize their size within the horizontal space in vertical aspect ratios, see https://github.com/phetsims/ratio-and-proportion/issues/79
-    this.scalingUILayerNode = new Node();
+    this.topScalingUILayerNode = new Node();
 
     // @protected - used only for subtype layout
     this.resetAllButton = new ResetAllButton( {
@@ -241,7 +241,7 @@ class RAPScreenView extends ScreenView {
     } );
 
     // add this Node to the layer that is scaled up to support vertical aspect ratios
-    this.scalingUILayerNode.addChild( this.tickMarkViewRadioButtonGroup );
+    this.topScalingUILayerNode.addChild( this.tickMarkViewRadioButtonGroup );
 
     // children
     this.children = [
@@ -249,7 +249,7 @@ class RAPScreenView extends ScreenView {
       labelsNode,
 
       // UI
-      this.scalingUILayerNode,
+      this.topScalingUILayerNode,
       this.resetAllButton,
 
       // Main ratio on top
@@ -270,7 +270,7 @@ class RAPScreenView extends ScreenView {
     ];
 
     // static layout
-    this.scalingUILayerNode.right = this.resetAllButton.right = this.layoutBounds.maxX - RAPConstants.SCREEN_VIEW_X_MARGIN;
+    this.topScalingUILayerNode.right = this.resetAllButton.right = this.layoutBounds.maxX - RAPConstants.SCREEN_VIEW_X_MARGIN;
     this.resetAllButton.bottom = this.layoutBounds.height - RAPConstants.SCREEN_VIEW_Y_MARGIN;
 
     // @private - dynamic layout based on the current ScreenView coordinates
@@ -287,12 +287,12 @@ class RAPScreenView extends ScreenView {
       const ratioWidth = this.leftRatioHalf.width + this.rightRatioHalf.width + ( 2 * RATIO_HALF_SPACING ) + labelsNode.width;
 
       const uiLayerScale = uiScaleFunction( newRatioHalfBounds.height );
-      this.scalingUILayerNode.setScaleMagnitude( uiLayerScale );
-      this.scalingUILayerNode.right = this.layoutBounds.maxX - RAPConstants.SCREEN_VIEW_X_MARGIN;
-      this.scalingUILayerNode.top = uiPositionFunction( uiLayerScale );
+      this.topScalingUILayerNode.setScaleMagnitude( uiLayerScale );
+      this.topScalingUILayerNode.right = this.layoutBounds.maxX - RAPConstants.SCREEN_VIEW_X_MARGIN;
+      this.topScalingUILayerNode.top = uiPositionFunction( uiLayerScale );
 
       // combo box is a proxy for the width of the controls
-      this.leftRatioHalf.left = ( this.scalingUILayerNode.left - ratioWidth ) / 2;
+      this.leftRatioHalf.left = ( this.topScalingUILayerNode.left - ratioWidth ) / 2;
       labelsNode.left = this.leftRatioHalf.right + RATIO_HALF_SPACING;
       this.rightRatioHalf.left = labelsNode.right + RATIO_HALF_SPACING;
 

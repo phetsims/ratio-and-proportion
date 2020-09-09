@@ -134,9 +134,9 @@ class CreateScreenView extends RAPScreenView {
 
     // children - remember to not blow away children set by parent
     this.addChild( lockRatioCheckbox );
-    this.scalingUILayerNode.addChild( myChallengeAccordionBox );
-    this.scalingUILayerNode.addChild( tickMarkRangeComboBox );
-    this.scalingUILayerNode.addChild( tickMarkRangeComboBoxParent ); // Should be on top
+    this.topScalingUILayerNode.addChild( myChallengeAccordionBox );
+    this.topScalingUILayerNode.addChild( tickMarkRangeComboBox );
+    this.topScalingUILayerNode.addChild( tickMarkRangeComboBoxParent ); // Should be on top
 
     // pdom
     this.pdomPlayAreaNode.accessibleOrder = this.pdomPlayAreaNode.accessibleOrder.concat( [
