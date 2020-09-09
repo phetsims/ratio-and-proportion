@@ -16,7 +16,7 @@ import ratioAndProportion from '../../../ratioAndProportion.js';
 class MovingInProportionSoundGenerator extends SoundGenerator {
 
   /**
-   * @param {RatioAndProportionModel} model
+   * @param {RAPModel} model
    * @param {Object} [options]
    */
   constructor( model, options ) {

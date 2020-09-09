@@ -9,7 +9,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import MarkerInput from '../../../../tangible/js/MarkerInput.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import RatioAndProportionQueryParameters from '../RatioAndProportionQueryParameters.js';
+import RAPQueryParameters from '../RAPQueryParameters.js';
 
 // constants
 const BASE_MARKER = 1;
@@ -17,7 +17,7 @@ const RATIO_MARKER_LEFT = 2;
 const RATIO_MARKER_RIGHT = 3;
 
 // "one" here refers to the max value of each ratio half. Their range is from 0 to 1
-const HEIGHT_OF_ONE = RatioAndProportionQueryParameters.heightInPixels;
+const HEIGHT_OF_ONE = RAPQueryParameters.heightInPixels;
 
 class ProportionMarkerInput extends MarkerInput {
 

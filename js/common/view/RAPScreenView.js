@@ -24,12 +24,12 @@ import numberedTickMarkIconImage from '../../../images/numbered-tick-mark-icon_p
 import tickMarkIconImage from '../../../images/tick-mark-icon_png.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
-import RatioAndProportionConstants from '../RatioAndProportionConstants.js';
+import RAPConstants from '../RAPConstants.js';
 import BothHandsDescriber from './BothHandsDescriber.js';
 import BothHandsPDOMNode from './BothHandsPDOMNode.js';
 import HandPositionsDescriber from './HandPositionsDescriber.js';
 import RAPTickMarkLabelsNode from './RAPTickMarkLabelsNode.js';
-import RatioAndProportionColorProfile from './RatioAndProportionColorProfile.js';
+import RAPColorProfile from './RAPColorProfile.js';
 import RatioDescriber from './RatioDescriber.js';
 import RatioHalf from './RatioHalf.js';
 import InProportionSoundGenerator from './sound/InProportionSoundGenerator.js';
@@ -49,10 +49,10 @@ const uiScaleFunction = new LinearFunction( LAYOUT_BOUNDS.height, MAX_RATIO_HEIG
 const uiPositionFunction = new LinearFunction( 1, 1.5, LAYOUT_BOUNDS.height * .15, -LAYOUT_BOUNDS.height * .2, true );
 
 
-class RatioAndProportionScreenView extends ScreenView {
+class RAPScreenView extends ScreenView {
 
   /**
-   * @param {RatioAndProportionModel} model
+   * @param {RAPModel} model
    * @param {Tandem} tandem
    * @param options
    */
@@ -69,8 +69,8 @@ class RatioAndProportionScreenView extends ScreenView {
 
     const tickMarksAndLabelsColorProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
       fitness => Color.interpolateRGBA(
-        RatioAndProportionColorProfile.tickMarksAndLabelsInFitnessProperty.value,
-        RatioAndProportionColorProfile.tickMarksAndLabelsOutOfFitnessProperty.value, fitness
+        RAPColorProfile.tickMarksAndLabelsInFitnessProperty.value,
+        RAPColorProfile.tickMarksAndLabelsOutOfFitnessProperty.value, fitness
       ) );
 
     const tickMarkViewProperty = new EnumerationProperty( TickMarkView, TickMarkView.NONE, {
@@ -191,12 +191,12 @@ class RatioAndProportionScreenView extends ScreenView {
     model.ratioFitnessProperty.link( fitness => {
       let color = null;
       if ( model.inProportion() ) {
-        color = RatioAndProportionColorProfile.backgroundInFitnessProperty.value;
+        color = RAPColorProfile.backgroundInFitnessProperty.value;
       }
       else {
         color = Color.interpolateRGBA(
-          RatioAndProportionColorProfile.backgroundOutOfFitnessProperty.value,
-          RatioAndProportionColorProfile.backgroundInterpolationToFitnessProperty.value,
+          RAPColorProfile.backgroundOutOfFitnessProperty.value,
+          RAPColorProfile.backgroundInterpolationToFitnessProperty.value,
           ( fitness - model.fitnessRange.min ) / ( 1 - model.getInProportionThreshold() )
         );
       }
@@ -270,11 +270,11 @@ class RatioAndProportionScreenView extends ScreenView {
     ];
 
     // static layout
-    this.scalingUILayerNode.right = this.resetAllButton.right = this.layoutBounds.maxX - RatioAndProportionConstants.SCREEN_VIEW_X_MARGIN;
-    this.resetAllButton.bottom = this.layoutBounds.height - RatioAndProportionConstants.SCREEN_VIEW_Y_MARGIN;
+    this.scalingUILayerNode.right = this.resetAllButton.right = this.layoutBounds.maxX - RAPConstants.SCREEN_VIEW_X_MARGIN;
+    this.resetAllButton.bottom = this.layoutBounds.height - RAPConstants.SCREEN_VIEW_Y_MARGIN;
 
     // @private - dynamic layout based on the current ScreenView coordinates
-    this.layoutRatioAndProportionScreeView = newRatioHalfBounds => {
+    this.layoutRAPScreeView = newRatioHalfBounds => {
 
       this.leftRatioHalf.layout( newRatioHalfBounds );
       this.rightRatioHalf.layout( newRatioHalfBounds );
@@ -288,7 +288,7 @@ class RatioAndProportionScreenView extends ScreenView {
 
       const uiLayerScale = uiScaleFunction( newRatioHalfBounds.height );
       this.scalingUILayerNode.setScaleMagnitude( uiLayerScale );
-      this.scalingUILayerNode.right = this.layoutBounds.maxX - RatioAndProportionConstants.SCREEN_VIEW_X_MARGIN;
+      this.scalingUILayerNode.right = this.layoutBounds.maxX - RAPConstants.SCREEN_VIEW_X_MARGIN;
       this.scalingUILayerNode.top = uiPositionFunction( uiLayerScale );
 
       // combo box is a proxy for the width of the controls
@@ -301,7 +301,7 @@ class RatioAndProportionScreenView extends ScreenView {
 
       labelsNode.bottom = this.layoutBounds.bottom - RatioHalf.FRAMING_RECTANGLE_HEIGHT + labelsNode.labelHeight / 2;
     };
-    this.layoutRatioAndProportionScreeView( defaultRatioHalfBounds );
+    this.layoutRAPScreeView( defaultRatioHalfBounds );
   }
 
   /**
@@ -337,7 +337,7 @@ class RatioAndProportionScreenView extends ScreenView {
     this.visibleBoundsProperty.set( new Bounds2( -dx, -dy, width / scale - dx, height / scale - dy ) );
 
     // new bounds for each ratio half
-    this.layoutRatioAndProportionScreeView( new Bounds2( 0, 0, ONE_QUARTER_LAYOUT_WIDTH, Math.min( height / scale, MAX_RATIO_HEIGHT ) ) );
+    this.layoutRAPScreeView( new Bounds2( 0, 0, ONE_QUARTER_LAYOUT_WIDTH, Math.min( height / scale, MAX_RATIO_HEIGHT ) ) );
   }
 
   /**
@@ -368,5 +368,5 @@ class RatioAndProportionScreenView extends ScreenView {
   }
 }
 
-ratioAndProportion.register( 'RatioAndProportionScreenView', RatioAndProportionScreenView );
-export default RatioAndProportionScreenView;
+ratioAndProportion.register( 'RAPScreenView', RAPScreenView );
+export default RAPScreenView;

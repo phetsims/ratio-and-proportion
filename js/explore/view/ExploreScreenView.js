@@ -12,7 +12,7 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import challenge1SelectionSound from '../../../../tambo/sounds/selection-arpeggio-001_mp3.js';
 import challenge2SelectionSound from '../../../../tambo/sounds/selection-arpeggio-004_mp3.js';
 import challenge3SelectionSound from '../../../../tambo/sounds/selection-arpeggio-006_mp3.js';
-import RatioAndProportionScreenView from '../../common/view/RatioAndProportionScreenView.js';
+import RAPScreenView from '../../common/view/RAPScreenView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import ChallengeComboBoxItem from './ChallengeComboBoxItem.js';
@@ -23,7 +23,7 @@ const SELECTION_SOUND_OPTIONS = {
   initialOutputLevel: 0.4
 };
 
-class ExploreScreenView extends RatioAndProportionScreenView {
+class ExploreScreenView extends RAPScreenView {
 
   /**
    * @param {ExploreModel} model

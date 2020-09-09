@@ -39,7 +39,7 @@ assert && assert( RATIO_FITNESS_STRINGS_LOWERCASE.length === RATIO_FITNESS_STRIN
 class RatioDescriber {
 
   /**
-   * @param {RatioAndProportionModel} model
+   * @param {RAPModel} model
    */
   constructor( model ) {
 

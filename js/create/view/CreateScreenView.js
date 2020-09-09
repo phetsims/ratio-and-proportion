@@ -17,7 +17,7 @@ import RichText from '../../../../scenery/js/nodes/RichText.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
-import RatioAndProportionScreenView from '../../common/view/RatioAndProportionScreenView.js';
+import RAPScreenView from '../../common/view/RAPScreenView.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
@@ -28,10 +28,10 @@ const PICKER_SCALE = 1.5;
 const ICON_SCALE = .9;
 const DEFAULT_EXPANDED = false;
 
-class CreateScreenView extends RatioAndProportionScreenView {
+class CreateScreenView extends RAPScreenView {
 
   /**
-   * @param {RatioAndProportionModel} model
+   * @param {RAPModel} model
    * @param {Tandem} tandem
    */
   constructor( model, tandem ) {

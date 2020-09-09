@@ -9,7 +9,7 @@ import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import fifthsOption2Sound from '../../../../sounds/in-proportion/in-proportion-fifths-option-2_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
-import RatioAndProportionQueryParameters from '../../RatioAndProportionQueryParameters.js';
+import RAPQueryParameters from '../../RAPQueryParameters.js';
 
 const SUCCESS_OUTPUT_LEVEL = .8;
 const SILENT_LEVEL = 0;
@@ -18,7 +18,7 @@ const SILENT_LEVEL = 0;
 class InProportionSoundGenerator extends SoundClip {
 
   /**
-   * @param {RatioAndProportionModel} model
+   * @param {RAPModel} model
    * @param {Object} [options]
    */
   constructor( model, options ) {
@@ -88,7 +88,7 @@ class InProportionSoundGenerator extends SoundClip {
 
 
     // Only use hysteresis when both hands are moving.
-    const hysteresisThreshold = this.model.movingInDirection() ? RatioAndProportionQueryParameters.hysteresisThreshold : 0;
+    const hysteresisThreshold = this.model.movingInDirection() ? RAPQueryParameters.hysteresisThreshold : 0;
 
     if ( !this.playedSuccessYet && ( isInRatio || this.jumpedOverInProportionAndShouldSound() ) ) {
       this.setOutputLevel( SUCCESS_OUTPUT_LEVEL, 0 );

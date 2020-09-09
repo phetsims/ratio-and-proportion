@@ -11,7 +11,7 @@ import Color from '../../../../scenery/js/util/Color.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 
 // Even though there is only one Profile, it is still nice to use this pattern for color organizing.
-const RatioAndProportionColorProfile = new ColorProfile( [ 'default' ], {
+const RAPColorProfile = new ColorProfile( [ 'default' ], {
   tickMarksAndLabelsInFitness: {
     default: Color.GRAY
   },
@@ -29,5 +29,5 @@ const RatioAndProportionColorProfile = new ColorProfile( [ 'default' ], {
   }
 } );
 
-ratioAndProportion.register( 'RatioAndProportionColorProfile', RatioAndProportionColorProfile );
-export default RatioAndProportionColorProfile;
+ratioAndProportion.register( 'RAPColorProfile', RAPColorProfile );
+export default RAPColorProfile;

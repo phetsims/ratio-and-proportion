@@ -14,7 +14,7 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 // constants
 const RADIO_BUTTON_FONT = new PhetFont( 16 );
 
-class RationAndProportionGlobalOptionsNode extends HBox {
+class RAPGlobalOptionsNode extends HBox {
 
   /**
    * @param {DesigningProperties} designingProperties
@@ -51,5 +51,5 @@ class RationAndProportionGlobalOptionsNode extends HBox {
 
 class OptionsText extends RichText {constructor( text ) {super( text, { font: RADIO_BUTTON_FONT } );}}
 
-ratioAndProportion.register( 'RationAndProportionGlobalOptionsNode', RationAndProportionGlobalOptionsNode );
-export default RationAndProportionGlobalOptionsNode;
+ratioAndProportion.register( 'RAPGlobalOptionsNode', RAPGlobalOptionsNode );
+export default RAPGlobalOptionsNode;

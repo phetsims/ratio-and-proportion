@@ -16,7 +16,7 @@ import AccessibleSlider from '../../../../sun/js/accessibility/AccessibleSlider.
 import cutOutHandImage from '../../../images/cutout-hand_png.js';
 import filledInHandImage from '../../../images/filled-in-hand_png.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import RatioAndProportionConstants from '../RatioAndProportionConstants.js';
+import RAPConstants from '../RAPConstants.js';
 import TickMarkView from './TickMarkView.js';
 
 class RatioHandNode extends Node {
@@ -37,7 +37,7 @@ class RatioHandNode extends Node {
       asIcon: false, // when true, no input will be attached
 
       keyboardStep: keyboardStep,
-      shiftKeyboardStep: keyboardStep * RatioAndProportionConstants.SHIFT_KEY_MULTIPLIER,
+      shiftKeyboardStep: keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER,
       pageKeyboardStep: 1 / 5
     }, options );
     super();

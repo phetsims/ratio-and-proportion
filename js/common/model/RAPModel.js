@@ -11,7 +11,7 @@ import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import RatioAndProportionConstants from '../RatioAndProportionConstants.js';
+import RAPConstants from '../RAPConstants.js';
 
 // The threshold for velocity of a moving ratio value to indivate that it is "moving."
 const VELOCITY_THRESHOLD = .01;
@@ -29,7 +29,7 @@ const LOCK_RATIO_RANGE_MIN = .05;
 
 const RIGHT_VALUE_ZERO_REPLACEMENT = .000001;
 
-class RatioAndProportionModel {
+class RAPModel {
 
   /**
    * @param {Tandem} tandem
@@ -260,9 +260,9 @@ class RatioAndProportionModel {
    * @returns {number}
    */
   getInProportionThreshold() {
-    let threshold = RatioAndProportionConstants.IN_PROPORTION_FITNESS_THRESHOLD;
+    let threshold = RAPConstants.IN_PROPORTION_FITNESS_THRESHOLD;
     if ( this.movingInDirection() ) {
-      threshold = RatioAndProportionConstants.MOVING_IN_PROPORTION_FITNESS_THRESHOLD;
+      threshold = RAPConstants.MOVING_IN_PROPORTION_FITNESS_THRESHOLD;
     }
     return threshold;
   }
@@ -319,5 +319,5 @@ class RatioAndProportionModel {
   }
 }
 
-ratioAndProportion.register( 'RatioAndProportionModel', RatioAndProportionModel );
-export default RatioAndProportionModel;
+ratioAndProportion.register( 'RAPModel', RAPModel );
+export default RAPModel;

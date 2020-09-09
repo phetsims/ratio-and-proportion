@@ -8,7 +8,7 @@
 
 import ratioAndProportion from '../ratioAndProportion.js';
 
-const RatioAndProportionQueryParameters = QueryStringMachine.getAll( {
+const RAPQueryParameters = QueryStringMachine.getAll( {
 
   // Adjust the tolerance for the proportion fitness algorithm. The higher the tolerance, the wider the fitness "middle
   // ground" is. The specific unit is the percent above or below the left value can be from the target left value. See https://github.com/phetsims/ratio-and-proportion/issues/14
@@ -34,7 +34,7 @@ const RatioAndProportionQueryParameters = QueryStringMachine.getAll( {
 
   /**
    * The distance (in fitness) from max fitness that still indicates a successful proportion when both hands moving in the
-   * same direction. See RatioAndProportionModel.movingInDirection()
+   * same direction. See RAPModel.movingInDirection()
    */
   movingInProportionThreshold: {
     type: 'number',
@@ -52,5 +52,5 @@ const RatioAndProportionQueryParameters = QueryStringMachine.getAll( {
   }
 } );
 
-ratioAndProportion.register( 'RatioAndProportionQueryParameters', RatioAndProportionQueryParameters );
-export default RatioAndProportionQueryParameters;
+ratioAndProportion.register( 'RAPQueryParameters', RAPQueryParameters );
+export default RAPQueryParameters;
