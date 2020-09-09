@@ -28,8 +28,8 @@ import RAPConstants from '../RAPConstants.js';
 import BothHandsDescriber from './BothHandsDescriber.js';
 import BothHandsPDOMNode from './BothHandsPDOMNode.js';
 import HandPositionsDescriber from './HandPositionsDescriber.js';
-import RAPTickMarkLabelsNode from './RAPTickMarkLabelsNode.js';
 import RAPColorProfile from './RAPColorProfile.js';
+import RAPTickMarkLabelsNode from './RAPTickMarkLabelsNode.js';
 import RatioDescriber from './RatioDescriber.js';
 import RatioHalf from './RatioHalf.js';
 import InProportionSoundGenerator from './sound/InProportionSoundGenerator.js';
@@ -205,7 +205,10 @@ class RAPScreenView extends ScreenView {
 
     // @protected - Keep a separate layer for "Control panel" like UI on the right. This allows them to be scaled
     // to maximize their size within the horizontal space in vertical aspect ratios, see https://github.com/phetsims/ratio-and-proportion/issues/79
+    // These are two separate containers so that scaling them can take away space in between them while keeping each
+    // positioned based on the corners of the layout.
     this.topScalingUILayerNode = new Node();
+    this.bottomScalingUILayerNode = new Node();
 
     // @protected - used only for subtype layout
     this.resetAllButton = new ResetAllButton( {
@@ -242,6 +245,7 @@ class RAPScreenView extends ScreenView {
 
     // add this Node to the layer that is scaled up to support vertical aspect ratios
     this.topScalingUILayerNode.addChild( this.tickMarkViewRadioButtonGroup );
+    this.bottomScalingUILayerNode.addChild( this.resetAllButton );
 
     // children
     this.children = [
@@ -250,7 +254,7 @@ class RAPScreenView extends ScreenView {
 
       // UI
       this.topScalingUILayerNode,
-      this.resetAllButton,
+      this.bottomScalingUILayerNode,
 
       // Main ratio on top
       bothHandsPDOMNode
@@ -269,10 +273,6 @@ class RAPScreenView extends ScreenView {
       this.resetAllButton
     ];
 
-    // static layout
-    this.topScalingUILayerNode.right = this.resetAllButton.right = this.layoutBounds.maxX - RAPConstants.SCREEN_VIEW_X_MARGIN;
-    this.resetAllButton.bottom = this.layoutBounds.height - RAPConstants.SCREEN_VIEW_Y_MARGIN;
-
     // @private - dynamic layout based on the current ScreenView coordinates
     this.layoutRAPScreeView = newRatioHalfBounds => {
 
@@ -288,8 +288,12 @@ class RAPScreenView extends ScreenView {
 
       const uiLayerScale = uiScaleFunction( newRatioHalfBounds.height );
       this.topScalingUILayerNode.setScaleMagnitude( uiLayerScale );
-      this.topScalingUILayerNode.right = this.layoutBounds.maxX - RAPConstants.SCREEN_VIEW_X_MARGIN;
+      this.bottomScalingUILayerNode.setScaleMagnitude( uiLayerScale );
       this.topScalingUILayerNode.top = uiPositionFunction( uiLayerScale );
+
+      // do this again each time after scaling
+      this.topScalingUILayerNode.right = this.bottomScalingUILayerNode.right = this.layoutBounds.maxX - RAPConstants.SCREEN_VIEW_X_MARGIN;
+      this.bottomScalingUILayerNode.bottom = this.layoutBounds.height - RAPConstants.SCREEN_VIEW_Y_MARGIN;
 
       // combo box is a proxy for the width of the controls
       this.leftRatioHalf.left = ( this.topScalingUILayerNode.left - ratioWidth ) / 2;
