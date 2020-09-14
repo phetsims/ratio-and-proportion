@@ -32,10 +32,9 @@ class DiscoverScreenSummaryNode extends Node {
 
     const leftHandBullet = new Node( { tagName: 'li' } );
     const rightHandBullet = new Node( { tagName: 'li' } );
-    const distanceBullet = new Node( { tagName: 'li' } );
     const descriptionBullets = new Node( {
       tagName: 'ul',
-      children: [ leftHandBullet, rightHandBullet, distanceBullet ]
+      children: [ leftHandBullet, rightHandBullet ]
     } );
 
     super( {
@@ -58,16 +57,14 @@ class DiscoverScreenSummaryNode extends Node {
       ( currentTargetRatio, tickMarkView ) => {
         stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.discover.screenSummary.qualitativeStateOfSim, {
           ratioFitness: ratioDescriber.getRatioFitness( false ), // lowercase
-          currentChallenge: ratioToChallengeNameMap.get( currentTargetRatio ).lowercase
+          currentChallenge: ratioToChallengeNameMap.get( currentTargetRatio ).lowercase,
+          distance: handPositionsDescriber.getDistanceRegion( true )
         } );
         leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
           position: handPositionsDescriber.getHandPosition( numeratorProperty, tickMarkView )
         } );
         rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
           position: handPositionsDescriber.getHandPosition( denominatorProperty, tickMarkView )
-        } );
-        distanceBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.distanceBullet, {
-          distance: handPositionsDescriber.getDistanceRegion( true )
         } );
       } );
   }

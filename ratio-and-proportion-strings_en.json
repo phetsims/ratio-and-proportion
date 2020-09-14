@@ -239,7 +239,7 @@
           "value": "Move hands individually or at the same time to maintain the ratio challenge."
         },
         "qualitativeStateOfSim": {
-          "value": "Currently, hands are {{ratioFitness}} the {{currentChallenge}} ratio with"
+          "value": "Currently, hands are {{ratioFitness}} the {{currentChallenge}} ratio and {{distance}} each other:"
         }
       },
       "challengesHelpText": {
@@ -270,7 +270,7 @@
           "value": "Discover the current my challenge ratio or create your own."
         },
         "qualitativeStateOfSim": {
-          "value": "Currently, {{ratioFitness}} the my challenge ratio with"
+          "value": "Currently, {{ratioFitness}} the my challenge ratio and {{distance}} each other:"
         }
       },
       "tickMarkRangeHelpText": {
