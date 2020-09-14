@@ -7,14 +7,11 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPConstants from '../RAPConstants.js';
-
-// The threshold for velocity of a moving ratio value to indivate that it is "moving."
-const VELOCITY_THRESHOLD = .01;
+import RAPRatio from './RAPRatio.js';
 
 // constant to help achieve feedback in 40% of the visual screen height.
 const FITNESS_TOLERANCE_FACTOR = 0.5;
@@ -22,10 +19,6 @@ const FITNESS_TOLERANCE_FACTOR = 0.5;
 // The value in which when either the left or right value is less than this, the ratio cannot be "in proportion".
 // Add .001 to support two keyboard nav motions above 0 (counting the min range being >0).
 const NO_SUCCUSS_VALUE_THRESHOLD = .021;
-
-const VALUE_RANGE_MIN = 0;
-const VALUE_RANGE = new Range( VALUE_RANGE_MIN, 1 );
-const LOCK_RATIO_RANGE_MIN = .05;
 
 const RIGHT_VALUE_ZERO_REPLACEMENT = .000001;
 
@@ -39,20 +32,21 @@ class RAPModel {
     // The desired ratio of the left value as compared to the right value. As in 1:2 (initial value).
     this.targetRatioProperty = new NumberProperty( .5 );
 
-    // @public
+    // @public - the current state of the ratio
+    this.ratio = new RAPRatio();
+
     // TODO: perhaps rename "value" to "position"
-    this.valueRange = VALUE_RANGE;
-    this.enabledValueRangeProperty = new Property( this.valueRange );
+    this.valueRange = this.ratio.valueRange;
+    this.enabledValueRangeProperty = this.ratio.enabledValueRangeProperty;
+    this.lockRatioProperty = this.ratio.lockRatioProperty;
 
     // @public - settable positions of the two values on the screen
-    this.leftValueProperty = new NumberProperty( .2, {
-      reentrant: true
-    } );
-    this.rightValueProperty = new NumberProperty( .4, {
-      reentrant: true
-    } );
+    // TODO: do some renaming
+    this.leftValueProperty = this.ratio.numeratorProperty;
+    this.rightValueProperty = this.ratio.denominatorProperty;
 
     // @public - the current value of the ratio
+    // TODO: with such limited use, likely this should be removed.
     this.currentRatioProperty = new DerivedProperty( [ this.leftValueProperty, this.rightValueProperty ],
       ( left, right ) => {
 
@@ -64,26 +58,11 @@ class RAPModel {
         return left / right;
       }, { valueType: 'number' } );
 
-    // Clamp to decimal places to make sure that javascript rounding errors don't effect some views for interpreting position
-    this.leftValueProperty.link( value => {
-      this.leftValueProperty.value = Utils.toFixedNumber( value, 6 );
-    } );
-    this.rightValueProperty.link( value => {
-      this.rightValueProperty.value = Utils.toFixedNumber( value, 6 );
-    } );
-
-    // @public - when true, moving one ratio value will maintain the current ratio by updating the other value Property
-    this.lockRatioProperty = new BooleanProperty( false );
-
     // @public (read-only) - the Range that the ratioFitnessProperty can be.
     this.fitnessRange = new Range( 0, 1 );
 
     // @private
     this.unclampedFitnessRange = new Range( -50, 1 );
-
-    // @public (read-only) - the velocity of each value changing, adjusted in step
-    this.leftVelocityProperty = new NumberProperty( 0 );
-    this.rightVelocityProperty = new NumberProperty( 0 );
 
     // @public {DerivedProperty.<number>}
     // How "correct" the proportion currently is. Can be between 0 and 1, if 1, the proportion of the two values is
@@ -129,50 +108,9 @@ class RAPModel {
     // @public - true before and until first user interaction with the simulation. Reset will apply to this Property.
     this.firstInteractionProperty = new BooleanProperty( true );
 
-    // @private
-    this.previousLeftValueProperty = new NumberProperty( this.leftValueProperty.value );
-    this.previousRightValueProperty = new NumberProperty( this.rightValueProperty.value );
-    this.stepCountTracker = 0;
-
-    // Avoid reentrancy by guarding each time one valueProperty change then sets the other.
-    let adjustingFromLock = false;
-
-    this.leftValueProperty.lazyLink( ( newValue, oldValue ) => {
-      if ( this.lockRatioProperty.value && !adjustingFromLock ) {
-        const previousRatio = oldValue / this.rightValueProperty.value;
-        adjustingFromLock = true;
-        this.rightValueProperty.value = Utils.clamp( newValue / previousRatio, this.valueRange.min, this.valueRange.max );
-        if ( this.rightValueProperty.value === this.valueRange.min || this.rightValueProperty.value === this.valueRange.max ) {
-          this.leftValueProperty.value = previousRatio * this.rightValueProperty.value;
-        }
-        adjustingFromLock = false;
-      }
-    } );
-    this.rightValueProperty.lazyLink( ( newValue, oldValue ) => {
-      if ( this.lockRatioProperty.value && !adjustingFromLock ) {
-        const previousRatio = this.leftValueProperty.value / oldValue;
-        adjustingFromLock = true;
-        this.leftValueProperty.value = Utils.clamp( newValue * previousRatio, this.valueRange.min, this.valueRange.max );
-        if ( this.leftValueProperty.value === this.valueRange.min || this.leftValueProperty.value === this.valueRange.max ) {
-          this.rightValueProperty.value = this.leftValueProperty.value / previousRatio;
-        }
-        adjustingFromLock = false;
-      }
-    } );
-
     // This must be done here, because of the reentrant nature of how fitness changes when the ratio is locked
     this.targetRatioProperty.link( () => {
       this.lockRatioProperty.value = false;
-    } );
-
-    this.lockRatioProperty.link( ratioLocked => {
-      this.enabledValueRangeProperty.value = new Range( ratioLocked ? LOCK_RATIO_RANGE_MIN : VALUE_RANGE_MIN, VALUE_RANGE.max );
-    } );
-
-    this.enabledValueRangeProperty.link( enabledRange => {
-      const clampPropertyIntoRange = property => !enabledRange.contains( property.value ) && property.set( enabledRange.constrainValue( property.value ) );
-      clampPropertyIntoRange( this.leftValueProperty );
-      clampPropertyIntoRange( this.rightValueProperty );
     } );
   }
 
@@ -234,25 +172,7 @@ class RAPModel {
    * @returns {boolean}
    */
   valuesTooSmallForSuccess() {
-    return this.leftValueProperty.value <= NO_SUCCUSS_VALUE_THRESHOLD || this.rightValueProperty.value <= NO_SUCCUSS_VALUE_THRESHOLD;
-  }
-
-  /**
-   * Whether or not the two hands are moving fast enough together in the same direction. This indicates a bimodal interaction.
-   * @public
-   * @returns {boolean}
-   */
-  movingInDirection() {
-    const bothMoving = this.leftVelocityProperty.value !== 0 && this.rightVelocityProperty.value !== 0;
-
-    // both hands should be moving in the same direction
-    const movingInSameDirection = this.leftVelocityProperty.value > 0 === this.rightVelocityProperty.value > 0;
-
-    const movingFastEnough = Math.abs( this.leftVelocityProperty.value ) > VELOCITY_THRESHOLD && // right past threshold
-                             Math.abs( this.rightVelocityProperty.value ) > VELOCITY_THRESHOLD; // right past threshold
-
-    // Ignore the speed component when the ratio is locked
-    return bothMoving && movingInSameDirection && ( movingFastEnough || this.lockRatioProperty.value );
+    return this.ratio.numeratorProperty.value <= NO_SUCCUSS_VALUE_THRESHOLD || this.ratio.denominatorProperty.value <= NO_SUCCUSS_VALUE_THRESHOLD;
   }
 
   /**
@@ -261,7 +181,7 @@ class RAPModel {
    */
   getInProportionThreshold() {
     let threshold = RAPConstants.IN_PROPORTION_FITNESS_THRESHOLD;
-    if ( this.movingInDirection() ) {
+    if ( this.ratio.movingInDirection() ) {
       threshold = RAPConstants.MOVING_IN_PROPORTION_FITNESS_THRESHOLD;
     }
     return threshold;
@@ -278,28 +198,13 @@ class RAPModel {
     return fitness > this.fitnessRange.max - this.getInProportionThreshold();
   }
 
-  /**
-   * @private
-   * @param {Property.<number>}previousValueProperty
-   * @param {number} currentValue
-   * @param {Property.<number>} velocityProperty
-   */
-  calculateCurrentVelocity( previousValueProperty, currentValue, velocityProperty ) {
-    velocityProperty.value = currentValue - previousValueProperty.value;
-    previousValueProperty.value = currentValue;
-  }
 
   /**
    * @public
    * @override
    */
   step() {
-
-    // only recalculate every X steps to help smooth out noise
-    if ( ++this.stepCountTracker % 30 === 0 ) {
-      this.calculateCurrentVelocity( this.previousLeftValueProperty, this.leftValueProperty.value, this.leftVelocityProperty );
-      this.calculateCurrentVelocity( this.previousRightValueProperty, this.rightValueProperty.value, this.rightVelocityProperty );
-    }
+    this.ratio.step();
   }
 
   /**
@@ -307,14 +212,9 @@ class RAPModel {
    * @public
    */
   reset() {
-
-    // it is easiest if this is reset first
-    this.lockRatioProperty.reset();
+    this.ratio.reset(); // do this first
 
     this.targetRatioProperty.reset();
-    this.leftValueProperty.reset();
-    this.rightValueProperty.reset();
-    this.enabledValueRangeProperty.reset();
     this.firstInteractionProperty.reset();
   }
 }

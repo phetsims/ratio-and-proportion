@@ -34,7 +34,7 @@ const RAPQueryParameters = QueryStringMachine.getAll( {
 
   /**
    * The distance (in fitness) from max fitness that still indicates a successful proportion when both hands moving in the
-   * same direction. See RAPModel.movingInDirection()
+   * same direction. See RAPRatio.movingInDirection()
    */
   movingInProportionThreshold: {
     type: 'number',
