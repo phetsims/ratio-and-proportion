@@ -24,12 +24,12 @@ class RatioHandNode extends Node {
   /**
    *
    * @param {Property.<number>} valueProperty
-   * @param {Range} enabledValueRangeProperty
+   * @param {Range} enabledRatioComponentsRangeProperty
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
    * @param {number} keyboardStep
    * @param {Object} [options]
    */
-  constructor( valueProperty, enabledValueRangeProperty, tickMarkViewProperty, keyboardStep, options ) {
+  constructor( valueProperty, enabledRatioComponentsRangeProperty, tickMarkViewProperty, keyboardStep, options ) {
 
     options = merge( {
       cursor: 'pointer',
@@ -43,7 +43,7 @@ class RatioHandNode extends Node {
     super();
 
     // Always the same range, always enabled
-    !options.asIcon && this.initializeAccessibleSlider( valueProperty, enabledValueRangeProperty, new BooleanProperty( true ), options );
+    !options.asIcon && this.initializeAccessibleSlider( valueProperty, enabledRatioComponentsRangeProperty, new BooleanProperty( true ), options );
 
     // @private
     const filledInHandNode = new Image( filledInHandImage );

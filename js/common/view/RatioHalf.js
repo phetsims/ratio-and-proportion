@@ -62,7 +62,7 @@ class RatioHalf extends Rectangle {
   /**
    * @param {NumberProperty} valueProperty
    * @param {Range} valueRange - the total range of the hand
-   * @param {Property.<Range>} enabledValueRangeProperty - the current range that the hand can move
+   * @param {Property.<Range>} enabledRatioComponentsRangeProperty - the current range that the hand can move
    * @param {Property.<boolean>} firstInteractionProperty - upon successful interaction, this will be marked as false
    * @param {Bounds2} bounds - the area that the node takes up
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
@@ -78,7 +78,7 @@ class RatioHalf extends Rectangle {
    * @param {InProportionSoundGenerator} inProportionSoundGenerator
    * @param {Object} [options]
    */
-  constructor( valueProperty, valueRange, enabledValueRangeProperty, firstInteractionProperty, bounds, tickMarkViewProperty,
+  constructor( valueProperty, valueRange, enabledRatioComponentsRangeProperty, firstInteractionProperty, bounds, tickMarkViewProperty,
                tickMarkRangeProperty, ratioDescriber, handPositionsDescriber, bothHandsDescriber, colorProperty, keyboardStep,
                horizontalMovementAllowedProperty, lockRatioProperty, playTickMarkBumpSoundProperty, inProportionSoundGenerator,
                options ) {
@@ -107,9 +107,6 @@ class RatioHalf extends Rectangle {
     const bottomRect = new Rectangle( 0, 0, 10, FRAMING_RECTANGLE_HEIGHT, { fill: colorProperty } );
     this.addChild( bottomRect );
 
-    // @private
-    this.enabledValueRangeProperty = enabledValueRangeProperty;
-
     const alertManager = new RatioHalfAlertManager( valueProperty, ratioDescriber, handPositionsDescriber,
       bothHandsDescriber, lockRatioProperty );
 
@@ -119,7 +116,7 @@ class RatioHalf extends Rectangle {
     this.addChild( tickMarksNode );
 
     // @private - The draggable element inside the Node framed with thick rectangles on the top and bottom.
-    this.ratioHandNode = new RatioHandNode( valueProperty, enabledValueRangeProperty, tickMarkViewProperty, keyboardStep, {
+    this.ratioHandNode = new RatioHandNode( valueProperty, enabledRatioComponentsRangeProperty, tickMarkViewProperty, keyboardStep, {
       startDrag: () => {
         firstInteractionProperty.value = false;
         this.isBeingInteractedWithProperty.value = true;
@@ -264,7 +261,7 @@ class RatioHalf extends Rectangle {
     } );
 
     // When the range changes, update the dragBounds of the drag listener
-    enabledValueRangeProperty.link( enabledRange => {
+    enabledRatioComponentsRangeProperty.link( enabledRange => {
       const newBounds = getModelBoundsFromRange( enabledRange );
 
 
@@ -337,7 +334,7 @@ class RatioHalf extends Rectangle {
 
       // Don't count the space the framing rectangles take up as part of the draggableArea.
       modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
-        getModelBoundsFromRange( this.enabledValueRangeProperty.value ),
+        getModelBoundsFromRange( enabledRatioComponentsRangeProperty.value ),
         boundsNoFramingRects
       );
 

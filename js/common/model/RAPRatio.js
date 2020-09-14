@@ -12,20 +12,19 @@ import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
+import RAPConstants from '../RAPConstants.js';
 
 // The threshold for velocity of a moving ratio value to indivate that it is "moving."
 const VELOCITY_THRESHOLD = .01;
 
-const VALUE_RANGE_MIN = 0;
-const VALUE_RANGE = new Range( VALUE_RANGE_MIN, 1 );
+const DEFAULT_VALUE_RANGE = RAPConstants.TOTAL_RATIO_COMPONENT_VALUE_RANGE;
 const LOCK_RATIO_RANGE_MIN = .05;
 
 class RAPRatio {
   constructor() {
 
     // @public (read-only)
-    this.valueRange = VALUE_RANGE;
-    this.enabledValueRangeProperty = new Property( this.valueRange );
+    this.enabledRatioComponentsRangeProperty = new Property( RAPConstants.TOTAL_RATIO_COMPONENT_VALUE_RANGE );
 
     // @public - settable positions of the two values on the screen
     this.numeratorProperty = new NumberProperty( .2, {
@@ -65,8 +64,10 @@ class RAPRatio {
       if ( this.lockRatioProperty.value && !adjustingFromLock ) {
         const previousRatio = oldValue / this.denominatorProperty.value;
         adjustingFromLock = true;
-        this.denominatorProperty.value = Utils.clamp( newValue / previousRatio, this.valueRange.min, this.valueRange.max );
-        if ( this.denominatorProperty.value === this.valueRange.min || this.denominatorProperty.value === this.valueRange.max ) {
+
+        // TODO: should this use the enabled range instead of the default?
+        this.denominatorProperty.value = Utils.clamp( newValue / previousRatio, DEFAULT_VALUE_RANGE.min, DEFAULT_VALUE_RANGE.max );
+        if ( this.denominatorProperty.value === DEFAULT_VALUE_RANGE.min || this.denominatorProperty.value === DEFAULT_VALUE_RANGE.max ) {
           this.numeratorProperty.value = previousRatio * this.denominatorProperty.value;
         }
         adjustingFromLock = false;
@@ -76,8 +77,8 @@ class RAPRatio {
       if ( this.lockRatioProperty.value && !adjustingFromLock ) {
         const previousRatio = this.numeratorProperty.value / oldValue;
         adjustingFromLock = true;
-        this.numeratorProperty.value = Utils.clamp( newValue * previousRatio, this.valueRange.min, this.valueRange.max );
-        if ( this.numeratorProperty.value === this.valueRange.min || this.numeratorProperty.value === this.valueRange.max ) {
+        this.numeratorProperty.value = Utils.clamp( newValue * previousRatio, DEFAULT_VALUE_RANGE.min, DEFAULT_VALUE_RANGE.max );
+        if ( this.numeratorProperty.value === DEFAULT_VALUE_RANGE.min || this.numeratorProperty.value === DEFAULT_VALUE_RANGE.max ) {
           this.denominatorProperty.value = this.numeratorProperty.value / previousRatio;
         }
         adjustingFromLock = false;
@@ -85,10 +86,10 @@ class RAPRatio {
     } );
 
     this.lockRatioProperty.link( ratioLocked => {
-      this.enabledValueRangeProperty.value = new Range( ratioLocked ? LOCK_RATIO_RANGE_MIN : VALUE_RANGE_MIN, VALUE_RANGE.max );
+      this.enabledRatioComponentsRangeProperty.value = new Range( ratioLocked ? LOCK_RATIO_RANGE_MIN : DEFAULT_VALUE_RANGE.min, DEFAULT_VALUE_RANGE.max );
     } );
 
-    this.enabledValueRangeProperty.link( enabledRange => {
+    this.enabledRatioComponentsRangeProperty.link( enabledRange => {
       const clampPropertyIntoRange = property => !enabledRange.contains( property.value ) && property.set( enabledRange.constrainValue( property.value ) );
       clampPropertyIntoRange( this.numeratorProperty );
       clampPropertyIntoRange( this.denominatorProperty );
@@ -154,7 +155,7 @@ class RAPRatio {
 
     this.numeratorProperty.reset();
     this.denominatorProperty.reset();
-    this.enabledValueRangeProperty.reset();
+    this.enabledRatioComponentsRangeProperty.reset();
   }
 
 }

@@ -48,6 +48,7 @@ const RATIO_HALF_SPACING = 10;
 const uiScaleFunction = new LinearFunction( LAYOUT_BOUNDS.height, MAX_RATIO_HEIGHT, 1, 1.5, true );
 const uiPositionFunction = new LinearFunction( 1, 1.5, LAYOUT_BOUNDS.height * .15, -LAYOUT_BOUNDS.height * .2, true );
 
+const DEFAULT_RANGE = RAPConstants.TOTAL_RATIO_COMPONENT_VALUE_RANGE;
 
 class RAPScreenView extends ScreenView {
 
@@ -82,11 +83,11 @@ class RAPScreenView extends ScreenView {
     // for ease at usage sites
     const ratio = model.ratio;
 
-    const tickMarkDescriber = new TickMarkDescriber( model.valueRange, options.tickMarkRangeProperty );
+    const tickMarkDescriber = new TickMarkDescriber( DEFAULT_RANGE, options.tickMarkRangeProperty );
 
     // @protected (read-only)
     this.ratioDescriber = new RatioDescriber( model );
-    this.handPositionsDescriber = new HandPositionsDescriber( ratio.numeratorProperty, ratio.denominatorProperty, model.valueRange, tickMarkDescriber );
+    this.handPositionsDescriber = new HandPositionsDescriber( ratio.numeratorProperty, ratio.denominatorProperty, DEFAULT_RANGE, tickMarkDescriber );
     const bothHandsDescriber = new BothHandsDescriber( ratio.numeratorProperty, ratio.denominatorProperty, tickMarkViewProperty,
       this.ratioDescriber, this.handPositionsDescriber );
 
@@ -118,8 +119,8 @@ class RAPScreenView extends ScreenView {
     // @private {RatioHalf}
     this.numeratorRatioHalf = new RatioHalf(
       ratio.numeratorProperty,
-      model.valueRange,
-      model.enabledValueRangeProperty,
+      DEFAULT_RANGE,
+      model.ratio.enabledRatioComponentsRangeProperty,
       model.firstInteractionProperty,
       defaultRatioHalfBounds,
       tickMarkViewProperty,
@@ -142,8 +143,8 @@ class RAPScreenView extends ScreenView {
     // @private {RatioHalf}
     this.denominatorRatioHalf = new RatioHalf(
       ratio.denominatorProperty,
-      model.valueRange,
-      model.enabledValueRangeProperty,
+      DEFAULT_RANGE,
+      model.ratio.enabledRatioComponentsRangeProperty,
       model.firstInteractionProperty,
       defaultRatioHalfBounds,
       tickMarkViewProperty,
@@ -162,7 +163,7 @@ class RAPScreenView extends ScreenView {
         helpText: ratioAndProportionStrings.a11y.rightHandHelpText
       } );
 
-    const bothHandsPDOMNode = new BothHandsPDOMNode( ratio.numeratorProperty, ratio.denominatorProperty, model.valueRange,
+    const bothHandsPDOMNode = new BothHandsPDOMNode( ratio.numeratorProperty, ratio.denominatorProperty, DEFAULT_RANGE,
       model.firstInteractionProperty, keyboardStep, tickMarkViewProperty, options.tickMarkRangeProperty, model.unclampedFitnessProperty,
       this.handPositionsDescriber, this.ratioDescriber, bothHandsDescriber, {
         interactiveNodeOptions: {

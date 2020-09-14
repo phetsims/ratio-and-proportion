@@ -132,7 +132,7 @@ class HandPositionsDescriber {
   }
 
   /**
-   * @param {number} position - within this.valueRange
+   * @param {number} position - relative to the total possible position
    * @returns {number}
    * @public
    */
