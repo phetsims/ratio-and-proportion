@@ -20,6 +20,10 @@ const VALUE_RANGE_MIN = 0;
 const VALUE_RANGE = new Range( VALUE_RANGE_MIN, 1 );
 const LOCK_RATIO_RANGE_MIN = .05;
 
+// TODO: duplicated, see RAPModel
+const RIGHT_VALUE_ZERO_REPLACEMENT = .000001;
+
+
 class RAPRatio {
   constructor() {
 
@@ -113,6 +117,19 @@ class RAPRatio {
     return bothMoving && movingInSameDirection && ( movingFastEnough || this.lockRatioProperty.value );
   }
 
+  /**
+   * @public
+   * @returns {number}
+   */
+  get currentRatio() {
+    let denominator = this.denominatorProperty.value;
+
+    // Instead of dividing by zero, just say this case is not in proportion
+    if ( denominator === 0 ) {
+      denominator = RIGHT_VALUE_ZERO_REPLACEMENT; // calculate the fitness as if the value was very small, but not 0
+    }
+    return this.numeratorProperty.value / denominator;
+  }
 
   /**
    * @private

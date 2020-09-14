@@ -20,6 +20,7 @@ const FITNESS_TOLERANCE_FACTOR = 0.5;
 // Add .001 to support two keyboard nav motions above 0 (counting the min range being >0).
 const NO_SUCCUSS_VALUE_THRESHOLD = .021;
 
+// TODO: duplicated, see RAPRatio
 const RIGHT_VALUE_ZERO_REPLACEMENT = .000001;
 
 class RAPModel {
@@ -44,19 +45,6 @@ class RAPModel {
     // TODO: do some renaming
     this.leftValueProperty = this.ratio.numeratorProperty;
     this.rightValueProperty = this.ratio.denominatorProperty;
-
-    // @public - the current value of the ratio
-    // TODO: with such limited use, likely this should be removed.
-    this.currentRatioProperty = new DerivedProperty( [ this.leftValueProperty, this.rightValueProperty ],
-      ( left, right ) => {
-
-        // Instead of dividing by zero, just say this case is not in proportion
-        if ( right === 0 ) {
-          right = RIGHT_VALUE_ZERO_REPLACEMENT; // calculate the fitness as if the value was very small, but not 0
-        }
-
-        return left / right;
-      }, { valueType: 'number' } );
 
     // @public (read-only) - the Range that the ratioFitnessProperty can be.
     this.fitnessRange = new Range( 0, 1 );

@@ -91,7 +91,7 @@ class RAPScreenView extends ScreenView {
     this.tickMarkViewProperty = tickMarkViewProperty;
 
     // @private - SoundGenerators that sonify different aspects of the model
-    this.inProportionSoundGenerator = new InProportionSoundGenerator( model );
+    this.inProportionSoundGenerator = new InProportionSoundGenerator( model, () => model.ratio.currentRatio );
     this.movingInProportionSoundGenerator = new MovingInProportionSoundGenerator( model );
     this.staccatoFrequencySoundGenerator = new StaccatoFrequencySoundGenerator( model.ratioFitnessProperty, model.fitnessRange,
       model.inProportion.bind( model ) );
