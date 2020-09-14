@@ -20,9 +20,6 @@ const FITNESS_TOLERANCE_FACTOR = 0.5;
 // Add .001 to support two keyboard nav motions above 0 (counting the min range being >0).
 const NO_SUCCUSS_VALUE_THRESHOLD = .021;
 
-// TODO: duplicated, see RAPRatio
-const RIGHT_VALUE_ZERO_REPLACEMENT = .000001;
-
 class RAPModel {
 
   /**
@@ -49,25 +46,14 @@ class RAPModel {
     // @public (read-only) - the Range that the ratioFitnessProperty can be.
     this.fitnessRange = new Range( 0, 1 );
 
-    // @private
-    this.unclampedFitnessRange = new Range( -50, 1 );
-
     // @public {DerivedProperty.<number>}
-    // How "correct" the proportion currently is. Can be between 0 and 1, if 1, the proportion of the two values is
-    // exactly the value of the targetRatioProperty. If zero, it is outside the tolerance allowed for the proportion.
+    // How "correct" the proportion currently is. Max is this.fitnessRange.max, but the min can be arbitrarily negative,
+    // depending how far away the current
     this.unclampedFitnessProperty = new DerivedProperty( [
       this.leftValueProperty,
       this.rightValueProperty,
       this.targetRatioProperty
     ], ( leftValue, rightValue, ratio ) => {
-
-      // Instead of dividing by zero, just say this case is not in proportion
-      if ( rightValue === 0 ) {
-        rightValue = RIGHT_VALUE_ZERO_REPLACEMENT; // calculate the fitness as if the value was very small, but not 0
-      }
-
-      assert && assert( !isNaN( leftValue / rightValue ), 'ratio should be defined' );
-      assert && assert( leftValue / rightValue >= 0, 'ratio should be positive' );
 
       let unclampedFitness = this.calculateFitness( leftValue, rightValue, ratio );
 
@@ -76,11 +62,11 @@ class RAPModel {
         unclampedFitness = this.fitnessRange.max - this.getInProportionThreshold() - .01;
       }
 
-      phet.log && phet.log( `left: ${leftValue},\n right: ${rightValue},\n distance: ${Math.abs( rightValue - leftValue )},\n current ratio: ${leftValue / rightValue},\n unclampedFitness: ${unclampedFitness}\n\n` );
+      phet.log && phet.log( `left: ${leftValue},\n right: ${rightValue},\n distance: ${Math.abs( rightValue - leftValue )},\n current ratio: ${this.ratio.currentRatio},\n unclampedFitness: ${unclampedFitness}\n\n` );
 
       return unclampedFitness;
     }, {
-      isValidValue: value => this.unclampedFitnessRange.contains( value )
+      isValidValue: value => value <= this.fitnessRange.max
     } );
 
 
@@ -149,7 +135,7 @@ class RAPModel {
    */
   getMinFitness( ratio = this.targetRatioProperty.value ) {
     const minRatioFitness = this.calculateFitness( this.valueRange.min, this.valueRange.max, ratio );
-    const maxRatioFitness = this.calculateFitness( this.valueRange.max, RIGHT_VALUE_ZERO_REPLACEMENT, ratio );
+    const maxRatioFitness = this.calculateFitness( this.valueRange.max, this.valueRange.min, ratio );
     return Math.min( minRatioFitness, maxRatioFitness );
   }
 
