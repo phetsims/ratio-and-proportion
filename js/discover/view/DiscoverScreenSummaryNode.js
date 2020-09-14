@@ -11,7 +11,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
-class ExploreScreenSummaryNode extends Node {
+class DiscoverScreenSummaryNode extends Node {
 
   /**
    * @param {Property.<number>} ratioFitnessProperty
@@ -42,13 +42,13 @@ class ExploreScreenSummaryNode extends Node {
       children: [
         new Node( {
           tagName: 'p',
-          innerContent: ratioAndProportionStrings.a11y.explore.screenSummary.introParagraph
+          innerContent: ratioAndProportionStrings.a11y.discover.screenSummary.introParagraph
         } ),
         stateOfSimNode,
         descriptionBullets,
         new Node( {
           tagName: 'p',
-          innerContent: ratioAndProportionStrings.a11y.explore.screenSummary.interactionHint
+          innerContent: ratioAndProportionStrings.a11y.discover.screenSummary.interactionHint
         } )
       ]
     } );
@@ -56,7 +56,7 @@ class ExploreScreenSummaryNode extends Node {
     // This derivedProperty is already dependent on all other dependencies for getStateOfSimString
     Property.multilink( [ targetRatioProperty, tickMarkViewProperty, ratioFitnessProperty, leftValueProperty, rightValueProperty ],
       ( currentTargetRatio, tickMarkView ) => {
-        stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.explore.screenSummary.qualitativeStateOfSim, {
+        stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.discover.screenSummary.qualitativeStateOfSim, {
           ratioFitness: ratioDescriber.getRatioFitness( false ), // lowercase
           currentChallenge: ratioToChallengeNameMap.get( currentTargetRatio ).lowercase
         } );
@@ -73,5 +73,5 @@ class ExploreScreenSummaryNode extends Node {
   }
 }
 
-ratioAndProportion.register( 'ExploreScreenSummaryNode', ExploreScreenSummaryNode );
-export default ExploreScreenSummaryNode;
+ratioAndProportion.register( 'DiscoverScreenSummaryNode', DiscoverScreenSummaryNode );
+export default DiscoverScreenSummaryNode;

@@ -10,7 +10,7 @@ import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import CreateScreen from './create/CreateScreen.js';
-import ExploreScreen from './explore/ExploreScreen.js';
+import DiscoverScreen from './discover/DiscoverScreen.js';
 import ratioAndProportionStrings from './ratioAndProportionStrings.js';
 
 const ratioAndProportionTitleString = ratioAndProportionStrings[ 'ratio-and-proportion' ].title;
@@ -32,7 +32,7 @@ const simOptions = {
 // until the images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70
 simLauncher.launch( () => {
   const sim = new Sim( ratioAndProportionTitleString, [
-    new ExploreScreen( Tandem.ROOT.createTandem( 'exploreScreen' ) ),
+    new DiscoverScreen( Tandem.ROOT.createTandem( 'discoverScreen' ) ),
     new CreateScreen( Tandem.ROOT.createTandem( 'createScreen' ) )
   ], simOptions );
   sim.start();

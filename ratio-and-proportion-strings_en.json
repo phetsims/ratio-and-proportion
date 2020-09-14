@@ -2,8 +2,8 @@
   "ratio-and-proportion.title": {
     "value": "Ratio and Proportion"
   },
-  "explore": {
-    "value": "Explore"
+  "discover": {
+    "value": "Discover"
   },
   "create": {
     "value": "Create"
@@ -227,9 +227,9 @@
     "lockRatioHelpText": {
       "value": "When at challenge ratio, move hands as a single unit with the ratio locked."
     },
-    "explore": {
+    "discover": {
       "homeScreenDescription": {
-        "value": "Choose set challenges to explore ratio and proportion."
+        "value": "Choose set challenges to discover ratio and proportion."
       },
       "screenSummary": {
         "introParagraph": {
@@ -260,14 +260,14 @@
     },
     "create": {
       "homeScreenDescription": {
-        "value": "Create custom challenges to explore ratio and proportion."
+        "value": "Create custom challenges to discover ratio and proportion."
       },
       "screenSummary": {
         "introParagraph": {
-          "value": "On this screen you can create your own ratio challenge. The Play Area has two movable hands that can be moved individually or simultaneously, or as a single interaction with the ratio locked to explore the ratio challenges you create. There are options to add plain or numbered tick marks shown as evenly-spaced horizontal lines that divide up the vertical space of the Play Area. In addition, you can increase the range of tick marks for a finer exploration of your ratio challenges. The Control Area has a button to reset the sim."
+          "value": "On this screen you can create your own ratio challenge. The Play Area has two movable hands that can be moved individually or simultaneously, or as a single interaction with the ratio locked to discover the ratio challenges you create. There are options to add plain or numbered tick marks shown as evenly-spaced horizontal lines that divide up the vertical space of the Play Area. In addition, you can increase the range of tick marks for a finer exploration of your ratio challenges. The Control Area has a button to reset the sim."
         },
         "interactionHint": {
-          "value": "Explore the current my challenge ratio or create your own."
+          "value": "Discover the current my challenge ratio or create your own."
         },
         "qualitativeStateOfSim": {
           "value": "Currently, {{ratioFitness}} the my challenge ratio with"

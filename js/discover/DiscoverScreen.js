@@ -10,10 +10,10 @@ import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import RAPModel from '../common/model/RAPModel.js';
 import RandomIcon from '../common/view/RandomIcon.js';
 import ratioAndProportion from '../ratioAndProportion.js';
-import ExploreScreenView from './view/ExploreScreenView.js';
+import DiscoverScreenView from './view/DiscoverScreenView.js';
 import ratioAndProportionStrings from '../ratioAndProportionStrings.js';
 
-class ExploreScreen extends Screen {
+class DiscoverScreen extends Screen {
 
   /**
    * @param {Tandem} tandem
@@ -27,17 +27,17 @@ class ExploreScreen extends Screen {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
       } ),
-      name: ratioAndProportionStrings.explore,
-      descriptionContent: ratioAndProportionStrings.a11y.explore.homeScreenDescription
+      name: ratioAndProportionStrings.discover,
+      descriptionContent: ratioAndProportionStrings.a11y.discover.homeScreenDescription
     };
 
     super(
       () => new RAPModel( tandem.createTandem( 'model' ) ),
-      model => new ExploreScreenView( model, tandem.createTandem( 'view' ) ),
+      model => new DiscoverScreenView( model, tandem.createTandem( 'view' ) ),
       options
     );
   }
 }
 
-ratioAndProportion.register( 'ExploreScreen', ExploreScreen );
-export default ExploreScreen;
+ratioAndProportion.register( 'DiscoverScreen', DiscoverScreen );
+export default DiscoverScreen;

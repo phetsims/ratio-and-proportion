@@ -16,17 +16,17 @@ import RAPScreenView from '../../common/view/RAPScreenView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import ChallengeComboBoxItem from './ChallengeComboBoxItem.js';
-import ExploreScreenSummaryNode from './ExploreScreenSummaryNode.js';
+import DiscoverScreenSummaryNode from './DiscoverScreenSummaryNode.js';
 
 // constants
 const SELECTION_SOUND_OPTIONS = {
   initialOutputLevel: 0.4
 };
 
-class ExploreScreenView extends RAPScreenView {
+class DiscoverScreenView extends RAPScreenView {
 
   /**
-   * @param {ExploreModel} model
+   * @param {DiscoverModel} model
    * @param {Tandem} tandem
    */
   constructor( model, tandem ) {
@@ -44,12 +44,12 @@ class ExploreScreenView extends RAPScreenView {
 
     // Used to get the names of challenges based on the target ratio, NOTE: lowercase strings are only available in the PDOM (not yet i18n)
     const ratioToChallengeNameMap = new Map();
-    ratioToChallengeNameMap.set( 1 / 2, { capitalized: ratioAndProportionStrings.challenge1, lowercase: ratioAndProportionStrings.a11y.explore.challenge1Lowercase } );
-    ratioToChallengeNameMap.set( 1 / 3, { capitalized: ratioAndProportionStrings.challenge2, lowercase: ratioAndProportionStrings.a11y.explore.challenge2Lowercase } );
-    ratioToChallengeNameMap.set( 3 / 4, { capitalized: ratioAndProportionStrings.challenge3, lowercase: ratioAndProportionStrings.a11y.explore.challenge3Lowercase } );
+    ratioToChallengeNameMap.set( 1 / 2, { capitalized: ratioAndProportionStrings.challenge1, lowercase: ratioAndProportionStrings.a11y.discover.challenge1Lowercase } );
+    ratioToChallengeNameMap.set( 1 / 3, { capitalized: ratioAndProportionStrings.challenge2, lowercase: ratioAndProportionStrings.a11y.discover.challenge2Lowercase } );
+    ratioToChallengeNameMap.set( 3 / 4, { capitalized: ratioAndProportionStrings.challenge3, lowercase: ratioAndProportionStrings.a11y.discover.challenge3Lowercase } );
 
     const comboBoxHeading = new Node( {
-      innerContent: ratioAndProportionStrings.a11y.explore.ratioChallenges,
+      innerContent: ratioAndProportionStrings.a11y.discover.ratioChallenges,
       tagName: 'h3'
     } );
     const comboBox = new ComboBox( [
@@ -66,7 +66,7 @@ class ExploreScreenView extends RAPScreenView {
         a11yLabel: ratioAndProportionStrings.challenge3
       } )
     ], model.targetRatioProperty, comboBoxListParent, {
-      helpText: ratioAndProportionStrings.a11y.explore.challengesHelpText
+      helpText: ratioAndProportionStrings.a11y.discover.challengesHelpText
     } );
 
     // children - scale all of these components to support vertical aspect ratios better.
@@ -77,7 +77,7 @@ class ExploreScreenView extends RAPScreenView {
     this.pdomPlayAreaNode.accessibleOrder = this.pdomPlayAreaNode.accessibleOrder.concat( [ comboBoxHeading, comboBox, comboBoxListParent ] );
 
     // set this after the supertype has initialized the view code needed to create the screen summary
-    this.setScreenSummaryContent( new ExploreScreenSummaryNode(
+    this.setScreenSummaryContent( new DiscoverScreenSummaryNode(
       model.ratioFitnessProperty,
       model.leftValueProperty,
       model.rightValueProperty,
@@ -94,5 +94,5 @@ class ExploreScreenView extends RAPScreenView {
   }
 }
 
-ratioAndProportion.register( 'ExploreScreenView', ExploreScreenView );
-export default ExploreScreenView;
+ratioAndProportion.register( 'DiscoverScreenView', DiscoverScreenView );
+export default DiscoverScreenView;
