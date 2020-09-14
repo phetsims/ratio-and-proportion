@@ -35,8 +35,6 @@ class RAPModel {
     // @public - the current state of the ratio
     this.ratio = new RAPRatio();
 
-    this.lockRatioProperty = this.ratio.lockRatioProperty;
-
     // @public (read-only) - the Range that the ratioFitnessProperty can be.
     this.fitnessRange = new Range( 0, 1 );
 
@@ -78,7 +76,7 @@ class RAPModel {
 
     // This must be done here, because of the reentrant nature of how fitness changes when the ratio is locked
     this.targetRatioProperty.link( () => {
-      this.lockRatioProperty.value = false;
+      this.ratio.lockedProperty.value = false;
     } );
   }
 

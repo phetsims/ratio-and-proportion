@@ -114,7 +114,7 @@ class RAPScreenView extends ScreenView {
 
     // Tick mark sounds get played when ratio isn't locked, and when staccato sounds aren't playing
     const playTickMarkSoundProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
-      fitness => !model.lockRatioProperty.value && ( fitness === model.fitnessRange.min || model.inProportion() ) );
+      fitness => !model.ratio.lockedProperty.value && ( fitness === model.fitnessRange.min || model.inProportion() ) );
 
     // @private {RatioHalf}
     this.numeratorRatioHalf = new RatioHalf(
@@ -130,8 +130,8 @@ class RAPScreenView extends ScreenView {
       bothHandsDescriber,
       tickMarksAndLabelsColorProperty,
       keyboardStep,
-      model.lockRatioProperty,
-      model.lockRatioProperty, // not a bug
+      model.ratio.lockedProperty,
+      model.ratio.lockedProperty, // not a bug
       playTickMarkSoundProperty,
       this.inProportionSoundGenerator, {
         accessibleName: ratioAndProportionStrings.a11y.leftHand,
@@ -154,8 +154,8 @@ class RAPScreenView extends ScreenView {
       bothHandsDescriber,
       tickMarksAndLabelsColorProperty,
       keyboardStep,
-      model.lockRatioProperty,
-      model.lockRatioProperty, // not a bug
+      model.ratio.lockedProperty,
+      model.ratio.lockedProperty, // not a bug
       playTickMarkSoundProperty,
       this.inProportionSoundGenerator, {
         accessibleName: ratioAndProportionStrings.a11y.rightHand,

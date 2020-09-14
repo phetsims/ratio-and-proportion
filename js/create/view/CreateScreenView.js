@@ -122,7 +122,7 @@ class CreateScreenView extends RAPScreenView {
       targetDenominatorProperty
     ) );
 
-    const lockRatioCheckbox = new Checkbox( new RichText( ratioAndProportionStrings.lockRatio ), model.lockRatioProperty, {
+    const lockRatioCheckbox = new Checkbox( new RichText( ratioAndProportionStrings.lockRatio ), model.ratio.lockedProperty, {
       accessibleName: ratioAndProportionStrings.lockRatio,
       helpText: ratioAndProportionStrings.a11y.lockRatioHelpText
     } );

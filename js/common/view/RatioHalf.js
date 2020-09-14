@@ -73,14 +73,14 @@ class RatioHalf extends Rectangle {
    * @param {Property.<Color>} colorProperty
    * @param {number} keyboardStep
    * @param {BooleanProperty} horizontalMovementAllowedProperty
-   * @param {BooleanProperty} lockRatioProperty
+   * @param {BooleanProperty} ratioLockedProperty
    * @param {BooleanProperty} playTickMarkBumpSoundProperty
    * @param {InProportionSoundGenerator} inProportionSoundGenerator
    * @param {Object} [options]
    */
   constructor( valueProperty, valueRange, enabledRatioComponentsRangeProperty, firstInteractionProperty, bounds, tickMarkViewProperty,
                tickMarkRangeProperty, ratioDescriber, handPositionsDescriber, bothHandsDescriber, colorProperty, keyboardStep,
-               horizontalMovementAllowedProperty, lockRatioProperty, playTickMarkBumpSoundProperty, inProportionSoundGenerator,
+               horizontalMovementAllowedProperty, ratioLockedProperty, playTickMarkBumpSoundProperty, inProportionSoundGenerator,
                options ) {
 
     options = merge( {
@@ -108,7 +108,7 @@ class RatioHalf extends Rectangle {
     this.addChild( bottomRect );
 
     const alertManager = new RatioHalfAlertManager( valueProperty, ratioDescriber, handPositionsDescriber,
-      bothHandsDescriber, lockRatioProperty );
+      bothHandsDescriber, ratioLockedProperty );
 
     const tickMarksNode = new RatioHalfTickMarksNode( tickMarkViewProperty, tickMarkRangeProperty,
       bounds.width, bounds.height - 2 * FRAMING_RECTANGLE_HEIGHT,
@@ -122,10 +122,10 @@ class RatioHalf extends Rectangle {
         this.isBeingInteractedWithProperty.value = true;
       },
       isRight: options.isRight,
-      a11yCreateAriaValueText: () => lockRatioProperty.value ? handPositionsDescriber.getBothHandsDistance( tickMarkViewProperty.value ) :
+      a11yCreateAriaValueText: () => ratioLockedProperty.value ? handPositionsDescriber.getBothHandsDistance( tickMarkViewProperty.value ) :
                                      handPositionsDescriber.getHandPosition( valueProperty, tickMarkViewProperty.value ),
       endDrag: () => alertManager.alertRatioChange(),
-      a11yDependencies: options.a11yDependencies.concat( [ lockRatioProperty ] )
+      a11yDependencies: options.a11yDependencies.concat( [ ratioLockedProperty ] )
     } );
     this.addChild( this.ratioHandNode );
 

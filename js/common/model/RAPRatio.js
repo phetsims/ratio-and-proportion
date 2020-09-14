@@ -52,16 +52,14 @@ class RAPRatio {
     this.previousDenominatorProperty = new NumberProperty( this.denominatorProperty.value );
     this.stepCountTracker = 0; // Used for
 
-
     // @public - when true, moving one ratio value will maintain the current ratio by updating the other value Property
-    // TODO: rename to "lockedProperty"
-    this.lockRatioProperty = new BooleanProperty( false );
+    this.lockedProperty = new BooleanProperty( false );
 
     // Avoid reentrancy by guarding each time one valueProperty change then sets the other.
     let adjustingFromLock = false;
 
     this.numeratorProperty.lazyLink( ( newValue, oldValue ) => {
-      if ( this.lockRatioProperty.value && !adjustingFromLock ) {
+      if ( this.lockedProperty.value && !adjustingFromLock ) {
         const previousRatio = oldValue / this.denominatorProperty.value;
         adjustingFromLock = true;
 
@@ -74,7 +72,7 @@ class RAPRatio {
       }
     } );
     this.denominatorProperty.lazyLink( ( newValue, oldValue ) => {
-      if ( this.lockRatioProperty.value && !adjustingFromLock ) {
+      if ( this.lockedProperty.value && !adjustingFromLock ) {
         const previousRatio = this.numeratorProperty.value / oldValue;
         adjustingFromLock = true;
         this.numeratorProperty.value = Utils.clamp( newValue * previousRatio, DEFAULT_VALUE_RANGE.min, DEFAULT_VALUE_RANGE.max );
@@ -85,7 +83,7 @@ class RAPRatio {
       }
     } );
 
-    this.lockRatioProperty.link( ratioLocked => {
+    this.lockedProperty.link( ratioLocked => {
       this.enabledRatioComponentsRangeProperty.value = new Range( ratioLocked ? LOCK_RATIO_RANGE_MIN : DEFAULT_VALUE_RANGE.min, DEFAULT_VALUE_RANGE.max );
     } );
 
@@ -111,7 +109,7 @@ class RAPRatio {
                              Math.abs( this.changeInDenominatorProperty.value ) > VELOCITY_THRESHOLD; // denominator past threshold
 
     // Ignore the speed component when the ratio is locked
-    return bothMoving && movingInSameDirection && ( movingFastEnough || this.lockRatioProperty.value );
+    return bothMoving && movingInSameDirection && ( movingFastEnough || this.lockedProperty.value );
   }
 
   /**
@@ -151,7 +149,7 @@ class RAPRatio {
   reset() {
 
     // it is easiest if this is reset first
-    this.lockRatioProperty.reset();
+    this.lockedProperty.reset();
 
     this.numeratorProperty.reset();
     this.denominatorProperty.reset();
