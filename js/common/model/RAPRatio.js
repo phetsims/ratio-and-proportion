@@ -34,16 +34,7 @@ class RAPRatio {
       reentrant: true
     } );
 
-    // Clamp to decimal places to make sure that javascript rounding errors don't effect some views for interpreting position
-    this.numeratorProperty.link( value => {
-      this.numeratorProperty.value = Utils.toFixedNumber( value, 6 );
-    } );
-    this.denominatorProperty.link( value => {
-      this.denominatorProperty.value = Utils.toFixedNumber( value, 6 );
-    } );
-
     // @public (read-only) - the velocity of each ratio value changing, adjusted in step
-    // TODO: reset these things
     this.changeInNumeratorProperty = new NumberProperty( 0 );
     this.changeInDenominatorProperty = new NumberProperty( 0 );
 
@@ -59,6 +50,10 @@ class RAPRatio {
     let adjustingFromLock = false;
 
     this.numeratorProperty.lazyLink( ( newValue, oldValue ) => {
+
+      // Clamp to decimal places to make sure that javascript rounding errors don't effect some views for interpreting position
+      this.numeratorProperty.value = Utils.toFixedNumber( newValue, 6 );
+
       if ( this.lockedProperty.value && !adjustingFromLock ) {
         const previousRatio = oldValue / this.denominatorProperty.value;
         adjustingFromLock = true;
@@ -72,6 +67,10 @@ class RAPRatio {
       }
     } );
     this.denominatorProperty.lazyLink( ( newValue, oldValue ) => {
+
+      // Clamp to decimal places to make sure that javascript rounding errors don't effect some views for interpreting position
+      this.denominatorProperty.value = Utils.toFixedNumber( newValue, 6 );
+
       if ( this.lockedProperty.value && !adjustingFromLock ) {
         const previousRatio = this.numeratorProperty.value / oldValue;
         adjustingFromLock = true;
@@ -153,9 +152,14 @@ class RAPRatio {
 
     this.numeratorProperty.reset();
     this.denominatorProperty.reset();
-    this.enabledRatioComponentsRangeProperty.reset();
-  }
 
+    this.enabledRatioComponentsRangeProperty.reset();
+    this.changeInNumeratorProperty.reset();
+    this.changeInDenominatorProperty.reset();
+    this.previousNumeratorProperty.reset();
+    this.previousDenominatorProperty.reset();
+    this.stepCountTracker = 0;
+  }
 }
 
 ratioAndProportion.register( 'RAPRatio', RAPRatio );
