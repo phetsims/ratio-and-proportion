@@ -73,7 +73,8 @@ class InProportionSoundGenerator extends SoundClip {
    * @returns {boolean}
    */
   jumpedOverInProportionAndShouldSound() {
-    return this.jumpingOverShouldSound && this.calculateCurrentRatioLargerThanTarget() !== this.currentRatioWasLargerThanTarget;
+    return this.jumpingOverShouldSound && !this.model.valuesTooSmallForSuccess() &&
+           this.calculateCurrentRatioLargerThanTarget() !== this.currentRatioWasLargerThanTarget;
   }
 
   /**
