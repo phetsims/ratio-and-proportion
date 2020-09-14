@@ -43,11 +43,11 @@ class CreateScreenView extends RAPScreenView {
     } );
 
     // Allow us to get the reduced fraction as the initial value of the custom "My Challenge"
-    const initialRatioFration = new Fraction( model.leftValueProperty.value * 100, model.rightValueProperty.value * 100 );
-    initialRatioFration.reduce();
+    const initialRatioFraction = new Fraction( model.ratio.numeratorProperty.value * 100, model.ratio.denominatorProperty.value * 100 );
+    initialRatioFraction.reduce();
 
-    const numeratorProperty = new NumberProperty( initialRatioFration.numerator );
-    const numeratorNumberPicker = new NumberPicker( numeratorProperty, new Property( new Range( 1, 10 ) ), {
+    const targetNumeratorProperty = new NumberProperty( initialRatioFraction.numerator );
+    const numeratorNumberPicker = new NumberPicker( targetNumeratorProperty, new Property( new Range( 1, 10 ) ), {
       scale: PICKER_SCALE,
       center: Vector2.ZERO,
       accessibleName: ratioAndProportionStrings.a11y.leftHand
@@ -60,8 +60,8 @@ class CreateScreenView extends RAPScreenView {
         new Node( { children: [ numeratorNumberPicker ] } ) ]
     } );
 
-    const denominatorProperty = new NumberProperty( initialRatioFration.denominator );
-    const denominatorNumberPicker = new NumberPicker( denominatorProperty, new Property( new Range( 1, 10 ) ), {
+    const targetDenominatorProperty = new NumberProperty( initialRatioFraction.denominator );
+    const denominatorNumberPicker = new NumberPicker( targetDenominatorProperty, new Property( new Range( 1, 10 ) ), {
       scale: PICKER_SCALE,
       center: Vector2.ZERO,
       accessibleName: ratioAndProportionStrings.a11y.rightHand
@@ -74,8 +74,8 @@ class CreateScreenView extends RAPScreenView {
         new Node( { children: [ denominatorNumberPicker ] } ) ]
     } );
 
-    Property.multilink( [ numeratorProperty, denominatorProperty ], ( leftValue, rightValue ) => {
-      model.targetRatioProperty.value = leftValue / rightValue;
+    Property.multilink( [ targetNumeratorProperty, targetDenominatorProperty ], ( targetNumerator, targetDenominator ) => {
+      model.targetRatioProperty.value = targetNumerator / targetDenominator;
     } );
 
     const myChallengeContent = new HBox( {
@@ -112,14 +112,14 @@ class CreateScreenView extends RAPScreenView {
     // set this after the supertype has initialized the view code needed to create the screen summary
     this.setScreenSummaryContent( new CreateScreenSummaryNode(
       model.ratioFitnessProperty,
-      model.leftValueProperty,
-      model.rightValueProperty,
+      model.ratio.numeratorProperty,
+      model.ratio.denominatorProperty,
       this.tickMarkViewProperty,
       this.ratioDescriber,
       this.handPositionsDescriber,
       tickMarkRangeProperty,
-      numeratorProperty,
-      denominatorProperty
+      targetNumeratorProperty,
+      targetDenominatorProperty
     ) );
 
     const lockRatioCheckbox = new Checkbox( new RichText( ratioAndProportionStrings.lockRatio ), model.lockRatioProperty, {
@@ -157,8 +157,8 @@ class CreateScreenView extends RAPScreenView {
 
     // @private
     this.resetCreateScreenView = () => {
-      numeratorProperty.reset();
-      denominatorProperty.reset();
+      targetNumeratorProperty.reset();
+      targetDenominatorProperty.reset();
       myChallengeAccordionBox.expandedProperty.value = DEFAULT_EXPANDED;
     };
   }

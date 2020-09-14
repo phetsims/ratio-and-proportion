@@ -20,8 +20,8 @@ import RatioInteractionListener from './RatioInteractionListener.js';
 class BothHandsPDOMNode extends Node {
 
   /**
-   * @param {NumberProperty} leftValueProperty
-   * @param {NumberProperty} rightValueProperty
+   * @param {NumberProperty} numeratorProperty
+   * @param {NumberProperty} denominatorProperty
    * @param {Range} valueRange - the total range of the hand
    * @param {Property.<boolean>} firstInteractionProperty - upon successful interaction, this will be marked as false
    * @param {number} keyboardStep
@@ -33,7 +33,7 @@ class BothHandsPDOMNode extends Node {
    * @param {BothHandsDescriber} bothHandsDescriber
    * @param {Object} [options]
    */
-  constructor( leftValueProperty, rightValueProperty, valueRange, firstInteractionProperty, keyboardStep,
+  constructor( numeratorProperty, denominatorProperty, valueRange, firstInteractionProperty, keyboardStep,
                tickMarkViewProperty, tickMarkRangeProperty, unclampedFitnessProperty, handPositionsDescriber,
                ratioDescriber, bothHandsDescriber, options ) {
 
@@ -66,8 +66,8 @@ class BothHandsPDOMNode extends Node {
 
     interactiveNode.setAccessibleAttribute( 'aria-roledescription', sceneryPhetStrings.a11y.grabDrag.movable );
 
-    const ratioInteractionListener = new RatioInteractionListener( interactiveNode, leftValueProperty,
-      rightValueProperty, valueRange, firstInteractionProperty, tickMarkRangeProperty, keyboardStep );
+    const ratioInteractionListener = new RatioInteractionListener( interactiveNode, numeratorProperty,
+      denominatorProperty, valueRange, firstInteractionProperty, tickMarkRangeProperty, keyboardStep );
     interactiveNode.addInputListener( ratioInteractionListener );
 
     const bothHandsRatioUtterance = new Utterance( {

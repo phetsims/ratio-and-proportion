@@ -38,7 +38,7 @@ class InProportionSoundGenerator extends SoundClip {
     // goes back out of range for the success sound.
     this.playedSuccessYet = false;
 
-    // @private - True when, in the previous step, the current ratio (calculated from leftValue/rightValue) is larger than
+    // @private - True when, in the previous step, the current ratio (calculated from currentRatio) is larger than
     // the target ratio.
     this.currentRatioWasLargerThanTarget = this.calculateCurrentRatioLargerThanTarget();
 

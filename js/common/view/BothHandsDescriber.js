@@ -12,17 +12,17 @@ import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 class BothHandsDescriber {
 
   /**
-   * @param {Property.<number>}leftValueProperty
-   * @param {Property.<number>}rightValueProperty
+   * @param {Property.<number>} numeratorProperty
+   * @param {Property.<number>} denominatorProperty
    * @param {Property.<TickMarkView>} tickMarkViewProperty
    * @param {RatioDescriber} ratioDescriber
    * @param {HandPositionsDescriber} handPositionsDescriber
    */
-  constructor( leftValueProperty, rightValueProperty, tickMarkViewProperty, ratioDescriber, handPositionsDescriber ) {
+  constructor( numeratorProperty, denominatorProperty, tickMarkViewProperty, ratioDescriber, handPositionsDescriber ) {
 
     // @private - from model
-    this.leftValueProperty = leftValueProperty;
-    this.rightValueProperty = rightValueProperty;
+    this.numeratorProperty = numeratorProperty;
+    this.denominatorProperty = denominatorProperty;
     this.tickMarkViewProperty = tickMarkViewProperty;
     this.ratioDescriber = ratioDescriber;
     this.handPositionsDescriber = handPositionsDescriber;
@@ -35,8 +35,8 @@ class BothHandsDescriber {
   getRatioAndBothHandPositionsText() {
     const tickMarkView = this.tickMarkViewProperty.value;
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.bothHandsAlert, {
-      leftPosition: this.handPositionsDescriber.getHandPosition( this.leftValueProperty, tickMarkView ),
-      rightPosition: this.handPositionsDescriber.getHandPosition( this.rightValueProperty, tickMarkView, false ),
+      leftPosition: this.handPositionsDescriber.getHandPosition( this.numeratorProperty, tickMarkView ),
+      rightPosition: this.handPositionsDescriber.getHandPosition( this.denominatorProperty, tickMarkView, false ),
       fitness: this.ratioDescriber.getRatioFitness()
     } );
   }

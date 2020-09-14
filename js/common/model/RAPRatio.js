@@ -49,8 +49,8 @@ class RAPRatio {
     this.changeInDenominatorProperty = new NumberProperty( 0 );
 
     // @private - keep track of previous values to calculate the change
-    this.previousLeftValueProperty = new NumberProperty( this.numeratorProperty.value );
-    this.previousRightValueProperty = new NumberProperty( this.denominatorProperty.value );
+    this.previousNumeratorProperty = new NumberProperty( this.numeratorProperty.value );
+    this.previousDenominatorProperty = new NumberProperty( this.denominatorProperty.value );
     this.stepCountTracker = 0; // Used for
 
 
@@ -106,8 +106,8 @@ class RAPRatio {
     // both hands should be moving in the same direction
     const movingInSameDirection = this.changeInNumeratorProperty.value > 0 === this.changeInDenominatorProperty.value > 0;
 
-    const movingFastEnough = Math.abs( this.changeInNumeratorProperty.value ) > VELOCITY_THRESHOLD && // right past threshold
-                             Math.abs( this.changeInDenominatorProperty.value ) > VELOCITY_THRESHOLD; // right past threshold
+    const movingFastEnough = Math.abs( this.changeInNumeratorProperty.value ) > VELOCITY_THRESHOLD && // numerator past threshold
+                             Math.abs( this.changeInDenominatorProperty.value ) > VELOCITY_THRESHOLD; // denominator past threshold
 
     // Ignore the speed component when the ratio is locked
     return bothMoving && movingInSameDirection && ( movingFastEnough || this.lockRatioProperty.value );
@@ -139,8 +139,8 @@ class RAPRatio {
 
     // only recalculate every X steps to help smooth out noise
     if ( ++this.stepCountTracker % 30 === 0 ) {
-      this.calculateCurrentVelocity( this.previousLeftValueProperty, this.numeratorProperty.value, this.changeInNumeratorProperty );
-      this.calculateCurrentVelocity( this.previousRightValueProperty, this.denominatorProperty.value, this.changeInDenominatorProperty );
+      this.calculateCurrentVelocity( this.previousNumeratorProperty, this.numeratorProperty.value, this.changeInNumeratorProperty );
+      this.calculateCurrentVelocity( this.previousDenominatorProperty, this.denominatorProperty.value, this.changeInDenominatorProperty );
     }
   }
 

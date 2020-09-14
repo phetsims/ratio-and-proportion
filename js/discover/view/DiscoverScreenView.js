@@ -26,7 +26,7 @@ const SELECTION_SOUND_OPTIONS = {
 class DiscoverScreenView extends RAPScreenView {
 
   /**
-   * @param {DiscoverModel} model
+   * @param {RAPModel} model
    * @param {Tandem} tandem
    */
   constructor( model, tandem ) {
@@ -79,8 +79,8 @@ class DiscoverScreenView extends RAPScreenView {
     // set this after the supertype has initialized the view code needed to create the screen summary
     this.setScreenSummaryContent( new DiscoverScreenSummaryNode(
       model.ratioFitnessProperty,
-      model.leftValueProperty,
-      model.rightValueProperty,
+      model.ratio.numeratorProperty,
+      model.ratio.denominatorProperty,
       model.targetRatioProperty,
       this.tickMarkViewProperty,
       this.ratioDescriber,

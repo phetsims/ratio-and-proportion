@@ -16,14 +16,14 @@ class RatioInteractionListener {
 
   /**
    * @param {Node} targetNode
-   * @param {Property.<number>}leftValueProperty
-   * @param {Property.<number>}rightValueProperty
+   * @param {Property.<number>} numeratorProperty
+   * @param {Property.<number>} denominatorProperty
    * @param {Range} valueRange
    * @param {Property.<boolean>} firstInteractionProperty
    * @param {Property.<number>} tickMarkRangeProperty
    * @param {number} keyboardStep
    */
-  constructor( targetNode, leftValueProperty, rightValueProperty, valueRange,
+  constructor( targetNode, numeratorProperty, denominatorProperty, valueRange,
                firstInteractionProperty, tickMarkRangeProperty, keyboardStep ) {
 
     // @private
@@ -32,8 +32,8 @@ class RatioInteractionListener {
     this.targetNode = targetNode;
     this.firstInteractionProperty = firstInteractionProperty;
     this.tickMarkRangeProperty = tickMarkRangeProperty;
-    this.leftValueProperty = leftValueProperty;
-    this.rightValueProperty = rightValueProperty;
+    this.numeratorProperty = numeratorProperty;
+    this.denominatorProperty = denominatorProperty;
     this.keyboardStep = keyboardStep;
 
     // @private - true whenever the user is interacting with this listener
@@ -80,22 +80,22 @@ class RatioInteractionListener {
       this.isBeingInteractedWithProperty.value = true;
 
       if ( event.key === 'ArrowDown' ) {
-        this.stepValue( this.rightValueProperty, false );
+        this.stepValue( this.denominatorProperty, false );
       }
       else if ( event.key === 'ArrowUp' ) {
-        this.stepValue( this.rightValueProperty, true );
+        this.stepValue( this.denominatorProperty, true );
       }
       else if ( event.key.toLowerCase() === 'w' ) {
-        this.stepValue( this.leftValueProperty, true );
+        this.stepValue( this.numeratorProperty, true );
       }
       else if ( event.key.toLowerCase() === 's' ) {
-        this.stepValue( this.leftValueProperty, false );
+        this.stepValue( this.numeratorProperty, false );
       }
       else if ( event.key.toLowerCase() === 'j' ) {
         this.firstInteractionProperty.value = false;
 
         // jump both values to the lowest occupied value
-        this.rightValueProperty.value = this.leftValueProperty.value = Math.min( this.leftValueProperty.value, this.rightValueProperty.value );
+        this.denominatorProperty.value = this.numeratorProperty.value = Math.min( this.numeratorProperty.value, this.denominatorProperty.value );
       }
       else {
 
@@ -104,7 +104,7 @@ class RatioInteractionListener {
           if ( event.key === i + '' ) {
             this.firstInteractionProperty.value = false;
             const newValue = 1 / this.tickMarkRangeProperty.value * i;
-            this.leftValueProperty.value = this.rightValueProperty.value = Utils.clamp( newValue, this.valueRange.min, this.valueRange.max );
+            this.numeratorProperty.value = this.denominatorProperty.value = Utils.clamp( newValue, this.valueRange.min, this.valueRange.max );
           }
         }
       }

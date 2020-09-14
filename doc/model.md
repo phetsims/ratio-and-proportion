@@ -13,7 +13,18 @@ transition from "out of proportion" to "far from proportion"
 from the target ration the current ratio is. Given current values as of this writing, the min is ~-49, see 
 https://github.com/phetsims/ratio-and-proportion/issues/137#issuecomment-679348375 for examplanation in the form of a table.
 
-### Fitness
+### RAPRatio.js
+
+This type manages the numerator and denonminator that control the value of the ratio (in proportion form). It also has
+logic to "lock" the values together to maintain the same ratio as one value is mutated.
+
+### RAPModel.js
+
+This type takes the values associated with the RAPRatio and connects them to a "target ratio". The metric of how close the
+current ratio is to the target ratio is called "fitness". Below explains multiple states of the sim based on this 
+relationship.  
+
+#### Fitness
 
 An algorithm is used to determine how accurate the current ratio is to the target ratio. We call this fitness. see `ratioFitnessProperty`
 TODO: talk about the implementation of that algorithm, and link to other investigations in issues.

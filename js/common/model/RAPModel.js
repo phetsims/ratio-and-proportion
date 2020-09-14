@@ -16,7 +16,7 @@ import RAPRatio from './RAPRatio.js';
 // constant to help achieve feedback in 40% of the visual screen height.
 const FITNESS_TOLERANCE_FACTOR = 0.5;
 
-// The value in which when either the left or right value is less than this, the ratio cannot be "in proportion".
+// The value in which when either the numerator or denominator is less than this, the ratio cannot be "in proportion".
 // Add .001 to support two keyboard nav motions above 0 (counting the min range being >0).
 const NO_SUCCUSS_VALUE_THRESHOLD = .021;
 
@@ -27,7 +27,7 @@ class RAPModel {
    */
   constructor( tandem ) {
 
-    // The desired ratio of the left value as compared to the right value. As in 1:2 (initial value).
+    // The desired ratio of the numerator as compared to the denominator. As in 1:2 (initial value).
     this.targetRatioProperty = new NumberProperty( .5 );
 
     // @public - the current state of the ratio
@@ -38,11 +38,6 @@ class RAPModel {
     this.enabledValueRangeProperty = this.ratio.enabledValueRangeProperty;
     this.lockRatioProperty = this.ratio.lockRatioProperty;
 
-    // @public - settable positions of the two values on the screen
-    // TODO: do some renaming
-    this.leftValueProperty = this.ratio.numeratorProperty;
-    this.rightValueProperty = this.ratio.denominatorProperty;
-
     // @public (read-only) - the Range that the ratioFitnessProperty can be.
     this.fitnessRange = new Range( 0, 1 );
 
@@ -50,19 +45,19 @@ class RAPModel {
     // How "correct" the proportion currently is. Max is this.fitnessRange.max, but the min can be arbitrarily negative,
     // depending how far away the current
     this.unclampedFitnessProperty = new DerivedProperty( [
-      this.leftValueProperty,
-      this.rightValueProperty,
+      this.ratio.numeratorProperty,
+      this.ratio.denominatorProperty,
       this.targetRatioProperty
-    ], ( leftValue, rightValue, ratio ) => {
+    ], ( numerator, denominator, ratio ) => {
 
-      let unclampedFitness = this.calculateFitness( leftValue, rightValue, ratio );
+      let unclampedFitness = this.calculateFitness( numerator, denominator, ratio );
 
       // If either value is small enough, then we don't allow an "in proportion" fitness level, so make it just below that threshold.
       if ( this.inProportion( unclampedFitness ) && this.valuesTooSmallForSuccess() ) {
         unclampedFitness = this.fitnessRange.max - this.getInProportionThreshold() - .01;
       }
 
-      phet.log && phet.log( `left: ${leftValue},\n right: ${rightValue},\n distance: ${Math.abs( rightValue - leftValue )},\n current ratio: ${this.ratio.currentRatio},\n unclampedFitness: ${unclampedFitness}\n\n` );
+      phet.log && phet.log( `left: ${numerator},\n right: ${denominator},\n distance: ${Math.abs( denominator - numerator )},\n current ratio: ${this.ratio.currentRatio},\n unclampedFitness: ${unclampedFitness}\n\n` );
 
       return unclampedFitness;
     }, {
@@ -89,43 +84,43 @@ class RAPModel {
   }
 
   /**
-   * fitness according to treating the right value as "correct" in relation to the target ratio
-   * @param {number} left
-   * @param {number} rightOptimal
+   * fitness according to treating the denominator as "correct" in relation to the target ratio
+   * @param {number} numerator
+   * @param {number} denominatorOptimal
    * @param {number} targetRatio
    * @returns {number}
    * @private
    */
-  fitnessBasedOnLeft( left, rightOptimal, targetRatio ) {
-    return 1 - FITNESS_TOLERANCE_FACTOR * Math.abs( left - targetRatio * rightOptimal );
+  fitnessBasedOnNumerator( numerator, denominatorOptimal, targetRatio ) {
+    return 1 - FITNESS_TOLERANCE_FACTOR * Math.abs( numerator - targetRatio * denominatorOptimal );
   }
 
   /**
-   * fitness according to treating the left value as "correct" in relation to the target ratio
-   * @param {number} leftOptimal
-   * @param {number} right
+   * fitness according to treating the numerator as "correct" in relation to the target ratio
+   * @param {number} numeratorOptimal
+   * @param {number} denominator
    * @param {number} targetRatio
    * @returns {number}
    * @private
    */
-  fitnessBasedOnRight( leftOptimal, right, targetRatio ) {
-    return 1 - FITNESS_TOLERANCE_FACTOR * Math.abs( right - leftOptimal / targetRatio );
+  fitnessBasedOnDenominator( numeratorOptimal, denominator, targetRatio ) {
+    return 1 - FITNESS_TOLERANCE_FACTOR * Math.abs( denominator - numeratorOptimal / targetRatio );
   }
 
   /**
    *
-   * @param {number} leftValue - from leftValueProperty
-   * @param {number} rightValue - from rightValueProperty
+   * @param {number} numerator
+   * @param {number} denominator
    * @param {number} targetRatio
    * @returns {number}
    * @private
    */
-  calculateFitness( leftValue, rightValue, targetRatio ) {
+  calculateFitness( numerator, denominator, targetRatio ) {
 
     // multiply because the model values only span from 0-1
-    const left = leftValue * 10;
-    const right = rightValue * 10;
-    return Math.min( this.fitnessBasedOnLeft( left, right, targetRatio ), this.fitnessBasedOnRight( left, right, targetRatio ) );
+    const a = numerator * 10;
+    const b = denominator * 10;
+    return Math.min( this.fitnessBasedOnNumerator( a, b, targetRatio ), this.fitnessBasedOnDenominator( a, b, targetRatio ) );
   }
 
   /**

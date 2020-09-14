@@ -79,12 +79,15 @@ class RAPScreenView extends ScreenView {
 
     super( options );
 
+    // for ease at usage sites
+    const ratio = model.ratio;
+
     const tickMarkDescriber = new TickMarkDescriber( model.valueRange, options.tickMarkRangeProperty );
 
     // @protected (read-only)
     this.ratioDescriber = new RatioDescriber( model );
-    this.handPositionsDescriber = new HandPositionsDescriber( model.leftValueProperty, model.rightValueProperty, model.valueRange, tickMarkDescriber );
-    const bothHandsDescriber = new BothHandsDescriber( model.leftValueProperty, model.rightValueProperty, tickMarkViewProperty,
+    this.handPositionsDescriber = new HandPositionsDescriber( ratio.numeratorProperty, ratio.denominatorProperty, model.valueRange, tickMarkDescriber );
+    const bothHandsDescriber = new BothHandsDescriber( ratio.numeratorProperty, ratio.denominatorProperty, tickMarkViewProperty,
       this.ratioDescriber, this.handPositionsDescriber );
 
     // @protected
@@ -113,8 +116,8 @@ class RAPScreenView extends ScreenView {
       fitness => !model.lockRatioProperty.value && ( fitness === model.fitnessRange.min || model.inProportion() ) );
 
     // @private {RatioHalf}
-    this.leftRatioHalf = new RatioHalf(
-      model.leftValueProperty,
+    this.numeratorRatioHalf = new RatioHalf(
+      ratio.numeratorProperty,
       model.valueRange,
       model.enabledValueRangeProperty,
       model.firstInteractionProperty,
@@ -137,8 +140,8 @@ class RAPScreenView extends ScreenView {
     );
 
     // @private {RatioHalf}
-    this.rightRatioHalf = new RatioHalf(
-      model.rightValueProperty,
+    this.denominatorRatioHalf = new RatioHalf(
+      ratio.denominatorProperty,
       model.valueRange,
       model.enabledValueRangeProperty,
       model.firstInteractionProperty,
@@ -159,20 +162,20 @@ class RAPScreenView extends ScreenView {
         helpText: ratioAndProportionStrings.a11y.rightHandHelpText
       } );
 
-    const bothHandsPDOMNode = new BothHandsPDOMNode( model.leftValueProperty, model.rightValueProperty, model.valueRange,
+    const bothHandsPDOMNode = new BothHandsPDOMNode( ratio.numeratorProperty, ratio.denominatorProperty, model.valueRange,
       model.firstInteractionProperty, keyboardStep, tickMarkViewProperty, options.tickMarkRangeProperty, model.unclampedFitnessProperty,
       this.handPositionsDescriber, this.ratioDescriber, bothHandsDescriber, {
         interactiveNodeOptions: {
-          children: [ this.leftRatioHalf, this.rightRatioHalf ]
+          children: [ this.numeratorRatioHalf, this.denominatorRatioHalf ]
         }
       } );
 
     // @private TODO: add support for mechamarker input again https://github.com/phetsims/ratio-and-proportion/issues/89
-    // this.markerInput = new ProportionMarkerInput( model );
+    // this.markerInput = new ProportionMarkerInput( ratio.numeratorProperty, ratio.denominatorProperty );
 
     const soundGeneratorEnabledProperty = DerivedProperty.or( [
-      this.leftRatioHalf.isBeingInteractedWithProperty,
-      this.rightRatioHalf.isBeingInteractedWithProperty,
+      this.numeratorRatioHalf.isBeingInteractedWithProperty,
+      this.denominatorRatioHalf.isBeingInteractedWithProperty,
       // this.markerInput.isBeingInteractedWithProperty, // TODO: add support for mechamarker input again https://github.com/phetsims/ratio-and-proportion/issues/89
       bothHandsPDOMNode.isBeingInteractedWithProperty
     ] );
@@ -262,8 +265,8 @@ class RAPScreenView extends ScreenView {
 
     // accessible order (ratio first in nav order)
     this.pdomPlayAreaNode.accessibleOrder = [
-      this.leftRatioHalf,
-      this.rightRatioHalf,
+      this.numeratorRatioHalf,
+      this.denominatorRatioHalf,
       bothHandsPDOMNode,
       this.tickMarkViewRadioButtonGroup
     ];
@@ -276,15 +279,15 @@ class RAPScreenView extends ScreenView {
     // @private - dynamic layout based on the current ScreenView coordinates
     this.layoutRAPScreeView = newRatioHalfBounds => {
 
-      this.leftRatioHalf.layout( newRatioHalfBounds );
-      this.rightRatioHalf.layout( newRatioHalfBounds );
+      this.numeratorRatioHalf.layout( newRatioHalfBounds );
+      this.denominatorRatioHalf.layout( newRatioHalfBounds );
       backgroundNode.rectBounds = this.visibleBoundsProperty.value;
       backgroundNode.bottom = this.layoutBounds.bottom;
 
       // subtract the top and bottom rectangles from the tick marks height
       labelsNode.layout( newRatioHalfBounds.height - ( 2 * RatioHalf.FRAMING_RECTANGLE_HEIGHT ) );
 
-      const ratioWidth = this.leftRatioHalf.width + this.rightRatioHalf.width + ( 2 * RATIO_HALF_SPACING ) + labelsNode.width;
+      const ratioWidth = this.numeratorRatioHalf.width + this.denominatorRatioHalf.width + ( 2 * RATIO_HALF_SPACING ) + labelsNode.width;
 
       const uiLayerScale = uiScaleFunction( newRatioHalfBounds.height );
       this.topScalingUILayerNode.setScaleMagnitude( uiLayerScale );
@@ -296,12 +299,12 @@ class RAPScreenView extends ScreenView {
       this.bottomScalingUILayerNode.bottom = this.layoutBounds.height - RAPConstants.SCREEN_VIEW_Y_MARGIN;
 
       // combo box is a proxy for the width of the controls
-      this.leftRatioHalf.left = ( this.topScalingUILayerNode.left - ratioWidth ) / 2;
-      labelsNode.left = this.leftRatioHalf.right + RATIO_HALF_SPACING;
-      this.rightRatioHalf.left = labelsNode.right + RATIO_HALF_SPACING;
+      this.numeratorRatioHalf.left = ( this.topScalingUILayerNode.left - ratioWidth ) / 2;
+      labelsNode.left = this.numeratorRatioHalf.right + RATIO_HALF_SPACING;
+      this.denominatorRatioHalf.left = labelsNode.right + RATIO_HALF_SPACING;
 
-      this.leftRatioHalf.setBottomOfRatioHalf( this.layoutBounds.bottom );
-      this.rightRatioHalf.setBottomOfRatioHalf( this.layoutBounds.bottom );
+      this.numeratorRatioHalf.setBottomOfRatioHalf( this.layoutBounds.bottom );
+      this.denominatorRatioHalf.setBottomOfRatioHalf( this.layoutBounds.bottom );
 
       labelsNode.bottom = this.layoutBounds.bottom - RatioHalf.FRAMING_RECTANGLE_HEIGHT + labelsNode.labelHeight / 2;
     };
@@ -351,8 +354,8 @@ class RAPScreenView extends ScreenView {
   reset() {
     this.tickMarkViewProperty.reset();
 
-    this.leftRatioHalf.reset();
-    this.rightRatioHalf.reset();
+    this.numeratorRatioHalf.reset();
+    this.denominatorRatioHalf.reset();
     this.staccatoFrequencySoundGenerator.reset();
     this.inProportionSoundGenerator.reset();
     this.movingInProportionSoundGenerator.reset();

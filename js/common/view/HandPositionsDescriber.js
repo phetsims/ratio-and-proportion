@@ -57,22 +57,22 @@ const rightHandLowerString = ratioAndProportionStrings.a11y.rightHandLower;
 class HandPositionsDescriber {
 
   /**
-   * @param {Property.<number>}leftValueProperty
-   * @param {Property.<number>}rightValueProperty
+   * @param {Property.<number>}numeratorProperty
+   * @param {Property.<number>}denominatorProperty
    * @param {Range} valueRange
    * @param {TickMarkDescriber} tickMarkDescriber
    */
-  constructor( leftValueProperty, rightValueProperty, valueRange, tickMarkDescriber ) {
+  constructor( numeratorProperty, denominatorProperty, valueRange, tickMarkDescriber ) {
 
     // @private - from model
-    this.leftValueProperty = leftValueProperty;
-    this.rightValueProperty = rightValueProperty;
+    this.numeratorProperty = numeratorProperty;
+    this.denominatorProperty = denominatorProperty;
     this.valueRange = valueRange;
     this.tickMarkDescriber = tickMarkDescriber;
 
     // @private
-    this.previousLeftValueProperty = new NumberProperty( leftValueProperty.value );
-    this.previousRightValueProperty = new NumberProperty( rightValueProperty.value );
+    this.lastNumeratorValueProperty = new NumberProperty( numeratorProperty.value );
+    this.lastDenominatorValueProperty = new NumberProperty( denominatorProperty.value );
 
     // @private - initialized to null, but only set to boolean
     this.previousLeftChangeProperty = new Property( null );
@@ -177,7 +177,7 @@ class HandPositionsDescriber {
    * @returns {number}
    */
   getDistanceBetweenHands() {
-    return Math.abs( this.leftValueProperty.value - this.rightValueProperty.value );
+    return Math.abs( this.numeratorProperty.value - this.denominatorProperty.value );
   }
 
   /**
@@ -228,10 +228,10 @@ class HandPositionsDescriber {
    */
   getDistanceClauseForProperty( valueProperty ) {
 
-    const previousValueProperty = valueProperty === this.leftValueProperty ? this.previousLeftValueProperty : this.previousRightValueProperty;
-    const previousChangeProperty = valueProperty === this.leftValueProperty ? this.previousLeftChangeProperty : this.previousRightChangeProperty;
-    const otherValueProperty = valueProperty === this.leftValueProperty ? this.rightValueProperty : this.leftValueProperty;
-    const otherHand = valueProperty === this.leftValueProperty ? rightHandLowerString : leftHandLowerString;
+    const previousValueProperty = valueProperty === this.numeratorProperty ? this.lastNumeratorValueProperty : this.lastDenominatorValueProperty;
+    const previousChangeProperty = valueProperty === this.numeratorProperty ? this.previousLeftChangeProperty : this.previousRightChangeProperty;
+    const otherValueProperty = valueProperty === this.numeratorProperty ? this.denominatorProperty : this.numeratorProperty;
+    const otherHand = valueProperty === this.numeratorProperty ? rightHandLowerString : leftHandLowerString;
 
     const increasing = valueProperty.value > previousValueProperty.value;
     const directionChange = increasing !== previousChangeProperty.value;
