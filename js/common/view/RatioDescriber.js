@@ -5,6 +5,7 @@
  */
 
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
@@ -89,6 +90,16 @@ class RatioDescriber {
   getRatioFitness( capitalized = true ) {
     const ratioRegions = capitalized ? RATIO_FITNESS_STRINGS_CAPITALIZED : RATIO_FITNESS_STRINGS_LOWERCASE;
     return ratioRegions[ this.getRatioFitnessIndex() ];
+  }
+
+  /**
+   * @public
+   * @returns {string}
+   */
+  getProximityToChallengeRatioSentence() {
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.proximityToRatioPattern, {
+      proximity: this.getRatioFitness( true )
+    } );
   }
 }
 

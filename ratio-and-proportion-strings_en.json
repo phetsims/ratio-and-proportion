@@ -385,6 +385,9 @@
       "fitnessAlertPattern": {
         "value": "{{distanceOrDirection}}, {{fitness}} challenge ratio."
       },
+      "proximityToRatioPattern": {
+        "value": "{{proximity}} challenge ratio."
+      },
       "capitalized": {
         "at": {
           "value": "At"

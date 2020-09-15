@@ -50,7 +50,8 @@ class CreateScreenView extends RAPScreenView {
     const numeratorNumberPicker = new NumberPicker( targetNumeratorProperty, new Property( new Range( 1, 10 ) ), {
       scale: PICKER_SCALE,
       center: Vector2.ZERO,
-      accessibleName: ratioAndProportionStrings.a11y.leftHand
+      accessibleName: ratioAndProportionStrings.a11y.leftHand,
+      a11yCreateValueChangeAlert: () => this.ratioDescriber.getProximityToChallengeRatioSentence()
     } );
     const leftRatioSelector = new VBox( {
       align: 'origin',
@@ -64,7 +65,8 @@ class CreateScreenView extends RAPScreenView {
     const denominatorNumberPicker = new NumberPicker( targetDenominatorProperty, new Property( new Range( 1, 10 ) ), {
       scale: PICKER_SCALE,
       center: Vector2.ZERO,
-      accessibleName: ratioAndProportionStrings.a11y.rightHand
+      accessibleName: ratioAndProportionStrings.a11y.rightHand,
+      a11yCreateValueChangeAlert: () => this.ratioDescriber.getProximityToChallengeRatioSentence()
     } );
     const rightRatioSelector = new VBox( {
       align: 'origin',

@@ -12,6 +12,7 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import challenge1SelectionSound from '../../../../tambo/sounds/selection-arpeggio-001_mp3.js';
 import challenge2SelectionSound from '../../../../tambo/sounds/selection-arpeggio-004_mp3.js';
 import challenge3SelectionSound from '../../../../tambo/sounds/selection-arpeggio-006_mp3.js';
+import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import RAPScreenView from '../../common/view/RAPScreenView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
@@ -67,6 +68,12 @@ class DiscoverScreenView extends RAPScreenView {
       } )
     ], model.targetRatioProperty, comboBoxListParent, {
       helpText: ratioAndProportionStrings.a11y.discover.challengesHelpText
+    } );
+
+    const proximityToRatioUtterance = new Utterance();
+    model.targetRatioProperty.link( () => {
+      proximityToRatioUtterance.alert = this.ratioDescriber.getProximityToChallengeRatioSentence();
+      phet.joist.sim.utteranceQueue.addToBack( proximityToRatioUtterance );
     } );
 
     // children - scale all of these components to support vertical aspect ratios better.
