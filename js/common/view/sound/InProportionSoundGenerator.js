@@ -87,7 +87,6 @@ class InProportionSoundGenerator extends SoundClip {
 
     const isInRatio = this.model.inProportion();
 
-
     // Only use hysteresis when both hands are moving.
     const hysteresisThreshold = this.model.ratio.movingInDirection() ? RAPQueryParameters.hysteresisThreshold : 0;
 

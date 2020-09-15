@@ -114,7 +114,7 @@ class RAPScreenView extends ScreenView {
 
     // Tick mark sounds get played when ratio isn't locked, and when staccato sounds aren't playing
     const playTickMarkSoundProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
-      fitness => !model.ratio.lockedProperty.value && ( fitness === model.fitnessRange.min || model.inProportion() ) );
+      fitness => !model.ratio.lockedProperty.value && fitness === model.fitnessRange.min );
 
     // @private {RatioHalf}
     this.numeratorRatioHalf = new RatioHalf(
