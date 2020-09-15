@@ -59,7 +59,7 @@
         "value": "Use W and S keys to move left hand, and Up and Down Arrow keys to move right hand. Move both hands at the same time to maintain the challenge ratio."
       },
       "handsDistancePattern": {
-        "value": "Hands {{distance}} each other."
+        "value": "hands {{distance}} each other"
       },
       "tickMarksApart": {
         "value": "{{justAround}}{{number}} tick marks apart from"
