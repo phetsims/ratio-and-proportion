@@ -229,11 +229,11 @@ class RAPScreenView extends ScreenView {
       value: TickMarkView.NONE,
       labelContent: ratioAndProportionStrings.a11y.tickMark.showNo
     }, {
-      node: new Image( tickMarkIconImage, { scale: .1 } ),
+      node: new Image( tickMarkIconImage, { scale: .84 } ),
       value: TickMarkView.HORIZONTAL,
       labelContent: ratioAndProportionStrings.a11y.tickMark.show
     }, {
-      node: new Image( numberedTickMarkIconImage, { scale: .1 } ),
+      node: new Image( numberedTickMarkIconImage, { scale: .84 } ),
       value: TickMarkView.HORIZONTAL_UNITS,
       labelContent: ratioAndProportionStrings.a11y.tickMark.showNumbered
     } ], {
