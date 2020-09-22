@@ -80,6 +80,9 @@ class RAPModel {
     this.targetRatioProperty.link( () => {
       this.ratio.lockedProperty.value = false;
     } );
+
+    // snap to target ratio when the ratio is locked.
+    this.ratio.lockedProperty.link( locked => locked && this.ratio.snapRatioToTarget( this.targetRatioProperty.value ) );
   }
 
   /**

@@ -72,13 +72,14 @@ class RAPRatio {
       tuple.denominator = Utils.toFixedNumber( tuple.denominator, 6 );
     } );
 
-    // To avoid an infinite loop as setting the ratioTupleProperty from inside its lock-ratio-support listener. This is
-    // predominately needed because even same numerator/denominator values get wrapped in a new RAPRatioTuple instance.
-    let adjustingFromLock = false;
+    // @private - To avoid an infinite loop as setting the ratioTupleProperty from inside its lock-ratio-support
+    // listener. This is predominately needed because even same numerator/denominator values get wrapped in a new
+    // RAPRatioTuple instance.
+    this.lockRatioListenerEnabled = true;
 
     // Listener that will handle keeping both ratio tuple values in sync when the ratio is locked.
     this.ratioTupleProperty.link( ( tuple, oldTuple ) => {
-      if ( this.lockedProperty.value && !adjustingFromLock ) {
+      if ( this.lockedProperty.value && this.lockRatioListenerEnabled ) {
         assert && assert( oldTuple, 'need an old value to compute locked ratio values' );
 
         const numeratorChanged = tuple.numerator !== oldTuple.numerator;
@@ -97,27 +98,12 @@ class RAPRatio {
           newNumerator = newDenominator * previousRatio;
         }
 
-        const enabledRange = this.enabledRatioComponentsRangeProperty.value;
-
-        // Handle if the numerator is out of range
-        if ( !enabledRange.contains( newNumerator ) ) {
-          newNumerator = Utils.clamp( newNumerator, enabledRange.min, enabledRange.max );
-          newDenominator = newNumerator / previousRatio;
-        }
-
-        // Handle if the denominator is out of range
-        if ( !enabledRange.contains( newDenominator ) ) {
-          newDenominator = Utils.clamp( newDenominator, enabledRange.min, enabledRange.max );
-          newNumerator = newDenominator * previousRatio;
-        }
-
-        assert && assert( enabledRange.contains( newDenominator ) );
-        assert && assert( enabledRange.contains( newNumerator ) );
+        const newRatioTuple = this.clampRatioTupleValuesInRange( new RAPRatioTuple( newNumerator, newDenominator ), previousRatio );
 
         // guard against reentrancy in this case.
-        adjustingFromLock = true;
-        this.ratioTupleProperty.value = new RAPRatioTuple( newNumerator, newDenominator ).toFixed( 6 );
-        adjustingFromLock = false;
+        this.lockRatioListenerEnabled = false;
+        this.ratioTupleProperty.value = newRatioTuple.toFixed( 6 );
+        this.lockRatioListenerEnabled = true;
       }
     } );
 
@@ -132,7 +118,54 @@ class RAPRatio {
     } );
   }
 
-  // TODO: this.lockRatioAt( 75 ), https://github.com/phetsims/ratio-and-proportion/issues/146
+  /**
+   * While keeping the same ratio, make sure that both ratio terms are within the provided range
+   * @private
+   * @param {RAPRatioTuple} ratioTuple
+   * @param {number} ratio
+   * @param {Range} range
+   * @returns {RAPRatioTuple}
+   */
+  clampRatioTupleValuesInRange( ratioTuple, ratio, range = this.enabledRatioComponentsRangeProperty.value ) {
+    let numerator = ratioTuple.numerator;
+    let denominator = ratioTuple.denominator;
+
+    // Handle if the numerator is out of range
+    if ( !range.contains( numerator ) ) {
+      numerator = Utils.clamp( numerator, range.min, range.max );
+      denominator = numerator / ratio;
+    }
+
+    // Handle if the denominator is out of range
+    if ( !range.contains( denominator ) ) {
+      denominator = Utils.clamp( denominator, range.min, range.max );
+      numerator = denominator * ratio;
+    }
+
+    assert && assert( range.contains( denominator ) );
+    assert && assert( range.contains( numerator ) );
+    return new RAPRatioTuple( numerator, denominator );
+  }
+
+  /**
+   *
+   * @param {number} targetRatio
+   * @public
+   */
+  snapRatioToTarget( targetRatio ) {
+
+    // Alter the numerator to match the target ratio
+    const currentRatioTuple = this.ratioTupleProperty.value;
+    currentRatioTuple.numerator = targetRatio * currentRatioTuple.denominator;
+
+    // Make sure that the lock ratio listener won't try to mutate the new RAPRatioTuple
+    this.lockRatioListenerEnabled = false;
+
+    // Then clamp to be within the currently enabled range.
+    this.ratioTupleProperty.value = this.clampRatioTupleValuesInRange( currentRatioTuple, targetRatio );
+
+    this.lockRatioListenerEnabled = true;
+  }
 
   /**
    * Whether or not the two hands are moving fast enough together in the same direction. This indicates a bimodal interaction.
@@ -200,6 +233,7 @@ class RAPRatio {
     this.previousNumeratorProperty.reset();
     this.previousDenominatorProperty.reset();
     this.stepCountTracker = 0;
+    this.lockRatioListenerEnabled = true;
   }
 }
 
