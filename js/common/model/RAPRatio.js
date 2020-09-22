@@ -7,12 +7,14 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPConstants from '../RAPConstants.js';
+import RAPRatioTuple from './RAPRatioTuple.js';
 
 // The threshold for velocity of a moving ratio value to indivate that it is "moving."
 const VELOCITY_THRESHOLD = .01;
@@ -26,12 +28,31 @@ class RAPRatio {
     // @public (read-only)
     this.enabledRatioComponentsRangeProperty = new Property( RAPConstants.TOTAL_RATIO_COMPONENT_VALUE_RANGE );
 
-    // @public - settable positions of the two values on the screen
-    this.numeratorProperty = new NumberProperty( .2, {
+    // @public {Property.<RAPRatioTuple>} - central Property that holds the value of the ratio
+    // TODO: more spots could use this instead of numerator/denominator Properties https://github.com/phetsims/ratio-and-proportion/issues/181
+    this.ratioTupleProperty = new Property( new RAPRatioTuple( .2, .4 ), {
+      valueType: RAPRatioTuple,
       reentrant: true
     } );
-    this.denominatorProperty = new NumberProperty( .4, {
-      reentrant: true
+
+    // @public {Property.<number>} - convenience Property based on the ratioTupleProperty get getting/setting/listening
+    // to the numerator only.
+    this.numeratorProperty = new DynamicProperty( new Property( this.ratioTupleProperty ), {
+      bidirectional: true,
+      reentrant: true,
+      valueType: 'number',
+      map: ratioTuple => ratioTuple.numerator,
+      inverseMap: numerator => this.ratioTupleProperty.value.withNumerator( numerator )
+    } );
+
+    // @public {Property.<number>} - convenience Property based on the ratioTupleProperty get getting/setting/listening
+    // to the denominator only.
+    this.denominatorProperty = new DynamicProperty( new Property( this.ratioTupleProperty ), {
+      bidirectional: true,
+      reentrant: true,
+      valueType: 'number',
+      map: ratioTuple => ratioTuple.denominator,
+      inverseMap: denominator => this.ratioTupleProperty.value.withDenominator( denominator )
     } );
 
     // @public (read-only) - the velocity of each ratio value changing, adjusted in step
@@ -39,45 +60,47 @@ class RAPRatio {
     this.changeInDenominatorProperty = new NumberProperty( 0 );
 
     // @private - keep track of previous values to calculate the change
+    // TODO: if needed, make this previousRatioTuple https://github.com/phetsims/ratio-and-proportion/issues/181
     this.previousNumeratorProperty = new NumberProperty( this.numeratorProperty.value );
     this.previousDenominatorProperty = new NumberProperty( this.denominatorProperty.value );
-    this.stepCountTracker = 0; // Used for
+    this.stepCountTracker = 0; // Used for keeping track of how often dVelocity is checked.
 
     // @public - when true, moving one ratio value will maintain the current ratio by updating the other value Property
     this.lockedProperty = new BooleanProperty( false );
 
-    // Avoid reentrancy by guarding each time one valueProperty change then sets the other.
     let adjustingFromLock = false;
-
-    this.numeratorProperty.lazyLink( ( newValue, oldValue ) => {
-
-      // Clamp to decimal places to make sure that javascript rounding errors don't effect some views for interpreting position
-      this.numeratorProperty.value = Utils.toFixedNumber( newValue, 6 );
-
-      if ( this.lockedProperty.value && !adjustingFromLock ) {
-        const previousRatio = oldValue / this.denominatorProperty.value;
-        adjustingFromLock = true;
-
-        // TODO: should this use the enabled range instead of the default?
-        this.denominatorProperty.value = Utils.clamp( newValue / previousRatio, DEFAULT_VALUE_RANGE.min, DEFAULT_VALUE_RANGE.max );
-        if ( this.denominatorProperty.value === DEFAULT_VALUE_RANGE.min || this.denominatorProperty.value === DEFAULT_VALUE_RANGE.max ) {
-          this.numeratorProperty.value = previousRatio * this.denominatorProperty.value;
-        }
-        adjustingFromLock = false;
-      }
-    } );
-    this.denominatorProperty.lazyLink( ( newValue, oldValue ) => {
+    this.ratioTupleProperty.link( ( tuple, oldTuple ) => {
 
       // Clamp to decimal places to make sure that javascript rounding errors don't effect some views for interpreting position
-      this.denominatorProperty.value = Utils.toFixedNumber( newValue, 6 );
+      // TODO: use RAPRatioTuple.toFixed(), https://github.com/phetsims/ratio-and-proportion/issues/181
+      let newNumerator = Utils.toFixedNumber( tuple.numerator, 6 );
+      let newDenominator = Utils.toFixedNumber( tuple.denominator, 6 );
 
       if ( this.lockedProperty.value && !adjustingFromLock ) {
-        const previousRatio = this.numeratorProperty.value / oldValue;
-        adjustingFromLock = true;
-        this.numeratorProperty.value = Utils.clamp( newValue * previousRatio, DEFAULT_VALUE_RANGE.min, DEFAULT_VALUE_RANGE.max );
-        if ( this.numeratorProperty.value === DEFAULT_VALUE_RANGE.min || this.numeratorProperty.value === DEFAULT_VALUE_RANGE.max ) {
-          this.denominatorProperty.value = this.numeratorProperty.value / previousRatio;
+        assert && assert( oldTuple, 'need an old value to compute locked ratio values' );
+
+        const numeratorChanged = tuple.numerator !== oldTuple.numerator;
+        const denominatorChanged = tuple.denominator !== oldTuple.denominator;
+        const previousRatio = oldTuple.getRatio();
+
+        if ( numeratorChanged && denominatorChanged ) {
+          assert && assert( false, 'both values should not change when ratio is locked' );
         }
+        else if ( numeratorChanged ) {
+          newDenominator = Utils.clamp( newNumerator / previousRatio, DEFAULT_VALUE_RANGE.min, DEFAULT_VALUE_RANGE.max );
+          if ( newDenominator === DEFAULT_VALUE_RANGE.min || newDenominator === DEFAULT_VALUE_RANGE.max ) {
+            newNumerator = previousRatio * newDenominator;
+          }
+        }
+        else if ( denominatorChanged ) {
+          newNumerator = Utils.clamp( newDenominator * previousRatio, DEFAULT_VALUE_RANGE.min, DEFAULT_VALUE_RANGE.max );
+          if ( newNumerator === DEFAULT_VALUE_RANGE.min || newNumerator === DEFAULT_VALUE_RANGE.max ) {
+            newDenominator = newNumerator / previousRatio;
+          }
+        }
+
+        adjustingFromLock = true;
+        this.ratioTupleProperty.value = new RAPRatioTuple( newNumerator, newDenominator ).toFixed( 6 );
         adjustingFromLock = false;
       }
     } );
@@ -92,6 +115,8 @@ class RAPRatio {
       clampPropertyIntoRange( this.denominatorProperty );
     } );
   }
+
+  // TODO: this.lockRatioAt( 75 ), https://github.com/phetsims/ratio-and-proportion/issues/146
 
   /**
    * Whether or not the two hands are moving fast enough together in the same direction. This indicates a bimodal interaction.

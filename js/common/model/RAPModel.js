@@ -42,10 +42,12 @@ class RAPModel {
     // How "correct" the proportion currently is. Max is this.fitnessRange.max, but the min can be arbitrarily negative,
     // depending how far away the current
     this.unclampedFitnessProperty = new DerivedProperty( [
-      this.ratio.numeratorProperty,
-      this.ratio.denominatorProperty,
+      this.ratio.ratioTupleProperty,
       this.targetRatioProperty
-    ], ( numerator, denominator, ratio ) => {
+    ], ( ratioTuple, ratio ) => {
+
+      const numerator = ratioTuple.numerator;
+      const denominator = ratioTuple.denominator;
 
       let unclampedFitness = this.calculateFitness( numerator, denominator, ratio );
 
