@@ -68,14 +68,18 @@ class RAPRatio {
     // @public - when true, moving one ratio value will maintain the current ratio by updating the other value Property
     this.lockedProperty = new BooleanProperty( false );
 
+    // Clamp to decimal places to make sure that javascript rounding errors don't effect some views for interpreting position
+    this.ratioTupleProperty.link( tuple => {
+      tuple.numerator = Utils.toFixedNumber( tuple.numerator, 6 );
+      tuple.denominator = Utils.toFixedNumber( tuple.denominator, 6 );
+    } );
+
+    // To avoid an infinite loop as setting the ratioTupleProperty from inside its lock-ratio-support listener. This is
+    // predominately needed because even same numerator/denominator values get wrapped in a new RAPRatioTuple instance.
     let adjustingFromLock = false;
+
+    // Listener that will handle keeping both ratio tuple values in sync when the ratio is locked.
     this.ratioTupleProperty.link( ( tuple, oldTuple ) => {
-
-      // Clamp to decimal places to make sure that javascript rounding errors don't effect some views for interpreting position
-      // TODO: use RAPRatioTuple.toFixed(), https://github.com/phetsims/ratio-and-proportion/issues/181
-      let newNumerator = Utils.toFixedNumber( tuple.numerator, 6 );
-      let newDenominator = Utils.toFixedNumber( tuple.denominator, 6 );
-
       if ( this.lockedProperty.value && !adjustingFromLock ) {
         assert && assert( oldTuple, 'need an old value to compute locked ratio values' );
 
@@ -83,22 +87,34 @@ class RAPRatio {
         const denominatorChanged = tuple.denominator !== oldTuple.denominator;
         const previousRatio = oldTuple.getRatio();
 
-        if ( numeratorChanged && denominatorChanged ) {
-          assert && assert( false, 'both values should not change when ratio is locked' );
-        }
-        else if ( numeratorChanged ) {
-          newDenominator = Utils.clamp( newNumerator / previousRatio, DEFAULT_VALUE_RANGE.min, DEFAULT_VALUE_RANGE.max );
-          if ( newDenominator === DEFAULT_VALUE_RANGE.min || newDenominator === DEFAULT_VALUE_RANGE.max ) {
-            newNumerator = previousRatio * newDenominator;
-          }
+        let newNumerator = tuple.numerator;
+        let newDenominator = tuple.denominator;
+
+        assert && assert( !( numeratorChanged && denominatorChanged ), 'both values should not change when ratio is locked' );
+
+        if ( numeratorChanged ) {
+          newDenominator = newNumerator / previousRatio;
         }
         else if ( denominatorChanged ) {
-          newNumerator = Utils.clamp( newDenominator * previousRatio, DEFAULT_VALUE_RANGE.min, DEFAULT_VALUE_RANGE.max );
-          if ( newNumerator === DEFAULT_VALUE_RANGE.min || newNumerator === DEFAULT_VALUE_RANGE.max ) {
-            newDenominator = newNumerator / previousRatio;
-          }
+          newNumerator = newDenominator * previousRatio;
         }
 
+        // Handle if the numerator is out of range
+        if ( !DEFAULT_VALUE_RANGE.contains( newNumerator ) ) {
+          newNumerator = Utils.clamp( newNumerator, DEFAULT_VALUE_RANGE.min, DEFAULT_VALUE_RANGE.max );
+          newDenominator = newNumerator / previousRatio;
+        }
+
+        // Handle if the denominator is out of range
+        if ( !DEFAULT_VALUE_RANGE.contains( newDenominator ) ) {
+          newDenominator = Utils.clamp( newDenominator, DEFAULT_VALUE_RANGE.min, DEFAULT_VALUE_RANGE.max );
+          newNumerator = newDenominator * previousRatio;
+        }
+
+        assert && assert( DEFAULT_VALUE_RANGE.contains( newDenominator ) );
+        assert && assert( DEFAULT_VALUE_RANGE.contains( newNumerator ) );
+
+        // guard against reentrancy in this case.
         adjustingFromLock = true;
         this.ratioTupleProperty.value = new RAPRatioTuple( newNumerator, newDenominator ).toFixed( 6 );
         adjustingFromLock = false;
