@@ -97,20 +97,22 @@ class RAPRatio {
           newNumerator = newDenominator * previousRatio;
         }
 
+        const enabledRange = this.enabledRatioComponentsRangeProperty.value;
+
         // Handle if the numerator is out of range
-        if ( !DEFAULT_VALUE_RANGE.contains( newNumerator ) ) {
-          newNumerator = Utils.clamp( newNumerator, DEFAULT_VALUE_RANGE.min, DEFAULT_VALUE_RANGE.max );
+        if ( !enabledRange.contains( newNumerator ) ) {
+          newNumerator = Utils.clamp( newNumerator, enabledRange.min, enabledRange.max );
           newDenominator = newNumerator / previousRatio;
         }
 
         // Handle if the denominator is out of range
-        if ( !DEFAULT_VALUE_RANGE.contains( newDenominator ) ) {
-          newDenominator = Utils.clamp( newDenominator, DEFAULT_VALUE_RANGE.min, DEFAULT_VALUE_RANGE.max );
+        if ( !enabledRange.contains( newDenominator ) ) {
+          newDenominator = Utils.clamp( newDenominator, enabledRange.min, enabledRange.max );
           newNumerator = newDenominator * previousRatio;
         }
 
-        assert && assert( DEFAULT_VALUE_RANGE.contains( newDenominator ) );
-        assert && assert( DEFAULT_VALUE_RANGE.contains( newNumerator ) );
+        assert && assert( enabledRange.contains( newDenominator ) );
+        assert && assert( enabledRange.contains( newNumerator ) );
 
         // guard against reentrancy in this case.
         adjustingFromLock = true;
