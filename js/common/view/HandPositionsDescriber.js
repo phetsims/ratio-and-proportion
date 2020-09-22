@@ -223,6 +223,7 @@ class HandPositionsDescriber {
 
   /**
    * @public
+   * TODO: this could be written much simpler using ratioTupleProperty
    * @param {NumberProperty} valueProperty
    * @returns {string}
    */
