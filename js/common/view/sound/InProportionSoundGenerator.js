@@ -5,19 +5,14 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import StringProperty from '../../../../../axon/js/StringProperty.js';
 import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
-import fifthsOption2Sound from '../../../../sounds/in-proportion/in-proportion-fifths-option-2_mp3.js';
 import inProportionQuickFade from '../../../../sounds/in-proportion/in-proportion-quick-fade_mp3.js';
-import inProportionStudioFade from '../../../../sounds/in-proportion/in-proportion-studio-fade_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import RAPQueryParameters from '../../RAPQueryParameters.js';
 
 const SUCCESS_OUTPUT_LEVEL = .8;
 const SILENT_LEVEL = 0;
-
-window.inProportionProperty = new StringProperty( 'default' );
 
 class InProportionSoundGenerator extends SoundClip {
 
@@ -27,31 +22,18 @@ class InProportionSoundGenerator extends SoundClip {
    * @param {Object} [options]
    */
   constructor( model, getCurrentRatio, options ) {
+
     options = merge( {
       initialOutputLevel: .5
     }, options );
-    super( fifthsOption2Sound, options );
+
+    super( inProportionQuickFade, options );
 
     // @private
     this.model = model;
     this.getCurrentRatio = getCurrentRatio;
     this.targetRatioProperty = model.targetRatioProperty;
     this.fitnessProperty = model.ratioFitnessProperty;
-
-    // TODO: these options are just for designing, editing wrappedAudioBuffer would not pass code review. https://github.com/phetsims/ratio-and-proportion/issues/182
-    window.inProportionProperty.lazyLink( value => {
-      if ( value === 'quick' ) {
-        this.wrappedAudioBuffer = inProportionQuickFade;
-      }
-      else if ( value === 'studio' ) {
-        if ( value === 'quick' ) {
-          this.wrappedAudioBuffer = inProportionStudioFade;
-        }
-      }
-      else {
-        this.wrappedAudioBuffer = fifthsOption2Sound;
-      }
-    } );
 
     // @private - keep track of if the success sound has already played. This will be set back to false when the fitness
     // goes back out of range for the success sound.
