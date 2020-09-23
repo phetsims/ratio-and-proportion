@@ -37,7 +37,7 @@ class InProportionSoundGenerator extends SoundClip {
 
     // @private - keep track of if the success sound has already played. This will be set back to false when the fitness
     // goes back out of range for the success sound.
-    this.playedSuccessYet = true;
+    this.playedSuccessYet = false;
 
     // @private - True when, in the previous step, the current ratio (calculated from currentRatio) is larger than
     // the target ratio.
@@ -117,7 +117,7 @@ class InProportionSoundGenerator extends SoundClip {
    */
   reset() {
     this.stop();
-    this.playedSuccessYet = true;
+    this.playedSuccessYet = false;
     this.currentRatioWasLargerThanTarget = this.calculateCurrentRatioLargerThanTarget();
   }
 }

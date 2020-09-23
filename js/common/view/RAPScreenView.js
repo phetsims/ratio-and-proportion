@@ -180,6 +180,8 @@ class RAPScreenView extends ScreenView {
       // this.markerInput.isBeingInteractedWithProperty, // TODO: add support for mechamarker input again https://github.com/phetsims/ratio-and-proportion/issues/89
       bothHandsPDOMNode.isBeingInteractedWithProperty
     ] );
+
+    this.inProportionSoundGenerator.addEnableControlProperty( soundGeneratorEnabledProperty );
     this.movingInProportionSoundGenerator.addEnableControlProperty( soundGeneratorEnabledProperty );
     this.staccatoFrequencySoundGenerator.addEnableControlProperty( soundGeneratorEnabledProperty );
 
