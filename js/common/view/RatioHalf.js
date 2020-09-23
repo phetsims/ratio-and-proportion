@@ -148,9 +148,6 @@ class RatioHalf extends Rectangle {
     const boundaryClickSoundClip = new SoundClip( sliderBoundaryClickSound, soundClipOptions );
     soundManager.addSoundGenerator( boundaryClickSoundClip, addSoundOptions );
 
-    // Keep track of the previous value on slider drag for playing sounds
-    let lastValue = valueProperty.value;
-
     // Keep track of the last time a sound was played so that we don't play too often
     let timeOfLastClick = 0;
 
@@ -198,11 +195,15 @@ class RatioHalf extends Rectangle {
       }
     } );
 
+    // Keep track of the previous value on drag. This makes sure that we don't have
+    let lastPosition = positionProperty.value;
+
     const dragBoundsProperty = new Property( new Bounds2( 0, 0, 1, 1 ) );
 
     let startingX = null;
 
     // transform and dragBounds set in layout code below
+    // TODO: factor listener out to its own class
     const dragListener = new DragListener( {
       positionProperty: positionProperty,
       tandem: options.tandem.createTandem( 'dragListener' ),
@@ -223,16 +224,16 @@ class RatioHalf extends Rectangle {
           positionProperty.value.setX( startingX );
           positionProperty.notifyListenersStatic();
         }
-        const value = valueProperty.value;
+        const verticalPosition = positionProperty.value.y;
 
-        // handle the sound as desired for mouse/touch style input
+        // handle the sound as desired for mouse/touch style input (for vertical changes)
         for ( let i = 0; i < tickMarkRangeProperty.value; i++ ) {
           const tickValue = ( i / valueRange.getLength() ) / tickMarkRangeProperty.value;
-          if ( lastValue !== value && ( value === valueRange.min || value === valueRange.max ) ) {
+          if ( lastPosition.y !== verticalPosition && ( verticalPosition === valueRange.min || verticalPosition === valueRange.max ) ) {
             boundaryClickSoundClip.play();
             break;
           }
-          else if ( lastValue < tickValue && value >= tickValue || lastValue > tickValue && value <= tickValue ) {
+          else if ( lastPosition.y < tickValue && verticalPosition >= tickValue || lastPosition.y > tickValue && verticalPosition <= tickValue ) {
             if ( phet.joist.elapsedTime - timeOfLastClick >= MIN_INTER_CLICK_TIME ) {
               tickMarkBumpSoundClip.play();
               timeOfLastClick = phet.joist.elapsedTime;
@@ -240,7 +241,14 @@ class RatioHalf extends Rectangle {
             break;
           }
         }
-        lastValue = value;
+
+        const horizontalPosition = positionProperty.value.x;
+        if ( lastPosition.x !== horizontalPosition && // don't repeat
+             ( horizontalPosition === dragBoundsProperty.value.left || horizontalPosition === dragBoundsProperty.value.right ) ) {
+          boundaryClickSoundClip.play();
+        }
+
+        lastPosition = positionProperty.value;
       },
 
       end: () => {
