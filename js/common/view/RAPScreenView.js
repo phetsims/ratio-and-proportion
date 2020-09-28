@@ -13,21 +13,19 @@ import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import ParallelDOM from '../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
-import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
 import FontAwesomeNode from '../../../../sun/js/FontAwesomeNode.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import numberedTickMarkIconImage from '../../../images/numbered-tick-mark-icon_png.js';
-import tickMarkIconImage from '../../../images/tick-mark-icon_png.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import RAPConstants from '../RAPConstants.js';
 import BothHandsDescriber from './BothHandsDescriber.js';
 import BothHandsPDOMNode from './BothHandsPDOMNode.js';
 import HandPositionsDescriber from './HandPositionsDescriber.js';
+import NumberedTickMarkIconPath from './NumberedTickMarkIconPath.js';
 import RAPColorProfile from './RAPColorProfile.js';
 import RAPTickMarkLabelsNode from './RAPTickMarkLabelsNode.js';
 import RatioDescriber from './RatioDescriber.js';
@@ -36,6 +34,7 @@ import InProportionSoundGenerator from './sound/InProportionSoundGenerator.js';
 import MovingInProportionSoundGenerator from './sound/MovingInProportionSoundGenerator.js';
 import StaccatoFrequencySoundGenerator from './sound/StaccatoFrequencySoundGenerator.js';
 import TickMarkDescriber from './TickMarkDescriber.js';
+import TickMarksIconPath from './TickMarksIconPath.js';
 import TickMarkView from './TickMarkView.js';
 
 // constants
@@ -231,20 +230,22 @@ class RAPScreenView extends ScreenView {
       value: TickMarkView.NONE,
       labelContent: ratioAndProportionStrings.a11y.tickMark.showNo
     }, {
-      node: new Image( tickMarkIconImage, { scale: .84 } ),
+      node: new TickMarksIconPath(),
       value: TickMarkView.HORIZONTAL,
       labelContent: ratioAndProportionStrings.a11y.tickMark.show
     }, {
-      node: new Image( numberedTickMarkIconImage, { scale: .84 } ),
+      node: new NumberedTickMarkIconPath(),
       value: TickMarkView.HORIZONTAL_UNITS,
       labelContent: ratioAndProportionStrings.a11y.tickMark.showNumbered
     } ], {
       orientation: 'horizontal',
       baseColor: 'white',
+      buttonContentYMargin: 14,
+      buttonContentXMargin: 8,
+
       labelContent: ratioAndProportionStrings.a11y.tickMark.heading,
       helpText: ratioAndProportionStrings.a11y.tickMark.helpText,
-      helpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT,
-      scale: 1.07 // calculated to try to match this width with other components in subtypes
+      helpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT
     } );
 
     // add this Node to the layer that is scaled up to support vertical aspect ratios
