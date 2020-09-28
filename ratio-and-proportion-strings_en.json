@@ -229,7 +229,7 @@
     },
     "discover": {
       "homeScreenDescription": {
-        "value": "Choose set challenges to explore ratio and proportion."
+        "value": "Explore this screen to discover set ratio challenges."
       },
       "screenSummary": {
         "introParagraph": {
@@ -260,7 +260,7 @@
     },
     "create": {
       "homeScreenDescription": {
-        "value": "Create custom challenges to explore ratio and proportion."
+        "value": "On this screen, set your own ratio challenges to explore."
       },
       "screenSummary": {
         "introParagraph": {
