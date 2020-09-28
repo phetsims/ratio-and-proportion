@@ -6,11 +6,10 @@
 
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
-import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import RAPModel from '../common/model/RAPModel.js';
-import RandomIcon from '../common/view/RandomIcon.js';
 import ratioAndProportion from '../ratioAndProportion.js';
 import ratioAndProportionStrings from '../ratioAndProportionStrings.js';
+import CreateScreenIcon from './view/CreateScreenIcon.js';
 import CreateScreenView from './view/CreateScreenView.js';
 
 class CreateScreen extends Screen {
@@ -23,10 +22,7 @@ class CreateScreen extends Screen {
     const options = {
       backgroundColorProperty: new Property( 'white' ),
       tandem: tandem,
-      homeScreenIcon: new ScreenIcon( new RandomIcon( 432432440, '' ), {
-        maxIconWidthProportion: 1,
-        maxIconHeightProportion: 1
-      } ),
+      homeScreenIcon: new CreateScreenIcon(),
       name: ratioAndProportionStrings.create,
       descriptionContent: ratioAndProportionStrings.a11y.create.homeScreenDescription
     };
