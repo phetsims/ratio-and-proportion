@@ -225,7 +225,7 @@
       "value": "{{position}} of Play Area"
     },
     "lockRatioHelpText": {
-      "value": "When at challenge ratio, move hands as a single unit with the ratio locked."
+      "value": "Enabled when hands are at challenge ratio. Move hands as a single unit to maintain my challenge ratio."
     },
     "discover": {
       "homeScreenDescription": {
