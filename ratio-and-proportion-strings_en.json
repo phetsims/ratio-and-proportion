@@ -264,7 +264,7 @@
       },
       "screenSummary": {
         "introParagraph": {
-          "value": "On this screen you can create your own ratio challenge. The Play Area has two movable hands that can be moved individually or simultaneously, or as a single interaction with the ratio locked to explore the ratio challenges you create. There are options to add plain or numbered tick marks shown as evenly-spaced horizontal lines that divide up the vertical space of the Play Area. In addition, you can increase the range of tick marks for a finer exploration of your ratio challenges. The Control Area has a button to reset the sim."
+          "value": "On this screen you can set your own ratio challenge. The Play Area has two movable hands that can be moved individually or simultaneously, or as a single interaction with the ratio locked to explore the ratio challenges you create. There are options to add plain or numbered tick marks shown as evenly-spaced horizontal lines that divide up the vertical space of the Play Area. In addition, you can increase the range of tick marks for a finer exploration of your ratio challenges. The Control Area has a button to reset the sim."
         },
         "interactionHint": {
           "value": "Explore the current my challenge ratio or create your own."
