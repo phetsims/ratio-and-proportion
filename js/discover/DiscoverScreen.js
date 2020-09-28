@@ -6,12 +6,11 @@
 
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
-import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import RAPModel from '../common/model/RAPModel.js';
-import RandomIcon from '../common/view/RandomIcon.js';
 import ratioAndProportion from '../ratioAndProportion.js';
-import DiscoverScreenView from './view/DiscoverScreenView.js';
 import ratioAndProportionStrings from '../ratioAndProportionStrings.js';
+import DiscoverScreenIcon from './view/DiscoverScreenIcon.js';
+import DiscoverScreenView from './view/DiscoverScreenView.js';
 
 class DiscoverScreen extends Screen {
 
@@ -23,10 +22,7 @@ class DiscoverScreen extends Screen {
     const options = {
       backgroundColorProperty: new Property( 'white' ),
       tandem: tandem,
-      homeScreenIcon: new ScreenIcon( new RandomIcon( 432140, '' ), {
-        maxIconWidthProportion: 1,
-        maxIconHeightProportion: 1
-      } ),
+      homeScreenIcon: new DiscoverScreenIcon(),
       name: ratioAndProportionStrings.discover,
       descriptionContent: ratioAndProportionStrings.a11y.discover.homeScreenDescription
     };
