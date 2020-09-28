@@ -10,6 +10,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import merge from '../../../../phet-core/js/merge.js';
+import Orientation from '../../../../phet-core/js/Orientation.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import AccessibleSlider from '../../../../sun/js/accessibility/AccessibleSlider.js';
@@ -36,6 +37,7 @@ class RatioHandNode extends Node {
       isRight: true, // right hand or left hand
       asIcon: false, // when true, no input will be attached
 
+      ariaOrientation: Orientation.VERTICAL,
       keyboardStep: keyboardStep,
       shiftKeyboardStep: keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER,
       pageKeyboardStep: 1 / 5
