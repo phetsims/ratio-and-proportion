@@ -7,10 +7,8 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import Property from '../../../../axon/js/Property.js';
 import merge from '../../../../phet-core/js/merge.js';
 import sceneryPhetStrings from '../../../../scenery-phet/js/sceneryPhetStrings.js';
-import PDOMPeer from '../../../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -52,17 +50,14 @@ class BothHandsPDOMNode extends Node {
 
     super();
 
+    // @private
+    this.handPositionsDescriber = handPositionsDescriber;
+
     const interactiveNode = new Node( options.interactiveNodeOptions );
     this.addChild( interactiveNode );
 
     const dynamicDescription = new Node( { tagName: 'p' } );
     this.addChild( dynamicDescription );
-
-    interactiveNode.addAriaDescribedbyAssociation( {
-      otherNode: dynamicDescription,
-      otherElementName: PDOMPeer.PRIMARY_SIBLING,
-      thisElementName: PDOMPeer.PRIMARY_SIBLING
-    } );
 
     interactiveNode.setAccessibleAttribute( 'aria-roledescription', sceneryPhetStrings.a11y.grabDrag.movable );
 
@@ -70,7 +65,20 @@ class BothHandsPDOMNode extends Node {
       denominatorProperty, valueRange, firstInteractionProperty, tickMarkRangeProperty, keyboardStep );
     interactiveNode.addInputListener( ratioInteractionListener );
 
-    const bothHandsRatioUtterance = new Utterance( {
+    interactiveNode.addInputListener( {
+      focus: () => this.alertDistanceChanged( tickMarkViewProperty.value )
+    } );
+
+    // @private
+    this.distanceUtterance = new Utterance( {
+
+      // give enough time for the user to stop interacting with te hands
+      // before describing current positions, to prevent too many of these
+      // from queuing up in rapid presses
+      alertStableDelay: 500
+    } );
+
+    const ratioChangedUtterance = new Utterance( {
 
       // a longer delay before speaking the bothHandsPositionUtterance gives
       // more consistent behavior on Safari, where often the alerts would be
@@ -78,27 +86,33 @@ class BothHandsPDOMNode extends Node {
       alertStableDelay: 1000
     } );
 
-    Property.multilink( [
-        ratioInteractionListener.isBeingInteractedWithProperty,
-        tickMarkViewProperty,
-        unclampedFitnessProperty ], // use unclamped so that it changes with any change to the model.
-      ( isBeingInteractedWith, tickMarkView ) => {
-
-        // By clearing it out first, we increase the likelyhood that description will be repeated when it hasn't changed.
-        // This is the same strategy as https://github.com/phetsims/utterance-queue/blob/b275895573d6c878faa2e61b7f27305b901d3939/js/AriaHerald.js#L103-L105
-        dynamicDescription.innerContent = '';
-        dynamicDescription.innerContent = handPositionsDescriber.getBothHandsDistance( tickMarkView );
-
-        if ( isBeingInteractedWith ) {
-          bothHandsRatioUtterance.alert = bothHandsDescriber.getRatioAndBothHandPositionsText();
-          phet.joist.sim.utteranceQueue.addToBack( bothHandsRatioUtterance );
-        }
-      } );
-
     // @public (read-only) - expose this from the listener for general consumption
     this.isBeingInteractedWithProperty = ratioInteractionListener.isBeingInteractedWithProperty;
 
+    // Only change these when fitness changes, even though it depends on other Properties.
+    unclampedFitnessProperty.lazyLink( () => {
+      const tickMarkView = tickMarkViewProperty.value;
+      const isBeingInteractedWith = ratioInteractionListener.isBeingInteractedWithProperty.value;
+      dynamicDescription.innerContent = handPositionsDescriber.getBothHandsDistance( tickMarkView );
+
+      if ( isBeingInteractedWith ) {
+        this.alertDistanceChanged( tickMarkView );
+
+        ratioChangedUtterance.alert = bothHandsDescriber.getRatioAndBothHandPositionsText();
+        phet.joist.sim.utteranceQueue.addToBack( ratioChangedUtterance );
+      }
+    } );
+
     this.mutate( options );
+  }
+
+  /**
+   * @private
+   * @param {TickMarkView} tickMarkView
+   */
+  alertDistanceChanged( tickMarkView ) {
+    this.distanceUtterance.alert = this.handPositionsDescriber.getBothHandsDistance( tickMarkView );
+    phet.joist.sim.utteranceQueue.addToBack( this.distanceUtterance );
   }
 }
 
