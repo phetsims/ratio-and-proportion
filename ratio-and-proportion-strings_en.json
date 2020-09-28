@@ -277,7 +277,7 @@
         "value": "When tick marks shown, choose range for tick marks."
       },
       "myChallengeHelpText": {
-        "value": "Set left hand and right hand values to create your custom ratio challenge."
+        "value": "Choose left hand and right hand values to set your ratio challenge."
       }
     },
     "handPosition": {
