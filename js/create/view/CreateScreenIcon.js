@@ -32,21 +32,25 @@ class CreateScreenIcon extends ScreenIcon {
 
     const tickMarksHiddenProperty = new Property( TickMarkView.NONE );
 
+    const leftNumberPicker = new NumberPicker( new NumberProperty( 1 ), new Property( new Range( 1, 10 ) ) );
+    leftNumberPicker.tagName = null;
     const leftNode = new VBox( {
       align: 'center',
       spacing: 10,
       children: [
         RatioHandNode.createIcon( false, tickMarksHiddenProperty ),
-        new NumberPicker( new NumberProperty( 1 ), new Property( new Range( 1, 10 ) ) )
+        leftNumberPicker
       ]
     } );
 
+    const rightNumberPicker = new NumberPicker( new NumberProperty( 2 ), new Property( new Range( 1, 10 ) ) );
+    rightNumberPicker.tagName = null;
     const rightNode = new VBox( {
       align: 'center',
       spacing: 10,
       children: [
         RatioHandNode.createIcon( true, tickMarksHiddenProperty ),
-        new NumberPicker( new NumberProperty( 2 ), new Property( new Range( 1, 10 ) ) )
+        rightNumberPicker
       ]
     } );
 
