@@ -7,7 +7,7 @@
 
 import Property from '../../../../../axon/js/Property.js';
 import merge from '../../../../../phet-core/js/merge.js';
-import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
+import MultiSoundClip from '../../../../../tambo/js/sound-generators/MultiSoundClip.js';
 import SoundGenerator from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
 import choirAhhSound from '../../../../sounds/moving-in-proportion/choir-ahhh-loop_mp3.js';
 import movingInProportionOption4 from '../../../../sounds/moving-in-proportion/moving-in-proportion-loop-option-4_mp3.js';
@@ -70,67 +70,6 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
    */
   reset() {
     this.movingInProportionSoundClip.stop( 0 );
-  }
-}
-
-// Private class used to blend two sounds together
-// TODO: get rid of this or move to common code
-class MultiSoundClip extends SoundGenerator {
-
-  /**
-   * @param {Array.<sound:SoundClip,options:Object>} soundsAndOptionsTuples
-   * @param {Object} [options]
-   */
-  constructor( soundsAndOptionsTuples, options ) {
-    super( options );
-    this.soundClips = [];
-    for ( let i = 0; i < soundsAndOptionsTuples.length; i++ ) {
-      const soundAndOptions = soundsAndOptionsTuples[ i ];
-      const soundClip = new SoundClip( soundAndOptions.sound, soundAndOptions.options );
-      soundClip.connect( this.soundSourceDestination );
-      this.soundClips.push( soundClip );
-    }
-  }
-
-  /**
-   * @public
-   */
-  play() {
-    this.soundClips.forEach( soundClip => soundClip.play() );
-  }
-
-  /**
-   * @public
-   */
-  stop() {
-    this.soundClips.forEach( soundClip => soundClip.stop() );
-  }
-
-  /**
-   * @public
-   */
-  connect( destination ) {
-    this.soundClips.forEach( soundClip => soundClip.connect( destination ) );
-  }
-
-  /**
-   * @public
-   */
-  dispose() {
-    this.soundClips.forEach( soundClip => soundClip.dispose() );
-  }
-
-  get isPlaying() {
-    return _.some( this.soundClips, soundClip => soundClip.isPlaying );
-  }
-
-  /**
-   * @public
-   * @param {number} outputLevel
-   * @param {number} timeConstant
-   */
-  setOutputLevel( outputLevel, timeConstant ) {
-    this.soundClips.forEach( soundClip => soundClip.setOutputLevel( outputLevel, timeConstant ) );
   }
 }
 
