@@ -23,7 +23,7 @@ const simOptions = {
     team: '',
     qualityAssurance: '',
     graphicArts: '',
-    soundDesign: '',
+    soundDesign: 'Ashton Morris',
     thanks: ''
   }
 };
