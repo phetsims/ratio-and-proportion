@@ -9,8 +9,8 @@ import Property from '../../../../../axon/js/Property.js';
 import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
-import choirAhhSound from '../../../../sounds/moving-in-proportion/choir-ahhh-loop_wav.js';
-import movingInProportionOption4 from '../../../../sounds/moving-in-proportion/moving-in-proportion-loop-option-4_wav.js';
+import choirAhhSound from '../../../../sounds/moving-in-proportion/choir-ahhh-loop_mp3.js';
+import movingInProportionOption4 from '../../../../sounds/moving-in-proportion/moving-in-proportion-loop-option-4_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 
 class MovingInProportionSoundGenerator extends SoundGenerator {
@@ -30,8 +30,20 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
     this.movingInProportionSoundClip = null;
 
     this.movingInProportionSoundClip = new MultiSoundClip( [
-      { sound: choirAhhSound, options: { loop: true } },
-      { sound: movingInProportionOption4, options: { loop: true, initialOutputLevel: .6 } }
+      {
+        sound: choirAhhSound,
+        options: {
+          loop: true,
+          trimSilence: true
+        }
+      }, {
+        sound: movingInProportionOption4,
+        options: {
+          loop: true,
+          initialOutputLevel: .6,
+          trimSilence: true
+        }
+      }
     ] );
     this.movingInProportionSoundClip.connect( this.soundSourceDestination );
 
