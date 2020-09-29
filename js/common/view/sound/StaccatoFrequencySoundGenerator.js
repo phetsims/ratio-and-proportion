@@ -92,10 +92,6 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
 
     // @private - in ms, keep track of the amount of time that has passed since the last staccato sound played
     this.timeSinceLastPlay = 0;
-
-    // @private {number} - keep track of the last value to prevent the same sound from being played twice in a row.
-    // TODO: do we need this, or would it be ok to repeat these sounds sometimes?
-    this.lastStaccatoSoundValue = -1;
   }
 
   /**
@@ -112,27 +108,9 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     const isInRatio = this.isInProportion();
     if ( this.timeSinceLastPlay > this.timeLinearFunction( newFitness ) && !isInRatio && newFitness > 0 ) {
       const sounds = this.staccatoSoundClips[ Math.floor( newFitness * this.staccatoSoundClips.length ) ];
-      sounds[ this.getStaccatoSoundValueToPlay() ].play();
+      sounds[ Math.floor( phet.joist.random.nextDouble() * sounds.length ) ].play();
       this.timeSinceLastPlay = 0;
     }
-  }
-
-  /**
-   * Get the value of the MultiClip map for the staccato sound to play, see "staccatoSoundMap"
-   * @returns {number}
-   * @private
-   */
-  getStaccatoSoundValueToPlay() {
-
-    let soundValue = this.lastStaccatoSoundValue;
-    while ( soundValue === this.lastStaccatoSoundValue ) {
-
-      // "3 + 1" is a hard coded number based on staccatoSoundMap
-      soundValue = Math.floor( phet.joist.random.nextDouble() * 3 );
-    }
-
-    this.lastStaccatoSoundValue = soundValue;
-    return soundValue;
   }
 
   /**

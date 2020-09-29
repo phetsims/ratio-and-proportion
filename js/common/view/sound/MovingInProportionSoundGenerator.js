@@ -29,22 +29,20 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
     // @private {SoundClip|MultiSoundClip|null} - null when no sound
     this.movingInProportionSoundClip = null;
 
-    this.movingInProportionSoundClip = new MultiSoundClip( [
-      {
-        sound: choirAhhSound,
-        options: {
-          loop: true,
-          trimSilence: true
-        }
-      }, {
-        sound: movingInProportionOption4,
-        options: {
-          loop: true,
-          initialOutputLevel: .6,
-          trimSilence: true
-        }
+    this.movingInProportionSoundClip = new MultiSoundClip( [ {
+      sound: choirAhhSound,
+      options: {
+        loop: true,
+        trimSilence: true
       }
-    ] );
+    }, {
+      sound: movingInProportionOption4,
+      options: {
+        loop: true,
+        initialOutputLevel: .6,
+        trimSilence: true
+      }
+    } ] );
     this.movingInProportionSoundClip.connect( this.soundSourceDestination );
 
     Property.multilink( [

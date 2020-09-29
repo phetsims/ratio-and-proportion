@@ -2,7 +2,6 @@
 
 /**
  * Data type that holds both terms of the ratio
- * // TODO: use Poolable? https://github.com/phetsims/ratio-and-proportion/issues/181
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
