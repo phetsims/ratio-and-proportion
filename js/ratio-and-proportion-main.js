@@ -25,7 +25,8 @@ const simOptions = {
     graphicArts: '',
     soundDesign: 'Ashton Morris',
     thanks: ''
-  }
+  },
+  hasKeyboardHelpContent: true
 };
 
 // launch the sim - beware that scenery Image nodes created outside of simLauncher.launch() will have zero bounds
