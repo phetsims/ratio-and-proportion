@@ -48,7 +48,7 @@
     "value": "Move hands in smaller steps add"
   },
   "setMyRatioChallenge": {
-    "value": "Set My Ratio Challenge"
+    "value": "Set My Challenge Ratio"
   },
   "setHandRatioValue": {
     "value": "Set Left or Right Hand ratio value"
@@ -276,24 +276,24 @@
     },
     "discover": {
       "homeScreenDescription": {
-        "value": "Explore this screen to discover set ratio challenges."
+        "value": "Explore this screen to discover set challenge ratios."
       },
       "screenSummary": {
         "introParagraph": {
-          "value": "In the Play Area you have two movable hands and a set of ratio challenges to explore. Hands can be moved up and down individually or simultaneously to explore multiple places where the chosen ratio challenge is true. There are options to add plain or numbered tick marks shown as evenly-spaced horizontal lines that divide up the vertical space of the Play Area. The Control Area has a button to reset the sim."
+          "value": "In the Play Area you have two movable hands and a set of challenge ratios to explore. Hands can be moved up and down individually or simultaneously to explore multiple places where the chosen ratio challenge is true. There are options to add plain or numbered tick marks shown as evenly-spaced horizontal lines that divide up the vertical space of the Play Area. The Control Area has a button to reset the sim."
         },
         "interactionHint": {
-          "value": "Move hands individually or at the same time to maintain the ratio challenge."
+          "value": "Move hands individually or at the same time to maintain the challenge ratio."
         },
         "qualitativeStateOfSim": {
           "value": "Currently, hands are {{ratioFitness}} the {{currentChallenge}} ratio and {{distance}} each other:"
         }
       },
       "challengesHelpText": {
-        "value": "Choose a ratio challenge to explore."
+        "value": "Choose a challenge ratio to explore."
       },
       "ratioChallenges": {
-        "value": "Ratio Challenges"
+        "value": "Challenge Ratios"
       },
       "challenge1Lowercase": {
         "value": "challenge 1"
@@ -307,11 +307,11 @@
     },
     "create": {
       "homeScreenDescription": {
-        "value": "On this screen, set your own ratio challenges to explore."
+        "value": "On this screen, set your own challenge ratios to explore."
       },
       "screenSummary": {
         "introParagraph": {
-          "value": "On this screen you can set your own ratio challenge. The Play Area has two movable hands that can be moved individually or simultaneously, or as a single interaction with the ratio locked to explore the ratio challenges you create. There are options to add plain or numbered tick marks shown as evenly-spaced horizontal lines that divide up the vertical space of the Play Area. In addition, you can increase the range of tick marks for a finer exploration of your ratio challenges. The Control Area has a button to reset the sim."
+          "value": "On this screen you can set your own challenge ratio. The Play Area has two movable hands that can be moved individually or simultaneously, or as a single interaction with the ratio locked to explore the ratio challenges you create. There are options to add plain or numbered tick marks shown as evenly-spaced horizontal lines that divide up the vertical space of the Play Area. In addition, you can increase the range of tick marks for a finer exploration of your ratio challenges. The Control Area has a button to reset the sim."
         },
         "interactionHint": {
           "value": "Explore the current my challenge ratio or create your own."
@@ -324,7 +324,7 @@
         "value": "When tick marks shown, choose range for tick marks."
       },
       "myChallengeHelpText": {
-        "value": "Choose left hand and right hand values to set your ratio challenge."
+        "value": "Choose left hand and right hand values to set your challenge ratio."
       }
     },
     "handPosition": {
