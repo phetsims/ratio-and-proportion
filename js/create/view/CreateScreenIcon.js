@@ -5,7 +5,6 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import ScreenIcon from '../../../../joist/js/ScreenIcon.js';
@@ -32,25 +31,23 @@ class CreateScreenIcon extends ScreenIcon {
 
     const tickMarksHiddenProperty = new Property( TickMarkView.NONE );
 
-    const leftNumberPicker = new NumberPicker( new NumberProperty( 1 ), new Property( new Range( 1, 10 ) ) );
-    leftNumberPicker.tagName = null;
+    const numberPickerRange = new Range( 0, 10 );
+
     const leftNode = new VBox( {
       align: 'center',
       spacing: 10,
       children: [
         RatioHandNode.createIcon( false, tickMarksHiddenProperty ),
-        leftNumberPicker
+        NumberPicker.createIcon( 3, { range: numberPickerRange } )
       ]
     } );
 
-    const rightNumberPicker = new NumberPicker( new NumberProperty( 2 ), new Property( new Range( 1, 10 ) ) );
-    rightNumberPicker.tagName = null;
     const rightNode = new VBox( {
       align: 'center',
       spacing: 10,
       children: [
         RatioHandNode.createIcon( true, tickMarksHiddenProperty ),
-        rightNumberPicker
+        NumberPicker.createIcon( 2, { highlightIncrement: true, range: numberPickerRange } )
       ]
     } );
 
