@@ -7,10 +7,10 @@
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import RAPModel from '../common/model/RAPModel.js';
-import RAPKeyboardHelpContent from '../common/view/RAPKeyboardHelpContent.js';
 import ratioAndProportion from '../ratioAndProportion.js';
 import ratioAndProportionStrings from '../ratioAndProportionStrings.js';
 import CreateScreenIcon from './view/CreateScreenIcon.js';
+import CreateScreenKeyboardHelpContent from './view/CreateScreenKeyboardHelpContent.js';
 import CreateScreenView from './view/CreateScreenView.js';
 
 class CreateScreen extends Screen {
@@ -26,7 +26,7 @@ class CreateScreen extends Screen {
       homeScreenIcon: new CreateScreenIcon(),
       name: ratioAndProportionStrings.create,
       descriptionContent: ratioAndProportionStrings.a11y.create.homeScreenDescription,
-      keyboardHelpNode: new RAPKeyboardHelpContent( { screen: RAPKeyboardHelpContent.ScreenEnum.CREATE } )
+      keyboardHelpNode: new CreateScreenKeyboardHelpContent()
     };
 
     super(

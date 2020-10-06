@@ -47,6 +47,18 @@
   "moveHandsInSmallerSteps": {
     "value": "Move hands in smaller steps add"
   },
+  "setMyRatioChallenge": {
+    "value": "Set My Ratio Challenge"
+  },
+  "setHandRatioValue": {
+    "value": "Set Left or Right Hand ratio value"
+  },
+  "jumpToMinimum": {
+    "value": "Jump to minimum"
+  },
+  "jumpToMaximum": {
+    "value": "Jump to maximum"
+  },
   "a11y": {
     "keyboardHelp": {
       "bothHandsDescription": {
@@ -60,6 +72,15 @@
       },
       "handsInSmallerStepsDescription": {
         "value": "Move hands in smaller steps, add the Shift key."
+      },
+      "setHandRatioValueDescription": {
+        "value": "Set Left or Right Hand ratio value with Up and Down arrow keys."
+      },
+      "jumpToMinimumDescription": {
+        "value": "Jump to minimum setting with Home key."
+      },
+      "jumpToMaximumDescription": {
+        "value": "Jump to maximum setting with End key."
       }
     },
     "leftHand": {

@@ -6,7 +6,6 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ArrowKeyNode from '../../../../scenery-phet/js/keyboard/ArrowKeyNode.js';
 import GeneralKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/GeneralKeyboardHelpSection.js';
@@ -19,19 +18,13 @@ import ShiftKeyNode from '../../../../scenery-phet/js/keyboard/ShiftKeyNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
-const ScreenEnum = Enumeration.byKeys( [ 'DISCOVER', 'CREATE' ] );
-
 class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
 
   /**
+   * @param {KeyboardHelpSection} challengeHelpSection - keyboard help section for determining how to change the target ratio
    * @param {Object} [options]
    */
-  constructor( options ) {
-    options = merge( {
-
-      // {ScreenEnum}
-      screen: ScreenEnum.DISCOVER
-    }, options );
+  constructor( challengeHelpSection, options ) {
 
     const moveLeftOrRightHandHelpSection = new SliderKeyboardHelpSection( {
       headingString: 'Move Left or Right Hand'
@@ -43,14 +36,11 @@ class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
     } );
 
     const leftContent = [ moveLeftOrRightHandHelpSection, new BothHandsHelpSection() ];
-    const rightContent = [ generalNavigationHelpSection ];
+    const rightContent = [ challengeHelpSection, generalNavigationHelpSection ];
 
     super( leftContent, rightContent );
   }
 }
-
-// @public
-RAPKeyboardHelpContent.ScreenEnum = ScreenEnum;
 
 /**
  * @param {Object} [options]
@@ -82,7 +72,7 @@ class BothHandsHelpSection extends KeyboardHelpSection {
       new ShiftKeyNode(),
       ratioAndProportionStrings.a11y.keyboardHelp.handsInSmallerStepsDescription );
 
-    super( ratioAndProportionStrings.bothHands, [ moveLeftHand, moveRightHand,moveInSmallerSteps ], options );
+    super( ratioAndProportionStrings.bothHands, [ moveLeftHand, moveRightHand, moveInSmallerSteps ], options );
   }
 }
 
