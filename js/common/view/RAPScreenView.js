@@ -7,6 +7,7 @@
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
@@ -64,7 +65,11 @@ class RAPScreenView extends ScreenView {
 
       // What is the unit value of the tick marks. Value reads as "1/x of the view height." This type is responsible for
       // resetting this on reset all.
-      tickMarkRangeProperty: new NumberProperty( 10 )
+      tickMarkRangeProperty: new NumberProperty( 10 ),
+
+      // Properties that control the color of each hand
+      leftHandColorProperty: new Property( 'black' ),
+      rightHandColorProperty: new Property( 'black' )
     }, options );
 
     const tickMarksAndLabelsColorProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
@@ -133,6 +138,7 @@ class RAPScreenView extends ScreenView {
       model.ratio.lockedProperty, // not a bug
       playTickMarkSoundProperty,
       this.inProportionSoundGenerator, {
+        handColorProperty: options.leftHandColorProperty,
         accessibleName: ratioAndProportionStrings.a11y.leftHand,
         a11yDependencies: a11yDependencies,
         isRight: false // this way we get a left hand
@@ -157,6 +163,7 @@ class RAPScreenView extends ScreenView {
       model.ratio.lockedProperty, // not a bug
       playTickMarkSoundProperty,
       this.inProportionSoundGenerator, {
+        handColorProperty: options.rightHandColorProperty,
         accessibleName: ratioAndProportionStrings.a11y.rightHand,
         a11yDependencies: a11yDependencies,
         helpText: ratioAndProportionStrings.a11y.rightHandHelpText

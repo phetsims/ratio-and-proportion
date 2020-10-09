@@ -18,15 +18,24 @@ class ChallengeComboBoxItem extends ComboBoxItem {
    * @param {string} text
    * @param {ColorDef} color
    * @param {number} value
+   * @param {NumberProperty} valueProperty
+   * @param {Property.<ColorDef>} colorProperty - when the valueProperty is set to this item's value, change this color
+   * to match this item's color too.
    * @param {Object} [options]
    */
-  constructor( text, color, value, options ) {
+  constructor( text, color, value, valueProperty, colorProperty, options ) {
     super( new HBox( {
       spacing: 8,
       children: [
         new Rectangle( 0, 0, 15, 15, { fill: color } ),
         new RichText( text ) ]
     } ), value, options );
+
+    valueProperty.link( newValue => {
+      if ( newValue === value ) {
+        colorProperty.value = color;
+      }
+    } );
   }
 }
 

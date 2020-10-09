@@ -29,9 +29,10 @@ class RatioHandNode extends Node {
    * @param {Range} enabledRatioComponentsRangeProperty
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
    * @param {number} keyboardStep
+   * @param {Property.<ColorDef>} colorProperty - controls the color of the hand. This is for both the filled in and cut out hands.
    * @param {Object} [options]
    */
-  constructor( valueProperty, enabledRatioComponentsRangeProperty, tickMarkViewProperty, keyboardStep, options ) {
+  constructor( valueProperty, enabledRatioComponentsRangeProperty, tickMarkViewProperty, keyboardStep, colorProperty, options ) {
 
     options = merge( {
       cursor: 'pointer',
@@ -49,9 +50,12 @@ class RatioHandNode extends Node {
     !options.asIcon && this.initializeAccessibleSlider( valueProperty, enabledRatioComponentsRangeProperty, new BooleanProperty( true ), options );
 
     // @private
-    const filledInHandNode = new FilledInHandPath();
+    const filledInHandNode = new FilledInHandPath( {
+      fill: colorProperty
+    } );
     const cutOutHandNode = new CutOutHandPath( {
-      visible: false
+      visible: false,
+      fill: colorProperty
     } );
 
     const container = new Node( {
@@ -89,7 +93,7 @@ class RatioHandNode extends Node {
    */
   static createIcon( isRight, tickMarkViewProperty, options ) {
     return new Node( {
-      children: [ new RatioHandNode( new Property( 0 ), new Range( 0, 1 ), tickMarkViewProperty, new Property( 10 ), merge( {
+      children: [ new RatioHandNode( new Property( 0 ), new Range( 0, 1 ), tickMarkViewProperty, new Property( 10 ), new Property( 'black' ), merge( {
         isRight: isRight,
         asIcon: true,
         pickable: false
@@ -106,7 +110,7 @@ class FilledInHandPath extends Path {
   constructor( options ) {
 
     options = merge( {
-      fill: 'black',
+      stroke: 'black',
       scale: HAND_PATH_SCALE
     }, options );
 
@@ -132,7 +136,7 @@ class CutOutHandPath extends Path {
   constructor( options ) {
 
     options = merge( {
-      fill: 'black',
+      stroke: 'black',
       scale: HAND_PATH_SCALE
     }, options );
 

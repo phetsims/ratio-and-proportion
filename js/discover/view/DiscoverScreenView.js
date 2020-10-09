@@ -4,6 +4,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import Property from '../../../../axon/js/Property.js';
 import RAPScreenView from '../../common/view/RAPScreenView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ChallengeRatioComboBoxNode from './ChallengeRatioComboBoxNode.js';
@@ -18,9 +19,15 @@ class DiscoverScreenView extends RAPScreenView {
    */
   constructor( model, tandem ) {
 
-    super( model, tandem );
+    // For this screen, one Property controls the color of both hands.
+    const handColorProperty = new Property( 'black' );
 
-    const comboBoxContainer = new ChallengeRatioComboBoxNode( model.targetRatioProperty, this.ratioDescriber );
+    super( model, tandem, {
+      leftHandColorProperty: handColorProperty,
+      rightHandColorProperty: handColorProperty
+    } );
+
+    const comboBoxContainer = new ChallengeRatioComboBoxNode( model.targetRatioProperty, this.ratioDescriber, handColorProperty );
 
     this.topScalingUILayerNode.addChild( comboBoxContainer );
 

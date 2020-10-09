@@ -85,6 +85,10 @@ class RatioHalf extends Rectangle {
 
     options = merge( {
       isRight: true, // right ratio or the left ratio
+
+      // control the color of the hand
+      handColorProperty: new Property( 'black' ),
+
       tandem: Tandem.OPTIONAL,
 
       // AccessibleValueHandler via RatioHandNode
@@ -116,7 +120,7 @@ class RatioHalf extends Rectangle {
     this.addChild( tickMarksNode );
 
     // @private - The draggable element inside the Node framed with thick rectangles on the top and bottom.
-    this.ratioHandNode = new RatioHandNode( valueProperty, enabledRatioComponentsRangeProperty, tickMarkViewProperty, keyboardStep, {
+    this.ratioHandNode = new RatioHandNode( valueProperty, enabledRatioComponentsRangeProperty, tickMarkViewProperty, keyboardStep, options.handColorProperty, {
       startDrag: () => {
         firstInteractionProperty.value = false;
         this.isBeingInteractedWithProperty.value = true;
