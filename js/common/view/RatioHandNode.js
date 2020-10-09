@@ -87,17 +87,30 @@ class RatioHandNode extends Node {
   /**
    * @param {boolean} isRight
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
+   * @param {ColorDef} color - of the hands
    * @param {Object} [options]
    * @returns {Node}
    * @public
    */
   static createIcon( isRight, tickMarkViewProperty, options ) {
-    return new Node( {
-      children: [ new RatioHandNode( new Property( 0 ), new Range( 0, 1 ), tickMarkViewProperty, new Property( 10 ), new Property( 'black' ), merge( {
+    options = merge( {
+      handColor: 'black',
+      handNodeOptions: {}
+    }, options );
+
+    const ratioHandNode = new RatioHandNode(
+      new Property( 0 ),
+      new Range( 0, 1 ),
+      tickMarkViewProperty,
+      new Property( 10 ),
+      new Property( options.handColor ), merge( {
         isRight: isRight,
         asIcon: true,
         pickable: false
-      }, options ) ) ]
+      }, options.handNodeOptions ) );
+
+    return new Node( {
+      children: [ ratioHandNode ]
     } );
   }
 }

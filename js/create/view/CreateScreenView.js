@@ -15,6 +15,7 @@ import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import RAPScreenView from '../../common/view/RAPScreenView.js';
@@ -38,8 +39,13 @@ class CreateScreenView extends RAPScreenView {
 
     const tickMarkRangeProperty = new NumberProperty( 10 );
 
+    // For this screen, one Property controls the color of both hands.
+    const handColorProperty = new Property( new Color( 0, 0, 255 ) );
+
     super( model, tandem, {
-      tickMarkRangeProperty: tickMarkRangeProperty
+      tickMarkRangeProperty: tickMarkRangeProperty,
+      leftHandColorProperty: handColorProperty,
+      rightHandColorProperty: handColorProperty
     } );
 
     // Allow us to get the reduced fraction as the initial value of the custom "My Challenge"
@@ -49,6 +55,7 @@ class CreateScreenView extends RAPScreenView {
     const targetNumeratorProperty = new NumberProperty( initialRatioFraction.numerator );
     const numeratorNumberPicker = new NumberPicker( targetNumeratorProperty, new Property( new Range( 1, 10 ) ), {
       scale: PICKER_SCALE,
+      color: handColorProperty.value,
       center: Vector2.ZERO,
       accessibleName: ratioAndProportionStrings.a11y.leftHand,
       a11yCreateValueChangeAlert: () => this.ratioDescriber.getProximityToChallengeRatioSentence()
@@ -57,13 +64,16 @@ class CreateScreenView extends RAPScreenView {
       align: 'origin',
       spacing: 10,
       children: [
-        RatioHandNode.createIcon( false, this.tickMarkViewProperty, { scale: ICON_SCALE } ),
+        RatioHandNode.createIcon( false, this.tickMarkViewProperty, {
+          handColor: handColorProperty.value, handNodeOptions: { scale: ICON_SCALE }
+        } ),
         new Node( { children: [ numeratorNumberPicker ] } ) ]
     } );
 
     const targetDenominatorProperty = new NumberProperty( initialRatioFraction.denominator );
     const denominatorNumberPicker = new NumberPicker( targetDenominatorProperty, new Property( new Range( 1, 10 ) ), {
       scale: PICKER_SCALE,
+      color: handColorProperty.value,
       center: Vector2.ZERO,
       accessibleName: ratioAndProportionStrings.a11y.rightHand,
       a11yCreateValueChangeAlert: () => this.ratioDescriber.getProximityToChallengeRatioSentence()
@@ -72,7 +82,9 @@ class CreateScreenView extends RAPScreenView {
       align: 'origin',
       spacing: 10,
       children: [
-        RatioHandNode.createIcon( true, this.tickMarkViewProperty, { scale: ICON_SCALE } ),
+        RatioHandNode.createIcon( true, this.tickMarkViewProperty, {
+          handColor: handColorProperty.value, handNodeOptions: { scale: ICON_SCALE }
+        } ),
         new Node( { children: [ denominatorNumberPicker ] } ) ]
     } );
 

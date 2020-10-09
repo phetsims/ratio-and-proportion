@@ -12,6 +12,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import NumberPicker from '../../../../scenery-phet/js/NumberPicker.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import RAPColorProfile from '../../common/view/RAPColorProfile.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
 import TickMarkView from '../../common/view/TickMarkView.js';
@@ -26,7 +27,8 @@ class CreateScreenIcon extends ScreenIcon {
   constructor( options ) {
 
     options = merge( {
-      fill: RAPColorProfile.backgroundInFitnessProperty.value
+      fill: RAPColorProfile.backgroundInFitnessProperty.value,
+      handColor: new Color( 0, 0, 255 ) // TODO: duplicated with default NumberPickerOption and that in CreateScreenView
     }, options );
 
     const tickMarksHiddenProperty = new Property( TickMarkView.NONE );
@@ -37,7 +39,7 @@ class CreateScreenIcon extends ScreenIcon {
       align: 'center',
       spacing: 10,
       children: [
-        RatioHandNode.createIcon( false, tickMarksHiddenProperty ),
+        RatioHandNode.createIcon( false, tickMarksHiddenProperty, { handColor: options.handColor } ),
         NumberPicker.createIcon( 3, { range: numberPickerRange } )
       ]
     } );
@@ -46,7 +48,7 @@ class CreateScreenIcon extends ScreenIcon {
       align: 'center',
       spacing: 10,
       children: [
-        RatioHandNode.createIcon( true, tickMarksHiddenProperty ),
+        RatioHandNode.createIcon( true, tickMarksHiddenProperty, { handColor: options.handColor } ),
         NumberPicker.createIcon( 2, { highlightIncrement: true, range: numberPickerRange } )
       ]
     } );

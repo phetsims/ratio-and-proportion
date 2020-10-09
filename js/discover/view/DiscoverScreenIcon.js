@@ -11,6 +11,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import RAPColorProfile from '../../common/view/RAPColorProfile.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
 import TickMarkView from '../../common/view/TickMarkView.js';
@@ -25,7 +26,8 @@ class DiscoverScreenIcon extends ScreenIcon {
   constructor( options ) {
 
     options = merge( {
-      fill: RAPColorProfile.backgroundInFitnessProperty.value
+      fill: RAPColorProfile.backgroundInFitnessProperty.value,
+      handColor: new Color( 233, 69, 69 ) // TODO: duplicated with color in ChallengeRatioComboBoxNode
     }, options );
 
     const tickMarksHiddenProperty = new Property( TickMarkView.NONE );
@@ -33,13 +35,13 @@ class DiscoverScreenIcon extends ScreenIcon {
     const leftNode = new VBox( {
       children: [
         new Rectangle( 0, 0, 1, 15, { opacity: 0 } ),
-        RatioHandNode.createIcon( false, tickMarksHiddenProperty )
+        RatioHandNode.createIcon( false, tickMarksHiddenProperty, { handColor: options.handColor } )
       ]
     } );
 
     const rightNode = new VBox( {
       children: [
-        RatioHandNode.createIcon( true, tickMarksHiddenProperty ),
+        RatioHandNode.createIcon( true, tickMarksHiddenProperty, { handColor: options.handColor } ),
         new Rectangle( 0, 0, 1, 15, { opacity: 0 } )
       ]
     } );
