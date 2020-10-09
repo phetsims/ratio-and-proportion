@@ -42,7 +42,7 @@ const RAPQueryParameters = QueryStringMachine.getAll( {
   },
 
   /**
-   * The velocity that both hands need to move in the same direction to trigger the choir "ahhh" sound.
+   * The velocity that both hands need to move in the same direction to trigger the choir loop sound.
    * The unit for this is change in value per 30 frames (~1/2 a second). Note that the model range for values is from 0-1.
    * So the top of the sim is 1.
    */
