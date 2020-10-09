@@ -7,7 +7,7 @@
 
 import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
-import inProportionQuickFade from '../../../../sounds/in-proportion/in-proportion-quick-fade_mp3.js';
+import inProportionSound from '../../../../sounds/in-proportion/in-proportion_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import RAPQueryParameters from '../../RAPQueryParameters.js';
 
@@ -27,7 +27,7 @@ class InProportionSoundGenerator extends SoundClip {
       initialOutputLevel: .5
     }, options );
 
-    super( inProportionQuickFade, options );
+    super( inProportionSound, options );
 
     // @private
     this.model = model;
