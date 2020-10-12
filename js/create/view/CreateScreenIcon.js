@@ -5,7 +5,6 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import ScreenIcon from '../../../../joist/js/ScreenIcon.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -14,8 +13,6 @@ import HBox from '../../../../scenery/js/nodes/HBox.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import RAPColorProfile from '../../common/view/RAPColorProfile.js';
-import RatioHandNode from '../../common/view/RatioHandNode.js';
-import TickMarkView from '../../common/view/TickMarkView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 
 
@@ -31,15 +28,12 @@ class CreateScreenIcon extends ScreenIcon {
       handColor: new Color( 0, 0, 255 ) // TODO: duplicated with default NumberPickerOption and that in CreateScreenView
     }, options );
 
-    const tickMarksHiddenProperty = new Property( TickMarkView.NONE );
-
     const numberPickerRange = new Range( 0, 10 );
 
     const leftNode = new VBox( {
       align: 'center',
       spacing: 10,
       children: [
-        RatioHandNode.createIcon( false, tickMarksHiddenProperty, { handColor: options.handColor } ),
         NumberPicker.createIcon( 3, { range: numberPickerRange } )
       ]
     } );
@@ -48,7 +42,6 @@ class CreateScreenIcon extends ScreenIcon {
       align: 'center',
       spacing: 10,
       children: [
-        RatioHandNode.createIcon( true, tickMarksHiddenProperty, { handColor: options.handColor } ),
         NumberPicker.createIcon( 2, { highlightIncrement: true, range: numberPickerRange } )
       ]
     } );
