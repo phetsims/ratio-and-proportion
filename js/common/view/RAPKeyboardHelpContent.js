@@ -31,8 +31,7 @@ class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
     } );
 
     const generalNavigationHelpSection = new GeneralKeyboardHelpSection( {
-      withCheckboxContent: true,
-      withGroupContent: true
+      withCheckboxContent: true
     } );
 
     const leftContent = [ moveLeftOrRightHandHelpSection, new BothHandsHelpSection() ];
