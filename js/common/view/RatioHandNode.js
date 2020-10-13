@@ -124,6 +124,7 @@ class FilledInHandPath extends Path {
 
     options = merge( {
       stroke: 'black',
+      lineWidth: 2,
       scale: HAND_PATH_SCALE
     }, options );
 
@@ -150,6 +151,7 @@ class CutOutHandPath extends Path {
 
     options = merge( {
       stroke: 'black',
+      lineWidth: 2,
       scale: HAND_PATH_SCALE
     }, options );
 

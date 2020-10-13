@@ -298,7 +298,7 @@ class RatioHalf extends Rectangle {
 
     const cueArrowOptions = {
       fill: '#FFC000',
-      stroke: null,
+      stroke: 'black',
       opacity: .8,
       headWidth: 40,
       headHeight: 20,
