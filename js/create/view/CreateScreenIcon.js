@@ -24,7 +24,7 @@ class CreateScreenIcon extends ScreenIcon {
 
     options = merge( {
       fill: 'white',
-      handColor: new Color( 0, 0, 255 ) // TODO: duplicated with default NumberPickerOption and that in CreateScreenView
+      handColor: new Color( '#8d5cbd' ) // TODO: duplicated with default NumberPickerOption and that in CreateScreenView
     }, options );
 
     const numberPickerRange = new Range( 0, 10 );
