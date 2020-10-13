@@ -49,6 +49,10 @@ class RatioDescriber {
     this.unclampedFitnessProperty = model.unclampedFitnessProperty;
     this.fitnessRange = model.fitnessRange;
     this.model = model;
+
+    phet.log && model.unclampedFitnessProperty.link( () => {
+      phet.log( RATIO_FITNESS_STRINGS_LOWERCASE[ this.getRatioFitnessIndex() ] );
+    } );
   }
 
   /**
