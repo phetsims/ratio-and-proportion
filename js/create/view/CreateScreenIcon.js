@@ -7,7 +7,6 @@
 
 import Range from '../../../../dot/js/Range.js';
 import ScreenIcon from '../../../../joist/js/ScreenIcon.js';
-import merge from '../../../../phet-core/js/merge.js';
 import NumberPicker from '../../../../scenery-phet/js/NumberPicker.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
@@ -22,18 +21,20 @@ class CreateScreenIcon extends ScreenIcon {
    */
   constructor( options ) {
 
-    options = merge( {
-      fill: 'white',
-      handColor: new Color( '#8d5cbd' ) // TODO: duplicated with default NumberPickerOption and that in CreateScreenView
-    }, options );
-
+    // TODO: duplicated with hand color in CreateScreenView
+    const numberPickerColor = new Color( '#8d5cbd' );
     const numberPickerRange = new Range( 0, 10 );
 
     const leftNode = new VBox( {
       align: 'center',
       spacing: 10,
       children: [
-        NumberPicker.createIcon( 3, { range: numberPickerRange } )
+        NumberPicker.createIcon( 3, {
+          range: numberPickerRange,
+          numberPickerOptions: {
+            color: numberPickerColor
+          }
+        } )
       ]
     } );
 
@@ -41,7 +42,13 @@ class CreateScreenIcon extends ScreenIcon {
       align: 'center',
       spacing: 10,
       children: [
-        NumberPicker.createIcon( 2, { highlightIncrement: true, range: numberPickerRange } )
+        NumberPicker.createIcon( 2, {
+          highlightIncrement: true,
+          range: numberPickerRange,
+          numberPickerOptions: {
+            color: numberPickerColor
+          }
+        } )
       ]
     } );
 

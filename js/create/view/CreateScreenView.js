@@ -40,6 +40,7 @@ class CreateScreenView extends RAPScreenView {
     const tickMarkRangeProperty = new NumberProperty( 10 );
 
     // For this screen, one Property controls the color of both hands.
+    // TODO: duplicated with CreateScreenIcon
     const handColorProperty = new Property( new Color( '#8d5cbd') );
 
     super( model, tandem, {
