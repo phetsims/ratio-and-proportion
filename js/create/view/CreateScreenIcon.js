@@ -12,7 +12,6 @@ import NumberPicker from '../../../../scenery-phet/js/NumberPicker.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import Color from '../../../../scenery/js/util/Color.js';
-import RAPColorProfile from '../../common/view/RAPColorProfile.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 
 
@@ -24,7 +23,7 @@ class CreateScreenIcon extends ScreenIcon {
   constructor( options ) {
 
     options = merge( {
-      fill: RAPColorProfile.backgroundInFitnessProperty.value,
+      fill: 'white',
       handColor: new Color( 0, 0, 255 ) // TODO: duplicated with default NumberPickerOption and that in CreateScreenView
     }, options );
 
