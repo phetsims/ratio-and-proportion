@@ -38,7 +38,7 @@ class RandomIcon extends Node {
     this.addChild( background );
 
     // set a clip area, since sometimes the random control points can cause the shape to go outside the icon bounds
-    background.clipArea = new Shape.rect( 0, 0, maxX, maxY );
+    background.clipArea = Shape.rect( 0, 0, maxX, maxY );
 
     // create the artwork
     _.times( NUM_SHAPES, () => {
