@@ -12,7 +12,6 @@ import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import Color from '../../../../scenery/js/util/Color.js';
-import RAPColorProfile from '../../common/view/RAPColorProfile.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
 import TickMarkView from '../../common/view/TickMarkView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -26,7 +25,7 @@ class DiscoverScreenIcon extends ScreenIcon {
   constructor( options ) {
 
     options = merge( {
-      fill: RAPColorProfile.backgroundInFitnessProperty.value,
+      fill: 'white',
       handColor: new Color( 233, 69, 69 ) // TODO: duplicated with color in ChallengeRatioComboBoxNode
     }, options );
 
