@@ -41,7 +41,7 @@ class CreateScreenView extends RAPScreenView {
 
     // For this screen, one Property controls the color of both hands.
     // TODO: duplicated with CreateScreenIcon
-    const handColorProperty = new Property( new Color( '#8d5cbd') );
+    const handColorProperty = new Property( new Color( '#8d5cbd' ) );
 
     super( model, tandem, {
       tickMarkRangeProperty: tickMarkRangeProperty,
@@ -58,7 +58,7 @@ class CreateScreenView extends RAPScreenView {
       scale: PICKER_SCALE,
       color: handColorProperty.value,
       center: Vector2.ZERO,
-      accessibleName: ratioAndProportionStrings.a11y.leftHand,
+      accessibleName: ratioAndProportionStrings.a11y.setLeftValue,
       a11yCreateValueChangeAlert: () => this.ratioDescriber.getProximityToChallengeRatioSentence()
     } );
     const leftRatioSelector = new VBox( {
@@ -76,7 +76,7 @@ class CreateScreenView extends RAPScreenView {
       scale: PICKER_SCALE,
       color: handColorProperty.value,
       center: Vector2.ZERO,
-      accessibleName: ratioAndProportionStrings.a11y.rightHand,
+      accessibleName: ratioAndProportionStrings.a11y.setRightValue,
       a11yCreateValueChangeAlert: () => this.ratioDescriber.getProximityToChallengeRatioSentence()
     } );
     const rightRatioSelector = new VBox( {
