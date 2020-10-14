@@ -72,9 +72,6 @@ class RatioInteractionListener {
 
     if ( sceneryEvent.target === this.targetNode ) {
 
-      // Prevents weird scrolling in the a11y view
-      sceneryEvent.domEvent.preventDefault();
-
       this.keyStateTracker.keydownUpdate( sceneryEvent.domEvent );
 
       // signify that this listener is reserved for keyboard movement so that other listeners can change
