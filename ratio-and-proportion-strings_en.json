@@ -367,6 +367,23 @@
       "atBottom": {
         "value": "at bottom"
       },
+      "bothHands": {
+        "atTop": {
+          "value": "at top"
+        },
+        "inUpperRegion": {
+          "value": "in upper region"
+        },
+        "inMiddleRegion": {
+          "value": "in middle region"
+        },
+        "inLowerRegion": {
+          "value": "in lower region"
+        },
+        "atBottom": {
+          "value": "at bottom"
+        }
+      },
       "distance": {
         "capitalized": {
           "farthestFrom": {

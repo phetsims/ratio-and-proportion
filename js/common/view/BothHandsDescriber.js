@@ -46,9 +46,8 @@ class BothHandsDescriber {
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.bothHandsObjectResponseAlert, {
       distance: this.handPositionsDescriber.getBothHandsDistanceOrDirection( tickMarkView ),
 
-      // TODO: implement "both-hands" specific regions for position here.
-      leftPosition: this.handPositionsDescriber.getHandPosition( this.numeratorProperty, tickMarkView ),
-      rightPosition: this.handPositionsDescriber.getHandPosition( this.denominatorProperty, tickMarkView, false )
+      leftPosition: this.handPositionsDescriber.getBothHandsHandPosition( this.numeratorProperty, tickMarkView ),
+      rightPosition: this.handPositionsDescriber.getBothHandsHandPosition( this.denominatorProperty, tickMarkView )
     } );
   }
 }

@@ -32,6 +32,13 @@ const QUALITATIVE_POSITIONS = [
   ratioAndProportionStrings.a11y.handPosition.nearTop,
   ratioAndProportionStrings.a11y.handPosition.atTop
 ];
+const QUALITATIVE_BOTH_HANDS_POSITIONS = [
+  ratioAndProportionStrings.a11y.handPosition.bothHands.atBottom,
+  ratioAndProportionStrings.a11y.handPosition.bothHands.inLowerRegion,
+  ratioAndProportionStrings.a11y.handPosition.bothHands.inMiddleRegion,
+  ratioAndProportionStrings.a11y.handPosition.bothHands.inUpperRegion,
+  ratioAndProportionStrings.a11y.handPosition.bothHands.atTop
+];
 
 const DISTANCE_REGIONS_CAPITALIZED = [
   ratioAndProportionStrings.a11y.handPosition.distance.capitalized.farthestFrom,
@@ -105,6 +112,21 @@ class HandPositionsDescriber {
   }
 
   /**
+   * @public
+   * @param {NumberProperty} valueProperty
+   * @param {TickMarkView} tickMarkView
+   * @returns {string}
+   */
+  getBothHandsHandPosition( valueProperty, tickMarkView ) {
+    if ( TickMarkView.describeQualitative( tickMarkView ) ) {
+      return this.getQualitativeBothHandsHandPosition( valueProperty );
+    }
+    else {
+      return this.getQuantitativeHandPosition( valueProperty, TickMarkView.describeSemiQualitative( tickMarkView ) );
+    }
+  }
+
+  /**
    * @private
    * @param {NumberProperty} valueProperty
    * @param {boolean} semiQuantitative=false
@@ -165,6 +187,44 @@ class HandPositionsDescriber {
       return 3;
     }
     else if ( normalizedPosition > .2 ) {
+      return 2;
+    }
+    else if ( normalizedPosition > this.valueRange.min ) {
+      return 1;
+    }
+    else if ( normalizedPosition === this.valueRange.min ) {
+      return 0;
+    }
+
+    assert && assert( false, 'we should not get here' );
+  }
+
+  /**
+   * @private
+   * @param {Property.<number>} property
+   * @returns {string}
+   */
+  getQualitativeBothHandsHandPosition( property ) {
+    return QUALITATIVE_BOTH_HANDS_POSITIONS[ this.getQualitativeBothHandsHandPositionIndex( property.value ) ];
+  }
+
+  /**
+   * @param {number} position - relative to the total possible position
+   * @returns {number}
+   * @public
+   */
+  getQualitativeBothHandsHandPositionIndex( position ) {
+    assert && assert( this.valueRange.contains( position ), 'position expected to be in valueRange' );
+
+    const normalizedPosition = this.valueRange.getNormalizedValue( position );
+
+    if ( normalizedPosition === this.valueRange.max ) {
+      return 4;
+    }
+    else if ( normalizedPosition > .7 ) {
+      return 3;
+    }
+    else if ( normalizedPosition > .3 ) {
       return 2;
     }
     else if ( normalizedPosition > this.valueRange.min ) {
