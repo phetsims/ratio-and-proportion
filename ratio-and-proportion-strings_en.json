@@ -468,7 +468,16 @@
         "value": "{{distanceOrDirection}}, {{fitness}} challenge ratio."
       },
       "proximityToRatioPattern": {
-        "value": "{{proximity}} challenge ratio."
+        "value": "Hands, {{proximity}} challenge ratio."
+      },
+      "targetAriaValueText": {
+        "value": "{{currentValue}}, {{extremityClause}} challenge ratio {{targetNumerator}} to {{targetDenominator}}"
+      },
+      "atMax": {
+        "value": "at max,"
+      },
+      "atMin": {
+        "value": "at min"
       },
       "capitalized": {
         "at": {

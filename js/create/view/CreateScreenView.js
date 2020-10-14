@@ -52,13 +52,18 @@ class CreateScreenView extends RAPScreenView {
     // Allow us to get the reduced fraction as the initial value of the custom "My Challenge"
     const initialRatioFraction = new Fraction( model.ratio.numeratorProperty.value * 100, model.ratio.denominatorProperty.value * 100 );
     initialRatioFraction.reduce();
+    const rangeProperty = new Property( new Range( 1, 10 ) );
 
     const targetNumeratorProperty = new NumberProperty( initialRatioFraction.numerator );
-    const numeratorNumberPicker = new NumberPicker( targetNumeratorProperty, new Property( new Range( 1, 10 ) ), {
+    const targetDenominatorProperty = new NumberProperty( initialRatioFraction.denominator );
+
+    const numeratorNumberPicker = new NumberPicker( targetNumeratorProperty, rangeProperty, {
       scale: PICKER_SCALE,
       color: handColorProperty.value,
       center: Vector2.ZERO,
       accessibleName: ratioAndProportionStrings.a11y.setLeftValue,
+      a11yCreateAriaValueText: value => this.ratioDescriber.getTargetRatioAriaValueText( value, rangeProperty.value, targetNumeratorProperty, targetDenominatorProperty ),
+      a11yDependencies: [ targetDenominatorProperty ],
       a11yCreateValueChangeAlert: () => this.ratioDescriber.getProximityToChallengeRatioSentence()
     } );
     const leftRatioSelector = new VBox( {
@@ -71,12 +76,13 @@ class CreateScreenView extends RAPScreenView {
         new Node( { children: [ numeratorNumberPicker ] } ) ]
     } );
 
-    const targetDenominatorProperty = new NumberProperty( initialRatioFraction.denominator );
-    const denominatorNumberPicker = new NumberPicker( targetDenominatorProperty, new Property( new Range( 1, 10 ) ), {
+    const denominatorNumberPicker = new NumberPicker( targetDenominatorProperty, rangeProperty, {
       scale: PICKER_SCALE,
       color: handColorProperty.value,
       center: Vector2.ZERO,
       accessibleName: ratioAndProportionStrings.a11y.setRightValue,
+      a11yCreateAriaValueText: value => this.ratioDescriber.getTargetRatioAriaValueText( value, rangeProperty.value, targetNumeratorProperty, targetDenominatorProperty ),
+      a11yDependencies: [ targetNumeratorProperty ],
       a11yCreateValueChangeAlert: () => this.ratioDescriber.getProximityToChallengeRatioSentence()
     } );
     const rightRatioSelector = new VBox( {
