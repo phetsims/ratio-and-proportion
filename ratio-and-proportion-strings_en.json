@@ -156,20 +156,20 @@
         "value": "Tick Marks Hidden"
       },
       "relative": {
-        "justAbove": {
-          "value": "just above"
+        "around": {
+          "value": "around"
         },
-        "above": {
-          "value": "above"
+        "almostHalfWayPast": {
+          "value": "almost half-way past"
         },
         "halfwayPast": {
           "value": "halfway past"
         },
-        "below": {
-          "value": "below"
+        "justOverHalfWayPast": {
+          "value": "just over half-way past"
         },
-        "justBelow": {
-          "value": "just below"
+        "almostOn": {
+          "value": "almost on"
         },
         "on": {
           "value": "on"

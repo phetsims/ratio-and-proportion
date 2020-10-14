@@ -13,11 +13,11 @@ import TickMarkView from './TickMarkView.js';
 // constants
 const RELATIVE_POSITION_STRINGS = [
   ratioAndProportionStrings.a11y.tickMark.relative.on,
-  ratioAndProportionStrings.a11y.tickMark.relative.justAbove,
-  ratioAndProportionStrings.a11y.tickMark.relative.above,
+  ratioAndProportionStrings.a11y.tickMark.relative.around,
+  ratioAndProportionStrings.a11y.tickMark.relative.almostHalfWayPast,
   ratioAndProportionStrings.a11y.tickMark.relative.halfwayPast,
-  ratioAndProportionStrings.a11y.tickMark.relative.below,
-  ratioAndProportionStrings.a11y.tickMark.relative.justBelow
+  ratioAndProportionStrings.a11y.tickMark.relative.justOverHalfWayPast,
+  ratioAndProportionStrings.a11y.tickMark.relative.almostOn
 ];
 
 const ORDINAL_TICK_MARKS = [
