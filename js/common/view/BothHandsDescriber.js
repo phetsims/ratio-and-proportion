@@ -32,12 +32,23 @@ class BothHandsDescriber {
    * @public
    * @returns {string}
    */
-  getRatioAndBothHandPositionsText() {
-    const tickMarkView = this.tickMarkViewProperty.value;
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.bothHandsAlert, {
-      leftPosition: this.handPositionsDescriber.getHandPosition( this.numeratorProperty, tickMarkView ),
-      rightPosition: this.handPositionsDescriber.getHandPosition( this.denominatorProperty, tickMarkView, false ),
+  getBothHandsContextResponse() {
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.bothHandsContextResponseAlert, {
       fitness: this.ratioDescriber.getRatioFitness()
+    } );
+  }
+
+  /**
+   * @public
+   */
+  getBothHandsObjectResponse() {
+    const tickMarkView = this.tickMarkViewProperty.value;
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.bothHandsObjectResponseAlert, {
+      distance: this.handPositionsDescriber.getBothHandsDistanceOrDirection( tickMarkView ),
+
+      // TODO: implement "both-hands" specific regions for position here.
+      leftPosition: this.handPositionsDescriber.getHandPosition( this.numeratorProperty, tickMarkView ),
+      rightPosition: this.handPositionsDescriber.getHandPosition( this.denominatorProperty, tickMarkView, false )
     } );
   }
 }

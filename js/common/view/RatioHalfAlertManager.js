@@ -45,8 +45,9 @@ class RatioHalfAlertManager {
   getRatioChangeAlert() {
 
     // When locked, treat the alert like a "Both hands" interaction alert
+    // TODO: we lost left/right hand behavior here. https://github.com/phetsims/ratio-and-proportion/issues/207
     if ( this.ratioLockedProperty.value ) {
-      return this.bothHandsDescriber.getRatioAndBothHandPositionsText();
+      return this.bothHandsDescriber.getBothHandsContextResponse();
     }
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.fitnessAlertPattern, {
       distanceOrDirection: this.handPositionsDescriber.getDistanceClauseForProperty( this.valueProperty ),

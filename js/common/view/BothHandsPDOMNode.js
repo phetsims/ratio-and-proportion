@@ -52,6 +52,7 @@ class BothHandsPDOMNode extends Node {
 
     // @private
     this.handPositionsDescriber = handPositionsDescriber;
+    this.bothHandsDescriber = bothHandsDescriber;
 
     const interactiveNode = new Node( options.interactiveNodeOptions );
     this.addChild( interactiveNode );
@@ -66,11 +67,11 @@ class BothHandsPDOMNode extends Node {
     interactiveNode.addInputListener( ratioInteractionListener );
 
     interactiveNode.addInputListener( {
-      focus: () => this.alertDistanceChanged( tickMarkViewProperty.value )
+      focus: () => this.alertBothHandsObjectResponse( tickMarkViewProperty.value )
     } );
 
     // @private
-    this.distanceUtterance = new Utterance( {
+    this.objectResponseUtterance = new Utterance( {
 
       // give enough time for the user to stop interacting with te hands
       // before describing current positions, to prevent too many of these
@@ -78,7 +79,7 @@ class BothHandsPDOMNode extends Node {
       alertStableDelay: 500
     } );
 
-    const ratioChangedUtterance = new Utterance( {
+    const contextResponseUtterance = new Utterance( {
 
       // a longer delay before speaking the bothHandsPositionUtterance gives
       // more consistent behavior on Safari, where often the alerts would be
@@ -93,13 +94,15 @@ class BothHandsPDOMNode extends Node {
     unclampedFitnessProperty.lazyLink( () => {
       const tickMarkView = tickMarkViewProperty.value;
       const isBeingInteractedWith = ratioInteractionListener.isBeingInteractedWithProperty.value;
+
+      // TODO: do we want to add conditional direction addition here? (not currently implemented, see getBothHandsDistanceOrDirection()) https://github.com/phetsims/ratio-and-proportion/issues/207
       dynamicDescription.innerContent = handPositionsDescriber.getBothHandsDistance( tickMarkView );
 
       if ( isBeingInteractedWith ) {
-        this.alertDistanceChanged( tickMarkView );
+        this.alertBothHandsObjectResponse( tickMarkView );
 
-        ratioChangedUtterance.alert = bothHandsDescriber.getRatioAndBothHandPositionsText();
-        phet.joist.sim.utteranceQueue.addToBack( ratioChangedUtterance );
+        contextResponseUtterance.alert = bothHandsDescriber.getBothHandsContextResponse();
+        phet.joist.sim.utteranceQueue.addToBack( contextResponseUtterance );
       }
     } );
 
@@ -110,9 +113,9 @@ class BothHandsPDOMNode extends Node {
    * @private
    * @param {TickMarkView} tickMarkView
    */
-  alertDistanceChanged( tickMarkView ) {
-    this.distanceUtterance.alert = this.handPositionsDescriber.getBothHandsDistance( tickMarkView );
-    phet.joist.sim.utteranceQueue.addToBack( this.distanceUtterance );
+  alertBothHandsObjectResponse( tickMarkView ) {
+    this.objectResponseUtterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse( tickMarkView );
+    phet.joist.sim.utteranceQueue.addToBack( this.objectResponseUtterance );
   }
 }
 

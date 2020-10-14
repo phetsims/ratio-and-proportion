@@ -7,12 +7,20 @@
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import validate from '../../../../axon/js/validate.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import TickMarkView from './TickMarkView.js';
 
 // constants
+const DirectionChanged = Enumeration.byKeys( [ 'CLOSER', 'FARTHER', 'NEITHER' ] );
+const DIRECTION_CHANGED_VALIDATOR = { valueType: DirectionChanged };
+
+const leftHandLowerString = ratioAndProportionStrings.a11y.leftHandLower;
+const rightHandLowerString = ratioAndProportionStrings.a11y.rightHandLower;
+
 const QUALITATIVE_POSITIONS = [
   ratioAndProportionStrings.a11y.handPosition.atBottom,
   ratioAndProportionStrings.a11y.handPosition.nearBottom,
@@ -51,9 +59,6 @@ const DISTANCE_REGIONS_LOWERCASE = [
 
 assert && assert( DISTANCE_REGIONS_CAPITALIZED.length === DISTANCE_REGIONS_LOWERCASE.length, 'should be the same regions' );
 
-const leftHandLowerString = ratioAndProportionStrings.a11y.leftHandLower;
-const rightHandLowerString = ratioAndProportionStrings.a11y.rightHandLower;
-
 class HandPositionsDescriber {
 
   /**
@@ -75,8 +80,8 @@ class HandPositionsDescriber {
     this.lastDenominatorValueProperty = new NumberProperty( denominatorProperty.value );
 
     // @private - initialized to null, but only set to boolean
-    this.previousLeftChangeProperty = new Property( null );
-    this.previousRightChangeProperty = new Property( null );
+    this.previousNumeratorChangeProperty = new Property( null );
+    this.previousDenominatorChangeProperty = new Property( null );
   }
 
   /**
@@ -229,29 +234,23 @@ class HandPositionsDescriber {
    */
   getDistanceClauseForProperty( valueProperty ) {
 
-    const previousValueProperty = valueProperty === this.numeratorProperty ? this.lastNumeratorValueProperty : this.lastDenominatorValueProperty;
-    const previousChangeProperty = valueProperty === this.numeratorProperty ? this.previousLeftChangeProperty : this.previousRightChangeProperty;
-    const otherValueProperty = valueProperty === this.numeratorProperty ? this.denominatorProperty : this.numeratorProperty;
-    const otherHand = valueProperty === this.numeratorProperty ? rightHandLowerString : leftHandLowerString;
-
-    const increasing = valueProperty.value > previousValueProperty.value;
-    const directionChange = increasing !== previousChangeProperty.value;
-
     let prefix = null;
-
-    if ( directionChange && // if the direction changed
-         valueProperty.value !== otherValueProperty.value && // if the two value positions are the same
-         valueProperty.value !== previousValueProperty.value ) { // if the value position didn't change
-      const otherValueLarger = otherValueProperty.value > valueProperty.value;
-      prefix = increasing === otherValueLarger ? ratioAndProportionStrings.a11y.handPosition.closerTo :
-               ratioAndProportionStrings.a11y.handPosition.fartherFrom;
+    const directionChange = this.getDirectionChangedState( valueProperty );
+    switch( directionChange ) {
+      case DirectionChanged.CLOSER:
+        prefix = ratioAndProportionStrings.a11y.handPosition.closerTo;
+        break;
+      case DirectionChanged.FARTHER:
+        prefix = ratioAndProportionStrings.a11y.handPosition.fartherFrom;
+        break;
+      case DirectionChanged.NEITHER:
+        prefix = this.getDistanceRegion();
+        break;
+      default:
+        assert && assert( false, 'all cases above' );
     }
-    else {
-      prefix = this.getDistanceRegion();
-    }
 
-    previousValueProperty.value = valueProperty.value;
-    previousChangeProperty.value = increasing;
+    const otherHand = valueProperty === this.numeratorProperty ? rightHandLowerString : leftHandLowerString;
 
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDirectionClause, {
       otherHand: otherHand,
@@ -260,16 +259,87 @@ class HandPositionsDescriber {
   }
 
   /**
+   * This is complicated because you need relative distance between the two values and if they get closer or farther
+   * last time. As  well as the need to call this for individual and both-hands interactions.
+   * @private
+   * @param {NumberProperty} valueProperty
+   * @returns {DirectionChanged}
+   */
+  getDirectionChangedState( valueProperty ) {
+    const previousValueProperty = valueProperty === this.numeratorProperty ? this.lastNumeratorValueProperty : this.lastDenominatorValueProperty;
+    const previousChangeProperty = valueProperty === this.numeratorProperty ? this.previousNumeratorChangeProperty : this.previousDenominatorChangeProperty;
+    const otherValueProperty = valueProperty === this.numeratorProperty ? this.denominatorProperty : this.numeratorProperty;
+
+    const increasing = valueProperty.value > previousValueProperty.value;
+    const directionChange = increasing !== previousChangeProperty.value;
+
+    let returnValue = null;
+
+    if ( directionChange && // if the direction changed
+         valueProperty.value !== otherValueProperty.value && // if the two value positions are the same
+         valueProperty.value !== previousValueProperty.value ) { // if the value position didn't change
+      const otherValueLarger = otherValueProperty.value > valueProperty.value;
+      returnValue = increasing === otherValueLarger ? DirectionChanged.CLOSER :
+                    DirectionChanged.FARTHER;
+    }
+    else {
+      returnValue = DirectionChanged.NEITHER;
+    }
+
+    // For next time
+    previousValueProperty.value = valueProperty.value;
+    previousChangeProperty.value = increasing;
+
+    validate( returnValue, DIRECTION_CHANGED_VALIDATOR );
+    return returnValue;
+  }
+
+  /**
    * @public
    * @param tickMarkView
    * @returns {string}
    */
   getBothHandsDistance( tickMarkView ) {
-    const distance = TickMarkView.describeQualitative( tickMarkView ) ? this.getDistanceRegion( true ) :
-                     this.tickMarkDescriber.getDistanceInTickMarks( tickMarkView, this.getDistanceBetweenHands() );
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.handsDistancePattern, {
-      distance: distance
+      distance: TickMarkView.describeQualitative( tickMarkView ) ? this.getDistanceRegion( true ) :
+                this.tickMarkDescriber.getDistanceInTickMarks( tickMarkView, this.getDistanceBetweenHands() )
     } );
+  }
+
+  /**
+   * If the hands changed directions (closer/farther) from each other, then prioritze describing
+   * that over the standard distance text. This supports this behavior on both value Properties.
+   * @public
+   * @param tickMarkView
+   * @returns {string}
+   */
+  getBothHandsDistanceOrDirection( tickMarkView ) {
+    let directionChange = this.getDirectionChangedState( this.numeratorProperty );
+
+    // If there was no direction change from the numerator, try the denominator
+    if ( directionChange === DirectionChanged.NEITHER ) {
+      directionChange = this.getDirectionChangedState( this.denominatorProperty );
+    }
+
+    let distance = null;
+    switch( directionChange ) {
+      case DirectionChanged.CLOSER:
+        distance = StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.handsDirectionPattern, {
+          distance: ratioAndProportionStrings.a11y.bothHands.closerTogether
+        } );
+        break;
+      case DirectionChanged.FARTHER:
+        distance = StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.handsDirectionPattern, {
+          distance: ratioAndProportionStrings.a11y.bothHands.fartherApart
+        } );
+        break;
+      case DirectionChanged.NEITHER:
+        distance = this.getBothHandsDistance( tickMarkView );
+        break;
+      default:
+        assert && assert( false, 'all cases above' );
+    }
+    return distance;
   }
 }
 

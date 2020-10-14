@@ -108,6 +108,9 @@
       "handsDistancePattern": {
         "value": "hands {{distance}} each other"
       },
+      "handsDirectionPattern": {
+        "value": "hands {{distance}}"
+      },
       "tickMarksApart": {
         "value": "{{justAround}}{{number}} tick marks apart from"
       },
@@ -120,8 +123,17 @@
       "justUnder": {
         "value": "just under "
       },
-      "bothHandsAlert": {
-        "value": "{{fitness}} challenge ratio. Left hand {{leftPosition}}, right hand {{rightPosition}}"
+      "bothHandsContextResponseAlert": {
+        "value": "{{fitness}} challenge ratio."
+      },
+      "bothHandsObjectResponseAlert": {
+        "value": "{{distance}}, left {{leftPosition}}, right {{rightPosition}}"
+      },
+      "closerTogether": {
+        "value": "closer together"
+      },
+      "fartherApart": {
+        "value": "farther apart"
       }
     },
     "tickMark": {
