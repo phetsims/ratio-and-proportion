@@ -71,6 +71,8 @@ class RatioInteractionListener {
   keydown( sceneryEvent ) {
 
     if ( sceneryEvent.target === this.targetNode ) {
+      sceneryEvent.domEvent.preventDefault();
+
       this.keyStateTracker.keydownUpdate( sceneryEvent.domEvent );
 
       // signify that this listener is reserved for keyboard movement so that other listeners can change
