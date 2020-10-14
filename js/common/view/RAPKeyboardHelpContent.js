@@ -14,7 +14,7 @@ import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/Keybo
 import SliderKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/SliderKeyboardHelpSection.js';
 import TwoColumnKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/help/TwoColumnKeyboardHelpContent.js';
 import LetterKeyNode from '../../../../scenery-phet/js/keyboard/LetterKeyNode.js';
-import ShiftKeyNode from '../../../../scenery-phet/js/keyboard/ShiftKeyNode.js';
+import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
@@ -68,7 +68,7 @@ class BothHandsHelpSection extends KeyboardHelpSection {
       ratioAndProportionStrings.a11y.keyboardHelp.rightHandDescription );
 
     const moveInSmallerSteps = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.moveHandsInSmallerSteps,
-      new ShiftKeyNode(),
+      TextKeyNode.shift(),
       ratioAndProportionStrings.a11y.keyboardHelp.handsInSmallerStepsDescription );
 
     super( ratioAndProportionStrings.bothHands, [ moveLeftHand, moveRightHand, moveInSmallerSteps ], options );

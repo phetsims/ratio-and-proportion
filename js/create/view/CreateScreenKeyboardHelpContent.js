@@ -7,10 +7,9 @@
  */
 
 import ArrowKeyNode from '../../../../scenery-phet/js/keyboard/ArrowKeyNode.js';
-import EndKeyNode from '../../../../scenery-phet/js/keyboard/EndKeyNode.js';
 import KeyboardHelpIconFactory from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
-import HomeKeyNode from '../../../../scenery-phet/js/keyboard/HomeKeyNode.js';
+import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
 import RAPKeyboardHelpContent from '../../common/view/RAPKeyboardHelpContent.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
@@ -38,11 +37,11 @@ class MyChallengeHelpSection extends KeyboardHelpSection {
       ratioAndProportionStrings.a11y.keyboardHelp.setHandRatioValueDescription );
 
     const jumpToMinimum = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.jumpToMinimum,
-      new HomeKeyNode(),
+      TextKeyNode.home(),
       ratioAndProportionStrings.a11y.keyboardHelp.jumpToMinimumDescription );
 
     const jumpToMaximum = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.jumpToMaximum,
-      new EndKeyNode(),
+      TextKeyNode.end(),
       ratioAndProportionStrings.a11y.keyboardHelp.jumpToMaximumDescription );
 
     super( ratioAndProportionStrings.setMyRatioChallenge, [ setHandRatioValue, jumpToMinimum, jumpToMaximum ], options );
