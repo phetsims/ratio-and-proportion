@@ -5,9 +5,9 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
-import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
+import ratioAndProportion from '../../../ratioAndProportion.js';
+import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
 
 class BothHandsDescriber {
 

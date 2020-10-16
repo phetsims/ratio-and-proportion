@@ -4,11 +4,11 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import Utils from '../../../../dot/js/Utils.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
-import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
-import TickMarkView from './TickMarkView.js';
+import Utils from '../../../../../dot/js/Utils.js';
+import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
+import ratioAndProportion from '../../../ratioAndProportion.js';
+import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
+import TickMarkView from '../TickMarkView.js';
 
 // constants
 const RELATIVE_POSITION_STRINGS = [

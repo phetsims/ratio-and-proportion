@@ -4,10 +4,10 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import LinearFunction from '../../../../dot/js/LinearFunction.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
-import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import LinearFunction from '../../../../../dot/js/LinearFunction.js';
+import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
+import ratioAndProportion from '../../../ratioAndProportion.js';
+import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
 
 // constants
 const RATIO_FITNESS_STRINGS_CAPITALIZED = [

@@ -5,14 +5,14 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Property from '../../../../axon/js/Property.js';
-import validate from '../../../../axon/js/validate.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
-import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
-import TickMarkView from './TickMarkView.js';
+import NumberProperty from '../../../../../axon/js/NumberProperty.js';
+import Property from '../../../../../axon/js/Property.js';
+import validate from '../../../../../axon/js/validate.js';
+import Enumeration from '../../../../../phet-core/js/Enumeration.js';
+import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
+import ratioAndProportion from '../../../ratioAndProportion.js';
+import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
+import TickMarkView from '../TickMarkView.js';
 
 // constants
 const DirectionChanged = Enumeration.byKeys( [ 'CLOSER', 'FARTHER', 'NEITHER' ] );
