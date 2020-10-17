@@ -386,6 +386,9 @@
         "inMiddleRegion": {
           "value": "in middle region"
         },
+        "atMiddle": {
+          "value": "at middle"
+        },
         "inLowerRegion": {
           "value": "in lower region"
         },

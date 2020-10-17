@@ -36,6 +36,8 @@ const QUALITATIVE_BOTH_HANDS_POSITIONS = [
   ratioAndProportionStrings.a11y.handPosition.bothHands.atBottom,
   ratioAndProportionStrings.a11y.handPosition.bothHands.inLowerRegion,
   ratioAndProportionStrings.a11y.handPosition.bothHands.inMiddleRegion,
+  ratioAndProportionStrings.a11y.handPosition.bothHands.atMiddle,
+  ratioAndProportionStrings.a11y.handPosition.bothHands.inMiddleRegion,
   ratioAndProportionStrings.a11y.handPosition.bothHands.inUpperRegion,
   ratioAndProportionStrings.a11y.handPosition.bothHands.atTop
 ];
@@ -219,9 +221,15 @@ class HandPositionsDescriber {
     const normalizedPosition = this.valueRange.getNormalizedValue( position );
 
     if ( normalizedPosition === this.valueRange.max ) {
-      return 4;
+      return 6;
     }
     else if ( normalizedPosition > .7 ) {
+      return 5;
+    }
+    else if ( normalizedPosition > .5 ) {
+      return 4;
+    }
+    else if ( normalizedPosition === .5 ) {
       return 3;
     }
     else if ( normalizedPosition > .3 ) {
