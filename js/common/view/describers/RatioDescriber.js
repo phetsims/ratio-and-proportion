@@ -97,11 +97,14 @@ class RatioDescriber {
   }
 
   /**
+   * @param {boolean} isNew - when true, add "new" to the description, to cue that the target ratio just changed.
    * @public
    * @returns {string}
    */
-  getProximityToChallengeRatioSentence() {
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.proximityToRatioPattern, {
+  getProximityToChallengeRatioSentence( isNew = false ) {
+    const pattern = isNew ? ratioAndProportionStrings.a11y.ratio.proximityToNewRatioPattern :
+                    ratioAndProportionStrings.a11y.ratio.proximityToRatioPattern;
+    return StringUtils.fillIn( pattern, {
       proximity: this.getRatioFitness( false )
     } );
   }

@@ -51,7 +51,7 @@ class ChallengeRatioComboBoxNode extends Node {
     this.ratioToChallengeNameMap.set( 3 / 4, { capitalized: ratioAndProportionStrings.challenge3, lowercase: ratioAndProportionStrings.a11y.discover.challenge3Lowercase } );
 
     const comboBoxHeading = new Node( {
-      innerContent: ratioAndProportionStrings.a11y.discover.ratioChallenges,
+      innerContent: ratioAndProportionStrings.a11y.discover.challengeRatio,
       tagName: 'h3'
     } );
     const comboBox = new ComboBox( [
@@ -73,7 +73,7 @@ class ChallengeRatioComboBoxNode extends Node {
 
     const proximityToRatioUtterance = new Utterance();
     targetRatioProperty.link( () => {
-      proximityToRatioUtterance.alert = ratioDescriber.getProximityToChallengeRatioSentence();
+      proximityToRatioUtterance.alert = ratioDescriber.getProximityToChallengeRatioSentence( true );
       phet.joist.sim.utteranceQueue.addToBack( proximityToRatioUtterance );
     } );
 

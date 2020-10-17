@@ -314,10 +314,10 @@
         }
       },
       "challengesHelpText": {
-        "value": "Choose a challenge ratio to explore."
+        "value": "Choose a challenge, then move hands to explore it."
       },
-      "ratioChallenges": {
-        "value": "Challenge Ratios"
+      "challengeRatio": {
+        "value": "Ratio Challenge"
       },
       "challenge1Lowercase": {
         "value": "challenge 1"
@@ -475,6 +475,9 @@
       },
       "fitnessAlertPattern": {
         "value": "{{distanceOrDirection}}, {{fitness}} challenge ratio."
+      },
+      "proximityToNewRatioPattern": {
+        "value": "Hands, {{proximity}} new challenge ratio."
       },
       "proximityToRatioPattern": {
         "value": "Hands, {{proximity}} challenge ratio."
