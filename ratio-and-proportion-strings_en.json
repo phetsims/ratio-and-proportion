@@ -132,6 +132,9 @@
       "bothHandsContextResponseAlert": {
         "value": "{{fitness}} challenge ratio."
       },
+      "bothHandsEqualObjectResponseAlert": {
+        "value": "boths hands {{inPosition}}"
+      },
       "bothHandsObjectResponseAlert": {
         "value": "{{distance}}, left {{leftPosition}}, right {{rightPosition}}"
       },

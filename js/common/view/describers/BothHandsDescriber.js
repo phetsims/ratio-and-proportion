@@ -43,6 +43,13 @@ class BothHandsDescriber {
    */
   getBothHandsObjectResponse() {
     const tickMarkView = this.tickMarkViewProperty.value;
+
+    if( this.numeratorProperty.value === this.denominatorProperty.value){
+      return StringUtils.fillIn(ratioAndProportionStrings.a11y.bothHands.bothHandsEqualObjectResponseAlert,{
+        inPosition: this.handPositionsDescriber.getBothHandsHandPosition( this.numeratorProperty, tickMarkView)
+      } );
+    }
+
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.bothHandsObjectResponseAlert, {
       distance: this.handPositionsDescriber.getBothHandsDistanceOrDirection( tickMarkView ),
 
