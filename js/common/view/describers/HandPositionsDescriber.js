@@ -377,6 +377,7 @@ class HandPositionsDescriber {
   /**
    * If the hands changed directions (closer/farther) from each other, then prioritze describing
    * that over the standard distance text. This supports this behavior on both value Properties.
+   * TODO: remove this and inline getDirectionChangedState into  getDistanceClauseForProperty, see https://github.com/phetsims/ratio-and-proportion/issues/207
    * @public
    * @param tickMarkView
    * @returns {string}
