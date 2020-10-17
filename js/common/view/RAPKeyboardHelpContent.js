@@ -27,7 +27,11 @@ class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
   constructor( challengeHelpSection, options ) {
 
     const moveLeftOrRightHandHelpSection = new SliderKeyboardHelpSection( {
-      headingString: 'Move Left or Right Hand'
+      headingString: 'Move Left or Right Hand',
+      verbString: 'Move',
+      sliderString: 'left or right hand',
+      maximumString: 'top',
+      minimumString: 'bottom'
     } );
 
     const generalNavigationHelpSection = new GeneralKeyboardHelpSection( {
