@@ -63,7 +63,7 @@ class CreateScreenView extends RAPScreenView {
       center: Vector2.ZERO,
       accessibleName: ratioAndProportionStrings.a11y.leftValue,
       a11yDependencies: [ targetDenominatorProperty ],
-      a11yCreateValueChangeAlert: () => this.ratioDescriber.getProximityToChallengeRatioSentence()
+      a11yCreateValueChangeAlert: () => this.ratioDescriber.getTargetRatioChangeAlert( targetNumeratorProperty.value, targetDenominatorProperty.value )
     } );
     const leftRatioSelector = new VBox( {
       align: 'origin',
@@ -81,7 +81,7 @@ class CreateScreenView extends RAPScreenView {
       center: Vector2.ZERO,
       accessibleName: ratioAndProportionStrings.a11y.rightValue,
       a11yDependencies: [ targetNumeratorProperty ],
-      a11yCreateValueChangeAlert: () => this.ratioDescriber.getProximityToChallengeRatioSentence()
+      a11yCreateValueChangeAlert: () => this.ratioDescriber.getTargetRatioChangeAlert( targetNumeratorProperty.value, targetDenominatorProperty.value )
     } );
     const rightRatioSelector = new VBox( {
       align: 'origin',

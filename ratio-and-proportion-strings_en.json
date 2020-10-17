@@ -482,6 +482,9 @@
       "proximityToRatioPattern": {
         "value": "Hands, {{proximity}} challenge ratio."
       },
+      "targetRatioChangedContextResponse": {
+        "value": "Current challenge {{targetNumerator}} to {{targetDenominator}}. {{proximityToRatio}}"
+      },
       "capitalized": {
         "at": {
           "value": "At"

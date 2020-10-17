@@ -108,6 +108,21 @@ class RatioDescriber {
       proximity: this.getRatioFitness( false )
     } );
   }
+
+  /**
+   * @public
+   * @param {number} numerator
+   * @param {number} denominator
+   * @returns {string}
+   */
+  getTargetRatioChangeAlert( numerator, denominator ) {
+
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.targetRatioChangedContextResponse, {
+      proximityToRatio: this.getProximityToChallengeRatioSentence(),
+      targetNumerator: numerator,
+      targetDenominator: denominator
+    } );
+  }
 }
 
 ratioAndProportion.register( 'RatioDescriber', RatioDescriber );
