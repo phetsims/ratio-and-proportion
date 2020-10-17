@@ -41,7 +41,7 @@ class RAPRatio {
       reentrant: true,
       valueType: 'number',
       map: ratioTuple => ratioTuple.numerator,
-      inverseMap: numerator => this.ratioTupleProperty.value.withNumerator( numerator )
+      inverseMap: numerator => this.ratioTupleProperty.value.withNumerator( Utils.toFixedNumber( numerator, 6 ) )
     } );
 
     // @public {Property.<number>} - convenience Property based on the ratioTupleProperty get getting/setting/listening
@@ -51,7 +51,7 @@ class RAPRatio {
       reentrant: true,
       valueType: 'number',
       map: ratioTuple => ratioTuple.denominator,
-      inverseMap: denominator => this.ratioTupleProperty.value.withDenominator( denominator )
+      inverseMap: denominator => this.ratioTupleProperty.value.withDenominator( Utils.toFixedNumber( denominator, 6 ) )
     } );
 
     // @public (read-only) - the velocity of each ratio value changing, adjusted in step
@@ -65,12 +65,6 @@ class RAPRatio {
 
     // @public - when true, moving one ratio value will maintain the current ratio by updating the other value Property
     this.lockedProperty = new BooleanProperty( false );
-
-    // Clamp to decimal places to make sure that javascript rounding errors don't effect some views for interpreting position
-    this.ratioTupleProperty.link( tuple => {
-      tuple.numerator = Utils.toFixedNumber( tuple.numerator, 6 );
-      tuple.denominator = Utils.toFixedNumber( tuple.denominator, 6 );
-    } );
 
     // @private - To avoid an infinite loop as setting the ratioTupleProperty from inside its lock-ratio-support
     // listener. This is predominately needed because even same numerator/denominator values get wrapped in a new
