@@ -147,10 +147,7 @@
     },
     "tickMark": {
       "heading": {
-        "value": "Guide Options"
-      },
-      "helpText": {
-        "value": "Choose how you see or hear your guided exploration."
+        "value": "Tick Mark Options"
       },
       "showNo": {
         "value": "No Tick Marks"

@@ -250,8 +250,8 @@ class RAPScreenView extends ScreenView {
       buttonContentYMargin: 14,
       buttonContentXMargin: 8,
 
+      // pdom
       labelContent: ratioAndProportionStrings.a11y.tickMark.heading,
-      helpText: ratioAndProportionStrings.a11y.tickMark.helpText,
       helpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT
     } );
 
