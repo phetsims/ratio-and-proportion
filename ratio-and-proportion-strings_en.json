@@ -89,17 +89,17 @@
     "rightHand": {
       "value": "Right Hand"
     },
-    "setLeftValue": {
-      "value": "Set Left Value"
-    },
-    "setRightValue": {
-      "value": "Set Right Value"
-    },
     "leftHandLower": {
       "value": "left hand"
     },
     "rightHandLower": {
       "value": "right hand"
+    },
+    "leftValue": {
+      "value": "Left Value"
+    },
+    "rightValue": {
+      "value": "Right Value"
     },
     "rightHandHelpText": {
       "value": "Move hands up and down to find the challenge ratio in different locations."
@@ -348,7 +348,7 @@
         "value": "When tick marks shown, choose range for tick marks."
       },
       "myChallengeHelpText": {
-        "value": "Choose left hand and right hand values to set your challenge ratio."
+        "value": "Set left and right values to create your challenge, then move hands to explore it."
       }
     },
     "handPosition": {
@@ -481,15 +481,6 @@
       },
       "proximityToRatioPattern": {
         "value": "Hands, {{proximity}} challenge ratio."
-      },
-      "targetAriaValueText": {
-        "value": "{{currentValue}}, {{extremityClause}} challenge ratio {{targetNumerator}} to {{targetDenominator}}"
-      },
-      "atMax": {
-        "value": "at max,"
-      },
-      "atMin": {
-        "value": "at min,"
       },
       "capitalized": {
         "at": {

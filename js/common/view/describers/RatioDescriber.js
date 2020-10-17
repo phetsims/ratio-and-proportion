@@ -108,27 +108,6 @@ class RatioDescriber {
       proximity: this.getRatioFitness( false )
     } );
   }
-
-  /**
-   * @public
-   * @param {number} currentValue
-   * @param {Range} range
-   * @param {Property.<number>} numeratorProperty
-   * @param {Property.<number>} denominatorProperty
-   * @returns {string}
-   */
-  getTargetRatioAriaValueText( currentValue, range, numeratorProperty, denominatorProperty ) {
-
-    const extremityClause = currentValue === range.max ? ratioAndProportionStrings.a11y.ratio.atMax :
-                            currentValue === range.min ? ratioAndProportionStrings.a11y.ratio.atMin : '';
-
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.targetAriaValueText, {
-      currentValue: currentValue,
-      extremityClause: extremityClause,
-      targetNumerator: numeratorProperty.value,
-      targetDenominator: denominatorProperty.value
-    } );
-  }
 }
 
 ratioAndProportion.register( 'RatioDescriber', RatioDescriber );

@@ -61,8 +61,7 @@ class CreateScreenView extends RAPScreenView {
       scale: PICKER_SCALE,
       color: handColorProperty.value,
       center: Vector2.ZERO,
-      accessibleName: ratioAndProportionStrings.a11y.setLeftValue,
-      a11yCreateAriaValueText: value => this.ratioDescriber.getTargetRatioAriaValueText( value, rangeProperty.value, targetNumeratorProperty, targetDenominatorProperty ),
+      accessibleName: ratioAndProportionStrings.a11y.leftValue,
       a11yDependencies: [ targetDenominatorProperty ],
       a11yCreateValueChangeAlert: () => this.ratioDescriber.getProximityToChallengeRatioSentence()
     } );
@@ -80,8 +79,7 @@ class CreateScreenView extends RAPScreenView {
       scale: PICKER_SCALE,
       color: handColorProperty.value,
       center: Vector2.ZERO,
-      accessibleName: ratioAndProportionStrings.a11y.setRightValue,
-      a11yCreateAriaValueText: value => this.ratioDescriber.getTargetRatioAriaValueText( value, rangeProperty.value, targetNumeratorProperty, targetDenominatorProperty ),
+      accessibleName: ratioAndProportionStrings.a11y.rightValue,
       a11yDependencies: [ targetNumeratorProperty ],
       a11yCreateValueChangeAlert: () => this.ratioDescriber.getProximityToChallengeRatioSentence()
     } );
