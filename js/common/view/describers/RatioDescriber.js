@@ -66,6 +66,7 @@ class RatioDescriber {
    * @returns {number}
    */
   getRatioFitnessIndex() {
+    assert && assert( ZERO_FITNESS_REGION_INDEX !== 0, 'should not be first index' );
 
     // hard coded region for in proportion
     // TODO: should this even be part of the list, perhaps it is a list of non-in-proportion regions. Not sure what's best.
@@ -76,13 +77,13 @@ class RatioDescriber {
     // normalize based on the fitness that is not in proportion
     const normalizedMax = this.fitnessRange.max - this.model.getInProportionThreshold();
 
-    const lessThanZeroMapping = new LinearFunction( this.model.getMinFitness(), this.fitnessRange.min, 0, ZERO_FITNESS_REGION_INDEX, true );
+    const lessThanZeroMapping = new LinearFunction( this.model.getMinFitness(), this.fitnessRange.min, 0, ZERO_FITNESS_REGION_INDEX - 1, true );
     const greaterThanZeroMapping = new LinearFunction( this.fitnessRange.min, normalizedMax,
       ZERO_FITNESS_REGION_INDEX, RATIO_FITNESS_STRINGS_CAPITALIZED.length - 1, true );
 
     const unclampedFitness = this.unclampedFitnessProperty.value;
 
-    const mappingFuntion = unclampedFitness >= 0 ? greaterThanZeroMapping : lessThanZeroMapping;
+    const mappingFuntion = unclampedFitness > 0 ? greaterThanZeroMapping : lessThanZeroMapping;
 
     return Math.floor( mappingFuntion( unclampedFitness ) );
   }
