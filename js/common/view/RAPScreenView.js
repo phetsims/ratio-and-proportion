@@ -13,30 +13,26 @@ import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import ParallelDOM from '../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Color from '../../../../scenery/js/util/Color.js';
-import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
-import FontAwesomeNode from '../../../../sun/js/FontAwesomeNode.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import RAPConstants from '../RAPConstants.js';
-import BothHandsDescriber from './describers/BothHandsDescriber.js';
 import BothHandsPDOMNode from './BothHandsPDOMNode.js';
+import BothHandsDescriber from './describers/BothHandsDescriber.js';
 import HandPositionsDescriber from './describers/HandPositionsDescriber.js';
-import NumberedTickMarkIconPath from './NumberedTickMarkIconPath.js';
+import RatioDescriber from './describers/RatioDescriber.js';
+import TickMarkDescriber from './describers/TickMarkDescriber.js';
 import RAPColorProfile from './RAPColorProfile.js';
 import RAPTickMarkLabelsNode from './RAPTickMarkLabelsNode.js';
-import RatioDescriber from './describers/RatioDescriber.js';
 import RatioHalf from './RatioHalf.js';
 import InProportionSoundGenerator from './sound/InProportionSoundGenerator.js';
 import MovingInProportionSoundGenerator from './sound/MovingInProportionSoundGenerator.js';
 import StaccatoFrequencySoundGenerator from './sound/StaccatoFrequencySoundGenerator.js';
-import TickMarkDescriber from './describers/TickMarkDescriber.js';
-import TickMarksIconPath from './TickMarksIconPath.js';
 import TickMarkView from './TickMarkView.js';
+import TickMarkViewRadioButtonGroup from './TickMarkViewRadioButtonGroup.js';
 
 // constants
 const LAYOUT_BOUNDS = ScreenView.DEFAULT_LAYOUT_BOUNDS;
@@ -232,28 +228,7 @@ class RAPScreenView extends ScreenView {
     } );
 
     // @protected - subtype is responsible for layout
-    this.tickMarkViewRadioButtonGroup = new RadioButtonGroup( tickMarkViewProperty, [ {
-      node: new FontAwesomeNode( 'eye_close', { scale: 0.8 } ),
-      value: TickMarkView.NONE,
-      labelContent: ratioAndProportionStrings.a11y.tickMark.showNo
-    }, {
-      node: new TickMarksIconPath(),
-      value: TickMarkView.HORIZONTAL,
-      labelContent: ratioAndProportionStrings.a11y.tickMark.show
-    }, {
-      node: new NumberedTickMarkIconPath(),
-      value: TickMarkView.HORIZONTAL_UNITS,
-      labelContent: ratioAndProportionStrings.a11y.tickMark.showNumbered
-    } ], {
-      orientation: 'horizontal',
-      baseColor: 'white',
-      buttonContentYMargin: 14,
-      buttonContentXMargin: 8,
-
-      // pdom
-      labelContent: ratioAndProportionStrings.a11y.tickMark.heading,
-      helpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT
-    } );
+    this.tickMarkViewRadioButtonGroup = new TickMarkViewRadioButtonGroup( tickMarkViewProperty );
 
     // add this Node to the layer that is scaled up to support vertical aspect ratios
     this.topScalingUILayerNode.addChild( this.tickMarkViewRadioButtonGroup );

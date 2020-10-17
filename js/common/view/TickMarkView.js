@@ -7,6 +7,7 @@
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 
+// TODO: clean this up, there are unused keys like "both", and so "horizontal" doesn't make sense. https://github.com/phetsims/ratio-and-proportion/issues/210
 const TickMarkView = Enumeration.byKeys( [ 'HORIZONTAL', 'BOTH', 'NONE', 'HORIZONTAL_UNITS' ], {
   beforeFreeze: TickMarkView => {
 
