@@ -9,10 +9,11 @@
 import ComboBoxKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/ComboBoxKeyboardHelpSection.js';
 import RAPKeyboardHelpContent from '../../common/view/RAPKeyboardHelpContent.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
+import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
 class DiscoverScreenKeyboardHelpContent extends RAPKeyboardHelpContent {
   constructor() {
-    super( new ComboBoxKeyboardHelpSection( 'Challenge Ratio' ) );
+    super( new ComboBoxKeyboardHelpSection( ratioAndProportionStrings.challengeRatio ) );
   }
 }
 

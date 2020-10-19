@@ -51,7 +51,7 @@ class ChallengeRatioComboBoxNode extends Node {
     this.ratioToChallengeNameMap.set( 3 / 4, { capitalized: ratioAndProportionStrings.challenge3, lowercase: ratioAndProportionStrings.a11y.discover.challenge3Lowercase } );
 
     const comboBoxHeading = new Node( {
-      innerContent: ratioAndProportionStrings.a11y.discover.challengeRatio,
+      innerContent: ratioAndProportionStrings.challengeRatio,
       tagName: 'h3'
     } );
     const comboBox = new ComboBox( [

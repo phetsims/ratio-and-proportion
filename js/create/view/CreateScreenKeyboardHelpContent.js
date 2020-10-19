@@ -6,7 +6,6 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import ArrowKeyNode from '../../../../scenery-phet/js/keyboard/ArrowKeyNode.js';
 import KeyboardHelpIconFactory from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
@@ -33,7 +32,7 @@ class MyChallengeHelpSection extends KeyboardHelpSection {
   constructor( options ) {
 
     const setHandRatioValue = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.setHandRatioValue,
-      KeyboardHelpIconFactory.iconRow( [ new ArrowKeyNode( 'up' ), new ArrowKeyNode( 'down' ) ] ),
+      KeyboardHelpIconFactory.upDownArrowKeysRowIcon(),
       ratioAndProportionStrings.a11y.keyboardHelp.setHandRatioValueDescription );
 
     const jumpToMinimum = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.jumpToMinimum,

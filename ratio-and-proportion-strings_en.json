@@ -59,6 +59,24 @@
   "jumpToMaximum": {
     "value": "Jump to maximum"
   },
+  "moveHandsIndividually": {
+    "value": "Move Hands Individually"
+  },
+  "move": {
+    "value": "Move"
+  },
+  "leftOrRightHand": {
+    "value": "left or right hand"
+  },
+  "top": {
+    "value": "top"
+  },
+  "bottom": {
+    "value": "bottom"
+  },
+  "challengeRatio": {
+    "value": "Challenge Ratio"
+  },
   "a11y": {
     "keyboardHelp": {
       "leftHandDescription": {
@@ -313,9 +331,6 @@
       "challengesHelpText": {
         "value": "Choose a challenge, then move hands to explore it."
       },
-      "challengeRatio": {
-        "value": "Challenge Ratio"
-      },
       "challenge1Lowercase": {
         "value": "challenge 1"
       },
@@ -480,7 +495,7 @@
         "value": "{{currentChallenge}} {{proximityToRatio}}"
       },
       "currentChallenge": {
-        "value":  "Current challenge {{targetNumerator}} to {{targetDenominator}}."
+        "value": "Current challenge {{targetNumerator}} to {{targetDenominator}}."
       },
       "capitalized": {
         "at": {
