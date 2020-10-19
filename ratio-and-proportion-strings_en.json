@@ -479,9 +479,6 @@
       "proximityToNewRatioPattern": {
         "value": "Hands, {{proximity}} new challenge ratio."
       },
-      "proximityToRatioPattern": {
-        "value": "Hands, {{proximity}} challenge ratio."
-      },
       "targetRatioChangedContextResponse": {
         "value": "Current challenge {{targetNumerator}} to {{targetDenominator}}. {{proximityToRatio}}"
       },

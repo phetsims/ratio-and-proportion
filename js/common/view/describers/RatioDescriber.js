@@ -98,14 +98,11 @@ class RatioDescriber {
   }
 
   /**
-   * @param {boolean} isNew - when true, add "new" to the description, to cue that the target ratio just changed.
    * @public
    * @returns {string}
    */
-  getProximityToChallengeRatioSentence( isNew = false ) {
-    const pattern = isNew ? ratioAndProportionStrings.a11y.ratio.proximityToNewRatioPattern :
-                    ratioAndProportionStrings.a11y.ratio.proximityToRatioPattern;
-    return StringUtils.fillIn( pattern, {
+  getProximityToNewChallengeRatioSentence() {
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.proximityToNewRatioPattern, {
       proximity: this.getRatioFitness( false )
     } );
   }
@@ -119,7 +116,7 @@ class RatioDescriber {
   getTargetRatioChangeAlert( numerator, denominator ) {
 
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.targetRatioChangedContextResponse, {
-      proximityToRatio: this.getProximityToChallengeRatioSentence(),
+      proximityToRatio: this.getProximityToNewChallengeRatioSentence(),
       targetNumerator: numerator,
       targetDenominator: denominator
     } );
