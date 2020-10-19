@@ -113,12 +113,23 @@ class RatioDescriber {
    * @param {number} denominator
    * @returns {string}
    */
-  getTargetRatioChangeAlert( numerator, denominator ) {
-
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.targetRatioChangedContextResponse, {
-      proximityToRatio: this.getProximityToNewChallengeRatioSentence(),
+  getCurrentChallengeSentence( numerator, denominator ) {
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.currentChallenge, {
       targetNumerator: numerator,
       targetDenominator: denominator
+    } );
+  }
+
+  /**
+   * @public
+   * @param {number} numerator
+   * @param {number} denominator
+   * @returns {string}
+   */
+  getTargetRatioChangeAlert( numerator, denominator ) {
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.targetRatioChangedContextResponse, {
+      proximityToRatio: this.getProximityToNewChallengeRatioSentence(),
+      currentChallenge: this.getCurrentChallengeSentence( numerator, denominator )
     } );
   }
 }

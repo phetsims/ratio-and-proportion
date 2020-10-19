@@ -18,6 +18,7 @@ import VBox from '../../../../scenery/js/nodes/VBox.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
+import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
 import RAPScreenView from '../../common/view/RAPScreenView.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -123,6 +124,12 @@ class CreateScreenView extends RAPScreenView {
       }
     } );
     myChallengeAccordionBox.expandedProperty.value = DEFAULT_EXPANDED;
+
+    const accordionBoxUtterance = new ActivationUtterance();
+    myChallengeAccordionBox.expandedProperty.lazyLink( () => {
+      accordionBoxUtterance.alert = this.ratioDescriber.getCurrentChallengeSentence( targetNumeratorProperty.value, targetDenominatorProperty.value );
+      phet.joist.sim.utteranceQueue.addToBack(accordionBoxUtterance);
+    } );
 
     const tickMarkRangeComboBoxParent = new Node();
 
