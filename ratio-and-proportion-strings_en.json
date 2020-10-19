@@ -497,6 +497,9 @@
       "currentChallenge": {
         "value": "Current challenge {{targetNumerator}} to {{targetDenominator}}."
       },
+      "currentChallengeHidden": {
+        "value": "Current challenge hidden."
+      },
       "capitalized": {
         "at": {
           "value": "At"

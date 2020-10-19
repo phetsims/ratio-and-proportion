@@ -126,9 +126,11 @@ class CreateScreenView extends RAPScreenView {
     myChallengeAccordionBox.expandedProperty.value = DEFAULT_EXPANDED;
 
     const accordionBoxUtterance = new ActivationUtterance();
-    myChallengeAccordionBox.expandedProperty.lazyLink( () => {
-      accordionBoxUtterance.alert = this.ratioDescriber.getCurrentChallengeSentence( targetNumeratorProperty.value, targetDenominatorProperty.value );
-      phet.joist.sim.utteranceQueue.addToBack(accordionBoxUtterance);
+    myChallengeAccordionBox.expandedProperty.lazyLink( expanded => {
+      accordionBoxUtterance.alert = expanded ?
+                                    this.ratioDescriber.getCurrentChallengeSentence( targetNumeratorProperty.value, targetDenominatorProperty.value ) :
+                                    ratioAndProportionStrings.a11y.ratio.currentChallengeHidden;
+      phet.joist.sim.utteranceQueue.addToBack( accordionBoxUtterance );
     } );
 
     const tickMarkRangeComboBoxParent = new Node();
