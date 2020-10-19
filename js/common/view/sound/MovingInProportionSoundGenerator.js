@@ -7,7 +7,7 @@
 
 import Property from '../../../../../axon/js/Property.js';
 import merge from '../../../../../phet-core/js/merge.js';
-import MultiSoundClip from '../../../../../tambo/js/sound-generators/MultiSoundClip.js';
+import CompositeSoundClip from '../../../../../tambo/js/sound-generators/CompositeSoundClip.js';
 import SoundGenerator from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
 import choirLoopSound from '../../../../sounds/moving-in-proportion/moving-in-proportion-choir-loop_mp3.js';
 import movingInProportionOrganLoop from '../../../../sounds/moving-in-proportion/moving-in-proportion-organ-loop_mp3.js';
@@ -26,10 +26,10 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
 
     super( options );
 
-    // @private {SoundClip|MultiSoundClip|null} - null when no sound
+    // @private {SoundClip|CompositeSoundClip|null} - null when no sound
     this.movingInProportionSoundClip = null;
 
-    this.movingInProportionSoundClip = new MultiSoundClip( [ {
+    this.movingInProportionSoundClip = new CompositeSoundClip( [ {
       sound: choirLoopSound,
       options: {
         loop: true,
