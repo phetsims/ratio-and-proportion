@@ -6,7 +6,6 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import merge from '../../../../phet-core/js/merge.js';
 import ArrowKeyNode from '../../../../scenery-phet/js/keyboard/ArrowKeyNode.js';
 import GeneralKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/GeneralKeyboardHelpSection.js';
 import KeyboardHelpIconFactory from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpIconFactory.js';
@@ -27,7 +26,7 @@ class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
   constructor( challengeHelpSection, options ) {
 
     const moveLeftOrRightHandHelpSection = new SliderKeyboardHelpSection( {
-      headingString: 'Move Left or Right Hand',
+      headingString: 'Move Hands Individually',
       verbString: 'Move',
       sliderString: 'left or right hand',
       maximumString: 'top',
@@ -55,13 +54,6 @@ class BothHandsHelpSection extends KeyboardHelpSection {
    * @param {Object} [options]
    */
   constructor( options ) {
-    options = merge( {
-
-      headingOptions: {
-        descriptionContent: ratioAndProportionStrings.a11y.keyboardHelp.bothHandsDescription,
-        appendDescription: true
-      }
-    }, options );
 
     const moveLeftHand = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.moveLeftHand,
       KeyboardHelpIconFactory.iconRow( [ new LetterKeyNode( 'W' ), new LetterKeyNode( 'S' ) ] ),
@@ -75,7 +67,7 @@ class BothHandsHelpSection extends KeyboardHelpSection {
       TextKeyNode.shift(),
       ratioAndProportionStrings.a11y.keyboardHelp.handsInSmallerStepsDescription );
 
-    super( ratioAndProportionStrings.bothHands, [ moveLeftHand, moveRightHand, moveInSmallerSteps ], options );
+    super( ratioAndProportionStrings.moveBothHandsSimultaneously, [ moveLeftHand, moveRightHand, moveInSmallerSteps ], options );
   }
 }
 

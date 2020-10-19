@@ -35,23 +35,23 @@
   "lockRatio": {
     "value": "Lock Ratio"
   },
-  "bothHands": {
-    "value": "Both Hands"
+  "moveBothHandsSimultaneously": {
+    "value": "Move Both Hands Simultaneously"
   },
   "moveLeftHand": {
-    "value": "Move Left Hand"
+    "value": "Move left hand"
   },
   "moveRightHand": {
-    "value": "Move Right Hand"
+    "value": "Move eight hand"
   },
   "moveHandsInSmallerSteps": {
-    "value": "Move hands in smaller steps add"
+    "value": "Move hands in smaller steps, add"
   },
   "setMyRatioChallenge": {
-    "value": "Set My Challenge Ratio"
+    "value": "Set Values for My Challenge Ratio"
   },
   "setHandRatioValue": {
-    "value": "Set Left or Right Hand ratio value"
+    "value": "Set left or right value"
   },
   "jumpToMinimum": {
     "value": "Jump to minimum"
@@ -61,20 +61,17 @@
   },
   "a11y": {
     "keyboardHelp": {
-      "bothHandsDescription": {
-        "value": "Move hands individually or at the same time with pairs of custom keys."
-      },
       "leftHandDescription": {
-        "value": "Move Left Hand up or down with W or S letter keys"
+        "value": "Move left hand up or down with W or S letter keys"
       },
       "rightHandDescription": {
-        "value": "Move Right Hand up or down with Up or Down Arrow keys"
+        "value": "Move right hand up or down with Up or Down arrow keys"
       },
       "handsInSmallerStepsDescription": {
         "value": "Move hands in smaller steps, add the Shift key."
       },
       "setHandRatioValueDescription": {
-        "value": "Set Left or Right Hand ratio value with Up and Down arrow keys."
+        "value": "Set left or right value with Up and Down arrow keys."
       },
       "jumpToMinimumDescription": {
         "value": "Jump to minimum setting with Home key."
