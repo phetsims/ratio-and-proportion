@@ -13,6 +13,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import RAPQueryParameters from '../RAPQueryParameters.js';
 import RatioInteractionListener from './RatioInteractionListener.js';
 
 class BothHandsPDOMNode extends Node {
@@ -71,21 +72,8 @@ class BothHandsPDOMNode extends Node {
     } );
 
     // @private
-    this.objectResponseUtterance = new Utterance( {
-
-      // give enough time for the user to stop interacting with te hands
-      // before describing current positions, to prevent too many of these
-      // from queuing up in rapid presses
-      alertStableDelay: 500
-    } );
-
-    const contextResponseUtterance = new Utterance( {
-
-      // a longer delay before speaking the bothHandsPositionUtterance gives
-      // more consistent behavior on Safari, where often the alerts would be
-      // lost
-      alertStableDelay: 1000
-    } );
+    this.objectResponseUtterance = new Utterance( { alertStableDelay: RAPQueryParameters.bothHandsObjectDelay } );
+    const contextResponseUtterance = new Utterance( { alertStableDelay: RAPQueryParameters.bothHandsContextDelay } );
 
     // @public (read-only) - expose this from the listener for general consumption
     this.isBeingInteractedWithProperty = ratioInteractionListener.isBeingInteractedWithProperty;

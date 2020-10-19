@@ -49,6 +49,30 @@ const RAPQueryParameters = QueryStringMachine.getAll( {
   velocityThreshold: {
     type: 'number',
     defaultValue: .002
+  },
+
+  /**
+   * The number, in ms that the both hands context response will wait until being released to the aria-live system from the
+   * UtteranceQueue. See Utterance.alertStableDelay for more details.
+   *
+   * A longer delay before speaking the context responses gives more consistent behavior on Safari, where often the
+   * alerts would be lost.
+   */
+  bothHandsContextDelay: {
+    type: 'number',
+    defaultValue: 1000
+  },
+
+  /**
+   * The number, in ms that the both hands object response will wait until being released to the aria-live system from the
+   * UtteranceQueue. See Utterance.alertStableDelay for more details.
+   *
+   * Give enough time for the user to stop interacting with the "both hands" mode
+   * before describing current object, to prevent too many of these  from queuing up in rapid presses.
+   */
+  bothHandsObjectDelay: {
+    type: 'number',
+    defaultValue: 500
   }
 } );
 
