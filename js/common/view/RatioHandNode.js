@@ -16,10 +16,11 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import AccessibleSlider from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPConstants from '../RAPConstants.js';
+import RAPQueryParameters from '../RAPQueryParameters.js';
 import TickMarkView from './TickMarkView.js';
 
 // constants
-const HAND_PATH_SCALE = 2;
+const HAND_PATH_SCALE = RAPQueryParameters.handNodeScale;
 
 class RatioHandNode extends Node {
 
