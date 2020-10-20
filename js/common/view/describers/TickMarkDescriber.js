@@ -62,12 +62,14 @@ class TickMarkDescriber {
   /**
    * @param {Range} valueRange
    * @param {Property.<number>} tickMarkRangeProperty
+   * @param {Property.<number>} tickMarkViewProperty
    */
-  constructor( valueRange, tickMarkRangeProperty ) {
+  constructor( valueRange, tickMarkRangeProperty, tickMarkViewProperty ) {
 
     // @private
     this.valueRange = valueRange;
     this.tickMarkRangeProperty = tickMarkRangeProperty;
+    this.tickMarkViewProperty = tickMarkViewProperty;
   }
 
   /**
@@ -163,7 +165,9 @@ class TickMarkDescriber {
       isHalfWayValue = true;
     }
     else if ( remainder === .5 ) {
-      relativePositionIndex = 3;
+
+      // If showing numbers, then the description looks like "on 2.5" instead of "half-way past second"
+      relativePositionIndex = this.tickMarkViewProperty.value === TickMarkView.HORIZONTAL_UNITS ? 0 : 3;
       isHalfWayValue = true;
     }
     else if ( remainder <= ROUND_DOWN_THRESHOLD ) {

@@ -83,7 +83,7 @@ class RAPScreenView extends ScreenView {
     // for ease at usage sites
     const ratio = model.ratio;
 
-    const tickMarkDescriber = new TickMarkDescriber( DEFAULT_RANGE, options.tickMarkRangeProperty );
+    const tickMarkDescriber = new TickMarkDescriber( DEFAULT_RANGE, options.tickMarkRangeProperty, tickMarkViewProperty );
 
     // @protected (read-only)
     this.ratioDescriber = new RatioDescriber( model );
