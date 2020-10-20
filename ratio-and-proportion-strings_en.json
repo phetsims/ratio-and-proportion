@@ -186,17 +186,11 @@
         "around": {
           "value": "around"
         },
-        "almostHalfWayPast": {
-          "value": "almost half-way past"
+        "aroundHalfWayPast": {
+          "value": "around half-way past"
         },
         "halfwayPast": {
-          "value": "halfway past"
-        },
-        "justOverHalfWayPast": {
-          "value": "just over half-way past"
-        },
-        "almostOn": {
-          "value": "almost on"
+          "value": "half-way past"
         },
         "on": {
           "value": "on"

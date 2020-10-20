@@ -14,10 +14,10 @@ import TickMarkView from '../TickMarkView.js';
 const RELATIVE_POSITION_STRINGS = [
   ratioAndProportionStrings.a11y.tickMark.relative.on,
   ratioAndProportionStrings.a11y.tickMark.relative.around,
-  ratioAndProportionStrings.a11y.tickMark.relative.almostHalfWayPast,
+  ratioAndProportionStrings.a11y.tickMark.relative.aroundHalfWayPast,
   ratioAndProportionStrings.a11y.tickMark.relative.halfwayPast,
-  ratioAndProportionStrings.a11y.tickMark.relative.justOverHalfWayPast,
-  ratioAndProportionStrings.a11y.tickMark.relative.almostOn
+  ratioAndProportionStrings.a11y.tickMark.relative.aroundHalfWayPast,
+  ratioAndProportionStrings.a11y.tickMark.relative.around
 ];
 
 const ORDINAL_TICK_MARKS = [
@@ -53,7 +53,9 @@ const ORDINAL_TICK_MARKS = [
   ratioAndProportionStrings.a11y.tickMark.ordinal.twentyNinth
 ];
 
-const BIGGER_THAN_MIDDLE_THRESHOLD = .6;
+// The value in which up to and including this value, the relative description will apply to the value of the tick mark
+// rounded down, instead of up, from this remainder.
+const ROUND_DOWN_THRESHOLD = .7;
 
 class TickMarkDescriber {
 
@@ -128,7 +130,7 @@ class TickMarkDescriber {
   /**
    * @public
    * @param {Property.<number>} property
-   * @returns {{tickMarkPosition: number, relativePosition: string}}
+   * @returns {{tickMarkPosition: number, relativePosition: string , ordinalPosition: string|null }}
    */
   getRelativePositionAndTickMarkNumberForProperty( property ) {
     assert && assert( this.valueRange.contains( property.value ) );
@@ -141,58 +143,53 @@ class TickMarkDescriber {
 
     // account for javascript rounding error
     const remainder = Utils.toFixedNumber( expandedValue % 1, 6 );
-    assert && assert( remainder < 1 && remainder >= 0 );
 
-    const relativePosition = this.getRelativePosition( remainder );
+    assert && assert( RELATIVE_POSITION_STRINGS.length === 6, '6 regions expected' );
+    assert && assert( remainder < 1 && remainder >= 0, 'remainder not in range' );
 
-    const tickMarkNumber = remainder >= BIGGER_THAN_MIDDLE_THRESHOLD ? Math.ceil( expandedValue ) : Math.floor( expandedValue );
+    // special treatment from values that are around "half-way"
+    let isHalfWayValue = false;
 
+    let relativePositionIndex = null;
+
+    if ( remainder === this.valueRange.min ) {
+      relativePositionIndex = 0;
+    }
+    else if ( remainder <= .2 ) {
+      relativePositionIndex = 1;
+    }
+    else if ( remainder < .5 ) {
+      relativePositionIndex = 2;
+      isHalfWayValue = true;
+    }
+    else if ( remainder === .5 ) {
+      relativePositionIndex = 3;
+      isHalfWayValue = true;
+    }
+    else if ( remainder <= ROUND_DOWN_THRESHOLD ) {
+      relativePositionIndex = 4;
+      isHalfWayValue = true;
+    }
+    else if ( remainder < 1 ) {
+      relativePositionIndex = 5;
+    }
+
+    const relativePosition = RELATIVE_POSITION_STRINGS[ relativePositionIndex ];
+
+    const tickMarkNumber = remainder > ROUND_DOWN_THRESHOLD ? Math.ceil( expandedValue ) : Math.floor( expandedValue );
+
+    // No ordinal on the max tick mark number
     const ordinalPosition = tickMarkNumber === numberOfTickMarks ? null : ORDINAL_TICK_MARKS[ tickMarkNumber ];
-    assert && assert( ordinalPosition !== undefined );
+    assert && assert( ordinalPosition !== undefined, 'ordinal number not found' );
 
     assert && assert( relativePosition );
     return {
-      tickMarkPosition: tickMarkNumber,
+
+      // add a .5 if the tickMark is positioned in the middle
+      tickMarkPosition: isHalfWayValue ? tickMarkNumber + .5 : tickMarkNumber,
       relativePosition: relativePosition,
       ordinalPosition: ordinalPosition
     };
-  }
-
-  /**
-   * @private
-   * @param {number} value - must be in range [0,1) (not including 1). Basically this is the "remainder" position in
-   * between two tick marks
-   * @returns {string} the relative position given the position from a tick mark.
-   */
-  getRelativePosition( value ) {
-    assert && assert( RELATIVE_POSITION_STRINGS.length === 6, '6 regions expected' );
-    assert && assert( value < 1 && value >= 0, 'value not in range' );
-
-    let index = null;
-    if ( value === this.valueRange.min ) {
-      index = 0;
-    }
-    else if ( value <= .2 ) {
-      index = 1;
-    }
-    else if ( value <= .4 ) {
-      index = 2;
-    }
-    else if ( value < BIGGER_THAN_MIDDLE_THRESHOLD ) {
-      index = 3;
-    }
-    else if ( value < .8 ) {
-
-      // Use the constant "BIGGER_THAN_MIDDLE_THRESHOLD" to make sure that "in the middle of" refers to the tick mark
-      // below, and everything higher refers to the next tick mark up.
-      assert && assert( RELATIVE_POSITION_STRINGS[ 3 ].toLowerCase().includes( 'halfway' ), 'this middle position should be the previous' );
-      index = 4;
-    }
-    else if ( value < 1 ) {
-      index = 5;
-    }
-    assert && assert( typeof index === 'number' );
-    return RELATIVE_POSITION_STRINGS[ index ];
   }
 }
 
