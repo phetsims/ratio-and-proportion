@@ -15,6 +15,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
@@ -24,8 +25,8 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundLevelEnum from '../../../../tambo/js/SoundLevelEnum.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import sliderBoundaryClickSound from '../../../../tambo/sounds/general-boundary-boop_mp3.js';
-import sliderClickSound from '../../../../tambo/sounds/general-soft-click_mp3.js';
+import boundarySound from '../../../../tambo/sounds/general-boundary-boop_mp3.js';
+import tickMarkCrossBump from '../../../../tambo/sounds/general-soft-click_mp3.js';
 import commonGrabSound from '../../../../tambo/sounds/grab_mp3.js';
 import commonReleaseSound from '../../../../tambo/sounds/release_mp3.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -41,7 +42,7 @@ const FRAMING_RECTANGLE_HEIGHT = 16;
 // This value was calculated based on the design of snapping within the range of the ratio hand center circle, see https://github.com/phetsims/ratio-and-proportion/issues/122#issuecomment-672281015
 const SNAP_TO_TICK_MARK_THRESHOLD = .135842179584 / 2;
 
-// TODO: copied from WaveInterferenceSlider
+// This value was copied from similar sound work done in Waves Intro
 const MIN_INTER_CLICK_TIME = ( 1 / 60 * 1000 ) * 2; // min time between clicks, in milliseconds, empirically determined
 
 // total horizontal drag distance;
@@ -139,23 +140,21 @@ class RatioHalf extends Rectangle {
     const soundClipOptions = { initialOutputLevel: 0.15 };
     const commonGrabSoundClip = new SoundClip( commonGrabSound, soundClipOptions );
     const commonReleaseSoundClip = new SoundClip( commonReleaseSound, soundClipOptions );
+    const boundarySoundClip = new BoundarySoundClip( valueRange, soundClipOptions );
     soundManager.addSoundGenerator( commonGrabSoundClip, addSoundOptions );
     soundManager.addSoundGenerator( commonReleaseSoundClip, addSoundOptions );
+    soundManager.addSoundGenerator( boundarySoundClip, addSoundOptions );
 
-    const tickMarksDisplayedProperty = new DerivedProperty( [ tickMarkViewProperty ], tickMarkView => tickMarkView !== TickMarkView.NONE );
-    const tickMarkBumpSoundClip = new SoundClip( sliderClickSound, merge( {}, soundClipOptions, {
-      enableControlProperties: [ tickMarksDisplayedProperty, playTickMarkBumpSoundProperty ]
+    const tickMarkBumpSoundClip = new TickMarkBumpSoundClip( tickMarkRangeProperty, valueRange, merge( {}, soundClipOptions, {
+      enableControlProperties: [
+        playTickMarkBumpSoundProperty,
+        new DerivedProperty( [ tickMarkViewProperty ], tickMarkView => tickMarkView !== TickMarkView.NONE )
+      ]
     } ) );
 
     soundManager.addSoundGenerator( tickMarkBumpSoundClip, merge( {
       sonificationLevel: SoundLevelEnum.ENHANCED
     }, addSoundOptions ) );
-
-    const boundaryClickSoundClip = new SoundClip( sliderBoundaryClickSound, soundClipOptions );
-    soundManager.addSoundGenerator( boundaryClickSoundClip, addSoundOptions );
-
-    // Keep track of the last time a sound was played so that we don't play too often
-    let timeOfLastClick = 0;
 
     let modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
       getModelBoundsFromRange( valueRange ),
@@ -201,11 +200,9 @@ class RatioHalf extends Rectangle {
       }
     } );
 
-    // Keep track of the previous value on drag. This makes sure that we don't have
-    let lastPosition = positionProperty.value;
-
     const dragBoundsProperty = new Property( new Bounds2( 0, 0, 1, 1 ) );
 
+    // When set to a value, the horizontal position will not be changed throughout the whole drag. Set to null when not dragging.
     let startingX = null;
 
     // transform and dragBounds set in layout code below
@@ -230,31 +227,9 @@ class RatioHalf extends Rectangle {
           positionProperty.value.setX( startingX );
           positionProperty.notifyListenersStatic();
         }
-        const verticalPosition = positionProperty.value.y;
 
-        // handle the sound as desired for mouse/touch style input (for vertical changes)
-        for ( let i = 0; i < tickMarkRangeProperty.value; i++ ) {
-          const tickValue = ( i / valueRange.getLength() ) / tickMarkRangeProperty.value;
-          if ( lastPosition.y !== verticalPosition && ( verticalPosition === valueRange.min || verticalPosition === valueRange.max ) ) {
-            boundaryClickSoundClip.play();
-            break;
-          }
-          else if ( lastPosition.y < tickValue && verticalPosition >= tickValue || lastPosition.y > tickValue && verticalPosition <= tickValue ) {
-            if ( phet.joist.elapsedTime - timeOfLastClick >= MIN_INTER_CLICK_TIME ) {
-              tickMarkBumpSoundClip.play();
-              timeOfLastClick = phet.joist.elapsedTime;
-            }
-            break;
-          }
-        }
-
-        const horizontalPosition = positionProperty.value.x;
-        if ( lastPosition.x !== horizontalPosition && // don't repeat
-             ( horizontalPosition === dragBoundsProperty.value.left || horizontalPosition === dragBoundsProperty.value.right ) ) {
-          boundaryClickSoundClip.play();
-        }
-
-        lastPosition = positionProperty.value;
+        boundarySoundClip.onDrag( positionProperty.value.y, positionProperty.value.x, new Range( dragBoundsProperty.value.left, dragBoundsProperty.value.right ) );
+        tickMarkBumpSoundClip.onDrag( positionProperty.value.y );
       },
 
       end: () => {
@@ -366,6 +341,8 @@ class RatioHalf extends Rectangle {
       alertManager.reset();
       positionProperty.value.setX( INITIAL_X_VALUE );
       positionProperty.notifyListenersStatic();
+      tickMarkBumpSoundClip.reset();
+      boundarySoundClip.reset();
     };
   }
 
@@ -394,6 +371,110 @@ class RatioHalf extends Rectangle {
    */
   reset() {
     this.resetRatioHalf();
+  }
+}
+
+
+class TickMarkBumpSoundClip extends SoundClip {
+
+  /**
+   *
+   * @param {NumberProperty} tickMarkRangeProperty
+   * @param {Range} valueRange
+   * @param {Object} [options]
+   */
+  constructor( tickMarkRangeProperty, valueRange, options ) {
+    super( tickMarkCrossBump, options );
+
+    this.tickMarkRangeProperty = tickMarkRangeProperty;
+    this.valueRange = valueRange;
+    this.timeOfLastClick = 0;
+
+    this.lastValue = null;
+  }
+
+  /**
+   * @public
+   * @param currentValue
+   */
+  onDrag( currentValue ) {
+
+    // handle the sound as desired for mouse/touch style input (for vertical changes)
+    for ( let i = 0; i < this.tickMarkRangeProperty.value; i++ ) {
+      const tickValue = ( i / this.valueRange.getLength() ) / this.tickMarkRangeProperty.value;
+
+      // Not at max or min, crossed a tick mark value
+      if ( currentValue !== this.valueRange.min && currentValue !== this.valueRange.max &&
+           this.lastValue < tickValue && currentValue >= tickValue || this.lastValue > tickValue && currentValue <= tickValue ) {
+
+        // if enough time has passed since the last change
+        if ( phet.joist.elapsedTime - this.timeOfLastClick >= MIN_INTER_CLICK_TIME ) {
+          this.play();
+          this.timeOfLastClick = phet.joist.elapsedTime;
+        }
+        break;
+      }
+    }
+
+    this.lastValue = currentValue;
+  }
+
+  /**
+   * @public
+   */
+  reset() {
+    this.timeOfLastClick = 0;
+    this.lastValue = null;
+  }
+
+}
+
+class BoundarySoundClip extends SoundClip {
+
+  /**
+   *
+   * @param {Range} verticalRange
+   * @param {Object} [options]
+   */
+  constructor( verticalRange, options ) {
+    super( boundarySound, options );
+
+    this.verticalRange = verticalRange;
+
+    this.lastYPosition = null;
+    this.lastXPosition = null;
+  }
+
+  /**
+   *@public
+   * @param {number} verticalPosition
+   * @param {number} [horizontalPosition]
+   * @param {Range} [horizontalRange] - the horizontal range can change based on view scaling
+   */
+  onDrag( verticalPosition, horizontalPosition, horizontalRange ) {
+
+    if ( this.lastYPosition !== verticalPosition && ( verticalPosition === this.verticalRange.min || verticalPosition === this.verticalRange.max ) ) {
+      this.play();
+    }
+    this.lastYPosition = verticalPosition;
+
+    if ( horizontalPosition ) {
+
+      if ( this.lastXPosition !== horizontalPosition && // don't repeat
+           ( horizontalPosition === horizontalRange.min || horizontalPosition === horizontalRange.max ) ) {
+        this.play();
+      }
+
+      this.lastXPosition = horizontalPosition;
+    }
+  }
+
+  /**
+   * @public
+   */
+  reset() {
+    this.lastYPosition = null;
+    this.lastXPosition = null;
   }
 }
 
