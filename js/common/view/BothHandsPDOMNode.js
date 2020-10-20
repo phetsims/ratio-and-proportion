@@ -10,6 +10,7 @@
 import merge from '../../../../phet-core/js/merge.js';
 import sceneryPhetStrings from '../../../../scenery-phet/js/sceneryPhetStrings.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
+import AriaHerald from '../../../../utterance-queue/js/AriaHerald.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
@@ -72,7 +73,15 @@ class BothHandsPDOMNode extends Node {
     } );
 
     // @private
-    this.objectResponseUtterance = new Utterance( { alertStableDelay: RAPQueryParameters.bothHandsObjectDelay } );
+    this.objectResponseUtterance = new Utterance( {
+      alertStableDelay: RAPQueryParameters.bothHandsObjectDelay,
+      announcerOptions: {
+
+        // This "object response" is meant to act more like aria-valuetext than a traditional, polite alert. We want
+        // this to cut off any other alert. This fixes alert-build-up described in https://github.com/phetsims/ratio-and-proportion/issues/214
+        ariaLivePriority: AriaHerald.AriaLive.ASSERTIVE
+      }
+    } );
     const contextResponseUtterance = new Utterance( { alertStableDelay: RAPQueryParameters.bothHandsContextDelay } );
 
     // @public (read-only) - expose this from the listener for general consumption
