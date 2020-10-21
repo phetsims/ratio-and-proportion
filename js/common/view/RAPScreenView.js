@@ -31,6 +31,7 @@ import RatioHalf from './RatioHalf.js';
 import InProportionSoundGenerator from './sound/InProportionSoundGenerator.js';
 import MovingInProportionSoundGenerator from './sound/MovingInProportionSoundGenerator.js';
 import StaccatoFrequencySoundGenerator from './sound/StaccatoFrequencySoundGenerator.js';
+import ViewSounds from './sound/ViewSounds.js';
 import TickMarkView from './TickMarkView.js';
 import TickMarkViewRadioButtonGroup from './TickMarkViewRadioButtonGroup.js';
 
@@ -104,6 +105,14 @@ class RAPScreenView extends ScreenView {
     soundManager.addSoundGenerator( this.inProportionSoundGenerator );
     soundManager.addSoundGenerator( this.movingInProportionSoundGenerator );
 
+    // Tick mark sounds get played when ratio isn't locked, and when staccato sounds aren't playing
+    const playTickMarkBumpSoundProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
+      fitness => !model.ratio.lockedProperty.value && fitness === model.fitnessRange.min );
+
+    // @private
+    this.viewSounds = new ViewSounds( RAPConstants.TOTAL_RATIO_COMPONENT_VALUE_RANGE, options.tickMarkRangeProperty,
+      options.tickMarkRangeProperty, playTickMarkBumpSoundProperty );
+
     // by default, the keyboard step size should be half of one default tick mark width. See https://github.com/phetsims/ratio-and-proportion/issues/85
     const keyboardStep = 1 / 2 / options.tickMarkRangeProperty.value;
 
@@ -111,10 +120,6 @@ class RAPScreenView extends ScreenView {
 
     // description on each ratioHalf should be updated whenever these change
     const a11yDependencies = [ tickMarkViewProperty, options.tickMarkRangeProperty, model.targetRatioProperty ];
-
-    // Tick mark sounds get played when ratio isn't locked, and when staccato sounds aren't playing
-    const playTickMarkSoundProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
-      fitness => !model.ratio.lockedProperty.value && fitness === model.fitnessRange.min );
 
     // @private {RatioHalf}
     this.numeratorRatioHalf = new RatioHalf(
@@ -132,7 +137,7 @@ class RAPScreenView extends ScreenView {
       keyboardStep,
       model.ratio.lockedProperty,
       model.ratio.lockedProperty, // not a bug
-      playTickMarkSoundProperty,
+      this.viewSounds,
       this.inProportionSoundGenerator, {
         handColorProperty: options.leftHandColorProperty,
         accessibleName: ratioAndProportionStrings.a11y.leftHand,
@@ -157,7 +162,7 @@ class RAPScreenView extends ScreenView {
       keyboardStep,
       model.ratio.lockedProperty,
       model.ratio.lockedProperty, // not a bug
-      playTickMarkSoundProperty,
+      this.viewSounds,
       this.inProportionSoundGenerator, {
         handColorProperty: options.rightHandColorProperty,
         accessibleName: ratioAndProportionStrings.a11y.rightHand,
@@ -343,6 +348,7 @@ class RAPScreenView extends ScreenView {
     this.staccatoFrequencySoundGenerator.reset();
     this.inProportionSoundGenerator.reset();
     this.movingInProportionSoundGenerator.reset();
+    this.viewSounds.reset();
   }
 
   /**

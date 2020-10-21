@@ -11,7 +11,6 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -22,18 +21,11 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import SoundLevelEnum from '../../../../tambo/js/SoundLevelEnum.js';
-import soundManager from '../../../../tambo/js/soundManager.js';
-import commonGrabSound from '../../../../tambo/sounds/grab_mp3.js';
-import commonReleaseSound from '../../../../tambo/sounds/release_mp3.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioHalfAlertManager from './RatioHalfAlertManager.js';
 import RatioHalfTickMarksNode from './RatioHalfTickMarksNode.js';
 import RatioHandNode from './RatioHandNode.js';
-import BoundarySoundClip from './sound/BoundarySoundClip.js';
-import TickMarkBumpSoundClip from './sound/TickMarkBumpSoundClip.js';
 import TickMarkView from './TickMarkView.js';
 
 // constants
@@ -72,13 +64,13 @@ class RatioHalf extends Rectangle {
    * @param {number} keyboardStep
    * @param {BooleanProperty} horizontalMovementAllowedProperty
    * @param {BooleanProperty} ratioLockedProperty
-   * @param {BooleanProperty} playTickMarkBumpSoundProperty
+   * @param {ViewSounds} viewSounds
    * @param {InProportionSoundGenerator} inProportionSoundGenerator
    * @param {Object} [options]
    */
   constructor( valueProperty, valueRange, enabledRatioComponentsRangeProperty, firstInteractionProperty, bounds, tickMarkViewProperty,
                tickMarkRangeProperty, ratioDescriber, handPositionsDescriber, bothHandsDescriber, colorProperty, keyboardStep,
-               horizontalMovementAllowedProperty, ratioLockedProperty, playTickMarkBumpSoundProperty, inProportionSoundGenerator,
+               horizontalMovementAllowedProperty, ratioLockedProperty, viewSounds, inProportionSoundGenerator,
                options ) {
 
     options = merge( {
@@ -124,12 +116,12 @@ class RatioHalf extends Rectangle {
         this.isBeingInteractedWithProperty.value = true;
       },
       drag: () => {
-        boundarySoundClip.onDrag( valueProperty.value );
-        tickMarkBumpSoundClip.onDrag( valueProperty.value );
+        viewSounds.boundarySoundClip.onDrag( valueProperty.value );
+        viewSounds.tickMarkBumpSoundClip.onDrag( valueProperty.value );
       },
       endDrag: () => {
         alertManager.alertRatioChange();
-        boundarySoundClip.onEndDrag( valueProperty.value );
+        viewSounds.boundarySoundClip.onEndDrag( valueProperty.value );
       },
       isRight: options.isRight,
 
@@ -139,26 +131,6 @@ class RatioHalf extends Rectangle {
       a11yDependencies: options.a11yDependencies.concat( [ ratioLockedProperty ] )
     } );
     this.addChild( this.ratioHandNode );
-
-    const addSoundOptions = { categoryName: 'user-interface' };
-    const soundClipOptions = { initialOutputLevel: 0.15 };
-    const commonGrabSoundClip = new SoundClip( commonGrabSound, soundClipOptions );
-    const commonReleaseSoundClip = new SoundClip( commonReleaseSound, soundClipOptions );
-    const boundarySoundClip = new BoundarySoundClip( valueRange, soundClipOptions );
-    soundManager.addSoundGenerator( commonGrabSoundClip, addSoundOptions );
-    soundManager.addSoundGenerator( commonReleaseSoundClip, addSoundOptions );
-    soundManager.addSoundGenerator( boundarySoundClip, addSoundOptions );
-
-    const tickMarkBumpSoundClip = new TickMarkBumpSoundClip( tickMarkRangeProperty, valueRange, merge( {}, soundClipOptions, {
-      enableControlProperties: [
-        playTickMarkBumpSoundProperty,
-        new DerivedProperty( [ tickMarkViewProperty ], tickMarkView => tickMarkView !== TickMarkView.NONE )
-      ]
-    } ) );
-
-    soundManager.addSoundGenerator( tickMarkBumpSoundClip, merge( {
-      sonificationLevel: SoundLevelEnum.ENHANCED
-    }, addSoundOptions ) );
 
     let modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
       getModelBoundsFromRange( valueRange ),
@@ -219,7 +191,7 @@ class RatioHalf extends Rectangle {
         if ( horizontalMovementAllowedProperty.value ) {
           startingX = positionProperty.value.x;
         }
-        commonGrabSoundClip.play();
+        viewSounds.grabSoundClip.play();
         firstInteractionProperty.value = false;
 
         inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( true );
@@ -232,8 +204,8 @@ class RatioHalf extends Rectangle {
           positionProperty.notifyListenersStatic();
         }
 
-        boundarySoundClip.onDrag( positionProperty.value.y, positionProperty.value.x, new Range( dragBoundsProperty.value.left, dragBoundsProperty.value.right ) );
-        tickMarkBumpSoundClip.onDrag( positionProperty.value.y );
+        viewSounds.boundarySoundClip.onDrag( positionProperty.value.y, positionProperty.value.x, new Range( dragBoundsProperty.value.left, dragBoundsProperty.value.right ) );
+        viewSounds.tickMarkBumpSoundClip.onDrag( positionProperty.value.y );
       },
 
       end: () => {
@@ -246,7 +218,7 @@ class RatioHalf extends Rectangle {
         }
 
         startingX = null;
-        commonReleaseSoundClip.play();
+        viewSounds.releaseSoundClip.play();
         this.isBeingInteractedWithProperty.value = false;
         alertManager.alertRatioChange();
         inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( false );
@@ -269,10 +241,10 @@ class RatioHalf extends Rectangle {
     this.ratioHandNode.addInputListener( dragListener );
     this.ratioHandNode.addInputListener( {
       focus: () => {
-        commonGrabSoundClip.play();
+        viewSounds.grabSoundClip.play();
       },
       blur: () => {
-        commonReleaseSoundClip.play();
+        viewSounds.releaseSoundClip.play();
         this.isBeingInteractedWithProperty.value = false;
       }
     } );
@@ -345,8 +317,6 @@ class RatioHalf extends Rectangle {
       alertManager.reset();
       positionProperty.value.setX( INITIAL_X_VALUE );
       positionProperty.notifyListenersStatic();
-      tickMarkBumpSoundClip.reset();
-      boundarySoundClip.reset();
     };
   }
 
