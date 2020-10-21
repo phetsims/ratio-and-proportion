@@ -31,11 +31,12 @@ class BothHandsPDOMNode extends Node {
    * @param {HandPositionsDescriber} handPositionsDescriber
    * @param {RatioDescriber} ratioDescriber
    * @param {BothHandsDescriber} bothHandsDescriber
+   * @param {ViewSounds} viewSounds
    * @param {Object} [options]
    */
   constructor( numeratorProperty, denominatorProperty, valueRange, firstInteractionProperty, keyboardStep,
                tickMarkViewProperty, tickMarkRangeProperty, unclampedFitnessProperty, handPositionsDescriber,
-               ratioDescriber, bothHandsDescriber, options ) {
+               ratioDescriber, bothHandsDescriber, viewSounds, options ) {
 
     options = merge( {
       tagName: 'div',
@@ -65,11 +66,18 @@ class BothHandsPDOMNode extends Node {
     interactiveNode.setAccessibleAttribute( 'aria-roledescription', sceneryPhetStrings.a11y.grabDrag.movable );
 
     const ratioInteractionListener = new RatioInteractionListener( interactiveNode, numeratorProperty,
-      denominatorProperty, valueRange, firstInteractionProperty, tickMarkRangeProperty, keyboardStep );
+      denominatorProperty, valueRange, firstInteractionProperty, tickMarkRangeProperty, keyboardStep,
+      viewSounds.boundarySoundClip, viewSounds.tickMarkBumpSoundClip );
     interactiveNode.addInputListener( ratioInteractionListener );
 
     interactiveNode.addInputListener( {
-      focus: () => this.alertBothHandsObjectResponse( tickMarkViewProperty.value )
+      focus: () => {
+        this.alertBothHandsObjectResponse( tickMarkViewProperty.value ),
+          viewSounds.grabSoundClip.play();
+      },
+      blur: () => {
+        viewSounds.releaseSoundClip.play();
+      }
     } );
 
     // @private

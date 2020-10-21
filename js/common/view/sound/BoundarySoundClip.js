@@ -38,18 +38,17 @@ class BoundarySoundClip extends SoundClip {
    */
   onDrag( verticalPosition, horizontalPosition, horizontalRange ) {
 
-    if ( this.lastYPosition !== verticalPosition && ( verticalPosition === this.verticalRange.min || verticalPosition === this.verticalRange.max ) ) {
+    if ( this.lastYPosition !== verticalPosition &&
+         ( verticalPosition === this.verticalRange.min || verticalPosition === this.verticalRange.max ) ) {
       this.play();
-      this.playedThisDrag = true;
     }
     this.lastYPosition = verticalPosition;
 
     if ( horizontalPosition ) {
 
-      if ( this.lastXPosition !== horizontalPosition && // don't repeat
+      if ( this.lastXPosition !== horizontalPosition &&
            ( horizontalPosition === horizontalRange.min || horizontalPosition === horizontalRange.max ) ) {
         this.play();
-        this.playedThisDrag = true;
       }
 
       this.lastXPosition = horizontalPosition;
@@ -57,20 +56,33 @@ class BoundarySoundClip extends SoundClip {
   }
 
   /**
+   * @public
+   */
+  onStartDrag() {
+    this.playedThisDrag = false;
+  }
+
+  /**
    * Play a boundary sound on end drag. This will not play again if the sound already played during this drag. This case
    * is to support keyboard interaction in which you are at the max, try to increase the value, but don't change the value.
    * This will still result in this sound feedback for the boundary sound.
    * @public
-   * @param verticalPosition
+   * @param {number} verticalPosition
    */
   onEndDrag( verticalPosition ) {
-
-    if ( !this.playedThisDrag && ( verticalPosition === this.verticalRange.min || verticalPosition === this.verticalRange.max ) ) {
+    if ( !this.playedThisDrag &&
+         ( verticalPosition === this.verticalRange.min || verticalPosition === this.verticalRange.max ) ) {
       this.play();
     }
+  }
 
-    // For next time
-    this.playedThisDrag = false;
+  /**
+   * @override
+   * @public
+   */
+  play() {
+    this.playedThisDrag = true;
+    super.play();
   }
 
   /**

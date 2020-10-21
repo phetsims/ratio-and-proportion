@@ -22,9 +22,11 @@ class RatioInteractionListener {
    * @param {Property.<boolean>} firstInteractionProperty
    * @param {Property.<number>} tickMarkRangeProperty
    * @param {number} keyboardStep
+   * @param {BoundarySoundClip} boundarySoundClip
+   * @param {TickMarkBumpSoundClip} tickMarkBumpSoundClip
    */
   constructor( targetNode, numeratorProperty, denominatorProperty, valueRange,
-               firstInteractionProperty, tickMarkRangeProperty, keyboardStep ) {
+               firstInteractionProperty, tickMarkRangeProperty, keyboardStep, boundarySoundClip, tickMarkBumpSoundClip ) {
 
     // @private
     this.keyStateTracker = new KeyStateTracker();
@@ -35,6 +37,8 @@ class RatioInteractionListener {
     this.numeratorProperty = numeratorProperty;
     this.denominatorProperty = denominatorProperty;
     this.keyboardStep = keyboardStep;
+    this.boundarySoundClip = boundarySoundClip;
+    this.tickMarkBumpSoundClip = tickMarkBumpSoundClip;
 
     // @private - true whenever the user is interacting with this listener
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
@@ -82,15 +86,19 @@ class RatioInteractionListener {
 
       if ( event.key === 'ArrowDown' ) {
         this.stepValue( this.denominatorProperty, false );
+        this.handleSoundOnInput( this.denominatorProperty.value );
       }
       else if ( event.key === 'ArrowUp' ) {
         this.stepValue( this.denominatorProperty, true );
+        this.handleSoundOnInput( this.denominatorProperty.value );
       }
       else if ( event.key.toLowerCase() === 'w' ) {
         this.stepValue( this.numeratorProperty, true );
+        this.handleSoundOnInput( this.numeratorProperty.value );
       }
       else if ( event.key.toLowerCase() === 's' ) {
         this.stepValue( this.numeratorProperty, false );
+        this.handleSoundOnInput( this.numeratorProperty.value );
       }
       else if ( event.key.toLowerCase() === 'j' ) {
         this.firstInteractionProperty.value = false;
@@ -106,11 +114,27 @@ class RatioInteractionListener {
             this.firstInteractionProperty.value = false;
             const newValue = 1 / this.tickMarkRangeProperty.value * i;
             this.numeratorProperty.value = this.denominatorProperty.value = Utils.clamp( newValue, this.valueRange.min, this.valueRange.max );
+
+            // If this brought to min or max, play the boundary sound
+            if ( this.numeratorProperty.value === this.valueRange.min || this.numeratorProperty.value === this.valueRange.max ) {
+              this.boundarySoundClip.play();
+            }
           }
         }
       }
     }
+  }
 
+  /**
+   * @public
+   * Handle sound output based on an input for this interaction
+   * @param {number} newValue
+   */
+  handleSoundOnInput( newValue ) {
+    this.tickMarkBumpSoundClip.onDrag( newValue );
+    this.boundarySoundClip.onStartDrag( newValue );
+    this.boundarySoundClip.onDrag( newValue );
+    this.boundarySoundClip.onEndDrag( newValue );
   }
 
   /**

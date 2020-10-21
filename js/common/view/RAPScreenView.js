@@ -172,7 +172,7 @@ class RAPScreenView extends ScreenView {
 
     const bothHandsPDOMNode = new BothHandsPDOMNode( ratio.numeratorProperty, ratio.denominatorProperty, DEFAULT_RANGE,
       model.firstInteractionProperty, keyboardStep, tickMarkViewProperty, options.tickMarkRangeProperty, model.unclampedFitnessProperty,
-      this.handPositionsDescriber, this.ratioDescriber, bothHandsDescriber, {
+      this.handPositionsDescriber, this.ratioDescriber, bothHandsDescriber, this.viewSounds, {
         interactiveNodeOptions: {
           children: [ this.numeratorRatioHalf, this.denominatorRatioHalf ]
         }

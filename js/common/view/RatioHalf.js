@@ -114,6 +114,7 @@ class RatioHalf extends Rectangle {
       startDrag: () => {
         firstInteractionProperty.value = false;
         this.isBeingInteractedWithProperty.value = true;
+        viewSounds.boundarySoundClip.onStartDrag();
       },
       drag: () => {
         viewSounds.boundarySoundClip.onDrag( valueProperty.value );
@@ -195,6 +196,7 @@ class RatioHalf extends Rectangle {
         firstInteractionProperty.value = false;
 
         inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( true );
+        viewSounds.boundarySoundClip.onStartDrag();
       },
       drag: () => {
         this.isBeingInteractedWithProperty.value = true;
@@ -204,7 +206,8 @@ class RatioHalf extends Rectangle {
           positionProperty.notifyListenersStatic();
         }
 
-        viewSounds.boundarySoundClip.onDrag( positionProperty.value.y, positionProperty.value.x, new Range( dragBoundsProperty.value.left, dragBoundsProperty.value.right ) );
+        viewSounds.boundarySoundClip.onDrag( positionProperty.value.y, positionProperty.value.x,
+          new Range( dragBoundsProperty.value.left, dragBoundsProperty.value.right ) );
         viewSounds.tickMarkBumpSoundClip.onDrag( positionProperty.value.y );
       },
 
@@ -222,6 +225,7 @@ class RatioHalf extends Rectangle {
         this.isBeingInteractedWithProperty.value = false;
         alertManager.alertRatioChange();
         inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( false );
+        viewSounds.boundarySoundClip.onEndDrag( positionProperty.value.y );
       }
     } );
 
