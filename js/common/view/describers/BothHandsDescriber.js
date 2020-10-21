@@ -40,21 +40,30 @@ class BothHandsDescriber {
 
   /**
    * @public
+   * @returns {string}
    */
   getBothHandsObjectResponse() {
     const tickMarkView = this.tickMarkViewProperty.value;
 
-    if ( this.numeratorProperty.value === this.denominatorProperty.value ) {
-      return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.bothHandsEqualObjectResponseAlert, {
-        inPosition: this.handPositionsDescriber.getBothHandsHandPosition( this.numeratorProperty, tickMarkView )
+    const leftPosition = this.handPositionsDescriber.getBothHandsHandPosition( this.numeratorProperty, tickMarkView );
+    const rightPosition = this.handPositionsDescriber.getBothHandsHandPosition( this.denominatorProperty, tickMarkView );
+
+    let position = null;
+    if ( leftPosition === rightPosition ) {
+      position = StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.equalObjectResponseAlert, {
+        inPosition: leftPosition
+      } );
+    }
+    else {
+      position = StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.eachObjectResponseAlert, {
+        leftPosition: leftPosition,
+        rightPosition: rightPosition
       } );
     }
 
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.bothHandsObjectResponseAlert, {
       distance: this.handPositionsDescriber.getBothHandsDistance( tickMarkView ),
-
-      leftPosition: this.handPositionsDescriber.getBothHandsHandPosition( this.numeratorProperty, tickMarkView ),
-      rightPosition: this.handPositionsDescriber.getBothHandsHandPosition( this.denominatorProperty, tickMarkView )
+      position: position
     } );
   }
 }
