@@ -123,12 +123,19 @@ class RatioHalf extends Rectangle {
         firstInteractionProperty.value = false;
         this.isBeingInteractedWithProperty.value = true;
       },
+      drag: () => {
+        boundarySoundClip.onDrag( valueProperty.value );
+        tickMarkBumpSoundClip.onDrag( valueProperty.value );
+      },
+      endDrag: () => {
+        alertManager.alertRatioChange();
+        boundarySoundClip.onEndDrag( valueProperty.value );
+      },
       isRight: options.isRight,
 
       // TODO: do we want to add conditional direction addition here? (not currently implemented, see getBothHandsDistanceOrDirection()) https://github.com/phetsims/ratio-and-proportion/issues/207
       a11yCreateAriaValueText: () => ratioLockedProperty.value ? handPositionsDescriber.getBothHandsDistance( tickMarkViewProperty.value ) :
                                      handPositionsDescriber.getHandPosition( valueProperty, tickMarkViewProperty.value ),
-      endDrag: () => alertManager.alertRatioChange(),
       a11yDependencies: options.a11yDependencies.concat( [ ratioLockedProperty ] )
     } );
     this.addChild( this.ratioHandNode );

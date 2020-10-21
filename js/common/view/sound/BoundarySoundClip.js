@@ -19,10 +19,14 @@ class BoundarySoundClip extends SoundClip {
   constructor( verticalRange, options ) {
     super( boundarySound, options );
 
+    // @private
     this.verticalRange = verticalRange;
-
     this.lastYPosition = null;
     this.lastXPosition = null;
+
+    // @private - keep track of if the sound has been played yet this drag to see if it should be played at the end of
+    // the drag.
+    this.playedThisDrag = false;
   }
 
   /**
@@ -36,6 +40,7 @@ class BoundarySoundClip extends SoundClip {
 
     if ( this.lastYPosition !== verticalPosition && ( verticalPosition === this.verticalRange.min || verticalPosition === this.verticalRange.max ) ) {
       this.play();
+      this.playedThisDrag = true;
     }
     this.lastYPosition = verticalPosition;
 
@@ -44,6 +49,7 @@ class BoundarySoundClip extends SoundClip {
       if ( this.lastXPosition !== horizontalPosition && // don't repeat
            ( horizontalPosition === horizontalRange.min || horizontalPosition === horizontalRange.max ) ) {
         this.play();
+        this.playedThisDrag = true;
       }
 
       this.lastXPosition = horizontalPosition;
@@ -51,9 +57,27 @@ class BoundarySoundClip extends SoundClip {
   }
 
   /**
+   * Play a boundary sound on end drag. This will not play again if the sound already played during this drag. This case
+   * is to support keyboard interaction in which you are at the max, try to increase the value, but don't change the value.
+   * This will still result in this sound feedback for the boundary sound.
+   * @public
+   * @param verticalPosition
+   */
+  onEndDrag( verticalPosition ) {
+
+    if ( !this.playedThisDrag && ( verticalPosition === this.verticalRange.min || verticalPosition === this.verticalRange.max ) ) {
+      this.play();
+    }
+
+    // For next time
+    this.playedThisDrag = false;
+  }
+
+  /**
    * @public
    */
   reset() {
+    this.playedThisDrag = false;
     this.lastYPosition = null;
     this.lastXPosition = null;
   }
