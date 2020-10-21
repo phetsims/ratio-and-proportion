@@ -25,8 +25,6 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundLevelEnum from '../../../../tambo/js/SoundLevelEnum.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import boundarySound from '../../../../tambo/sounds/general-boundary-boop_mp3.js';
-import tickMarkCrossBump from '../../../../tambo/sounds/general-soft-click_mp3.js';
 import commonGrabSound from '../../../../tambo/sounds/grab_mp3.js';
 import commonReleaseSound from '../../../../tambo/sounds/release_mp3.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -34,16 +32,15 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioHalfAlertManager from './RatioHalfAlertManager.js';
 import RatioHalfTickMarksNode from './RatioHalfTickMarksNode.js';
 import RatioHandNode from './RatioHandNode.js';
+import BoundarySoundClip from './sound/BoundarySoundClip.js';
+import TickMarkBumpSoundClip from './sound/TickMarkBumpSoundClip.js';
 import TickMarkView from './TickMarkView.js';
 
-// contants
+// constants
 const FRAMING_RECTANGLE_HEIGHT = 16;
 
 // This value was calculated based on the design of snapping within the range of the ratio hand center circle, see https://github.com/phetsims/ratio-and-proportion/issues/122#issuecomment-672281015
 const SNAP_TO_TICK_MARK_THRESHOLD = .135842179584 / 2;
-
-// This value was copied from similar sound work done in Waves Intro
-const MIN_INTER_CLICK_TIME = ( 1 / 60 * 1000 ) * 2; // min time between clicks, in milliseconds, empirically determined
 
 // total horizontal drag distance;
 const X_MODEL_DRAG_DISTANCE = 1;
@@ -374,109 +371,6 @@ class RatioHalf extends Rectangle {
   }
 }
 
-
-class TickMarkBumpSoundClip extends SoundClip {
-
-  /**
-   *
-   * @param {NumberProperty} tickMarkRangeProperty
-   * @param {Range} valueRange
-   * @param {Object} [options]
-   */
-  constructor( tickMarkRangeProperty, valueRange, options ) {
-    super( tickMarkCrossBump, options );
-
-    this.tickMarkRangeProperty = tickMarkRangeProperty;
-    this.valueRange = valueRange;
-    this.timeOfLastClick = 0;
-
-    this.lastValue = null;
-  }
-
-  /**
-   * @public
-   * @param currentValue
-   */
-  onDrag( currentValue ) {
-
-    // handle the sound as desired for mouse/touch style input (for vertical changes)
-    for ( let i = 0; i < this.tickMarkRangeProperty.value; i++ ) {
-      const tickValue = ( i / this.valueRange.getLength() ) / this.tickMarkRangeProperty.value;
-
-      // Not at max or min, crossed a tick mark value
-      if ( currentValue !== this.valueRange.min && currentValue !== this.valueRange.max &&
-           this.lastValue < tickValue && currentValue >= tickValue || this.lastValue > tickValue && currentValue <= tickValue ) {
-
-        // if enough time has passed since the last change
-        if ( phet.joist.elapsedTime - this.timeOfLastClick >= MIN_INTER_CLICK_TIME ) {
-          this.play();
-          this.timeOfLastClick = phet.joist.elapsedTime;
-        }
-        break;
-      }
-    }
-
-    this.lastValue = currentValue;
-  }
-
-  /**
-   * @public
-   */
-  reset() {
-    this.timeOfLastClick = 0;
-    this.lastValue = null;
-  }
-
-}
-
-class BoundarySoundClip extends SoundClip {
-
-  /**
-   *
-   * @param {Range} verticalRange
-   * @param {Object} [options]
-   */
-  constructor( verticalRange, options ) {
-    super( boundarySound, options );
-
-    this.verticalRange = verticalRange;
-
-    this.lastYPosition = null;
-    this.lastXPosition = null;
-  }
-
-  /**
-   *@public
-   * @param {number} verticalPosition
-   * @param {number} [horizontalPosition]
-   * @param {Range} [horizontalRange] - the horizontal range can change based on view scaling
-   */
-  onDrag( verticalPosition, horizontalPosition, horizontalRange ) {
-
-    if ( this.lastYPosition !== verticalPosition && ( verticalPosition === this.verticalRange.min || verticalPosition === this.verticalRange.max ) ) {
-      this.play();
-    }
-    this.lastYPosition = verticalPosition;
-
-    if ( horizontalPosition ) {
-
-      if ( this.lastXPosition !== horizontalPosition && // don't repeat
-           ( horizontalPosition === horizontalRange.min || horizontalPosition === horizontalRange.max ) ) {
-        this.play();
-      }
-
-      this.lastXPosition = horizontalPosition;
-    }
-  }
-
-  /**
-   * @public
-   */
-  reset() {
-    this.lastYPosition = null;
-    this.lastXPosition = null;
-  }
-}
 
 // @public - the height of the top and bottom rectangles
 RatioHalf.FRAMING_RECTANGLE_HEIGHT = FRAMING_RECTANGLE_HEIGHT;
