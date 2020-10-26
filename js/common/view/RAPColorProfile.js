@@ -26,6 +26,9 @@ const RAPColorProfile = new ColorProfile( [ 'default' ], {
   },
   backgroundOutOfFitness: {
     default: new Color( 'white' )
+  },
+  cueArrows: { // cue arrows around the ratio hands.
+    default: new Color( '#e68a5b' )
   }
 } );
 

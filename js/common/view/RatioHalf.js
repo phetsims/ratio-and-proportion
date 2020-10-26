@@ -23,6 +23,7 @@ import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
+import RAPColorProfile from './RAPColorProfile.js';
 import RatioHalfAlertManager from './RatioHalfAlertManager.js';
 import RatioHalfTickMarksNode from './RatioHalfTickMarksNode.js';
 import RatioHandNode from './RatioHandNode.js';
@@ -254,9 +255,8 @@ class RatioHalf extends Rectangle {
     } );
 
     const cueArrowOptions = {
-      fill: '#FFC000',
+      fill: RAPColorProfile.cueArrowsProperty,
       stroke: 'black',
-      opacity: .8,
       headWidth: 40,
       headHeight: 20,
       tailWidth: 20
