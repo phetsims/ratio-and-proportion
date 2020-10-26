@@ -19,10 +19,10 @@ const RAPColorProfile = new ColorProfile( [ 'default' ], {
     default: Color.DARK_GRAY
   },
   backgroundInFitness: { // the color will jump from backgroundInterpolationToFitness to this when actually in ratio
-    default: new Color( '#639a67' )
+    default: new Color( '#74c15b' )
   },
   backgroundInterpolationToFitness: { // this will be the max of the interpolation for the background color
-    default: new Color( '#79B37D' )
+    default: new Color( '#89c767' )
   },
   backgroundOutOfFitness: {
     default: new Color( 'white' )
