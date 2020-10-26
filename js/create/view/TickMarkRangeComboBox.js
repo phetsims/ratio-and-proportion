@@ -11,17 +11,20 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
 import HSeparator from '../../../../sun/js/HSeparator.js';
+import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
 import TickMarkView from '../../common/view/TickMarkView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
 const TICK_MARK_RANGE_FONT = new PhetFont( 16 );
+const RANGE_TEXT_OPTIONS = { font: TICK_MARK_RANGE_FONT };
 
 class TickMarkRangeComboBox extends Node {
 
@@ -35,14 +38,20 @@ class TickMarkRangeComboBox extends Node {
   constructor( tickMarkRangeProperty, comboBoxParent, tickMarkViewProperty, options ) {
     super();
 
+    const tickMarkRangeMap = {
+      10: ratioAndProportionStrings.zeroToTen,
+      20: ratioAndProportionStrings.zeroToTwenty,
+      30: ratioAndProportionStrings.zeroToThirty
+    };
+
     const items = [
-      new ComboBoxItem( new RichText( ratioAndProportionStrings.zeroToTen, { font: TICK_MARK_RANGE_FONT } ), 10, {
+      new ComboBoxItem( new RichText( tickMarkRangeMap[ 10 ], RANGE_TEXT_OPTIONS ), 10, {
         a11yLabel: ratioAndProportionStrings.zeroToTen
       } ),
-      new ComboBoxItem( new RichText( ratioAndProportionStrings.zeroToTwenty, { font: TICK_MARK_RANGE_FONT } ), 20, {
+      new ComboBoxItem( new RichText( tickMarkRangeMap[ 20 ], RANGE_TEXT_OPTIONS ), 20, {
         a11yLabel: ratioAndProportionStrings.zeroToTwenty
       } ),
-      new ComboBoxItem( new RichText( ratioAndProportionStrings.zeroToThirty, { font: TICK_MARK_RANGE_FONT } ), 30, {
+      new ComboBoxItem( new RichText( tickMarkRangeMap[ 30 ], RANGE_TEXT_OPTIONS ), 30, {
         a11yLabel: ratioAndProportionStrings.zeroToThirty
       } )
     ];
@@ -50,7 +59,7 @@ class TickMarkRangeComboBox extends Node {
     const widestItem = Math.max( ...items.map( item => item.node.width ) );
 
     const comboBoxOptions = {
-      labelNode: new RichText( ratioAndProportionStrings.range, { font: TICK_MARK_RANGE_FONT } ),
+      labelNode: new RichText( ratioAndProportionStrings.range, RANGE_TEXT_OPTIONS ),
       helpText: ratioAndProportionStrings.a11y.create.tickMarkRangeHelpText,
       accessibleName: ratioAndProportionStrings.range
     };
@@ -70,6 +79,15 @@ class TickMarkRangeComboBox extends Node {
     // when not displaying the tick marks, show the "blank" line instead of the RichText.
     tickMarkViewProperty.link( tickMarkView => {
       this.children = tickMarkView === TickMarkView.NONE ? [ disabledComboBox ] : [ enabledComboBox ];
+    } );
+
+    const tickMarkRangeChangedUtterance = new ActivationUtterance();
+
+    tickMarkRangeProperty.lazyLink( range => {
+      tickMarkRangeChangedUtterance.alert = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.tickMarkRangeContextResponse, {
+        range: tickMarkRangeMap[ range ]
+      } );
+      phet.joist.sim.utteranceQueue.addToBack( tickMarkRangeChangedUtterance );
     } );
   }
 }

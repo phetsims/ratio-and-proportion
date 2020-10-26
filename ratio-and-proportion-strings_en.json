@@ -356,6 +356,9 @@
       "tickMarkRangeHelpText": {
         "value": "When tick marks shown, choose range for tick marks."
       },
+      "tickMarkRangeContextResponse": {
+        "value": "Tick mark range now {{range}}."
+      },
       "myChallengeHelpText": {
         "value": "Set left and right values to create your challenge, then move hands to explore it."
       }
