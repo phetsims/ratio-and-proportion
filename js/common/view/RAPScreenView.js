@@ -71,8 +71,8 @@ class RAPScreenView extends ScreenView {
 
     const tickMarksAndLabelsColorProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
       fitness => Color.interpolateRGBA(
-        RAPColorProfile.tickMarksAndLabelsInFitnessProperty.value,
-        RAPColorProfile.tickMarksAndLabelsOutOfFitnessProperty.value, fitness
+        RAPColorProfile.tickMarksAndLabelsOutOfFitnessProperty.value,
+        RAPColorProfile.tickMarksAndLabelsInFitnessProperty.value, fitness
       ) );
 
     const tickMarkViewProperty = new EnumerationProperty( TickMarkView, TickMarkView.NONE, {
