@@ -131,10 +131,10 @@ class RatioInteractionListener {
    * @param {number} newValue
    */
   handleSoundOnInput( newValue ) {
-    this.tickMarkBumpSoundClip.onDrag( newValue );
-    this.boundarySoundClip.onStartDrag( newValue );
-    this.boundarySoundClip.onDrag( newValue );
-    this.boundarySoundClip.onEndDrag( newValue );
+    this.tickMarkBumpSoundClip.onInteract( newValue );
+    this.boundarySoundClip.onStartInteraction( newValue );
+    this.boundarySoundClip.onInteract( newValue );
+    this.boundarySoundClip.onEndInteraction( newValue );
   }
 
   /**

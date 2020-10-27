@@ -1,7 +1,9 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * A short sound to indicate when a movable component has reached the boundary of its movable bounds.
+ * A short sound to indicate when a movable component has reached the boundary of its movable bounds. This sound supports
+ * playing a boundary sound based on horizontal motion, as well as vertical motion, but treats each as separate values,
+ * and not as a Bounds2. This is to support some interactions (alternative input through keyboard) that only
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
@@ -24,19 +26,20 @@ class BoundarySoundClip extends SoundClip {
     this.lastYPosition = null;
     this.lastXPosition = null;
 
-    // @private - keep track of if the sound has been played yet this drag to see if it should be played at the end of
-    // the drag.
-    this.playedThisDrag = false;
+    // @private - keep track of if the sound has been played yet this interaction to see if it should be played at the end of
+    // the interaction.
+    this.playedThisInteraction = false;
   }
 
   /**
-   * Horizontal parameters are optional to support some vertical-only component interactions.
+   * Call this when an interaction occurs that could potentially cause a boundary sound to play. Horizontal parameters
+   * are optional to support some vertical-only component interactions.
    * @public
    * @param {number} verticalPosition
    * @param {number} [horizontalPosition]
    * @param {Range} [horizontalRange] - the horizontal range can change based on view scaling
    */
-  onDrag( verticalPosition, horizontalPosition, horizontalRange ) {
+  onInteract( verticalPosition, horizontalPosition, horizontalRange ) {
 
     if ( this.lastYPosition !== verticalPosition &&
          ( verticalPosition === this.verticalRange.min || verticalPosition === this.verticalRange.max ) ) {
@@ -58,19 +61,19 @@ class BoundarySoundClip extends SoundClip {
   /**
    * @public
    */
-  onStartDrag() {
-    this.playedThisDrag = false;
+  onStartInteraction() {
+    this.playedThisInteraction = false;
   }
 
   /**
-   * Play a boundary sound on end drag. This will not play again if the sound already played during this drag. This case
-   * is to support keyboard interaction in which you are at the max, try to increase the value, but don't change the value.
-   * This will still result in this sound feedback for the boundary sound.
+   * Play a boundary sound on end interaction. This will not play again if the sound already played during this interaction.
+   * This case is to support keyboard interaction in which you are at the max, try to increase the value, but don't
+   * change the value. This will still result in this sound feedback for the boundary sound.
    * @public
    * @param {number} verticalPosition
    */
-  onEndDrag( verticalPosition ) {
-    if ( !this.playedThisDrag &&
+  onEndInteraction( verticalPosition ) {
+    if ( !this.playedThisInteraction &&
          ( verticalPosition === this.verticalRange.min || verticalPosition === this.verticalRange.max ) ) {
       this.play();
     }
@@ -81,7 +84,7 @@ class BoundarySoundClip extends SoundClip {
    * @public
    */
   play() {
-    this.playedThisDrag = true;
+    this.playedThisInteraction = true;
     super.play();
   }
 
@@ -89,7 +92,8 @@ class BoundarySoundClip extends SoundClip {
    * @public
    */
   reset() {
-    this.playedThisDrag = false;
+    this.stop();
+    this.playedThisInteraction = false;
     this.lastYPosition = null;
     this.lastXPosition = null;
   }

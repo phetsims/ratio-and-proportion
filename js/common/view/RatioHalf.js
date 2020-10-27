@@ -115,15 +115,15 @@ class RatioHalf extends Rectangle {
       startDrag: () => {
         firstInteractionProperty.value = false;
         this.isBeingInteractedWithProperty.value = true;
-        viewSounds.boundarySoundClip.onStartDrag();
+        viewSounds.boundarySoundClip.onStartInteraction();
       },
       drag: () => {
-        viewSounds.boundarySoundClip.onDrag( valueProperty.value );
-        viewSounds.tickMarkBumpSoundClip.onDrag( valueProperty.value );
+        viewSounds.boundarySoundClip.onInteract( valueProperty.value );
+        viewSounds.tickMarkBumpSoundClip.onInteract( valueProperty.value );
       },
       endDrag: () => {
         alertManager.alertRatioChange();
-        viewSounds.boundarySoundClip.onEndDrag( valueProperty.value );
+        viewSounds.boundarySoundClip.onEndInteraction( valueProperty.value );
       },
       isRight: options.isRight,
 
@@ -197,7 +197,7 @@ class RatioHalf extends Rectangle {
         firstInteractionProperty.value = false;
 
         inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( true );
-        viewSounds.boundarySoundClip.onStartDrag();
+        viewSounds.boundarySoundClip.onStartInteraction();
       },
       drag: () => {
         this.isBeingInteractedWithProperty.value = true;
@@ -207,9 +207,9 @@ class RatioHalf extends Rectangle {
           positionProperty.notifyListenersStatic();
         }
 
-        viewSounds.boundarySoundClip.onDrag( positionProperty.value.y, positionProperty.value.x,
+        viewSounds.boundarySoundClip.onInteract( positionProperty.value.y, positionProperty.value.x,
           new Range( dragBoundsProperty.value.left, dragBoundsProperty.value.right ) );
-        viewSounds.tickMarkBumpSoundClip.onDrag( positionProperty.value.y );
+        viewSounds.tickMarkBumpSoundClip.onInteract( positionProperty.value.y );
       },
 
       end: () => {
@@ -226,7 +226,7 @@ class RatioHalf extends Rectangle {
         this.isBeingInteractedWithProperty.value = false;
         alertManager.alertRatioChange();
         inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( false );
-        viewSounds.boundarySoundClip.onEndDrag( positionProperty.value.y );
+        viewSounds.boundarySoundClip.onEndInteraction( positionProperty.value.y );
       }
     } );
 

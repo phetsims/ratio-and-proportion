@@ -12,7 +12,6 @@ import ratioAndProportion from '../../../ratioAndProportion.js';
 // This value was copied from similar sound work done in Waves Intro
 const MIN_INTER_CLICK_TIME = ( 1 / 60 * 1000 ) * 2; // min time between clicks, in milliseconds, empirically determined
 
-
 class TickMarkBumpSoundClip extends SoundClip {
 
   /**
@@ -32,10 +31,12 @@ class TickMarkBumpSoundClip extends SoundClip {
   }
 
   /**
+   * Call this when an interaction occurs that could potentially cause a tick mark sound to play.
+   *
    * @public
    * @param currentValue
    */
-  onDrag( currentValue ) {
+  onInteract( currentValue ) {
 
     // handle the sound as desired for mouse/touch style input (for vertical changes)
     for ( let i = 0; i < this.tickMarkRangeProperty.value; i++ ) {
@@ -61,6 +62,7 @@ class TickMarkBumpSoundClip extends SoundClip {
    * @public
    */
   reset() {
+    this.stop();
     this.timeOfLastClick = 0;
     this.lastValue = null;
   }

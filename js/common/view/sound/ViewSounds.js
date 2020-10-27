@@ -23,6 +23,7 @@ class ViewSounds {
   /**
    *
    * @param {Range} valueRange
+   * @param {NumberProperty} tickMarkRangeProperty
    * @param {Property.<TickMarkView>} tickMarkViewProperty
    * @param {BooleanProperty} playTickMarkBumpSoundProperty
    * @param {Object} [options]
