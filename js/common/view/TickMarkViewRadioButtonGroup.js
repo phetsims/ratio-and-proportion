@@ -7,7 +7,7 @@
 
 import merge from '../../../../phet-core/js/merge.js';
 import ParallelDOM from '../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
-import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
+import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import FontAwesomeNode from '../../../../sun/js/FontAwesomeNode.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -16,7 +16,7 @@ import NumberedTickMarkIconPath from './NumberedTickMarkIconPath.js';
 import TickMarksIconPath from './TickMarksIconPath.js';
 import TickMarkView from './TickMarkView.js';
 
-class TickMarkViewRadioButtonGroup extends RadioButtonGroup {
+class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup {
 
   /**
    * @param {Property}tickMarkViewProperty
