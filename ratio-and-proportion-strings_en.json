@@ -42,10 +42,13 @@
     "value": "Move left hand"
   },
   "moveRightHand": {
-    "value": "Move eight hand"
+    "value": "Move right hand"
   },
   "moveHandsInSmallerSteps": {
     "value": "Move hands in smaller steps, add"
+  },
+  "jumpBothHands": {
+    "value": "Jump both hands to same tick mark"
   },
   "setMyRatioChallenge": {
     "value": "Set Values for My Challenge Ratio"
@@ -80,13 +83,16 @@
   "a11y": {
     "keyboardHelp": {
       "leftHandDescription": {
-        "value": "Move left hand up or down with W or S letter keys"
+        "value": "Move left hand up or down with W or S letter keys."
       },
       "rightHandDescription": {
-        "value": "Move right hand up or down with Up or Down arrow keys"
+        "value": "Move right hand up or down with Up or Down arrow keys."
       },
       "handsInSmallerStepsDescription": {
-        "value": "Move hands in smaller steps, add the Shift key."
+        "value": "Move hands in smaller steps, add Shift key."
+      },
+      "jumpBothHandsDescription": {
+        "value": "Jump both hands to same tick mark with number keys 0 to 9."
       },
       "setHandRatioValueDescription": {
         "value": "Set left or right value with Up and Down arrow keys."

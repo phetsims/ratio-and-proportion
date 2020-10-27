@@ -12,6 +12,7 @@ import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/Keybo
 import SliderKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/SliderKeyboardHelpSection.js';
 import TwoColumnKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/help/TwoColumnKeyboardHelpContent.js';
 import LetterKeyNode from '../../../../scenery-phet/js/keyboard/LetterKeyNode.js';
+import NumberKeyNode from '../../../../scenery-phet/js/keyboard/NumberKeyNode.js';
 import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
@@ -66,7 +67,12 @@ class BothHandsHelpSection extends KeyboardHelpSection {
       TextKeyNode.shift(),
       ratioAndProportionStrings.a11y.keyboardHelp.handsInSmallerStepsDescription );
 
-    super( ratioAndProportionStrings.moveBothHandsSimultaneously, [ moveLeftHand, moveRightHand, moveInSmallerSteps ], options );
+    const jumpBothHands = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.jumpBothHands,
+      KeyboardHelpIconFactory.iconToIcon( new NumberKeyNode( '0' ), new NumberKeyNode( '9' ) ),
+      ratioAndProportionStrings.a11y.keyboardHelp.jumpBothHandsDescription );
+
+    super( ratioAndProportionStrings.moveBothHandsSimultaneously,
+      [ moveLeftHand, moveRightHand, moveInSmallerSteps, jumpBothHands ], options );
   }
 }
 
