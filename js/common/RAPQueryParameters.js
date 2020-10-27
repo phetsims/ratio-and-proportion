@@ -60,7 +60,9 @@ const RAPQueryParameters = QueryStringMachine.getAll( {
    */
   bothHandsContextDelay: {
     type: 'number',
-    defaultValue: 1000
+
+    // Longer than normal because the both hands object response alert is longer than normal, see https://github.com/phetsims/ratio-and-proportion/issues/214
+    defaultValue: 2000
   },
 
   /**
@@ -78,7 +80,7 @@ const RAPQueryParameters = QueryStringMachine.getAll( {
   /**
    * All versions up until this point have had a scale of 2. scale of 4 was too big on a lap top, we likely 3-3.5 on laptop.
    */
-  handNodeScale:{
+  handNodeScale: {
     type: 'number',
     defaultValue: 3
   }
