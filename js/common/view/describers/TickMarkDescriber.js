@@ -11,15 +11,6 @@ import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
 import TickMarkView from '../TickMarkView.js';
 
 // constants
-const RELATIVE_POSITION_STRINGS = [
-  ratioAndProportionStrings.a11y.tickMark.relative.on,
-  ratioAndProportionStrings.a11y.tickMark.relative.around,
-  ratioAndProportionStrings.a11y.tickMark.relative.aroundHalfWayPast,
-  ratioAndProportionStrings.a11y.tickMark.relative.halfwayPast,
-  ratioAndProportionStrings.a11y.tickMark.relative.aroundHalfWayPast,
-  ratioAndProportionStrings.a11y.tickMark.relative.around
-];
-
 const ORDINAL_TICK_MARKS = [
   null,
   ratioAndProportionStrings.a11y.tickMark.ordinal.first,
@@ -130,6 +121,7 @@ class TickMarkDescriber {
   }
 
   /**
+   * Implemented like https://github.com/phetsims/ratio-and-proportion/issues/198#issuecomment-710029471
    * @public
    * @param {Property.<number>} property
    * @returns {{tickMarkPosition: number, relativePosition: string , ordinalPosition: string|null }}
@@ -146,41 +138,46 @@ class TickMarkDescriber {
     // account for javascript rounding error
     const remainder = Utils.toFixedNumber( expandedValue % 1, 6 );
 
-    assert && assert( RELATIVE_POSITION_STRINGS.length === 6, '6 regions expected' );
     assert && assert( remainder < 1 && remainder >= 0, 'remainder not in range' );
 
-    // special treatment from values that are around "half-way"
-    let isHalfWayValue = false;
-
-    let relativePositionIndex = null;
+    const tickMarkNumber = remainder > ROUND_DOWN_THRESHOLD ? Math.ceil( expandedValue ) : Math.floor( expandedValue );
+    let tickMarkDisplayedNumber = tickMarkNumber; // could be `tickMarkNumber + .5` depending on the tick mark view
+    let relativePosition = null;
 
     if ( remainder === this.valueRange.min ) {
-      relativePositionIndex = 0;
+      relativePosition = ratioAndProportionStrings.a11y.tickMark.relative.on;
     }
     else if ( remainder <= .2 ) {
-      relativePositionIndex = 1;
-    }
-    else if ( remainder < .5 ) {
-      relativePositionIndex = 2;
-      isHalfWayValue = true;
-    }
-    else if ( remainder === .5 ) {
-
-      // If showing numbers, then the description looks like "on 2.5" instead of "half-way past second"
-      relativePositionIndex = this.tickMarkViewProperty.value === TickMarkView.HORIZONTAL_UNITS ? 0 : 3;
-      isHalfWayValue = true;
+      relativePosition = ratioAndProportionStrings.a11y.tickMark.relative.around;
     }
     else if ( remainder <= ROUND_DOWN_THRESHOLD ) {
-      relativePositionIndex = 4;
-      isHalfWayValue = true;
+      // handle these middle cases differently depending on current tickMarkView
+
+      const useExactTickMarkValues = this.tickMarkViewProperty.value === TickMarkView.HORIZONTAL_UNITS;
+
+      tickMarkDisplayedNumber += .5; // For these middle values, add .5
+
+      if ( remainder < .5 ) {
+        relativePosition = useExactTickMarkValues ? ratioAndProportionStrings.a11y.tickMark.relative.around :
+                           ratioAndProportionStrings.a11y.tickMark.relative.aroundHalfWayPast;
+      }
+      else if ( remainder === .5 ) {
+
+        // If showing numbers, then the description looks like "on 2.5" instead of "half-way past second"
+        relativePosition = useExactTickMarkValues ? ratioAndProportionStrings.a11y.tickMark.relative.on :
+                           ratioAndProportionStrings.a11y.tickMark.relative.halfwayPast;
+      }
+      else if ( remainder <= ROUND_DOWN_THRESHOLD ) {
+        relativePosition = useExactTickMarkValues ? ratioAndProportionStrings.a11y.tickMark.relative.around :
+                           ratioAndProportionStrings.a11y.tickMark.relative.aroundHalfWayPast;
+      }
     }
     else if ( remainder < 1 ) {
-      relativePositionIndex = 5;
+      relativePosition = ratioAndProportionStrings.a11y.tickMark.relative.around;
     }
-
-    const relativePosition = RELATIVE_POSITION_STRINGS[ relativePositionIndex ];
-
-    const tickMarkNumber = remainder > ROUND_DOWN_THRESHOLD ? Math.ceil( expandedValue ) : Math.floor( expandedValue );
+    else {
+      assert && assert( false, `unexpected remainder value: ${remainder}` );
+    }
 
     // No ordinal on the max tick mark number
     const ordinalPosition = tickMarkNumber === numberOfTickMarks ? null : ORDINAL_TICK_MARKS[ tickMarkNumber ];
@@ -188,9 +185,7 @@ class TickMarkDescriber {
 
     assert && assert( relativePosition );
     return {
-
-      // add a .5 if the tickMark is positioned in the middle
-      tickMarkPosition: isHalfWayValue ? tickMarkNumber + .5 : tickMarkNumber,
+      tickMarkPosition: tickMarkDisplayedNumber,
       relativePosition: relativePosition,
       ordinalPosition: ordinalPosition
     };
