@@ -7,6 +7,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import Property from '../../../../axon/js/Property.js';
 import merge from '../../../../phet-core/js/merge.js';
 import sceneryPhetStrings from '../../../../scenery-phet/js/sceneryPhetStrings.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -72,8 +73,8 @@ class BothHandsPDOMNode extends Node {
 
     interactiveNode.addInputListener( {
       focus: () => {
-        this.alertBothHandsObjectResponse( tickMarkViewProperty.value ),
-          viewSounds.grabSoundClip.play();
+        this.alertBothHandsObjectResponse( tickMarkViewProperty.value );
+        viewSounds.grabSoundClip.play();
       },
       blur: () => {
         viewSounds.releaseSoundClip.play();
@@ -95,8 +96,9 @@ class BothHandsPDOMNode extends Node {
     // @public (read-only) - expose this from the listener for general consumption
     this.isBeingInteractedWithProperty = ratioInteractionListener.isBeingInteractedWithProperty;
 
-    // Only change these when fitness changes, even though it depends on other Properties.
-    unclampedFitnessProperty.lazyLink( () => {
+    // Though most cases are covered by just listening to fitness, there are certain cases when Property values can change,
+    // but the fitness doesn't. See https://github.com/phetsims/ratio-and-proportion/issues/222 as an example.
+    Property.multilink( [ numeratorProperty, denominatorProperty, unclampedFitnessProperty ], () => {
       const tickMarkView = tickMarkViewProperty.value;
       const isBeingInteractedWith = ratioInteractionListener.isBeingInteractedWithProperty.value;
 
