@@ -21,8 +21,7 @@ import RatioInteractionListener from './RatioInteractionListener.js';
 class BothHandsPDOMNode extends Node {
 
   /**
-   * @param {NumberProperty} numeratorProperty
-   * @param {NumberProperty} denominatorProperty
+   * @param {Property.<RAPRatioTuple>} ratioTupleProperty
    * @param {Range} valueRange - the total range of the hand
    * @param {Property.<boolean>} firstInteractionProperty - upon successful interaction, this will be marked as false
    * @param {number} keyboardStep
@@ -35,7 +34,7 @@ class BothHandsPDOMNode extends Node {
    * @param {ViewSounds} viewSounds
    * @param {Object} [options]
    */
-  constructor( numeratorProperty, denominatorProperty, valueRange, firstInteractionProperty, keyboardStep,
+  constructor( ratioTupleProperty, valueRange, firstInteractionProperty, keyboardStep,
                tickMarkViewProperty, tickMarkRangeProperty, unclampedFitnessProperty, handPositionsDescriber,
                ratioDescriber, bothHandsDescriber, viewSounds, options ) {
 
@@ -66,8 +65,8 @@ class BothHandsPDOMNode extends Node {
 
     interactiveNode.setAccessibleAttribute( 'aria-roledescription', sceneryPhetStrings.a11y.grabDrag.movable );
 
-    const ratioInteractionListener = new RatioInteractionListener( interactiveNode, numeratorProperty,
-      denominatorProperty, valueRange, firstInteractionProperty, tickMarkRangeProperty, keyboardStep,
+    const ratioInteractionListener = new RatioInteractionListener( interactiveNode, ratioTupleProperty, valueRange,
+      firstInteractionProperty, tickMarkRangeProperty, keyboardStep,
       viewSounds.boundarySoundClip, viewSounds.tickMarkBumpSoundClip );
     interactiveNode.addInputListener( ratioInteractionListener );
 
@@ -98,7 +97,7 @@ class BothHandsPDOMNode extends Node {
 
     // Though most cases are covered by just listening to fitness, there are certain cases when Property values can change,
     // but the fitness doesn't. See https://github.com/phetsims/ratio-and-proportion/issues/222 as an example.
-    Property.multilink( [ numeratorProperty, denominatorProperty, unclampedFitnessProperty ], () => {
+    Property.multilink( [ ratioTupleProperty, unclampedFitnessProperty ], () => {
       const tickMarkView = tickMarkViewProperty.value;
       const isBeingInteractedWith = ratioInteractionListener.isBeingInteractedWithProperty.value;
 

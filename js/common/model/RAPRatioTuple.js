@@ -17,8 +17,8 @@ class RAPRatioTuple {
   constructor( numerator, denominator ) {
 
     // @public {number}
-    this.numerator = numerator;
-    this.denominator = denominator;
+    this.numerator = Utils.toFixedNumber( numerator, 6 );
+    this.denominator = Utils.toFixedNumber( denominator, 6 );
   }
 
   /**
@@ -39,6 +39,36 @@ class RAPRatioTuple {
    */
   withDenominator( denominator ) {
     return new RAPRatioTuple( this.numerator, denominator );
+  }
+
+  /**
+   * @param {number} numeratorDelta
+   * @returns {RAPRatioTuple}
+   * @public
+   */
+  plusNumerator( numeratorDelta ) {
+    return new RAPRatioTuple( this.numerator + numeratorDelta, this.denominator );
+  }
+
+  /**
+   * @param {number} denominatorDelta
+   * @returns {RAPRatioTuple}
+   * @public
+   */
+  plusDenominator( denominatorDelta ) {
+    return new RAPRatioTuple( this.numerator, this.denominator + denominatorDelta );
+  }
+
+  /**
+   * Constrain both data fields to a provided range
+   * @public
+   * @param {Range} valueRange
+   */
+  constrainFields( valueRange ) {
+    this.numerator = valueRange.constrainValue( this.numerator );
+    this.denominator = valueRange.constrainValue( this.denominator );
+
+    return this; // for chaining
   }
 
   /**

@@ -7,17 +7,16 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Utils from '../../../../dot/js/Utils.js';
 import KeyStateTracker from '../../../../scenery/js/accessibility/KeyStateTracker.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
+import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import RAPConstants from '../RAPConstants.js';
 
 class RatioInteractionListener {
 
   /**
    * @param {Node} targetNode
-   * @param {Property.<number>} numeratorProperty
-   * @param {Property.<number>} denominatorProperty
+   * @param {Property.<RAPRatioTuple>} ratioTupleProperty
    * @param {Range} valueRange
    * @param {Property.<boolean>} firstInteractionProperty
    * @param {Property.<number>} tickMarkRangeProperty
@@ -25,7 +24,7 @@ class RatioInteractionListener {
    * @param {BoundarySoundClip} boundarySoundClip
    * @param {TickMarkBumpSoundClip} tickMarkBumpSoundClip
    */
-  constructor( targetNode, numeratorProperty, denominatorProperty, valueRange,
+  constructor( targetNode, ratioTupleProperty, valueRange,
                firstInteractionProperty, tickMarkRangeProperty, keyboardStep, boundarySoundClip, tickMarkBumpSoundClip ) {
 
     // @private
@@ -34,8 +33,7 @@ class RatioInteractionListener {
     this.targetNode = targetNode;
     this.firstInteractionProperty = firstInteractionProperty;
     this.tickMarkRangeProperty = tickMarkRangeProperty;
-    this.numeratorProperty = numeratorProperty;
-    this.denominatorProperty = denominatorProperty;
+    this.ratioTupleProperty = ratioTupleProperty;
     this.keyboardStep = keyboardStep;
     this.boundarySoundClip = boundarySoundClip;
     this.tickMarkBumpSoundClip = tickMarkBumpSoundClip;
@@ -52,13 +50,11 @@ class RatioInteractionListener {
 
   /**
    * @private
-   * @param property
-   * @param increment
+   * @param {boolean} increment
    */
-  stepValue( property, increment ) {
-    this.firstInteractionProperty.value = false;
+  getValueDelta( increment ) {
     const amount = this.keyStateTracker.shiftKeyDown ? this.keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER : this.keyboardStep;
-    property.value = this.valueRange.constrainValue( property.value + ( amount * ( increment ? 1 : -1 ) ) );
+    return amount * ( increment ? 1 : -1 );
   }
 
   /**
@@ -85,26 +81,37 @@ class RatioInteractionListener {
       this.isBeingInteractedWithProperty.value = true;
 
       if ( event.key === 'ArrowDown' ) {
-        this.stepValue( this.denominatorProperty, false );
-        this.handleSoundOnInput( this.denominatorProperty.value );
+        this.firstInteractionProperty.value = false;
+        // this.ratioTupleProperty
+        const newRatioTuple = this.ratioTupleProperty.value.plusDenominator( this.getValueDelta( false ) );
+        this.ratioTupleProperty.value = newRatioTuple.constrainFields( this.valueRange );
+        this.handleSoundOnInput( this.ratioTupleProperty.value.denominator );
       }
       else if ( event.key === 'ArrowUp' ) {
-        this.stepValue( this.denominatorProperty, true );
-        this.handleSoundOnInput( this.denominatorProperty.value );
+        this.firstInteractionProperty.value = false;
+        const newRatioTuple = this.ratioTupleProperty.value.plusDenominator( this.getValueDelta( true ) );
+        this.ratioTupleProperty.value = newRatioTuple.constrainFields( this.valueRange );
+        this.handleSoundOnInput( this.ratioTupleProperty.value.denominator );
       }
       else if ( event.key.toLowerCase() === 'w' ) {
-        this.stepValue( this.numeratorProperty, true );
-        this.handleSoundOnInput( this.numeratorProperty.value );
+        this.firstInteractionProperty.value = false;
+        const newRatioTuple = this.ratioTupleProperty.value.plusNumerator( this.getValueDelta( true ) );
+        this.ratioTupleProperty.value = newRatioTuple.constrainFields( this.valueRange );
+        this.handleSoundOnInput( this.ratioTupleProperty.value.numerator );
       }
       else if ( event.key.toLowerCase() === 's' ) {
-        this.stepValue( this.numeratorProperty, false );
-        this.handleSoundOnInput( this.numeratorProperty.value );
+        this.firstInteractionProperty.value = false;
+        const newRatioTuple = this.ratioTupleProperty.value.plusNumerator( this.getValueDelta( false ) );
+        this.ratioTupleProperty.value = newRatioTuple.constrainFields( this.valueRange );
+        this.handleSoundOnInput( this.ratioTupleProperty.value.numerator );
       }
       else if ( event.key.toLowerCase() === 'j' ) {
+        // jump both values to the lowest occupied value
+
         this.firstInteractionProperty.value = false;
 
-        // jump both values to the lowest occupied value
-        this.denominatorProperty.value = this.numeratorProperty.value = Math.min( this.numeratorProperty.value, this.denominatorProperty.value );
+        const minValue = Math.min( this.ratioTupleProperty.value.numerator, this.ratioTupleProperty.value.denominator );
+        this.ratioTupleProperty.value = new RAPRatioTuple( minValue, minValue );
       }
       else {
 
@@ -113,10 +120,12 @@ class RatioInteractionListener {
           if ( event.key === i + '' ) {
             this.firstInteractionProperty.value = false;
             const newValue = 1 / this.tickMarkRangeProperty.value * i;
-            this.numeratorProperty.value = this.denominatorProperty.value = Utils.clamp( newValue, this.valueRange.min, this.valueRange.max );
+            const constrained = this.valueRange.constrainValue( newValue );
+
+            this.ratioTupleProperty.value = new RAPRatioTuple( constrained, constrained );
 
             // If this brought to min or max, play the boundary sound
-            if ( this.numeratorProperty.value === this.valueRange.min || this.numeratorProperty.value === this.valueRange.max ) {
+            if ( constrained === this.valueRange.min || constrained === this.valueRange.max ) {
               this.boundarySoundClip.play();
             }
           }
