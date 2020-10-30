@@ -105,14 +105,6 @@ class RatioInteractionListener {
         this.ratioTupleProperty.value = newRatioTuple.constrainFields( this.valueRange );
         this.handleSoundOnInput( this.ratioTupleProperty.value.numerator );
       }
-      else if ( event.key.toLowerCase() === 'j' ) {
-        // jump both values to the lowest occupied value
-
-        this.firstInteractionProperty.value = false;
-
-        const minValue = Math.min( this.ratioTupleProperty.value.numerator, this.ratioTupleProperty.value.denominator );
-        this.ratioTupleProperty.value = new RAPRatioTuple( minValue, minValue );
-      }
       else {
 
         // for number keys 0-9, jump both values to that tick mark number. This value changes based on the tickMarkRangeProperty
