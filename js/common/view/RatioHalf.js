@@ -122,7 +122,6 @@ class RatioHalf extends Rectangle {
         viewSounds.tickMarkBumpSoundClip.onInteract( valueProperty.value );
       },
       endDrag: () => {
-        alertManager.alertRatioChange();
         viewSounds.boundarySoundClip.onEndInteraction( valueProperty.value );
       },
       isRight: options.isRight,
@@ -130,6 +129,7 @@ class RatioHalf extends Rectangle {
       // TODO: do we want to add conditional direction addition here? (not currently implemented, see getBothHandsDistanceOrDirection()) https://github.com/phetsims/ratio-and-proportion/issues/207
       a11yCreateAriaValueText: () => ratioLockedProperty.value ? handPositionsDescriber.getBothHandsDistance( tickMarkViewProperty.value ) :
                                      handPositionsDescriber.getHandPosition( valueProperty, tickMarkViewProperty.value ),
+      a11yCreateValueChangeAlert: () => alertManager.getSingleHandContextResponse(),
       a11yDependencies: options.a11yDependencies.concat( [ ratioLockedProperty ] )
     } );
     this.addChild( this.ratioHandNode );
@@ -224,9 +224,11 @@ class RatioHalf extends Rectangle {
         startingX = null;
         viewSounds.releaseSoundClip.play();
         this.isBeingInteractedWithProperty.value = false;
-        alertManager.alertRatioChange();
         inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( false );
         viewSounds.boundarySoundClip.onEndInteraction( positionProperty.value.y );
+
+        // Support context response on interaction end from mouse/touch input.
+        this.ratioHandNode.alertContextResponse();
       }
     } );
 

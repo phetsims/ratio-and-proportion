@@ -57,19 +57,16 @@ class RatioHalfAlertManager {
 
   /**
    * Generate and send an alert to the UtteranceQueue that describes the movement of this object and the subsequent change
-   * in ratio. Use at the end of a user interaction.
+   * in ratio. This is the context response for the individual ratio half hand (slider) interaction.
    * @public
-   *
+   * @returns {null|string} - null means no alert will occur
    */
-  alertRatioChange() {
+  getSingleHandContextResponse() {
     const newAlert = this.getRatioChangeAlert();
 
-    if ( newAlert !== this.previousRatioAlertText ) {
-
-      phet.joist.sim.utteranceQueue.addToBack( newAlert );
-
-      this.previousRatioAlertText = newAlert;
-    }
+    const toAlert = newAlert !== this.previousRatioAlertText ? newAlert : null;
+    this.previousRatioAlertText = newAlert;
+    return toAlert;
   }
 
 
