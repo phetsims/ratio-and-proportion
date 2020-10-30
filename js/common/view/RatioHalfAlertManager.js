@@ -49,9 +49,9 @@ class RatioHalfAlertManager {
     if ( this.ratioLockedProperty.value ) {
       return this.bothHandsDescriber.getBothHandsContextResponse();
     }
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.fitnessAlertPattern, {
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.singleHandContextResponse, {
       distanceOrDirection: this.handPositionsDescriber.getDistanceClauseForProperty( this.valueProperty ),
-      fitness: this.ratioDescriber.getRatioFitness( false )
+      proximityToRatio: this.ratioDescriber.getRatioFitness( false )
     } );
   }
 

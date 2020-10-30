@@ -491,8 +491,8 @@
       "descriptionPattern": {
         "value": "{{fitness}} ratio."
       },
-      "fitnessAlertPattern": {
-        "value": "{{distanceOrDirection}}, {{fitness}} challenge ratio."
+      "singleHandContextResponse": {
+        "value": "{{distanceOrDirection}}, {{proximityToRatio}} challenge ratio."
       },
       "proximityToNewRatioPattern": {
         "value": "Hands, {{proximity}} new challenge ratio."
