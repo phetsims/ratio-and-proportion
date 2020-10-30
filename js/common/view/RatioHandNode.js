@@ -13,6 +13,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import AccessibleSlider from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPConstants from '../RAPConstants.js';
@@ -60,7 +61,13 @@ class RatioHandNode extends Node {
     } );
 
     const container = new Node( {
-      children: [ filledInHandNode, cutOutHandNode ],
+      children: [
+
+        // Add a background rectangle to support dragging in the cut out section of the hand.
+        Rectangle.bounds( filledInHandNode.bounds.dilated( -filledInHandNode.bounds.width / 6 ) ),
+        filledInHandNode,
+        cutOutHandNode
+      ],
       excludeInvisibleChildrenFromBounds: true
     } );
     this.addChild( container );
