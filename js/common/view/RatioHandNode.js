@@ -36,6 +36,8 @@ class RatioHandNode extends Node {
    */
   constructor( valueProperty, enabledRatioComponentsRangeProperty, tickMarkViewProperty, keyboardStep, colorProperty, options ) {
 
+    const shiftKeyboardStep = keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER;
+
     options = merge( {
       cursor: 'pointer',
       isRight: true, // right hand or left hand
@@ -43,8 +45,12 @@ class RatioHandNode extends Node {
 
       ariaOrientation: Orientation.VERTICAL,
       keyboardStep: keyboardStep,
-      shiftKeyboardStep: keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER,
-      pageKeyboardStep: 1 / 5
+      pageKeyboardStep: 1 / 5,
+      shiftKeyboardStep: shiftKeyboardStep,
+
+      // Because this interaction uses the keyboard, snap to the keyboard step to handle the case where the hands were
+      // previously moved via mouse/touch. See https://github.com/phetsims/ratio-and-proportion/issues/156
+      constrainValue: value => RAPConstants.SNAP_TO_SHIFT_KEYBOARD_STEP( value, shiftKeyboardStep )
     }, options );
     super();
 

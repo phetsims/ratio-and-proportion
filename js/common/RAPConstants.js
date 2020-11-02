@@ -7,6 +7,7 @@
  */
 
 import Range from '../../../dot/js/Range.js';
+import Utils from '../../../dot/js/Utils.js';
 import ratioAndProportion from '../ratioAndProportion.js';
 import RAPQueryParameters from './RAPQueryParameters.js';
 
@@ -26,7 +27,20 @@ const RAPConstants = {
   SHIFT_KEY_MULTIPLIER: 1 / 5,
 
   // The range that the each ratio component (numerator/denominator) value can be
-  TOTAL_RATIO_COMPONENT_VALUE_RANGE: new Range( 0, 1 )
+  TOTAL_RATIO_COMPONENT_VALUE_RANGE: new Range( 0, 1 ),
+
+  /**
+   * Given a value, snap it to the nearest shift keyboard step.
+   * @public
+   * @param {number} value
+   * @param {number} shiftKeyboardStep
+   * @returns {number}
+   */
+  SNAP_TO_SHIFT_KEYBOARD_STEP: ( value, shiftKeyboardStep ) => {
+    return Utils.toFixedNumber(
+      Utils.roundSymmetric( value / shiftKeyboardStep ) * shiftKeyboardStep,
+      Utils.numberOfDecimalPlaces( shiftKeyboardStep ) );
+  }
 };
 
 ratioAndProportion.register( 'RAPConstants', RAPConstants );
