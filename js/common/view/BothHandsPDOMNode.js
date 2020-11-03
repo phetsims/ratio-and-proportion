@@ -57,6 +57,7 @@ class BothHandsPDOMNode extends Node {
     // @private
     this.handPositionsDescriber = handPositionsDescriber;
     this.bothHandsDescriber = bothHandsDescriber;
+    this.ratioLockedProperty = ratioLockedProperty;
 
     const interactiveNode = new Node( options.interactiveNodeOptions );
     this.addChild( interactiveNode );
