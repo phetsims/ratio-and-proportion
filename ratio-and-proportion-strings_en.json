@@ -183,10 +183,10 @@
         "value": "Numbered Tick Marks"
       },
       "tickMarksHidden": {
-        "value": "Tick Marks hidden"
+        "value": "Tick Marks hidden."
       },
       "tickMarksShown": {
-        "value": "Evenly-spaced horizontal lines added to Play Area"
+        "value": "Evenly-spaced horizontal lines added to Play Area."
       },
       "numberedTickMarksShown": {
         "value": "Evenly-spaced numbered lines added to Play Area."
