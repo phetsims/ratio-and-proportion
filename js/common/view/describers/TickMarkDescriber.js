@@ -123,7 +123,7 @@ class TickMarkDescriber {
   /**
    * Implemented like https://github.com/phetsims/ratio-and-proportion/issues/198#issuecomment-710029471
    * @public
-   * @param {Property.<number>} property
+   * @param {Property.<number>} property - TODO can this just be a value?
    * @returns {{tickMarkPosition: number, relativePosition: string , ordinalPosition: string|null }}
    */
   getRelativePositionAndTickMarkNumberForProperty( property ) {

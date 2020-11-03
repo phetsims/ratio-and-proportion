@@ -483,6 +483,12 @@
       "fartherFrom": {
         "value": "Farther from"
       },
+      "closerToLowercase": {
+        "value": "closer to"
+      },
+      "fartherFromLowercase": {
+        "value": "farther from"
+      },
       "distanceOrDirectionClause": {
         "value": "{{distanceOrDirection}} {{otherHand}}"
       }
@@ -494,8 +500,14 @@
       "singleHandContextResponse": {
         "value": "{{distanceOrDirection}}, {{proximityToRatio}} challenge ratio."
       },
+      "singleHandLockRatioContextResponse": {
+        "value": "Hands, {{distanceOrDirection}}, {{bothHandsRegion}}."
+      },
       "proximityToNewRatioPattern": {
         "value": "Hands, {{proximity}} new challenge ratio."
+      },
+      "proximityToRatioObjectResponse": {
+        "value": "{{proximityToRatio}} challenge ratio"
       },
       "targetRatioChangedContextResponse": {
         "value": "{{currentChallenge}} {{proximityToRatio}}"

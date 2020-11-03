@@ -203,7 +203,7 @@ class HandPositionsDescriber {
 
   /**
    * @private
-   * @param {Property.<number>} property
+   * @param {Property.<number>} property - TODO: why pass in a Property instead of a value? Are there any other spots this could be improved on?
    * @returns {string}
    */
   getQualitativeBothHandsHandPosition( property ) {
@@ -296,20 +296,22 @@ class HandPositionsDescriber {
 
   /**
    * @public
-   * TODO: this could be written much simpler using ratioTupleProperty
    * @param {NumberProperty} valueProperty
+   * @param {boolean} capitalized
    * @returns {string}
    */
-  getDistanceClauseForProperty( valueProperty ) {
+  getDistanceClauseForProperty( valueProperty, capitalized = true ) {
 
     let prefix = null;
     const directionChange = this.getDirectionChangedState( valueProperty );
     switch( directionChange ) {
       case DirectionChanged.CLOSER:
-        prefix = ratioAndProportionStrings.a11y.handPosition.closerTo;
+        prefix = capitalized ? ratioAndProportionStrings.a11y.handPosition.closerTo :
+                 ratioAndProportionStrings.a11y.handPosition.closerToLowercase;
         break;
       case DirectionChanged.FARTHER:
-        prefix = ratioAndProportionStrings.a11y.handPosition.fartherFrom;
+        prefix = capitalized ? ratioAndProportionStrings.a11y.handPosition.fartherFrom :
+                 ratioAndProportionStrings.a11y.handPosition.fartherFromLowercase;
         break;
       case DirectionChanged.NEITHER:
         prefix = this.getDistanceRegion();
@@ -329,26 +331,30 @@ class HandPositionsDescriber {
   /**
    * This is complicated because you need relative distance between the two values and if they get closer or farther
    * last time. As  well as the need to call this for individual and both-hands interactions.
+   * TODO: this could be written much simpler using ratioTupleProperty, maybe?
    * @private
    * @param {NumberProperty} valueProperty
    * @returns {DirectionChanged}
    */
   getDirectionChangedState( valueProperty ) {
     const previousValueProperty = valueProperty === this.numeratorProperty ? this.lastNumeratorValueProperty : this.lastDenominatorValueProperty;
+    const otherPreviousValueProperty = valueProperty === this.numeratorProperty ? this.lastDenominatorValueProperty : this.lastNumeratorValueProperty;
     const previousChangeProperty = valueProperty === this.numeratorProperty ? this.previousNumeratorChangeProperty : this.previousDenominatorChangeProperty;
     const otherValueProperty = valueProperty === this.numeratorProperty ? this.denominatorProperty : this.numeratorProperty;
 
     const increasing = valueProperty.value > previousValueProperty.value;
-    const directionChange = increasing !== previousChangeProperty.value;
 
     let returnValue = null;
 
-    if ( directionChange && // if the direction changed
+    if ( increasing !== previousChangeProperty.value && // if the direction changed
          valueProperty.value !== otherValueProperty.value && // if the two value positions are the same
          valueProperty.value !== previousValueProperty.value ) { // if the value position didn't change
-      const otherValueLarger = otherValueProperty.value > valueProperty.value;
-      returnValue = increasing === otherValueLarger ? DirectionChanged.CLOSER :
-                    DirectionChanged.FARTHER;
+
+      // if the new distance is larger than the previous.
+      const distanceGrew = Math.abs( otherValueProperty.value - valueProperty.value ) >
+                           Math.abs( otherPreviousValueProperty.value - previousValueProperty.value );
+      returnValue = distanceGrew ? DirectionChanged.FARTHER :
+                    DirectionChanged.CLOSER;
     }
     else {
       returnValue = DirectionChanged.NEITHER;
@@ -375,20 +381,15 @@ class HandPositionsDescriber {
   }
 
   /**
-   * If the hands changed directions (closer/farther) from each other, then prioritze describing
-   * that over the standard distance text. This supports this behavior on both value Properties.
-   * TODO: remove this and inline getDirectionChangedState into  getDistanceClauseForProperty, see https://github.com/phetsims/ratio-and-proportion/issues/207
+   * If the hands changed directions (closer/farther) from each other, then prioritize describing
+   * that over the standard distance text. This supports this behavior on both ratio value Properties.
    * @public
-   * @param tickMarkView
+   * @param {Property.<Number>} valueProperty
+   * @param {TickMarkView} tickMarkView
    * @returns {string}
    */
-  getBothHandsDistanceOrDirection( tickMarkView ) {
-    let directionChange = this.getDirectionChangedState( this.numeratorProperty );
-
-    // If there was no direction change from the numerator, try the denominator
-    if ( directionChange === DirectionChanged.NEITHER ) {
-      directionChange = this.getDirectionChangedState( this.denominatorProperty );
-    }
+  getBothHandsDistanceOrDirection( valueProperty, tickMarkView ) {
+    const directionChange = this.getDirectionChangedState( valueProperty );
 
     let distance = null;
     switch( directionChange ) {

@@ -17,52 +17,72 @@ class RatioHalfAlertManager {
 
   /**
    * @param {Property.<number>} valueProperty
+   * @param {Property.<TickMarkView>} tickMarkViewProperty
    * @param {RatioDescriber} ratioDescriber
    * @param {HandPositionsDescriber} handPositionsDescriber
    * @param bothHandsDescriber
    * @param ratioLockedProperty
    */
-  constructor( valueProperty, ratioDescriber, handPositionsDescriber, bothHandsDescriber, ratioLockedProperty ) {
+  constructor( valueProperty, tickMarkViewProperty, ratioDescriber, handPositionsDescriber, bothHandsDescriber, ratioLockedProperty ) {
 
     // @private
     this.ratioDescriber = ratioDescriber; // {RatioDescriber}
     this.handPositionsDescriber = handPositionsDescriber; // {HandPositionsDescriber}
     this.bothHandsDescriber = bothHandsDescriber; // {BothHandsDescriber}
     this.ratioLockedProperty = ratioLockedProperty; // {BooleanProperty}
+    this.tickMarkViewProperty = tickMarkViewProperty;
 
     // @private {Property.<number>}
     this.valueProperty = valueProperty;
 
     // @private {number} - reference to the last describe value so we can describe how it changes since last time, only
     // null on startup and reset since there was no described value
-    this.previousRatioAlertText = this.getRatioChangeAlert();
+    this.previousRatioAlertText = this.getSingleHandContextResponseText();
+  }
+
+  /**
+   * When the ratio is locked, the object response for individual hands changes, and instead explains the quality of the
+   * ratio
+   * @returns {string}
+   * @public
+   */
+  getSingleHandLockRatioObjectResponse() {
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.proximityToRatioObjectResponse, {
+      proximityToRatio: this.ratioDescriber.getRatioFitness( false )
+    } );
   }
 
   /**
    * @private
+   * @param {boolean} capitalized
    * @returns {string}
    */
-  getRatioChangeAlert() {
+  getSingleHandContextResponseText( capitalized = true ) {
 
-    // When locked, treat the alert like a "Both hands" interaction alert
-    // TODO: we lost left/right hand behavior here. https://github.com/phetsims/ratio-and-proportion/issues/207
     if ( this.ratioLockedProperty.value ) {
-      return this.bothHandsDescriber.getBothHandsContextResponse();
+      return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.singleHandLockRatioContextResponse, {
+        bothHandsRegion: this.bothHandsDescriber.getBothHandsPosition(),
+        distanceOrDirection: this.handPositionsDescriber.getBothHandsDistanceOrDirection( this.valueProperty, this.tickMarkViewProperty.value )
+      } );
     }
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.singleHandContextResponse, {
-      distanceOrDirection: this.handPositionsDescriber.getDistanceClauseForProperty( this.valueProperty ),
-      proximityToRatio: this.ratioDescriber.getRatioFitness( false )
-    } );
+    else {
+
+      return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.singleHandContextResponse, {
+        distanceOrDirection: this.handPositionsDescriber.getDistanceClauseForProperty( this.valueProperty, capitalized ),
+        proximityToRatio: this.ratioDescriber.getRatioFitness( false )
+      } );
+    }
   }
 
   /**
    * Generate and send an alert to the UtteranceQueue that describes the movement of this object and the subsequent change
    * in ratio. This is the context response for the individual ratio half hand (slider) interaction.
    * @public
+   * @param {boolean} capitalized
    * @returns {null|string} - null means no alert will occur
    */
-  getSingleHandContextResponse() {
-    const newAlert = this.getRatioChangeAlert();
+  getSingleHandContextResponse( capitalized ) {
+    const newAlert = this.getSingleHandContextResponseText( capitalized );
 
     const toAlert = newAlert !== this.previousRatioAlertText ? newAlert : null;
     this.previousRatioAlertText = newAlert;
@@ -75,7 +95,7 @@ class RatioHalfAlertManager {
    * @public
    */
   reset() {
-    this.previousRatioAlertText = this.getRatioChangeAlert();
+    this.previousRatioAlertText = this.getSingleHandContextResponseText();
   }
 }
 

@@ -102,7 +102,7 @@ class RatioHalf extends Rectangle {
     const bottomRect = new Rectangle( 0, 0, 10, FRAMING_RECTANGLE_HEIGHT, { fill: colorProperty } );
     this.addChild( bottomRect );
 
-    const alertManager = new RatioHalfAlertManager( valueProperty, ratioDescriber, handPositionsDescriber,
+    const alertManager = new RatioHalfAlertManager( valueProperty, tickMarkViewProperty, ratioDescriber, handPositionsDescriber,
       bothHandsDescriber, ratioLockedProperty );
 
     const tickMarksNode = new RatioHalfTickMarksNode( tickMarkViewProperty, tickMarkRangeProperty,
@@ -126,10 +126,9 @@ class RatioHalf extends Rectangle {
       },
       isRight: options.isRight,
 
-      // TODO: do we want to add conditional direction addition here? (not currently implemented, see getBothHandsDistanceOrDirection()) https://github.com/phetsims/ratio-and-proportion/issues/207
-      a11yCreateAriaValueText: () => ratioLockedProperty.value ? handPositionsDescriber.getBothHandsDistance( tickMarkViewProperty.value ) :
+      a11yCreateAriaValueText: () => ratioLockedProperty.value ? alertManager.getSingleHandLockRatioObjectResponse() :
                                      handPositionsDescriber.getHandPosition( valueProperty, tickMarkViewProperty.value ),
-      a11yCreateContextResponseAlert: () => alertManager.getSingleHandContextResponse(),
+      a11yCreateContextResponseAlert: () => alertManager.getSingleHandContextResponse( !ratioLockedProperty.value),
       a11yDependencies: options.a11yDependencies.concat( [ ratioLockedProperty ] )
     } );
     this.addChild( this.ratioHandNode );

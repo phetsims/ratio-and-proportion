@@ -39,31 +39,40 @@ class BothHandsDescriber {
   }
 
   /**
+   * When each hand in different region, "left hand . . . , right hand . . ." otherwise "both hands . . ."
+   * Used for both hands interaction, and with individual hands when the ratio is locked
+   * @public
+   * @returns {string}
+   */
+  getBothHandsPosition() {
+    const tickMarkView = this.tickMarkViewProperty.value;
+
+    const leftPosition = this.handPositionsDescriber.getBothHandsHandPosition( this.numeratorProperty, tickMarkView );
+    const rightPosition = this.handPositionsDescriber.getBothHandsHandPosition( this.denominatorProperty, tickMarkView );
+
+    if ( leftPosition === rightPosition ) {
+      return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.equalObjectResponseAlert, {
+        inPosition: leftPosition
+      } );
+    }
+    else {
+      return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.eachObjectResponseAlert, {
+        leftPosition: leftPosition,
+        rightPosition: rightPosition
+      } );
+    }
+  }
+
+  /**
    * @public
    * @returns {string}
    */
   getBothHandsObjectResponse() {
     const tickMarkView = this.tickMarkViewProperty.value;
 
-    const leftPosition = this.handPositionsDescriber.getBothHandsHandPosition( this.numeratorProperty, tickMarkView );
-    const rightPosition = this.handPositionsDescriber.getBothHandsHandPosition( this.denominatorProperty, tickMarkView );
-
-    let position = null;
-    if ( leftPosition === rightPosition ) {
-      position = StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.equalObjectResponseAlert, {
-        inPosition: leftPosition
-      } );
-    }
-    else {
-      position = StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.eachObjectResponseAlert, {
-        leftPosition: leftPosition,
-        rightPosition: rightPosition
-      } );
-    }
-
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.bothHandsObjectResponseAlert, {
       distance: this.handPositionsDescriber.getBothHandsDistance( tickMarkView ),
-      position: position
+      position: this.getBothHandsPosition()
     } );
   }
 }

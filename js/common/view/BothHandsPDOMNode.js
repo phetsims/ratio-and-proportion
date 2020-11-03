@@ -101,7 +101,6 @@ class BothHandsPDOMNode extends Node {
       const tickMarkView = tickMarkViewProperty.value;
       const isBeingInteractedWith = ratioInteractionListener.isBeingInteractedWithProperty.value;
 
-      // TODO: do we want to add conditional direction addition here? (not currently implemented, see getBothHandsDistanceOrDirection()) https://github.com/phetsims/ratio-and-proportion/issues/207
       dynamicDescription.innerContent = handPositionsDescriber.getBothHandsDistance( tickMarkView );
 
       if ( isBeingInteractedWith ) {
