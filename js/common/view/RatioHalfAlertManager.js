@@ -45,11 +45,10 @@ class RatioHalfAlertManager {
    * ratio
    * @returns {string}
    * @public
+   * TODO: rename getSingleHandRatioLockedObjectResponse
    */
   getSingleHandLockRatioObjectResponse() {
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.proximityToRatioObjectResponse, {
-      proximityToRatio: this.ratioDescriber.getRatioFitness( false )
-    } );
+    return this.bothHandsDescriber.getRatioLockedObjectResponse();
   }
 
   /**
@@ -60,18 +59,12 @@ class RatioHalfAlertManager {
   getSingleHandContextResponseText( capitalized = true ) {
 
     if ( this.ratioLockedProperty.value ) {
-      return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.singleHandLockRatioContextResponse, {
-        bothHandsRegion: this.bothHandsDescriber.getBothHandsPosition(),
-        distanceOrDirection: this.handPositionsDescriber.getBothHandsDistanceOrDirection( this.valueProperty, this.tickMarkViewProperty.value )
-      } );
+      return this.bothHandsDescriber.getRatioLockedContextResponse( this.valueProperty, this.tickMarkViewProperty.value );
     }
-    else {
-
-      return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.singleHandContextResponse, {
-        distanceOrDirection: this.handPositionsDescriber.getDistanceClauseForProperty( this.valueProperty, capitalized ),
-        proximityToRatio: this.ratioDescriber.getRatioFitness( false )
-      } );
-    }
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.singleHandContextResponse, {
+      distanceOrDirection: this.handPositionsDescriber.getDistanceClauseForProperty( this.valueProperty, capitalized ),
+      proximityToRatio: this.ratioDescriber.getRatioFitness( false )
+    } );
   }
 
   /**

@@ -32,11 +32,12 @@ class BothHandsPDOMNode extends Node {
    * @param {RatioDescriber} ratioDescriber
    * @param {BothHandsDescriber} bothHandsDescriber
    * @param {ViewSounds} viewSounds
+   * @param {BooleanProperty} ratioLockedProperty
    * @param {Object} [options]
    */
   constructor( ratioTupleProperty, valueRange, firstInteractionProperty, keyboardStep,
                tickMarkViewProperty, tickMarkRangeProperty, unclampedFitnessProperty, handPositionsDescriber,
-               ratioDescriber, bothHandsDescriber, viewSounds, options ) {
+               ratioDescriber, bothHandsDescriber, viewSounds, ratioLockedProperty, options ) {
 
     options = merge( {
       tagName: 'div',
@@ -106,7 +107,7 @@ class BothHandsPDOMNode extends Node {
       if ( isBeingInteractedWith ) {
         this.alertBothHandsObjectResponse( tickMarkView );
 
-        contextResponseUtterance.alert = bothHandsDescriber.getBothHandsContextResponse();
+        contextResponseUtterance.alert = bothHandsDescriber.getBothHandsContextResponse( ratioLockedProperty.value );
         phet.joist.sim.utteranceQueue.addToBack( contextResponseUtterance );
       }
     } );
@@ -119,7 +120,7 @@ class BothHandsPDOMNode extends Node {
    * @param {TickMarkView} tickMarkView
    */
   alertBothHandsObjectResponse( tickMarkView ) {
-    this.objectResponseUtterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse( tickMarkView );
+    this.objectResponseUtterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse( tickMarkView, this.ratioLockedProperty.value );
     phet.joist.sim.utteranceQueue.addToBack( this.objectResponseUtterance );
   }
 }

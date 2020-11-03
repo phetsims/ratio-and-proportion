@@ -32,7 +32,10 @@ class BothHandsDescriber {
    * @public
    * @returns {string}
    */
-  getBothHandsContextResponse() {
+  getBothHandsContextResponse( ratioLocked ) {
+    if ( ratioLocked ) {
+      return this.getRatioLockedContextResponse( this.numeratorProperty, this.tickMarkViewProperty.value );
+    }
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.bothHandsContextResponseAlert, {
       fitness: this.ratioDescriber.getRatioFitness()
     } );
@@ -65,14 +68,43 @@ class BothHandsDescriber {
 
   /**
    * @public
+   * @param {TickMarkView} tickMarkView
+   * @param {boolean} ratioLocked - if the ratio is locked
    * @returns {string}
    */
-  getBothHandsObjectResponse() {
-    const tickMarkView = this.tickMarkViewProperty.value;
+  getBothHandsObjectResponse( tickMarkView, ratioLocked ) {
+
+    if ( ratioLocked ) {
+      return this.getRatioLockedObjectResponse();
+    }
 
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.bothHandsObjectResponseAlert, {
       distance: this.handPositionsDescriber.getBothHandsDistance( tickMarkView ),
       position: this.getBothHandsPosition()
+    } );
+  }
+
+  /**
+   * @public
+   * @returns {string}
+   */
+  getRatioLockedObjectResponse() {
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.proximityToRatioObjectResponse, {
+      proximityToRatio: this.ratioDescriber.getRatioFitness( false )
+    } );
+  }
+
+  /**
+   * A consistent context response for when interacting with the ratio
+   * @param {Property.<number>} valueProperty
+   * @param {TickMarkView} tickMarkView
+   * @returns {string}
+   * @public
+   */
+  getRatioLockedContextResponse( valueProperty, tickMarkView ) {
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.singleHandLockRatioContextResponse, {
+      bothHandsRegion: this.getBothHandsPosition(),
+      distanceOrDirection: this.handPositionsDescriber.getBothHandsDistanceOrDirection( valueProperty, tickMarkView )
     } );
   }
 }
