@@ -362,6 +362,7 @@ class HandPositionsDescriber {
 
     // For next time
     previousValueProperty.value = valueProperty.value;
+    otherPreviousValueProperty.value = otherValueProperty.value;
     previousChangeProperty.value = increasing;
 
     validate( returnValue, DIRECTION_CHANGED_VALIDATOR );
