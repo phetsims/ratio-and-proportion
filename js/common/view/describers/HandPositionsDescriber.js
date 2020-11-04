@@ -371,11 +371,14 @@ class HandPositionsDescriber {
 
   /**
    * @public
-   * @param tickMarkView
+   * @param {TickMarkView} tickMarkView
+   * @param {boolean} capitalized
    * @returns {string}
    */
-  getBothHandsDistance( tickMarkView ) {
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.handsDistancePattern, {
+  getBothHandsDistance( tickMarkView, capitalized = false ) {
+    const pattern = capitalized ? ratioAndProportionStrings.a11y.bothHands.handsDistancePatternCapitalized :
+                    ratioAndProportionStrings.a11y.bothHands.handsDistancePattern;
+    return StringUtils.fillIn( pattern, {
       distance: TickMarkView.describeQualitative( tickMarkView ) ? this.getDistanceRegion( true ) :
                 this.tickMarkDescriber.getDistanceInTickMarks( tickMarkView, this.getDistanceBetweenHands() )
     } );
@@ -387,25 +390,29 @@ class HandPositionsDescriber {
    * @public
    * @param {Property.<Number>} valueProperty
    * @param {TickMarkView} tickMarkView
+   * @param {boolean} capitalized
    * @returns {string}
    */
-  getBothHandsDistanceOrDirection( valueProperty, tickMarkView ) {
+  getBothHandsDistanceOrDirection( valueProperty, tickMarkView, capitalized = false ) {
     const directionChange = this.getDirectionChangedState( valueProperty );
+
+    const directionPattern = capitalized ? ratioAndProportionStrings.a11y.bothHands.handsDirectionPatternCapitalized :
+                             ratioAndProportionStrings.a11y.bothHands.handsDirectionPattern;
 
     let distance = null;
     switch( directionChange ) {
       case DirectionChanged.CLOSER:
-        distance = StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.handsDirectionPattern, {
+        distance = StringUtils.fillIn( directionPattern, {
           distance: ratioAndProportionStrings.a11y.bothHands.closerTogether
         } );
         break;
       case DirectionChanged.FARTHER:
-        distance = StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.handsDirectionPattern, {
+        distance = StringUtils.fillIn( directionPattern, {
           distance: ratioAndProportionStrings.a11y.bothHands.fartherApart
         } );
         break;
       case DirectionChanged.NEITHER:
-        distance = this.getBothHandsDistance( tickMarkView );
+        distance = this.getBothHandsDistance( tickMarkView, capitalized );
         break;
       default:
         assert && assert( false, 'all cases above' );

@@ -138,6 +138,12 @@
       "handsDirectionPattern": {
         "value": "hands {{distance}}"
       },
+      "handsDistancePatternCapitalized": {
+        "value": "Hands {{distance}} each other"
+      },
+      "handsDirectionPatternCapitalized": {
+        "value": "Hands {{distance}}"
+      },
       "tickMarksApart": {
         "value": "{{justAround}}{{number}} tick marks apart from"
       },
@@ -501,13 +507,13 @@
         "value": "{{distanceOrDirection}}, {{proximityToRatio}} challenge ratio."
       },
       "singleHandLockRatioContextResponse": {
-        "value": "Hands, {{distanceOrDirection}}, {{bothHandsRegion}}."
+        "value": "{{distanceOrDirection}}, {{bothHandsRegion}}."
       },
       "proximityToNewRatioPattern": {
         "value": "Hands, {{proximity}} new challenge ratio."
       },
       "proximityToRatioObjectResponse": {
-        "value": "{{proximityToRatio}} challenge ratio"
+        "value": "hands, {{proximityToRatio}} challenge ratio"
       },
       "targetRatioChangedContextResponse": {
         "value": "{{currentChallenge}} {{proximityToRatio}}"
