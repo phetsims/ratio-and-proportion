@@ -24,9 +24,12 @@ class RatioInteractionListener {
    * @param {number} keyboardStep
    * @param {BoundarySoundClip} boundarySoundClip
    * @param {TickMarkBumpSoundClip} tickMarkBumpSoundClip
+   * @param {Property.<boolean>} ratioLockedProperty
+   * @param {Property.<number>} targetRatioProperty
    */
   constructor( targetNode, ratioTupleProperty, valueRange,
-               firstInteractionProperty, tickMarkRangeProperty, keyboardStep, boundarySoundClip, tickMarkBumpSoundClip ) {
+               firstInteractionProperty, tickMarkRangeProperty, keyboardStep, boundarySoundClip, tickMarkBumpSoundClip,
+               ratioLockedProperty, targetRatioProperty ) {
 
     // @private
     this.keyStateTracker = new KeyStateTracker();
@@ -39,6 +42,8 @@ class RatioInteractionListener {
     this.shiftKeyboardStep = this.keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER;
     this.boundarySoundClip = boundarySoundClip;
     this.tickMarkBumpSoundClip = tickMarkBumpSoundClip;
+    this.ratioLockedProperty = ratioLockedProperty;
+    this.targetRatioProperty = targetRatioProperty;
 
     // @private - true whenever the user is interacting with this listener
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
@@ -115,6 +120,12 @@ class RatioInteractionListener {
         for ( let i = 0; i <= 9; i++ ) {
           if ( event.key === i + '' ) {
             this.firstInteractionProperty.value = false;
+
+            // Unlock ratio before moving both values to prevent model assertions.
+            if ( this.ratioLockedProperty && this.targetRatioProperty.value !== 1 ) {
+              this.ratioLockedProperty.value = false;
+            }
+
             const newValue = 1 / this.tickMarkRangeProperty.value * i;
             const constrained = this.valueRange.constrainValue( newValue );
 

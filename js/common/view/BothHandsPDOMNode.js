@@ -33,11 +33,12 @@ class BothHandsPDOMNode extends Node {
    * @param {BothHandsDescriber} bothHandsDescriber
    * @param {ViewSounds} viewSounds
    * @param {BooleanProperty} ratioLockedProperty
+   * @param {Property.<number>} targetRatioProperty
    * @param {Object} [options]
    */
   constructor( ratioTupleProperty, valueRange, firstInteractionProperty, keyboardStep,
                tickMarkViewProperty, tickMarkRangeProperty, unclampedFitnessProperty, handPositionsDescriber,
-               ratioDescriber, bothHandsDescriber, viewSounds, ratioLockedProperty, options ) {
+               ratioDescriber, bothHandsDescriber, viewSounds, ratioLockedProperty, targetRatioProperty, options ) {
 
     options = merge( {
       tagName: 'div',
@@ -69,7 +70,7 @@ class BothHandsPDOMNode extends Node {
 
     const ratioInteractionListener = new RatioInteractionListener( interactiveNode, ratioTupleProperty, valueRange,
       firstInteractionProperty, tickMarkRangeProperty, keyboardStep,
-      viewSounds.boundarySoundClip, viewSounds.tickMarkBumpSoundClip );
+      viewSounds.boundarySoundClip, viewSounds.tickMarkBumpSoundClip, ratioLockedProperty, targetRatioProperty );
     interactiveNode.addInputListener( ratioInteractionListener );
 
     interactiveNode.addInputListener( {
