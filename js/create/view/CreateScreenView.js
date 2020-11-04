@@ -11,6 +11,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Fraction from '../../../../phetcommon/js/model/Fraction.js';
 import NumberPicker from '../../../../scenery-phet/js/NumberPicker.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import FireListener from '../../../../scenery/js/listeners/FireListener.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
@@ -150,10 +151,20 @@ class CreateScreenView extends RAPScreenView {
       targetDenominatorProperty
     ) );
 
+    const ratioLockedUtterance = new ActivationUtterance();
+
     const lockRatioCheckbox = new Checkbox( new RichText( ratioAndProportionStrings.lockRatio ), model.ratio.lockedProperty, {
       accessibleName: ratioAndProportionStrings.lockRatio,
       helpText: ratioAndProportionStrings.a11y.lockRatioHelpText
     } );
+
+    // TODO: this should not be a separate FireListener. Instead we should be able to use the checkbox somehow.
+    lockRatioCheckbox.addInputListener( new FireListener( {
+      fire: () => {
+        ratioLockedUtterance.alert = ratioAndProportionStrings.a11y.lockRatioCheckboxContextResponse;
+        phet.joist.sim.utteranceQueue.addToBack( ratioLockedUtterance );
+      }
+    } ) );
 
     // The "lock ratio" checkbox should not be enabled when the ratio is not in proportion.
     model.ratioFitnessProperty.link( () => {

@@ -322,6 +322,9 @@
     "lockRatioHelpText": {
       "value": "Enabled when hands are at challenge ratio. Move hands as a single unit to maintain my challenge ratio."
     },
+    "lockRatioCheckboxContextResponse": {
+      "value": "Hands locked at challenge ratio. Move hands and observe."
+    },
     "discover": {
       "homeScreenDescription": {
         "value": "Explore this screen to discover set challenge ratios."
