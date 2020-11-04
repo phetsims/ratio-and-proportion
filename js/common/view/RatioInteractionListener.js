@@ -121,8 +121,10 @@ class RatioInteractionListener {
           if ( event.key === i + '' ) {
             this.firstInteractionProperty.value = false;
 
+            const wasLocked = this.ratioLockedProperty.value;
+
             // Unlock ratio before moving both values to prevent model assertions.
-            if ( this.ratioLockedProperty && this.targetRatioProperty.value !== 1 ) {
+            if ( this.ratioLockedProperty ) {
               this.ratioLockedProperty.value = false;
             }
 
@@ -134,6 +136,12 @@ class RatioInteractionListener {
             // If this brought to min or max, play the boundary sound
             if ( constrained === this.valueRange.min || constrained === this.valueRange.max ) {
               this.boundarySoundClip.play();
+            }
+
+            // If the target was 1, we need to skate around the inability for the model to set both values when the
+            // ratio is locked. Special case for 0, since 0/0 is not in target ratio.
+            if ( wasLocked && !this.ratioLockedProperty.value && this.targetRatioProperty.value === 1 && this.ratioTupleProperty.value !== 0 ) {
+              this.ratioLockedProperty.value = true;
             }
           }
         }

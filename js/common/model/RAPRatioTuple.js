@@ -15,6 +15,8 @@ class RAPRatioTuple {
    * @param {number} denominator
    */
   constructor( numerator, denominator ) {
+    assert && assert( typeof numerator === 'number' && !isNaN( numerator ) );
+    assert && assert( typeof denominator === 'number' && !isNaN( denominator ) );
 
     // @public {number}
     this.numerator = Utils.toFixedNumber( numerator, 6 );
