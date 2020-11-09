@@ -269,8 +269,11 @@ class RAPScreenView extends ScreenView {
     // @private - dynamic layout based on the current ScreenView coordinates
     this.layoutRAPScreeView = newRatioHalfBounds => {
 
-      this.numeratorRatioHalf.layout( newRatioHalfBounds );
-      this.denominatorRatioHalf.layout( newRatioHalfBounds );
+      // between 0 and 1, 0 is the min height, 1 is the max height
+      const heightScalar = ( newRatioHalfBounds.height - LAYOUT_BOUNDS.height ) / ( MAX_RATIO_HEIGHT - LAYOUT_BOUNDS.height );
+
+      this.numeratorRatioHalf.layout( newRatioHalfBounds, heightScalar );
+      this.denominatorRatioHalf.layout( newRatioHalfBounds, heightScalar );
       backgroundNode.rectBounds = this.visibleBoundsProperty.value;
       backgroundNode.bottom = this.layoutBounds.bottom;
 

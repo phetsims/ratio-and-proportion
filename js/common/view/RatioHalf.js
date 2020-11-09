@@ -40,6 +40,9 @@ const X_MODEL_DRAG_DISTANCE = 1;
 const INITIAL_X_VALUE = 0;
 const getModelBoundsFromRange = range => new Bounds2( -1 * X_MODEL_DRAG_DISTANCE / 2, range.min, X_MODEL_DRAG_DISTANCE / 2, range.max );
 
+const MIN_HAND_SCALE = 1.2;
+const MAX_HAND_SCALE = 2.5;
+
 function ratioHalfAccessibleNameBehavior( node, options, accessibleName, callbacksForOtherNodes ) {
   callbacksForOtherNodes.push( () => {
     node.ratioHandNode.accessibleName = accessibleName;
@@ -128,11 +131,10 @@ class RatioHalf extends Rectangle {
 
       a11yCreateAriaValueText: () => ratioLockedProperty.value ? alertManager.getSingleHandLockRatioObjectResponse() :
                                      handPositionsDescriber.getHandPosition( valueProperty, tickMarkViewProperty.value ),
-      a11yCreateContextResponseAlert: () => alertManager.getSingleHandContextResponse( !ratioLockedProperty.value),
+      a11yCreateContextResponseAlert: () => alertManager.getSingleHandContextResponse( !ratioLockedProperty.value ),
       a11yDependencies: options.a11yDependencies.concat( [ ratioLockedProperty ] )
     } );
     this.addChild( this.ratioHandNode );
-
     let modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
       getModelBoundsFromRange( valueRange ),
       bounds );
@@ -258,14 +260,14 @@ class RatioHalf extends Rectangle {
     const cueArrowOptions = {
       fill: RAPColorProfile.cueArrowsProperty,
       stroke: 'black',
-      headWidth: 40,
-      headHeight: 20,
-      tailWidth: 20
+      headWidth: 33.33,
+      headHeight: 16.66,
+      tailWidth: 16.66
     };
-    const cueArrowUp = new ArrowNode( 0, 0, 0, -40, cueArrowOptions );
+    const cueArrowUp = new ArrowNode( 0, 0, 0, -33.33, cueArrowOptions );
     this.addChild( cueArrowUp );
 
-    const cueArrowDown = new ArrowNode( 0, 0, 0, 40, cueArrowOptions );
+    const cueArrowDown = new ArrowNode( 0, 0, 0, 33.33, cueArrowOptions );
     this.addChild( cueArrowDown );
 
     // only display the cues arrows before the first interaction
@@ -289,9 +291,16 @@ class RatioHalf extends Rectangle {
     positionProperty.link( updatePointer );
 
     // @private
-    this.layoutRatioHalf = newBounds => {
+    this.layoutRatioHalf = ( newBounds, heightScalar ) => {
       this.rectWidth = newBounds.width;
       this.rectHeight = newBounds.height;
+
+      // Scale depending on how tall the ratio half is. This is to support narrow and tall layouts where the hand needs
+      // to be scaled up more to support touch interaction, see https://github.com/phetsims/ratio-and-proportion/issues/217.
+      const handScale = heightScalar * ( MAX_HAND_SCALE - MIN_HAND_SCALE ) + MIN_HAND_SCALE;
+      this.ratioHandNode.setScaleMagnitude( handScale );
+      cueArrowUp.setScaleMagnitude( handScale );
+      cueArrowDown.setScaleMagnitude( handScale );
 
       const framingRectWidth = newBounds.width - newBounds.width * .1;
       topRect.rectWidth = framingRectWidth;
@@ -340,9 +349,11 @@ class RatioHalf extends Rectangle {
   /**
    * @public
    * @param {Bounds2} bounds - the bounds of this RatioHalf, effects dimensions, dragBounds, and width of guiding rectangles
+   * @param {number} heightScalar - normalized between 0 and 1. When 1, it the ratio half will be the tallest it gets, at 0, the shortest
    */
-  layout( bounds ) {
-    this.layoutRatioHalf( bounds );
+  layout( bounds, heightScalar ) {
+    assert && assert( heightScalar >= 0 && heightScalar <= 1, 'scalar should be between 0 and 1' );
+    this.layoutRatioHalf( bounds, heightScalar );
   }
 
   /**

@@ -17,11 +17,7 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import AccessibleSlider from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPConstants from '../RAPConstants.js';
-import RAPQueryParameters from '../RAPQueryParameters.js';
 import TickMarkView from './TickMarkView.js';
-
-// constants
-const HAND_PATH_SCALE = RAPQueryParameters.handNodeScale;
 
 class RatioHandNode extends Node {
 
@@ -90,7 +86,7 @@ class RatioHandNode extends Node {
     } );
 
     // Flip the hand if it isn't a right hand. Do this after the circle/hand relative positioning
-    this.setScaleMagnitude( ( options.isRight ? 1 : -1 ) * .4, .4 );
+    this.setScaleMagnitude( ( options.isRight ? 1 : -1 ), 1 );
 
     this.mutate( options );
 
@@ -138,8 +134,7 @@ class FilledInHandPath extends Path {
 
     options = merge( {
       stroke: 'black',
-      lineWidth: 2,
-      scale: HAND_PATH_SCALE
+      lineWidth: 2
     }, options );
 
     const shape = `M27.654,1.738c-0.716-0.716-1.572-1.075-2.57-1.075c-1,0-1.856,0.359-2.572,1.075c-0.717,0.717-1.074,1.573-1.074,2.571
@@ -165,8 +160,7 @@ class CutOutHandPath extends Path {
 
     options = merge( {
       stroke: 'black',
-      lineWidth: 2,
-      scale: HAND_PATH_SCALE
+      lineWidth: 2
     }, options );
 
     const shape = `M44.323,14.238c-0.717-0.717-1.574-1.073-2.572-1.073s-1.855,0.357-2.571,1.073c-0.717,0.716-1.075,1.574-1.075,2.572v8.854

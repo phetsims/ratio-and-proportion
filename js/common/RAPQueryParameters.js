@@ -75,14 +75,6 @@ const RAPQueryParameters = QueryStringMachine.getAll( {
   bothHandsObjectDelay: {
     type: 'number',
     defaultValue: 500
-  },
-
-  /**
-   * All versions up until this point have had a scale of 2. scale of 4 was too big on a lap top, we likely 3-3.5 on laptop.
-   */
-  handNodeScale: {
-    type: 'number',
-    defaultValue: 3
   }
 } );
 
