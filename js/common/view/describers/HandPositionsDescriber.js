@@ -96,46 +96,47 @@ class HandPositionsDescriber {
   /**
    * only ends with "of Play Area" if qualitative
    * @public
-   * @param {NumberProperty} valueProperty
+   * @param {number} position
    * @param {TickMarkView} tickMarkView
    * @param {boolean} useOfPlayArea - whether the position should end with "of Play Area", like "at bottom of Play Area"
    * @returns {string}
    */
-  getHandPosition( valueProperty, tickMarkView, useOfPlayArea = true ) {
+  getHandPositionDescription( position, tickMarkView, useOfPlayArea = true ) {
     if ( TickMarkView.describeQualitative( tickMarkView ) ) {
-      const handPosition = this.getQualitativeHandPosition( valueProperty );
-      return !useOfPlayArea ? handPosition : StringUtils.fillIn( ratioAndProportionStrings.a11y.ofPlayAreaPattern, {
-        position: handPosition
+      const qualitativeHandPosition = this.getQualitativeHandPosition( position );
+      return !useOfPlayArea ? qualitativeHandPosition : StringUtils.fillIn( ratioAndProportionStrings.a11y.ofPlayAreaPattern, {
+        position: qualitativeHandPosition
       } );
     }
     else {
-      return this.getQuantitativeHandPosition( valueProperty, TickMarkView.describeSemiQualitative( tickMarkView ) );
+      return this.getQuantitativeHandPosition( position, TickMarkView.describeSemiQualitative( tickMarkView ) );
     }
   }
 
   /**
+   * Description of a single hand in the context of both hands.
    * @public
-   * @param {NumberProperty} valueProperty
+   * @param {position} position
    * @param {TickMarkView} tickMarkView
    * @returns {string}
    */
-  getBothHandsHandPosition( valueProperty, tickMarkView ) {
+  getBothHandsHandDescription( position, tickMarkView ) {
     if ( TickMarkView.describeQualitative( tickMarkView ) ) {
-      return this.getQualitativeBothHandsHandPosition( valueProperty );
+      return this.getQualitativeBothHandsHandPosition( position );
     }
     else {
-      return this.getQuantitativeHandPosition( valueProperty, TickMarkView.describeSemiQualitative( tickMarkView ) );
+      return this.getQuantitativeHandPosition( position, TickMarkView.describeSemiQualitative( tickMarkView ) );
     }
   }
 
   /**
    * @private
-   * @param {NumberProperty} valueProperty
+   * @param {number} handPosition
    * @param {boolean} semiQuantitative=false
    * @returns {string}
    */
-  getQuantitativeHandPosition( valueProperty, semiQuantitative = false ) {
-    const tickMarkData = this.tickMarkDescriber.getRelativePositionAndTickMarkNumberForProperty( valueProperty );
+  getQuantitativeHandPosition( handPosition, semiQuantitative = false ) {
+    const tickMarkData = this.tickMarkDescriber.getRelativePositionAndTickMarkNumberForPosition( handPosition );
 
     // semi quantitative description uses ordinal numbers instead of full numbers.
     if ( semiQuantitative && typeof tickMarkData.ordinalPosition === 'string' ) {
@@ -153,11 +154,11 @@ class HandPositionsDescriber {
 
   /**
    * @private
-   * @param {Property.<number>} property
+   * @param {number} handPosition
    * @returns {string}
    */
-  getQualitativeHandPosition( property ) {
-    return QUALITATIVE_POSITIONS[ this.getQualitativePositionIndex( property.value ) ];
+  getQualitativeHandPosition( handPosition ) {
+    return QUALITATIVE_POSITIONS[ this.getQualitativePositionIndex( handPosition ) ];
   }
 
   /**
@@ -203,11 +204,11 @@ class HandPositionsDescriber {
 
   /**
    * @private
-   * @param {Property.<number>} property - TODO: why pass in a Property instead of a value? Are there any other spots this could be improved on?
+   * @param {number} handPosition
    * @returns {string}
    */
-  getQualitativeBothHandsHandPosition( property ) {
-    return QUALITATIVE_BOTH_HANDS_POSITIONS[ this.getQualitativeBothHandsHandPositionIndex( property.value ) ];
+  getQualitativeBothHandsHandPosition( handPosition ) {
+    return QUALITATIVE_BOTH_HANDS_POSITIONS[ this.getQualitativeBothHandsHandPositionIndex( handPosition ) ];
   }
 
   /**

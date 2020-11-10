@@ -61,10 +61,10 @@ class DiscoverScreenSummaryNode extends Node {
           distance: handPositionsDescriber.getDistanceRegion( true )
         } );
         leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
-          position: handPositionsDescriber.getHandPosition( numeratorProperty, tickMarkView )
+          position: handPositionsDescriber.getHandPositionDescription( numeratorProperty.value, tickMarkView )
         } );
         rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
-          position: handPositionsDescriber.getHandPosition( denominatorProperty, tickMarkView )
+          position: handPositionsDescriber.getHandPositionDescription( denominatorProperty.value, tickMarkView )
         } );
       } );
   }

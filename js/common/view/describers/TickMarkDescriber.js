@@ -123,13 +123,13 @@ class TickMarkDescriber {
   /**
    * Implemented like https://github.com/phetsims/ratio-and-proportion/issues/198#issuecomment-710029471
    * @public
-   * @param {Property.<number>} property - TODO can this just be a value?
+   * @param {number} handPosition
    * @returns {{tickMarkPosition: number, relativePosition: string , ordinalPosition: string|null }}
    */
-  getRelativePositionAndTickMarkNumberForProperty( property ) {
-    assert && assert( this.valueRange.contains( property.value ) );
+  getRelativePositionAndTickMarkNumberForPosition( handPosition ) {
+    assert && assert( this.valueRange.contains( handPosition ) );
 
-    const normalized = this.valueRange.getNormalizedValue( property.value );
+    const normalized = this.valueRange.getNormalizedValue( handPosition );
     const numberOfTickMarks = this.tickMarkRangeProperty.value;
 
     // account for javascript rounding error
