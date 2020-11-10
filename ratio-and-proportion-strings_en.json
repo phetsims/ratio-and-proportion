@@ -509,7 +509,7 @@
       "singleHandContextResponse": {
         "value": "{{distanceOrDirection}}, {{proximityToRatio}} challenge ratio."
       },
-      "singleHandLockRatioContextResponse": {
+      "singleHandRatioLockedContextResponse": {
         "value": "{{distanceOrDirection}}, {{bothHandsRegion}}."
       },
       "proximityToNewRatioPattern": {

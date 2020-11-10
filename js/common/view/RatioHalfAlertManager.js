@@ -45,9 +45,8 @@ class RatioHalfAlertManager {
    * ratio
    * @returns {string}
    * @public
-   * TODO: rename getSingleHandRatioLockedObjectResponse
    */
-  getSingleHandLockRatioObjectResponse() {
+  getSingleHandRatioLockedObjectResponse() {
     return this.bothHandsDescriber.getRatioLockedObjectResponse();
   }
 

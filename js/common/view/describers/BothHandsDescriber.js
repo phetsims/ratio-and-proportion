@@ -102,7 +102,7 @@ class BothHandsDescriber {
    * @public
    */
   getRatioLockedContextResponse( valueProperty, tickMarkView ) {
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.singleHandLockRatioContextResponse, {
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.singleHandRatioLockedContextResponse, {
       bothHandsRegion: this.getBothHandsPosition(),
       distanceOrDirection: this.handPositionsDescriber.getBothHandsDistanceOrDirection( valueProperty, tickMarkView, true )
     } );
