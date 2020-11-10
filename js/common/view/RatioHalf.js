@@ -185,7 +185,6 @@ class RatioHalf extends Rectangle {
     let startingX = null;
 
     // transform and dragBounds set in layout code below
-    // TODO: factor listener out to its own class
     const dragListener = new DragListener( {
       positionProperty: positionProperty,
       tandem: options.tandem.createTandem( 'dragListener' ),
