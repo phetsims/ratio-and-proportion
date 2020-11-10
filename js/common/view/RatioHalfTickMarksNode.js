@@ -29,7 +29,8 @@ class RatioHalfTickMarksNode extends GridNode {
       // initial line spacings
       minorHorizontalLineSpacing: 10,
       minorLineOptions: {
-        stroke: colorProperty
+        stroke: colorProperty,
+        lineWidth: 2
       }
     }, options );
 
