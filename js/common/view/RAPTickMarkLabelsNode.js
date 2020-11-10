@@ -76,9 +76,9 @@ class RAPTickMarkLabelsNode extends Node {
     // subtract one to account for potential rounding errors. This helps guarantee that the last line is drawn.
     const horizontalSpacing = ( this.totalHeight - 1 ) / tickMarkRange;
 
-    this.visible = TickMarkView.displayUnits( tickMarkView );
+    this.visible = tickMarkView === TickMarkView.VISIBLE_WITH_UNITS;
 
-    this.updateUnitLabels( TickMarkView.displayUnits( tickMarkView ), horizontalSpacing );
+    this.updateUnitLabels( tickMarkView === TickMarkView.VISIBLE_WITH_UNITS, horizontalSpacing );
   }
 
   /**

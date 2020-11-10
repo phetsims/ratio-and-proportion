@@ -41,11 +41,11 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup {
         labelContent: ratioAndProportionStrings.a11y.tickMark.showNo
       }, {
         node: new TickMarksIconPath(),
-        value: TickMarkView.HORIZONTAL,
+        value: TickMarkView.VISIBLE,
         labelContent: ratioAndProportionStrings.a11y.tickMark.show
       }, {
         node: new NumberedTickMarkIconPath(),
-        value: TickMarkView.HORIZONTAL_UNITS,
+        value: TickMarkView.VISIBLE_WITH_UNITS,
         labelContent: ratioAndProportionStrings.a11y.tickMark.showNumbered
       } ],
       options );
@@ -57,11 +57,11 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup {
         case TickMarkView.NONE:
           tickMarkContextResponseUtterance.alert = ratioAndProportionStrings.a11y.tickMark.tickMarksHidden;
           break;
-        case TickMarkView.HORIZONTAL:
+        case TickMarkView.VISIBLE:
           tickMarkContextResponseUtterance.alert = ratioAndProportionStrings.a11y.tickMark.tickMarksShown;
           break;
 
-        case TickMarkView.HORIZONTAL_UNITS:
+        case TickMarkView.VISIBLE_WITH_UNITS:
           tickMarkContextResponseUtterance.alert = ratioAndProportionStrings.a11y.tickMark.numberedTickMarksShown;
           break;
         default:

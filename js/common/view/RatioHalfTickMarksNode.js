@@ -27,7 +27,6 @@ class RatioHalfTickMarksNode extends GridNode {
     options = merge( {
 
       // initial line spacings
-      minorVerticalLineSpacing: 10,
       minorHorizontalLineSpacing: 10,
       minorLineOptions: {
         stroke: colorProperty
@@ -62,7 +61,7 @@ class RatioHalfTickMarksNode extends GridNode {
       minorHorizontalLineSpacing: ( this.gridHeight - 1 ) / tickMarkRange
     } );
 
-    this.visible = TickMarkView.displayVertical( tickMarkView ) || TickMarkView.displayHorizontal( tickMarkView );
+    this.visible = TickMarkView.displayHorizontal( tickMarkView );
   }
 }
 

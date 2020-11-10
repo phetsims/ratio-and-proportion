@@ -153,7 +153,7 @@ class TickMarkDescriber {
     else if ( remainder <= ROUND_DOWN_THRESHOLD ) {
       // handle these middle cases differently depending on current tickMarkView
 
-      const useExactTickMarkValues = this.tickMarkViewProperty.value === TickMarkView.HORIZONTAL_UNITS;
+      const useExactTickMarkValues = this.tickMarkViewProperty.value === TickMarkView.VISIBLE_WITH_UNITS;
 
       tickMarkDisplayedNumber += .5; // For these middle values, add .5
 
