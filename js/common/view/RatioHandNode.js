@@ -46,7 +46,7 @@ class RatioHandNode extends Node {
 
       // Because this interaction uses the keyboard, snap to the keyboard step to handle the case where the hands were
       // previously moved via mouse/touch. See https://github.com/phetsims/ratio-and-proportion/issues/156
-      constrainValue: value => RAPConstants.SNAP_TO_SHIFT_KEYBOARD_STEP( value, shiftKeyboardStep )
+      constrainValue: value => RAPConstants.SNAP_TO_KEYBOARD_STEP( value, this.shiftKeyDown ? shiftKeyboardStep : keyboardStep )
     }, options );
     super();
 

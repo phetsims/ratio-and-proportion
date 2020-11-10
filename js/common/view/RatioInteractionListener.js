@@ -71,7 +71,7 @@ class RatioInteractionListener {
 
     // Because this interaction uses the keyboard, snap to the keyboard step to handle the case where the hands were
     // previously moved via mouse/touch. See https://github.com/phetsims/ratio-and-proportion/issues/156
-    const newValue = RAPConstants.SNAP_TO_SHIFT_KEYBOARD_STEP( currentValue + valueDelta, this.shiftKeyboardStep );
+    const newValue = RAPConstants.SNAP_TO_KEYBOARD_STEP( currentValue + valueDelta, this.keyStateTracker.shiftKeyDown ? this.shiftKeyboardStep : this.keyboardStep );
     const newRatioTuple = tupleField === 'numerator' ? this.ratioTupleProperty.value.withNumerator( newValue ) : this.ratioTupleProperty.value.withDenominator( newValue );
 
     this.ratioTupleProperty.value = newRatioTuple.constrainFields( this.valueRange );

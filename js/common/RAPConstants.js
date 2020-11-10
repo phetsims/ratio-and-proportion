@@ -33,13 +33,13 @@ const RAPConstants = {
    * Given a value, snap it to the nearest shift keyboard step.
    * @public
    * @param {number} value
-   * @param {number} shiftKeyboardStep
+   * @param {number} keyboardStep
    * @returns {number}
    */
-  SNAP_TO_SHIFT_KEYBOARD_STEP: ( value, shiftKeyboardStep ) => {
+  SNAP_TO_KEYBOARD_STEP: ( value, keyboardStep ) => {
     return Utils.toFixedNumber(
-      Utils.roundSymmetric( value / shiftKeyboardStep ) * shiftKeyboardStep,
-      Utils.numberOfDecimalPlaces( shiftKeyboardStep ) );
+      Utils.roundSymmetric( value / keyboardStep ) * keyboardStep,
+      Utils.numberOfDecimalPlaces( keyboardStep ) );
   }
 };
 
