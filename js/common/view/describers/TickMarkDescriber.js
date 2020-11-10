@@ -91,7 +91,7 @@ class TickMarkDescriber {
     if ( remainder === 0 ) {
       distance = expandedValue;
     }
-    else if ( remainder === REMAINDER_THRESHOLD ) { // TODO: .5 exact too strict?
+    else if ( remainder === REMAINDER_THRESHOLD ) {
 
       if ( TickMarkView.describeSemiQualitative( tickMarkView ) ) {
         distance = StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.andAndAHalf, {
