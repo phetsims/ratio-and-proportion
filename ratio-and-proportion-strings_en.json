@@ -123,14 +123,14 @@
       "value": "Right Value"
     },
     "rightHandHelpText": {
-      "value": "Move hands up and down to find the challenge ratio in different locations."
+      "value": "Move hands up and down individually to find the Challenge Ratio in different places."
     },
     "bothHands": {
       "bothHands": {
         "value": "Both hands"
       },
       "bothHandsHelpText": {
-        "value": "Use W and S keys to move left hand, and Up and Down Arrow keys to move right hand. Move both hands at the same time to maintain the challenge ratio."
+        "value": "Use W and S keys to move left hand, and Up and Down Arrow keys to move right hand. Move both hands at the same time to find and maintain the Challenge Ratio."
       },
       "handsDistancePattern": {
         "value": "hands {{distance}} each other"
