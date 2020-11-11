@@ -11,12 +11,15 @@ import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
+import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
+import FocusHighlightFromNode from '../../../../scenery/js/accessibility/FocusHighlightFromNode.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import AccessibleSlider from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPConstants from '../RAPConstants.js';
+import RAPColorProfile from './RAPColorProfile.js';
 import TickMarkView from './TickMarkView.js';
 
 class RatioHandNode extends Node {
@@ -28,9 +31,10 @@ class RatioHandNode extends Node {
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
    * @param {number} keyboardStep
    * @param {Property.<ColorDef>} colorProperty - controls the color of the hand. This is for both the filled in and cut out hands.
+   * @param {Property.<boolean>} firstInteractionProperty - upon successful interaction, this will be marked as false
    * @param {Object} [options]
    */
-  constructor( valueProperty, enabledRatioComponentsRangeProperty, tickMarkViewProperty, keyboardStep, colorProperty, options ) {
+  constructor( valueProperty, enabledRatioComponentsRangeProperty, tickMarkViewProperty, keyboardStep, colorProperty, firstInteractionProperty, options ) {
 
     const shiftKeyboardStep = keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER;
 
@@ -78,6 +82,9 @@ class RatioHandNode extends Node {
     container.right = container.width * .365;
     container.bottom = container.height * .54;
 
+    assert && assert( !options.focusHighlight, 'RatioHandNode sets its own focusHighlight' );
+    this.focusHighlight = new FocusHighlightFromNode( container );
+
     // Only display the "target circles" when the tick marks are being shown
     tickMarkViewProperty.link( tickMarkView => {
       const displayCutOut = TickMarkView.displayHorizontal( tickMarkView );
@@ -85,19 +92,43 @@ class RatioHandNode extends Node {
       filledInHandNode.visible = !displayCutOut;
     } );
 
-    // Flip the hand if it isn't a right hand. Do this after the circle/hand relative positioning
-    this.setScaleMagnitude( ( options.isRight ? 1 : -1 ), 1 );
+    const cueArrowOptions = {
+      fill: RAPColorProfile.cueArrowsProperty,
+      stroke: 'black',
+      headWidth: 33.33,
+      headHeight: 16.66,
+      tailWidth: 16.66
+    };
+    const cueArrowUp = new ArrowNode( 0, 0, 0, -33.33, merge( {
+      bottom: container.top - 20
+    }, cueArrowOptions ) );
+    const cueArrowDown = new ArrowNode( 0, 0, 0, 33.33, merge( {
+      top: container.bottom + 20
+    }, cueArrowOptions ) );
+    this.addChild( cueArrowUp );
+    this.addChild( cueArrowDown );
+
+    // only display the cues arrows before the first interaction
+    firstInteractionProperty.link( isFirstInteraction => {
+      cueArrowUp.visible = isFirstInteraction;
+      cueArrowDown.visible = isFirstInteraction;
+    } );
 
     this.mutate( options );
 
-    // touchArea dilation
+    // Flip the hand if it isn't a right hand. Do this after the circle/hand relative positioning
+    this.scale( ( options.isRight ? 1 : -1 ), 1 );
+
+    // This .1 is to offset the centering of the white circle, it is empirically determined.
+    cueArrowUp.centerX = cueArrowDown.centerX = this.centerX + ( options.isRight ? 1 : -1 ) * this.width * .1;
+
+    // touchArea dilation - TODO: why no mouseArea? https://github.com/phetsims/ratio-and-proportion/issues/205
     this.touchArea = this.localBounds.dilatedXY( this.width * 2, this.height * 2 );
   }
 
   /**
    * @param {boolean} isRight
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
-   * @param {ColorDef} color - of the hands
    * @param {Object} [options]
    * @returns {Node}
    * @public
@@ -113,7 +144,9 @@ class RatioHandNode extends Node {
       new Range( 0, 1 ),
       tickMarkViewProperty,
       new Property( 10 ),
-      new Property( options.handColor ), merge( {
+      new Property( options.handColor ),
+      new Property( false ),
+      merge( {
         isRight: isRight,
         asIcon: true,
         pickable: false

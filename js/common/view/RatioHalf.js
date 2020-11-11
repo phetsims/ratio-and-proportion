@@ -18,12 +18,10 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import RAPColorProfile from './RAPColorProfile.js';
 import RatioHalfAlertManager from './RatioHalfAlertManager.js';
 import RatioHalfTickMarksNode from './RatioHalfTickMarksNode.js';
 import RatioHandNode from './RatioHandNode.js';
@@ -114,26 +112,27 @@ class RatioHalf extends Rectangle {
     this.addChild( tickMarksNode );
 
     // @private - The draggable element inside the Node framed with thick rectangles on the top and bottom.
-    this.ratioHandNode = new RatioHandNode( valueProperty, enabledRatioComponentsRangeProperty, tickMarkViewProperty, keyboardStep, options.handColorProperty, {
-      startDrag: () => {
-        firstInteractionProperty.value = false;
-        this.isBeingInteractedWithProperty.value = true;
-        viewSounds.boundarySoundClip.onStartInteraction();
-      },
-      drag: () => {
-        viewSounds.boundarySoundClip.onInteract( valueProperty.value );
-        viewSounds.tickMarkBumpSoundClip.onInteract( valueProperty.value );
-      },
-      endDrag: () => {
-        viewSounds.boundarySoundClip.onEndInteraction( valueProperty.value );
-      },
-      isRight: options.isRight,
+    this.ratioHandNode = new RatioHandNode( valueProperty, enabledRatioComponentsRangeProperty, tickMarkViewProperty,
+      keyboardStep, options.handColorProperty, firstInteractionProperty, {
+        startDrag: () => {
+          firstInteractionProperty.value = false;
+          this.isBeingInteractedWithProperty.value = true;
+          viewSounds.boundarySoundClip.onStartInteraction();
+        },
+        drag: () => {
+          viewSounds.boundarySoundClip.onInteract( valueProperty.value );
+          viewSounds.tickMarkBumpSoundClip.onInteract( valueProperty.value );
+        },
+        endDrag: () => {
+          viewSounds.boundarySoundClip.onEndInteraction( valueProperty.value );
+        },
+        isRight: options.isRight,
 
-      a11yCreateAriaValueText: () => ratioLockedProperty.value ? alertManager.getSingleHandRatioLockedObjectResponse() :
-                                     handPositionsDescriber.getHandPositionDescription( valueProperty.value, tickMarkViewProperty.value ),
-      a11yCreateContextResponseAlert: () => alertManager.getSingleHandContextResponse( !ratioLockedProperty.value ),
-      a11yDependencies: options.a11yDependencies.concat( [ ratioLockedProperty ] )
-    } );
+        a11yCreateAriaValueText: () => ratioLockedProperty.value ? alertManager.getSingleHandRatioLockedObjectResponse() :
+                                       handPositionsDescriber.getHandPositionDescription( valueProperty.value, tickMarkViewProperty.value ),
+        a11yCreateContextResponseAlert: () => alertManager.getSingleHandContextResponse( !ratioLockedProperty.value ),
+        a11yDependencies: options.a11yDependencies.concat( [ ratioLockedProperty ] )
+      } );
     this.addChild( this.ratioHandNode );
     let modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
       getModelBoundsFromRange( valueRange ),
@@ -256,36 +255,10 @@ class RatioHalf extends Rectangle {
       }
     } );
 
-    const cueArrowOptions = {
-      fill: RAPColorProfile.cueArrowsProperty,
-      stroke: 'black',
-      headWidth: 33.33,
-      headHeight: 16.66,
-      tailWidth: 16.66
-    };
-    const cueArrowUp = new ArrowNode( 0, 0, 0, -33.33, cueArrowOptions );
-    this.addChild( cueArrowUp );
-
-    const cueArrowDown = new ArrowNode( 0, 0, 0, 33.33, cueArrowOptions );
-    this.addChild( cueArrowDown );
-
-    // only display the cues arrows before the first interaction
-    firstInteractionProperty.link( isFirstInteraction => {
-      cueArrowUp.visible = isFirstInteraction;
-      cueArrowDown.visible = isFirstInteraction;
-    } );
-
     this.mutate( options );
 
     const updatePointer = position => {
       this.ratioHandNode.translation = modelViewTransform.modelToViewPosition( position );
-
-      // recenter cue arrows
-      cueArrowUp.bottom = this.ratioHandNode.top - 20;
-      cueArrowDown.top = this.ratioHandNode.bottom + 20;
-
-      // This .1 is to offset the centering of the white circle in the Pointer class. Don't change this without changing that.
-      cueArrowUp.centerX = cueArrowDown.centerX = this.ratioHandNode.centerX + ( options.isRight ? 1 : -1 ) * this.ratioHandNode.width * .1;
     };
     positionProperty.link( updatePointer );
 
@@ -298,8 +271,6 @@ class RatioHalf extends Rectangle {
       // to be scaled up more to support touch interaction, see https://github.com/phetsims/ratio-and-proportion/issues/217.
       const handScale = heightScalar * ( MAX_HAND_SCALE - MIN_HAND_SCALE ) + MIN_HAND_SCALE;
       this.ratioHandNode.setScaleMagnitude( handScale );
-      cueArrowUp.setScaleMagnitude( handScale );
-      cueArrowDown.setScaleMagnitude( handScale );
 
       const framingRectWidth = newBounds.width - newBounds.width * .1;
       topRect.rectWidth = framingRectWidth;
