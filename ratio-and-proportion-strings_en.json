@@ -325,19 +325,19 @@
     "lockRatioCheckboxContextResponse": {
       "value": "Hands locked at challenge ratio. Move hands and observe."
     },
+    "screenSummaryControlAreaParagraph": {
+      "value": "The Control Area has a button to reset the sim."
+    },
     "discover": {
       "homeScreenDescription": {
         "value": "Explore this screen to discover set challenge ratios."
       },
       "screenSummary": {
-        "introParagraph": {
+        "paragraph1": {
           "value": "The Play Area is a tall space containing a Left Hand and a Right Hand that can be moved up and down. You can move the Left Hand and the Right Hand individually, or activate Both Hands to move both hands at the same time. As you move the hands up and down, you will get closer to or farther from the Challenge Ratio."
         },
         "paragraph2": {
           "value": " There are options to add plain or numbered tick marks. The tick marks are evenly-spaced horizontal lines that divide up the vertical space. When ready, you can choose a different challenge to master."
-        },
-        "controlAreaParagraph": {
-          "value": "The Control Area has a button to reset the sim."
         },
         "interactionHint": {
           "value": "Move hands to find the Challenge Ratio in different places."
@@ -364,11 +364,14 @@
         "value": "On this screen, set your own challenge ratios to explore."
       },
       "screenSummary": {
-        "introParagraph": {
-          "value": "On this screen you can set your own challenge ratio. The Play Area has two movable hands that can be moved individually or simultaneously, or as a single interaction with the ratio locked to explore the challenges you create. There are options to add plain or numbered tick marks shown as evenly-spaced horizontal lines that divide up the vertical space of the Play Area. In addition, you can increase the range of tick marks for a finer exploration of your challenges. The Control Area has a button to reset the sim."
+        "paragraph1": {
+          "value": "Here, you can create your own Challenge Ratio. The Play Area is a tall space containing a Left Hand and a Right Hand that can be moved up and down. You can move the Left Hand and the Right Hand individually, or activate Both Hands to move both hands at the same time. As you move the hands up and down, you will get closer to or farther from the Challenge Ratio, unless you lock the ratio."
+        },
+        "paragraph2": {
+          "value": "There are options to add plain or numbered tick marks. The tick marks are evenly-spaced horizontal lines that divide up the vertical space. In addition, you can increase the range of tick marks to explore larger numbers."
         },
         "interactionHint": {
-          "value": "Explore current challenge ratio or create your own."
+          "value": "Explore current challenge, or open My Challenge to create your own."
         },
         "qualitativeStateOfSim": {
           "value": "Currently, hands {{ratioFitness}} challenge ratio and {{distance}} each other:"

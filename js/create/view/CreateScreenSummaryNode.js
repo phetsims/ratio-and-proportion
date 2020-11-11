@@ -40,7 +40,15 @@ class CreateScreenSummaryNode extends Node {
       children: [
         new Node( {
           tagName: 'p',
-          innerContent: ratioAndProportionStrings.a11y.create.screenSummary.introParagraph
+          innerContent: ratioAndProportionStrings.a11y.create.screenSummary.paragraph1
+        } ),
+        new Node( {
+          tagName: 'p',
+          innerContent: ratioAndProportionStrings.a11y.create.screenSummary.paragraph2
+        } ),
+        new Node( {
+          tagName: 'p',
+          innerContent: ratioAndProportionStrings.a11y.screenSummaryControlAreaParagraph
         } ),
         stateOfSimNode,
         descriptionBullets,
