@@ -95,14 +95,14 @@ class RatioHandNode extends Node {
     const cueArrowOptions = {
       fill: RAPColorProfile.cueArrowsProperty,
       stroke: 'black',
-      headWidth: 33.33,
-      headHeight: 16.66,
-      tailWidth: 16.66
+      headWidth: 40,
+      headHeight: 20,
+      tailWidth: 20
     };
-    const cueArrowUp = new ArrowNode( 0, 0, 0, -33.33, merge( {
+    const cueArrowUp = new ArrowNode( 0, 0, 0, -40, merge( {
       bottom: container.top - 20
     }, cueArrowOptions ) );
-    const cueArrowDown = new ArrowNode( 0, 0, 0, 33.33, merge( {
+    const cueArrowDown = new ArrowNode( 0, 0, 0, 40, merge( {
       top: container.bottom + 20
     }, cueArrowOptions ) );
     this.addChild( cueArrowUp );
