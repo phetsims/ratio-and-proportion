@@ -148,6 +148,7 @@ class RatioHandNode extends Node {
       new Property( false ),
       merge( {
         isRight: isRight,
+        excludeInvisibleChildrenFromBounds: true,
         asIcon: true,
         pickable: false
       }, options.handNodeOptions ) );
