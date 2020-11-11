@@ -63,7 +63,6 @@ class RAPModel {
       isValidValue: value => value <= this.fitnessRange.max
     } );
 
-
     // @public {DerivedProperty.<number>}
     // How "correct" the proportion currently is. clamped within this.fitnessRange. If at max (1), the proportion of the two values is
     // exactly the value of the targetRatioProperty. If min (0), it is outside the tolerance allowed for the proportion
@@ -168,8 +167,7 @@ class RAPModel {
   inProportion( fitness = this.ratioFitnessProperty.value ) {
     return fitness > this.fitnessRange.max - this.getInProportionThreshold();
   }
-
-
+  
   /**
    * @public
    * @override
