@@ -1,5 +1,5 @@
 {
-  "comment": "# ratio-and-proportion 1.0.0-dev.72 Tue Nov 10 2020 14:43:56 GMT-0900 (Alaska Standard Time)",
+  "comment": "# ratio-and-proportion 1.0.0-dev.73 Wed Nov 11 2020 13:42:40 GMT-0900 (Alaska Standard Time)",
   "assert": {
     "sha": "49aa67d01046326d85dcd8f265db91e8753038a1",
     "branch": "master"
@@ -13,7 +13,7 @@
     "branch": "master"
   },
   "chipper": {
-    "sha": "a43461bf00a5f6b2c3fe6599815f8ffb78d55bf6",
+    "sha": "05dbb964724ef217c393f5d39b011f776b0a1725",
     "branch": "master"
   },
   "dot": {
@@ -21,11 +21,11 @@
     "branch": "master"
   },
   "griddle": {
-    "sha": "045c8876cf67f3468675452f1429bdb688afcb9d",
+    "sha": "e48ad169d939e064dbf096cf5b40dc2672435ffa",
     "branch": "master"
   },
   "joist": {
-    "sha": "1acce4c15cc0158ba78dbcada5fe9760454a3fa4",
+    "sha": "e33ee273ec190c8a944076d2ff6c4b06d4fc9746",
     "branch": "master"
   },
   "kite": {
@@ -37,7 +37,7 @@
     "branch": "master"
   },
   "phet-io": {
-    "sha": "f01284e065ea98aa1493029064f058d6f1e0faa5",
+    "sha": "dc557b2c1f24cd50c7edcb23f119df83b78265b6",
     "branch": "master"
   },
   "phet-io-client-guides": {
@@ -61,11 +61,11 @@
     "branch": "master"
   },
   "ratio-and-proportion": {
-    "sha": "2b46ad78d7741cff3fdd095f627efce64956e065",
+    "sha": "ea3c9e17a46f3532ef80322d342555b2076d053c",
     "branch": "master"
   },
   "scenery": {
-    "sha": "bf3eb1a8a03f0440de25519534f3092e89ea4b9c",
+    "sha": "4879f62fcd65fc6513707809d235e22ecbe3297e",
     "branch": "master"
   },
   "scenery-phet": {
@@ -89,7 +89,7 @@
     "branch": "master"
   },
   "tandem": {
-    "sha": "3e96c16cde06794e75d584b30a1457becbd24fee",
+    "sha": "172bb43c0c324b8424136e6bbb98966b4aab4c25",
     "branch": "master"
   },
   "twixt": {
