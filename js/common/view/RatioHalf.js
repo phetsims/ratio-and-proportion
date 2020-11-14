@@ -68,11 +68,12 @@ class RatioHalf extends Rectangle {
    * @param {BooleanProperty} ratioLockedProperty
    * @param {ViewSounds} viewSounds
    * @param {InProportionSoundGenerator} inProportionSoundGenerator
+   * @param {function():number} getIdealValue - a function that get's the value of this ratioHalf that would achieve the targetRatio
    * @param {Object} [options]
    */
   constructor( valueProperty, valueRange, enabledRatioComponentsRangeProperty, firstInteractionProperty, bounds, tickMarkViewProperty,
                tickMarkRangeProperty, ratioDescriber, handPositionsDescriber, bothHandsDescriber, colorProperty, keyboardStep,
-               horizontalMovementAllowedProperty, ratioLockedProperty, viewSounds, inProportionSoundGenerator,
+               horizontalMovementAllowedProperty, ratioLockedProperty, viewSounds, inProportionSoundGenerator, getIdealValue,
                options ) {
 
     options = merge( {
@@ -113,7 +114,7 @@ class RatioHalf extends Rectangle {
 
     // @private - The draggable element inside the Node framed with thick rectangles on the top and bottom.
     this.ratioHandNode = new RatioHandNode( valueProperty, enabledRatioComponentsRangeProperty, tickMarkViewProperty,
-      keyboardStep, options.handColorProperty, firstInteractionProperty, {
+      keyboardStep, options.handColorProperty, firstInteractionProperty, getIdealValue, {
         startDrag: () => {
           firstInteractionProperty.value = false;
           this.isBeingInteractedWithProperty.value = true;

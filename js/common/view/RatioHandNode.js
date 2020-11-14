@@ -32,11 +32,15 @@ class RatioHandNode extends Node {
    * @param {number} keyboardStep
    * @param {Property.<ColorDef>} colorProperty - controls the color of the hand. This is for both the filled in and cut out hands.
    * @param {Property.<boolean>} firstInteractionProperty - upon successful interaction, this will be marked as false
+   * @param {function():number} getIdealValue
    * @param {Object} [options]
    */
-  constructor( valueProperty, enabledRatioComponentsRangeProperty, tickMarkViewProperty, keyboardStep, colorProperty, firstInteractionProperty, options ) {
+  constructor( valueProperty, enabledRatioComponentsRangeProperty, tickMarkViewProperty, keyboardStep, colorProperty, firstInteractionProperty, getIdealValue, options ) {
 
     const shiftKeyboardStep = keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER;
+
+    // TODO: rename me! https://github.com/phetsims/ratio-and-proportion/issues/175
+    const remainderObject = { remainder: 0 };
 
     options = merge( {
       cursor: 'pointer',
@@ -50,7 +54,19 @@ class RatioHandNode extends Node {
 
       // Because this interaction uses the keyboard, snap to the keyboard step to handle the case where the hands were
       // previously moved via mouse/touch. See https://github.com/phetsims/ratio-and-proportion/issues/156
-      constrainValue: value => RAPConstants.SNAP_TO_KEYBOARD_STEP( value, this.shiftKeyDown ? shiftKeyboardStep : keyboardStep )
+      a11yMapValue: ( newValue, oldValue ) => {
+        const applyConservationSnap = Math.abs( newValue - oldValue ) <= keyboardStep;
+        // TODO: what if there is a remainder and then you use mouse input?!?! https://github.com/phetsims/ratio-and-proportion/issues/175
+        if ( remainderObject.remainder === 0 ) {
+          newValue = RAPConstants.SNAP_TO_KEYBOARD_STEP( newValue, this.shiftKeyDown ? shiftKeyboardStep : keyboardStep );
+        }
+
+        // Don't conserve the snap for page up/down or home/end keys, just basic movement changes.
+        if ( applyConservationSnap ) {
+          return RAPConstants.handleInProportionConserveSnap( newValue, oldValue, getIdealValue, remainderObject );
+        }
+        return newValue;
+      }
     }, options );
     super();
 
@@ -146,6 +162,7 @@ class RatioHandNode extends Node {
       new Property( 10 ),
       new Property( options.handColor ),
       new Property( false ),
+      _.identity,
       merge( {
         isRight: isRight,
         excludeInvisibleChildrenFromBounds: true,

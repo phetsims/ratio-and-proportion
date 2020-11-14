@@ -56,6 +56,7 @@ class CreateScreenView extends RAPScreenView {
     initialRatioFraction.reduce();
     const rangeProperty = new Property( new Range( 1, 10 ) );
 
+    // TODO: this should depend on the target ratio, not the initial values
     const targetNumeratorProperty = new NumberProperty( initialRatioFraction.numerator );
     const targetDenominatorProperty = new NumberProperty( initialRatioFraction.denominator );
 

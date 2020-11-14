@@ -29,6 +29,7 @@ class RAPRatio {
     this.enabledRatioComponentsRangeProperty = new Property( RAPConstants.TOTAL_RATIO_COMPONENT_VALUE_RANGE );
 
     // @public {Property.<RAPRatioTuple>} - central Property that holds the value of the ratio
+    // TODO: rename to `tupleProperty`
     this.ratioTupleProperty = new Property( new RAPRatioTuple( .2, .4 ), {
       valueType: RAPRatioTuple,
       reentrant: true

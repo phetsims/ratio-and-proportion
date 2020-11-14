@@ -40,6 +40,31 @@ const RAPConstants = {
     return Utils.toFixedNumber(
       Utils.roundSymmetric( value / keyboardStep ) * keyboardStep,
       Utils.numberOfDecimalPlaces( keyboardStep ) );
+  },
+
+  /**
+   * @public
+   * @param {number} newValue
+   * @param {number} oldValue
+   * @param {function():number} getIdealValue - get the ideal target value
+   * @param {{remainder:number}} remainderObject - make it an object so that it can keep state
+   * @returns {*}
+   */
+  handleInProportionConserveSnap: ( newValue, oldValue, getIdealValue, remainderObject ) => {
+    let returnValue = newValue;
+    const target = getIdealValue();
+    if ( newValue > target !== oldValue > target && oldValue !== target ) {
+      remainderObject.remainder = newValue - target;
+      returnValue = target;
+    }
+
+    else if ( remainderObject.remainder !== 0 ) {
+      newValue = newValue + remainderObject.remainder;
+      remainderObject.remainder = 0;
+      returnValue = newValue;
+    }
+
+    return returnValue;
   }
 };
 

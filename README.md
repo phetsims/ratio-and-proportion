@@ -1,7 +1,7 @@
-Proportion
+Ratio and Proportion
 ================
 
-"Proportion" is an educational simulation in HTML5, by <a href="https://phet.colorado.edu/" target="_blank">PhET Interactive Simulations</a>
+"Ratio and Proportion" is an educational simulation in HTML5, by <a href="https://phet.colorado.edu/" target="_blank">PhET Interactive Simulations</a>
 at the University of Colorado Boulder.
 
 *This simulation is under development and has not been published.*
@@ -12,4 +12,4 @@ Development. This guide includes how to obtain simulation code and its dependenc
 the sims, as well as other important information.
 
 ### License
-See the <a href="https://github.com/phetsims/proportion/blob/master/LICENSE" target="_blank">LICENSE</a>
+See the <a href="https://github.com/phetsims/ratio-and-proportion/blob/master/LICENSE" target="_blank">LICENSE</a>

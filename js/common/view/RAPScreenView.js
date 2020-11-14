@@ -19,6 +19,7 @@ import Color from '../../../../scenery/js/util/Color.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import RatioComponent from '../model/RatioComponent.js';
 import RAPConstants from '../RAPConstants.js';
 import BothHandsPDOMNode from './BothHandsPDOMNode.js';
 import BothHandsDescriber from './describers/BothHandsDescriber.js';
@@ -138,7 +139,7 @@ class RAPScreenView extends ScreenView {
       model.ratio.lockedProperty,
       model.ratio.lockedProperty, // not a bug
       this.viewSounds,
-      this.inProportionSoundGenerator, {
+      this.inProportionSoundGenerator, () => model.getIdealValueForComponent( RatioComponent.NUMERATOR ), {
         handColorProperty: options.leftHandColorProperty,
         accessibleName: ratioAndProportionStrings.a11y.leftHand,
         a11yDependencies: a11yDependencies,
@@ -163,7 +164,7 @@ class RAPScreenView extends ScreenView {
       model.ratio.lockedProperty,
       model.ratio.lockedProperty, // not a bug
       this.viewSounds,
-      this.inProportionSoundGenerator, {
+      this.inProportionSoundGenerator, () => model.getIdealValueForComponent( RatioComponent.DENOMINATOR ), {
         handColorProperty: options.rightHandColorProperty,
         accessibleName: ratioAndProportionStrings.a11y.rightHand,
         a11yDependencies: a11yDependencies,

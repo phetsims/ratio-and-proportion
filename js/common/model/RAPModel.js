@@ -12,6 +12,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPConstants from '../RAPConstants.js';
 import RAPRatio from './RAPRatio.js';
+import RatioComponent from './RatioComponent.js';
 
 // constant to help achieve feedback in 40% of the visual screen height.
 const FITNESS_TOLERANCE_FACTOR = 0.5;
@@ -167,13 +168,29 @@ class RAPModel {
   inProportion( fitness = this.ratioFitnessProperty.value ) {
     return fitness > this.fitnessRange.max - this.getInProportionThreshold();
   }
-  
+
   /**
    * @public
    * @override
    */
   step() {
     this.ratio.step();
+  }
+
+  /**
+   * @param {RatioComponent} ratioComponent
+   * @returns {number}
+   * @public
+   */
+  getIdealValueForComponent( ratioComponent ) {
+    let theReturn = null;
+    if ( ratioComponent === RatioComponent.NUMERATOR ) {
+      theReturn = this.targetRatioProperty.value * this.ratio.ratioTupleProperty.value.denominator;
+    }
+    if ( ratioComponent === RatioComponent.DENOMINATOR ) {
+      theReturn = this.ratio.ratioTupleProperty.value.numerator / this.targetRatioProperty.value;
+    }
+    return Utils.toFixedNumber( theReturn, 6 );
   }
 
   /**
