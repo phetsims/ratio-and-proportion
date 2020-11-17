@@ -27,6 +27,7 @@ class RatioInteractionListener {
    * @param {TickMarkBumpSoundClip} tickMarkBumpSoundClip
    * @param {Property.<boolean>} ratioLockedProperty
    * @param {Property.<number>} targetRatioProperty
+   * @param {function(RatioComponent):number} getIdealTerm
    */
   constructor( targetNode, ratioTupleProperty, valueRange,
                firstInteractionProperty, tickMarkRangeProperty, keyboardStep, boundarySoundClip, tickMarkBumpSoundClip,
