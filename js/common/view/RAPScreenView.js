@@ -139,7 +139,7 @@ class RAPScreenView extends ScreenView {
       model.ratio.lockedProperty,
       model.ratio.lockedProperty, // not a bug
       this.viewSounds,
-      this.inProportionSoundGenerator, () => model.getIdealValueForComponent( RatioComponent.NUMERATOR ), {
+      this.inProportionSoundGenerator, () => model.getIdealValueForTerm( RatioComponent.NUMERATOR ), {
         handColorProperty: options.leftHandColorProperty,
         accessibleName: ratioAndProportionStrings.a11y.leftHand,
         a11yDependencies: a11yDependencies,
@@ -164,7 +164,7 @@ class RAPScreenView extends ScreenView {
       model.ratio.lockedProperty,
       model.ratio.lockedProperty, // not a bug
       this.viewSounds,
-      this.inProportionSoundGenerator, () => model.getIdealValueForComponent( RatioComponent.DENOMINATOR ), {
+      this.inProportionSoundGenerator, () => model.getIdealValueForTerm( RatioComponent.DENOMINATOR ), {
         handColorProperty: options.rightHandColorProperty,
         accessibleName: ratioAndProportionStrings.a11y.rightHand,
         a11yDependencies: a11yDependencies,
@@ -174,7 +174,7 @@ class RAPScreenView extends ScreenView {
     const bothHandsPDOMNode = new BothHandsPDOMNode( ratio.ratioTupleProperty, DEFAULT_RANGE,
       model.firstInteractionProperty, keyboardStep, tickMarkViewProperty, options.tickMarkRangeProperty, model.unclampedFitnessProperty,
       this.handPositionsDescriber, this.ratioDescriber, bothHandsDescriber, this.viewSounds, model.ratio.lockedProperty,
-      model.targetRatioProperty, {
+      model.targetRatioProperty, model.getIdealValueForTerm.bind( model ), {
         interactiveNodeOptions: {
           children: [ this.numeratorRatioHalf, this.denominatorRatioHalf ]
         }

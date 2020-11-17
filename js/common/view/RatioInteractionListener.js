@@ -10,6 +10,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import KeyStateTracker from '../../../../scenery/js/accessibility/KeyStateTracker.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
+import RatioComponent from '../model/RatioComponent.js';
 import RAPConstants from '../RAPConstants.js';
 
 // TODO: rename to "BothHandsInteractionListener"
@@ -29,7 +30,7 @@ class RatioInteractionListener {
    */
   constructor( targetNode, ratioTupleProperty, valueRange,
                firstInteractionProperty, tickMarkRangeProperty, keyboardStep, boundarySoundClip, tickMarkBumpSoundClip,
-               ratioLockedProperty, targetRatioProperty ) {
+               ratioLockedProperty, targetRatioProperty, getIdealTerm ) {
 
     // @private
     this.keyStateTracker = new KeyStateTracker();
@@ -45,6 +46,10 @@ class RatioInteractionListener {
     this.ratioLockedProperty = ratioLockedProperty;
     this.targetRatioProperty = targetRatioProperty;
 
+    // @private
+    this.numeratorMapKeyboardInput = RAPConstants.mapPostProcessKeyboardInput( () => getIdealTerm( RatioComponent.NUMERATOR ), keyboardStep, this.shiftKeyboardStep );
+    this.denominatorMapKeyboardInput = RAPConstants.mapPostProcessKeyboardInput( () => getIdealTerm( RatioComponent.DENOMINATOR ), keyboardStep, this.shiftKeyboardStep );
+
     // @private - true whenever the user is interacting with this listener
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
 
@@ -58,20 +63,20 @@ class RatioInteractionListener {
   /**
    * Consistently handle changing the ratio from increment/decrement
    * @param {'numerator'|'denominator'} tupleField - what field of the RAPRatioTuple are we changing
+   * @param {function(number,number):number} inputMapper - see RAPConstants.mapPostProcessKeyboardInput
    * @param {boolean} increment - if the value is being incremented, as opposed to decremented.
    * @private
    */
-  onValueIncrementDecrement( tupleField, increment ) {
+  onValueIncrementDecrement( tupleField, inputMapper, increment ) {
     this.firstInteractionProperty.value = false;
     const currentValue = this.ratioTupleProperty.value[ tupleField ];
 
     const changeAmount = this.keyStateTracker.shiftKeyDown ? this.shiftKeyboardStep : this.keyboardStep;
     const valueDelta = changeAmount * ( increment ? 1 : -1 );
 
-
     // Because this interaction uses the keyboard, snap to the keyboard step to handle the case where the hands were
     // previously moved via mouse/touch. See https://github.com/phetsims/ratio-and-proportion/issues/156
-    const newValue = RAPConstants.SNAP_TO_KEYBOARD_STEP( currentValue + valueDelta, this.keyStateTracker.shiftKeyDown ? this.shiftKeyboardStep : this.keyboardStep );
+    const newValue = inputMapper( currentValue + valueDelta, currentValue, this.keyStateTracker.shiftKeyDown ? this.shiftKeyboardStep : this.keyboardStep );
     const newRatioTuple = tupleField === 'numerator' ? this.ratioTupleProperty.value.withNumerator( newValue ) : this.ratioTupleProperty.value.withDenominator( newValue );
 
     this.ratioTupleProperty.value = newRatioTuple.constrainFields( this.valueRange );
@@ -103,16 +108,16 @@ class RatioInteractionListener {
       this.isBeingInteractedWithProperty.value = true;
 
       if ( event.key === 'ArrowDown' ) {
-        this.onValueIncrementDecrement( 'denominator', false );
+        this.onValueIncrementDecrement( 'denominator', this.denominatorMapKeyboardInput, false );
       }
       else if ( event.key === 'ArrowUp' ) {
-        this.onValueIncrementDecrement( 'denominator', true );
+        this.onValueIncrementDecrement( 'denominator', this.denominatorMapKeyboardInput, true );
       }
       else if ( event.key.toLowerCase() === 'w' ) {
-        this.onValueIncrementDecrement( 'numerator', true );
+        this.onValueIncrementDecrement( 'numerator', this.numeratorMapKeyboardInput, true );
       }
       else if ( event.key.toLowerCase() === 's' ) {
-        this.onValueIncrementDecrement( 'numerator', false );
+        this.onValueIncrementDecrement( 'numerator', this.numeratorMapKeyboardInput, false );
       }
       else {
 

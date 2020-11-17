@@ -190,7 +190,7 @@ unclampedFitness: ${unclampedFitness}\n` );
    * @returns {number}
    * @public
    */
-  getIdealValueForComponent( ratioComponent ) {
+  getIdealValueForTerm( ratioComponent ) {
     let theReturn = null;
     if ( ratioComponent === RatioComponent.NUMERATOR ) {
       theReturn = this.targetRatioProperty.value * this.ratio.ratioTupleProperty.value.denominator;

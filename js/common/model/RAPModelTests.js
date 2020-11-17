@@ -23,7 +23,7 @@ QUnit.test( 'keyboard always can get in proportion: 2/7 moving down', assert => 
   const model = new RAPModel( Tandem.OPT_OUT );
   const ratioTupleProperty = model.ratio.ratioTupleProperty;
 
-  const getIdealValue = () => model.getIdealValueForComponent( RatioComponent.NUMERATOR );
+  const getIdealValue = () => model.getIdealValueForTerm( RatioComponent.NUMERATOR );
   const snapConserveFunction = RAPConstants.mapPostProcessKeyboardInput( getIdealValue, keyboardStep, keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER );
   model.targetRatioProperty.value = 2 / 7;
   ratioTupleProperty.value = new RAPRatioTuple( .14, .4 );
@@ -57,7 +57,7 @@ QUnit.test( 'keyboard always can get in proportion: 2/7 moving up', assert => {
   const model = new RAPModel( Tandem.OPT_OUT );
   const ratioTupleProperty = model.ratio.ratioTupleProperty;
 
-  const getIdealValue = () => model.getIdealValueForComponent( RatioComponent.NUMERATOR );
+  const getIdealValue = () => model.getIdealValueForTerm( RatioComponent.NUMERATOR );
   const snapConserveFunction = RAPConstants.mapPostProcessKeyboardInput( getIdealValue, keyboardStep, keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER );
   model.targetRatioProperty.value = 2 / 7;
   ratioTupleProperty.value = new RAPRatioTuple( .05, .4 );
