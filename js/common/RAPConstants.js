@@ -43,46 +43,42 @@ const RAPConstants = {
   },
 
   /**
+   * Handle keyboard input in a consistent way across all usages of keyboard input to the ratio. This function is
+   * responsible for making sure that keyboard input snaps to
    * @public
    * @param {function():number} getIdealValue - get the ideal target value
-   * @param keyboardStep TODO
-   * @param shiftKeyboardStep
+   * @param {number} keyboardStep
+   * @param {number} shiftKeyboardStep
    * @returns {function(newValue: number, oldValue:number):number} - returns a function that returns the snap/conserved value
    */
-  getHandleInProportionConserveSnapFunction: ( getIdealValue, keyboardStep, shiftKeyboardStep ) => {
+  mapPostProcessKeyboardInput: ( getIdealValue, keyboardStep, shiftKeyboardStep ) => {
 
+    // keep track of the remainder for next input post-process
+    let remainder = 0;
 
-    const remainderObject = { remainder: 0 };
     return ( newValue, oldValue, useShiftKeyStep ) => {
 
-      // // TODO: just for debugging
-      // const startingVars = {
-      //   newValue,
-      //   oldValue,
-      //   remainder: remainderObject.remainder
-      // };
-
-      // Don't conserve the snap for page up/down or home/end keys, just basic movement changes. TODO: what about number keys in both hands? is that too small sometimes?
+      // Don't conserve the snap for page up/down or home/end keys, just basic movement changes. TODO: what about number keys in both hands? is that too small sometimes? https://github.com/phetsims/ratio-and-proportion/issues/175
       const applyConservationSnap = Utils.toFixedNumber( Math.abs( newValue - oldValue ), 6 ) <= keyboardStep;
 
       // TODO: what if there is a remainder and then you use mouse input?!?! https://github.com/phetsims/ratio-and-proportion/issues/175
-      if ( remainderObject.remainder === 0 ) {
+      if ( remainder === 0 ) {
         newValue = RAPConstants.SNAP_TO_KEYBOARD_STEP( newValue, useShiftKeyStep ? shiftKeyboardStep : keyboardStep );
       }
 
-      // TODO: care about if we can't make proportion right now (below .5)
+      // TODO: care about if we can't make proportion right now (below .5) https://github.com/phetsims/ratio-and-proportion/issues/175
       if ( applyConservationSnap ) {
 
         let returnValue = newValue;
         const target = getIdealValue();
         if ( newValue > target !== oldValue > target && oldValue !== target ) {
-          remainderObject.remainder = Utils.toFixedNumber( newValue - target, 6 );
+          remainder = Utils.toFixedNumber( newValue - target, 6 );
           returnValue = target;
         }
 
-        else if ( remainderObject.remainder !== 0 ) {
-          newValue = newValue + remainderObject.remainder;
-          remainderObject.remainder = 0;
+        else if ( remainder !== 0 ) {
+          newValue = newValue + remainder;
+          remainder = 0;
           returnValue = newValue;
         }
 

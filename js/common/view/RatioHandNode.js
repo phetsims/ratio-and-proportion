@@ -38,9 +38,7 @@ class RatioHandNode extends Node {
   constructor( valueProperty, enabledRatioComponentsRangeProperty, tickMarkViewProperty, keyboardStep, colorProperty, firstInteractionProperty, getIdealValue, options ) {
 
     const shiftKeyboardStep = keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER;
-
-    // TODO: rename me! https://github.com/phetsims/ratio-and-proportion/issues/175
-    const snapConservationFunction = RAPConstants.getHandleInProportionConserveSnapFunction( getIdealValue, keyboardStep, shiftKeyboardStep );
+    const mapKeyboardInput = RAPConstants.mapPostProcessKeyboardInput( getIdealValue, keyboardStep, shiftKeyboardStep );
 
     options = merge( {
       cursor: 'pointer',
@@ -55,7 +53,7 @@ class RatioHandNode extends Node {
       // Because this interaction uses the keyboard, snap to the keyboard step to handle the case where the hands were
       // previously moved via mouse/touch. See https://github.com/phetsims/ratio-and-proportion/issues/156
       a11yMapValue: ( newValue, oldValue ) => {
-        return snapConservationFunction( newValue, oldValue, this.shiftKeyDown );
+        return mapKeyboardInput( newValue, oldValue, this.shiftKeyDown );
       }
     }, options );
     super();
