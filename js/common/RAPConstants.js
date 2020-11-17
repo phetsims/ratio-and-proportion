@@ -63,7 +63,7 @@ const RAPConstants = {
       // };
 
       // Don't conserve the snap for page up/down or home/end keys, just basic movement changes. TODO: what about number keys in both hands? is that too small sometimes?
-      const applyConservationSnap = Math.abs( newValue - oldValue ) <= keyboardStep;
+      const applyConservationSnap = Utils.toFixedNumber( Math.abs( newValue - oldValue ), 6 ) <= keyboardStep;
 
       // TODO: what if there is a remainder and then you use mouse input?!?! https://github.com/phetsims/ratio-and-proportion/issues/175
       if ( remainderObject.remainder === 0 ) {

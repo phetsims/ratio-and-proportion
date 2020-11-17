@@ -184,6 +184,8 @@ unclampedFitness: ${unclampedFitness}\n` );
   }
 
   /**
+   * Given a ratio component (numerator or denominator), determine what it should be to make the current ratio equal to
+   * the target ratio.
    * @param {RatioComponent} ratioComponent
    * @returns {number}
    * @public
