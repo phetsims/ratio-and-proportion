@@ -44,27 +44,55 @@ const RAPConstants = {
 
   /**
    * @public
-   * @param {number} newValue
-   * @param {number} oldValue
    * @param {function():number} getIdealValue - get the ideal target value
-   * @param {{remainder:number}} remainderObject - make it an object so that it can keep state
-   * @returns {*}
+   * @param keyboardStep TODO
+   * @param shiftKeyboardStep
+   * @returns {function(newValue: number, oldValue:number):number} - returns a function that returns the snap/conserved value
    */
-  handleInProportionConserveSnap: ( newValue, oldValue, getIdealValue, remainderObject ) => {
-    let returnValue = newValue;
-    const target = getIdealValue();
-    if ( newValue > target !== oldValue > target && oldValue !== target ) {
-      remainderObject.remainder = newValue - target;
-      returnValue = target;
-    }
+  getHandleInProportionConserveSnapFunction: ( getIdealValue, keyboardStep, shiftKeyboardStep ) => {
 
-    else if ( remainderObject.remainder !== 0 ) {
-      newValue = newValue + remainderObject.remainder;
-      remainderObject.remainder = 0;
-      returnValue = newValue;
-    }
 
-    return returnValue;
+    const remainderObject = { remainder: 0 };
+    return ( newValue, oldValue, useShiftKeyStep ) => {
+
+      // // TODO: just for debugging
+      // const startingVars = {
+      //   newValue,
+      //   oldValue,
+      //   remainder: remainderObject.remainder
+      // };
+
+      // Don't conserve the snap for page up/down or home/end keys, just basic movement changes. TODO: what about number keys in both hands? is that too small sometimes?
+      const applyConservationSnap = Math.abs( newValue - oldValue ) <= keyboardStep;
+
+      // TODO: what if there is a remainder and then you use mouse input?!?! https://github.com/phetsims/ratio-and-proportion/issues/175
+      if ( remainderObject.remainder === 0 ) {
+        newValue = RAPConstants.SNAP_TO_KEYBOARD_STEP( newValue, useShiftKeyStep ? shiftKeyboardStep : keyboardStep );
+      }
+
+      // TODO: care about if we can't make proportion right now (below .5)
+      if ( applyConservationSnap ) {
+
+        let returnValue = newValue;
+        const target = getIdealValue();
+        if ( newValue > target !== oldValue > target && oldValue !== target ) {
+          remainderObject.remainder = Utils.toFixedNumber( newValue - target, 6 );
+          returnValue = target;
+        }
+
+        else if ( remainderObject.remainder !== 0 ) {
+          newValue = newValue + remainderObject.remainder;
+          remainderObject.remainder = 0;
+          returnValue = newValue;
+        }
+
+        returnValue = Utils.toFixedNumber( returnValue, 6 );
+        assert && assert( !isNaN( returnValue ) );
+
+        return returnValue;
+      }
+      return newValue;
+    };
   }
 };
 

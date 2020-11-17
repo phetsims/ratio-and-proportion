@@ -40,7 +40,7 @@ class RatioHandNode extends Node {
     const shiftKeyboardStep = keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER;
 
     // TODO: rename me! https://github.com/phetsims/ratio-and-proportion/issues/175
-    const remainderObject = { remainder: 0 };
+    const snapConservationFunction = RAPConstants.getHandleInProportionConserveSnapFunction( getIdealValue, keyboardStep, shiftKeyboardStep );
 
     options = merge( {
       cursor: 'pointer',
@@ -55,17 +55,7 @@ class RatioHandNode extends Node {
       // Because this interaction uses the keyboard, snap to the keyboard step to handle the case where the hands were
       // previously moved via mouse/touch. See https://github.com/phetsims/ratio-and-proportion/issues/156
       a11yMapValue: ( newValue, oldValue ) => {
-        const applyConservationSnap = Math.abs( newValue - oldValue ) <= keyboardStep;
-        // TODO: what if there is a remainder and then you use mouse input?!?! https://github.com/phetsims/ratio-and-proportion/issues/175
-        if ( remainderObject.remainder === 0 ) {
-          newValue = RAPConstants.SNAP_TO_KEYBOARD_STEP( newValue, this.shiftKeyDown ? shiftKeyboardStep : keyboardStep );
-        }
-
-        // Don't conserve the snap for page up/down or home/end keys, just basic movement changes.
-        if ( applyConservationSnap ) {
-          return RAPConstants.handleInProportionConserveSnap( newValue, oldValue, getIdealValue, remainderObject );
-        }
-        return newValue;
+        return snapConservationFunction( newValue, oldValue, this.shiftKeyDown );
       }
     }, options );
     super();

@@ -57,7 +57,13 @@ class RAPModel {
         unclampedFitness = this.fitnessRange.max - this.getInProportionThreshold() - .01;
       }
 
-      phet.log && phet.log( `left: ${numerator},\n right: ${denominator},\n distance: ${Math.abs( denominator - numerator )},\n current ratio: ${this.ratio.currentRatio},\n unclampedFitness: ${unclampedFitness}\n\n` );
+      phet.log && phet.log( `
+left: ${numerator}, 
+right: ${denominator}, 
+distance: ${Math.abs( denominator - numerator )}, 
+current ratio: ${this.ratio.currentRatio}, 
+target ratio: ${this.targetRatioProperty.value},
+unclampedFitness: ${unclampedFitness}\n` );
 
       return unclampedFitness;
     }, {
