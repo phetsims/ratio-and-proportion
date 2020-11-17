@@ -16,7 +16,7 @@ import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import RAPQueryParameters from '../RAPQueryParameters.js';
-import RatioInteractionListener from './RatioInteractionListener.js';
+import BothHandsInteractionListener from './BothHandsInteractionListener.js';
 
 class BothHandsPDOMNode extends Node {
 
@@ -69,10 +69,10 @@ class BothHandsPDOMNode extends Node {
 
     interactiveNode.setAccessibleAttribute( 'aria-roledescription', sceneryPhetStrings.a11y.grabDrag.movable );
 
-    const ratioInteractionListener = new RatioInteractionListener( interactiveNode, ratioTupleProperty, valueRange,
+    const bothHandsInteractionListener = new BothHandsInteractionListener( interactiveNode, ratioTupleProperty, valueRange,
       firstInteractionProperty, tickMarkRangeProperty, keyboardStep,
       viewSounds.boundarySoundClip, viewSounds.tickMarkBumpSoundClip, ratioLockedProperty, targetRatioProperty, getIdealTerm );
-    interactiveNode.addInputListener( ratioInteractionListener );
+    interactiveNode.addInputListener( bothHandsInteractionListener );
 
     interactiveNode.addInputListener( {
       focus: () => {
@@ -97,13 +97,13 @@ class BothHandsPDOMNode extends Node {
     const contextResponseUtterance = new Utterance( { alertStableDelay: RAPQueryParameters.bothHandsContextDelay } );
 
     // @public (read-only) - expose this from the listener for general consumption
-    this.isBeingInteractedWithProperty = ratioInteractionListener.isBeingInteractedWithProperty;
+    this.isBeingInteractedWithProperty = bothHandsInteractionListener.isBeingInteractedWithProperty;
 
     // Though most cases are covered by just listening to fitness, there are certain cases when Property values can change,
     // but the fitness doesn't. See https://github.com/phetsims/ratio-and-proportion/issues/222 as an example.
     Property.multilink( [ ratioTupleProperty, unclampedFitnessProperty ], () => {
       const tickMarkView = tickMarkViewProperty.value;
-      const isBeingInteractedWith = ratioInteractionListener.isBeingInteractedWithProperty.value;
+      const isBeingInteractedWith = bothHandsInteractionListener.isBeingInteractedWithProperty.value;
 
       dynamicDescription.innerContent = handPositionsDescriber.getBothHandsDistance( tickMarkView );
 

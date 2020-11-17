@@ -13,8 +13,7 @@ import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import RatioComponent from '../model/RatioComponent.js';
 import RAPConstants from '../RAPConstants.js';
 
-// TODO: rename to "BothHandsInteractionListener"
-class RatioInteractionListener {
+class BothHandsInteractionListener {
 
   /**
    * @param {Node} targetNode
@@ -176,5 +175,5 @@ class RatioInteractionListener {
   }
 }
 
-ratioAndProportion.register( 'RatioInteractionListener', RatioInteractionListener );
-export default RatioInteractionListener;
+ratioAndProportion.register( 'BothHandsInteractionListener', BothHandsInteractionListener );
+export default BothHandsInteractionListener;
