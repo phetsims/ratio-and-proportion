@@ -18,7 +18,6 @@ import LetterKeyNode from '../../../../scenery-phet/js/keyboard/LetterKeyNode.js
 import FocusHighlightFromNode from '../../../../scenery/js/accessibility/FocusHighlightFromNode.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import AccessibleSlider from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPConstants from '../RAPConstants.js';
@@ -76,14 +75,7 @@ class RatioHandNode extends Node {
     } );
 
     const container = new Node( {
-      children: [
-
-        // Add a background rectangle to support dragging in the cut out section of the hand.
-        Rectangle.bounds( filledInHandNode.bounds.dilated( -filledInHandNode.bounds.width / 6 ) ),
-        filledInHandNode,
-        cutOutHandNode
-      ],
-      excludeInvisibleChildrenFromBounds: true
+      children: [ filledInHandNode, cutOutHandNode ]
     } );
     this.addChild( container );
 
@@ -161,8 +153,9 @@ class RatioHandNode extends Node {
     // This .1 is to offset the centering of the white circle, it is empirically determined.
     cueArrowUp.centerX = cueArrowDown.centerX = this.centerX + ( options.isRight ? 1 : -1 ) * this.width * .1;
 
-    // touchArea dilation - TODO: why no mouseArea? https://github.com/phetsims/ratio-and-proportion/issues/205
-    this.touchArea = this.localBounds.dilatedXY( this.width * 2, this.height * 2 );
+    const areaBounds = container.bounds.dilatedXY( container.width * .2, container.height * .2 );
+    this.touchArea = areaBounds;
+    this.mouseArea = areaBounds;
   }
 
   /**
