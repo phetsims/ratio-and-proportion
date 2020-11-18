@@ -30,19 +30,6 @@ const RAPConstants = {
   TOTAL_RATIO_COMPONENT_VALUE_RANGE: new Range( 0, 1 ),
 
   /**
-   * Given a value, snap it to the nearest shift keyboard step.
-   * @public
-   * @param {number} value
-   * @param {number} keyboardStep
-   * @returns {number}
-   */
-  SNAP_TO_KEYBOARD_STEP: ( value, keyboardStep ) => {
-    return Utils.toFixedNumber(
-      Utils.roundSymmetric( value / keyboardStep ) * keyboardStep,
-      Utils.numberOfDecimalPlaces( keyboardStep ) );
-  },
-
-  /**
    * Handle keyboard input in a consistent way across all usages of keyboard input to the ratio. This function is
    * responsible for making sure that keyboard input snaps to
    *
@@ -65,7 +52,10 @@ const RAPConstants = {
 
       // TODO: what if there is a remainder and then you use mouse input?!?! https://github.com/phetsims/ratio-and-proportion/issues/175
       if ( remainder === 0 ) {
-        newValue = RAPConstants.SNAP_TO_KEYBOARD_STEP( newValue, useShiftKeyStep ? shiftKeyboardStep : keyboardStep );
+        const snapToKeyboardStep = useShiftKeyStep ? shiftKeyboardStep : keyboardStep;
+        newValue = Utils.toFixedNumber(
+          Utils.roundSymmetric( newValue / snapToKeyboardStep ) * snapToKeyboardStep,
+          Utils.numberOfDecimalPlaces( snapToKeyboardStep ) );
       }
 
       // TODO: care about if we can't make proportion right now (below .5) https://github.com/phetsims/ratio-and-proportion/issues/175
