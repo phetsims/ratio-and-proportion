@@ -19,7 +19,7 @@ class BothHandsInteractionListener {
    * @param {Node} targetNode
    * @param {Property.<RAPRatioTuple>} ratioTupleProperty
    * @param {Range} valueRange
-   * @param {Property.<boolean>} firstInteractionProperty
+   * @param {Property.<boolean>} isFirstInteractionProperty
    * @param {Property.<number>} tickMarkRangeProperty
    * @param {number} keyboardStep
    * @param {BoundarySoundClip} boundarySoundClip
@@ -29,14 +29,14 @@ class BothHandsInteractionListener {
    * @param {function(RatioComponent):number} getIdealTerm
    */
   constructor( targetNode, ratioTupleProperty, valueRange,
-               firstInteractionProperty, tickMarkRangeProperty, keyboardStep, boundarySoundClip, tickMarkBumpSoundClip,
+               isFirstInteractionProperty, tickMarkRangeProperty, keyboardStep, boundarySoundClip, tickMarkBumpSoundClip,
                ratioLockedProperty, targetRatioProperty, getIdealTerm ) {
 
     // @private
     this.keyStateTracker = new KeyStateTracker();
     this.valueRange = valueRange;
     this.targetNode = targetNode;
-    this.firstInteractionProperty = firstInteractionProperty;
+    this.isFirstInteractionProperty = isFirstInteractionProperty;
     this.tickMarkRangeProperty = tickMarkRangeProperty;
     this.ratioTupleProperty = ratioTupleProperty;
     this.keyboardStep = keyboardStep;
@@ -68,7 +68,7 @@ class BothHandsInteractionListener {
    * @private
    */
   onValueIncrementDecrement( tupleField, inputMapper, increment ) {
-    this.firstInteractionProperty.value = false;
+    this.isFirstInteractionProperty.value = false;
     const currentValue = this.ratioTupleProperty.value[ tupleField ];
 
     const changeAmount = this.keyStateTracker.shiftKeyDown ? this.shiftKeyboardStep : this.keyboardStep;
@@ -124,7 +124,7 @@ class BothHandsInteractionListener {
         // for number keys 0-9, jump both values to that tick mark number. This value changes based on the tickMarkRangeProperty
         for ( let i = 0; i <= 9; i++ ) {
           if ( event.key === i + '' ) {
-            this.firstInteractionProperty.value = false;
+            this.isFirstInteractionProperty.value = false;
 
             const wasLocked = this.ratioLockedProperty.value;
 

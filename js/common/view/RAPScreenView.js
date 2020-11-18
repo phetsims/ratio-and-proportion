@@ -22,6 +22,7 @@ import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import RatioComponent from '../model/RatioComponent.js';
 import RAPConstants from '../RAPConstants.js';
 import BothHandsPDOMNode from './BothHandsPDOMNode.js';
+import CueDisplay from './CueDisplay.js';
 import BothHandsDescriber from './describers/BothHandsDescriber.js';
 import HandPositionsDescriber from './describers/HandPositionsDescriber.js';
 import RatioDescriber from './describers/RatioDescriber.js';
@@ -76,11 +77,14 @@ class RAPScreenView extends ScreenView {
         RAPColorProfile.tickMarksAndLabelsInFitnessProperty.value, fitness
       ) );
 
+    super( options );
+
     const tickMarkViewProperty = new EnumerationProperty( TickMarkView, TickMarkView.NONE, {
       tandem: tandem.createTandem( 'tickMarkViewProperty' )
     } );
 
-    super( options );
+    const numeratorCueDisplayProperty = new EnumerationProperty( CueDisplay, CueDisplay.ARROWS );
+    const denominatorCueDisplayProperty = new EnumerationProperty( CueDisplay, CueDisplay.ARROWS );
 
     // for ease at usage sites
     const ratio = model.ratio;
@@ -127,7 +131,7 @@ class RAPScreenView extends ScreenView {
       ratio.numeratorProperty,
       DEFAULT_RANGE,
       model.ratio.enabledRatioComponentsRangeProperty,
-      model.firstInteractionProperty,
+      numeratorCueDisplayProperty,
       defaultRatioHalfBounds,
       tickMarkViewProperty,
       options.tickMarkRangeProperty,
@@ -152,7 +156,7 @@ class RAPScreenView extends ScreenView {
       ratio.denominatorProperty,
       DEFAULT_RANGE,
       model.ratio.enabledRatioComponentsRangeProperty,
-      model.firstInteractionProperty,
+      denominatorCueDisplayProperty,
       defaultRatioHalfBounds,
       tickMarkViewProperty,
       options.tickMarkRangeProperty,
@@ -172,7 +176,7 @@ class RAPScreenView extends ScreenView {
       } );
 
     const bothHandsPDOMNode = new BothHandsPDOMNode( ratio.ratioTupleProperty, DEFAULT_RANGE,
-      model.firstInteractionProperty, keyboardStep, tickMarkViewProperty, options.tickMarkRangeProperty, model.unclampedFitnessProperty,
+      numeratorCueDisplayProperty, denominatorCueDisplayProperty, keyboardStep, tickMarkViewProperty, options.tickMarkRangeProperty, model.unclampedFitnessProperty,
       this.handPositionsDescriber, this.ratioDescriber, bothHandsDescriber, this.viewSounds, model.ratio.lockedProperty,
       model.targetRatioProperty, model.getIdealValueForTerm.bind( model ), {
         interactiveNodeOptions: {
@@ -229,7 +233,17 @@ class RAPScreenView extends ScreenView {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         model.reset();
         options.tickMarkRangeProperty.reset();
-        this.reset();
+        numeratorCueDisplayProperty.reset();
+        denominatorCueDisplayProperty.reset();
+        bothHandsPDOMNode.reset();
+
+        this.tickMarkViewProperty.reset();
+        this.numeratorRatioHalf.reset();
+        this.denominatorRatioHalf.reset();
+        this.staccatoFrequencySoundGenerator.reset();
+        this.inProportionSoundGenerator.reset();
+        this.movingInProportionSoundGenerator.reset();
+        this.viewSounds.reset();
       },
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
@@ -339,21 +353,6 @@ class RAPScreenView extends ScreenView {
 
     // new bounds for each ratio half
     this.layoutRAPScreeView( new Bounds2( 0, 0, ONE_QUARTER_LAYOUT_WIDTH, Math.min( height / scale, MAX_RATIO_HEIGHT ) ) );
-  }
-
-  /**
-   * @public
-   * @override
-   */
-  reset() {
-    this.tickMarkViewProperty.reset();
-
-    this.numeratorRatioHalf.reset();
-    this.denominatorRatioHalf.reset();
-    this.staccatoFrequencySoundGenerator.reset();
-    this.inProportionSoundGenerator.reset();
-    this.movingInProportionSoundGenerator.reset();
-    this.viewSounds.reset();
   }
 
   /**

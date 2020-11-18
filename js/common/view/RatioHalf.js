@@ -22,6 +22,7 @@ import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
+import CueDisplay from './CueDisplay.js';
 import RatioHalfAlertManager from './RatioHalfAlertManager.js';
 import RatioHalfTickMarksNode from './RatioHalfTickMarksNode.js';
 import RatioHandNode from './RatioHandNode.js';
@@ -48,14 +49,13 @@ function ratioHalfAccessibleNameBehavior( node, options, accessibleName, callbac
   return options;
 }
 
-
 class RatioHalf extends Rectangle {
 
   /**
    * @param {NumberProperty} valueProperty
    * @param {Range} valueRange - the total range of the hand
    * @param {Property.<Range>} enabledRatioComponentsRangeProperty - the current range that the hand can move
-   * @param {Property.<boolean>} firstInteractionProperty - upon successful interaction, this will be marked as false
+   * @param {EnumerationProperty.<CueDisplay>} cueDisplayProperty
    * @param {Bounds2} bounds - the area that the node takes up
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
    * @param {Property.<number>} tickMarkRangeProperty
@@ -71,7 +71,7 @@ class RatioHalf extends Rectangle {
    * @param {function():number} getIdealValue - a function that get's the value of this ratioHalf that would achieve the targetRatio
    * @param {Object} [options]
    */
-  constructor( valueProperty, valueRange, enabledRatioComponentsRangeProperty, firstInteractionProperty, bounds, tickMarkViewProperty,
+  constructor( valueProperty, valueRange, enabledRatioComponentsRangeProperty, cueDisplayProperty, bounds, tickMarkViewProperty,
                tickMarkRangeProperty, ratioDescriber, handPositionsDescriber, bothHandsDescriber, colorProperty, keyboardStep,
                horizontalMovementAllowedProperty, ratioLockedProperty, viewSounds, inProportionSoundGenerator, getIdealValue,
                options ) {
@@ -98,6 +98,14 @@ class RatioHalf extends Rectangle {
     // dragging this will be considered interaction, for keyboard, you must press a key before the interaction starts.
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
 
+    const isFirstInteractionProperty = new BooleanProperty( true );
+
+    isFirstInteractionProperty.lazyLink( firstInteraction => {
+      if ( !firstInteraction ) {
+        cueDisplayProperty.value = CueDisplay.NONE;
+      }
+    } );
+
     // "Framing" rectangles on the top and bottom of the drag area of the ratio half
     const topRect = new Rectangle( 0, 0, 10, FRAMING_RECTANGLE_HEIGHT, { fill: colorProperty } );
     this.addChild( topRect );
@@ -114,9 +122,9 @@ class RatioHalf extends Rectangle {
 
     // @private - The draggable element inside the Node framed with thick rectangles on the top and bottom.
     this.ratioHandNode = new RatioHandNode( valueProperty, enabledRatioComponentsRangeProperty, tickMarkViewProperty,
-      keyboardStep, options.handColorProperty, firstInteractionProperty, getIdealValue, {
+      keyboardStep, options.handColorProperty, cueDisplayProperty, getIdealValue, {
         startDrag: () => {
-          firstInteractionProperty.value = false;
+          isFirstInteractionProperty.value = false;
           this.isBeingInteractedWithProperty.value = true;
           viewSounds.boundarySoundClip.onStartInteraction();
         },
@@ -135,6 +143,16 @@ class RatioHalf extends Rectangle {
         a11yDependencies: options.a11yDependencies.concat( [ ratioLockedProperty ] )
       } );
     this.addChild( this.ratioHandNode );
+
+    this.ratioHandNode.addInputListener( {
+      focus: () => {
+        cueDisplayProperty.value = isFirstInteractionProperty.value ? CueDisplay.UP_DOWN : CueDisplay.NONE;
+      },
+      blur: () => {
+        cueDisplayProperty.value = isFirstInteractionProperty.value ? CueDisplay.ARROWS : CueDisplay.NONE;
+      }
+    } );
+
     let modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
       getModelBoundsFromRange( valueRange ),
       bounds );
@@ -194,7 +212,7 @@ class RatioHalf extends Rectangle {
           startingX = positionProperty.value.x;
         }
         viewSounds.grabSoundClip.play();
-        firstInteractionProperty.value = false;
+        isFirstInteractionProperty.value = false;
 
         inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( true );
         viewSounds.boundarySoundClip.onStartInteraction();
@@ -302,6 +320,7 @@ class RatioHalf extends Rectangle {
       alertManager.reset();
       positionProperty.value.setX( INITIAL_X_VALUE );
       positionProperty.notifyListenersStatic();
+      isFirstInteractionProperty.reset();
     };
   }
 

@@ -7,6 +7,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import merge from '../../../../phet-core/js/merge.js';
 import sceneryPhetStrings from '../../../../scenery-phet/js/sceneryPhetStrings.js';
@@ -17,13 +18,15 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import RAPQueryParameters from '../RAPQueryParameters.js';
 import BothHandsInteractionListener from './BothHandsInteractionListener.js';
+import CueDisplay from './CueDisplay.js';
 
 class BothHandsPDOMNode extends Node {
 
   /**
    * @param {Property.<RAPRatioTuple>} ratioTupleProperty
    * @param {Range} valueRange - the total range of the hand
-   * @param {Property.<boolean>} firstInteractionProperty - upon successful interaction, this will be marked as false
+   * @param {EnumerationProperty.<CueDisplay>} numeratorCueDisplayProperty
+   * @param {EnumerationProperty.<CueDisplay>} denominatorCueDisplayProperty
    * @param {number} keyboardStep
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
    * @param {Property.<number>} tickMarkRangeProperty
@@ -37,7 +40,7 @@ class BothHandsPDOMNode extends Node {
    * @param {function(RatioComponent):number} getIdealTerm
    * @param {Object} [options]
    */
-  constructor( ratioTupleProperty, valueRange, firstInteractionProperty, keyboardStep,
+  constructor( ratioTupleProperty, valueRange, numeratorCueDisplayProperty, denominatorCueDisplayProperty, keyboardStep,
                tickMarkViewProperty, tickMarkRangeProperty, unclampedFitnessProperty, handPositionsDescriber,
                ratioDescriber, bothHandsDescriber, viewSounds, ratioLockedProperty, targetRatioProperty, getIdealTerm, options ) {
 
@@ -60,6 +63,14 @@ class BothHandsPDOMNode extends Node {
     this.handPositionsDescriber = handPositionsDescriber;
     this.bothHandsDescriber = bothHandsDescriber;
     this.ratioLockedProperty = ratioLockedProperty;
+    this.isFirstInteractionProperty = new BooleanProperty( true );
+
+    this.isFirstInteractionProperty.lazyLink( firstInteraction => {
+      if ( !firstInteraction ) {
+        numeratorCueDisplayProperty.value = CueDisplay.NONE;
+        denominatorCueDisplayProperty.value = CueDisplay.NONE;
+      }
+    } );
 
     const interactiveNode = new Node( options.interactiveNodeOptions );
     this.addChild( interactiveNode );
@@ -70,7 +81,7 @@ class BothHandsPDOMNode extends Node {
     interactiveNode.setAccessibleAttribute( 'aria-roledescription', sceneryPhetStrings.a11y.grabDrag.movable );
 
     const bothHandsInteractionListener = new BothHandsInteractionListener( interactiveNode, ratioTupleProperty, valueRange,
-      firstInteractionProperty, tickMarkRangeProperty, keyboardStep,
+      this.isFirstInteractionProperty, tickMarkRangeProperty, keyboardStep,
       viewSounds.boundarySoundClip, viewSounds.tickMarkBumpSoundClip, ratioLockedProperty, targetRatioProperty, getIdealTerm );
     interactiveNode.addInputListener( bothHandsInteractionListener );
 
@@ -78,9 +89,13 @@ class BothHandsPDOMNode extends Node {
       focus: () => {
         this.alertBothHandsObjectResponse( tickMarkViewProperty.value );
         viewSounds.grabSoundClip.play();
+        numeratorCueDisplayProperty.value = this.isFirstInteractionProperty.value ? CueDisplay.W_S : CueDisplay.NONE;
+        denominatorCueDisplayProperty.value = this.isFirstInteractionProperty.value ? CueDisplay.UP_DOWN : CueDisplay.NONE;
       },
       blur: () => {
         viewSounds.releaseSoundClip.play();
+        numeratorCueDisplayProperty.value = this.isFirstInteractionProperty.value ? CueDisplay.ARROWS : CueDisplay.NONE;
+        denominatorCueDisplayProperty.value = this.isFirstInteractionProperty.value ? CueDisplay.ARROWS : CueDisplay.NONE;
       }
     } );
 
@@ -116,6 +131,13 @@ class BothHandsPDOMNode extends Node {
     } );
 
     this.mutate( options );
+  }
+
+  /**
+   * @public
+   */
+  reset() {
+    this.isFirstInteractionProperty.reset();
   }
 
   /**

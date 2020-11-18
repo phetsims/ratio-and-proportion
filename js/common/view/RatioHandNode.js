@@ -9,9 +9,12 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
+import ArrowKeyNode from '../../../../scenery-phet/js/keyboard/ArrowKeyNode.js';
+import LetterKeyNode from '../../../../scenery-phet/js/keyboard/LetterKeyNode.js';
 import FocusHighlightFromNode from '../../../../scenery/js/accessibility/FocusHighlightFromNode.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
@@ -19,6 +22,7 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import AccessibleSlider from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPConstants from '../RAPConstants.js';
+import CueDisplay from './CueDisplay.js';
 import RAPColorProfile from './RAPColorProfile.js';
 import TickMarkView from './TickMarkView.js';
 
@@ -31,11 +35,12 @@ class RatioHandNode extends Node {
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
    * @param {number} keyboardStep
    * @param {Property.<ColorDef>} colorProperty - controls the color of the hand. This is for both the filled in and cut out hands.
-   * @param {Property.<boolean>} firstInteractionProperty - upon successful interaction, this will be marked as false
+   * @param {EnumerationProperty.<CueDisplay>} cueDisplayProperty
    * @param {function():number} getIdealValue
    * @param {Object} [options]
    */
-  constructor( valueProperty, enabledRatioComponentsRangeProperty, tickMarkViewProperty, keyboardStep, colorProperty, firstInteractionProperty, getIdealValue, options ) {
+  constructor( valueProperty, enabledRatioComponentsRangeProperty, tickMarkViewProperty, keyboardStep, colorProperty,
+               cueDisplayProperty, getIdealValue, options ) {
 
     const shiftKeyboardStep = keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER;
     const mapKeyboardInput = RAPConstants.mapPostProcessKeyboardInput( getIdealValue, keyboardStep, shiftKeyboardStep );
@@ -96,6 +101,8 @@ class RatioHandNode extends Node {
       filledInHandNode.visible = !displayCutOut;
     } );
 
+    const rightHandFlipScale = new Vector2( ( options.isRight ? 1 : -1 ), 1 );
+
     const cueArrowOptions = {
       fill: RAPColorProfile.cueArrowsProperty,
       stroke: 'black',
@@ -106,22 +113,50 @@ class RatioHandNode extends Node {
     const cueArrowUp = new ArrowNode( 0, 0, 0, -40, merge( {
       bottom: container.top - 20
     }, cueArrowOptions ) );
+    const cueArrowKeyUp = new ArrowKeyNode( 'up', {
+      bottom: cueArrowUp.bottom,
+      centerX: cueArrowUp.centerX
+    } );
+    const cueWKeyUp = new LetterKeyNode( 'W', {
+      bottom: cueArrowUp.bottom,
+      centerX: cueArrowUp.centerX,
+      scale: rightHandFlipScale // we don't want letters to be flipped
+    } );
+    const upCue = new Node( {
+      excludeInvisibleChildrenFromBounds: true,
+      children: [ cueArrowUp, cueArrowKeyUp, cueWKeyUp ]
+    } );
+
     const cueArrowDown = new ArrowNode( 0, 0, 0, 40, merge( {
       top: container.bottom + 20
     }, cueArrowOptions ) );
-    this.addChild( cueArrowUp );
-    this.addChild( cueArrowDown );
+    const cueArrowKeyDown = new ArrowKeyNode( 'down', {
+      top: cueArrowDown.top,
+      centerX: cueArrowDown.centerX
+    } );
+    const cueSKeyDown = new LetterKeyNode( 'S', {
+      top: cueArrowDown.top,
+      centerX: cueArrowDown.centerX,
+      scale: rightHandFlipScale // we don't want letters to be flipped
+    } );
+    const downCue = new Node( {
+      excludeInvisibleChildrenFromBounds: true,
+      children: [ cueArrowDown, cueArrowKeyDown, cueSKeyDown ]
+    } );
 
-    // only display the cues arrows before the first interaction
-    firstInteractionProperty.link( isFirstInteraction => {
-      cueArrowUp.visible = isFirstInteraction;
-      cueArrowDown.visible = isFirstInteraction;
+    this.addChild( upCue );
+    this.addChild( downCue );
+
+    cueDisplayProperty.link( cueDisplay => {
+      cueArrowUp.visible = cueArrowDown.visible = cueDisplay === CueDisplay.ARROWS;
+      cueArrowKeyUp.visible = cueArrowKeyDown.visible = cueDisplay === CueDisplay.UP_DOWN;
+      cueWKeyUp.visible = cueSKeyDown.visible = cueDisplay === CueDisplay.W_S;
     } );
 
     this.mutate( options );
 
     // Flip the hand if it isn't a right hand. Do this after the circle/hand relative positioning
-    this.scale( ( options.isRight ? 1 : -1 ), 1 );
+    this.scale( rightHandFlipScale );
 
     // This .1 is to offset the centering of the white circle, it is empirically determined.
     cueArrowUp.centerX = cueArrowDown.centerX = this.centerX + ( options.isRight ? 1 : -1 ) * this.width * .1;
@@ -149,11 +184,10 @@ class RatioHandNode extends Node {
       tickMarkViewProperty,
       new Property( 10 ),
       new Property( options.handColor ),
-      new Property( false ),
+      new Property( CueDisplay.NONE ),
       _.identity,
       merge( {
         isRight: isRight,
-        excludeInvisibleChildrenFromBounds: true,
         asIcon: true,
         pickable: false
       }, options.handNodeOptions ) );
