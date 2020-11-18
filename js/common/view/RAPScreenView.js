@@ -293,7 +293,7 @@ class RAPScreenView extends ScreenView {
       backgroundNode.bottom = this.layoutBounds.bottom;
 
       // subtract the top and bottom rectangles from the tick marks height
-      labelsNode.layout( newRatioHalfBounds.height - ( 2 * RatioHalf.FRAMING_RECTANGLE_HEIGHT ) );
+      labelsNode.layout( newRatioHalfBounds.height - ( 2 * this.numeratorRatioHalf.framingRectangleHeight ) );
 
       const ratioWidth = this.numeratorRatioHalf.width + this.denominatorRatioHalf.width + ( 2 * RATIO_HALF_SPACING ) + labelsNode.width;
 
@@ -314,7 +314,7 @@ class RAPScreenView extends ScreenView {
       this.numeratorRatioHalf.setBottomOfRatioHalf( this.layoutBounds.bottom );
       this.denominatorRatioHalf.setBottomOfRatioHalf( this.layoutBounds.bottom );
 
-      labelsNode.bottom = this.layoutBounds.bottom - RatioHalf.FRAMING_RECTANGLE_HEIGHT + labelsNode.labelHeight / 2;
+      labelsNode.bottom = this.layoutBounds.bottom - this.numeratorRatioHalf.framingRectangleHeight + labelsNode.labelHeight / 2;
     };
     this.layoutRAPScreeView( defaultRatioHalfBounds );
   }

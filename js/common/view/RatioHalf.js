@@ -29,7 +29,8 @@ import RatioHandNode from './RatioHandNode.js';
 import TickMarkView from './TickMarkView.js';
 
 // constants
-const FRAMING_RECTANGLE_HEIGHT = 16;
+const MIN_FRAMING_RECTANGLE_HEIGHT = 32;
+const MAX_FRAMING_RECTANGLE_HEIGHT = 64;
 
 // This value was calculated based on the design of snapping within the range of the ratio hand center circle, see https://github.com/phetsims/ratio-and-proportion/issues/122#issuecomment-672281015
 const SNAP_TO_TICK_MARK_THRESHOLD = .135842179584 / 2;
@@ -94,6 +95,9 @@ class RatioHalf extends Rectangle {
 
     super( 0, 0, bounds.width, bounds.height );
 
+    // @public (read-only) - the height of the framing rectangles, updated in layout function
+    this.framingRectangleHeight = MIN_FRAMING_RECTANGLE_HEIGHT;
+
     // @public (read-only) - this behaves a bit differently depending on modality. For mouse/touch, any time you are
     // dragging this will be considered interaction, for keyboard, you must press a key before the interaction starts.
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
@@ -107,16 +111,16 @@ class RatioHalf extends Rectangle {
     } );
 
     // "Framing" rectangles on the top and bottom of the drag area of the ratio half
-    const topRect = new Rectangle( 0, 0, 10, FRAMING_RECTANGLE_HEIGHT, { fill: colorProperty } );
+    const topRect = new Rectangle( 0, 0, 10, this.framingRectangleHeight, { fill: colorProperty } );
     this.addChild( topRect );
-    const bottomRect = new Rectangle( 0, 0, 10, FRAMING_RECTANGLE_HEIGHT, { fill: colorProperty } );
+    const bottomRect = new Rectangle( 0, 0, 10, this.framingRectangleHeight, { fill: colorProperty } );
     this.addChild( bottomRect );
 
     const alertManager = new RatioHalfAlertManager( valueProperty, tickMarkViewProperty, ratioDescriber, handPositionsDescriber,
       bothHandsDescriber, ratioLockedProperty );
 
     const tickMarksNode = new RatioHalfTickMarksNode( tickMarkViewProperty, tickMarkRangeProperty,
-      bounds.width, bounds.height - 2 * FRAMING_RECTANGLE_HEIGHT,
+      bounds.width, bounds.height - 2 * this.framingRectangleHeight,
       colorProperty );
     this.addChild( tickMarksNode );
 
@@ -256,7 +260,7 @@ class RatioHalf extends Rectangle {
 
 
       // offset the bounds to account for the ratioHandNode's size, since the center of the ratioHandNode is controlled by the drag bounds.
-      const modelHalfPointerPointer = modelViewTransform.viewToModelDeltaXY( this.ratioHandNode.width / 2, -FRAMING_RECTANGLE_HEIGHT );
+      const modelHalfPointerPointer = modelViewTransform.viewToModelDeltaXY( this.ratioHandNode.width / 2, -this.framingRectangleHeight );
 
       // constrain x dimension inside the RatioHalf so that this.ratioHandNode doesn't go beyond the width. Height is constrained
       // via the modelViewTransform.
@@ -286,6 +290,8 @@ class RatioHalf extends Rectangle {
       this.rectWidth = newBounds.width;
       this.rectHeight = newBounds.height;
 
+      this.framingRectangleHeight = topRect.rectHeight = bottomRect.rectHeight = heightScalar * MIN_FRAMING_RECTANGLE_HEIGHT + ( MAX_FRAMING_RECTANGLE_HEIGHT - MIN_FRAMING_RECTANGLE_HEIGHT );
+
       // Scale depending on how tall the ratio half is. This is to support narrow and tall layouts where the hand needs
       // to be scaled up more to support touch interaction, see https://github.com/phetsims/ratio-and-proportion/issues/217.
       const handScale = heightScalar * ( MAX_HAND_SCALE - MIN_HAND_SCALE ) + MIN_HAND_SCALE;
@@ -298,7 +304,7 @@ class RatioHalf extends Rectangle {
       topRect.top = 0;
       bottomRect.bottom = newBounds.height;
 
-      const boundsNoFramingRects = newBounds.erodedY( FRAMING_RECTANGLE_HEIGHT );
+      const boundsNoFramingRects = newBounds.erodedY( this.framingRectangleHeight );
 
       // Don't count the space the framing rectangles take up as part of the draggableArea.
       modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
@@ -353,10 +359,6 @@ class RatioHalf extends Rectangle {
     this.resetRatioHalf();
   }
 }
-
-
-// @public - the height of the top and bottom rectangles
-RatioHalf.FRAMING_RECTANGLE_HEIGHT = FRAMING_RECTANGLE_HEIGHT;
 
 ratioAndProportion.register( 'RatioHalf', RatioHalf );
 export default RatioHalf;
