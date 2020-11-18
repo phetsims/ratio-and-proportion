@@ -151,7 +151,7 @@ class RatioHandNode extends Node {
     this.scale( rightHandFlipScale );
 
     // This .1 is to offset the centering of the white circle, it is empirically determined.
-    cueArrowUp.centerX = cueArrowDown.centerX = this.centerX + ( options.isRight ? 1 : -1 ) * this.width * .1;
+    upCue.centerX = downCue.centerX = this.centerX + ( options.isRight ? 1 : -1 ) * this.width * .1;
 
     const areaBounds = container.bounds.dilatedXY( container.width * .2, container.height * .2 );
     this.touchArea = areaBounds;
