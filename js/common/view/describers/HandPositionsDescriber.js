@@ -385,8 +385,7 @@ class HandPositionsDescriber {
     const pattern = capitalized ? ratioAndProportionStrings.a11y.bothHands.handsDistancePatternCapitalized :
                     ratioAndProportionStrings.a11y.bothHands.handsDistancePattern;
     return StringUtils.fillIn( pattern, {
-      distance: TickMarkView.describeQualitative( tickMarkView ) ? this.getDistanceRegion( true ) :
-                this.tickMarkDescriber.getDistanceInTickMarks( tickMarkView, this.getDistanceBetweenHands() )
+      distance: this.getDistanceRegion( true )
     } );
   }
 
