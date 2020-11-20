@@ -461,6 +461,9 @@
           "extremelyCloseTo": {
             "value": "Extremely close to"
           },
+          "almostEvenWith": {
+            "value": "Almost even with"
+          },
           "evenWith": {
             "value": "Even with"
           }
@@ -489,6 +492,9 @@
           },
           "extremelyCloseTo": {
             "value": "extremely close to"
+          },
+          "almostEvenWith": {
+            "value": "almost even with"
           },
           "evenWith": {
             "value": "even with"

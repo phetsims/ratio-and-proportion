@@ -51,6 +51,7 @@ const DISTANCE_REGIONS_CAPITALIZED = [
   ratioAndProportionStrings.a11y.handPosition.distance.capitalized.somewhatCloseTo,
   ratioAndProportionStrings.a11y.handPosition.distance.capitalized.veryCloseTo,
   ratioAndProportionStrings.a11y.handPosition.distance.capitalized.extremelyCloseTo,
+  ratioAndProportionStrings.a11y.handPosition.distance.capitalized.almostEvenWith,
   ratioAndProportionStrings.a11y.handPosition.distance.capitalized.evenWith
 ];
 
@@ -63,6 +64,7 @@ const DISTANCE_REGIONS_LOWERCASE = [
   ratioAndProportionStrings.a11y.handPosition.distance.lowercase.somewhatCloseTo,
   ratioAndProportionStrings.a11y.handPosition.distance.lowercase.veryCloseTo,
   ratioAndProportionStrings.a11y.handPosition.distance.lowercase.extremelyCloseTo,
+  ratioAndProportionStrings.a11y.handPosition.distance.lowercase.almostEvenWith,
   ratioAndProportionStrings.a11y.handPosition.distance.lowercase.evenWith
 ];
 
@@ -267,29 +269,32 @@ class HandPositionsDescriber {
     if ( distance === this.valueRange.getLength() ) {
       index = 0;
     }
-    else if ( distance >= .8 ) {
+    else if ( distance >= .85 ) {
       index = 1;
     }
-    else if ( distance >= .6 ) {
+    else if ( distance >= .7 ) {
       index = 2;
     }
-    else if ( distance >= .4 ) {
+    else if ( distance >= .55 ) {
       index = 3;
     }
-    else if ( distance >= .3 ) {
+    else if ( distance >= .4 ) {
       index = 4;
     }
-    else if ( distance >= .2 ) {
+    else if ( distance >= .3 ) {
       index = 5;
     }
-    else if ( distance >= .05 ) {
+    else if ( distance >= .2 ) {
       index = 6;
     }
-    else if ( distance > 0 ) {
+    else if ( distance >= .1 ) {
       index = 7;
     }
-    else if ( distance === 0 ) {
+    else if ( distance > 0 ) {
       index = 8;
+    }
+    else if ( distance === 0 ) {
+      index = 9;
     }
     assert && assert( index < DISTANCE_REGIONS_CAPITALIZED.length, 'out of range' );
     return ( lowercase ? DISTANCE_REGIONS_LOWERCASE : DISTANCE_REGIONS_CAPITALIZED )[ index ];
