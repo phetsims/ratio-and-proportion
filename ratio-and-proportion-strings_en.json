@@ -409,46 +409,26 @@
       "nearTop": {
         "value": "near top"
       },
-      "somewhatNearTop": {
-        "value": "somewhat near top"
+      "inUpperRegion": {
+        "value": "in upper region"
       },
-      "justAboveMiddle": {
-        "value": "just above middle"
+      "inUpperMiddleRegion": {
+        "value": "in upper-middle region"
       },
       "atMiddle": {
         "value": "at middle"
       },
-      "justBelowMiddle": {
-        "value": "just below middle"
+      "inLowerMiddleRegion": {
+        "value": "in lower-middle region"
       },
-      "somewhatNearBottom": {
-        "value": "somewhat near bottom"
+      "inLowerRegion": {
+        "value": "in lower region"
       },
       "nearBottom": {
         "value": "near bottom"
       },
       "atBottom": {
         "value": "at bottom"
-      },
-      "bothHands": {
-        "atTop": {
-          "value": "at top"
-        },
-        "inUpperRegion": {
-          "value": "in upper region"
-        },
-        "inMiddleRegion": {
-          "value": "in middle region"
-        },
-        "atMiddle": {
-          "value": "at middle"
-        },
-        "inLowerRegion": {
-          "value": "in lower region"
-        },
-        "atBottom": {
-          "value": "at bottom"
-        }
       },
       "distance": {
         "capitalized": {

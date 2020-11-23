@@ -22,24 +22,15 @@ const leftHandLowerString = ratioAndProportionStrings.a11y.leftHandLower;
 const rightHandLowerString = ratioAndProportionStrings.a11y.rightHandLower;
 
 const QUALITATIVE_POSITIONS = [
-  ratioAndProportionStrings.a11y.handPosition.atBottom,
-  ratioAndProportionStrings.a11y.handPosition.nearBottom,
-  ratioAndProportionStrings.a11y.handPosition.somewhatNearBottom,
-  ratioAndProportionStrings.a11y.handPosition.justBelowMiddle,
-  ratioAndProportionStrings.a11y.handPosition.atMiddle,
-  ratioAndProportionStrings.a11y.handPosition.justAboveMiddle,
-  ratioAndProportionStrings.a11y.handPosition.somewhatNearTop,
+  ratioAndProportionStrings.a11y.handPosition.atTop,
   ratioAndProportionStrings.a11y.handPosition.nearTop,
-  ratioAndProportionStrings.a11y.handPosition.atTop
-];
-const QUALITATIVE_BOTH_HANDS_POSITIONS = [
-  ratioAndProportionStrings.a11y.handPosition.bothHands.atBottom,
-  ratioAndProportionStrings.a11y.handPosition.bothHands.inLowerRegion,
-  ratioAndProportionStrings.a11y.handPosition.bothHands.inMiddleRegion,
-  ratioAndProportionStrings.a11y.handPosition.bothHands.atMiddle,
-  ratioAndProportionStrings.a11y.handPosition.bothHands.inMiddleRegion,
-  ratioAndProportionStrings.a11y.handPosition.bothHands.inUpperRegion,
-  ratioAndProportionStrings.a11y.handPosition.bothHands.atTop
+  ratioAndProportionStrings.a11y.handPosition.inUpperRegion,
+  ratioAndProportionStrings.a11y.handPosition.inUpperMiddleRegion,
+  ratioAndProportionStrings.a11y.handPosition.atMiddle,
+  ratioAndProportionStrings.a11y.handPosition.inLowerMiddleRegion,
+  ratioAndProportionStrings.a11y.handPosition.inLowerRegion,
+  ratioAndProportionStrings.a11y.handPosition.nearBottom,
+  ratioAndProportionStrings.a11y.handPosition.atBottom
 ];
 
 const DISTANCE_REGIONS_CAPITALIZED = [
@@ -116,22 +107,6 @@ class HandPositionsDescriber {
   }
 
   /**
-   * Description of a single hand in the context of both hands.
-   * @public
-   * @param {position} position
-   * @param {TickMarkView} tickMarkView
-   * @returns {string}
-   */
-  getBothHandsHandDescription( position, tickMarkView ) {
-    if ( TickMarkView.describeQualitative( tickMarkView ) ) {
-      return this.getQualitativeBothHandsHandPosition( position );
-    }
-    else {
-      return this.getQuantitativeHandPosition( position, TickMarkView.describeSemiQualitative( tickMarkView ) );
-    }
-  }
-
-  /**
    * @private
    * @param {number} handPosition
    * @param {boolean} semiQuantitative=false
@@ -174,75 +149,31 @@ class HandPositionsDescriber {
     const normalizedPosition = this.valueRange.getNormalizedValue( position );
 
     if ( normalizedPosition === this.valueRange.max ) {
-      return 8;
+      return 0;
     }
     else if ( normalizedPosition >= .9 ) {
+      return 1;
+    }
+    else if ( normalizedPosition > .65 ) {
+      return 2;
+    }
+    else if ( normalizedPosition > .5 ) {
+      return 3;
+    }
+    else if ( normalizedPosition === .5 ) {
+      return 4;
+    }
+    else if ( normalizedPosition >= .35 ) {
+      return 5;
+    }
+    else if ( normalizedPosition > .1 ) {
+      return 6;
+    }
+    else if ( normalizedPosition > this.valueRange.min ) {
       return 7;
     }
-    else if ( normalizedPosition > .7 ) {
-      return 6;
-    }
-    else if ( normalizedPosition > .5 ) {
-      return 5;
-    }
-    else if ( normalizedPosition === .5 ) {
-      return 4;
-    }
-    else if ( normalizedPosition >= .4 ) {
-      return 3;
-    }
-    else if ( normalizedPosition > .2 ) {
-      return 2;
-    }
-    else if ( normalizedPosition > this.valueRange.min ) {
-      return 1;
-    }
     else if ( normalizedPosition === this.valueRange.min ) {
-      return 0;
-    }
-
-    assert && assert( false, 'we should not get here' );
-  }
-
-  /**
-   * @private
-   * @param {number} handPosition
-   * @returns {string}
-   */
-  getQualitativeBothHandsHandPosition( handPosition ) {
-    return QUALITATIVE_BOTH_HANDS_POSITIONS[ this.getQualitativeBothHandsHandPositionIndex( handPosition ) ];
-  }
-
-  /**
-   * @param {number} position - relative to the total possible position
-   * @returns {number}
-   * @public
-   */
-  getQualitativeBothHandsHandPositionIndex( position ) {
-    assert && assert( this.valueRange.contains( position ), 'position expected to be in valueRange' );
-
-    const normalizedPosition = this.valueRange.getNormalizedValue( position );
-
-    if ( normalizedPosition === this.valueRange.max ) {
-      return 6;
-    }
-    else if ( normalizedPosition > .7 ) {
-      return 5;
-    }
-    else if ( normalizedPosition > .5 ) {
-      return 4;
-    }
-    else if ( normalizedPosition === .5 ) {
-      return 3;
-    }
-    else if ( normalizedPosition > .3 ) {
-      return 2;
-    }
-    else if ( normalizedPosition > this.valueRange.min ) {
-      return 1;
-    }
-    else if ( normalizedPosition === this.valueRange.min ) {
-      return 0;
+      return 8;
     }
 
     assert && assert( false, 'we should not get here' );

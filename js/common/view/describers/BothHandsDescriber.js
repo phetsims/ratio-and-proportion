@@ -50,8 +50,8 @@ class BothHandsDescriber {
   getBothHandsPosition() {
     const tickMarkView = this.tickMarkViewProperty.value;
 
-    const leftPosition = this.handPositionsDescriber.getBothHandsHandDescription( this.numeratorProperty.value, tickMarkView );
-    const rightPosition = this.handPositionsDescriber.getBothHandsHandDescription( this.denominatorProperty.value, tickMarkView );
+    const leftPosition = this.handPositionsDescriber.getHandPositionDescription( this.numeratorProperty.value, tickMarkView, false );
+    const rightPosition = this.handPositionsDescriber.getHandPositionDescription( this.denominatorProperty.value, tickMarkView, false );
 
     if ( leftPosition === rightPosition ) {
       return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.equalObjectResponseAlert, {
