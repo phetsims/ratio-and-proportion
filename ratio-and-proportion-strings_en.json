@@ -340,6 +340,9 @@
     "lockRatioCheckboxContextResponse": {
       "value": "Hands locked at challenge ratio. Move hands and observe."
     },
+    "lockRatioCheckboxUnlockedContextResponse": {
+      "value": "Ratio no longer locked."
+    },
     "screenSummaryControlAreaParagraph": {
       "value": "The Control Area has a button to reset the sim."
     },

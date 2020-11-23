@@ -152,7 +152,7 @@ class CreateScreenView extends RAPScreenView {
       targetDenominatorProperty
     ) );
 
-    const ratioLockedUtterance = new ActivationUtterance( { alert: ratioAndProportionStrings.a11y.lockRatioCheckboxContextResponse } );
+    const ratioLockedUtterance = new ActivationUtterance();
 
     const lockRatioCheckbox = new Checkbox( new RichText( ratioAndProportionStrings.lockRatio ), model.ratio.lockedProperty, {
       accessibleName: ratioAndProportionStrings.lockRatio,
@@ -161,7 +161,12 @@ class CreateScreenView extends RAPScreenView {
 
     // TODO: this should not be a separate FireListener. Instead we should be able to use the checkbox somehow.
     lockRatioCheckbox.addInputListener( new FireListener( {
-      fire: () => phet.joist.sim.utteranceQueue.addToBack( ratioLockedUtterance )
+      attach: false, // Since this is the second PressListener to be added to the checkbox (so annoying)
+      fire: () => {
+        ratioLockedUtterance.alert = model.ratio.lockedProperty.value ? ratioAndProportionStrings.a11y.lockRatioCheckboxContextResponse :
+                                     ratioAndProportionStrings.a11y.lockRatioCheckboxUnlockedContextResponse;
+        phet.joist.sim.utteranceQueue.addToBack( ratioLockedUtterance );
+      }
     } ) );
 
     // The "lock ratio" checkbox should not be enabled when the ratio is not in proportion.
