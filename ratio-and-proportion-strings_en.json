@@ -535,7 +535,7 @@
         "value": "{{currentChallenge}} {{proximityToRatio}}"
       },
       "currentChallenge": {
-        "value": "Current challenge {{targetNumerator}} to {{targetDenominator}}."
+        "value": "Current challenge {{targetAntecedent}} to {{targetConsequent}}."
       },
       "currentChallengeHidden": {
         "value": "Current challenge hidden."
