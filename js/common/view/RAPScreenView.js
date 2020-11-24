@@ -19,7 +19,7 @@ import Color from '../../../../scenery/js/util/Color.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
-import RatioComponent from '../model/RatioComponent.js';
+import RatioTerm from '../model/RatioTerm.js';
 import RAPConstants from '../RAPConstants.js';
 import BothHandsPDOMNode from './BothHandsPDOMNode.js';
 import CueDisplay from './CueDisplay.js';
@@ -130,7 +130,7 @@ class RAPScreenView extends ScreenView {
     this.antecedentRatioHalf = new RatioHalf(
       ratio.antecedentProperty,
       DEFAULT_RANGE,
-      model.ratio.enabledRatioComponentsRangeProperty,
+      model.ratio.enabledRatioTermsRangeProperty,
       antecedentCueDisplayProperty,
       defaultRatioHalfBounds,
       tickMarkViewProperty,
@@ -143,7 +143,7 @@ class RAPScreenView extends ScreenView {
       model.ratio.lockedProperty,
       model.ratio.lockedProperty, // not a bug
       this.viewSounds,
-      this.inProportionSoundGenerator, () => model.getIdealValueForTerm( RatioComponent.ANTECEDENT ), {
+      this.inProportionSoundGenerator, () => model.getIdealValueForTerm( RatioTerm.ANTECEDENT ), {
         handColorProperty: options.leftHandColorProperty,
         accessibleName: ratioAndProportionStrings.a11y.leftHand,
         a11yDependencies: a11yDependencies,
@@ -155,7 +155,7 @@ class RAPScreenView extends ScreenView {
     this.consequentRatioHalf = new RatioHalf(
       ratio.consequentProperty,
       DEFAULT_RANGE,
-      model.ratio.enabledRatioComponentsRangeProperty,
+      model.ratio.enabledRatioTermsRangeProperty,
       consequentCueDisplayProperty,
       defaultRatioHalfBounds,
       tickMarkViewProperty,
@@ -168,7 +168,7 @@ class RAPScreenView extends ScreenView {
       model.ratio.lockedProperty,
       model.ratio.lockedProperty, // not a bug
       this.viewSounds,
-      this.inProportionSoundGenerator, () => model.getIdealValueForTerm( RatioComponent.CONSEQUENT ), {
+      this.inProportionSoundGenerator, () => model.getIdealValueForTerm( RatioTerm.CONSEQUENT ), {
         handColorProperty: options.rightHandColorProperty,
         accessibleName: ratioAndProportionStrings.a11y.rightHand,
         a11yDependencies: a11yDependencies,

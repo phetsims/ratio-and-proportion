@@ -37,7 +37,7 @@ class BothHandsPDOMNode extends Node {
    * @param {ViewSounds} viewSounds
    * @param {BooleanProperty} ratioLockedProperty
    * @param {Property.<number>} targetRatioProperty
-   * @param {function(RatioComponent):number} getIdealTerm
+   * @param {function(RatioTerm):number} getIdealTerm
    * @param {Object} [options]
    */
   constructor( ratioTupleProperty, valueRange, antecedentCueDisplayProperty, consequentCueDisplayProperty, keyboardStep,

@@ -26,7 +26,7 @@ class RAPRatio {
   constructor() {
 
     // @public (read-only)
-    this.enabledRatioComponentsRangeProperty = new Property( RAPConstants.TOTAL_RATIO_COMPONENT_VALUE_RANGE );
+    this.enabledRatioTermsRangeProperty = new Property( RAPConstants.TOTAL_RATIO_COMPONENT_VALUE_RANGE );
 
     // @public {Property.<RAPRatioTuple>} - central Property that holds the value of the ratio
     // TODO: rename to `tupleProperty`
@@ -103,10 +103,10 @@ class RAPRatio {
     } );
 
     this.lockedProperty.link( ratioLocked => {
-      this.enabledRatioComponentsRangeProperty.value = new Range( ratioLocked ? LOCK_RATIO_RANGE_MIN : DEFAULT_VALUE_RANGE.min, DEFAULT_VALUE_RANGE.max );
+      this.enabledRatioTermsRangeProperty.value = new Range( ratioLocked ? LOCK_RATIO_RANGE_MIN : DEFAULT_VALUE_RANGE.min, DEFAULT_VALUE_RANGE.max );
     } );
 
-    this.enabledRatioComponentsRangeProperty.link( enabledRange => {
+    this.enabledRatioTermsRangeProperty.link( enabledRange => {
       const clampPropertyIntoRange = property => !enabledRange.contains( property.value ) && property.set( enabledRange.constrainValue( property.value ) );
       clampPropertyIntoRange( this.antecedentProperty );
       clampPropertyIntoRange( this.consequentProperty );
@@ -121,7 +121,7 @@ class RAPRatio {
    * @param {Range} range
    * @returns {RAPRatioTuple}
    */
-  clampRatioTupleValuesInRange( ratioTuple, ratio, range = this.enabledRatioComponentsRangeProperty.value ) {
+  clampRatioTupleValuesInRange( ratioTuple, ratio, range = this.enabledRatioTermsRangeProperty.value ) {
     let antecedent = ratioTuple.antecedent;
     let consequent = ratioTuple.consequent;
 
@@ -222,7 +222,7 @@ class RAPRatio {
     this.antecedentProperty.reset();
     this.consequentProperty.reset();
 
-    this.enabledRatioComponentsRangeProperty.reset();
+    this.enabledRatioTermsRangeProperty.reset();
     this.changeInAntecedentProperty.reset();
     this.changeInConsequentProperty.reset();
     this.previousAntecedentProperty.reset();

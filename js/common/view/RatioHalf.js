@@ -55,7 +55,7 @@ class RatioHalf extends Rectangle {
   /**
    * @param {NumberProperty} valueProperty
    * @param {Range} valueRange - the total range of the hand
-   * @param {Property.<Range>} enabledRatioComponentsRangeProperty - the current range that the hand can move
+   * @param {Property.<Range>} enabledRatioTermsRangeProperty - the current range that the hand can move
    * @param {EnumerationProperty.<CueDisplay>} cueDisplayProperty
    * @param {Bounds2} bounds - the area that the node takes up
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
@@ -72,7 +72,7 @@ class RatioHalf extends Rectangle {
    * @param {function():number} getIdealValue - a function that get's the value of this ratioHalf that would achieve the targetRatio
    * @param {Object} [options]
    */
-  constructor( valueProperty, valueRange, enabledRatioComponentsRangeProperty, cueDisplayProperty, bounds, tickMarkViewProperty,
+  constructor( valueProperty, valueRange, enabledRatioTermsRangeProperty, cueDisplayProperty, bounds, tickMarkViewProperty,
                tickMarkRangeProperty, ratioDescriber, handPositionsDescriber, bothHandsDescriber, colorProperty, keyboardStep,
                horizontalMovementAllowedProperty, ratioLockedProperty, viewSounds, inProportionSoundGenerator, getIdealValue,
                options ) {
@@ -125,7 +125,7 @@ class RatioHalf extends Rectangle {
     this.addChild( tickMarksNode );
 
     // @private - The draggable element inside the Node framed with thick rectangles on the top and bottom.
-    this.ratioHandNode = new RatioHandNode( valueProperty, enabledRatioComponentsRangeProperty, tickMarkViewProperty,
+    this.ratioHandNode = new RatioHandNode( valueProperty, enabledRatioTermsRangeProperty, tickMarkViewProperty,
       keyboardStep, options.handColorProperty, cueDisplayProperty, getIdealValue, {
         startDrag: () => {
           isFirstInteractionProperty.value = false;
@@ -255,7 +255,7 @@ class RatioHalf extends Rectangle {
     } );
 
     // When the range changes, update the dragBounds of the drag listener
-    enabledRatioComponentsRangeProperty.link( enabledRange => {
+    enabledRatioTermsRangeProperty.link( enabledRange => {
       const newBounds = getModelBoundsFromRange( enabledRange );
 
 
@@ -308,7 +308,7 @@ class RatioHalf extends Rectangle {
 
       // Don't count the space the framing rectangles take up as part of the draggableArea.
       modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
-        getModelBoundsFromRange( enabledRatioComponentsRangeProperty.value ),
+        getModelBoundsFromRange( enabledRatioTermsRangeProperty.value ),
         boundsNoFramingRects
       );
 

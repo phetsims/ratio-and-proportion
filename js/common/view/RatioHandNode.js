@@ -30,7 +30,7 @@ class RatioHandNode extends Node {
   /**
    *
    * @param {Property.<number>} valueProperty
-   * @param {Range} enabledRatioComponentsRangeProperty
+   * @param {Range} enabledRatioTermsRangeProperty
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
    * @param {number} keyboardStep
    * @param {Property.<ColorDef>} colorProperty - controls the color of the hand. This is for both the filled in and cut out hands.
@@ -38,7 +38,7 @@ class RatioHandNode extends Node {
    * @param {function():number} getIdealValue
    * @param {Object} [options]
    */
-  constructor( valueProperty, enabledRatioComponentsRangeProperty, tickMarkViewProperty, keyboardStep, colorProperty,
+  constructor( valueProperty, enabledRatioTermsRangeProperty, tickMarkViewProperty, keyboardStep, colorProperty,
                cueDisplayProperty, getIdealValue, options ) {
 
     const shiftKeyboardStep = keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER;
@@ -63,7 +63,7 @@ class RatioHandNode extends Node {
     super();
 
     // Always the same range, always enabled
-    !options.asIcon && this.initializeAccessibleSlider( valueProperty, enabledRatioComponentsRangeProperty, new BooleanProperty( true ), options );
+    !options.asIcon && this.initializeAccessibleSlider( valueProperty, enabledRatioTermsRangeProperty, new BooleanProperty( true ), options );
 
     // @private
     const filledInHandNode = new FilledInHandPath( {

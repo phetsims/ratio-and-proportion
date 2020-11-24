@@ -11,7 +11,7 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import KeyStateTracker from '../../../../scenery/js/accessibility/KeyStateTracker.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
-import RatioComponent from '../model/RatioComponent.js';
+import RatioTerm from '../model/RatioTerm.js';
 import RAPConstants from '../RAPConstants.js';
 
 class BothHandsInteractionListener {
@@ -27,7 +27,7 @@ class BothHandsInteractionListener {
    * @param {TickMarkBumpSoundClip} tickMarkBumpSoundClip
    * @param {Property.<boolean>} ratioLockedProperty
    * @param {Property.<number>} targetRatioProperty
-   * @param {function(RatioComponent):number} getIdealTerm
+   * @param {function(RatioTerm):number} getIdealTerm
    */
   constructor( targetNode, ratioTupleProperty, valueRange,
                isFirstInteractionProperty, tickMarkRangeProperty, keyboardStep, boundarySoundClip, tickMarkBumpSoundClip,
@@ -48,8 +48,8 @@ class BothHandsInteractionListener {
     this.targetRatioProperty = targetRatioProperty;
 
     // @private
-    this.antecedentMapKeyboardInput = RAPConstants.mapPostProcessKeyboardInput( () => getIdealTerm( RatioComponent.ANTECEDENT ), keyboardStep, this.shiftKeyboardStep );
-    this.consequentMapKeyboardInput = RAPConstants.mapPostProcessKeyboardInput( () => getIdealTerm( RatioComponent.CONSEQUENT ), keyboardStep, this.shiftKeyboardStep );
+    this.antecedentMapKeyboardInput = RAPConstants.mapPostProcessKeyboardInput( () => getIdealTerm( RatioTerm.ANTECEDENT ), keyboardStep, this.shiftKeyboardStep );
+    this.consequentMapKeyboardInput = RAPConstants.mapPostProcessKeyboardInput( () => getIdealTerm( RatioTerm.CONSEQUENT ), keyboardStep, this.shiftKeyboardStep );
 
     // @private - true whenever the user is interacting with this listener
     this.isBeingInteractedWithProperty = new BooleanProperty( false );

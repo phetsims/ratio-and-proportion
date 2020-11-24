@@ -12,7 +12,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPConstants from '../RAPConstants.js';
 import RAPRatio from './RAPRatio.js';
-import RatioComponent from './RatioComponent.js';
+import RatioTerm from './RatioTerm.js';
 
 // constant to help achieve feedback in 40% of the visual screen height.
 const FITNESS_TOLERANCE_FACTOR = 0.5;
@@ -186,16 +186,16 @@ unclampedFitness: ${unclampedFitness}\n` );
   /**
    * Given a ratio component (antecedent or consequent), determine what it should be to make the current ratio equal to
    * the target ratio.
-   * @param {RatioComponent} ratioComponent
+   * @param {RatioTerm} ratioTerm
    * @returns {number}
    * @public
    */
-  getIdealValueForTerm( ratioComponent ) {
+  getIdealValueForTerm( ratioTerm ) {
     let theReturn = null;
-    if ( ratioComponent === RatioComponent.ANTECEDENT ) {
+    if ( ratioTerm === RatioTerm.ANTECEDENT ) {
       theReturn = this.targetRatioProperty.value * this.ratio.ratioTupleProperty.value.consequent;
     }
-    if ( ratioComponent === RatioComponent.CONSEQUENT ) {
+    if ( ratioTerm === RatioTerm.CONSEQUENT ) {
       theReturn = this.ratio.ratioTupleProperty.value.antecedent / this.targetRatioProperty.value;
     }
     return Utils.toFixedNumber( theReturn, 6 );
