@@ -130,6 +130,11 @@ class BothHandsPDOMNode extends Node {
       }
     } );
 
+    // emit this utterance immediately, so that it comes before the object response above.
+    bothHandsInteractionListener.inputCauseRatioUnlockEmitter.addListener( () => {
+      phet.joist.sim.utteranceQueue.addToBack( ratioAndProportionStrings.a11y.lockRatioCheckboxUnlockedContextResponse );
+    } );
+
     this.mutate( options );
   }
 

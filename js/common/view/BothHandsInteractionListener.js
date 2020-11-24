@@ -7,6 +7,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Emitter from '../../../../axon/js/Emitter.js';
 import KeyStateTracker from '../../../../scenery/js/accessibility/KeyStateTracker.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
@@ -53,11 +54,8 @@ class BothHandsInteractionListener {
     // @private - true whenever the user is interacting with this listener
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
 
-    this.keyStateTracker.keyupEmitter.addListener( () => {
-      if ( !this.keyStateTracker.keysAreDown() ) {
-        this.isBeingInteractedWithProperty.value = false;
-      }
-    } );
+    // @public - called when this input causes the ratio to become unlocked (when originally locked)
+    this.inputCauseRatioUnlockEmitter = new Emitter();
   }
 
   /**
@@ -147,6 +145,11 @@ class BothHandsInteractionListener {
             // ratio is locked. Special case for 0, since 0/0 is not in target ratio.
             if ( wasLocked && !this.ratioLockedProperty.value && this.targetRatioProperty.value === 1 && this.ratioTupleProperty.value !== 0 ) {
               this.ratioLockedProperty.value = true;
+            }
+
+            // Because this input can "knock" the ratio out of locked mode, see https://github.com/phetsims/ratio-and-proportion/issues/227
+            if ( wasLocked && this.ratioLockedProperty.value === false ) {
+              this.inputCauseRatioUnlockEmitter.emit();
             }
           }
         }
