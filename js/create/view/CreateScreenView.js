@@ -52,21 +52,21 @@ class CreateScreenView extends RAPScreenView {
     } );
 
     // Allow us to get the reduced fraction as the initial value of the custom "My Challenge"
-    const initialRatioFraction = new Fraction( model.ratio.numeratorProperty.value * 100, model.ratio.denominatorProperty.value * 100 );
+    const initialRatioFraction = new Fraction( model.ratio.antecedentProperty.value * 100, model.ratio.consequentProperty.value * 100 );
     initialRatioFraction.reduce();
     const rangeProperty = new Property( new Range( 1, 10 ) );
 
     // TODO: this should depend on the target ratio, not the initial values
-    const targetNumeratorProperty = new NumberProperty( initialRatioFraction.numerator );
-    const targetDenominatorProperty = new NumberProperty( initialRatioFraction.denominator );
+    const targetAntecedentProperty = new NumberProperty( initialRatioFraction.numerator );
+    const targetConsequentProperty = new NumberProperty( initialRatioFraction.denominator );
 
-    const numeratorNumberPicker = new NumberPicker( targetNumeratorProperty, rangeProperty, {
+    const antecedentNumberPicker = new NumberPicker( targetAntecedentProperty, rangeProperty, {
       scale: PICKER_SCALE,
       color: handColorProperty.value,
       center: Vector2.ZERO,
       accessibleName: ratioAndProportionStrings.a11y.leftValue,
-      a11yDependencies: [ targetDenominatorProperty ],
-      a11yCreateContextResponseAlert: () => this.ratioDescriber.getTargetRatioChangeAlert( targetNumeratorProperty.value, targetDenominatorProperty.value )
+      a11yDependencies: [ targetConsequentProperty ],
+      a11yCreateContextResponseAlert: () => this.ratioDescriber.getTargetRatioChangeAlert( targetAntecedentProperty.value, targetConsequentProperty.value )
     } );
     const leftRatioSelector = new VBox( {
       align: 'origin',
@@ -75,16 +75,16 @@ class CreateScreenView extends RAPScreenView {
         RatioHandNode.createIcon( false, this.tickMarkViewProperty, {
           handColor: handColorProperty.value, handNodeOptions: { scale: ICON_SCALE }
         } ),
-        new Node( { children: [ numeratorNumberPicker ] } ) ]
+        new Node( { children: [ antecedentNumberPicker ] } ) ]
     } );
 
-    const denominatorNumberPicker = new NumberPicker( targetDenominatorProperty, rangeProperty, {
+    const consequentNumberPicker = new NumberPicker( targetConsequentProperty, rangeProperty, {
       scale: PICKER_SCALE,
       color: handColorProperty.value,
       center: Vector2.ZERO,
       accessibleName: ratioAndProportionStrings.a11y.rightValue,
-      a11yDependencies: [ targetNumeratorProperty ],
-      a11yCreateContextResponseAlert: () => this.ratioDescriber.getTargetRatioChangeAlert( targetNumeratorProperty.value, targetDenominatorProperty.value )
+      a11yDependencies: [ targetAntecedentProperty ],
+      a11yCreateContextResponseAlert: () => this.ratioDescriber.getTargetRatioChangeAlert( targetAntecedentProperty.value, targetConsequentProperty.value )
     } );
     const rightRatioSelector = new VBox( {
       align: 'origin',
@@ -93,11 +93,11 @@ class CreateScreenView extends RAPScreenView {
         RatioHandNode.createIcon( true, this.tickMarkViewProperty, {
           handColor: handColorProperty.value, handNodeOptions: { scale: ICON_SCALE }
         } ),
-        new Node( { children: [ denominatorNumberPicker ] } ) ]
+        new Node( { children: [ consequentNumberPicker ] } ) ]
     } );
 
-    Property.multilink( [ targetNumeratorProperty, targetDenominatorProperty ], ( targetNumerator, targetDenominator ) => {
-      model.targetRatioProperty.value = targetNumerator / targetDenominator;
+    Property.multilink( [ targetAntecedentProperty, targetConsequentProperty ], ( targetAntecedent, targetConsequent ) => {
+      model.targetRatioProperty.value = targetAntecedent / targetConsequent;
     } );
 
     const myChallengeContent = new HBox( {
@@ -130,7 +130,7 @@ class CreateScreenView extends RAPScreenView {
     const accordionBoxUtterance = new ActivationUtterance();
     myChallengeAccordionBox.expandedProperty.lazyLink( expanded => {
       accordionBoxUtterance.alert = expanded ?
-                                    this.ratioDescriber.getCurrentChallengeSentence( targetNumeratorProperty.value, targetDenominatorProperty.value ) :
+                                    this.ratioDescriber.getCurrentChallengeSentence( targetAntecedentProperty.value, targetConsequentProperty.value ) :
                                     ratioAndProportionStrings.a11y.ratio.currentChallengeHidden;
       phet.joist.sim.utteranceQueue.addToBack( accordionBoxUtterance );
     } );
@@ -142,14 +142,14 @@ class CreateScreenView extends RAPScreenView {
     // set this after the supertype has initialized the view code needed to create the screen summary
     this.setScreenSummaryContent( new CreateScreenSummaryNode(
       model.ratioFitnessProperty,
-      model.ratio.numeratorProperty,
-      model.ratio.denominatorProperty,
+      model.ratio.antecedentProperty,
+      model.ratio.consequentProperty,
       this.tickMarkViewProperty,
       this.ratioDescriber,
       this.handPositionsDescriber,
       tickMarkRangeProperty,
-      targetNumeratorProperty,
-      targetDenominatorProperty
+      targetAntecedentProperty,
+      targetConsequentProperty
     ) );
 
     const ratioLockedUtterance = new ActivationUtterance();
@@ -204,8 +204,8 @@ class CreateScreenView extends RAPScreenView {
 
     // @private
     this.resetCreateScreenView = () => {
-      targetNumeratorProperty.reset();
-      targetDenominatorProperty.reset();
+      targetAntecedentProperty.reset();
+      targetConsequentProperty.reset();
       myChallengeAccordionBox.expandedProperty.value = DEFAULT_EXPANDED;
     };
   }

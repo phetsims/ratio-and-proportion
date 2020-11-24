@@ -36,8 +36,8 @@ class DiscoverScreenView extends RAPScreenView {
     // set this after the supertype has initialized the view code needed to create the screen summary
     this.setScreenSummaryContent( new DiscoverScreenSummaryNode(
       model.ratioFitnessProperty,
-      model.ratio.numeratorProperty,
-      model.ratio.denominatorProperty,
+      model.ratio.antecedentProperty,
+      model.ratio.consequentProperty,
       model.targetRatioProperty,
       this.tickMarkViewProperty,
       this.ratioDescriber,

@@ -11,54 +11,54 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 class RAPRatioTuple {
 
   /**
-   * @param {number} numerator
-   * @param {number} denominator
+   * @param {number} antecedent
+   * @param {number} consequent
    */
-  constructor( numerator, denominator ) {
-    assert && assert( typeof numerator === 'number' && !isNaN( numerator ) );
-    assert && assert( typeof denominator === 'number' && !isNaN( denominator ) );
+  constructor( antecedent, consequent ) {
+    assert && assert( typeof antecedent === 'number' && !isNaN( antecedent ) );
+    assert && assert( typeof consequent === 'number' && !isNaN( consequent ) );
 
     // @public {number}
-    this.numerator = Utils.toFixedNumber( numerator, 6 );
-    this.denominator = Utils.toFixedNumber( denominator, 6 );
+    this.antecedent = Utils.toFixedNumber( antecedent, 6 );
+    this.consequent = Utils.toFixedNumber( consequent, 6 );
   }
 
   /**
    *
-   * @param {number} numerator
+   * @param {number} antecedent
    * @returns {RAPRatioTuple}
    * @public
    */
-  withNumerator( numerator ) {
-    return new RAPRatioTuple( numerator, this.denominator );
+  withAntecedent( antecedent ) {
+    return new RAPRatioTuple( antecedent, this.consequent );
   }
 
   /**
    *
-   * @param {number} denominator
+   * @param {number} consequent
    * @returns {RAPRatioTuple}
    * @public
    */
-  withDenominator( denominator ) {
-    return new RAPRatioTuple( this.numerator, denominator );
+  withConsequent( consequent ) {
+    return new RAPRatioTuple( this.antecedent, consequent );
   }
 
   /**
-   * @param {number} numeratorDelta
+   * @param {number} antecedentDelta
    * @returns {RAPRatioTuple}
    * @public
    */
-  plusNumerator( numeratorDelta ) {
-    return new RAPRatioTuple( this.numerator + numeratorDelta, this.denominator );
+  plusAntecedent( antecedentDelta ) {
+    return new RAPRatioTuple( this.antecedent + antecedentDelta, this.consequent );
   }
 
   /**
-   * @param {number} denominatorDelta
+   * @param {number} consequentDelta
    * @returns {RAPRatioTuple}
    * @public
    */
-  plusDenominator( denominatorDelta ) {
-    return new RAPRatioTuple( this.numerator, this.denominator + denominatorDelta );
+  plusConsequent( consequentDelta ) {
+    return new RAPRatioTuple( this.antecedent, this.consequent + consequentDelta );
   }
 
   /**
@@ -67,8 +67,8 @@ class RAPRatioTuple {
    * @param {Range} valueRange
    */
   constrainFields( valueRange ) {
-    this.numerator = valueRange.constrainValue( this.numerator );
-    this.denominator = valueRange.constrainValue( this.denominator );
+    this.antecedent = valueRange.constrainValue( this.antecedent );
+    this.consequent = valueRange.constrainValue( this.consequent );
 
     return this; // for chaining
   }
@@ -78,7 +78,7 @@ class RAPRatioTuple {
    * @returns {number}
    */
   getRatio() {
-    return this.numerator / this.denominator;
+    return this.antecedent / this.consequent;
   }
 
   /**
@@ -87,8 +87,8 @@ class RAPRatioTuple {
    * @returns {RAPRatioTuple} - for chaining
    */
   toFixed( numberOfDigits ) {
-    this.numerator = Utils.toFixedNumber( this.numerator, numberOfDigits );
-    this.denominator = Utils.toFixedNumber( this.denominator, numberOfDigits );
+    this.antecedent = Utils.toFixedNumber( this.antecedent, numberOfDigits );
+    this.consequent = Utils.toFixedNumber( this.consequent, numberOfDigits );
     return this;
   }
 }

@@ -17,7 +17,7 @@ import RatioComponent from './RatioComponent.js';
 // constant to help achieve feedback in 40% of the visual screen height.
 const FITNESS_TOLERANCE_FACTOR = 0.5;
 
-// The value in which when either the numerator or denominator is less than this, the ratio cannot be "in proportion".
+// The value in which when either the antecedent or consequent is less than this, the ratio cannot be "in proportion".
 // Add .001 to support two keyboard nav motions above 0 (counting the min range being >0).
 const NO_SUCCUSS_VALUE_THRESHOLD = .021;
 
@@ -30,7 +30,7 @@ class RAPModel {
    */
   constructor( tandem ) {
 
-    // The desired ratio of the numerator as compared to the denominator. As in 1:2 (initial value).
+    // The desired ratio of the antecedent as compared to the consequent. As in 1:2 (initial value).
     this.targetRatioProperty = new NumberProperty( .5 );
 
     // @public - the current state of the ratio
@@ -47,10 +47,10 @@ class RAPModel {
       this.targetRatioProperty
     ], ( ratioTuple, ratio ) => {
 
-      const numerator = ratioTuple.numerator;
-      const denominator = ratioTuple.denominator;
+      const antecedent = ratioTuple.antecedent;
+      const consequent = ratioTuple.consequent;
 
-      let unclampedFitness = this.calculateFitness( numerator, denominator, ratio );
+      let unclampedFitness = this.calculateFitness( antecedent, consequent, ratio );
 
       // If either value is small enough, then we don't allow an "in proportion" fitness level, so make it just below that threshold.
       if ( this.inProportion( unclampedFitness ) && this.valuesTooSmallForSuccess() ) {
@@ -58,9 +58,9 @@ class RAPModel {
       }
 
       phet.log && phet.log( `
-left: ${numerator}, 
-right: ${denominator}, 
-distance: ${Math.abs( denominator - numerator )}, 
+left: ${antecedent}, 
+right: ${consequent}, 
+distance: ${Math.abs( consequent - antecedent )}, 
 current ratio: ${this.ratio.currentRatio}, 
 target ratio: ${this.targetRatioProperty.value},
 unclampedFitness: ${unclampedFitness}\n` );
@@ -92,43 +92,43 @@ unclampedFitness: ${unclampedFitness}\n` );
   }
 
   /**
-   * fitness according to treating the denominator as "correct" in relation to the target ratio
-   * @param {number} numerator
-   * @param {number} denominatorOptimal
+   * fitness according to treating the consequent as "correct" in relation to the target ratio
+   * @param {number} antecedent
+   * @param {number} consequentOptimal
    * @param {number} targetRatio
    * @returns {number}
    * @private
    */
-  fitnessBasedOnNumerator( numerator, denominatorOptimal, targetRatio ) {
-    return 1 - FITNESS_TOLERANCE_FACTOR * Math.abs( numerator - targetRatio * denominatorOptimal );
+  fitnessBasedOnAntecedent( antecedent, consequentOptimal, targetRatio ) {
+    return 1 - FITNESS_TOLERANCE_FACTOR * Math.abs( antecedent - targetRatio * consequentOptimal );
   }
 
   /**
-   * fitness according to treating the numerator as "correct" in relation to the target ratio
-   * @param {number} numeratorOptimal
-   * @param {number} denominator
+   * fitness according to treating the antecedent as "correct" in relation to the target ratio
+   * @param {number} antecedentOptimal
+   * @param {number} consequent
    * @param {number} targetRatio
    * @returns {number}
    * @private
    */
-  fitnessBasedOnDenominator( numeratorOptimal, denominator, targetRatio ) {
-    return 1 - FITNESS_TOLERANCE_FACTOR * Math.abs( denominator - numeratorOptimal / targetRatio );
+  fitnessBasedOnConsequent( antecedentOptimal, consequent, targetRatio ) {
+    return 1 - FITNESS_TOLERANCE_FACTOR * Math.abs( consequent - antecedentOptimal / targetRatio );
   }
 
   /**
    *
-   * @param {number} numerator
-   * @param {number} denominator
+   * @param {number} antecedent
+   * @param {number} consequent
    * @param {number} targetRatio
    * @returns {number}
    * @private
    */
-  calculateFitness( numerator, denominator, targetRatio ) {
+  calculateFitness( antecedent, consequent, targetRatio ) {
 
     // multiply because the model values only span from 0-1
-    const a = numerator * 10;
-    const b = denominator * 10;
-    return Math.min( this.fitnessBasedOnNumerator( a, b, targetRatio ), this.fitnessBasedOnDenominator( a, b, targetRatio ) );
+    const a = antecedent * 10;
+    const b = consequent * 10;
+    return Math.min( this.fitnessBasedOnAntecedent( a, b, targetRatio ), this.fitnessBasedOnConsequent( a, b, targetRatio ) );
   }
 
   /**
@@ -149,7 +149,7 @@ unclampedFitness: ${unclampedFitness}\n` );
    * @returns {boolean}
    */
   valuesTooSmallForSuccess() {
-    return this.ratio.numeratorProperty.value <= NO_SUCCUSS_VALUE_THRESHOLD || this.ratio.denominatorProperty.value <= NO_SUCCUSS_VALUE_THRESHOLD;
+    return this.ratio.antecedentProperty.value <= NO_SUCCUSS_VALUE_THRESHOLD || this.ratio.consequentProperty.value <= NO_SUCCUSS_VALUE_THRESHOLD;
   }
 
   /**
@@ -184,7 +184,7 @@ unclampedFitness: ${unclampedFitness}\n` );
   }
 
   /**
-   * Given a ratio component (numerator or denominator), determine what it should be to make the current ratio equal to
+   * Given a ratio component (antecedent or consequent), determine what it should be to make the current ratio equal to
    * the target ratio.
    * @param {RatioComponent} ratioComponent
    * @returns {number}
@@ -192,11 +192,11 @@ unclampedFitness: ${unclampedFitness}\n` );
    */
   getIdealValueForTerm( ratioComponent ) {
     let theReturn = null;
-    if ( ratioComponent === RatioComponent.NUMERATOR ) {
-      theReturn = this.targetRatioProperty.value * this.ratio.ratioTupleProperty.value.denominator;
+    if ( ratioComponent === RatioComponent.ANTECEDENT ) {
+      theReturn = this.targetRatioProperty.value * this.ratio.ratioTupleProperty.value.consequent;
     }
-    if ( ratioComponent === RatioComponent.DENOMINATOR ) {
-      theReturn = this.ratio.ratioTupleProperty.value.numerator / this.targetRatioProperty.value;
+    if ( ratioComponent === RatioComponent.CONSEQUENT ) {
+      theReturn = this.ratio.ratioTupleProperty.value.antecedent / this.targetRatioProperty.value;
     }
     return Utils.toFixedNumber( theReturn, 6 );
   }

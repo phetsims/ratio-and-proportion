@@ -25,8 +25,8 @@ class BothHandsPDOMNode extends Node {
   /**
    * @param {Property.<RAPRatioTuple>} ratioTupleProperty
    * @param {Range} valueRange - the total range of the hand
-   * @param {EnumerationProperty.<CueDisplay>} numeratorCueDisplayProperty
-   * @param {EnumerationProperty.<CueDisplay>} denominatorCueDisplayProperty
+   * @param {EnumerationProperty.<CueDisplay>} antecedentCueDisplayProperty
+   * @param {EnumerationProperty.<CueDisplay>} consequentCueDisplayProperty
    * @param {number} keyboardStep
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
    * @param {Property.<number>} tickMarkRangeProperty
@@ -40,7 +40,7 @@ class BothHandsPDOMNode extends Node {
    * @param {function(RatioComponent):number} getIdealTerm
    * @param {Object} [options]
    */
-  constructor( ratioTupleProperty, valueRange, numeratorCueDisplayProperty, denominatorCueDisplayProperty, keyboardStep,
+  constructor( ratioTupleProperty, valueRange, antecedentCueDisplayProperty, consequentCueDisplayProperty, keyboardStep,
                tickMarkViewProperty, tickMarkRangeProperty, unclampedFitnessProperty, handPositionsDescriber,
                ratioDescriber, bothHandsDescriber, viewSounds, ratioLockedProperty, targetRatioProperty, getIdealTerm, options ) {
 
@@ -67,8 +67,8 @@ class BothHandsPDOMNode extends Node {
 
     this.isFirstInteractionProperty.lazyLink( firstInteraction => {
       if ( !firstInteraction ) {
-        numeratorCueDisplayProperty.value = CueDisplay.NONE;
-        denominatorCueDisplayProperty.value = CueDisplay.NONE;
+        antecedentCueDisplayProperty.value = CueDisplay.NONE;
+        consequentCueDisplayProperty.value = CueDisplay.NONE;
       }
     } );
 
@@ -89,13 +89,13 @@ class BothHandsPDOMNode extends Node {
       focus: () => {
         this.alertBothHandsObjectResponse( tickMarkViewProperty.value );
         viewSounds.grabSoundClip.play();
-        numeratorCueDisplayProperty.value = this.isFirstInteractionProperty.value ? CueDisplay.W_S : CueDisplay.NONE;
-        denominatorCueDisplayProperty.value = this.isFirstInteractionProperty.value ? CueDisplay.UP_DOWN : CueDisplay.NONE;
+        antecedentCueDisplayProperty.value = this.isFirstInteractionProperty.value ? CueDisplay.W_S : CueDisplay.NONE;
+        consequentCueDisplayProperty.value = this.isFirstInteractionProperty.value ? CueDisplay.UP_DOWN : CueDisplay.NONE;
       },
       blur: () => {
         viewSounds.releaseSoundClip.play();
-        numeratorCueDisplayProperty.value = this.isFirstInteractionProperty.value ? CueDisplay.ARROWS : CueDisplay.NONE;
-        denominatorCueDisplayProperty.value = this.isFirstInteractionProperty.value ? CueDisplay.ARROWS : CueDisplay.NONE;
+        antecedentCueDisplayProperty.value = this.isFirstInteractionProperty.value ? CueDisplay.ARROWS : CueDisplay.NONE;
+        consequentCueDisplayProperty.value = this.isFirstInteractionProperty.value ? CueDisplay.ARROWS : CueDisplay.NONE;
       }
     } );
 

@@ -9,7 +9,7 @@
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 
-const RatioComponent = Enumeration.byKeys( [ 'NUMERATOR', 'DENOMINATOR' ] );
+const RatioComponent = Enumeration.byKeys( [ 'ANTECEDENT', 'CONSEQUENT' ] );
 
 ratioAndProportion.register( 'RatioComponent', RatioComponent );
 export default RatioComponent;

@@ -64,26 +64,26 @@ assert && assert( DISTANCE_REGIONS_CAPITALIZED.length === DISTANCE_REGIONS_LOWER
 class HandPositionsDescriber {
 
   /**
-   * @param {Property.<number>}numeratorProperty
-   * @param {Property.<number>}denominatorProperty
+   * @param {Property.<number>}antecedentProperty
+   * @param {Property.<number>}consequentProperty
    * @param {Range} valueRange
    * @param {TickMarkDescriber} tickMarkDescriber
    */
-  constructor( numeratorProperty, denominatorProperty, valueRange, tickMarkDescriber ) {
+  constructor( antecedentProperty, consequentProperty, valueRange, tickMarkDescriber ) {
 
     // @private - from model
-    this.numeratorProperty = numeratorProperty;
-    this.denominatorProperty = denominatorProperty;
+    this.antecedentProperty = antecedentProperty;
+    this.consequentProperty = consequentProperty;
     this.valueRange = valueRange;
     this.tickMarkDescriber = tickMarkDescriber;
 
     // @private
-    this.lastNumeratorValueProperty = new NumberProperty( numeratorProperty.value );
-    this.lastDenominatorValueProperty = new NumberProperty( denominatorProperty.value );
+    this.lastAntecedentValueProperty = new NumberProperty( antecedentProperty.value );
+    this.lastConsequentValueProperty = new NumberProperty( consequentProperty.value );
 
     // @private - initialized to null, but only set to boolean
-    this.previousNumeratorChangeProperty = new Property( null );
-    this.previousDenominatorChangeProperty = new Property( null );
+    this.previousAntecedentChangeProperty = new Property( null );
+    this.previousConsequentChangeProperty = new Property( null );
   }
 
   /**
@@ -184,7 +184,7 @@ class HandPositionsDescriber {
    * @returns {number}
    */
   getDistanceBetweenHands() {
-    return Math.abs( this.numeratorProperty.value - this.denominatorProperty.value );
+    return Math.abs( this.antecedentProperty.value - this.consequentProperty.value );
   }
 
   /**
@@ -257,7 +257,7 @@ class HandPositionsDescriber {
         assert && assert( false, 'all cases above' );
     }
 
-    const otherHand = valueProperty === this.numeratorProperty ? rightHandLowerString : leftHandLowerString;
+    const otherHand = valueProperty === this.antecedentProperty ? rightHandLowerString : leftHandLowerString;
 
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDirectionClause, {
       otherHand: otherHand,
@@ -274,10 +274,10 @@ class HandPositionsDescriber {
    * @returns {DirectionChanged}
    */
   getDirectionChangedState( valueProperty ) {
-    const previousValueProperty = valueProperty === this.numeratorProperty ? this.lastNumeratorValueProperty : this.lastDenominatorValueProperty;
-    const otherPreviousValueProperty = valueProperty === this.numeratorProperty ? this.lastDenominatorValueProperty : this.lastNumeratorValueProperty;
-    const previousChangeProperty = valueProperty === this.numeratorProperty ? this.previousNumeratorChangeProperty : this.previousDenominatorChangeProperty;
-    const otherValueProperty = valueProperty === this.numeratorProperty ? this.denominatorProperty : this.numeratorProperty;
+    const previousValueProperty = valueProperty === this.antecedentProperty ? this.lastAntecedentValueProperty : this.lastConsequentValueProperty;
+    const otherPreviousValueProperty = valueProperty === this.antecedentProperty ? this.lastConsequentValueProperty : this.lastAntecedentValueProperty;
+    const previousChangeProperty = valueProperty === this.antecedentProperty ? this.previousAntecedentChangeProperty : this.previousConsequentChangeProperty;
+    const otherValueProperty = valueProperty === this.antecedentProperty ? this.consequentProperty : this.antecedentProperty;
 
     const increasing = valueProperty.value > previousValueProperty.value;
 

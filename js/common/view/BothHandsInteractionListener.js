@@ -48,8 +48,8 @@ class BothHandsInteractionListener {
     this.targetRatioProperty = targetRatioProperty;
 
     // @private
-    this.numeratorMapKeyboardInput = RAPConstants.mapPostProcessKeyboardInput( () => getIdealTerm( RatioComponent.NUMERATOR ), keyboardStep, this.shiftKeyboardStep );
-    this.denominatorMapKeyboardInput = RAPConstants.mapPostProcessKeyboardInput( () => getIdealTerm( RatioComponent.DENOMINATOR ), keyboardStep, this.shiftKeyboardStep );
+    this.antecedentMapKeyboardInput = RAPConstants.mapPostProcessKeyboardInput( () => getIdealTerm( RatioComponent.ANTECEDENT ), keyboardStep, this.shiftKeyboardStep );
+    this.consequentMapKeyboardInput = RAPConstants.mapPostProcessKeyboardInput( () => getIdealTerm( RatioComponent.CONSEQUENT ), keyboardStep, this.shiftKeyboardStep );
 
     // @private - true whenever the user is interacting with this listener
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
@@ -60,7 +60,7 @@ class BothHandsInteractionListener {
 
   /**
    * Consistently handle changing the ratio from increment/decrement
-   * @param {'numerator'|'denominator'} tupleField - what field of the RAPRatioTuple are we changing
+   * @param {'antecedent'|'consequent'} tupleField - what field of the RAPRatioTuple are we changing
    * @param {function(number,number,boolean):number} inputMapper - see RAPConstants.mapPostProcessKeyboardInput
    * @param {boolean} increment - if the value is being incremented, as opposed to decremented.
    * @private
@@ -75,7 +75,7 @@ class BothHandsInteractionListener {
     // Because this interaction uses the keyboard, snap to the keyboard step to handle the case where the hands were
     // previously moved via mouse/touch. See https://github.com/phetsims/ratio-and-proportion/issues/156
     const newValue = inputMapper( currentValue + valueDelta, currentValue, this.keyStateTracker.shiftKeyDown ? this.shiftKeyboardStep : this.keyboardStep );
-    const newRatioTuple = tupleField === 'numerator' ? this.ratioTupleProperty.value.withNumerator( newValue ) : this.ratioTupleProperty.value.withDenominator( newValue );
+    const newRatioTuple = tupleField === 'antecedent' ? this.ratioTupleProperty.value.withAntecedent( newValue ) : this.ratioTupleProperty.value.withConsequent( newValue );
 
     this.ratioTupleProperty.value = newRatioTuple.constrainFields( this.valueRange );
 
@@ -106,16 +106,16 @@ class BothHandsInteractionListener {
       this.isBeingInteractedWithProperty.value = true;
 
       if ( event.key === 'ArrowDown' ) {
-        this.onValueIncrementDecrement( 'denominator', this.denominatorMapKeyboardInput, false );
+        this.onValueIncrementDecrement( 'consequent', this.consequentMapKeyboardInput, false );
       }
       else if ( event.key === 'ArrowUp' ) {
-        this.onValueIncrementDecrement( 'denominator', this.denominatorMapKeyboardInput, true );
+        this.onValueIncrementDecrement( 'consequent', this.consequentMapKeyboardInput, true );
       }
       else if ( event.key.toLowerCase() === 'w' ) {
-        this.onValueIncrementDecrement( 'numerator', this.numeratorMapKeyboardInput, true );
+        this.onValueIncrementDecrement( 'antecedent', this.antecedentMapKeyboardInput, true );
       }
       else if ( event.key.toLowerCase() === 's' ) {
-        this.onValueIncrementDecrement( 'numerator', this.numeratorMapKeyboardInput, false );
+        this.onValueIncrementDecrement( 'antecedent', this.antecedentMapKeyboardInput, false );
       }
       else {
 

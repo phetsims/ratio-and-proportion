@@ -109,27 +109,27 @@ class RatioDescriber {
 
   /**
    * @public
-   * @param {number} numerator
-   * @param {number} denominator
+   * @param {number} antecedent
+   * @param {number} consequent
    * @returns {string}
    */
-  getCurrentChallengeSentence( numerator, denominator ) {
+  getCurrentChallengeSentence( antecedent, consequent ) {
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.currentChallenge, {
-      targetNumerator: numerator,
-      targetDenominator: denominator
+      targetAntecedent: antecedent,
+      targetConsequent: consequent
     } );
   }
 
   /**
    * @public
-   * @param {number} numerator
-   * @param {number} denominator
+   * @param {number} antecedent
+   * @param {number} consequent
    * @returns {string}
    */
-  getTargetRatioChangeAlert( numerator, denominator ) {
+  getTargetRatioChangeAlert( antecedent, consequent ) {
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.targetRatioChangedContextResponse, {
       proximityToRatio: this.getProximityToNewChallengeRatioSentence(),
-      currentChallenge: this.getCurrentChallengeSentence( numerator, denominator )
+      currentChallenge: this.getCurrentChallengeSentence( antecedent, consequent )
     } );
   }
 }

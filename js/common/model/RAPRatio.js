@@ -36,39 +36,39 @@ class RAPRatio {
     } );
 
     // @public {Property.<number>} - convenience Property based on the ratioTupleProperty get getting/setting/listening
-    // to the numerator only.
-    this.numeratorProperty = new DynamicProperty( new Property( this.ratioTupleProperty ), {
+    // to the antecedent only.
+    this.antecedentProperty = new DynamicProperty( new Property( this.ratioTupleProperty ), {
       bidirectional: true,
       reentrant: true,
       valueType: 'number',
-      map: ratioTuple => ratioTuple.numerator,
-      inverseMap: numerator => this.ratioTupleProperty.value.withNumerator( Utils.toFixedNumber( numerator, 6 ) )
+      map: ratioTuple => ratioTuple.antecedent,
+      inverseMap: antecedent => this.ratioTupleProperty.value.withAntecedent( Utils.toFixedNumber( antecedent, 6 ) )
     } );
 
     // @public {Property.<number>} - convenience Property based on the ratioTupleProperty get getting/setting/listening
-    // to the denominator only.
-    this.denominatorProperty = new DynamicProperty( new Property( this.ratioTupleProperty ), {
+    // to the consequent only.
+    this.consequentProperty = new DynamicProperty( new Property( this.ratioTupleProperty ), {
       bidirectional: true,
       reentrant: true,
       valueType: 'number',
-      map: ratioTuple => ratioTuple.denominator,
-      inverseMap: denominator => this.ratioTupleProperty.value.withDenominator( Utils.toFixedNumber( denominator, 6 ) )
+      map: ratioTuple => ratioTuple.consequent,
+      inverseMap: consequent => this.ratioTupleProperty.value.withConsequent( Utils.toFixedNumber( consequent, 6 ) )
     } );
 
     // @public (read-only) - the velocity of each ratio value changing, adjusted in step
-    this.changeInNumeratorProperty = new NumberProperty( 0 );
-    this.changeInDenominatorProperty = new NumberProperty( 0 );
+    this.changeInAntecedentProperty = new NumberProperty( 0 );
+    this.changeInConsequentProperty = new NumberProperty( 0 );
 
     // @private - keep track of previous values to calculate the change
-    this.previousNumeratorProperty = new NumberProperty( this.numeratorProperty.value );
-    this.previousDenominatorProperty = new NumberProperty( this.denominatorProperty.value );
+    this.previousAntecedentProperty = new NumberProperty( this.antecedentProperty.value );
+    this.previousConsequentProperty = new NumberProperty( this.consequentProperty.value );
     this.stepCountTracker = 0; // Used for keeping track of how often dVelocity is checked.
 
     // @public - when true, moving one ratio value will maintain the current ratio by updating the other value Property
     this.lockedProperty = new BooleanProperty( false );
 
     // @private - To avoid an infinite loop as setting the ratioTupleProperty from inside its lock-ratio-support
-    // listener. This is predominately needed because even same numerator/denominator values get wrapped in a new
+    // listener. This is predominately needed because even same antecedent/consequent values get wrapped in a new
     // RAPRatioTuple instance.
     this.lockRatioListenerEnabled = true;
 
@@ -77,23 +77,23 @@ class RAPRatio {
       if ( this.lockedProperty.value && this.lockRatioListenerEnabled ) {
         assert && assert( oldTuple, 'need an old value to compute locked ratio values' );
 
-        const numeratorChanged = tuple.numerator !== oldTuple.numerator;
-        const denominatorChanged = tuple.denominator !== oldTuple.denominator;
+        const antecedentChanged = tuple.antecedent !== oldTuple.antecedent;
+        const consequentChanged = tuple.consequent !== oldTuple.consequent;
         const previousRatio = oldTuple.getRatio();
 
-        let newNumerator = tuple.numerator;
-        let newDenominator = tuple.denominator;
+        let newAntecedent = tuple.antecedent;
+        let newConsequent = tuple.consequent;
 
-        assert && assert( !( numeratorChanged && denominatorChanged ), 'both values should not change when ratio is locked' );
+        assert && assert( !( antecedentChanged && consequentChanged ), 'both values should not change when ratio is locked' );
 
-        if ( numeratorChanged ) {
-          newDenominator = newNumerator / previousRatio;
+        if ( antecedentChanged ) {
+          newConsequent = newAntecedent / previousRatio;
         }
-        else if ( denominatorChanged ) {
-          newNumerator = newDenominator * previousRatio;
+        else if ( consequentChanged ) {
+          newAntecedent = newConsequent * previousRatio;
         }
 
-        const newRatioTuple = this.clampRatioTupleValuesInRange( new RAPRatioTuple( newNumerator, newDenominator ), previousRatio );
+        const newRatioTuple = this.clampRatioTupleValuesInRange( new RAPRatioTuple( newAntecedent, newConsequent ), previousRatio );
 
         // guard against reentrancy in this case.
         this.lockRatioListenerEnabled = false;
@@ -108,8 +108,8 @@ class RAPRatio {
 
     this.enabledRatioComponentsRangeProperty.link( enabledRange => {
       const clampPropertyIntoRange = property => !enabledRange.contains( property.value ) && property.set( enabledRange.constrainValue( property.value ) );
-      clampPropertyIntoRange( this.numeratorProperty );
-      clampPropertyIntoRange( this.denominatorProperty );
+      clampPropertyIntoRange( this.antecedentProperty );
+      clampPropertyIntoRange( this.consequentProperty );
     } );
   }
 
@@ -122,24 +122,24 @@ class RAPRatio {
    * @returns {RAPRatioTuple}
    */
   clampRatioTupleValuesInRange( ratioTuple, ratio, range = this.enabledRatioComponentsRangeProperty.value ) {
-    let numerator = ratioTuple.numerator;
-    let denominator = ratioTuple.denominator;
+    let antecedent = ratioTuple.antecedent;
+    let consequent = ratioTuple.consequent;
 
-    // Handle if the numerator is out of range
-    if ( !range.contains( numerator ) ) {
-      numerator = Utils.clamp( numerator, range.min, range.max );
-      denominator = numerator / ratio;
+    // Handle if the antecedent is out of range
+    if ( !range.contains( antecedent ) ) {
+      antecedent = Utils.clamp( antecedent, range.min, range.max );
+      consequent = antecedent / ratio;
     }
 
-    // Handle if the denominator is out of range
-    if ( !range.contains( denominator ) ) {
-      denominator = Utils.clamp( denominator, range.min, range.max );
-      numerator = denominator * ratio;
+    // Handle if the consequent is out of range
+    if ( !range.contains( consequent ) ) {
+      consequent = Utils.clamp( consequent, range.min, range.max );
+      antecedent = consequent * ratio;
     }
 
-    assert && assert( range.contains( denominator ) );
-    assert && assert( range.contains( numerator ) );
-    return new RAPRatioTuple( numerator, denominator );
+    assert && assert( range.contains( consequent ) );
+    assert && assert( range.contains( antecedent ) );
+    return new RAPRatioTuple( antecedent, consequent );
   }
 
   /**
@@ -149,9 +149,9 @@ class RAPRatio {
    */
   snapRatioToTarget( targetRatio ) {
 
-    // Alter the numerator to match the target ratio
+    // Alter the antecedent to match the target ratio
     const currentRatioTuple = this.ratioTupleProperty.value;
-    currentRatioTuple.numerator = targetRatio * currentRatioTuple.denominator;
+    currentRatioTuple.antecedent = targetRatio * currentRatioTuple.consequent;
 
     // Make sure that the lock ratio listener won't try to mutate the new RAPRatioTuple
     this.lockRatioListenerEnabled = false;
@@ -168,13 +168,13 @@ class RAPRatio {
    * @returns {boolean}
    */
   movingInDirection() {
-    const bothMoving = this.changeInNumeratorProperty.value !== 0 && this.changeInDenominatorProperty.value !== 0;
+    const bothMoving = this.changeInAntecedentProperty.value !== 0 && this.changeInConsequentProperty.value !== 0;
 
     // both hands should be moving in the same direction
-    const movingInSameDirection = this.changeInNumeratorProperty.value > 0 === this.changeInDenominatorProperty.value > 0;
+    const movingInSameDirection = this.changeInAntecedentProperty.value > 0 === this.changeInConsequentProperty.value > 0;
 
-    const movingFastEnough = Math.abs( this.changeInNumeratorProperty.value ) > VELOCITY_THRESHOLD && // numerator past threshold
-                             Math.abs( this.changeInDenominatorProperty.value ) > VELOCITY_THRESHOLD; // denominator past threshold
+    const movingFastEnough = Math.abs( this.changeInAntecedentProperty.value ) > VELOCITY_THRESHOLD && // antecedent past threshold
+                             Math.abs( this.changeInConsequentProperty.value ) > VELOCITY_THRESHOLD; // consequent past threshold
 
     // Ignore the speed component when the ratio is locked
     return bothMoving && movingInSameDirection && ( movingFastEnough || this.lockedProperty.value );
@@ -185,7 +185,7 @@ class RAPRatio {
    * @returns {number}
    */
   get currentRatio() {
-    return this.denominatorProperty.value === 0 ? Number.POSITIVE_INFINITY : this.numeratorProperty.value / this.denominatorProperty.value;
+    return this.consequentProperty.value === 0 ? Number.POSITIVE_INFINITY : this.antecedentProperty.value / this.consequentProperty.value;
   }
 
   /**
@@ -206,8 +206,8 @@ class RAPRatio {
 
     // only recalculate every X steps to help smooth out noise
     if ( ++this.stepCountTracker % 30 === 0 ) {
-      this.calculateCurrentVelocity( this.previousNumeratorProperty, this.numeratorProperty.value, this.changeInNumeratorProperty );
-      this.calculateCurrentVelocity( this.previousDenominatorProperty, this.denominatorProperty.value, this.changeInDenominatorProperty );
+      this.calculateCurrentVelocity( this.previousAntecedentProperty, this.antecedentProperty.value, this.changeInAntecedentProperty );
+      this.calculateCurrentVelocity( this.previousConsequentProperty, this.consequentProperty.value, this.changeInConsequentProperty );
     }
   }
 
@@ -219,14 +219,14 @@ class RAPRatio {
     // it is easiest if this is reset first
     this.lockedProperty.reset();
 
-    this.numeratorProperty.reset();
-    this.denominatorProperty.reset();
+    this.antecedentProperty.reset();
+    this.consequentProperty.reset();
 
     this.enabledRatioComponentsRangeProperty.reset();
-    this.changeInNumeratorProperty.reset();
-    this.changeInDenominatorProperty.reset();
-    this.previousNumeratorProperty.reset();
-    this.previousDenominatorProperty.reset();
+    this.changeInAntecedentProperty.reset();
+    this.changeInConsequentProperty.reset();
+    this.previousAntecedentProperty.reset();
+    this.previousConsequentProperty.reset();
     this.stepCountTracker = 0;
     this.lockRatioListenerEnabled = true;
   }

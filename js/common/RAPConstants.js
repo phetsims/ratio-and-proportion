@@ -26,7 +26,7 @@ const RAPConstants = {
   // The value to multiple the keyboard step size by to get the shift + keydown step size
   SHIFT_KEY_MULTIPLIER: 1 / 5,
 
-  // The range that the each ratio component (numerator/denominator) value can be
+  // The range that the each ratio component (antecedent/consequent) value can be
   TOTAL_RATIO_COMPONENT_VALUE_RANGE: new Range( 0, 1 ),
 
   /**

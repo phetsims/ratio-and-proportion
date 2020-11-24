@@ -15,18 +15,18 @@ class CreateScreenSummaryNode extends Node {
 
   /**
    * @param {Property.<number>} ratioFitnessProperty
-   * @param {Property.<number>} numeratorProperty
-   * @param {Property.<number>} denominatorProperty
+   * @param {Property.<number>} antecedentProperty
+   * @param {Property.<number>} consequentProperty
    * @param {Property.<TickMarkView>} tickMarkViewProperty
    * @param {RatioDescriber} ratioDescriber
    * @param {HandPositionsDescriber} handPositionsDescriber
    * @param {Property.<number>} tickMarkRangeProperty
-   * @param {NumberProperty} targetNumeratorProperty
-   * @param {NumberProperty} targetDenominatorProperty
+   * @param {NumberProperty} targetAntecedentProperty
+   * @param {NumberProperty} targetConsequentProperty
    */
-  constructor( ratioFitnessProperty, numeratorProperty, denominatorProperty, tickMarkViewProperty,
+  constructor( ratioFitnessProperty, antecedentProperty, consequentProperty, tickMarkViewProperty,
                ratioDescriber, handPositionsDescriber, tickMarkRangeProperty,
-               targetNumeratorProperty, targetDenominatorProperty ) {
+               targetAntecedentProperty, targetConsequentProperty ) {
 
     const stateOfSimNode = new Node( { tagName: 'p' } );
     const leftHandBullet = new Node( { tagName: 'li' } );
@@ -62,11 +62,11 @@ class CreateScreenSummaryNode extends Node {
     Property.multilink( [
       tickMarkViewProperty,
       tickMarkRangeProperty,
-      targetNumeratorProperty,
-      targetDenominatorProperty,
+      targetAntecedentProperty,
+      targetConsequentProperty,
       ratioFitnessProperty,
-      numeratorProperty,
-      denominatorProperty
+      antecedentProperty,
+      consequentProperty
     ], tickMarkView => {
       stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.screenSummary.qualitativeStateOfSim, {
         ratioFitness: ratioDescriber.getRatioFitness( false ), // lowercase
@@ -74,10 +74,10 @@ class CreateScreenSummaryNode extends Node {
       } );
 
       leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
-        position: handPositionsDescriber.getHandPositionDescription( numeratorProperty.value, tickMarkView )
+        position: handPositionsDescriber.getHandPositionDescription( antecedentProperty.value, tickMarkView )
       } );
       rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
-        position: handPositionsDescriber.getHandPositionDescription( denominatorProperty.value, tickMarkView )
+        position: handPositionsDescriber.getHandPositionDescription( consequentProperty.value, tickMarkView )
       } );
     } );
   }

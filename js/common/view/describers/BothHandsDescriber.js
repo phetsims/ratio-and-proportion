@@ -12,17 +12,17 @@ import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
 class BothHandsDescriber {
 
   /**
-   * @param {Property.<number>} numeratorProperty
-   * @param {Property.<number>} denominatorProperty
+   * @param {Property.<number>} antecedentProperty
+   * @param {Property.<number>} consequentProperty
    * @param {Property.<TickMarkView>} tickMarkViewProperty
    * @param {RatioDescriber} ratioDescriber
    * @param {HandPositionsDescriber} handPositionsDescriber
    */
-  constructor( numeratorProperty, denominatorProperty, tickMarkViewProperty, ratioDescriber, handPositionsDescriber ) {
+  constructor( antecedentProperty, consequentProperty, tickMarkViewProperty, ratioDescriber, handPositionsDescriber ) {
 
     // @private - from model
-    this.numeratorProperty = numeratorProperty;
-    this.denominatorProperty = denominatorProperty;
+    this.antecedentProperty = antecedentProperty;
+    this.consequentProperty = consequentProperty;
     this.tickMarkViewProperty = tickMarkViewProperty;
     this.ratioDescriber = ratioDescriber;
     this.handPositionsDescriber = handPositionsDescriber;
@@ -34,7 +34,7 @@ class BothHandsDescriber {
    */
   getBothHandsContextResponse( ratioLocked ) {
     if ( ratioLocked ) {
-      return this.getRatioLockedContextResponse( this.numeratorProperty, this.tickMarkViewProperty.value );
+      return this.getRatioLockedContextResponse( this.antecedentProperty, this.tickMarkViewProperty.value );
     }
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.bothHandsContextResponseAlert, {
       fitness: this.ratioDescriber.getRatioFitness()
@@ -50,8 +50,8 @@ class BothHandsDescriber {
   getBothHandsPosition() {
     const tickMarkView = this.tickMarkViewProperty.value;
 
-    const leftPosition = this.handPositionsDescriber.getHandPositionDescription( this.numeratorProperty.value, tickMarkView, false );
-    const rightPosition = this.handPositionsDescriber.getHandPositionDescription( this.denominatorProperty.value, tickMarkView, false );
+    const leftPosition = this.handPositionsDescriber.getHandPositionDescription( this.antecedentProperty.value, tickMarkView, false );
+    const rightPosition = this.handPositionsDescriber.getHandPositionDescription( this.consequentProperty.value, tickMarkView, false );
 
     if ( leftPosition === rightPosition ) {
       return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.equalObjectResponseAlert, {

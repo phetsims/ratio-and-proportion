@@ -23,33 +23,33 @@ QUnit.test( 'keyboard always can get in proportion: 2/7 moving down', assert => 
   const model = new RAPModel( Tandem.OPT_OUT );
   const ratioTupleProperty = model.ratio.ratioTupleProperty;
 
-  const getIdealValue = () => model.getIdealValueForTerm( RatioComponent.NUMERATOR );
+  const getIdealValue = () => model.getIdealValueForTerm( RatioComponent.ANTECEDENT );
   const snapConserveFunction = RAPConstants.mapPostProcessKeyboardInput( getIdealValue, keyboardStep, keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER );
   model.targetRatioProperty.value = 2 / 7;
   ratioTupleProperty.value = new RAPRatioTuple( .14, .4 );
 
   let newValue = null;
 
-  newValue = snapConserveFunction( .13, ratioTupleProperty.value.numerator, true );
-  ratioTupleProperty.value.numerator = newValue;
-  assert.ok( ratioTupleProperty.value.numerator === .13, 'one step down' );
+  newValue = snapConserveFunction( .13, ratioTupleProperty.value.antecedent, true );
+  ratioTupleProperty.value.antecedent = newValue;
+  assert.ok( ratioTupleProperty.value.antecedent === .13, 'one step down' );
 
-  newValue = snapConserveFunction( .12, ratioTupleProperty.value.numerator, true );
-  ratioTupleProperty.value.numerator = newValue;
-  assert.ok( ratioTupleProperty.value.numerator === .12, 'another step down' );
+  newValue = snapConserveFunction( .12, ratioTupleProperty.value.antecedent, true );
+  ratioTupleProperty.value.antecedent = newValue;
+  assert.ok( ratioTupleProperty.value.antecedent === .12, 'another step down' );
 
-  newValue = snapConserveFunction( .11, ratioTupleProperty.value.numerator, true );
-  ratioTupleProperty.value.numerator = newValue;
-  const idealRatio = Utils.toFixedNumber( model.targetRatioProperty.value * ratioTupleProperty.value.denominator, 6 ); // to prevent rounding errors
-  assert.ok( ratioTupleProperty.value.numerator === idealRatio, 'another step down should snap to in proportion' );
+  newValue = snapConserveFunction( .11, ratioTupleProperty.value.antecedent, true );
+  ratioTupleProperty.value.antecedent = newValue;
+  const idealRatio = Utils.toFixedNumber( model.targetRatioProperty.value * ratioTupleProperty.value.consequent, 6 ); // to prevent rounding errors
+  assert.ok( ratioTupleProperty.value.antecedent === idealRatio, 'another step down should snap to in proportion' );
 
-  newValue = snapConserveFunction( ratioTupleProperty.value.numerator - .01, ratioTupleProperty.value.numerator, true );
-  ratioTupleProperty.value.numerator = newValue;
-  assert.ok( ratioTupleProperty.value.numerator === .10, 'another step down should snap to in proportion' );
+  newValue = snapConserveFunction( ratioTupleProperty.value.antecedent - .01, ratioTupleProperty.value.antecedent, true );
+  ratioTupleProperty.value.antecedent = newValue;
+  assert.ok( ratioTupleProperty.value.antecedent === .10, 'another step down should snap to in proportion' );
 
-  newValue = snapConserveFunction( .09, ratioTupleProperty.value.numerator, true );
-  ratioTupleProperty.value.numerator = newValue;
-  assert.ok( ratioTupleProperty.value.numerator === .09, 'another step down should snap to in proportion' );
+  newValue = snapConserveFunction( .09, ratioTupleProperty.value.antecedent, true );
+  ratioTupleProperty.value.antecedent = newValue;
+  assert.ok( ratioTupleProperty.value.antecedent === .09, 'another step down should snap to in proportion' );
 } );
 
 QUnit.test( 'keyboard always can get in proportion: 2/7 moving up', assert => {
@@ -57,23 +57,23 @@ QUnit.test( 'keyboard always can get in proportion: 2/7 moving up', assert => {
   const model = new RAPModel( Tandem.OPT_OUT );
   const ratioTupleProperty = model.ratio.ratioTupleProperty;
 
-  const getIdealValue = () => model.getIdealValueForTerm( RatioComponent.NUMERATOR );
+  const getIdealValue = () => model.getIdealValueForTerm( RatioComponent.ANTECEDENT );
   const snapConserveFunction = RAPConstants.mapPostProcessKeyboardInput( getIdealValue, keyboardStep, keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER );
   model.targetRatioProperty.value = 2 / 7;
   ratioTupleProperty.value = new RAPRatioTuple( .05, .4 );
 
   let newValue = null;
 
-  newValue = snapConserveFunction( .1, ratioTupleProperty.value.numerator, false );
-  ratioTupleProperty.value.numerator = newValue;
-  assert.ok( ratioTupleProperty.value.numerator === .1, 'step up' );
+  newValue = snapConserveFunction( .1, ratioTupleProperty.value.antecedent, false );
+  ratioTupleProperty.value.antecedent = newValue;
+  assert.ok( ratioTupleProperty.value.antecedent === .1, 'step up' );
 
-  newValue = snapConserveFunction( .15, ratioTupleProperty.value.numerator, false );
-  ratioTupleProperty.value.numerator = newValue;
-  const idealNumerator = Utils.toFixedNumber( model.targetRatioProperty.value * ratioTupleProperty.value.denominator, 6 ); // to prevent rounding errors
-  assert.ok( ratioTupleProperty.value.numerator === idealNumerator, 'step up through ideal' );
+  newValue = snapConserveFunction( .15, ratioTupleProperty.value.antecedent, false );
+  ratioTupleProperty.value.antecedent = newValue;
+  const idealAntecedent = Utils.toFixedNumber( model.targetRatioProperty.value * ratioTupleProperty.value.consequent, 6 ); // to prevent rounding errors
+  assert.ok( ratioTupleProperty.value.antecedent === idealAntecedent, 'step up through ideal' );
 
-  newValue = snapConserveFunction( ratioTupleProperty.value.numerator + .05, ratioTupleProperty.value.numerator, false );
-  ratioTupleProperty.value.numerator = newValue;
-  assert.ok( ratioTupleProperty.value.numerator === .2, 'step up through ideal' );
+  newValue = snapConserveFunction( ratioTupleProperty.value.antecedent + .05, ratioTupleProperty.value.antecedent, false );
+  ratioTupleProperty.value.antecedent = newValue;
+  assert.ok( ratioTupleProperty.value.antecedent === .2, 'step up through ideal' );
 } );

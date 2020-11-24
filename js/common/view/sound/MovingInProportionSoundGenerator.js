@@ -46,8 +46,8 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
     this.movingInProportionSoundClip.connect( this.soundSourceDestination );
 
     Property.multilink( [
-      model.ratio.changeInNumeratorProperty,
-      model.ratio.changeInDenominatorProperty,
+      model.ratio.changeInAntecedentProperty,
+      model.ratio.changeInConsequentProperty,
       model.ratioFitnessProperty
     ], () => {
       if ( model.ratio.movingInDirection() && // only when moving

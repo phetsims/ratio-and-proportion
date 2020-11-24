@@ -22,11 +22,11 @@ const HEIGHT_OF_ONE = RAPQueryParameters.heightInPixels;
 class ProportionMarkerInput extends MarkerInput {
 
   /**
-   * @param {NumberProperty} numeratorProperty
-   * @param {NumberProperty} denominatorProperty
+   * @param {NumberProperty} antecedentProperty
+   * @param {NumberProperty} consequentProperty
    * @param {BooleanProperty} firstInteractionProperty
    */
-  constructor( numeratorProperty, denominatorProperty, firstInteractionProperty ) {
+  constructor( antecedentProperty, consequentProperty, firstInteractionProperty ) {
     super();
 
     // @public (read-only)
@@ -37,8 +37,8 @@ class ProportionMarkerInput extends MarkerInput {
     } );
 
     // @private
-    this.numeratorProperty = numeratorProperty;
-    this.denominatorProperty = denominatorProperty;
+    this.antecedentProperty = antecedentProperty;
+    this.consequentProperty = consequentProperty;
   }
 
   /**
@@ -59,8 +59,8 @@ class ProportionMarkerInput extends MarkerInput {
 
       assert && assert( leftMarker.present && baseMarker.present && rightMarker.present, 'all markers must be present' );
 
-      this.numeratorProperty.value = Utils.clamp( Math.abs( baseMarker.center.y - leftMarker.center.y ) / HEIGHT_OF_ONE, 0, 1 );
-      this.denominatorProperty.value = Utils.clamp( Math.abs( baseMarker.center.y - rightMarker.center.y ) / HEIGHT_OF_ONE, 0, 1 );
+      this.antecedentProperty.value = Utils.clamp( Math.abs( baseMarker.center.y - leftMarker.center.y ) / HEIGHT_OF_ONE, 0, 1 );
+      this.consequentProperty.value = Utils.clamp( Math.abs( baseMarker.center.y - rightMarker.center.y ) / HEIGHT_OF_ONE, 0, 1 );
     }
   }
 }
