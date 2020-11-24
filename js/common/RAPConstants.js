@@ -38,7 +38,7 @@ const RAPConstants = {
    * @param {function():number} getIdealValue - get the ideal target value
    * @param {number} keyboardStep
    * @param {number} shiftKeyboardStep
-   * @returns {function(newValue: number, oldValue:number):number} - returns a function that returns the snap/conserved value
+   * @returns {function(newValue: number, oldValue:number, isBeingInteractedWithProperty:boolean):number} - returns a function that returns the snap/conserved value
    */
   mapPostProcessKeyboardInput: ( getIdealValue, keyboardStep, shiftKeyboardStep ) => {
 

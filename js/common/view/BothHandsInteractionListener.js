@@ -61,7 +61,7 @@ class BothHandsInteractionListener {
   /**
    * Consistently handle changing the ratio from increment/decrement
    * @param {'numerator'|'denominator'} tupleField - what field of the RAPRatioTuple are we changing
-   * @param {function(number,number):number} inputMapper - see RAPConstants.mapPostProcessKeyboardInput
+   * @param {function(number,number,boolean):number} inputMapper - see RAPConstants.mapPostProcessKeyboardInput
    * @param {boolean} increment - if the value is being incremented, as opposed to decremented.
    * @private
    */
