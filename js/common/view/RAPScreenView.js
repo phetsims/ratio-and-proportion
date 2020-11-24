@@ -237,13 +237,7 @@ class RAPScreenView extends ScreenView {
         consequentCueDisplayProperty.reset();
         bothHandsPDOMNode.reset();
 
-        this.tickMarkViewProperty.reset();
-        this.antecedentRatioHalf.reset();
-        this.consequentRatioHalf.reset();
-        this.staccatoFrequencySoundGenerator.reset();
-        this.inProportionSoundGenerator.reset();
-        this.movingInProportionSoundGenerator.reset();
-        this.viewSounds.reset();
+        this.reset();
       },
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
@@ -353,6 +347,20 @@ class RAPScreenView extends ScreenView {
 
     // new bounds for each ratio half
     this.layoutRAPScreeView( new Bounds2( 0, 0, ONE_QUARTER_LAYOUT_WIDTH, Math.min( height / scale, MAX_RATIO_HEIGHT ) ) );
+  }
+
+  /**
+   * @public
+   */
+  reset() {
+
+    this.tickMarkViewProperty.reset();
+    this.antecedentRatioHalf.reset();
+    this.consequentRatioHalf.reset();
+    this.staccatoFrequencySoundGenerator.reset();
+    this.inProportionSoundGenerator.reset();
+    this.movingInProportionSoundGenerator.reset();
+    this.viewSounds.reset();
   }
 
   /**
