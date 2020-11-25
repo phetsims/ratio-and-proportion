@@ -48,7 +48,10 @@ class CreateScreenView extends RAPScreenView {
     super( model, tandem, {
       tickMarkRangeProperty: tickMarkRangeProperty,
       leftHandColorProperty: handColorProperty,
-      rightHandColorProperty: handColorProperty
+      rightHandColorProperty: handColorProperty,
+      bothHandsPDOMNodeOptions: {
+        gestureDescriptionHelpText: ratioAndProportionStrings.a11y.create.bothHandsGestureDescriptionHelpText
+      }
     } );
 
     // Allow us to get the reduced fraction as the initial value of the custom "My Challenge"

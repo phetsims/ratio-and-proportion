@@ -7,6 +7,7 @@
 import Property from '../../../../axon/js/Property.js';
 import RAPScreenView from '../../common/view/RAPScreenView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
+import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import ChallengeRatioComboBoxNode from './ChallengeRatioComboBoxNode.js';
 import DiscoverScreenSummaryNode from './DiscoverScreenSummaryNode.js';
 
@@ -24,7 +25,10 @@ class DiscoverScreenView extends RAPScreenView {
 
     super( model, tandem, {
       leftHandColorProperty: handColorProperty,
-      rightHandColorProperty: handColorProperty
+      rightHandColorProperty: handColorProperty,
+      bothHandsPDOMNodeOptions: {
+        gestureDescriptionHelpText: ratioAndProportionStrings.a11y.discover.bothHandsGestureDescriptionHelpText
+      }
     } );
 
     const comboBoxContainer = new ChallengeRatioComboBoxNode( model.targetRatioProperty, this.ratioDescriber, handColorProperty );

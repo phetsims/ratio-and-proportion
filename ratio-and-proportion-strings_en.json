@@ -375,6 +375,9 @@
       },
       "challenge3Lowercase": {
         "value": "challenge 3"
+      },
+      "bothHandsGestureDescriptionHelpText": {
+        "value": "Explore challenge ratio with individual Left and Right hands. This custom multi-touch interaction is not yet possible with screen reader software on a mobile device."
       }
     },
     "create": {
@@ -403,6 +406,9 @@
       },
       "myChallengeHelpText": {
         "value": "Set left and right values to create your challenge, then move hands to explore it."
+      },
+      "bothHandsGestureDescriptionHelpText": {
+        "value": "To move both hands, first check Lock Ratio. With ratio locked, move both hands as a single unit to explore the challenge ratio. This custom multi-touch interaction is not yet possible with screen reader software on a mobile device."
       }
     },
     "handPosition": {

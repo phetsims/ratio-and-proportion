@@ -45,9 +45,14 @@ class BothHandsPDOMNode extends Node {
                ratioDescriber, bothHandsDescriber, viewSounds, ratioLockedProperty, targetRatioProperty, getIdealTerm, options ) {
 
     options = merge( {
-      tagName: 'div',
-      helpText: ratioAndProportionStrings.a11y.bothHands.bothHandsHelpText,
 
+      // {string|null} help text to be displayed on devices supporting gesture description
+      // (see `Sim.supportsGestureDescription`). When null, this will be the same as the default helpText.
+      gestureDescriptionHelpText: null,
+
+      // pdom
+      tagName: 'div',
+      helpText: ratioAndProportionStrings.a11y.bothHands.bothHandsHelpText, // overridden by options.gestureDescriptionHelpText when supported
       interactiveNodeOptions: {
         ariaRole: 'application',
         focusable: true,
@@ -138,6 +143,10 @@ class BothHandsPDOMNode extends Node {
     this.bothHandsInteractionListener.inputCauseRatioUnlockEmitter.addListener( () => {
       phet.joist.sim.utteranceQueue.addToBack( ratioAndProportionStrings.a11y.lockRatioCheckboxUnlockedContextResponse );
     } );
+
+    if ( phet.joist.sim.supportsGestureDescription && options.gestureDescriptionHelpText ) {
+      options.helpText = options.gestureDescriptionHelpText;
+    }
 
     this.mutate( options );
   }

@@ -68,7 +68,10 @@ class RAPScreenView extends ScreenView {
 
       // Properties that control the color of each hand
       leftHandColorProperty: new Property( 'black' ),
-      rightHandColorProperty: new Property( 'black' )
+      rightHandColorProperty: new Property( 'black' ),
+
+      // Passed through to BothHandsPDOMNode
+      bothHandsPDOMNodeOptions: null
     }, options );
 
     const tickMarksAndLabelsColorProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
@@ -178,11 +181,12 @@ class RAPScreenView extends ScreenView {
     const bothHandsPDOMNode = new BothHandsPDOMNode( ratio.ratioTupleProperty, DEFAULT_RANGE,
       antecedentCueDisplayProperty, consequentCueDisplayProperty, keyboardStep, tickMarkViewProperty, options.tickMarkRangeProperty, model.unclampedFitnessProperty,
       this.handPositionsDescriber, this.ratioDescriber, bothHandsDescriber, this.viewSounds, model.ratio.lockedProperty,
-      model.targetRatioProperty, model.getIdealValueForTerm.bind( model ), {
+      model.targetRatioProperty, model.getIdealValueForTerm.bind( model ), merge( {
         interactiveNodeOptions: {
           children: [ this.antecedentRatioHalf, this.consequentRatioHalf ]
         }
-      } );
+      }, options.bothHandsPDOMNodeOptions )
+    );
 
     // @private TODO: add support for mechamarker input again https://github.com/phetsims/ratio-and-proportion/issues/89
     // this.markerInput = new ProportionMarkerInput( ratio.antecedentProperty, ratio.consequentProperty );
