@@ -119,7 +119,7 @@ class RAPScreenView extends ScreenView {
 
     // @private
     this.viewSounds = new ViewSounds( RAPConstants.TOTAL_RATIO_COMPONENT_VALUE_RANGE, options.tickMarkRangeProperty,
-      options.tickMarkRangeProperty, playTickMarkBumpSoundProperty );
+      tickMarkViewProperty, playTickMarkBumpSoundProperty );
 
     // by default, the keyboard step size should be half of one default tick mark width. See https://github.com/phetsims/ratio-and-proportion/issues/85
     const keyboardStep = 1 / 2 / options.tickMarkRangeProperty.value;
