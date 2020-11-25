@@ -156,6 +156,22 @@ class RatioHandNode extends Node {
     const areaBounds = container.bounds.dilatedXY( container.width * .2, container.height * .2 );
     this.touchArea = areaBounds;
     this.mouseArea = areaBounds;
+
+    // reset remainder when unfocused
+    this.addInputListener( {
+      blur: () => mapKeyboardInput.reset()
+    } );
+
+    // @private
+    this.resetRatioHandNode = () => mapKeyboardInput.reset();
+  }
+
+  /**
+   * Call to reset input characteristics for alternative input. See https://github.com/phetsims/ratio-and-proportion/issues/175#issuecomment-729292704
+   * @public
+   */
+  reset() {
+    this.resetRatioHandNode();
   }
 
   /**

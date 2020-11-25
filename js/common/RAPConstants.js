@@ -45,8 +45,7 @@ const RAPConstants = {
     // keep track of the remainder for next input post-process
     let remainder = 0;
 
-    return ( newValue, oldValue, useShiftKeyStep ) => {
-
+    const snappingFunction = ( newValue, oldValue, useShiftKeyStep ) => {
       // Don't conserve the snap for page up/down or home/end keys, just basic movement changes.
       const applyConservationSnap = Utils.toFixedNumber( Math.abs( newValue - oldValue ), 6 ) <= shiftKeyboardStep;
 
@@ -81,6 +80,11 @@ const RAPConstants = {
       }
       return newValue;
     };
+
+    // @public
+    snappingFunction.reset = () => { remainder = 0; };
+
+    return snappingFunction;
   }
 };
 

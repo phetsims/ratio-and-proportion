@@ -59,6 +59,14 @@ class BothHandsInteractionListener {
   }
 
   /**
+   * @public
+   */
+  reset() {
+    this.antecedentMapKeyboardInput.reset();
+    this.consequentMapKeyboardInput.reset();
+  }
+
+  /**
    * Consistently handle changing the ratio from increment/decrement
    * @param {'antecedent'|'consequent'} tupleField - what field of the RAPRatioTuple are we changing
    * @param {function(number,number,boolean):number} inputMapper - see RAPConstants.mapPostProcessKeyboardInput

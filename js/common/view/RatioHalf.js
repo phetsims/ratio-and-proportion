@@ -236,6 +236,9 @@ class RatioHalf extends Rectangle {
 
       end: () => {
 
+        // reset logic in the hand that controls other input
+        this.ratioHandNode.reset();
+
         // snap final value to tick mark if applicable
         const newY = getSnapToTickMarkValue( positionProperty.value.y );
         if ( positionProperty.value.y !== newY ) {
@@ -324,6 +327,7 @@ class RatioHalf extends Rectangle {
     // @private
     this.resetRatioHalf = () => {
       alertManager.reset();
+      this.ratioHandNode.reset();
       positionProperty.value.setX( INITIAL_X_VALUE );
       positionProperty.notifyListenersStatic();
       isFirstInteractionProperty.reset();

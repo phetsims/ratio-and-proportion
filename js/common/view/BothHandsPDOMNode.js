@@ -80,10 +80,11 @@ class BothHandsPDOMNode extends Node {
 
     interactiveNode.setAccessibleAttribute( 'aria-roledescription', sceneryPhetStrings.a11y.grabDrag.movable );
 
-    const bothHandsInteractionListener = new BothHandsInteractionListener( interactiveNode, ratioTupleProperty, valueRange,
+    // @private
+    this.bothHandsInteractionListener = new BothHandsInteractionListener( interactiveNode, ratioTupleProperty, valueRange,
       this.isFirstInteractionProperty, tickMarkRangeProperty, keyboardStep,
       viewSounds.boundarySoundClip, viewSounds.tickMarkBumpSoundClip, ratioLockedProperty, targetRatioProperty, getIdealTerm );
-    interactiveNode.addInputListener( bothHandsInteractionListener );
+    interactiveNode.addInputListener( this.bothHandsInteractionListener );
 
     interactiveNode.addInputListener( {
       focus: () => {
@@ -96,6 +97,9 @@ class BothHandsPDOMNode extends Node {
         viewSounds.releaseSoundClip.play();
         antecedentCueDisplayProperty.value = this.isFirstInteractionProperty.value ? CueDisplay.ARROWS : CueDisplay.NONE;
         consequentCueDisplayProperty.value = this.isFirstInteractionProperty.value ? CueDisplay.ARROWS : CueDisplay.NONE;
+
+        // This only works because the bothHandsInteractionListener needs alt-input control resetting
+        this.bothHandsInteractionListener.reset();
       }
     } );
 
@@ -112,13 +116,13 @@ class BothHandsPDOMNode extends Node {
     const contextResponseUtterance = new Utterance( { alertStableDelay: RAPQueryParameters.bothHandsContextDelay } );
 
     // @public (read-only) - expose this from the listener for general consumption
-    this.isBeingInteractedWithProperty = bothHandsInteractionListener.isBeingInteractedWithProperty;
+    this.isBeingInteractedWithProperty = this.bothHandsInteractionListener.isBeingInteractedWithProperty;
 
     // Though most cases are covered by just listening to fitness, there are certain cases when Property values can change,
     // but the fitness doesn't. See https://github.com/phetsims/ratio-and-proportion/issues/222 as an example.
     Property.multilink( [ ratioTupleProperty, unclampedFitnessProperty ], () => {
       const tickMarkView = tickMarkViewProperty.value;
-      const isBeingInteractedWith = bothHandsInteractionListener.isBeingInteractedWithProperty.value;
+      const isBeingInteractedWith = this.bothHandsInteractionListener.isBeingInteractedWithProperty.value;
 
       dynamicDescription.innerContent = handPositionsDescriber.getBothHandsDistance( tickMarkView );
 
@@ -131,7 +135,7 @@ class BothHandsPDOMNode extends Node {
     } );
 
     // emit this utterance immediately, so that it comes before the object response above.
-    bothHandsInteractionListener.inputCauseRatioUnlockEmitter.addListener( () => {
+    this.bothHandsInteractionListener.inputCauseRatioUnlockEmitter.addListener( () => {
       phet.joist.sim.utteranceQueue.addToBack( ratioAndProportionStrings.a11y.lockRatioCheckboxUnlockedContextResponse );
     } );
 
@@ -143,6 +147,7 @@ class BothHandsPDOMNode extends Node {
    */
   reset() {
     this.isFirstInteractionProperty.reset();
+    this.bothHandsInteractionListener.reset();
   }
 
   /**
