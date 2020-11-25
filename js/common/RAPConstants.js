@@ -48,7 +48,7 @@ const RAPConstants = {
     return ( newValue, oldValue, useShiftKeyStep ) => {
 
       // Don't conserve the snap for page up/down or home/end keys, just basic movement changes.
-      const applyConservationSnap = Utils.toFixedNumber( Math.abs( newValue - oldValue ), 6 ) <= keyboardStep;
+      const applyConservationSnap = Utils.toFixedNumber( Math.abs( newValue - oldValue ), 6 ) <= shiftKeyboardStep;
 
       // TODO: what if there is a remainder and then you use mouse input?!?! https://github.com/phetsims/ratio-and-proportion/issues/175
       if ( remainder === 0 ) {
