@@ -18,15 +18,14 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import RAPQueryParameters from '../RAPQueryParameters.js';
 import BothHandsInteractionListener from './BothHandsInteractionListener.js';
-import CueDisplay from './CueDisplay.js';
 
 class BothHandsPDOMNode extends Node {
 
   /**
    * @param {Property.<RAPRatioTuple>} ratioTupleProperty
    * @param {Range} valueRange - the total range of the hand
-   * @param {EnumerationProperty.<CueDisplay>} antecedentCueDisplayProperty
-   * @param {EnumerationProperty.<CueDisplay>} consequentCueDisplayProperty
+   * @param {BooleanProperty} antecedentCueDisplayedProperty
+   * @param {BooleanProperty} consequentCueDisplayedProperty
    * @param {number} keyboardStep
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
    * @param {Property.<number>} tickMarkRangeProperty
@@ -40,7 +39,7 @@ class BothHandsPDOMNode extends Node {
    * @param {function(RatioTerm):number} getIdealTerm
    * @param {Object} [options]
    */
-  constructor( ratioTupleProperty, valueRange, antecedentCueDisplayProperty, consequentCueDisplayProperty, keyboardStep,
+  constructor( ratioTupleProperty, valueRange, antecedentCueDisplayedProperty, consequentCueDisplayedProperty, keyboardStep,
                tickMarkViewProperty, tickMarkRangeProperty, unclampedFitnessProperty, handPositionsDescriber,
                ratioDescriber, bothHandsDescriber, viewSounds, ratioLockedProperty, targetRatioProperty, getIdealTerm, options ) {
 
@@ -68,13 +67,17 @@ class BothHandsPDOMNode extends Node {
     this.handPositionsDescriber = handPositionsDescriber;
     this.bothHandsDescriber = bothHandsDescriber;
     this.ratioLockedProperty = ratioLockedProperty;
-    this.isFirstInteractionProperty = new BooleanProperty( true );
+    this.antecedentInteractedWithProperty = new BooleanProperty( false );
+    this.consequentInteractedWithProperty = new BooleanProperty( false );
+    this.bothHandsFocusedProperty = new BooleanProperty( false );
 
-    this.isFirstInteractionProperty.lazyLink( firstInteraction => {
-      if ( !firstInteraction ) {
-        antecedentCueDisplayProperty.value = CueDisplay.NONE;
-        consequentCueDisplayProperty.value = CueDisplay.NONE;
-      }
+    Property.multilink( [
+      this.antecedentInteractedWithProperty,
+      this.consequentInteractedWithProperty,
+      this.bothHandsFocusedProperty
+    ], ( antecedentInteractedWith, consequentInteractedWith, bothHandsFocused ) => {
+      antecedentCueDisplayedProperty.value = !antecedentInteractedWith && bothHandsFocused;
+      consequentCueDisplayedProperty.value = !consequentInteractedWith && bothHandsFocused;
     } );
 
     const interactiveNode = new Node( options.interactiveNodeOptions );
@@ -87,7 +90,7 @@ class BothHandsPDOMNode extends Node {
 
     // @private
     this.bothHandsInteractionListener = new BothHandsInteractionListener( interactiveNode, ratioTupleProperty, valueRange,
-      this.isFirstInteractionProperty, tickMarkRangeProperty, keyboardStep,
+      this.antecedentInteractedWithProperty, this.consequentInteractedWithProperty, tickMarkRangeProperty, keyboardStep,
       viewSounds.boundarySoundClip, viewSounds.tickMarkBumpSoundClip, ratioLockedProperty, targetRatioProperty, getIdealTerm );
     interactiveNode.addInputListener( this.bothHandsInteractionListener );
 
@@ -95,13 +98,11 @@ class BothHandsPDOMNode extends Node {
       focus: () => {
         this.alertBothHandsObjectResponse( tickMarkViewProperty.value );
         viewSounds.grabSoundClip.play();
-        antecedentCueDisplayProperty.value = this.isFirstInteractionProperty.value ? CueDisplay.W_S : CueDisplay.NONE;
-        consequentCueDisplayProperty.value = this.isFirstInteractionProperty.value ? CueDisplay.UP_DOWN : CueDisplay.NONE;
+        this.bothHandsFocusedProperty.value = true;
       },
       blur: () => {
         viewSounds.releaseSoundClip.play();
-        antecedentCueDisplayProperty.value = this.isFirstInteractionProperty.value ? CueDisplay.ARROWS : CueDisplay.NONE;
-        consequentCueDisplayProperty.value = this.isFirstInteractionProperty.value ? CueDisplay.ARROWS : CueDisplay.NONE;
+        this.bothHandsFocusedProperty.value = false;
 
         // This only works because the bothHandsInteractionListener needs alt-input control resetting
         this.bothHandsInteractionListener.reset();
@@ -118,6 +119,7 @@ class BothHandsPDOMNode extends Node {
         ariaLivePriority: AriaHerald.AriaLive.ASSERTIVE
       }
     } );
+
     const contextResponseUtterance = new Utterance( { alertStableDelay: RAPQueryParameters.bothHandsContextDelay } );
 
     // @public (read-only) - expose this from the listener for general consumption
@@ -155,7 +157,9 @@ class BothHandsPDOMNode extends Node {
    * @public
    */
   reset() {
-    this.isFirstInteractionProperty.reset();
+    this.antecedentInteractedWithProperty.reset();
+    this.consequentInteractedWithProperty.reset();
+    this.bothHandsFocusedProperty.reset();
     this.bothHandsInteractionListener.reset();
   }
 

@@ -4,6 +4,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -86,8 +87,9 @@ class RAPScreenView extends ScreenView {
       tandem: tandem.createTandem( 'tickMarkViewProperty' )
     } );
 
-    const antecedentCueDisplayProperty = new EnumerationProperty( CueDisplay, CueDisplay.ARROWS );
-    const consequentCueDisplayProperty = new EnumerationProperty( CueDisplay, CueDisplay.ARROWS );
+    // whether or not to show the both hands cue for this ratio term.
+    const antecedentBothHandsCueDisplayedProperty = new BooleanProperty( false );
+    const consequentBothHandsCueDisplayedProperty = new BooleanProperty( false );
 
     // for ease at usage sites
     const ratio = model.ratio;
@@ -134,7 +136,7 @@ class RAPScreenView extends ScreenView {
       ratio.antecedentProperty,
       DEFAULT_RANGE,
       model.ratio.enabledRatioTermsRangeProperty,
-      antecedentCueDisplayProperty,
+      antecedentBothHandsCueDisplayedProperty,
       defaultRatioHalfBounds,
       tickMarkViewProperty,
       options.tickMarkRangeProperty,
@@ -150,6 +152,7 @@ class RAPScreenView extends ScreenView {
         handColorProperty: options.leftHandColorProperty,
         accessibleName: ratioAndProportionStrings.a11y.leftHand,
         a11yDependencies: a11yDependencies,
+        bothHandsCueDisplay: CueDisplay.W_S,
         isRight: false // this way we get a left hand
       }
     );
@@ -159,7 +162,7 @@ class RAPScreenView extends ScreenView {
       ratio.consequentProperty,
       DEFAULT_RANGE,
       model.ratio.enabledRatioTermsRangeProperty,
-      consequentCueDisplayProperty,
+      consequentBothHandsCueDisplayedProperty,
       defaultRatioHalfBounds,
       tickMarkViewProperty,
       options.tickMarkRangeProperty,
@@ -179,7 +182,7 @@ class RAPScreenView extends ScreenView {
       } );
 
     const bothHandsPDOMNode = new BothHandsPDOMNode( ratio.ratioTupleProperty, DEFAULT_RANGE,
-      antecedentCueDisplayProperty, consequentCueDisplayProperty, keyboardStep, tickMarkViewProperty, options.tickMarkRangeProperty, model.unclampedFitnessProperty,
+      antecedentBothHandsCueDisplayedProperty, consequentBothHandsCueDisplayedProperty, keyboardStep, tickMarkViewProperty, options.tickMarkRangeProperty, model.unclampedFitnessProperty,
       this.handPositionsDescriber, this.ratioDescriber, bothHandsDescriber, this.viewSounds, model.ratio.lockedProperty,
       model.targetRatioProperty, model.getIdealValueForTerm.bind( model ), merge( {
         interactiveNodeOptions: {
@@ -237,8 +240,8 @@ class RAPScreenView extends ScreenView {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         model.reset();
         options.tickMarkRangeProperty.reset();
-        antecedentCueDisplayProperty.reset();
-        consequentCueDisplayProperty.reset();
+        antecedentBothHandsCueDisplayedProperty.reset();
+        consequentBothHandsCueDisplayedProperty.reset();
         bothHandsPDOMNode.reset();
 
         this.reset();

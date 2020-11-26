@@ -11,6 +11,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -56,7 +57,7 @@ class RatioHalf extends Rectangle {
    * @param {NumberProperty} valueProperty
    * @param {Range} valueRange - the total range of the hand
    * @param {Property.<Range>} enabledRatioTermsRangeProperty - the current range that the hand can move
-   * @param {EnumerationProperty.<CueDisplay>} cueDisplayProperty
+   * @param {BooleanProperty} displayBothHandsCueProperty
    * @param {Bounds2} bounds - the area that the node takes up
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
    * @param {Property.<number>} tickMarkRangeProperty
@@ -72,7 +73,7 @@ class RatioHalf extends Rectangle {
    * @param {function():number} getIdealValue - a function that get's the value of this ratioHalf that would achieve the targetRatio
    * @param {Object} [options]
    */
-  constructor( valueProperty, valueRange, enabledRatioTermsRangeProperty, cueDisplayProperty, bounds, tickMarkViewProperty,
+  constructor( valueProperty, valueRange, enabledRatioTermsRangeProperty, displayBothHandsCueProperty, bounds, tickMarkViewProperty,
                tickMarkRangeProperty, ratioDescriber, handPositionsDescriber, bothHandsDescriber, colorProperty, keyboardStep,
                horizontalMovementAllowedProperty, ratioLockedProperty, viewSounds, inProportionSoundGenerator, getIdealValue,
                options ) {
@@ -88,6 +89,9 @@ class RatioHalf extends Rectangle {
       // AccessibleValueHandler via RatioHandNode
       a11yDependencies: [],
 
+      // {CueDisplay}
+      bothHandsCueDisplay: CueDisplay.UP_DOWN,
+
       // pdom
       tagName: 'div',
       accessibleNameBehavior: ratioHalfAccessibleNameBehavior
@@ -102,13 +106,22 @@ class RatioHalf extends Rectangle {
     // dragging this will be considered interaction, for keyboard, you must press a key before the interaction starts.
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
 
-    const isFirstInteractionProperty = new BooleanProperty( true );
+    const interactedWithMouseProperty = new BooleanProperty( false );
+    const interactedWithKeyboardProperty = new BooleanProperty( false );
+    const keyboardFocusedProperty = new BooleanProperty( false );
 
-    isFirstInteractionProperty.lazyLink( firstInteraction => {
-      if ( !firstInteraction ) {
-        cueDisplayProperty.value = CueDisplay.NONE;
-      }
-    } );
+    const cueDisplayStateProperty = new DerivedProperty( [
+        interactedWithKeyboardProperty,
+        interactedWithMouseProperty,
+        displayBothHandsCueProperty,
+        keyboardFocusedProperty
+      ],
+      ( interactedWithKeyboard, interactedWithMouse, displayBothHands, keyboardFocused ) => {
+        return displayBothHands ? options.bothHandsCueDisplay :
+               keyboardFocused && !interactedWithKeyboard ? CueDisplay.UP_DOWN :
+               ( interactedWithKeyboard || interactedWithMouse ) ? CueDisplay.NONE :
+               CueDisplay.ARROWS;
+      } );
 
     // "Framing" rectangles on the top and bottom of the drag area of the ratio half
     const topRect = new Rectangle( 0, 0, 10, this.framingRectangleHeight, { fill: colorProperty } );
@@ -126,9 +139,9 @@ class RatioHalf extends Rectangle {
 
     // @private - The draggable element inside the Node framed with thick rectangles on the top and bottom.
     this.ratioHandNode = new RatioHandNode( valueProperty, enabledRatioTermsRangeProperty, tickMarkViewProperty,
-      keyboardStep, options.handColorProperty, cueDisplayProperty, getIdealValue, {
+      keyboardStep, options.handColorProperty, cueDisplayStateProperty, getIdealValue, {
         startDrag: () => {
-          isFirstInteractionProperty.value = false;
+          interactedWithKeyboardProperty.value = true;
           this.isBeingInteractedWithProperty.value = true;
           viewSounds.boundarySoundClip.onStartInteraction();
         },
@@ -150,10 +163,10 @@ class RatioHalf extends Rectangle {
 
     this.ratioHandNode.addInputListener( {
       focus: () => {
-        cueDisplayProperty.value = isFirstInteractionProperty.value ? CueDisplay.UP_DOWN : CueDisplay.NONE;
+        keyboardFocusedProperty.value = true;
       },
       blur: () => {
-        cueDisplayProperty.value = isFirstInteractionProperty.value ? CueDisplay.ARROWS : CueDisplay.NONE;
+        keyboardFocusedProperty.value = false;
       }
     } );
 
@@ -216,7 +229,7 @@ class RatioHalf extends Rectangle {
           startingX = positionProperty.value.x;
         }
         viewSounds.grabSoundClip.play();
-        isFirstInteractionProperty.value = false;
+        interactedWithMouseProperty.value = true;
 
         inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( true );
         viewSounds.boundarySoundClip.onStartInteraction();
@@ -330,7 +343,9 @@ class RatioHalf extends Rectangle {
       this.ratioHandNode.reset();
       positionProperty.value.setX( INITIAL_X_VALUE );
       positionProperty.notifyListenersStatic();
-      isFirstInteractionProperty.reset();
+      interactedWithMouseProperty.reset();
+      interactedWithKeyboardProperty.reset();
+      keyboardFocusedProperty.reset();
     };
   }
 

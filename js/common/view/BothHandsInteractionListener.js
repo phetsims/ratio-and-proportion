@@ -20,7 +20,8 @@ class BothHandsInteractionListener {
    * @param {Node} targetNode
    * @param {Property.<RAPRatioTuple>} ratioTupleProperty
    * @param {Range} valueRange
-   * @param {Property.<boolean>} isFirstInteractionProperty
+   * @param {Property.<boolean>} antecedentInteractedWithProperty
+   * @param {Property.<boolean>} consequentInteractedWithProperty
    * @param {Property.<number>} tickMarkRangeProperty
    * @param {number} keyboardStep
    * @param {BoundarySoundClip} boundarySoundClip
@@ -30,14 +31,15 @@ class BothHandsInteractionListener {
    * @param {function(RatioTerm):number} getIdealTerm
    */
   constructor( targetNode, ratioTupleProperty, valueRange,
-               isFirstInteractionProperty, tickMarkRangeProperty, keyboardStep, boundarySoundClip, tickMarkBumpSoundClip,
+               antecedentInteractedWithProperty, consequentInteractedWithProperty, tickMarkRangeProperty, keyboardStep, boundarySoundClip, tickMarkBumpSoundClip,
                ratioLockedProperty, targetRatioProperty, getIdealTerm ) {
 
     // @private
     this.keyStateTracker = new KeyStateTracker();
     this.valueRange = valueRange;
     this.targetNode = targetNode;
-    this.isFirstInteractionProperty = isFirstInteractionProperty;
+    this.antecedentInteractedWithProperty = antecedentInteractedWithProperty;
+    this.consequentInteractedWithProperty = consequentInteractedWithProperty;
     this.tickMarkRangeProperty = tickMarkRangeProperty;
     this.ratioTupleProperty = ratioTupleProperty;
     this.keyboardStep = keyboardStep;
@@ -74,7 +76,6 @@ class BothHandsInteractionListener {
    * @private
    */
   onValueIncrementDecrement( tupleField, inputMapper, increment ) {
-    this.isFirstInteractionProperty.value = false;
     const currentValue = this.ratioTupleProperty.value[ tupleField ];
 
     const changeAmount = this.keyStateTracker.shiftKeyDown ? this.shiftKeyboardStep : this.keyboardStep;
@@ -114,15 +115,19 @@ class BothHandsInteractionListener {
       this.isBeingInteractedWithProperty.value = true;
 
       if ( event.key === 'ArrowDown' ) {
+        this.consequentInteractedWithProperty.value = true;
         this.onValueIncrementDecrement( 'consequent', this.consequentMapKeyboardInput, false );
       }
       else if ( event.key === 'ArrowUp' ) {
         this.onValueIncrementDecrement( 'consequent', this.consequentMapKeyboardInput, true );
+        this.consequentInteractedWithProperty.value = true;
       }
       else if ( event.key.toLowerCase() === 'w' ) {
+        this.antecedentInteractedWithProperty.value = true;
         this.onValueIncrementDecrement( 'antecedent', this.antecedentMapKeyboardInput, true );
       }
       else if ( event.key.toLowerCase() === 's' ) {
+        this.antecedentInteractedWithProperty.value = true;
         this.onValueIncrementDecrement( 'antecedent', this.antecedentMapKeyboardInput, false );
       }
       else {
