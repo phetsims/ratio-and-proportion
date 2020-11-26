@@ -55,9 +55,10 @@ class CreateScreenView extends RAPScreenView {
     } );
 
     // Allow us to get the reduced fraction as the initial value of the custom "My Challenge"
-    const initialRatioFraction = new Fraction( model.ratio.antecedentProperty.value * 100, model.ratio.consequentProperty.value * 100 );
-    initialRatioFraction.reduce();
+    const initialRatioFraction = Fraction.fromDecimal( model.targetRatioProperty.value );
     const rangeProperty = new Property( new Range( 1, 10 ) );
+    assert && assert( rangeProperty.value.contains( initialRatioFraction.numerator), 'unsupported numerator');
+    assert && assert( rangeProperty.value.contains( initialRatioFraction.denominator), 'unsupported denominator');
 
     // TODO: this should depend on the target ratio, not the initial values
     const targetAntecedentProperty = new NumberProperty( initialRatioFraction.numerator );
