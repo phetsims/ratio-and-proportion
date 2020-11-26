@@ -4,7 +4,6 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
@@ -78,9 +77,6 @@ unclampedFitness: ${unclampedFitness}\n` );
       unclampedFitness => Utils.clamp( unclampedFitness, this.fitnessRange.min, this.fitnessRange.max ), {
         isValidValue: value => this.fitnessRange.contains( value )
       } );
-
-    // @public - true before and until first user interaction with the simulation. Reset will apply to this Property.
-    this.firstInteractionProperty = new BooleanProperty( true );
 
     // This must be done here, because of the reentrant nature of how fitness changes when the ratio is locked
     this.targetRatioProperty.link( () => {
@@ -209,7 +205,6 @@ unclampedFitness: ${unclampedFitness}\n` );
     this.ratio.reset(); // do this first
 
     this.targetRatioProperty.reset();
-    this.firstInteractionProperty.reset();
   }
 }
 

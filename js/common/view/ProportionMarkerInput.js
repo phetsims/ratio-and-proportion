@@ -24,7 +24,7 @@ class ProportionMarkerInput extends MarkerInput {
   /**
    * @param {NumberProperty} antecedentProperty
    * @param {NumberProperty} consequentProperty
-   * @param {BooleanProperty} firstInteractionProperty
+   * @param {BooleanProperty} firstInteractionProperty - TODO: support this for cue arrows
    */
   constructor( antecedentProperty, consequentProperty, firstInteractionProperty ) {
     super();
@@ -32,9 +32,11 @@ class ProportionMarkerInput extends MarkerInput {
     // @public (read-only)
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
 
-    this.isBeingInteractedWithProperty.lazyLink( interactedWith => {
-      interactedWith && firstInteractionProperty.set( false );
-    } );
+
+    // TODO: support this for cue arrows
+    // this.isBeingInteractedWithProperty.lazyLink( interactedWith => {
+    //   interactedWith && firstInteractionProperty.set( false );
+    // } );
 
     // @private
     this.antecedentProperty = antecedentProperty;
