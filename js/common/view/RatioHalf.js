@@ -58,6 +58,7 @@ class RatioHalf extends Rectangle {
    * @param {Range} valueRange - the total range of the hand
    * @param {Property.<Range>} enabledRatioTermsRangeProperty - the current range that the hand can move
    * @param {BooleanProperty} displayBothHandsCueProperty
+   * @param {BooleanProperty} bothHandsInteractedWithProperty
    * @param {Bounds2} bounds - the area that the node takes up
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
    * @param {Property.<number>} tickMarkRangeProperty
@@ -73,9 +74,24 @@ class RatioHalf extends Rectangle {
    * @param {function():number} getIdealValue - a function that get's the value of this ratioHalf that would achieve the targetRatio
    * @param {Object} [options]
    */
-  constructor( valueProperty, valueRange, enabledRatioTermsRangeProperty, displayBothHandsCueProperty, bounds, tickMarkViewProperty,
-               tickMarkRangeProperty, ratioDescriber, handPositionsDescriber, bothHandsDescriber, colorProperty, keyboardStep,
-               horizontalMovementAllowedProperty, ratioLockedProperty, viewSounds, inProportionSoundGenerator, getIdealValue,
+  constructor( valueProperty,
+               valueRange,
+               enabledRatioTermsRangeProperty,
+               displayBothHandsCueProperty,
+               bothHandsInteractedWithProperty,
+               bounds,
+               tickMarkViewProperty,
+               tickMarkRangeProperty,
+               ratioDescriber,
+               handPositionsDescriber,
+               bothHandsDescriber,
+               colorProperty,
+               keyboardStep,
+               horizontalMovementAllowedProperty,
+               ratioLockedProperty,
+               viewSounds,
+               inProportionSoundGenerator,
+               getIdealValue,
                options ) {
 
     options = merge( {
@@ -110,16 +126,18 @@ class RatioHalf extends Rectangle {
     const interactedWithKeyboardProperty = new BooleanProperty( false );
     const keyboardFocusedProperty = new BooleanProperty( false );
 
+    // This follows the spec outlined in https://github.com/phetsims/ratio-and-proportion/issues/81#issuecomment-733164835
     const cueDisplayStateProperty = new DerivedProperty( [
         interactedWithKeyboardProperty,
         interactedWithMouseProperty,
+        bothHandsInteractedWithProperty,
         displayBothHandsCueProperty,
         keyboardFocusedProperty
       ],
-      ( interactedWithKeyboard, interactedWithMouse, displayBothHands, keyboardFocused ) => {
+      ( interactedWithKeyboard, interactedWithMouse, bothHandsInteractedWith, displayBothHands, keyboardFocused ) => {
         return displayBothHands ? options.bothHandsCueDisplay :
                keyboardFocused && !interactedWithKeyboard ? CueDisplay.UP_DOWN :
-               ( interactedWithKeyboard || interactedWithMouse ) ? CueDisplay.NONE :
+               ( interactedWithKeyboard || interactedWithMouse || bothHandsInteractedWith ) ? CueDisplay.NONE :
                CueDisplay.ARROWS;
       } );
 

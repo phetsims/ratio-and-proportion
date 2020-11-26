@@ -26,6 +26,7 @@ class BothHandsPDOMNode extends Node {
    * @param {Range} valueRange - the total range of the hand
    * @param {BooleanProperty} antecedentCueDisplayedProperty
    * @param {BooleanProperty} consequentCueDisplayedProperty
+   * @param {BooleanProperty} bothHandsInteractedWithProperty
    * @param {number} keyboardStep
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
    * @param {Property.<number>} tickMarkRangeProperty
@@ -39,9 +40,23 @@ class BothHandsPDOMNode extends Node {
    * @param {function(RatioTerm):number} getIdealTerm
    * @param {Object} [options]
    */
-  constructor( ratioTupleProperty, valueRange, antecedentCueDisplayedProperty, consequentCueDisplayedProperty, keyboardStep,
-               tickMarkViewProperty, tickMarkRangeProperty, unclampedFitnessProperty, handPositionsDescriber,
-               ratioDescriber, bothHandsDescriber, viewSounds, ratioLockedProperty, targetRatioProperty, getIdealTerm, options ) {
+  constructor( ratioTupleProperty,
+               valueRange,
+               antecedentCueDisplayedProperty,
+               consequentCueDisplayedProperty,
+               bothHandsInteractedWithProperty,
+               keyboardStep,
+               tickMarkViewProperty,
+               tickMarkRangeProperty,
+               unclampedFitnessProperty,
+               handPositionsDescriber,
+               ratioDescriber,
+               bothHandsDescriber,
+               viewSounds,
+               ratioLockedProperty,
+               targetRatioProperty,
+               getIdealTerm,
+               options ) {
 
     options = merge( {
 
@@ -70,6 +85,13 @@ class BothHandsPDOMNode extends Node {
     this.antecedentInteractedWithProperty = new BooleanProperty( false );
     this.consequentInteractedWithProperty = new BooleanProperty( false );
     this.bothHandsFocusedProperty = new BooleanProperty( false );
+
+    Property.multilink( [
+      this.antecedentInteractedWithProperty,
+      this.consequentInteractedWithProperty
+    ], ( antecedentInteractedWith, consequentInteractedWith ) => {
+      bothHandsInteractedWithProperty.value = antecedentInteractedWith || consequentInteractedWith;
+    } );
 
     Property.multilink( [
       this.antecedentInteractedWithProperty,

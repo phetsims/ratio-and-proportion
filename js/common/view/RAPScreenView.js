@@ -91,6 +91,11 @@ class RAPScreenView extends ScreenView {
     const antecedentBothHandsCueDisplayedProperty = new BooleanProperty( false );
     const consequentBothHandsCueDisplayedProperty = new BooleanProperty( false );
 
+    // Has the BothHands interaction been interacted with yet? We need to be able to pass this info to RatioHalf,
+    // which is created before BothHandsPDOMNode is created. So even though this acts like a derivedProperty that
+    // BothHandsPDOMNode should control, we need to create it here.
+    const bothHandsInteractedWithProperty = new BooleanProperty( false );
+
     // for ease at usage sites
     const ratio = model.ratio;
 
@@ -137,6 +142,7 @@ class RAPScreenView extends ScreenView {
       DEFAULT_RANGE,
       model.ratio.enabledRatioTermsRangeProperty,
       antecedentBothHandsCueDisplayedProperty,
+      bothHandsInteractedWithProperty,
       defaultRatioHalfBounds,
       tickMarkViewProperty,
       options.tickMarkRangeProperty,
@@ -163,6 +169,7 @@ class RAPScreenView extends ScreenView {
       DEFAULT_RANGE,
       model.ratio.enabledRatioTermsRangeProperty,
       consequentBothHandsCueDisplayedProperty,
+      bothHandsInteractedWithProperty,
       defaultRatioHalfBounds,
       tickMarkViewProperty,
       options.tickMarkRangeProperty,
@@ -182,7 +189,7 @@ class RAPScreenView extends ScreenView {
       } );
 
     const bothHandsPDOMNode = new BothHandsPDOMNode( ratio.ratioTupleProperty, DEFAULT_RANGE,
-      antecedentBothHandsCueDisplayedProperty, consequentBothHandsCueDisplayedProperty, keyboardStep, tickMarkViewProperty, options.tickMarkRangeProperty, model.unclampedFitnessProperty,
+      antecedentBothHandsCueDisplayedProperty, consequentBothHandsCueDisplayedProperty, bothHandsInteractedWithProperty, keyboardStep, tickMarkViewProperty, options.tickMarkRangeProperty, model.unclampedFitnessProperty,
       this.handPositionsDescriber, this.ratioDescriber, bothHandsDescriber, this.viewSounds, model.ratio.lockedProperty,
       model.targetRatioProperty, model.getIdealValueForTerm.bind( model ), merge( {
         interactiveNodeOptions: {
@@ -243,7 +250,7 @@ class RAPScreenView extends ScreenView {
         antecedentBothHandsCueDisplayedProperty.reset();
         consequentBothHandsCueDisplayedProperty.reset();
         bothHandsPDOMNode.reset();
-
+        bothHandsInteractedWithProperty.reset();
         this.reset();
       },
       tandem: tandem.createTandem( 'resetAllButton' )
