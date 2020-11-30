@@ -151,14 +151,23 @@ class RAPRatio {
 
     // Alter the antecedent to match the target ratio
     const currentRatioTuple = this.ratioTupleProperty.value;
-    currentRatioTuple.antecedent = targetRatio * currentRatioTuple.consequent;
+
+    // Snap the smaller value, because that will yield a smaller snap distance, see https://github.com/phetsims/ratio-and-proportion/issues/257
+    if ( currentRatioTuple.antecedent > currentRatioTuple.consequent ) {
+      currentRatioTuple.antecedent = targetRatio * currentRatioTuple.consequent;
+    }
+    else {
+      currentRatioTuple.consequent = currentRatioTuple.antecedent / targetRatio;
+    }
+
+    // Then clamp to be within the currently enabled range.
+    const newRatioTuple = this.clampRatioTupleValuesInRange( currentRatioTuple, targetRatio );
+    assert && assert( newRatioTuple !== currentRatioTuple,
+      'Cannot mutate here, as we rely on notifications below when setting the Property.' );
 
     // Make sure that the lock ratio listener won't try to mutate the new RAPRatioTuple
     this.lockRatioListenerEnabled = false;
-
-    // Then clamp to be within the currently enabled range.
-    this.ratioTupleProperty.value = this.clampRatioTupleValuesInRange( currentRatioTuple, targetRatio );
-
+    this.ratioTupleProperty.value = newRatioTuple;
     this.lockRatioListenerEnabled = true;
   }
 
