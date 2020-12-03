@@ -14,15 +14,17 @@ class BothHandsDescriber {
   /**
    * @param {Property.<number>} antecedentProperty
    * @param {Property.<number>} consequentProperty
+   * @param {Property.<Range>} enabledRatioTermsRangeProperty
    * @param {Property.<TickMarkView>} tickMarkViewProperty
    * @param {RatioDescriber} ratioDescriber
    * @param {HandPositionsDescriber} handPositionsDescriber
    */
-  constructor( antecedentProperty, consequentProperty, tickMarkViewProperty, ratioDescriber, handPositionsDescriber ) {
+  constructor( antecedentProperty, consequentProperty, enabledRatioTermsRangeProperty, tickMarkViewProperty, ratioDescriber, handPositionsDescriber ) {
 
     // @private - from model
     this.antecedentProperty = antecedentProperty;
     this.consequentProperty = consequentProperty;
+    this.enabledRatioTermsRangeProperty = enabledRatioTermsRangeProperty;
     this.tickMarkViewProperty = tickMarkViewProperty;
     this.ratioDescriber = ratioDescriber;
     this.handPositionsDescriber = handPositionsDescriber;
@@ -95,6 +97,51 @@ class BothHandsDescriber {
   }
 
   /**
+   * Get the edge response when ratio is locked.
+   * @private
+   * @returns {string|null} - null if not in the edge case
+   */
+  getRatioLockedEdgeCaseContextResponse() {
+    const enabledRange = this.enabledRatioTermsRangeProperty.value;
+
+    let handAtExtremity = null; // what hand?
+    let extremityPosition = null; // where are we now?
+    let direction = null; // where to go from here?
+
+    if ( this.antecedentProperty.value === enabledRange.min ) {
+      handAtExtremity = ratioAndProportionStrings.a11y.leftHand;
+      extremityPosition = ratioAndProportionStrings.a11y.handPosition.nearBottom;
+      direction = ratioAndProportionStrings.a11y.up;
+    }
+    else if ( this.antecedentProperty.value === enabledRange.max ) {
+      handAtExtremity = ratioAndProportionStrings.a11y.leftHand;
+      extremityPosition = ratioAndProportionStrings.a11y.handPosition.atTop;
+      direction = ratioAndProportionStrings.a11y.down;
+    }
+    else if ( this.consequentProperty.value === enabledRange.min ) {
+      handAtExtremity = ratioAndProportionStrings.a11y.rightHand;
+      extremityPosition = ratioAndProportionStrings.a11y.handPosition.nearBottom;
+      direction = ratioAndProportionStrings.a11y.up;
+    }
+    else if ( this.consequentProperty.value === enabledRange.max ) {
+      handAtExtremity = ratioAndProportionStrings.a11y.rightHand;
+      extremityPosition = ratioAndProportionStrings.a11y.handPosition.atTop;
+      direction = ratioAndProportionStrings.a11y.down;
+    }
+
+    // Detect if we are at the edge of the range
+    if ( handAtExtremity && extremityPosition && direction ) {
+      return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.ratioLockedEdgeContextResponse, {
+        position: extremityPosition,
+        hand: handAtExtremity,
+        direction: direction
+      } );
+    }
+
+    return null;
+  }
+
+  /**
    * A consistent context response for when interacting with the ratio
    * @param {Property.<number>} valueProperty
    * @param {TickMarkView} tickMarkView
@@ -102,6 +149,12 @@ class BothHandsDescriber {
    * @public
    */
   getRatioLockedContextResponse( valueProperty, tickMarkView ) {
+
+    const ratioLockedEdgeResponse = this.getRatioLockedEdgeCaseContextResponse();
+    if ( ratioLockedEdgeResponse ) {
+      return ratioLockedEdgeResponse;
+    }
+
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.singleHandRatioLockedContextResponse, {
       bothHandsRegion: this.getBothHandsPosition(),
       distanceOrDirection: this.handPositionsDescriber.getBothHandsDistanceOrDirection( valueProperty, tickMarkView, true )

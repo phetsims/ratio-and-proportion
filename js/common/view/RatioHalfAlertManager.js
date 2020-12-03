@@ -20,8 +20,8 @@ class RatioHalfAlertManager {
    * @param {Property.<TickMarkView>} tickMarkViewProperty
    * @param {RatioDescriber} ratioDescriber
    * @param {HandPositionsDescriber} handPositionsDescriber
-   * @param bothHandsDescriber
-   * @param ratioLockedProperty
+   * @param {BothHandsDescriber} bothHandsDescriber
+   * @param {BooleanProperty} ratioLockedProperty
    */
   constructor( valueProperty, tickMarkViewProperty, ratioDescriber, handPositionsDescriber, bothHandsDescriber, ratioLockedProperty ) {
 

@@ -25,7 +25,7 @@ const LOCK_RATIO_RANGE_MIN = .05;
 class RAPRatio {
   constructor() {
 
-    // @public (read-only)
+    // @public (read-only) {Property.<Range>}
     this.enabledRatioTermsRangeProperty = new Property( RAPConstants.TOTAL_RATIO_COMPONENT_VALUE_RANGE );
 
     // @public {Property.<RAPRatioTuple>} - central Property that holds the value of the ratio

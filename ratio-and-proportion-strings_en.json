@@ -531,6 +531,9 @@
       "singleHandRatioLockedContextResponse": {
         "value": "{{distanceOrDirection}}, {{bothHandsRegion}}."
       },
+      "ratioLockedEdgeContextResponse": {
+        "value": "{{hand}}, {{position}}. Move hands {{direction}} to explore more."
+      },
       "proximityToNewRatioPattern": {
         "value": "Hands, {{proximity}} new challenge ratio."
       },
@@ -598,6 +601,12 @@
           "value": "extremely far from"
         }
       }
+    },
+    "down": {
+      "value": "down"
+    },
+    "up": {
+      "value": "up"
     }
   }
 }
