@@ -106,15 +106,13 @@ class RatioHandNode extends Node {
     const cueArrowUp = new ArrowNode( 0, 0, 0, -40, merge( {
       bottom: container.top - 20
     }, cueArrowOptions ) );
-    const cueArrowKeyUp = new ArrowKeyNode( 'up', {
-      bottom: cueArrowUp.bottom,
-      centerX: cueArrowUp.centerX
-    } );
-    const cueWKeyUp = new LetterKeyNode( 'W', {
+    const topCueKeyOptions = {
       bottom: cueArrowUp.bottom,
       centerX: cueArrowUp.centerX,
       scale: rightHandFlipScale // we don't want letters to be flipped
-    } );
+    };
+    const cueArrowKeyUp = new ArrowKeyNode( 'up', topCueKeyOptions );
+    const cueWKeyUp = new LetterKeyNode( 'W', topCueKeyOptions );
     const upCue = new Node( {
       excludeInvisibleChildrenFromBounds: true,
       children: [ cueArrowUp, cueArrowKeyUp, cueWKeyUp ]
@@ -123,15 +121,13 @@ class RatioHandNode extends Node {
     const cueArrowDown = new ArrowNode( 0, 0, 0, 40, merge( {
       top: container.bottom + 20
     }, cueArrowOptions ) );
-    const cueArrowKeyDown = new ArrowKeyNode( 'down', {
-      top: cueArrowDown.top,
-      centerX: cueArrowDown.centerX
-    } );
-    const cueSKeyDown = new LetterKeyNode( 'S', {
+    const bottomCueKeyOptions = {
       top: cueArrowDown.top,
       centerX: cueArrowDown.centerX,
-      scale: rightHandFlipScale // we don't want letters to be flipped
-    } );
+      scale: rightHandFlipScale
+    };
+    const cueArrowKeyDown = new ArrowKeyNode( 'down', bottomCueKeyOptions );
+    const cueSKeyDown = new LetterKeyNode( 'S', bottomCueKeyOptions );
     const downCue = new Node( {
       excludeInvisibleChildrenFromBounds: true,
       children: [ cueArrowDown, cueArrowKeyDown, cueSKeyDown ]
