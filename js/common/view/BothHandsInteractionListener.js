@@ -163,6 +163,10 @@ class BothHandsInteractionListener {
             if ( wasLocked && this.ratioLockedProperty.value === false ) {
               this.inputCauseRatioUnlockEmitter.emit();
             }
+
+            // Count number key interaction as cue-removing interaction.
+            this.antecedentInteractedWithProperty.value = true;
+            this.consequentInteractedWithProperty.value = true;
           }
         }
       }
