@@ -84,7 +84,6 @@ class BothHandsPDOMNode extends Node {
     this.consequentInteractedWithProperty = new BooleanProperty( false );
     this.bothHandsFocusedProperty = new BooleanProperty( false );
 
-    // TODO: this doesn't account for using the number keys to "jump", https://github.com/phetsims/ratio-and-proportion/issues/81
     Property.multilink( [
       this.antecedentInteractedWithProperty,
       this.consequentInteractedWithProperty
