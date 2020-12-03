@@ -8,7 +8,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
-import KeyStateTracker from '../../../../scenery/js/accessibility/KeyStateTracker.js';
+import globalKeyStateTracker from '../../../../scenery/js/accessibility/globalKeyStateTracker.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import RatioTerm from '../model/RatioTerm.js';
@@ -35,7 +35,6 @@ class BothHandsInteractionListener {
                ratioLockedProperty, targetRatioProperty, getIdealTerm ) {
 
     // @private
-    this.keyStateTracker = new KeyStateTracker();
     this.valueRange = valueRange;
     this.targetNode = targetNode;
     this.antecedentInteractedWithProperty = antecedentInteractedWithProperty;
@@ -78,12 +77,12 @@ class BothHandsInteractionListener {
   onValueIncrementDecrement( tupleField, inputMapper, increment ) {
     const currentValue = this.ratioTupleProperty.value[ tupleField ];
 
-    const changeAmount = this.keyStateTracker.shiftKeyDown ? this.shiftKeyboardStep : this.keyboardStep;
+    const changeAmount = globalKeyStateTracker.shiftKeyDown ? this.shiftKeyboardStep : this.keyboardStep;
     const valueDelta = changeAmount * ( increment ? 1 : -1 );
 
     // Because this interaction uses the keyboard, snap to the keyboard step to handle the case where the hands were
     // previously moved via mouse/touch. See https://github.com/phetsims/ratio-and-proportion/issues/156
-    const newValue = inputMapper( currentValue + valueDelta, currentValue, this.keyStateTracker.shiftKeyDown ? this.shiftKeyboardStep : this.keyboardStep );
+    const newValue = inputMapper( currentValue + valueDelta, currentValue, globalKeyStateTracker.shiftKeyDown ? this.shiftKeyboardStep : this.keyboardStep );
     const newRatioTuple = tupleField === 'antecedent' ? this.ratioTupleProperty.value.withAntecedent( newValue ) : this.ratioTupleProperty.value.withConsequent( newValue );
 
     this.ratioTupleProperty.value = newRatioTuple.constrainFields( this.valueRange );
@@ -105,8 +104,6 @@ class BothHandsInteractionListener {
   keydown( sceneryEvent ) {
 
     if ( sceneryEvent.target === this.targetNode ) {
-
-      this.keyStateTracker.keydownUpdate( sceneryEvent.domEvent );
 
       // signify that this listener is reserved for keyboard movement so that other listeners can change
       // their behavior during scenery event dispatch
@@ -183,14 +180,6 @@ class BothHandsInteractionListener {
     this.boundarySoundClip.onStartInteraction( newValue );
     this.boundarySoundClip.onInteract( newValue );
     this.boundarySoundClip.onEndInteraction( newValue );
-  }
-
-  /**
-   * @public
-   * @param {SceneryEvent} sceneryEvent
-   */
-  keyup( sceneryEvent ) {
-    sceneryEvent.target === this.targetNode && this.keyStateTracker.keyupUpdate( sceneryEvent.domEvent );
   }
 }
 
