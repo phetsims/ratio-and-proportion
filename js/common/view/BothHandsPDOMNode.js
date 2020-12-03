@@ -90,6 +90,11 @@ class BothHandsPDOMNode extends Node {
       this.consequentInteractedWithProperty
     ], ( antecedentInteractedWith, consequentInteractedWith ) => {
       cueArrowsState.bothHands.interactedWithProperty.value = antecedentInteractedWith || consequentInteractedWith;
+
+      // If both hands have been interacted with, then no need for individual cues either
+      if ( antecedentInteractedWith && consequentInteractedWith ) {
+        cueArrowsState.interactedWithKeyboardProperty.value = true;
+      }
     } );
     Property.multilink( [
       this.antecedentInteractedWithProperty,
