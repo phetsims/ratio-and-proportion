@@ -24,9 +24,7 @@ class BothHandsPDOMNode extends Node {
   /**
    * @param {Property.<RAPRatioTuple>} ratioTupleProperty
    * @param {Range} valueRange - the total range of the hand
-   * @param {BooleanProperty} antecedentCueDisplayedProperty
-   * @param {BooleanProperty} consequentCueDisplayedProperty
-   * @param {BooleanProperty} bothHandsInteractedWithProperty
+   * @param {CueArrowsState} cueArrowsState
    * @param {number} keyboardStep
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
    * @param {Property.<number>} tickMarkRangeProperty
@@ -42,9 +40,7 @@ class BothHandsPDOMNode extends Node {
    */
   constructor( ratioTupleProperty,
                valueRange,
-               antecedentCueDisplayedProperty,
-               consequentCueDisplayedProperty,
-               bothHandsInteractedWithProperty,
+               cueArrowsState,
                keyboardStep,
                tickMarkViewProperty,
                tickMarkRangeProperty,
@@ -82,6 +78,8 @@ class BothHandsPDOMNode extends Node {
     this.handPositionsDescriber = handPositionsDescriber;
     this.bothHandsDescriber = bothHandsDescriber;
     this.ratioLockedProperty = ratioLockedProperty;
+
+    // @private - To support proper cue arrow logic
     this.antecedentInteractedWithProperty = new BooleanProperty( false );
     this.consequentInteractedWithProperty = new BooleanProperty( false );
     this.bothHandsFocusedProperty = new BooleanProperty( false );
@@ -91,16 +89,15 @@ class BothHandsPDOMNode extends Node {
       this.antecedentInteractedWithProperty,
       this.consequentInteractedWithProperty
     ], ( antecedentInteractedWith, consequentInteractedWith ) => {
-      bothHandsInteractedWithProperty.value = antecedentInteractedWith || consequentInteractedWith;
+      cueArrowsState.bothHands.interactedWithProperty.value = antecedentInteractedWith || consequentInteractedWith;
     } );
-
     Property.multilink( [
       this.antecedentInteractedWithProperty,
       this.consequentInteractedWithProperty,
       this.bothHandsFocusedProperty
     ], ( antecedentInteractedWith, consequentInteractedWith, bothHandsFocused ) => {
-      antecedentCueDisplayedProperty.value = !antecedentInteractedWith && bothHandsFocused;
-      consequentCueDisplayedProperty.value = !consequentInteractedWith && bothHandsFocused;
+      cueArrowsState.bothHands.antecedentCueDisplayedProperty.value = !antecedentInteractedWith && bothHandsFocused;
+      cueArrowsState.bothHands.consequentCueDisplayedProperty.value = !consequentInteractedWith && bothHandsFocused;
     } );
 
     const interactiveNode = new Node( options.interactiveNodeOptions );

@@ -4,7 +4,6 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -23,6 +22,7 @@ import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import RatioTerm from '../model/RatioTerm.js';
 import RAPConstants from '../RAPConstants.js';
 import BothHandsPDOMNode from './BothHandsPDOMNode.js';
+import CueArrowsState from './CueArrowsState.js';
 import CueDisplay from './CueDisplay.js';
 import BothHandsDescriber from './describers/BothHandsDescriber.js';
 import HandPositionsDescriber from './describers/HandPositionsDescriber.js';
@@ -87,14 +87,8 @@ class RAPScreenView extends ScreenView {
       tandem: tandem.createTandem( 'tickMarkViewProperty' )
     } );
 
-    // whether or not to show the both hands cue for this ratio term.
-    const antecedentBothHandsCueDisplayedProperty = new BooleanProperty( false );
-    const consequentBothHandsCueDisplayedProperty = new BooleanProperty( false );
-
-    // Has the BothHands interaction been interacted with yet? We need to be able to pass this info to RatioHalf,
-    // which is created before BothHandsPDOMNode is created. So even though this acts like a derivedProperty that
-    // BothHandsPDOMNode should control, we need to create it here.
-    const bothHandsInteractedWithProperty = new BooleanProperty( false );
+    // Properties that keep track of
+    const cueArrowsState = new CueArrowsState();
 
     // for ease at usage sites
     const ratio = model.ratio;
@@ -141,8 +135,8 @@ class RAPScreenView extends ScreenView {
       ratio.antecedentProperty,
       DEFAULT_RANGE,
       model.ratio.enabledRatioTermsRangeProperty,
-      antecedentBothHandsCueDisplayedProperty,
-      bothHandsInteractedWithProperty,
+      cueArrowsState.bothHands.antecedentCueDisplayedProperty,
+      cueArrowsState,
       defaultRatioHalfBounds,
       tickMarkViewProperty,
       options.tickMarkRangeProperty,
@@ -168,8 +162,8 @@ class RAPScreenView extends ScreenView {
       ratio.consequentProperty,
       DEFAULT_RANGE,
       model.ratio.enabledRatioTermsRangeProperty,
-      consequentBothHandsCueDisplayedProperty,
-      bothHandsInteractedWithProperty,
+      cueArrowsState.bothHands.consequentCueDisplayedProperty,
+      cueArrowsState,
       defaultRatioHalfBounds,
       tickMarkViewProperty,
       options.tickMarkRangeProperty,
@@ -189,7 +183,7 @@ class RAPScreenView extends ScreenView {
       } );
 
     const bothHandsPDOMNode = new BothHandsPDOMNode( ratio.ratioTupleProperty, DEFAULT_RANGE,
-      antecedentBothHandsCueDisplayedProperty, consequentBothHandsCueDisplayedProperty, bothHandsInteractedWithProperty, keyboardStep, tickMarkViewProperty, options.tickMarkRangeProperty, model.unclampedFitnessProperty,
+      cueArrowsState, keyboardStep, tickMarkViewProperty, options.tickMarkRangeProperty, model.unclampedFitnessProperty,
       this.handPositionsDescriber, this.ratioDescriber, bothHandsDescriber, this.viewSounds, model.ratio.lockedProperty,
       model.targetRatioProperty, model.getIdealValueForTerm.bind( model ), merge( {
         interactiveNodeOptions: {
@@ -247,10 +241,8 @@ class RAPScreenView extends ScreenView {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         model.reset();
         options.tickMarkRangeProperty.reset();
-        antecedentBothHandsCueDisplayedProperty.reset();
-        consequentBothHandsCueDisplayedProperty.reset();
+        cueArrowsState.reset();
         bothHandsPDOMNode.reset();
-        bothHandsInteractedWithProperty.reset();
         this.reset();
       },
       tandem: tandem.createTandem( 'resetAllButton' )

@@ -58,7 +58,7 @@ class RatioHalf extends Rectangle {
    * @param {Range} valueRange - the total range of the hand
    * @param {Property.<Range>} enabledRatioTermsRangeProperty - the current range that the hand can move
    * @param {BooleanProperty} displayBothHandsCueProperty
-   * @param {BooleanProperty} bothHandsInteractedWithProperty
+   * @param {CueArrowsState} cueArrowsState - interation state to determine the interaction cue to display
    * @param {Bounds2} bounds - the area that the node takes up
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
    * @param {Property.<number>} tickMarkRangeProperty
@@ -78,7 +78,7 @@ class RatioHalf extends Rectangle {
                valueRange,
                enabledRatioTermsRangeProperty,
                displayBothHandsCueProperty,
-               bothHandsInteractedWithProperty,
+               cueArrowsState,
                bounds,
                tickMarkViewProperty,
                tickMarkRangeProperty,
@@ -122,19 +122,15 @@ class RatioHalf extends Rectangle {
     // dragging this will be considered interaction, for keyboard, you must press a key before the interaction starts.
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
 
-    const interactedWithMouseProperty = new BooleanProperty( false );
-    const interactedWithKeyboardProperty = new BooleanProperty( false );
-    const keyboardFocusedProperty = new BooleanProperty( false );
-
-    // This follows the spec outlined in https://github.com/phetsims/ratio-and-proportion/issues/81#issuecomment-733164835
+    // This follows the spec outlined in https://github.com/phetsims/ratio-and-proportion/issues/81
     const cueDisplayStateProperty = new DerivedProperty( [
-        interactedWithKeyboardProperty,
-        interactedWithMouseProperty,
-        bothHandsInteractedWithProperty,
-        displayBothHandsCueProperty,
-        keyboardFocusedProperty
+        cueArrowsState.interactedWithKeyboardProperty,
+        cueArrowsState.interactedWithMouseProperty,
+        cueArrowsState.keyboardFocusedProperty,
+        cueArrowsState.bothHands.interactedWithProperty,
+        displayBothHandsCueProperty
       ],
-      ( interactedWithKeyboard, interactedWithMouse, bothHandsInteractedWith, displayBothHands, keyboardFocused ) => {
+      ( interactedWithKeyboard, interactedWithMouse, keyboardFocused, bothHandsInteractedWith, displayBothHands ) => {
         return displayBothHands ? options.bothHandsCueDisplay :
                keyboardFocused && !interactedWithKeyboard ? CueDisplay.UP_DOWN :
                ( interactedWithKeyboard || interactedWithMouse || bothHandsInteractedWith ) ? CueDisplay.NONE :
@@ -159,7 +155,7 @@ class RatioHalf extends Rectangle {
     this.ratioHandNode = new RatioHandNode( valueProperty, enabledRatioTermsRangeProperty, tickMarkViewProperty,
       keyboardStep, options.handColorProperty, cueDisplayStateProperty, getIdealValue, {
         startDrag: () => {
-          interactedWithKeyboardProperty.value = true;
+          cueArrowsState.interactedWithKeyboardProperty.value = true;
           this.isBeingInteractedWithProperty.value = true;
           viewSounds.boundarySoundClip.onStartInteraction();
         },
@@ -181,10 +177,10 @@ class RatioHalf extends Rectangle {
 
     this.ratioHandNode.addInputListener( {
       focus: () => {
-        keyboardFocusedProperty.value = true;
+        cueArrowsState.keyboardFocusedProperty.value = true;
       },
       blur: () => {
-        keyboardFocusedProperty.value = false;
+        cueArrowsState.keyboardFocusedProperty.value = false;
       }
     } );
 
@@ -247,7 +243,7 @@ class RatioHalf extends Rectangle {
           startingX = positionProperty.value.x;
         }
         viewSounds.grabSoundClip.play();
-        interactedWithMouseProperty.value = true;
+        cueArrowsState.interactedWithMouseProperty.value = true;
 
         inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( true );
         viewSounds.boundarySoundClip.onStartInteraction();
@@ -361,9 +357,6 @@ class RatioHalf extends Rectangle {
       this.ratioHandNode.reset();
       positionProperty.value.setX( INITIAL_X_VALUE );
       positionProperty.notifyListenersStatic();
-      interactedWithMouseProperty.reset();
-      interactedWithKeyboardProperty.reset();
-      keyboardFocusedProperty.reset();
     };
   }
 
