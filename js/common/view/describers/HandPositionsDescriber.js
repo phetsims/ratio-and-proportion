@@ -8,8 +8,6 @@
  */
 
 import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
-import NumberProperty from '../../../../../axon/js/NumberProperty.js';
-import Property from '../../../../../axon/js/Property.js';
 import Enumeration from '../../../../../phet-core/js/Enumeration.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
@@ -78,14 +76,6 @@ class HandPositionsDescriber {
     this.valueRange = valueRange;
     this.tickMarkDescriber = tickMarkDescriber;
 
-    // @private
-    this.lastAntecedentValueProperty = new NumberProperty( antecedentProperty.value );
-    this.lastConsequentValueProperty = new NumberProperty( consequentProperty.value );
-
-    // @private - initialized to null, but only set to boolean
-    this.previousAntecedentChangeProperty = new Property( null );
-    this.previousConsequentChangeProperty = new Property( null );
-
     let lastDistance = null;
 
     // @private
@@ -107,7 +97,6 @@ class HandPositionsDescriber {
       lastDistance = currentDistance;
       return DirectionChanged.NEITHER;
     } );
-
   }
 
   /**
