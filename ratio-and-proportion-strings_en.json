@@ -135,29 +135,8 @@
       "handsDistancePattern": {
         "value": "hands {{distance}} each other"
       },
-      "handsDirectionPattern": {
-        "value": "hands {{distance}}"
-      },
       "handsDistancePatternCapitalized": {
         "value": "Hands {{distance}} each other"
-      },
-      "handsDirectionPatternCapitalized": {
-        "value": "Hands {{distance}}"
-      },
-      "tickMarksApart": {
-        "value": "{{justAround}}{{number}} tick marks apart from"
-      },
-      "andAndAHalf": {
-        "value": "{{number}} and a half"
-      },
-      "justOver": {
-        "value": "just over "
-      },
-      "justUnder": {
-        "value": "just under "
-      },
-      "bothHandsObjectResponseAlert": {
-        "value": "hands {{fitness}} challenge ratio"
       },
       "equalObjectResponseAlert": {
         "value": "both hands {{inPosition}}"
@@ -167,12 +146,6 @@
       },
       "bothHandsContextResponseAlert": {
         "value": "{{distance}}, {{position}}"
-      },
-      "closerTogether": {
-        "value": "closer together"
-      },
-      "fartherApart": {
-        "value": "farther apart"
       }
     },
     "tickMark": {
@@ -327,9 +300,6 @@
     },
     "rightHandBullet": {
       "value": "Right hand {{position}}"
-    },
-    "distanceBullet": {
-      "value": "Hands are {{distance}} each other."
     },
     "ofPlayAreaPattern": {
       "value": "{{position}} of Play Area"
@@ -525,14 +495,8 @@
       }
     },
     "ratio": {
-      "descriptionPattern": {
-        "value": "{{fitness}} ratio."
-      },
       "singleHandContextResponse": {
         "value": "{{distanceOrDirection}}, {{position}}."
-      },
-      "singleHandRatioLockedContextResponse": {
-        "value": "{{distanceOrDirection}}, {{bothHandsRegion}}."
       },
       "ratioLockedEdgeContextResponse": {
         "value": "{{hand}}, {{position}}. Move hands {{direction}} to explore more."

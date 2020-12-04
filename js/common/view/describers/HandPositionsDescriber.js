@@ -1,14 +1,15 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * Description for the positions of each hand, as well as their positional relationship (like distance apart).
+ * Description for the positions of each hand, as well as their positional relationship like the distance between each
+ * hand, and if they have gotten closer to or farther from each other.
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
 import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../../axon/js/NumberProperty.js';
 import Property from '../../../../../axon/js/Property.js';
-import validate from '../../../../../axon/js/validate.js';
 import Enumeration from '../../../../../phet-core/js/Enumeration.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
@@ -17,7 +18,6 @@ import TickMarkView from '../TickMarkView.js';
 
 // constants
 const DirectionChanged = Enumeration.byKeys( [ 'CLOSER', 'FARTHER', 'NEITHER' ] );
-const DIRECTION_CHANGED_VALIDATOR = { valueType: DirectionChanged };
 
 const leftHandLowerString = ratioAndProportionStrings.a11y.leftHandLower;
 const rightHandLowerString = ratioAndProportionStrings.a11y.rightHandLower;
@@ -120,7 +120,7 @@ class HandPositionsDescriber {
    */
   getHandPositionDescription( position, tickMarkView, useOfPlayArea = true ) {
     if ( TickMarkView.describeQualitative( tickMarkView ) ) {
-      const qualitativeHandPosition = this.getQualitativeHandPosition( position );
+      const qualitativeHandPosition = QUALITATIVE_POSITIONS[ this.getQualitativePositionIndex( position ) ];
       return !useOfPlayArea ? qualitativeHandPosition : StringUtils.fillIn( ratioAndProportionStrings.a11y.ofPlayAreaPattern, {
         position: qualitativeHandPosition
       } );
@@ -151,15 +151,6 @@ class HandPositionsDescriber {
       relativePosition: tickMarkData.relativePosition,
       tickMarkPosition: tickMarkData.tickMarkPosition
     } );
-  }
-
-  /**
-   * @private
-   * @param {number} handPosition
-   * @returns {string}
-   */
-  getQualitativeHandPosition( handPosition ) {
-    return QUALITATIVE_POSITIONS[ this.getQualitativePositionIndex( handPosition ) ];
   }
 
   /**
@@ -205,18 +196,10 @@ class HandPositionsDescriber {
 
   /**
    * @private
-   * @returns {number}
-   */
-  getDistanceBetweenHands() {
-    return Math.abs( this.antecedentProperty.value - this.consequentProperty.value );
-  }
-
-  /**
-   * @private
    * @returns {string}
    */
   getDistanceRegion( lowercase = false ) {
-    const distance = this.getDistanceBetweenHands();
+    const distance = Math.abs( this.antecedentProperty.value - this.consequentProperty.value );
 
     assert && assert( this.valueRange.getLength() === 1, 'these hard coded values depend on a range of 1' );
 
@@ -257,16 +240,30 @@ class HandPositionsDescriber {
 
   /**
    * @public
-   * @param {NumberProperty} valueProperty
+   * @param {Property} valueProperty - controlling one of the two hands
    * @param {boolean} capitalized
    * @returns {string}
    */
   getDistanceClauseForProperty( valueProperty, capitalized = true ) {
+    assert && assert( valueProperty === this.antecedentProperty || valueProperty === this.consequentProperty, 'Should be one of the two' );
     const otherHand = valueProperty === this.antecedentProperty ? rightHandLowerString : leftHandLowerString;
 
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDirectionClause, {
       otherHand: otherHand,
       distanceOrDirection: this.getDistanceRegion()
+    } );
+  }
+
+  /**
+   * @public
+   * @param {boolean} capitalized
+   * @returns {string}
+   */
+  getBothHandsDistance( capitalized = false ) {
+    const pattern = capitalized ? ratioAndProportionStrings.a11y.bothHands.handsDistancePatternCapitalized :
+                    ratioAndProportionStrings.a11y.bothHands.handsDistancePattern;
+    return StringUtils.fillIn( pattern, {
+      distance: this.getDistanceRegion( true )
     } );
   }
 
@@ -299,96 +296,6 @@ class HandPositionsDescriber {
     } );
   }
 
-  /**
-   * This is complicated because you need relative distance between the two values and if they get closer or farther
-   * last time. As  well as the need to call this for individual and both-hands interactions.
-   * TODO: this could be written much simpler using ratioTupleProperty, maybe?
-   * @private
-   * @param {NumberProperty} valueProperty
-   * @returns {DirectionChanged}
-   */
-  getDirectionChangedState( valueProperty ) {
-    const previousValueProperty = valueProperty === this.antecedentProperty ? this.lastAntecedentValueProperty : this.lastConsequentValueProperty;
-    const otherPreviousValueProperty = valueProperty === this.antecedentProperty ? this.lastConsequentValueProperty : this.lastAntecedentValueProperty;
-    const previousChangeProperty = valueProperty === this.antecedentProperty ? this.previousAntecedentChangeProperty : this.previousConsequentChangeProperty;
-    const otherValueProperty = valueProperty === this.antecedentProperty ? this.consequentProperty : this.antecedentProperty;
-
-    const increasing = valueProperty.value > previousValueProperty.value;
-
-    let returnValue = null;
-
-    if ( increasing !== previousChangeProperty.value && // if the direction changed
-         valueProperty.value !== otherValueProperty.value && // if the two value positions are the same
-         valueProperty.value !== previousValueProperty.value ) { // if the value position didn't change
-
-      // if the new distance is larger than the previous.
-      const distanceGrew = Math.abs( otherValueProperty.value - valueProperty.value ) >
-                           Math.abs( otherPreviousValueProperty.value - previousValueProperty.value );
-      returnValue = distanceGrew ? DirectionChanged.FARTHER :
-                    DirectionChanged.CLOSER;
-    }
-    else {
-      returnValue = DirectionChanged.NEITHER;
-    }
-
-    // For next time
-    previousValueProperty.value = valueProperty.value;
-    otherPreviousValueProperty.value = otherValueProperty.value;
-    previousChangeProperty.value = increasing;
-
-    validate( returnValue, DIRECTION_CHANGED_VALIDATOR );
-    return returnValue;
-  }
-
-  /**
-   * @public
-   * @param {TickMarkView} tickMarkView
-   * @param {boolean} capitalized
-   * @returns {string}
-   */
-  getBothHandsDistance( tickMarkView, capitalized = false ) {
-    const pattern = capitalized ? ratioAndProportionStrings.a11y.bothHands.handsDistancePatternCapitalized :
-                    ratioAndProportionStrings.a11y.bothHands.handsDistancePattern;
-    return StringUtils.fillIn( pattern, {
-      distance: this.getDistanceRegion( true )
-    } );
-  }
-
-  /**
-   * If the hands changed directions (closer/farther) from each other, then prioritize describing
-   * that over the standard distance text. This supports this behavior on both ratio value Properties.
-   * @public
-   * @param {Property.<Number>} valueProperty
-   * @param {TickMarkView} tickMarkView
-   * @param {boolean} capitalized
-   * @returns {string}
-   */
-  getBothHandsDistanceOrDirection( valueProperty, tickMarkView, capitalized = false ) {
-    const directionChange = this.getDirectionChangedState( valueProperty );
-
-    const directionPattern = capitalized ? ratioAndProportionStrings.a11y.bothHands.handsDirectionPatternCapitalized :
-                             ratioAndProportionStrings.a11y.bothHands.handsDirectionPattern;
-
-    let distance = null;
-    switch( directionChange ) {
-      case DirectionChanged.CLOSER:
-        distance = StringUtils.fillIn( directionPattern, {
-          distance: ratioAndProportionStrings.a11y.bothHands.closerTogether
-        } );
-        break;
-      case DirectionChanged.FARTHER:
-        distance = StringUtils.fillIn( directionPattern, {
-          distance: ratioAndProportionStrings.a11y.bothHands.fartherApart
-        } );
-        break;
-      case DirectionChanged.NEITHER:
-        distance = this.getBothHandsDistance( tickMarkView, capitalized );
-        break;
-      default:
-        assert && assert( false, 'all cases above' );
-    }
-    return distance;
-  }
 }
 
 ratioAndProportion.register( 'HandPositionsDescriber', HandPositionsDescriber );

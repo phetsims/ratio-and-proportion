@@ -15,11 +15,12 @@ class BothHandsDescriber {
    * @param {Property.<number>} antecedentProperty
    * @param {Property.<number>} consequentProperty
    * @param {Property.<Range>} enabledRatioTermsRangeProperty
+   * @param ratioLockedProperty
    * @param {Property.<TickMarkView>} tickMarkViewProperty
    * @param {RatioDescriber} ratioDescriber
    * @param {HandPositionsDescriber} handPositionsDescriber
    */
-  constructor( antecedentProperty, consequentProperty, enabledRatioTermsRangeProperty, tickMarkViewProperty, ratioDescriber, handPositionsDescriber ) {
+  constructor( antecedentProperty, consequentProperty, enabledRatioTermsRangeProperty, ratioLockedProperty, tickMarkViewProperty, ratioDescriber, handPositionsDescriber ) {
 
     // @private - from model
     this.antecedentProperty = antecedentProperty;
@@ -28,20 +29,23 @@ class BothHandsDescriber {
     this.tickMarkViewProperty = tickMarkViewProperty;
     this.ratioDescriber = ratioDescriber;
     this.handPositionsDescriber = handPositionsDescriber;
+    this.ratioLockedProperty = ratioLockedProperty;
   }
 
   /**
    * @public
-   * @param {TickMarkView} tickMarkView
-   * @param {boolean} ratioLocked
    * @returns {string}
    */
-  getBothHandsContextResponse( tickMarkView, ratioLocked ) {
-    if ( ratioLocked ) {
-      return this.getRatioLockedContextResponse( this.antecedentProperty, this.tickMarkViewProperty.value );
+  getBothHandsContextResponse() {
+
+    // only applicable if the ratio is locked
+    const ratioLockedEdgeResponse = this.getRatioLockedEdgeCaseContextResponse();
+    if ( ratioLockedEdgeResponse ) {
+      return ratioLockedEdgeResponse;
     }
+
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.bothHandsContextResponseAlert, {
-      distance: this.handPositionsDescriber.getBothHandsDistance( tickMarkView, true ),
+      distance: this.handPositionsDescriber.getBothHandsDistance( true ),
       position: this.getBothHandsPosition()
     } );
   }
@@ -82,9 +86,14 @@ class BothHandsDescriber {
   /**
    * Get the edge response when ratio is locked.
    * @private
-   * @returns {string|null} - null if not in the edge case
+   * @returns {string|null} - null if not in the edge case or the ratio is not locked
    */
   getRatioLockedEdgeCaseContextResponse() {
+
+    if ( !this.ratioLockedProperty.value ) {
+      return null;
+    }
+
     const enabledRange = this.enabledRatioTermsRangeProperty.value;
 
     let handAtExtremity = null; // what hand?
@@ -122,27 +131,6 @@ class BothHandsDescriber {
     }
 
     return null;
-  }
-
-  /**
-   * TODO: isn't this superfluous since the second part is the same as the main return of getBothHandsContextResponse, https://github.com/phetsims/ratio-and-proportion/issues/245
-   * A consistent context response for when interacting with the ratio
-   * @param {Property.<number>} valueProperty
-   * @param {TickMarkView} tickMarkView
-   * @returns {string}
-   * @public
-   */
-  getRatioLockedContextResponse( valueProperty, tickMarkView ) {
-
-    const ratioLockedEdgeResponse = this.getRatioLockedEdgeCaseContextResponse();
-    if ( ratioLockedEdgeResponse ) {
-      return ratioLockedEdgeResponse;
-    }
-
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.singleHandRatioLockedContextResponse, {
-      bothHandsRegion: this.getBothHandsPosition(),
-      distanceOrDirection: this.handPositionsDescriber.getBothHandsDistanceOrDirection( valueProperty, tickMarkView, true )
-    } );
   }
 }
 

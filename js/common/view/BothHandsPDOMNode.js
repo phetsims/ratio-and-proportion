@@ -77,7 +77,6 @@ class BothHandsPDOMNode extends Node {
     // @private
     this.handPositionsDescriber = handPositionsDescriber;
     this.bothHandsDescriber = bothHandsDescriber;
-    this.ratioLockedProperty = ratioLockedProperty;
 
     // @private - To support proper cue arrow logic
     this.antecedentInteractedWithProperty = new BooleanProperty( false );
@@ -156,7 +155,7 @@ class BothHandsPDOMNode extends Node {
       const tickMarkView = tickMarkViewProperty.value;
       const isBeingInteractedWith = this.bothHandsInteractionListener.isBeingInteractedWithProperty.value;
 
-      dynamicDescription.innerContent = handPositionsDescriber.getBothHandsDistance( tickMarkView );
+      dynamicDescription.innerContent = handPositionsDescriber.getBothHandsDistance();
 
       if ( isBeingInteractedWith ) {
         this.alertBothHandsObjectResponse( tickMarkView );
@@ -201,7 +200,7 @@ class BothHandsPDOMNode extends Node {
    * @param {TickMarkView} tickMarkView
    */
   alertBothHandsContextResponse( tickMarkView ) {
-    this.contextResponseUtterance.alert = this.bothHandsDescriber.getBothHandsContextResponse( this.ratioLockedProperty.value );
+    this.contextResponseUtterance.alert = this.bothHandsDescriber.getBothHandsContextResponse();
     phet.joist.sim.utteranceQueue.addToBack( this.contextResponseUtterance );
   }
 }

@@ -57,8 +57,9 @@ class RatioHalfAlertManager {
    */
   getSingleHandContextResponseText( capitalized = true ) {
 
+    // When locked, give a description of both-hands, instead of just a single one.
     if ( this.ratioLockedProperty.value ) {
-      return this.bothHandsDescriber.getRatioLockedContextResponse( this.valueProperty, this.tickMarkViewProperty.value );
+      return this.bothHandsDescriber.getBothHandsContextResponse();
     }
 
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.singleHandContextResponse, {

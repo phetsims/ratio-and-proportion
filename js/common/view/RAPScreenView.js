@@ -98,9 +98,15 @@ class RAPScreenView extends ScreenView {
     // @protected (read-only)
     this.ratioDescriber = new RatioDescriber( model );
     this.handPositionsDescriber = new HandPositionsDescriber( ratio.antecedentProperty, ratio.consequentProperty, DEFAULT_RANGE, tickMarkDescriber );
-    const bothHandsDescriber = new BothHandsDescriber( ratio.antecedentProperty, ratio.consequentProperty,
-      ratio.enabledRatioTermsRangeProperty, tickMarkViewProperty,
-      this.ratioDescriber, this.handPositionsDescriber );
+    const bothHandsDescriber = new BothHandsDescriber(
+      ratio.antecedentProperty,
+      ratio.consequentProperty,
+      ratio.enabledRatioTermsRangeProperty,
+      ratio.lockedProperty,
+      tickMarkViewProperty,
+      this.ratioDescriber,
+      this.handPositionsDescriber
+    );
 
     // @protected
     this.tickMarkViewProperty = tickMarkViewProperty;
