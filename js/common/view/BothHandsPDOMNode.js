@@ -144,7 +144,8 @@ class BothHandsPDOMNode extends Node {
       }
     } );
 
-    const contextResponseUtterance = new Utterance( { alertStableDelay: RAPQueryParameters.bothHandsContextDelay } );
+    // @private
+    this.contextResponseUtterance = new Utterance( { alertStableDelay: RAPQueryParameters.bothHandsContextDelay } );
 
     // @public (read-only) - expose this from the listener for general consumption
     this.isBeingInteractedWithProperty = this.bothHandsInteractionListener.isBeingInteractedWithProperty;
@@ -159,9 +160,7 @@ class BothHandsPDOMNode extends Node {
 
       if ( isBeingInteractedWith ) {
         this.alertBothHandsObjectResponse( tickMarkView );
-
-        contextResponseUtterance.alert = bothHandsDescriber.getBothHandsContextResponse( ratioLockedProperty.value );
-        phet.joist.sim.utteranceQueue.addToBack( contextResponseUtterance );
+        this.alertBothHandsContextResponse();
       }
     } );
 
@@ -185,6 +184,8 @@ class BothHandsPDOMNode extends Node {
     this.consequentInteractedWithProperty.reset();
     this.bothHandsFocusedProperty.reset();
     this.bothHandsInteractionListener.reset();
+    this.objectResponseUtterance.reset();
+    this.contextResponseUtterance.reset();
   }
 
   /**
@@ -194,6 +195,14 @@ class BothHandsPDOMNode extends Node {
   alertBothHandsObjectResponse( tickMarkView ) {
     this.objectResponseUtterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse( tickMarkView, this.ratioLockedProperty.value );
     phet.joist.sim.utteranceQueue.addToBack( this.objectResponseUtterance );
+  }
+
+  /**
+   * @private
+   */
+  alertBothHandsContextResponse() {
+    this.contextResponseUtterance.alert = this.bothHandsDescriber.getBothHandsContextResponse( this.ratioLockedProperty.value );
+    phet.joist.sim.utteranceQueue.addToBack( this.contextResponseUtterance );
   }
 }
 
