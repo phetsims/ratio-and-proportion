@@ -32,14 +32,17 @@ class BothHandsDescriber {
 
   /**
    * @public
+   * @param {TickMarkView} tickMarkView
+   * @param {boolean} ratioLocked
    * @returns {string}
    */
-  getBothHandsContextResponse( ratioLocked ) {
+  getBothHandsContextResponse( tickMarkView, ratioLocked ) {
     if ( ratioLocked ) {
       return this.getRatioLockedContextResponse( this.antecedentProperty, this.tickMarkViewProperty.value );
     }
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.bothHandsContextResponseAlert, {
-      fitness: this.ratioDescriber.getRatioFitness()
+      distance: this.handPositionsDescriber.getBothHandsDistance( tickMarkView, true ),
+      position: this.getBothHandsPosition()
     } );
   }
 
@@ -70,19 +73,11 @@ class BothHandsDescriber {
 
   /**
    * @public
-   * @param {TickMarkView} tickMarkView
-   * @param {boolean} ratioLocked - if the ratio is locked
    * @returns {string}
    */
-  getBothHandsObjectResponse( tickMarkView, ratioLocked ) {
-
-    if ( ratioLocked ) {
-      return this.getRatioLockedObjectResponse();
-    }
-
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.bothHandsObjectResponseAlert, {
-      distance: this.handPositionsDescriber.getBothHandsDistance( tickMarkView ),
-      position: this.getBothHandsPosition()
+  getBothHandsObjectResponse() {
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.proximityToRatioObjectResponse, {
+      proximityToRatio: this.ratioDescriber.getRatioFitness( false )
     } );
   }
 
@@ -142,6 +137,7 @@ class BothHandsDescriber {
   }
 
   /**
+   * TODO: isn't this superfluous since the second part is the same as the main return of getBothHandsContextResponse, https://github.com/phetsims/ratio-and-proportion/issues/245
    * A consistent context response for when interacting with the ratio
    * @param {Property.<number>} valueProperty
    * @param {TickMarkView} tickMarkView

@@ -190,17 +190,17 @@ class BothHandsPDOMNode extends Node {
 
   /**
    * @private
-   * @param {TickMarkView} tickMarkView
    */
-  alertBothHandsObjectResponse( tickMarkView ) {
-    this.objectResponseUtterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse( tickMarkView, this.ratioLockedProperty.value );
+  alertBothHandsObjectResponse() {
+    this.objectResponseUtterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse();
     phet.joist.sim.utteranceQueue.addToBack( this.objectResponseUtterance );
   }
 
   /**
    * @private
+   * @param {TickMarkView} tickMarkView
    */
-  alertBothHandsContextResponse() {
+  alertBothHandsContextResponse( tickMarkView ) {
     this.contextResponseUtterance.alert = this.bothHandsDescriber.getBothHandsContextResponse( this.ratioLockedProperty.value );
     phet.joist.sim.utteranceQueue.addToBack( this.contextResponseUtterance );
   }

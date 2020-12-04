@@ -156,8 +156,8 @@
       "justUnder": {
         "value": "just under "
       },
-      "bothHandsContextResponseAlert": {
-        "value": "{{fitness}} challenge ratio."
+      "bothHandsObjectResponseAlert": {
+        "value": "hands {{fitness}} challenge ratio"
       },
       "equalObjectResponseAlert": {
         "value": "both hands {{inPosition}}"
@@ -165,7 +165,7 @@
       "eachObjectResponseAlert": {
         "value": "left {{leftPosition}}, right {{rightPosition}}"
       },
-      "bothHandsObjectResponseAlert": {
+      "bothHandsContextResponseAlert": {
         "value": "{{distance}}, {{position}}"
       },
       "closerTogether": {
