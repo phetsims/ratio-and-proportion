@@ -101,6 +101,15 @@ class RatioDescriber {
    * @public
    * @returns {string}
    */
+  getProximityToChallengeRatio() {
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.proximityToRatioObjectResponse, {
+      proximityToRatio: this.ratioDescriber.getRatioFitness( false )
+    } );
+  }
+  /**
+   * @public
+   * @returns {string}
+   */
   getProximityToNewChallengeRatioSentence() {
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.proximityToNewRatioPattern, {
       proximity: this.getRatioFitness( false )

@@ -76,19 +76,7 @@ class BothHandsDescriber {
    * @returns {string}
    */
   getBothHandsObjectResponse() {
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.proximityToRatioObjectResponse, {
-      proximityToRatio: this.ratioDescriber.getRatioFitness( false )
-    } );
-  }
-
-  /**
-   * @public
-   * @returns {string}
-   */
-  getRatioLockedObjectResponse() {
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.proximityToRatioObjectResponse, {
-      proximityToRatio: this.ratioDescriber.getRatioFitness( false )
-    } );
+    return this.ratioDescriber.getProximityToChallengeRatio();
   }
 
   /**

@@ -47,7 +47,7 @@ class RatioHalfAlertManager {
    * @public
    */
   getSingleHandRatioLockedObjectResponse() {
-    return this.bothHandsDescriber.getRatioLockedObjectResponse();
+    return this.ratioDescriber.getProximityToChallengeRatio();
   }
 
   /**
