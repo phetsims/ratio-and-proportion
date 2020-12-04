@@ -60,9 +60,10 @@ class RatioHalfAlertManager {
     if ( this.ratioLockedProperty.value ) {
       return this.bothHandsDescriber.getRatioLockedContextResponse( this.valueProperty, this.tickMarkViewProperty.value );
     }
+
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.singleHandContextResponse, {
       distanceOrDirection: this.handPositionsDescriber.getDistanceClauseForProperty( this.valueProperty, capitalized ),
-      proximityToRatio: this.ratioDescriber.getRatioFitness( false )
+      position: this.handPositionsDescriber.getHandPositionDescription( this.valueProperty.value, this.tickMarkViewProperty.value, false )
     } );
   }
 

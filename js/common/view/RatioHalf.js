@@ -169,7 +169,7 @@ class RatioHalf extends Rectangle {
         isRight: options.isRight,
 
         a11yCreateAriaValueText: () => ratioLockedProperty.value ? alertManager.getSingleHandRatioLockedObjectResponse() :
-                                       handPositionsDescriber.getHandPositionDescription( valueProperty.value, tickMarkViewProperty.value ),
+                                       ratioDescriber.getProximityToChallengeRatio(),
         a11yCreateContextResponseAlert: () => alertManager.getSingleHandContextResponse( !ratioLockedProperty.value ),
         a11yDependencies: options.a11yDependencies.concat( [ ratioLockedProperty ] )
       } );

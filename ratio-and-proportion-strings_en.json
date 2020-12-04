@@ -526,7 +526,7 @@
         "value": "{{fitness}} ratio."
       },
       "singleHandContextResponse": {
-        "value": "{{distanceOrDirection}}, {{proximityToRatio}} challenge ratio."
+        "value": "{{distanceOrDirection}}, {{position}}."
       },
       "singleHandRatioLockedContextResponse": {
         "value": "{{distanceOrDirection}}, {{bothHandsRegion}}."
