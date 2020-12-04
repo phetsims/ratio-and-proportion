@@ -5,6 +5,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../../axon/js/NumberProperty.js';
 import Property from '../../../../../axon/js/Property.js';
 import validate from '../../../../../axon/js/validate.js';
@@ -84,6 +85,29 @@ class HandPositionsDescriber {
     // @private - initialized to null, but only set to boolean
     this.previousAntecedentChangeProperty = new Property( null );
     this.previousConsequentChangeProperty = new Property( null );
+
+    let lastDistance = null;
+
+    // @private
+    this.directionOfLastChangeProperty = new DerivedProperty( [
+      this.antecedentProperty,
+      this.consequentProperty
+    ], ( antecedent, consequent ) => {
+      const currentDistance = Math.abs( antecedent - consequent );
+      if ( lastDistance ) {
+        if ( currentDistance < lastDistance ) {
+          lastDistance = currentDistance;
+          return DirectionChanged.CLOSER;
+        }
+        if ( currentDistance > lastDistance ) {
+          lastDistance = currentDistance;
+          return DirectionChanged.FARTHER;
+        }
+      }
+      lastDistance = currentDistance;
+      return DirectionChanged.NEITHER;
+    } );
+
   }
 
   /**
@@ -238,30 +262,40 @@ class HandPositionsDescriber {
    * @returns {string}
    */
   getDistanceClauseForProperty( valueProperty, capitalized = true ) {
-
-    let prefix = null;
-    const directionChange = this.getDirectionChangedState( valueProperty );
-    switch( directionChange ) {
-      case DirectionChanged.CLOSER:
-        prefix = capitalized ? ratioAndProportionStrings.a11y.handPosition.closerTo :
-                 ratioAndProportionStrings.a11y.handPosition.closerToLowercase;
-        break;
-      case DirectionChanged.FARTHER:
-        prefix = capitalized ? ratioAndProportionStrings.a11y.handPosition.fartherFrom :
-                 ratioAndProportionStrings.a11y.handPosition.fartherFromLowercase;
-        break;
-      case DirectionChanged.NEITHER:
-        prefix = this.getDistanceRegion();
-        break;
-      default:
-        assert && assert( false, 'all cases above' );
-    }
-
     const otherHand = valueProperty === this.antecedentProperty ? rightHandLowerString : leftHandLowerString;
 
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDirectionClause, {
       otherHand: otherHand,
-      distanceOrDirection: prefix
+      distanceOrDirection: this.getDistanceRegion()
+    } );
+  }
+
+  /**
+   * @param {Property.<number>} valueProperty
+   * @param {boolean=true} capitalized
+   * @public
+   */
+  getCloserToFartherFromString( valueProperty, capitalized = true ) {
+    let direction = null;
+    switch( this.directionOfLastChangeProperty.value ) {
+      case DirectionChanged.CLOSER:
+        direction = capitalized ? ratioAndProportionStrings.a11y.handPosition.closerTo :
+                    ratioAndProportionStrings.a11y.handPosition.closerToLowercase;
+        break;
+      case DirectionChanged.FARTHER:
+        direction = capitalized ? ratioAndProportionStrings.a11y.handPosition.fartherFrom :
+                    ratioAndProportionStrings.a11y.handPosition.fartherFromLowercase;
+        break;
+      default:
+        return null;
+    }
+    const otherHand = valueProperty === this.antecedentProperty ? rightHandLowerString : leftHandLowerString;
+
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.directionSentence, {
+      direction: StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDirectionClause, {
+        otherHand: otherHand,
+        distanceOrDirection: direction
+      } )
     } );
   }
 

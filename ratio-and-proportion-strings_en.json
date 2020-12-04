@@ -519,6 +519,9 @@
       },
       "distanceOrDirectionClause": {
         "value": "{{distanceOrDirection}} {{otherHand}}"
+      },
+      "directionSentence": {
+        "value": "{{direction}}."
       }
     },
     "ratio": {

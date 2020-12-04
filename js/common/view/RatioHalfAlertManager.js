@@ -75,11 +75,15 @@ class RatioHalfAlertManager {
    * @returns {null|string} - null means no alert will occur
    */
   getSingleHandContextResponse( capitalized ) {
-    const newAlert = this.getSingleHandContextResponseText( capitalized );
+    let newAlert = this.getSingleHandContextResponseText( capitalized );
 
-    const toAlert = newAlert !== this.previousRatioAlertText ? newAlert : null;
+    // If the alert would repeat, instead give direction progress, see https://github.com/phetsims/ratio-and-proportion/issues/262
+    if ( newAlert === this.previousRatioAlertText ) {
+      newAlert = this.handPositionsDescriber.getCloserToFartherFromString( this.valueProperty );
+    }
+
     this.previousRatioAlertText = newAlert;
-    return toAlert;
+    return newAlert;
   }
 
 
