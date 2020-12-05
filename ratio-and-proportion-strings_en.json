@@ -146,9 +146,6 @@
       },
       "eachObjectResponseAlert": {
         "value": "left {{leftPosition}}, right {{rightPosition}}"
-      },
-      "bothHandsContextResponseAlert": {
-        "value": "{{distance}}, {{position}}"
       }
     },
     "tickMark": {
@@ -492,14 +489,11 @@
       },
       "distanceOrDistanceProgressClause": {
         "value": "{{distanceOrDistanceProgress}} {{otherHand}}"
-      },
-      "directionSentence": {
-        "value": "{{direction}}."
       }
     },
     "ratio": {
-      "singleHandContextResponse": {
-        "value": "{{distanceOrDistanceProgress}}, {{position}}."
+      "distancePositionContextResponse": {
+        "value": "{{distance}}, {{position}}."
       },
       "ratioLockedEdgeContextResponse": {
         "value": "{{hand}}, {{position}}. Move hands {{direction}} to explore more."

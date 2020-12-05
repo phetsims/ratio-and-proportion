@@ -44,7 +44,7 @@ class BothHandsDescriber {
       return ratioLockedEdgeResponse;
     }
 
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.bothHandsContextResponseAlert, {
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.distancePositionContextResponse, {
       distance: this.handPositionsDescriber.getBothHandsDistance( true, true ),
       position: this.getBothHandsPosition()
     } );

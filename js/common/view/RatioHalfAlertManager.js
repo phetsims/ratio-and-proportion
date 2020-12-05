@@ -4,7 +4,8 @@
  * Generates strings that describe motion of the free objects in this simulation. Provides a method to attach
  * to the end of drag input for the object which generates alert content and sends it to the simulation
  * utteranceQueue, see alertRatioChange.
- *
+ * TODO: delete this type, it doesn't do much. https://github.com/phetsims/ratio-and-proportion/issues/262
+ * 
  * @author Jesse Greenberg
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -59,7 +60,7 @@ class RatioHalfAlertManager {
       return this.bothHandsDescriber.getBothHandsContextResponse();
     }
 
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.singleHandContextResponse, {
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.distancePositionContextResponse, {
       distanceOrDistanceProgress: this.handPositionsDescriber.getSingleHandDistance( this.valueProperty ),
       position: this.handPositionsDescriber.getHandPositionDescription( this.valueProperty.value, this.tickMarkViewProperty.value, false )
     } );
