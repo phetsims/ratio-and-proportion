@@ -18,13 +18,14 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
+import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import CueDisplay from './CueDisplay.js';
-import RatioHalfAlertManager from './RatioHalfAlertManager.js';
 import RatioHalfTickMarksNode from './RatioHalfTickMarksNode.js';
 import RatioHandNode from './RatioHandNode.js';
 import TickMarkView from './TickMarkView.js';
@@ -122,6 +123,14 @@ class RatioHalf extends Rectangle {
     // dragging this will be considered interaction, for keyboard, you must press a key before the interaction starts.
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
 
+    // @private
+    this.ratioLockedProperty = ratioLockedProperty;
+    this.bothHandsDescriber = bothHandsDescriber;
+    this.handPositionsDescriber = handPositionsDescriber;
+    this.tickMarkViewProperty = tickMarkViewProperty;
+    this.valueProperty = valueProperty;
+
+
     // This follows the spec outlined in https://github.com/phetsims/ratio-and-proportion/issues/81
     const cueDisplayStateProperty = new DerivedProperty( [
         cueArrowsState.interactedWithKeyboardProperty,
@@ -142,9 +151,6 @@ class RatioHalf extends Rectangle {
     this.addChild( topRect );
     const bottomRect = new Rectangle( 0, 0, 10, this.framingRectangleHeight, { fill: colorProperty } );
     this.addChild( bottomRect );
-
-    const alertManager = new RatioHalfAlertManager( valueProperty, tickMarkViewProperty, ratioDescriber, handPositionsDescriber,
-      bothHandsDescriber, ratioLockedProperty );
 
     const tickMarksNode = new RatioHalfTickMarksNode( tickMarkViewProperty, tickMarkRangeProperty,
       bounds.width, bounds.height - 2 * this.framingRectangleHeight,
@@ -168,9 +174,9 @@ class RatioHalf extends Rectangle {
         },
         isRight: options.isRight,
 
-        a11yCreateAriaValueText: () => ratioLockedProperty.value ? alertManager.getSingleHandRatioLockedObjectResponse() :
+        a11yCreateAriaValueText: () => ratioLockedProperty.value ? this.ratioDescriber.getProximityToChallengeRatio() :
                                        ratioDescriber.getProximityToChallengeRatio(),
-        a11yCreateContextResponseAlert: () => alertManager.getSingleHandContextResponse(),
+        a11yCreateContextResponseAlert: () => this.getSingleHandContextResponse(),
         a11yDependencies: options.a11yDependencies.concat( [ ratioLockedProperty ] )
       } );
     this.addChild( this.ratioHandNode );
@@ -357,6 +363,25 @@ class RatioHalf extends Rectangle {
       positionProperty.value.setX( INITIAL_X_VALUE );
       positionProperty.notifyListenersStatic();
     };
+  }
+
+  /**
+   * Generate and send an alert to the UtteranceQueue that describes the movement of this object and the subsequent change
+   * in ratio. This is the context response for the individual ratio half hand (slider) interaction.
+   * @public
+   * @returns {null|string} - null means no alert will occur
+   */
+  getSingleHandContextResponse() {
+
+    // When locked, give a description of both-hands, instead of just a single one.
+    if ( this.ratioLockedProperty.value ) {
+      return this.bothHandsDescriber.getBothHandsContextResponse();
+    }
+
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.distancePositionContextResponse, {
+      distance: this.handPositionsDescriber.getSingleHandDistance( this.valueProperty ),
+      position: this.handPositionsDescriber.getHandPositionDescription( this.valueProperty.value, this.tickMarkViewProperty.value, false )
+    } );
   }
 
   /**
