@@ -135,7 +135,7 @@ class RAPScreenView extends ScreenView {
     const defaultRatioHalfBounds = Bounds2.rect( 0, 0, RATIO_HALF_WIDTH, LAYOUT_BOUNDS.height );
 
     // description on each ratioHalf should be updated whenever these change
-    const a11yDependencies = [ tickMarkViewProperty, options.tickMarkRangeProperty, model.targetRatioProperty ];
+    const a11yDependencies = [ model.unclampedFitnessProperty, tickMarkViewProperty, options.tickMarkRangeProperty, model.targetRatioProperty ];
 
     // @private {RatioHalf}
     this.antecedentRatioHalf = new RatioHalf(
