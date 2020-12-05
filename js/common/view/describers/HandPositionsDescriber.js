@@ -234,10 +234,9 @@ class HandPositionsDescriber {
   /**
    * @public
    * @param {Property} valueProperty - controlling one of the two hands
-   * @param {boolean} capitalized
    * @returns {string}
    */
-  getDistanceClauseForProperty( valueProperty, capitalized = true ) {
+  getDistanceClauseForProperty( valueProperty ) {
     assert && assert( valueProperty === this.antecedentProperty || valueProperty === this.consequentProperty, 'Should be one of the two' );
     const otherHand = valueProperty === this.antecedentProperty ? rightHandLowerString : leftHandLowerString;
 
@@ -247,12 +246,10 @@ class HandPositionsDescriber {
 
       let distanceProgress = null;
       if ( this.directionOfLastChangeProperty.value === DirectionChanged.CLOSER ) {
-        distanceProgress = capitalized ? ratioAndProportionStrings.a11y.handPosition.closerTo :
-                           ratioAndProportionStrings.a11y.handPosition.closerToLowercase;
+        distanceProgress = ratioAndProportionStrings.a11y.handPosition.closerTo;
       }
       else if ( this.directionOfLastChangeProperty.value === DirectionChanged.FARTHER ) {
-        distanceProgress = capitalized ? ratioAndProportionStrings.a11y.handPosition.fartherFrom :
-                           ratioAndProportionStrings.a11y.handPosition.fartherFromLowercase;
+        distanceProgress = ratioAndProportionStrings.a11y.handPosition.fartherFrom;
       }
       if ( distanceProgress ) {
         const distanceProgressDescription = StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDistanceProgressClause, {

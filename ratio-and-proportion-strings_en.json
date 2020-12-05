@@ -490,12 +490,6 @@
       "fartherFrom": {
         "value": "Farther from"
       },
-      "closerToLowercase": {
-        "value": "closer to"
-      },
-      "fartherFromLowercase": {
-        "value": "farther from"
-      },
       "distanceOrDistanceProgressClause": {
         "value": "{{distanceOrDistanceProgress}} {{otherHand}}"
       },

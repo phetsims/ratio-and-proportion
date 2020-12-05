@@ -170,7 +170,7 @@ class RatioHalf extends Rectangle {
 
         a11yCreateAriaValueText: () => ratioLockedProperty.value ? alertManager.getSingleHandRatioLockedObjectResponse() :
                                        ratioDescriber.getProximityToChallengeRatio(),
-        a11yCreateContextResponseAlert: () => alertManager.getSingleHandContextResponse( !ratioLockedProperty.value ),
+        a11yCreateContextResponseAlert: () => alertManager.getSingleHandContextResponse(),
         a11yDependencies: options.a11yDependencies.concat( [ ratioLockedProperty ] )
       } );
     this.addChild( this.ratioHandNode );

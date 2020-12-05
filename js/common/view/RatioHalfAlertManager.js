@@ -50,10 +50,9 @@ class RatioHalfAlertManager {
    * Generate and send an alert to the UtteranceQueue that describes the movement of this object and the subsequent change
    * in ratio. This is the context response for the individual ratio half hand (slider) interaction.
    * @public
-   * @param {boolean} capitalized
    * @returns {null|string} - null means no alert will occur
    */
-  getSingleHandContextResponse( capitalized ) {
+  getSingleHandContextResponse() {
 
     // When locked, give a description of both-hands, instead of just a single one.
     if ( this.ratioLockedProperty.value ) {
@@ -61,7 +60,7 @@ class RatioHalfAlertManager {
     }
 
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.singleHandContextResponse, {
-      distanceOrDistanceProgress: this.handPositionsDescriber.getDistanceClauseForProperty( this.valueProperty, capitalized ),
+      distanceOrDistanceProgress: this.handPositionsDescriber.getDistanceClauseForProperty( this.valueProperty ),
       position: this.handPositionsDescriber.getHandPositionDescription( this.valueProperty.value, this.tickMarkViewProperty.value, false )
     } );
   }
