@@ -1,5 +1,5 @@
 {
-  "comment": "# ratio-and-proportion 1.0.0-dev.74 Thu Dec 03 2020 17:38:07 GMT-0900 (Alaska Standard Time)",
+  "comment": "# ratio-and-proportion 1.0.0-dev.75 Fri Dec 04 2020 16:48:54 GMT-0900 (Alaska Standard Time)",
   "assert": {
     "sha": "3df8c5ff9a465b031f84195a90bbb7e1be10a14d",
     "branch": "master"
@@ -49,7 +49,7 @@
     "branch": "master"
   },
   "phetcommon": {
-    "sha": "606a9100461482a97d17d3cd9d9379cb9628a4b9",
+    "sha": "831db81ea5c33126152bba4a8618081e73c106af",
     "branch": "master"
   },
   "phetmarks": {
@@ -61,7 +61,7 @@
     "branch": "master"
   },
   "ratio-and-proportion": {
-    "sha": "ce4747d00fb19d578a5f1541517148ddb9677d85",
+    "sha": "c96961d3bd0c7f4c4f17fa30e1210f3e0b11f4f2",
     "branch": "master"
   },
   "scenery": {
@@ -81,7 +81,7 @@
     "branch": "master"
   },
   "sun": {
-    "sha": "35ed551cc6ac02ea90f101b4d3117126a0263cd1",
+    "sha": "7c22569fdaf82b8643be1a1cbb9363869660977b",
     "branch": "master"
   },
   "tambo": {
