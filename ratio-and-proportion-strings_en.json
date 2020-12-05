@@ -138,6 +138,9 @@
       "handsDistancePatternCapitalized": {
         "value": "Hands {{distance}} each other"
       },
+      "handsDistanceProgressPattern": {
+        "value": "Hands {{distanceProgress}}"
+      },
       "equalObjectResponseAlert": {
         "value": "both hands {{inPosition}}"
       },
@@ -475,6 +478,12 @@
           }
         }
       },
+      "closerTogether": {
+        "value": "closer together"
+      },
+      "fartherApart": {
+        "value": "farther apart"
+      },
       "closerTo": {
         "value": "Closer to"
       },
@@ -487,8 +496,8 @@
       "fartherFromLowercase": {
         "value": "farther from"
       },
-      "distanceOrDirectionClause": {
-        "value": "{{distanceOrDirection}} {{otherHand}}"
+      "distanceOrDistanceProgressClause": {
+        "value": "{{distanceOrDistanceProgress}} {{otherHand}}"
       },
       "directionSentence": {
         "value": "{{direction}}."
@@ -496,7 +505,7 @@
     },
     "ratio": {
       "singleHandContextResponse": {
-        "value": "{{distanceOrDirection}}, {{position}}."
+        "value": "{{distanceOrDistanceProgress}}, {{position}}."
       },
       "ratioLockedEdgeContextResponse": {
         "value": "{{hand}}, {{position}}. Move hands {{direction}} to explore more."

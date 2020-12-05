@@ -8,6 +8,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
+import merge from '../../../../phet-core/js/merge.js';
 import globalKeyStateTracker from '../../../../scenery/js/accessibility/globalKeyStateTracker.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
@@ -29,10 +30,17 @@ class BothHandsInteractionListener {
    * @param {Property.<boolean>} ratioLockedProperty
    * @param {Property.<number>} targetRatioProperty
    * @param {function(RatioTerm):number} getIdealTerm
+   * @param {Object} [options]
    */
   constructor( targetNode, ratioTupleProperty, valueRange,
                antecedentInteractedWithProperty, consequentInteractedWithProperty, tickMarkRangeProperty, keyboardStep, boundarySoundClip, tickMarkBumpSoundClip,
-               ratioLockedProperty, targetRatioProperty, getIdealTerm ) {
+               ratioLockedProperty, targetRatioProperty, getIdealTerm, options ) {
+
+    options = merge( {
+
+      // Called whenever an interaction occurs that this listener responds to
+      onChange: _.noop
+    }, options );
 
     // @private
     this.valueRange = valueRange;
@@ -47,6 +55,7 @@ class BothHandsInteractionListener {
     this.tickMarkBumpSoundClip = tickMarkBumpSoundClip;
     this.ratioLockedProperty = ratioLockedProperty;
     this.targetRatioProperty = targetRatioProperty;
+    this.onChange = options.onChange;
 
     // @private
     this.antecedentMapKeyboardInput = RAPConstants.mapPostProcessKeyboardInput( () => getIdealTerm( RatioTerm.ANTECEDENT ), keyboardStep, this.shiftKeyboardStep );
@@ -88,6 +97,8 @@ class BothHandsInteractionListener {
     this.ratioTupleProperty.value = newRatioTuple.constrainFields( this.valueRange );
 
     this.handleSoundOnInput( this.ratioTupleProperty.value[ tupleField ] );
+
+    this.onChange();
   }
 
   /**
@@ -164,6 +175,10 @@ class BothHandsInteractionListener {
             // Count number key interaction as cue-removing interaction.
             this.antecedentInteractedWithProperty.value = true;
             this.consequentInteractedWithProperty.value = true;
+
+            this.onChange();
+
+            // TODO: break; here? https://github.com/phetsims/ratio-and-proportion/issues/262
           }
         }
       }

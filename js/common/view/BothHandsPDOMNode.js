@@ -114,7 +114,11 @@ class BothHandsPDOMNode extends Node {
     // @private
     this.bothHandsInteractionListener = new BothHandsInteractionListener( interactiveNode, ratioTupleProperty, valueRange,
       this.antecedentInteractedWithProperty, this.consequentInteractedWithProperty, tickMarkRangeProperty, keyboardStep,
-      viewSounds.boundarySoundClip, viewSounds.tickMarkBumpSoundClip, ratioLockedProperty, targetRatioProperty, getIdealTerm );
+      viewSounds.boundarySoundClip, viewSounds.tickMarkBumpSoundClip, ratioLockedProperty, targetRatioProperty, getIdealTerm, {
+        onChange: () => {
+          this.alertBothHandsContextResponse();
+        }
+      } );
     interactiveNode.addInputListener( this.bothHandsInteractionListener );
 
     interactiveNode.addInputListener( {
@@ -159,7 +163,6 @@ class BothHandsPDOMNode extends Node {
 
       if ( isBeingInteractedWith ) {
         this.alertBothHandsObjectResponse( tickMarkView );
-        this.alertBothHandsContextResponse();
       }
     } );
 

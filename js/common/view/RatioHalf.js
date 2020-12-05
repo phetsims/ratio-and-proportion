@@ -353,7 +353,6 @@ class RatioHalf extends Rectangle {
 
     // @private
     this.resetRatioHalf = () => {
-      alertManager.reset();
       this.ratioHandNode.reset();
       positionProperty.value.setX( INITIAL_X_VALUE );
       positionProperty.notifyListenersStatic();

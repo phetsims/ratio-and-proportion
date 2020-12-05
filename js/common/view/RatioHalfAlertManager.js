@@ -34,10 +34,6 @@ class RatioHalfAlertManager {
 
     // @private {Property.<number>}
     this.valueProperty = valueProperty;
-
-    // @private {number} - reference to the last describe value so we can describe how it changes since last time, only
-    // null on startup and reset since there was no described value
-    this.previousRatioAlertText = this.getSingleHandContextResponseText();
   }
 
   /**
@@ -51,24 +47,6 @@ class RatioHalfAlertManager {
   }
 
   /**
-   * @private
-   * @param {boolean} capitalized
-   * @returns {string}
-   */
-  getSingleHandContextResponseText( capitalized = true ) {
-
-    // When locked, give a description of both-hands, instead of just a single one.
-    if ( this.ratioLockedProperty.value ) {
-      return this.bothHandsDescriber.getBothHandsContextResponse();
-    }
-
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.singleHandContextResponse, {
-      distanceOrDirection: this.handPositionsDescriber.getDistanceClauseForProperty( this.valueProperty, capitalized ),
-      position: this.handPositionsDescriber.getHandPositionDescription( this.valueProperty.value, this.tickMarkViewProperty.value, false )
-    } );
-  }
-
-  /**
    * Generate and send an alert to the UtteranceQueue that describes the movement of this object and the subsequent change
    * in ratio. This is the context response for the individual ratio half hand (slider) interaction.
    * @public
@@ -76,24 +54,16 @@ class RatioHalfAlertManager {
    * @returns {null|string} - null means no alert will occur
    */
   getSingleHandContextResponse( capitalized ) {
-    let newAlert = this.getSingleHandContextResponseText( capitalized );
 
-    // If the alert would repeat, instead give direction progress, see https://github.com/phetsims/ratio-and-proportion/issues/262
-    if ( newAlert === this.previousRatioAlertText ) {
-      newAlert = this.handPositionsDescriber.getCloserToFartherFromString( this.valueProperty );
+    // When locked, give a description of both-hands, instead of just a single one.
+    if ( this.ratioLockedProperty.value ) {
+      return this.bothHandsDescriber.getBothHandsContextResponse();
     }
 
-    this.previousRatioAlertText = newAlert;
-    return newAlert;
-  }
-
-
-  /**
-   * Reset state variables that help us describe changes after the end of an interaction.
-   * @public
-   */
-  reset() {
-    this.previousRatioAlertText = this.getSingleHandContextResponseText();
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.singleHandContextResponse, {
+      distanceOrDistanceProgress: this.handPositionsDescriber.getDistanceClauseForProperty( this.valueProperty, capitalized ),
+      position: this.handPositionsDescriber.getHandPositionDescription( this.valueProperty.value, this.tickMarkViewProperty.value, false )
+    } );
   }
 }
 

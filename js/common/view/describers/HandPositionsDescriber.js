@@ -76,6 +76,10 @@ class HandPositionsDescriber {
     this.valueRange = valueRange;
     this.tickMarkDescriber = tickMarkDescriber;
 
+    // @private - keep track of previous distance regions to track repetition, and alter description accordingly
+    this.previousBothHandsDistanceRegion = null;
+    this.previousSingleHandDistanceRegion = null;
+
     let lastDistance = null;
 
     // @private
@@ -237,54 +241,78 @@ class HandPositionsDescriber {
     assert && assert( valueProperty === this.antecedentProperty || valueProperty === this.consequentProperty, 'Should be one of the two' );
     const otherHand = valueProperty === this.antecedentProperty ? rightHandLowerString : leftHandLowerString;
 
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDirectionClause, {
+    const distanceRegion = this.getDistanceRegion();
+
+    if ( distanceRegion === this.previousSingleHandDistanceRegion ) {
+
+      let distanceProgress = null;
+      if ( this.directionOfLastChangeProperty.value === DirectionChanged.CLOSER ) {
+        distanceProgress = capitalized ? ratioAndProportionStrings.a11y.handPosition.closerTo :
+                           ratioAndProportionStrings.a11y.handPosition.closerToLowercase;
+      }
+      else if ( this.directionOfLastChangeProperty.value === DirectionChanged.FARTHER ) {
+        distanceProgress = capitalized ? ratioAndProportionStrings.a11y.handPosition.fartherFrom :
+                           ratioAndProportionStrings.a11y.handPosition.fartherFromLowercase;
+      }
+      if ( distanceProgress ) {
+        const distanceProgressDescription = StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDistanceProgressClause, {
+          otherHand: otherHand,
+          distanceOrDistanceProgress: distanceProgress
+        } );
+
+        // Count closer/farther as a previous so that we don't ever get two of them at the same time
+        this.previousSingleHandDistanceRegion = distanceProgressDescription;
+        return distanceProgressDescription;
+      }
+    }
+
+    this.previousSingleHandDistanceRegion = distanceRegion;
+
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDistanceProgressClause, {
       otherHand: otherHand,
-      distanceOrDirection: this.getDistanceRegion()
+      distanceOrDistanceProgress: distanceRegion
     } );
   }
 
   /**
    * @public
+   * @param {boolean} overrideWithDistanceProgress - if a repeated distance should be overridden with distance-progress (closer/farther)
    * @param {boolean} capitalized
    * @returns {string}
    */
-  getBothHandsDistance( capitalized = false ) {
+  getBothHandsDistance( overrideWithDistanceProgress = false, capitalized = false ) {
+    const distanceRegion = this.getDistanceRegion( true );
+
+    if ( overrideWithDistanceProgress ) {
+      if ( distanceRegion === this.previousBothHandsDistanceRegion ) {
+        assert && assert( capitalized, 'overriding with distance-progress not supported for capitalized strings' );
+
+        let distanceProgress = null;
+        if ( this.directionOfLastChangeProperty.value === DirectionChanged.CLOSER ) {
+          distanceProgress = ratioAndProportionStrings.a11y.handPosition.closerTogether;
+        }
+        else if ( this.directionOfLastChangeProperty.value === DirectionChanged.FARTHER ) {
+          distanceProgress = ratioAndProportionStrings.a11y.handPosition.fartherApart;
+        }
+        if ( distanceProgress ) {
+          const distanceProgressDescription = StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.handsDistanceProgressPattern, {
+            distanceProgress: distanceProgress
+          } );
+
+          // Count closer/farther as a previous so that we don't ever get two of them at the same time
+          this.previousBothHandsDistanceRegion = distanceProgressDescription;
+          return distanceProgressDescription;
+        }
+      }
+
+      this.previousBothHandsDistanceRegion = distanceRegion;
+    }
+
     const pattern = capitalized ? ratioAndProportionStrings.a11y.bothHands.handsDistancePatternCapitalized :
                     ratioAndProportionStrings.a11y.bothHands.handsDistancePattern;
-    return StringUtils.fillIn( pattern, {
-      distance: this.getDistanceRegion( true )
-    } );
+
+    return StringUtils.fillIn( pattern, { distance: distanceRegion } );
   }
-
-  /**
-   * @param {Property.<number>} valueProperty
-   * @param {boolean=true} capitalized
-   * @public
-   */
-  getCloserToFartherFromString( valueProperty, capitalized = true ) {
-    let direction = null;
-    switch( this.directionOfLastChangeProperty.value ) {
-      case DirectionChanged.CLOSER:
-        direction = capitalized ? ratioAndProportionStrings.a11y.handPosition.closerTo :
-                    ratioAndProportionStrings.a11y.handPosition.closerToLowercase;
-        break;
-      case DirectionChanged.FARTHER:
-        direction = capitalized ? ratioAndProportionStrings.a11y.handPosition.fartherFrom :
-                    ratioAndProportionStrings.a11y.handPosition.fartherFromLowercase;
-        break;
-      default:
-        return null;
-    }
-    const otherHand = valueProperty === this.antecedentProperty ? rightHandLowerString : leftHandLowerString;
-
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.directionSentence, {
-      direction: StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDirectionClause, {
-        otherHand: otherHand,
-        distanceOrDirection: direction
-      } )
-    } );
-  }
-
 }
 
 ratioAndProportion.register( 'HandPositionsDescriber', HandPositionsDescriber );
