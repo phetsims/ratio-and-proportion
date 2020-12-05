@@ -15,7 +15,7 @@ import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
 import TickMarkView from '../TickMarkView.js';
 
 // constants
-const DirectionChanged = Enumeration.byKeys( [ 'CLOSER', 'FARTHER', 'NEITHER' ] );
+const DistanceProgress = Enumeration.byKeys( [ 'CLOSER', 'FARTHER', 'NEITHER' ] );
 
 const leftHandLowerString = ratioAndProportionStrings.a11y.leftHandLower;
 const rightHandLowerString = ratioAndProportionStrings.a11y.rightHandLower;
@@ -83,7 +83,7 @@ class HandPositionsDescriber {
     let lastDistance = null;
 
     // @private
-    this.directionOfLastChangeProperty = new DerivedProperty( [
+    this.distanceProgressOfLastChangeProperty = new DerivedProperty( [
       this.antecedentProperty,
       this.consequentProperty
     ], ( antecedent, consequent ) => {
@@ -91,15 +91,15 @@ class HandPositionsDescriber {
       if ( lastDistance ) {
         if ( currentDistance < lastDistance ) {
           lastDistance = currentDistance;
-          return DirectionChanged.CLOSER;
+          return DistanceProgress.CLOSER;
         }
         if ( currentDistance > lastDistance ) {
           lastDistance = currentDistance;
-          return DirectionChanged.FARTHER;
+          return DistanceProgress.FARTHER;
         }
       }
       lastDistance = currentDistance;
-      return DirectionChanged.NEITHER;
+      return DistanceProgress.NEITHER;
     } );
   }
 
@@ -245,10 +245,10 @@ class HandPositionsDescriber {
     if ( distanceRegion === this.previousSingleHandDistanceRegion ) {
 
       let distanceProgress = null;
-      if ( this.directionOfLastChangeProperty.value === DirectionChanged.CLOSER ) {
+      if ( this.distanceProgressOfLastChangeProperty.value === DistanceProgress.CLOSER ) {
         distanceProgress = ratioAndProportionStrings.a11y.handPosition.closerTo;
       }
-      else if ( this.directionOfLastChangeProperty.value === DirectionChanged.FARTHER ) {
+      else if ( this.distanceProgressOfLastChangeProperty.value === DistanceProgress.FARTHER ) {
         distanceProgress = ratioAndProportionStrings.a11y.handPosition.fartherFrom;
       }
       if ( distanceProgress ) {
@@ -285,10 +285,10 @@ class HandPositionsDescriber {
         assert && assert( capitalized, 'overriding with distance-progress not supported for capitalized strings' );
 
         let distanceProgress = null;
-        if ( this.directionOfLastChangeProperty.value === DirectionChanged.CLOSER ) {
+        if ( this.distanceProgressOfLastChangeProperty.value === DistanceProgress.CLOSER ) {
           distanceProgress = ratioAndProportionStrings.a11y.handPosition.closerTogether;
         }
-        else if ( this.directionOfLastChangeProperty.value === DirectionChanged.FARTHER ) {
+        else if ( this.distanceProgressOfLastChangeProperty.value === DistanceProgress.FARTHER ) {
           distanceProgress = ratioAndProportionStrings.a11y.handPosition.fartherApart;
         }
         if ( distanceProgress ) {
