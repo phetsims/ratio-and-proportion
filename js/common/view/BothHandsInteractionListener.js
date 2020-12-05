@@ -178,7 +178,7 @@ class BothHandsInteractionListener {
 
             this.onChange();
 
-            // TODO: break; here? https://github.com/phetsims/ratio-and-proportion/issues/262
+            break;
           }
         }
       }
