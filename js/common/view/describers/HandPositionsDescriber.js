@@ -236,7 +236,7 @@ class HandPositionsDescriber {
    * @param {Property} valueProperty - controlling one of the two hands
    * @returns {string}
    */
-  getDistanceClauseForProperty( valueProperty ) {
+  getSingleHandDistance( valueProperty ) {
     assert && assert( valueProperty === this.antecedentProperty || valueProperty === this.consequentProperty, 'Should be one of the two' );
     const otherHand = valueProperty === this.antecedentProperty ? rightHandLowerString : leftHandLowerString;
 

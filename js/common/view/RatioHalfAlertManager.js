@@ -60,7 +60,7 @@ class RatioHalfAlertManager {
     }
 
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.singleHandContextResponse, {
-      distanceOrDistanceProgress: this.handPositionsDescriber.getDistanceClauseForProperty( this.valueProperty ),
+      distanceOrDistanceProgress: this.handPositionsDescriber.getSingleHandDistance( this.valueProperty ),
       position: this.handPositionsDescriber.getHandPositionDescription( this.valueProperty.value, this.tickMarkViewProperty.value, false )
     } );
   }
