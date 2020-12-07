@@ -107,9 +107,9 @@ class RAPRatio {
     } );
 
     this.enabledRatioTermsRangeProperty.link( enabledRange => {
-      const clampPropertyIntoRange = property => !enabledRange.contains( property.value ) && property.set( enabledRange.constrainValue( property.value ) );
-      clampPropertyIntoRange( this.antecedentProperty );
-      clampPropertyIntoRange( this.consequentProperty );
+      const newAntecedent = enabledRange.constrainValue( this.antecedentProperty.value );
+      const newConsequent = enabledRange.constrainValue( this.consequentProperty.value );
+      this.ratioTupleProperty.value = new RAPRatioTuple( newAntecedent, newConsequent );
     } );
   }
 
