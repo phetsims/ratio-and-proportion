@@ -29,6 +29,9 @@ const RAPColorProfile = new ColorProfile( [ 'default' ], {
   },
   cueArrows: { // cue arrows around the ratio hands.
     default: Color.DARK_GRAY
+  },
+  createScreenHand: {
+    default: new Color( '#8d5cbd' )
   }
 } );
 

@@ -16,10 +16,10 @@ import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
-import Color from '../../../../scenery/js/util/Color.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
+import RAPColorProfile from '../../common/view/RAPColorProfile.js';
 import RAPScreenView from '../../common/view/RAPScreenView.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -42,8 +42,7 @@ class CreateScreenView extends RAPScreenView {
     const tickMarkRangeProperty = new NumberProperty( 10 );
 
     // For this screen, one Property controls the color of both hands.
-    // TODO: duplicated with CreateScreenIcon
-    const handColorProperty = new Property( new Color( '#8d5cbd' ) );
+    const handColorProperty = RAPColorProfile.createScreenHandProperty;
 
     super( model, tandem, {
       tickMarkRangeProperty: tickMarkRangeProperty,
@@ -57,8 +56,8 @@ class CreateScreenView extends RAPScreenView {
     // Allow us to get the reduced fraction as the initial value of the custom "My Challenge"
     const initialRatioFraction = Fraction.fromDecimal( model.targetRatioProperty.value );
     const rangeProperty = new Property( new Range( 1, 10 ) );
-    assert && assert( rangeProperty.value.contains( initialRatioFraction.numerator), 'unsupported numerator');
-    assert && assert( rangeProperty.value.contains( initialRatioFraction.denominator), 'unsupported denominator');
+    assert && assert( rangeProperty.value.contains( initialRatioFraction.numerator ), 'unsupported numerator' );
+    assert && assert( rangeProperty.value.contains( initialRatioFraction.denominator ), 'unsupported denominator' );
 
     const targetAntecedentProperty = new NumberProperty( initialRatioFraction.numerator );
     const targetConsequentProperty = new NumberProperty( initialRatioFraction.denominator );
