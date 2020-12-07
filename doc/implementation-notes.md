@@ -1,10 +1,4 @@
-To talk about
-* View dynamic layout to support vertical aspect ratios
-  * scaling controls
-  * extending ratioHalfs to a certain point
-* Multi-modality stuff
-* Tick marks are not mean to be a "zoom in/out" feature, but instead just another visualization of the same relationship.
-
+# Ratio and Proportion - Implementation Notes
 
 ## Multiple modalities listen to the model
 Multiple modalities react to the model in different ways depending on the different states the model is in (see model.md)
@@ -30,3 +24,16 @@ In this mode, the model says we aren't in Proportion, instead we are just a hair
 * Moving in Proportion Sound: choir (>.8 fitness + velocity threshold passed for both hands) (`MovingInProportionSoundGenerator.js`)
 * Visual: dark green
 * Success Sound: "success ringing ding/chord"
+
+## Dynamic Layout
+
+This sim is more vertically oriented than most, and as a result, a lot of visual layout changes based on the aspect 
+ratio. This is chiefly centered around the ratio hands having the maximum vertical space possible. That said the hands 
+and controls also scale to give a better experience on iPad and phone-like devices in "vertical mode."  
+
+## Tick mark implementation
+
+It is important to the pedagogy of this sim that altering the number of tick marks displayed in the sim doesn't feel like
+zooming in or out. As a result, the implementation of these are just a skin on top of the model. None of the model values
+change from altering the tick mark views.
+
