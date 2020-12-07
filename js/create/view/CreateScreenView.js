@@ -60,7 +60,6 @@ class CreateScreenView extends RAPScreenView {
     assert && assert( rangeProperty.value.contains( initialRatioFraction.numerator), 'unsupported numerator');
     assert && assert( rangeProperty.value.contains( initialRatioFraction.denominator), 'unsupported denominator');
 
-    // TODO: this should depend on the target ratio, not the initial values
     const targetAntecedentProperty = new NumberProperty( initialRatioFraction.numerator );
     const targetConsequentProperty = new NumberProperty( initialRatioFraction.denominator );
 
