@@ -32,6 +32,15 @@ const RAPColorProfile = new ColorProfile( [ 'default' ], {
   },
   createScreenHand: {
     default: new Color( '#8d5cbd' )
+  },
+  discoverChallenge1: {
+    default: new Color( 233, 69, 69 )
+  },
+  discoverChallenge2: {
+    default: new Color( 87, 182, 221 )
+  },
+  discoverChallenge3: {
+    default: new Color( 255, 200, 0 )
   }
 } );
 

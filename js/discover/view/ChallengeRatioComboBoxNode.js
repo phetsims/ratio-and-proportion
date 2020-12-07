@@ -5,7 +5,6 @@
  */
 
 import Node from '../../../../scenery/js/nodes/Node.js';
-import Color from '../../../../scenery/js/util/Color.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -13,6 +12,7 @@ import challenge1SelectionSound from '../../../../tambo/sounds/selection-arpeggi
 import challenge2SelectionSound from '../../../../tambo/sounds/selection-arpeggio-004_mp3.js';
 import challenge3SelectionSound from '../../../../tambo/sounds/selection-arpeggio-006_mp3.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
+import RAPColorProfile from '../../common/view/RAPColorProfile.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import ChallengeComboBoxItem from './ChallengeComboBoxItem.js';
@@ -27,6 +27,7 @@ class ChallengeRatioComboBoxNode extends Node {
   /**
    * @param {NumberProperty} targetRatioProperty
    * @param {RatioDescriber} ratioDescriber
+   * @param {Property.<Color>} colorProperty
    * @param {Object} [options]
    */
   constructor( targetRatioProperty, ratioDescriber, colorProperty, options ) {
@@ -55,15 +56,15 @@ class ChallengeRatioComboBoxNode extends Node {
       tagName: 'h3'
     } );
     const comboBox = new ComboBox( [
-      new ChallengeComboBoxItem( this.ratioToChallengeNameMap.get( 1 / 2 ).capitalized, new Color( 233, 69, 69 ), 1 / 2, targetRatioProperty, colorProperty, {
+      new ChallengeComboBoxItem( this.ratioToChallengeNameMap.get( 1 / 2 ).capitalized, RAPColorProfile.discoverChallenge1Property.value, 1 / 2, targetRatioProperty, colorProperty, {
         soundPlayer: soundGenerators[ 0 ],
         a11yLabel: ratioAndProportionStrings.challenge1
       } ),
-      new ChallengeComboBoxItem( this.ratioToChallengeNameMap.get( 1 / 3 ).capitalized, new Color( 87, 182, 221 ), 1 / 3, targetRatioProperty, colorProperty, {
+      new ChallengeComboBoxItem( this.ratioToChallengeNameMap.get( 1 / 3 ).capitalized, RAPColorProfile.discoverChallenge2Property.value, 1 / 3, targetRatioProperty, colorProperty, {
         soundPlayer: soundGenerators[ 1 ],
         a11yLabel: ratioAndProportionStrings.challenge2
       } ),
-      new ChallengeComboBoxItem( this.ratioToChallengeNameMap.get( 3 / 4 ).capitalized, new Color( 255, 200, 0 ), 3 / 4, targetRatioProperty, colorProperty, {
+      new ChallengeComboBoxItem( this.ratioToChallengeNameMap.get( 3 / 4 ).capitalized, RAPColorProfile.discoverChallenge3Property.value, 3 / 4, targetRatioProperty, colorProperty, {
         soundPlayer: soundGenerators[ 2 ],
         a11yLabel: ratioAndProportionStrings.challenge3
       } )
