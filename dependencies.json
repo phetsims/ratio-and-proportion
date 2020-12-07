@@ -1,11 +1,11 @@
 {
-  "comment": "# ratio-and-proportion 1.0.0-dev.75 Fri Dec 04 2020 16:48:54 GMT-0900 (Alaska Standard Time)",
+  "comment": "# ratio-and-proportion 1.0.0-dev.76 Mon Dec 07 2020 12:26:38 GMT-0900 (Alaska Standard Time)",
   "assert": {
     "sha": "3df8c5ff9a465b031f84195a90bbb7e1be10a14d",
     "branch": "master"
   },
   "axon": {
-    "sha": "a615be991fc5e6ca43d72bc96688b6fe39a6d0d9",
+    "sha": "d0c6a5aed5c0715c84b7462131f96e2abbb28d2b",
     "branch": "master"
   },
   "brand": {
@@ -61,11 +61,11 @@
     "branch": "master"
   },
   "ratio-and-proportion": {
-    "sha": "c96961d3bd0c7f4c4f17fa30e1210f3e0b11f4f2",
+    "sha": "f7a863ac4e0707d56ab397a66f1b78bf93201480",
     "branch": "master"
   },
   "scenery": {
-    "sha": "ddb6f90954a5bd1d60bd8b085dd9f4d6faa6f596",
+    "sha": "8bc56f42b46d902094118304d535ddac8f6e6391",
     "branch": "master"
   },
   "scenery-phet": {
@@ -81,7 +81,7 @@
     "branch": "master"
   },
   "sun": {
-    "sha": "7c22569fdaf82b8643be1a1cbb9363869660977b",
+    "sha": "92d8b2d97bf3a197fa28935d36d1c273c3681db2",
     "branch": "master"
   },
   "tambo": {
