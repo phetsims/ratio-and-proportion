@@ -24,7 +24,7 @@ class ProportionMarkerInput extends MarkerInput {
   /**
    * @param {NumberProperty} antecedentProperty
    * @param {NumberProperty} consequentProperty
-   * @param {BooleanProperty} firstInteractionProperty - TODO: support this for cue arrows
+   * @param {BooleanProperty} firstInteractionProperty - TODO: support this for cue arrows, https://github.com/phetsims/ratio-and-proportion/issues/89
    */
   constructor( antecedentProperty, consequentProperty, firstInteractionProperty ) {
     super();
@@ -33,7 +33,7 @@ class ProportionMarkerInput extends MarkerInput {
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
 
 
-    // TODO: support this for cue arrows
+    // TODO: support this for cue arrows, https://github.com/phetsims/ratio-and-proportion/issues/89
     // this.isBeingInteractedWithProperty.lazyLink( interactedWith => {
     //   interactedWith && firstInteractionProperty.set( false );
     // } );
