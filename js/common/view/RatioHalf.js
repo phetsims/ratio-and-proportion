@@ -344,7 +344,7 @@ class RatioHalf extends Rectangle {
 
       // Don't count the space the framing rectangles take up as part of the draggableArea.
       modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
-        getModelBoundsFromRange( enabledRatioTermsRangeProperty.value ),
+        getModelBoundsFromRange( valueRange ),
         boundsNoFramingRects
       );
 
