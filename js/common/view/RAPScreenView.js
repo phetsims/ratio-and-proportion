@@ -48,7 +48,7 @@ const RATIO_HALF_SPACING = 10;
 const uiScaleFunction = new LinearFunction( LAYOUT_BOUNDS.height, MAX_RATIO_HEIGHT, 1, 1.5, true );
 const uiPositionFunction = new LinearFunction( 1, 1.5, LAYOUT_BOUNDS.height * .15, -LAYOUT_BOUNDS.height * .2, true );
 
-const DEFAULT_RANGE = RAPConstants.TOTAL_RATIO_COMPONENT_VALUE_RANGE;
+const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_COMPONENT_VALUE_RANGE;
 
 class RAPScreenView extends ScreenView {
 
@@ -93,11 +93,11 @@ class RAPScreenView extends ScreenView {
     // for ease at usage sites
     const ratio = model.ratio;
 
-    const tickMarkDescriber = new TickMarkDescriber( DEFAULT_RANGE, options.tickMarkRangeProperty, tickMarkViewProperty );
+    const tickMarkDescriber = new TickMarkDescriber( TOTAL_RANGE, options.tickMarkRangeProperty, tickMarkViewProperty );
 
     // @protected (read-only)
     this.ratioDescriber = new RatioDescriber( model );
-    this.handPositionsDescriber = new HandPositionsDescriber( ratio.antecedentProperty, ratio.consequentProperty, DEFAULT_RANGE, tickMarkDescriber );
+    this.handPositionsDescriber = new HandPositionsDescriber( ratio.antecedentProperty, ratio.consequentProperty, TOTAL_RANGE, tickMarkDescriber );
     const bothHandsDescriber = new BothHandsDescriber(
       ratio.antecedentProperty,
       ratio.consequentProperty,
@@ -140,7 +140,7 @@ class RAPScreenView extends ScreenView {
     // @private {RatioHalf}
     this.antecedentRatioHalf = new RatioHalf(
       ratio.antecedentProperty,
-      DEFAULT_RANGE,
+      TOTAL_RANGE,
       model.ratio.enabledRatioTermsRangeProperty,
       cueArrowsState.bothHands.antecedentCueDisplayedProperty,
       cueArrowsState,
@@ -167,7 +167,7 @@ class RAPScreenView extends ScreenView {
     // @private {RatioHalf}
     this.consequentRatioHalf = new RatioHalf(
       ratio.consequentProperty,
-      DEFAULT_RANGE,
+      TOTAL_RANGE,
       model.ratio.enabledRatioTermsRangeProperty,
       cueArrowsState.bothHands.consequentCueDisplayedProperty,
       cueArrowsState,
@@ -189,7 +189,7 @@ class RAPScreenView extends ScreenView {
         helpText: ratioAndProportionStrings.a11y.rightHandHelpText
       } );
 
-    const bothHandsPDOMNode = new BothHandsPDOMNode( ratio.ratioTupleProperty, DEFAULT_RANGE,
+    const bothHandsPDOMNode = new BothHandsPDOMNode( ratio.ratioTupleProperty, TOTAL_RANGE,
       cueArrowsState, keyboardStep, tickMarkViewProperty, options.tickMarkRangeProperty, model.unclampedFitnessProperty,
       this.handPositionsDescriber, this.ratioDescriber, bothHandsDescriber, this.viewSounds, model.ratio.lockedProperty,
       model.targetRatioProperty, model.getIdealValueForTerm.bind( model ), merge( {

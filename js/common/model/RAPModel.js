@@ -20,7 +20,7 @@ const FITNESS_TOLERANCE_FACTOR = 0.5;
 // Add .001 to support two keyboard nav motions above 0 (counting the min range being >0).
 const NO_SUCCUSS_VALUE_THRESHOLD = .021;
 
-const DEFAULT_RANGE = RAPConstants.TOTAL_RATIO_COMPONENT_VALUE_RANGE;
+const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_COMPONENT_VALUE_RANGE;
 
 class RAPModel {
 
@@ -133,8 +133,8 @@ unclampedFitness: ${unclampedFitness}\n` );
    * @returns {number}
    */
   getMinFitness( ratio = this.targetRatioProperty.value ) {
-    const minRatioFitness = this.calculateFitness( DEFAULT_RANGE.min, DEFAULT_RANGE.max, ratio );
-    const maxRatioFitness = this.calculateFitness( DEFAULT_RANGE.max, DEFAULT_RANGE.min, ratio );
+    const minRatioFitness = this.calculateFitness( TOTAL_RANGE.min, TOTAL_RANGE.max, ratio );
+    const maxRatioFitness = this.calculateFitness( TOTAL_RANGE.max, TOTAL_RANGE.min, ratio );
     return Math.min( minRatioFitness, maxRatioFitness );
   }
 
