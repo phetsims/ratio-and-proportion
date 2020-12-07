@@ -17,7 +17,6 @@ const ratioAndProportionTitleString = ratioAndProportionStrings[ 'ratio-and-prop
 
 const simOptions = {
   credits: {
-    //TODO fill in credits, all of these fields are optional, see joist.CreditsNode
     leadDesign: '',
     softwareDevelopment: '',
     team: '',

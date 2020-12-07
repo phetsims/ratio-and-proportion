@@ -33,7 +33,6 @@ const RAPConstants = {
    * Handle keyboard input in a consistent way across all usages of keyboard input to the ratio. This function is
    * responsible for making sure that keyboard input snaps to
    *
-   * TODO: reset function to handle mouse input or resetting the sim? https://github.com/phetsims/ratio-and-proportion/issues/175
    * @public
    * @param {function():number} getIdealValue - get the ideal target value
    * @param {number} keyboardStep
@@ -49,7 +48,6 @@ const RAPConstants = {
       // Don't conserve the snap for page up/down or home/end keys, just basic movement changes.
       const applyConservationSnap = Utils.toFixedNumber( Math.abs( newValue - oldValue ), 6 ) <= shiftKeyboardStep;
 
-      // TODO: what if there is a remainder and then you use mouse input?!?! https://github.com/phetsims/ratio-and-proportion/issues/175
       if ( remainder === 0 ) {
         const snapToKeyboardStep = useShiftKeyStep ? shiftKeyboardStep : keyboardStep;
         newValue = Utils.toFixedNumber(
@@ -57,7 +55,6 @@ const RAPConstants = {
           Utils.numberOfDecimalPlaces( snapToKeyboardStep ) );
       }
 
-      // TODO: care about if we can't make proportion right now (below .5) https://github.com/phetsims/ratio-and-proportion/issues/175
       if ( applyConservationSnap ) {
 
         let returnValue = newValue;
