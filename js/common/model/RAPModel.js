@@ -42,7 +42,7 @@ class RAPModel {
     // How "correct" the proportion currently is. Max is this.fitnessRange.max, but the min can be arbitrarily negative,
     // depending how far away the current
     this.unclampedFitnessProperty = new DerivedProperty( [
-      this.ratio.ratioTupleProperty,
+      this.ratio.tupleProperty,
       this.targetRatioProperty
     ], ( ratioTuple, ratio ) => {
 
@@ -189,10 +189,10 @@ unclampedFitness: ${unclampedFitness}\n` );
   getIdealValueForTerm( ratioTerm ) {
     let theReturn = null;
     if ( ratioTerm === RatioTerm.ANTECEDENT ) {
-      theReturn = this.targetRatioProperty.value * this.ratio.ratioTupleProperty.value.consequent;
+      theReturn = this.targetRatioProperty.value * this.ratio.tupleProperty.value.consequent;
     }
     if ( ratioTerm === RatioTerm.CONSEQUENT ) {
-      theReturn = this.ratio.ratioTupleProperty.value.antecedent / this.targetRatioProperty.value;
+      theReturn = this.ratio.tupleProperty.value.antecedent / this.targetRatioProperty.value;
     }
     return Utils.toFixedNumber( theReturn, 6 );
   }

@@ -29,30 +29,29 @@ class RAPRatio {
     this.enabledRatioTermsRangeProperty = new Property( RAPConstants.TOTAL_RATIO_COMPONENT_VALUE_RANGE );
 
     // @public {Property.<RAPRatioTuple>} - central Property that holds the value of the ratio
-    // TODO: rename to `tupleProperty`
-    this.ratioTupleProperty = new Property( new RAPRatioTuple( .2, .4 ), {
+    this.tupleProperty = new Property( new RAPRatioTuple( .2, .4 ), {
       valueType: RAPRatioTuple,
       reentrant: true
     } );
 
-    // @public {Property.<number>} - convenience Property based on the ratioTupleProperty get getting/setting/listening
+    // @public {Property.<number>} - convenience Property based on the tupleProperty get getting/setting/listening
     // to the antecedent only.
-    this.antecedentProperty = new DynamicProperty( new Property( this.ratioTupleProperty ), {
+    this.antecedentProperty = new DynamicProperty( new Property( this.tupleProperty ), {
       bidirectional: true,
       reentrant: true,
       valueType: 'number',
       map: ratioTuple => ratioTuple.antecedent,
-      inverseMap: antecedent => this.ratioTupleProperty.value.withAntecedent( Utils.toFixedNumber( antecedent, 6 ) )
+      inverseMap: antecedent => this.tupleProperty.value.withAntecedent( Utils.toFixedNumber( antecedent, 6 ) )
     } );
 
-    // @public {Property.<number>} - convenience Property based on the ratioTupleProperty get getting/setting/listening
+    // @public {Property.<number>} - convenience Property based on the tupleProperty get getting/setting/listening
     // to the consequent only.
-    this.consequentProperty = new DynamicProperty( new Property( this.ratioTupleProperty ), {
+    this.consequentProperty = new DynamicProperty( new Property( this.tupleProperty ), {
       bidirectional: true,
       reentrant: true,
       valueType: 'number',
       map: ratioTuple => ratioTuple.consequent,
-      inverseMap: consequent => this.ratioTupleProperty.value.withConsequent( Utils.toFixedNumber( consequent, 6 ) )
+      inverseMap: consequent => this.tupleProperty.value.withConsequent( Utils.toFixedNumber( consequent, 6 ) )
     } );
 
     // @public (read-only) - the velocity of each ratio value changing, adjusted in step
@@ -67,13 +66,13 @@ class RAPRatio {
     // @public - when true, moving one ratio value will maintain the current ratio by updating the other value Property
     this.lockedProperty = new BooleanProperty( false );
 
-    // @private - To avoid an infinite loop as setting the ratioTupleProperty from inside its lock-ratio-support
+    // @private - To avoid an infinite loop as setting the tupleProperty from inside its lock-ratio-support
     // listener. This is predominately needed because even same antecedent/consequent values get wrapped in a new
     // RAPRatioTuple instance.
     this.lockRatioListenerEnabled = true;
 
     // Listener that will handle keeping both ratio tuple values in sync when the ratio is locked.
-    this.ratioTupleProperty.link( ( tuple, oldTuple ) => {
+    this.tupleProperty.link( ( tuple, oldTuple ) => {
       if ( this.lockedProperty.value && this.lockRatioListenerEnabled ) {
         assert && assert( oldTuple, 'need an old value to compute locked ratio values' );
 
@@ -100,7 +99,7 @@ class RAPRatio {
 
         // guard against reentrancy in this case.
         this.lockRatioListenerEnabled = false;
-        this.ratioTupleProperty.value = newRatioTuple.toFixed( 6 );
+        this.tupleProperty.value = newRatioTuple.toFixed( 6 );
         this.lockRatioListenerEnabled = true;
       }
     } );
@@ -112,7 +111,7 @@ class RAPRatio {
     this.enabledRatioTermsRangeProperty.link( enabledRange => {
       const newAntecedent = enabledRange.constrainValue( this.antecedentProperty.value );
       const newConsequent = enabledRange.constrainValue( this.consequentProperty.value );
-      this.ratioTupleProperty.value = new RAPRatioTuple( newAntecedent, newConsequent );
+      this.tupleProperty.value = new RAPRatioTuple( newAntecedent, newConsequent );
     } );
   }
 
@@ -153,7 +152,7 @@ class RAPRatio {
   snapRatioToTarget( targetRatio ) {
 
     // Alter the antecedent to match the target ratio
-    const currentRatioTuple = this.ratioTupleProperty.value;
+    const currentRatioTuple = this.tupleProperty.value;
 
     // Snap the smaller value, because that will yield a smaller snap distance, see https://github.com/phetsims/ratio-and-proportion/issues/257
     if ( currentRatioTuple.antecedent > currentRatioTuple.consequent ) {
@@ -170,7 +169,7 @@ class RAPRatio {
 
     // Make sure that the lock ratio listener won't try to mutate the new RAPRatioTuple
     this.lockRatioListenerEnabled = false;
-    this.ratioTupleProperty.value = newRatioTuple;
+    this.tupleProperty.value = newRatioTuple;
     this.lockRatioListenerEnabled = true;
   }
 

@@ -189,7 +189,7 @@ class RAPScreenView extends ScreenView {
         helpText: ratioAndProportionStrings.a11y.rightHandHelpText
       } );
 
-    const bothHandsPDOMNode = new BothHandsPDOMNode( ratio.ratioTupleProperty, TOTAL_RANGE,
+    const bothHandsPDOMNode = new BothHandsPDOMNode( ratio.tupleProperty, TOTAL_RANGE,
       cueArrowsState, keyboardStep, tickMarkViewProperty, options.tickMarkRangeProperty, model.unclampedFitnessProperty,
       this.handPositionsDescriber, this.ratioDescriber, bothHandsDescriber, this.viewSounds, model.ratio.lockedProperty,
       model.targetRatioProperty, model.getIdealValueForTerm.bind( model ), merge( {
