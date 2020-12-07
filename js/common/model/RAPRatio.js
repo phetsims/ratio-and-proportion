@@ -84,7 +84,10 @@ class RAPRatio {
         let newAntecedent = tuple.antecedent;
         let newConsequent = tuple.consequent;
 
-        assert && assert( !( antecedentChanged && consequentChanged ), 'both values should not change when ratio is locked' );
+        if ( this.enabledRatioTermsRangeProperty.value.contains( oldTuple.antecedent ) &&
+             this.enabledRatioTermsRangeProperty.value.contains( oldTuple.consequent ) ) {
+          assert && assert( !( antecedentChanged && consequentChanged ), 'so long as it values were not constrained, both values should not change when ratio is locked' );
+        }
 
         if ( antecedentChanged ) {
           newConsequent = newAntecedent / previousRatio;
