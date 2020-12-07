@@ -93,7 +93,6 @@ class RatioHandNode extends Node {
       filledInHandNode.visible = !displayCutOut;
     } );
 
-    // TODO flip all keys, otherwise they look weird. https://github.com/phetsims/ratio-and-proportion/issues/81
     const rightHandFlipScale = new Vector2( ( options.isRight ? 1 : -1 ), 1 );
 
     const cueArrowOptions = {
