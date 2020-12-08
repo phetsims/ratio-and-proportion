@@ -51,21 +51,16 @@ class RatioDescriber {
     this.model = model;
 
     phet.log && model.unclampedFitnessProperty.link( () => {
-      phet.log( RATIO_FITNESS_STRINGS_LOWERCASE[ this.getRatioFitnessIndex() ] );
+      phet.log( this.getRatioFitness( false ) );
     } );
   }
 
   /**
-   * Get an index for the current fitness of the ratio, relative to the number of possible fitness descriptions. Low
-   * values are very far from the ratios and high values are closer to the ratio from 0 to RATIO_FITNESS_STRINGS_CAPITALIZED.length.
    * @public
-   *
-   * Design for ratio regions was solidified in https://github.com/phetsims/ratio-and-proportion/issues/137#issuecomment-676828657
-   * In this comment, a subset of regions were set for <=0 fitness, and a subset were for >0.
-   *
-   * @returns {number}
+   * @param {boolean} capitalized
+   * @returns {string}
    */
-  getRatioFitnessIndex() {
+  getRatioFitness( capitalized = true ) {
     assert && assert( ZERO_FITNESS_REGION_INDEX !== 0, 'should not be first index' );
 
     const lastIndex = RATIO_FITNESS_STRINGS_CAPITALIZED.length - 1;
@@ -87,16 +82,8 @@ class RatioDescriber {
 
     const mappingFuntion = unclampedFitness > 0 ? greaterThanZeroMapping : lessThanZeroMapping;
 
-    return Math.floor( mappingFuntion( unclampedFitness ) );
-  }
-
-  /**
-   * @public
-   * @returns {string}
-   */
-  getRatioFitness( capitalized = true ) {
     const ratioRegions = capitalized ? RATIO_FITNESS_STRINGS_CAPITALIZED : RATIO_FITNESS_STRINGS_LOWERCASE;
-    return ratioRegions[ this.getRatioFitnessIndex() ];
+    return ratioRegions[ Math.floor( mappingFuntion( unclampedFitness ) ) ];
   }
 
   /**

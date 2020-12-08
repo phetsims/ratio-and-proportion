@@ -113,7 +113,7 @@ class HandPositionsDescriber {
    */
   getHandPositionDescription( position, tickMarkView, useOfPlayArea = true ) {
     if ( TickMarkView.describeQualitative( tickMarkView ) ) {
-      const qualitativeHandPosition = QUALITATIVE_POSITIONS[ this.getQualitativePositionIndex( position ) ];
+      const qualitativeHandPosition = this.getQualitativePosition( position );
       return !useOfPlayArea ? qualitativeHandPosition : StringUtils.fillIn( ratioAndProportionStrings.a11y.ofPlayAreaPattern, {
         position: qualitativeHandPosition
       } );
@@ -148,43 +148,46 @@ class HandPositionsDescriber {
 
   /**
    * @param {number} position - relative to the total possible position
-   * @returns {number}
-   * @public
+   * @returns {string} - the qualitative position
+   * @private
    */
-  getQualitativePositionIndex( position ) {
+  getQualitativePosition( position ) {
     assert && assert( this.valueRange.contains( position ), 'position expected to be in valueRange' );
 
     const normalizedPosition = this.valueRange.getNormalizedValue( position );
 
+    let index = null;
     if ( normalizedPosition === this.valueRange.max ) {
-      return 0;
+      index = 0;
     }
     else if ( normalizedPosition >= .9 ) {
-      return 1;
+      index = 1;
     }
     else if ( normalizedPosition > .65 ) {
-      return 2;
+      index = 2;
     }
     else if ( normalizedPosition > .5 ) {
-      return 3;
+      index = 3;
     }
     else if ( normalizedPosition === .5 ) {
-      return 4;
+      index = 4;
     }
     else if ( normalizedPosition >= .35 ) {
-      return 5;
+      index = 5;
     }
     else if ( normalizedPosition > .1 ) {
-      return 6;
+      index = 6;
     }
     else if ( normalizedPosition > this.valueRange.min ) {
-      return 7;
+      index = 7;
     }
     else if ( normalizedPosition === this.valueRange.min ) {
-      return 8;
+      index = 8;
     }
 
-    assert && assert( false, 'we should not get here' );
+    assert && assert( index !== null, 'should have been in one of these regions' );
+
+    return QUALITATIVE_POSITIONS[ index ];
   }
 
   /**
