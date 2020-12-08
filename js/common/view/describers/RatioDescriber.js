@@ -66,9 +66,11 @@ class RatioDescriber {
     const lastIndex = RATIO_FITNESS_STRINGS_CAPITALIZED.length - 1;
     assert && assert( RATIO_FITNESS_STRINGS_LOWERCASE[ lastIndex ] === ratioAndProportionStrings.a11y.ratio.lowercase.at, 'There are assumptions made about the order of these regions, likely this should not change.' );
 
+    const ratioRegions = capitalized ? RATIO_FITNESS_STRINGS_CAPITALIZED : RATIO_FITNESS_STRINGS_LOWERCASE;
+
     // hard coded region for in proportion
     if ( this.model.inProportion() ) {
-      return lastIndex;
+      return ratioRegions[ lastIndex ];
     }
 
     // normalize based on the fitness that is not in proportion
@@ -82,7 +84,6 @@ class RatioDescriber {
 
     const mappingFuntion = unclampedFitness > 0 ? greaterThanZeroMapping : lessThanZeroMapping;
 
-    const ratioRegions = capitalized ? RATIO_FITNESS_STRINGS_CAPITALIZED : RATIO_FITNESS_STRINGS_LOWERCASE;
     return ratioRegions[ Math.floor( mappingFuntion( unclampedFitness ) ) ];
   }
 
