@@ -39,9 +39,12 @@ class InProportionSoundGenerator extends SoundClip {
     // goes back out of range for the success sound.
     this.playedSuccessYet = false;
 
-    // @private - True when, in the previous step, the current ratio (calculated from currentRatio) is larger than
+    // @private {boolean} - True when, in the previous step, the current ratio (calculated from currentRatio) is larger than
     // the target ratio.
-    this.currentRatioWasLargerThanTarget = this.calculateCurrentRatioLargerThanTarget();
+    this.previousRatioWasLargerThanTarget = this.calculateCurrentRatioLargerThanTarget();
+
+    // @private {boolean} - true when, in the previous step, either term of the ratio was too small to indicate success.
+    this.previousRatioWasTooSmallForSuccess = this.model.valuesTooSmallForSuccess();
 
     // @private - in certain cases ratio hand positions can move so quickly "through" the in-proportion range that an
     // actual "in proportion" value is never set. When this boolean is true, then this SoundGenerator will note when
@@ -69,13 +72,16 @@ class InProportionSoundGenerator extends SoundClip {
   }
 
   /**
-   * True when the ratio jumped over being in proportion, but it should still sound that it was in proportion
+   * True when the ratio jumped over being in proportion, but it should still sound that it was in proportion.
+   *
+   * This can only occur when current and previous ratio terms were not in the "too small for success" region.
    * @private
    * @returns {boolean}
    */
   jumpedOverInProportionAndShouldSound() {
-    return this.jumpingOverShouldSound && !this.model.valuesTooSmallForSuccess() &&
-           this.calculateCurrentRatioLargerThanTarget() !== this.currentRatioWasLargerThanTarget;
+    return this.jumpingOverShouldSound &&
+           !this.model.valuesTooSmallForSuccess() && !this.previousRatioWasTooSmallForSuccess &&
+           this.calculateCurrentRatioLargerThanTarget() !== this.previousRatioWasLargerThanTarget;
   }
 
   /**
@@ -108,7 +114,8 @@ class InProportionSoundGenerator extends SoundClip {
     }
 
     // for testing during next step()
-    this.currentRatioWasLargerThanTarget = this.calculateCurrentRatioLargerThanTarget();
+    this.previousRatioWasLargerThanTarget = this.calculateCurrentRatioLargerThanTarget();
+    this.previousRatioWasTooSmallForSuccess = this.model.valuesTooSmallForSuccess();
   }
 
   /**
@@ -118,7 +125,7 @@ class InProportionSoundGenerator extends SoundClip {
   reset() {
     this.stop();
     this.playedSuccessYet = false;
-    this.currentRatioWasLargerThanTarget = this.calculateCurrentRatioLargerThanTarget();
+    this.previousRatioWasLargerThanTarget = this.calculateCurrentRatioLargerThanTarget();
   }
 }
 
