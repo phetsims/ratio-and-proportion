@@ -80,7 +80,7 @@ class HandPositionsDescriber {
     // is used for any modality getting a distance region in a context response.
     this.previousDistanceRegion = null;
 
-    let lastDistance = null;
+    let lastDistance = Math.abs( antecedentProperty.value - consequentProperty.value );
 
     // @private
     this.distanceProgressOfLastChangeProperty = new DerivedProperty( [
@@ -88,18 +88,15 @@ class HandPositionsDescriber {
       this.consequentProperty
     ], ( antecedent, consequent ) => {
       const currentDistance = Math.abs( antecedent - consequent );
-      if ( lastDistance ) {
-        if ( currentDistance < lastDistance ) {
-          lastDistance = currentDistance;
-          return DistanceProgress.CLOSER;
-        }
-        if ( currentDistance > lastDistance ) {
-          lastDistance = currentDistance;
-          return DistanceProgress.FARTHER;
-        }
+      let distanceProgress = DistanceProgress.NEITHER;
+      if ( currentDistance < lastDistance ) {
+        distanceProgress = DistanceProgress.CLOSER;
+      }
+      else if ( currentDistance > lastDistance ) {
+        distanceProgress = DistanceProgress.FARTHER;
       }
       lastDistance = currentDistance;
-      return DistanceProgress.NEITHER;
+      return distanceProgress;
     } );
   }
 
@@ -254,16 +251,15 @@ class HandPositionsDescriber {
       else if ( this.distanceProgressOfLastChangeProperty.value === DistanceProgress.FARTHER ) {
         distanceProgress = ratioAndProportionStrings.a11y.handPosition.fartherFrom;
       }
-      if ( distanceProgress ) {
-        const distanceProgressDescription = StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDistanceProgressClause, {
-          otherHand: otherHand,
-          distanceOrDistanceProgress: distanceProgress
-        } );
+      assert && assert( distanceProgress, 'should be a change in direction (distance progress)' );
+      const distanceProgressDescription = StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDistanceProgressClause, {
+        otherHand: otherHand,
+        distanceOrDistanceProgress: distanceProgress
+      } );
 
-        // Count closer/farther as a previous so that we don't ever get two of them at the same time
-        this.previousDistanceRegion = distanceProgressDescription;
-        return distanceProgressDescription;
-      }
+      // Count closer/farther as a previous so that we don't ever get two of them at the same time
+      this.previousDistanceRegion = distanceProgressDescription;
+      return distanceProgressDescription;
     }
 
     this.previousDistanceRegion = distanceRegion;
@@ -294,15 +290,15 @@ class HandPositionsDescriber {
         else if ( this.distanceProgressOfLastChangeProperty.value === DistanceProgress.FARTHER ) {
           distanceProgress = ratioAndProportionStrings.a11y.handPosition.fartherApart;
         }
-        if ( distanceProgress ) {
-          const distanceProgressDescription = StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.handsDistanceProgressPattern, {
-            distanceProgress: distanceProgress
-          } );
+        assert && assert( distanceProgress, 'should be a change in direction (distance progress)' );
 
-          // Count closer/farther as a previous so that we don't ever get two of them at the same time
-          this.previousDistanceRegion = distanceProgressDescription;
-          return distanceProgressDescription;
-        }
+        const distanceProgressDescription = StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.handsDistanceProgressPattern, {
+          distanceProgress: distanceProgress
+        } );
+
+        // Count closer/farther as a previous so that we don't ever get two of them at the same time
+        this.previousDistanceRegion = distanceProgressDescription;
+        return distanceProgressDescription;
       }
 
       this.previousDistanceRegion = distanceRegion;
