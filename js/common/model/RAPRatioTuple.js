@@ -82,6 +82,15 @@ class RAPRatioTuple {
   }
 
   /**
+   * Get the distance between the two numbers
+   * @public
+   * @returns {number} - greater than 0
+   */
+  getDistance() {
+    return Math.abs( this.antecedent - this.consequent );
+  }
+
+  /**
    * @public
    * @param numberOfDigits
    * @returns {RAPRatioTuple} - for chaining

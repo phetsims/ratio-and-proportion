@@ -7,16 +7,13 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
-import Enumeration from '../../../../../phet-core/js/Enumeration.js';
+import merge from '../../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
 import TickMarkView from '../TickMarkView.js';
 
 // constants
-const DistanceProgress = Enumeration.byKeys( [ 'CLOSER', 'FARTHER', 'NEITHER' ] );
-
 const leftHandLowerString = ratioAndProportionStrings.a11y.leftHandLower;
 const rightHandLowerString = ratioAndProportionStrings.a11y.rightHandLower;
 
@@ -63,14 +60,16 @@ assert && assert( DISTANCE_REGIONS_CAPITALIZED.length === DISTANCE_REGIONS_LOWER
 class HandPositionsDescriber {
 
   /**
+   * @param {Property.<RAPRatioTuple>} ratioTupleProperty
    * @param {Property.<number>}antecedentProperty
    * @param {Property.<number>}consequentProperty
    * @param {Range} valueRange
    * @param {TickMarkDescriber} tickMarkDescriber
    */
-  constructor( antecedentProperty, consequentProperty, valueRange, tickMarkDescriber ) {
+  constructor( ratioTupleProperty, antecedentProperty, consequentProperty, valueRange, tickMarkDescriber ) {
 
     // @private - from model
+    this.ratioTupleProperty = ratioTupleProperty;
     this.antecedentProperty = antecedentProperty;
     this.consequentProperty = consequentProperty;
     this.valueRange = valueRange;
@@ -79,25 +78,7 @@ class HandPositionsDescriber {
     // @private - keep track of previous distance regions to track repetition, and alter description accordingly. This
     // is used for any modality getting a distance region in a context response.
     this.previousDistanceRegion = null;
-
-    let lastDistance = Math.abs( antecedentProperty.value - consequentProperty.value );
-
-    // @private
-    this.distanceProgressOfLastChangeProperty = new DerivedProperty( [
-      this.antecedentProperty,
-      this.consequentProperty
-    ], ( antecedent, consequent ) => {
-      const currentDistance = Math.abs( antecedent - consequent );
-      let distanceProgress = DistanceProgress.NEITHER;
-      if ( currentDistance < lastDistance ) {
-        distanceProgress = DistanceProgress.CLOSER;
-      }
-      else if ( currentDistance > lastDistance ) {
-        distanceProgress = DistanceProgress.FARTHER;
-      }
-      lastDistance = currentDistance;
-      return distanceProgress;
-    } );
+    this.previousDistance = ratioTupleProperty.value.getDistance();
   }
 
   /**
@@ -192,7 +173,7 @@ class HandPositionsDescriber {
    * @returns {string}
    */
   getDistanceRegion( lowercase = false ) {
-    const distance = Math.abs( this.antecedentProperty.value - this.consequentProperty.value );
+    const distance = this.ratioTupleProperty.value.getDistance();
 
     assert && assert( this.valueRange.getLength() === 1, 'these hard coded values depend on a range of 1' );
 
@@ -243,18 +224,9 @@ class HandPositionsDescriber {
     const distanceRegion = this.getDistanceRegion();
 
     if ( distanceRegion === this.previousDistanceRegion ) {
-
-      let distanceProgress = null;
-      if ( this.distanceProgressOfLastChangeProperty.value === DistanceProgress.CLOSER ) {
-        distanceProgress = ratioAndProportionStrings.a11y.handPosition.closerTo;
-      }
-      else if ( this.distanceProgressOfLastChangeProperty.value === DistanceProgress.FARTHER ) {
-        distanceProgress = ratioAndProportionStrings.a11y.handPosition.fartherFrom;
-      }
-      assert && assert( distanceProgress, 'should be a change in direction (distance progress)' );
       const distanceProgressDescription = StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDistanceProgressClause, {
         otherHand: otherHand,
-        distanceOrDistanceProgress: distanceProgress
+        distanceOrDistanceProgress: this.getDistanceProgressString()
       } );
 
       // Count closer/farther as a previous so that we don't ever get two of them at the same time
@@ -283,17 +255,11 @@ class HandPositionsDescriber {
       if ( distanceRegion === this.previousDistanceRegion ) {
         assert && assert( capitalized, 'overriding with distance-progress not supported for capitalized strings' );
 
-        let distanceProgress = null;
-        if ( this.distanceProgressOfLastChangeProperty.value === DistanceProgress.CLOSER ) {
-          distanceProgress = ratioAndProportionStrings.a11y.handPosition.closerTogether;
-        }
-        else if ( this.distanceProgressOfLastChangeProperty.value === DistanceProgress.FARTHER ) {
-          distanceProgress = ratioAndProportionStrings.a11y.handPosition.fartherApart;
-        }
-        assert && assert( distanceProgress, 'should be a change in direction (distance progress)' );
-
         const distanceProgressDescription = StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.handsDistanceProgressPattern, {
-          distanceProgress: distanceProgress
+          distanceProgress: this.getDistanceProgressString( {
+            closerString: ratioAndProportionStrings.a11y.handPosition.closerTogether,
+            fartherString: ratioAndProportionStrings.a11y.handPosition.fartherApart
+          } )
         } );
 
         // Count closer/farther as a previous so that we don't ever get two of them at the same time
@@ -308,6 +274,31 @@ class HandPositionsDescriber {
                     ratioAndProportionStrings.a11y.bothHands.handsDistancePattern;
 
     return StringUtils.fillIn( pattern, { distance: distanceRegion } );
+  }
+
+  /**
+   * @private
+   * @param {Object} [options]
+   * @returns {*}
+   */
+  getDistanceProgressString( options ) {
+    options = merge( {
+      closerString: ratioAndProportionStrings.a11y.handPosition.closerTo,
+      fartherString: ratioAndProportionStrings.a11y.handPosition.fartherFrom
+    }, options );
+
+    const currentDistance = this.ratioTupleProperty.value.getDistance();
+    let distanceProgressString = null;
+    if ( currentDistance < this.previousDistance ) {
+      distanceProgressString = options.closerString;
+    }
+    else if ( currentDistance > this.previousDistance ) {
+      distanceProgressString = options.fartherString;
+    }
+    assert && assert( distanceProgressString, 'distance should have changed when this function is called' );
+
+    this.previousDistance = currentDistance;
+    return distanceProgressString;
   }
 }
 
