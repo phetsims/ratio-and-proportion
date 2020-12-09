@@ -76,9 +76,9 @@ class HandPositionsDescriber {
     this.valueRange = valueRange;
     this.tickMarkDescriber = tickMarkDescriber;
 
-    // @private - keep track of previous distance regions to track repetition, and alter description accordingly
-    this.previousBothHandsDistanceRegion = null;
-    this.previousSingleHandDistanceRegion = null;
+    // @private - keep track of previous distance regions to track repetition, and alter description accordingly. This
+    // is used for any modality getting a distance region in a context response.
+    this.previousDistanceRegion = null;
 
     let lastDistance = null;
 
@@ -245,7 +245,7 @@ class HandPositionsDescriber {
 
     const distanceRegion = this.getDistanceRegion();
 
-    if ( distanceRegion === this.previousSingleHandDistanceRegion ) {
+    if ( distanceRegion === this.previousDistanceRegion ) {
 
       let distanceProgress = null;
       if ( this.distanceProgressOfLastChangeProperty.value === DistanceProgress.CLOSER ) {
@@ -261,12 +261,12 @@ class HandPositionsDescriber {
         } );
 
         // Count closer/farther as a previous so that we don't ever get two of them at the same time
-        this.previousSingleHandDistanceRegion = distanceProgressDescription;
+        this.previousDistanceRegion = distanceProgressDescription;
         return distanceProgressDescription;
       }
     }
 
-    this.previousSingleHandDistanceRegion = distanceRegion;
+    this.previousDistanceRegion = distanceRegion;
 
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDistanceProgressClause, {
       otherHand: otherHand,
@@ -284,7 +284,7 @@ class HandPositionsDescriber {
     const distanceRegion = this.getDistanceRegion( true );
 
     if ( overrideWithDistanceProgress ) {
-      if ( distanceRegion === this.previousBothHandsDistanceRegion ) {
+      if ( distanceRegion === this.previousDistanceRegion ) {
         assert && assert( capitalized, 'overriding with distance-progress not supported for capitalized strings' );
 
         let distanceProgress = null;
@@ -300,12 +300,12 @@ class HandPositionsDescriber {
           } );
 
           // Count closer/farther as a previous so that we don't ever get two of them at the same time
-          this.previousBothHandsDistanceRegion = distanceProgressDescription;
+          this.previousDistanceRegion = distanceProgressDescription;
           return distanceProgressDescription;
         }
       }
 
-      this.previousBothHandsDistanceRegion = distanceRegion;
+      this.previousDistanceRegion = distanceRegion;
     }
 
     const pattern = capitalized ? ratioAndProportionStrings.a11y.bothHands.handsDistancePatternCapitalized :
