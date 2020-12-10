@@ -127,10 +127,10 @@
     },
     "bothHands": {
       "bothHands": {
-        "value": "Both hands"
+        "value": "Both Hands"
       },
       "bothHandsHelpText": {
-        "value": "Use W and S keys to move left hand, and Up and Down Arrow keys to move right hand. Move both hands at the same time to find and maintain the Challenge Ratio."
+        "value": "With Both Hands activated, use W and S keys to move left hand, and Up and Down Arrow keys to move right hand. Move both hands at the same time to find and maintain the Challenge Ratio."
       },
       "handsDistancePattern": {
         "value": "hands {{distance}} each other"
