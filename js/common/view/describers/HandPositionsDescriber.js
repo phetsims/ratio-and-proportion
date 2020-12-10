@@ -224,14 +224,18 @@ class HandPositionsDescriber {
     const distanceRegion = this.getDistanceRegion();
 
     if ( distanceRegion === this.previousDistanceRegion ) {
-      const distanceProgressDescription = StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDistanceProgressClause, {
-        otherHand: otherHand,
-        distanceOrDistanceProgress: this.getDistanceProgressString()
-      } );
+      const distanceProgressPhrase = this.getDistanceProgressString();
+      if ( distanceProgressPhrase ) {
 
-      // Count closer/farther as a previous so that we don't ever get two of them at the same time
-      this.previousDistanceRegion = distanceProgressDescription;
-      return distanceProgressDescription;
+        const distanceProgressDescription = StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDistanceProgressClause, {
+          otherHand: otherHand,
+          distanceOrDistanceProgress: distanceProgressPhrase
+        } );
+
+        // Count closer/farther as a previous so that we don't ever get two of them at the same time
+        this.previousDistanceRegion = distanceProgressDescription;
+        return distanceProgressDescription;
+      }
     }
 
     this.previousDistanceRegion = distanceRegion;
@@ -255,18 +259,20 @@ class HandPositionsDescriber {
       if ( distanceRegion === this.previousDistanceRegion ) {
         assert && assert( capitalized, 'overriding with distance-progress not supported for capitalized strings' );
 
-        const distanceProgressDescription = StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.handsDistanceProgressPattern, {
-          distanceProgress: this.getDistanceProgressString( {
-            closerString: ratioAndProportionStrings.a11y.handPosition.closerTogether,
-            fartherString: ratioAndProportionStrings.a11y.handPosition.fartherApart
-          } )
+        const distanceProgressPhrase = this.getDistanceProgressString( {
+          closerString: ratioAndProportionStrings.a11y.handPosition.closerTogether,
+          fartherString: ratioAndProportionStrings.a11y.handPosition.fartherApart
         } );
+        if ( distanceProgressPhrase ) {
+          const distanceProgressDescription = StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.handsDistanceProgressPattern, {
+            distanceProgress: distanceProgressPhrase
+          } );
 
-        // Count closer/farther as a previous so that we don't ever get two of them at the same time
-        this.previousDistanceRegion = distanceProgressDescription;
-        return distanceProgressDescription;
+          // Count closer/farther as a previous so that we don't ever get two of them at the same time
+          this.previousDistanceRegion = distanceProgressDescription;
+          return distanceProgressDescription;
+        }
       }
-
       this.previousDistanceRegion = distanceRegion;
     }
 
@@ -279,7 +285,7 @@ class HandPositionsDescriber {
   /**
    * @private
    * @param {Object} [options]
-   * @returns {*}
+   * @returns {string|null} - null if no change
    */
   getDistanceProgressString( options ) {
     options = merge( {
@@ -295,7 +301,6 @@ class HandPositionsDescriber {
     else if ( currentDistance > this.previousDistance ) {
       distanceProgressString = options.fartherString;
     }
-    assert && assert( distanceProgressString, 'distance should have changed when this function is called' );
 
     this.previousDistance = currentDistance;
     return distanceProgressString;
