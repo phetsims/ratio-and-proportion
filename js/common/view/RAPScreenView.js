@@ -75,25 +75,26 @@ class RAPScreenView extends ScreenView {
       bothHandsPDOMNodeOptions: null
     }, options );
 
+    super( options );
+
+    // for ease at usage sites
+    const ratio = model.ratio;
+
     const tickMarksAndLabelsColorProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
       fitness => Color.interpolateRGBA(
         RAPColorProfile.tickMarksAndLabelsOutOfFitnessProperty.value,
         RAPColorProfile.tickMarksAndLabelsInFitnessProperty.value, fitness
       ) );
 
-    super( options );
-
-    const tickMarkViewProperty = new EnumerationProperty( TickMarkView, TickMarkView.NONE, {
+    // @protected
+    this.tickMarkViewProperty = new EnumerationProperty( TickMarkView, TickMarkView.NONE, {
       tandem: tandem.createTandem( 'tickMarkViewProperty' )
     } );
 
     // Properties that keep track of
     const cueArrowsState = new CueArrowsState();
 
-    // for ease at usage sites
-    const ratio = model.ratio;
-
-    const tickMarkDescriber = new TickMarkDescriber( TOTAL_RANGE, options.tickMarkRangeProperty, tickMarkViewProperty );
+    const tickMarkDescriber = new TickMarkDescriber( TOTAL_RANGE, options.tickMarkRangeProperty, this.tickMarkViewProperty );
 
     // @protected (read-only)
     this.ratioDescriber = new RatioDescriber( model );
@@ -103,13 +104,10 @@ class RAPScreenView extends ScreenView {
       ratio.consequentProperty,
       ratio.enabledRatioTermsRangeProperty,
       ratio.lockedProperty,
-      tickMarkViewProperty,
+      this.tickMarkViewProperty,
       this.ratioDescriber,
       this.handPositionsDescriber
     );
-
-    // @protected
-    this.tickMarkViewProperty = tickMarkViewProperty;
 
     // @private - SoundGenerators that sonify different aspects of the model
     this.inProportionSoundGenerator = new InProportionSoundGenerator( model );
@@ -127,7 +125,7 @@ class RAPScreenView extends ScreenView {
 
     // @private
     this.viewSounds = new ViewSounds( RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE, options.tickMarkRangeProperty,
-      tickMarkViewProperty, playTickMarkBumpSoundProperty );
+      this.tickMarkViewProperty, playTickMarkBumpSoundProperty );
 
     // by default, the keyboard step size should be half of one default tick mark width. See https://github.com/phetsims/ratio-and-proportion/issues/85
     const keyboardStep = 1 / 2 / options.tickMarkRangeProperty.value;
@@ -135,7 +133,7 @@ class RAPScreenView extends ScreenView {
     const defaultRatioHalfBounds = Bounds2.rect( 0, 0, RATIO_HALF_WIDTH, LAYOUT_BOUNDS.height );
 
     // description on each ratioHalf should be updated whenever these change
-    const a11yDependencies = [ model.unclampedFitnessProperty, tickMarkViewProperty, options.tickMarkRangeProperty, model.targetRatioProperty ];
+    const a11yDependencies = [ model.unclampedFitnessProperty, this.tickMarkViewProperty, options.tickMarkRangeProperty, model.targetRatioProperty ];
 
     // @private {RatioHalf}
     this.antecedentRatioHalf = new RatioHalf(
@@ -145,7 +143,7 @@ class RAPScreenView extends ScreenView {
       cueArrowsState.bothHands.antecedentCueDisplayedProperty,
       cueArrowsState,
       defaultRatioHalfBounds,
-      tickMarkViewProperty,
+      this.tickMarkViewProperty,
       options.tickMarkRangeProperty,
       this.ratioDescriber,
       this.handPositionsDescriber,
@@ -172,7 +170,7 @@ class RAPScreenView extends ScreenView {
       cueArrowsState.bothHands.consequentCueDisplayedProperty,
       cueArrowsState,
       defaultRatioHalfBounds,
-      tickMarkViewProperty,
+      this.tickMarkViewProperty,
       options.tickMarkRangeProperty,
       this.ratioDescriber,
       this.handPositionsDescriber,
@@ -190,7 +188,7 @@ class RAPScreenView extends ScreenView {
       } );
 
     const bothHandsPDOMNode = new BothHandsPDOMNode( ratio.tupleProperty, TOTAL_RANGE,
-      cueArrowsState, keyboardStep, tickMarkViewProperty, options.tickMarkRangeProperty, model.unclampedFitnessProperty,
+      cueArrowsState, keyboardStep, this.tickMarkViewProperty, options.tickMarkRangeProperty, model.unclampedFitnessProperty,
       this.handPositionsDescriber, this.ratioDescriber, bothHandsDescriber, this.viewSounds, model.ratio.lockedProperty,
       model.targetRatioProperty, model.getIdealValueForTerm.bind( model ), merge( {
         interactiveNodeOptions: {
@@ -214,7 +212,7 @@ class RAPScreenView extends ScreenView {
     this.staccatoFrequencySoundGenerator.addEnableControlProperty( soundGeneratorEnabledProperty );
 
     // these dimensions are just temporary, and will be recomputed below in the layout function
-    const labelsNode = new RAPTickMarkLabelsNode( tickMarkViewProperty, options.tickMarkRangeProperty, 1000, tickMarksAndLabelsColorProperty );
+    const labelsNode = new RAPTickMarkLabelsNode( this.tickMarkViewProperty, options.tickMarkRangeProperty, 1000, tickMarksAndLabelsColorProperty );
 
     const backgroundNode = Rectangle.bounds( this.layoutBounds, {
       fill: 'black'
@@ -256,7 +254,7 @@ class RAPScreenView extends ScreenView {
     } );
 
     // @protected - subtype is responsible for layout
-    this.tickMarkViewRadioButtonGroup = new TickMarkViewRadioButtonGroup( tickMarkViewProperty );
+    this.tickMarkViewRadioButtonGroup = new TickMarkViewRadioButtonGroup( this.tickMarkViewProperty );
 
     // add this Node to the layer that is scaled up to support vertical aspect ratios
     this.topScalingUILayerNode.addChild( this.tickMarkViewRadioButtonGroup );
