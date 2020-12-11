@@ -63,7 +63,7 @@ class RAPScreenView extends ScreenView {
       tandem: tandem,
       layoutBounds: LAYOUT_BOUNDS,
 
-      // What is the unit value of the tick marks. Value reads as "1/x of the view height." This type is responsible for
+      // What is the unit value of the tick marks. Value reads as "1/x of the view height." RAPScreenView is responsible for
       // resetting this on reset all.
       tickMarkRangeProperty: new NumberProperty( 10 ),
 
@@ -80,19 +80,10 @@ class RAPScreenView extends ScreenView {
     // for ease at usage sites
     const ratio = model.ratio;
 
-    const tickMarksAndLabelsColorProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
-      fitness => Color.interpolateRGBA(
-        RAPColorProfile.tickMarksAndLabelsOutOfFitnessProperty.value,
-        RAPColorProfile.tickMarksAndLabelsInFitnessProperty.value, fitness
-      ) );
-
     // @protected
     this.tickMarkViewProperty = new EnumerationProperty( TickMarkView, TickMarkView.NONE, {
       tandem: tandem.createTandem( 'tickMarkViewProperty' )
     } );
-
-    // Properties that keep track of
-    const cueArrowsState = new CueArrowsState();
 
     const tickMarkDescriber = new TickMarkDescriber( TOTAL_RANGE, options.tickMarkRangeProperty, this.tickMarkViewProperty );
 
@@ -118,6 +109,15 @@ class RAPScreenView extends ScreenView {
     soundManager.addSoundGenerator( this.staccatoFrequencySoundGenerator );
     soundManager.addSoundGenerator( this.inProportionSoundGenerator );
     soundManager.addSoundGenerator( this.movingInProportionSoundGenerator );
+
+    // Properties that keep track of
+    const cueArrowsState = new CueArrowsState();
+
+    const tickMarksAndLabelsColorProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
+      fitness => Color.interpolateRGBA(
+        RAPColorProfile.tickMarksAndLabelsOutOfFitnessProperty.value,
+        RAPColorProfile.tickMarksAndLabelsInFitnessProperty.value, fitness
+      ) );
 
     // Tick mark sounds get played when ratio isn't locked, and when staccato sounds aren't playing
     const playTickMarkBumpSoundProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
@@ -153,7 +153,8 @@ class RAPScreenView extends ScreenView {
       model.ratio.lockedProperty,
       model.ratio.lockedProperty, // not a bug
       this.viewSounds,
-      this.inProportionSoundGenerator, () => model.getIdealValueForTerm( RatioTerm.ANTECEDENT ), {
+      this.inProportionSoundGenerator,
+      () => model.getIdealValueForTerm( RatioTerm.ANTECEDENT ), {
         handColorProperty: options.leftHandColorProperty,
         accessibleName: ratioAndProportionStrings.a11y.leftHand,
         a11yDependencies: a11yDependencies,
@@ -180,7 +181,8 @@ class RAPScreenView extends ScreenView {
       model.ratio.lockedProperty,
       model.ratio.lockedProperty, // not a bug
       this.viewSounds,
-      this.inProportionSoundGenerator, () => model.getIdealValueForTerm( RatioTerm.CONSEQUENT ), {
+      this.inProportionSoundGenerator,
+      () => model.getIdealValueForTerm( RatioTerm.CONSEQUENT ), {
         handColorProperty: options.rightHandColorProperty,
         accessibleName: ratioAndProportionStrings.a11y.rightHand,
         a11yDependencies: a11yDependencies,
@@ -218,6 +220,7 @@ class RAPScreenView extends ScreenView {
       fill: 'black'
     } );
 
+    // adjust the background color based on the current ratio fitness
     model.ratioFitnessProperty.link( fitness => {
       let color = null;
       if ( model.inProportion() ) {
@@ -233,7 +236,7 @@ class RAPScreenView extends ScreenView {
       backgroundNode.setFill( color );
     } );
 
-    // @protected - Keep a separate layer for "Control panel" like UI on the right. This allows them to be scaled
+    // @protected - Keep a separate layer for "control-panel-esque"  UI on the right. This allows them to be scaled
     // to maximize their size within the horizontal space in vertical aspect ratios, see https://github.com/phetsims/ratio-and-proportion/issues/79
     // These are two separate containers so that scaling them can take away space in between them while keeping each
     // positioned based on the corners of the layout.
@@ -311,7 +314,7 @@ class RAPScreenView extends ScreenView {
       this.topScalingUILayerNode.right = this.bottomScalingUILayerNode.right = this.layoutBounds.maxX - RAPConstants.SCREEN_VIEW_X_MARGIN;
       this.bottomScalingUILayerNode.bottom = this.layoutBounds.height - RAPConstants.SCREEN_VIEW_Y_MARGIN;
 
-      // combo box is a proxy for the width of the controls
+      // topScalingUILayerNode is a proxy for the width of the controls to the right of the ratio
       this.antecedentRatioHalf.left = ( this.topScalingUILayerNode.left - ratioWidth ) / 2;
       labelsNode.left = this.antecedentRatioHalf.right + RATIO_HALF_SPACING;
       this.consequentRatioHalf.left = labelsNode.right + RATIO_HALF_SPACING;
@@ -365,7 +368,6 @@ class RAPScreenView extends ScreenView {
    * @public
    */
   reset() {
-
     this.tickMarkViewProperty.reset();
     this.antecedentRatioHalf.reset();
     this.consequentRatioHalf.reset();
