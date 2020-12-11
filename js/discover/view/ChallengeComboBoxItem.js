@@ -1,7 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * Sim specific combo box item that includes a Node next to the text.
+ * Sim specific combo box item that includes a colorful square next to the text.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */

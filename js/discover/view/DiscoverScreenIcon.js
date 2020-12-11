@@ -31,16 +31,18 @@ class DiscoverScreenIcon extends ScreenIcon {
 
     const tickMarksHiddenProperty = new Property( TickMarkView.NONE );
 
+    const ratioHandNodeOptions = { handColor: options.handColor };
+
     const leftNode = new VBox( {
       children: [
         new Rectangle( 0, 0, 1, 15, { opacity: 0 } ),
-        RatioHandNode.createIcon( false, tickMarksHiddenProperty, { handColor: options.handColor } )
+        RatioHandNode.createIcon( false, tickMarksHiddenProperty, ratioHandNodeOptions )
       ]
     } );
 
     const rightNode = new VBox( {
       children: [
-        RatioHandNode.createIcon( true, tickMarksHiddenProperty, { handColor: options.handColor } ),
+        RatioHandNode.createIcon( true, tickMarksHiddenProperty, ratioHandNodeOptions ),
         new Rectangle( 0, 0, 1, 15, { opacity: 0 } )
       ]
     } );
