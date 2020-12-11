@@ -195,17 +195,17 @@ class RAPRatio {
    * @returns {number}
    */
   get currentRatio() {
-    return this.consequentProperty.value === 0 ? Number.POSITIVE_INFINITY : this.antecedentProperty.value / this.consequentProperty.value;
+    return this.tupleProperty.value.getRatio();
   }
 
   /**
    * @private
-   * @param {Property.<number>}previousValueProperty
+   * @param {Property.<number>} previousValueProperty
    * @param {number} currentValue
-   * @param {Property.<number>} velocityProperty
+   * @param {Property.<number>} currentVelocityProperty
    */
-  calculateCurrentVelocity( previousValueProperty, currentValue, velocityProperty ) {
-    velocityProperty.value = currentValue - previousValueProperty.value;
+  calculateCurrentVelocity( previousValueProperty, currentValue, currentVelocityProperty ) {
+    currentVelocityProperty.value = currentValue - previousValueProperty.value;
     previousValueProperty.value = currentValue;
   }
 

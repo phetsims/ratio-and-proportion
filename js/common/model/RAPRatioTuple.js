@@ -1,7 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * Data type that holds both terms of the ratio
+ * Data type that holds both terms of the ratio, with convenience functions
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
@@ -23,7 +23,6 @@ class RAPRatioTuple {
   }
 
   /**
-   *
    * @param {number} antecedent
    * @returns {RAPRatioTuple}
    * @public
@@ -33,7 +32,6 @@ class RAPRatioTuple {
   }
 
   /**
-   *
    * @param {number} consequent
    * @returns {RAPRatioTuple}
    * @public
@@ -77,7 +75,7 @@ class RAPRatioTuple {
    * @returns {number}
    */
   getRatio() {
-    return this.antecedent / this.consequent;
+    return this.consequent === 0 ? Number.POSITIVE_INFINITY : this.antecedent / this.consequent;
   }
 
   /**
