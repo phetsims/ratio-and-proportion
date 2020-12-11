@@ -4,9 +4,9 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import Utils from '../../../../../dot/js/Utils.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
+import RAPConstants from '../../RAPConstants.js';
 import TickMarkView from '../TickMarkView.js';
 
 // constants
@@ -77,10 +77,10 @@ class TickMarkDescriber {
     const numberOfTickMarks = this.tickMarkRangeProperty.value;
 
     // account for javascript rounding error
-    const expandedValue = Utils.toFixedNumber( normalized * numberOfTickMarks, 6 );
+    const expandedValue = RAPConstants.toFixed( normalized * numberOfTickMarks, 6 );
 
     // account for javascript rounding error
-    const remainder = Utils.toFixedNumber( expandedValue % 1, 6 );
+    const remainder = RAPConstants.toFixed( expandedValue % 1, 6 );
 
     assert && assert( remainder < 1 && remainder >= 0, 'remainder not in range' );
 

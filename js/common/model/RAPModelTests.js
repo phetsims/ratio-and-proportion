@@ -6,7 +6,6 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import Utils from '../../../../dot/js/Utils.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import RAPConstants from '../RAPConstants.js';
 import RAPModel from './RAPModel.js';
@@ -40,7 +39,7 @@ QUnit.test( 'keyboard always can get in proportion: 2/7 moving down', assert => 
 
   newValue = snapConserveFunction( .11, ratioTupleProperty.value.antecedent, true );
   ratioTupleProperty.value.antecedent = newValue;
-  const idealRatio = Utils.toFixedNumber( model.targetRatioProperty.value * ratioTupleProperty.value.consequent, 6 ); // to prevent rounding errors
+  const idealRatio = RAPConstants.toFixed( model.targetRatioProperty.value * ratioTupleProperty.value.consequent, 6 ); // to prevent rounding errors
   assert.ok( ratioTupleProperty.value.antecedent === idealRatio, 'another step down should snap to in proportion' );
 
   newValue = snapConserveFunction( ratioTupleProperty.value.antecedent - .01, ratioTupleProperty.value.antecedent, true );
@@ -74,7 +73,7 @@ QUnit.test( 'keyboard always can get in proportion: 2/7 moving up', assert => {
 
   newValue = snapConserveFunction( .12, ratioTupleProperty.value.antecedent, true );
   ratioTupleProperty.value.antecedent = newValue;
-  const idealAntecedent = Utils.toFixedNumber( model.targetRatioProperty.value * ratioTupleProperty.value.consequent, 6 ); // to prevent rounding errors
+  const idealAntecedent = RAPConstants.toFixed( model.targetRatioProperty.value * ratioTupleProperty.value.consequent, 6 ); // to prevent rounding errors
   assert.ok( ratioTupleProperty.value.antecedent === idealAntecedent, 'step up through ideal' );
 
   newValue = snapConserveFunction( ratioTupleProperty.value.antecedent + .01, ratioTupleProperty.value.antecedent, true );

@@ -29,6 +29,9 @@ const RAPConstants = {
   // The range that the each ratio component (antecedent/consequent) value can be
   TOTAL_RATIO_COMPONENT_VALUE_RANGE: new Range( 0, 1 ),
 
+  // Consistent way to fix numbers. This should only be used in the view for comparison and display, not in the model, see https://github.com/phetsims/ratio-and-proportion/issues/243
+  toFixed: x=> Utils.toFixedNumber( x,6),
+
   /**
    * Handle keyboard input in a consistent way across all usages of keyboard input to the ratio. This function is
    * responsible for making sure that keyboard input snaps to
@@ -46,11 +49,11 @@ const RAPConstants = {
 
     const snappingFunction = ( newValue, oldValue, useShiftKeyStep ) => {
       // Don't conserve the snap for page up/down or home/end keys, just basic movement changes.
-      const applyConservationSnap = Utils.toFixedNumber( Math.abs( newValue - oldValue ), 6 ) <= shiftKeyboardStep;
+      const applyConservationSnap = RAPConstants.toFixed( Math.abs( newValue - oldValue ), 6 ) <= shiftKeyboardStep;
 
       if ( remainder === 0 ) {
         const snapToKeyboardStep = useShiftKeyStep ? shiftKeyboardStep : keyboardStep;
-        newValue = Utils.toFixedNumber(
+        newValue = RAPConstants.toFixed(
           Utils.roundSymmetric( newValue / snapToKeyboardStep ) * snapToKeyboardStep,
           Utils.numberOfDecimalPlaces( snapToKeyboardStep ) );
       }
@@ -58,9 +61,9 @@ const RAPConstants = {
       if ( applyConservationSnap ) {
 
         let returnValue = newValue;
-        const target = Utils.toFixedNumber( getIdealValue(), 6 );
+        const target = RAPConstants.toFixed( getIdealValue(), 6 );
         if ( newValue > target !== oldValue > target && oldValue !== target ) {
-          remainder = Utils.toFixedNumber( newValue - target, 6 );
+          remainder = RAPConstants.toFixed( newValue - target, 6 );
           returnValue = target;
         }
 
@@ -70,7 +73,7 @@ const RAPConstants = {
           returnValue = newValue;
         }
 
-        returnValue = Utils.toFixedNumber( returnValue, 6 );
+        returnValue = RAPConstants.toFixed( returnValue, 6 );
         assert && assert( !isNaN( returnValue ) );
 
         return returnValue;
