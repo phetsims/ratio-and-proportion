@@ -2,7 +2,7 @@
 
 /**
  * A central class that keeps the current state of how the ratio has been interacted with. This is used to determine
- * what cues to display on each ratio hand
+ * what cues to display on each RatioHalf's RatioHandNode.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */

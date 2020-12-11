@@ -1,7 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * Marimba bonks that change frequency based on the fitness of the Proportion
+ * "Marimba bonks" that change frequency based on the fitness of the Proportion
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 

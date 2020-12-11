@@ -38,8 +38,8 @@ class BothHandsInteractionListener {
 
     options = merge( {
 
-      // Called whenever an interaction occurs that this listener responds to
-      onChange: _.noop
+      // Called whenever an interaction occurs that this listener responds to, even if not change occurs to the ratio.
+      onInput: _.noop
     }, options );
 
     // @private
@@ -55,7 +55,7 @@ class BothHandsInteractionListener {
     this.tickMarkBumpSoundClip = tickMarkBumpSoundClip;
     this.ratioLockedProperty = ratioLockedProperty;
     this.targetRatioProperty = targetRatioProperty;
-    this.onChange = options.onChange;
+    this.onInput = options.onInput;
 
     // @private
     this.antecedentMapKeyboardInput = RAPConstants.mapPostProcessKeyboardInput( () => getIdealTerm( RatioTerm.ANTECEDENT ), keyboardStep, this.shiftKeyboardStep );
@@ -98,7 +98,7 @@ class BothHandsInteractionListener {
 
     this.handleSoundOnInput( this.ratioTupleProperty.value[ tupleField ] );
 
-    this.onChange();
+    this.onInput();
   }
 
   /**
@@ -176,7 +176,7 @@ class BothHandsInteractionListener {
             this.antecedentInteractedWithProperty.value = true;
             this.consequentInteractedWithProperty.value = true;
 
-            this.onChange();
+            this.onInput();
 
             break;
           }

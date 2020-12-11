@@ -115,7 +115,7 @@ class BothHandsPDOMNode extends Node {
     this.bothHandsInteractionListener = new BothHandsInteractionListener( interactiveNode, ratioTupleProperty, valueRange,
       this.antecedentInteractedWithProperty, this.consequentInteractedWithProperty, tickMarkRangeProperty, keyboardStep,
       viewSounds.boundarySoundClip, viewSounds.tickMarkBumpSoundClip, ratioLockedProperty, targetRatioProperty, getIdealTerm, {
-        onChange: () => {
+        onInput: () => {
           this.alertBothHandsContextResponse();
         }
       } );
