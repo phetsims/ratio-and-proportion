@@ -8,6 +8,7 @@
 
 import Tandem from '../../../../tandem/js/Tandem.js';
 import RAPConstants from '../RAPConstants.js';
+import getKeyboardInputSnappingMapper from '../view/getKeyboardInputSnappingMapper.js';
 import RAPModel from './RAPModel.js';
 import RAPRatioTuple from './RAPRatioTuple.js';
 import RatioTerm from './RatioTerm.js';
@@ -23,7 +24,7 @@ QUnit.test( 'keyboard input to model always can get in proportion: 2/7 moving do
   const ratioTupleProperty = model.ratio.tupleProperty;
 
   const getIdealValue = () => model.getIdealValueForTerm( RatioTerm.ANTECEDENT );
-  const snapConserveFunction = RAPConstants.mapPostProcessKeyboardInput( getIdealValue, keyboardStep, keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER );
+  const snapConserveFunction = getKeyboardInputSnappingMapper( getIdealValue, keyboardStep, keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER );
   model.targetRatioProperty.value = 2 / 7;
   ratioTupleProperty.value = new RAPRatioTuple( .14, .4 );
 
@@ -57,7 +58,7 @@ QUnit.test( 'keyboard always can get in proportion: 2/7 moving up', assert => {
   const ratioTupleProperty = model.ratio.tupleProperty;
 
   const getIdealValue = () => model.getIdealValueForTerm( RatioTerm.ANTECEDENT );
-  const snapConserveFunction = RAPConstants.mapPostProcessKeyboardInput( getIdealValue, keyboardStep, keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER );
+  const snapConserveFunction = getKeyboardInputSnappingMapper( getIdealValue, keyboardStep, keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER );
   model.targetRatioProperty.value = 2 / 7;
   ratioTupleProperty.value = new RAPRatioTuple( .09, .4 );
 

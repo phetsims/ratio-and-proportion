@@ -14,6 +14,7 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import RatioTerm from '../model/RatioTerm.js';
 import RAPConstants from '../RAPConstants.js';
+import getKeyboardInputSnappingMapper from './getKeyboardInputSnappingMapper.js';
 
 class BothHandsInteractionListener {
 
@@ -58,8 +59,8 @@ class BothHandsInteractionListener {
     this.onInput = options.onInput;
 
     // @private
-    this.antecedentMapKeyboardInput = RAPConstants.mapPostProcessKeyboardInput( () => getIdealTerm( RatioTerm.ANTECEDENT ), keyboardStep, this.shiftKeyboardStep );
-    this.consequentMapKeyboardInput = RAPConstants.mapPostProcessKeyboardInput( () => getIdealTerm( RatioTerm.CONSEQUENT ), keyboardStep, this.shiftKeyboardStep );
+    this.antecedentMapKeyboardInput = getKeyboardInputSnappingMapper( () => getIdealTerm( RatioTerm.ANTECEDENT ), keyboardStep, this.shiftKeyboardStep );
+    this.consequentMapKeyboardInput = getKeyboardInputSnappingMapper( () => getIdealTerm( RatioTerm.CONSEQUENT ), keyboardStep, this.shiftKeyboardStep );
 
     // @private - true whenever the user is interacting with this listener
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
@@ -79,7 +80,7 @@ class BothHandsInteractionListener {
   /**
    * Consistently handle changing the ratio from increment/decrement
    * @param {'antecedent'|'consequent'} tupleField - what field of the RAPRatioTuple are we changing
-   * @param {function(number,number,boolean):number} inputMapper - see RAPConstants.mapPostProcessKeyboardInput
+   * @param {function(number,number,boolean):number} inputMapper - see getKeyboardInputSnappingMapper
    * @param {boolean} increment - if the value is being incremented, as opposed to decremented.
    * @private
    */

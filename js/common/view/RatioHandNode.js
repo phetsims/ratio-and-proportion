@@ -22,6 +22,7 @@ import AccessibleSlider from '../../../../sun/js/accessibility/AccessibleSlider.
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPConstants from '../RAPConstants.js';
 import CueDisplay from './CueDisplay.js';
+import getKeyboardInputSnappingMapper from './getKeyboardInputSnappingMapper.js';
 import RAPColorProfile from './RAPColorProfile.js';
 import TickMarkView from './TickMarkView.js';
 
@@ -42,7 +43,7 @@ class RatioHandNode extends Node {
                cueDisplayProperty, getIdealValue, options ) {
 
     const shiftKeyboardStep = keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER;
-    const mapKeyboardInput = RAPConstants.mapPostProcessKeyboardInput( getIdealValue, keyboardStep, shiftKeyboardStep );
+    const mapKeyboardInput = getKeyboardInputSnappingMapper( getIdealValue, keyboardStep, shiftKeyboardStep );
 
     options = merge( {
       cursor: 'pointer',

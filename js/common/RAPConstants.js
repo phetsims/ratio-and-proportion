@@ -30,62 +30,7 @@ const RAPConstants = {
   TOTAL_RATIO_TERM_VALUE_RANGE: new Range( 0, 1 ),
 
   // Consistent way to fix numbers. This should only be used in the view for comparison and display, not in the model, see https://github.com/phetsims/ratio-and-proportion/issues/243
-  toFixed: x=> Utils.toFixedNumber( x,6),
-
-  /**
-   * Handle keyboard input in a consistent way across all usages of keyboard input to the ratio. This function creates and returns is
-   * responsible for making sure that keyboard input snaps to
-   *
-   * @public
-   * @param {function():number} getIdealValue - get the ideal target value
-   * @param {number} keyboardStep
-   * @param {number} shiftKeyboardStep
-   * @returns {function(newValue: number, oldValue:number, isBeingInteractedWithProperty:boolean):number} - returns a function that returns the snap/conserved value
-   */
-  mapPostProcessKeyboardInput: ( getIdealValue, keyboardStep, shiftKeyboardStep ) => {
-
-    // keep track of the remainder for next input post-process
-    let remainder = 0;
-
-    const snappingFunction = ( newValue, oldValue, useShiftKeyStep ) => {
-      // Don't conserve the snap for page up/down or home/end keys, just basic movement changes.
-      const applyConservationSnap = RAPConstants.toFixed( Math.abs( newValue - oldValue ), 6 ) <= shiftKeyboardStep;
-
-      if ( remainder === 0 ) {
-        const snapToKeyboardStep = useShiftKeyStep ? shiftKeyboardStep : keyboardStep;
-        newValue = RAPConstants.toFixed(
-          Utils.roundSymmetric( newValue / snapToKeyboardStep ) * snapToKeyboardStep,
-          Utils.numberOfDecimalPlaces( snapToKeyboardStep ) );
-      }
-
-      if ( applyConservationSnap ) {
-
-        let returnValue = newValue;
-        const target = RAPConstants.toFixed( getIdealValue(), 6 );
-        if ( newValue > target !== oldValue > target && oldValue !== target ) {
-          remainder = RAPConstants.toFixed( newValue - target, 6 );
-          returnValue = target;
-        }
-
-        else if ( remainder !== 0 ) {
-          newValue = newValue + remainder;
-          remainder = 0;
-          returnValue = newValue;
-        }
-
-        returnValue = RAPConstants.toFixed( returnValue, 6 );
-        assert && assert( !isNaN( returnValue ) );
-
-        return returnValue;
-      }
-      return newValue;
-    };
-
-    // @public
-    snappingFunction.reset = () => { remainder = 0; };
-
-    return snappingFunction;
-  }
+  toFixed: x => Utils.toFixedNumber( x, 6 )
 };
 
 ratioAndProportion.register( 'RAPConstants', RAPConstants );
