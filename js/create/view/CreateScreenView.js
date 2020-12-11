@@ -39,13 +39,10 @@ class CreateScreenView extends RAPScreenView {
    */
   constructor( model, tandem ) {
 
-    const tickMarkRangeProperty = new NumberProperty( 10 );
-
     // For this screen, one Property controls the color of both hands.
     const handColorProperty = RAPColorProfile.createScreenHandProperty;
 
     super( model, tandem, {
-      tickMarkRangeProperty: tickMarkRangeProperty,
       leftHandColorProperty: handColorProperty,
       rightHandColorProperty: handColorProperty,
       bothHandsPDOMNodeOptions: {
@@ -139,7 +136,7 @@ class CreateScreenView extends RAPScreenView {
 
     const tickMarkRangeComboBoxParent = new Node();
 
-    const tickMarkRangeComboBox = new TickMarkRangeComboBox( tickMarkRangeProperty, tickMarkRangeComboBoxParent, this.tickMarkViewProperty );
+    const tickMarkRangeComboBox = new TickMarkRangeComboBox( this.tickMarkRangeProperty, tickMarkRangeComboBoxParent, this.tickMarkViewProperty );
 
     // set this after the supertype has initialized the view code needed to create the screen summary
     this.setScreenSummaryContent( new CreateScreenSummaryNode(
@@ -149,7 +146,7 @@ class CreateScreenView extends RAPScreenView {
       this.tickMarkViewProperty,
       this.ratioDescriber,
       this.handPositionsDescriber,
-      tickMarkRangeProperty,
+      this.tickMarkRangeProperty,
       targetAntecedentProperty,
       targetConsequentProperty
     ) );
