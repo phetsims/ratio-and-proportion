@@ -14,16 +14,11 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
 class CreateScreenKeyboardHelpContent extends RAPKeyboardHelpContent {
-
   constructor() {
     super( new MyChallengeHelpSection() );
   }
 }
 
-/**
- * @param {Object} [options]
- * @constructor
- */
 class MyChallengeHelpSection extends KeyboardHelpSection {
 
   /**

@@ -5,7 +5,7 @@
  * component state that when disabled, that the elements aren't shown (as they are a distraction to the pedagogy. Instead
  * they are replaced with a solid horizontal line. To accomplish this, two ComboBoxes are created and then swapped out.
  * This ended up being easier and simpler than trying to add the ability to swap-out Nodes (and their PDOM content)
- * dynamically.
+ * dynamically to a single ComboBox instance.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */

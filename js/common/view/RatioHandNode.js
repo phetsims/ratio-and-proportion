@@ -1,7 +1,8 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * Pointer that marks the location of half of the ratio
+ * Hand that marks the location of half of the ratio. This supports alternative input and description for controlling this ratio
+ * term, left and right hands semantically, changing between a filled-in and cut-out hand, as well as displaying the interaction cues.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -29,9 +30,8 @@ import TickMarkView from './TickMarkView.js';
 class RatioHandNode extends Node {
 
   /**
-   *
    * @param {Property.<number>} valueProperty
-   * @param {Range} enabledRatioTermsRangeProperty
+   * @param {Property.<Range>} enabledRatioTermsRangeProperty
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
    * @param {number} keyboardStep
    * @param {Property.<ColorDef>} colorProperty - controls the color of the hand. This is for both the filled in and cut out hands.
@@ -43,6 +43,8 @@ class RatioHandNode extends Node {
                cueDisplayProperty, getIdealValue, options ) {
 
     const shiftKeyboardStep = keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER;
+
+    // conserve keypresses while allowing keyboard input to access any "in-proportion" state, even if more granular than the keyboard step size allows.
     const mapKeyboardInput = getKeyboardInputSnappingMapper( getIdealValue, keyboardStep, shiftKeyboardStep );
 
     options = merge( {
@@ -75,19 +77,19 @@ class RatioHandNode extends Node {
       fill: colorProperty
     } );
 
-    const container = new Node( {
+    const handContainer = new Node( {
       children: [ filledInHandNode, cutOutHandNode ]
     } );
-    this.addChild( container );
+    this.addChild( handContainer );
 
     // empirical multipliers to center hand on palm. Don't change these without altering the layout for the cue arrows too.
-    container.right = container.width * .365;
-    container.bottom = container.height * .54;
+    handContainer.right = handContainer.width * .365;
+    handContainer.bottom = handContainer.height * .54;
 
     assert && assert( !options.focusHighlight, 'RatioHandNode sets its own focusHighlight' );
-    this.focusHighlight = new FocusHighlightFromNode( container );
+    this.focusHighlight = new FocusHighlightFromNode( handContainer );
 
-    // Only display the "target circles" when the tick marks are being shown
+    // Only display the "cut-out target circles" when the tick marks are being shown
     tickMarkViewProperty.link( tickMarkView => {
       const displayCutOut = TickMarkView.displayHorizontal( tickMarkView );
       cutOutHandNode.visible = displayCutOut;
@@ -104,7 +106,7 @@ class RatioHandNode extends Node {
       tailWidth: 20
     };
     const cueArrowUp = new ArrowNode( 0, 0, 0, -40, merge( {
-      bottom: container.top - 20
+      bottom: handContainer.top - 20
     }, cueArrowOptions ) );
     const topCueKeyOptions = {
       bottom: cueArrowUp.bottom,
@@ -119,7 +121,7 @@ class RatioHandNode extends Node {
     } );
 
     const cueArrowDown = new ArrowNode( 0, 0, 0, 40, merge( {
-      top: container.bottom + 20
+      top: handContainer.bottom + 20
     }, cueArrowOptions ) );
     const bottomCueKeyOptions = {
       top: cueArrowDown.top,
@@ -150,7 +152,7 @@ class RatioHandNode extends Node {
     // This .1 is to offset the centering of the white circle, it is empirically determined.
     upCue.centerX = downCue.centerX = this.centerX + ( options.isRight ? 1 : -1 ) * this.width * .1;
 
-    const areaBounds = container.bounds.dilatedXY( container.width * .2, container.height * .2 );
+    const areaBounds = handContainer.bounds.dilatedXY( handContainer.width * .2, handContainer.height * .2 );
     this.touchArea = areaBounds;
     this.mouseArea = areaBounds;
 

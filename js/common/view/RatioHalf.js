@@ -1,8 +1,8 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * A single controllable half of the proportion. It contains a draggable pointer that can change the value of this half
- * of the proportion.
+ * A single controllable half of the proportion. It contains a draggable hand that can change the value of this half (term)
+ * of the ratio. This type can display tick marks that segment the movable space for the hand.
  *
  * A thick rectangle is placed on the top and bottom of this frame to cue the possible height that the pointer can be
  * dragged.
@@ -59,8 +59,8 @@ class RatioHalf extends Rectangle {
    * @param {Range} valueRange - the total range of the hand
    * @param {Property.<Range>} enabledRatioTermsRangeProperty - the current range that the hand can move
    * @param {BooleanProperty} displayBothHandsCueProperty
-   * @param {CueArrowsState} cueArrowsState - interation state to determine the interaction cue to display
-   * @param {Bounds2} bounds - the area that the node takes up
+   * @param {CueArrowsState} cueArrowsState - interaction state to determine the interaction cue to display
+   * @param {Bounds2} bounds - the initial bounds that the Node takes up
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
    * @param {Property.<number>} tickMarkRangeProperty
    * @param {RatioDescriber} ratioDescriber
@@ -72,7 +72,7 @@ class RatioHalf extends Rectangle {
    * @param {BooleanProperty} ratioLockedProperty
    * @param {ViewSounds} viewSounds
    * @param {InProportionSoundGenerator} inProportionSoundGenerator
-   * @param {function():number} getIdealValue - a function that get's the value of this ratioHalf that would achieve the targetRatio
+   * @param {function():number} getIdealValue - a function that gets the value of this RatioHalf term that would achieve the targetRatio
    * @param {Object} [options]
    */
   constructor( valueProperty,
@@ -130,7 +130,6 @@ class RatioHalf extends Rectangle {
     this.tickMarkViewProperty = tickMarkViewProperty;
     this.valueProperty = valueProperty;
 
-
     // This follows the spec outlined in https://github.com/phetsims/ratio-and-proportion/issues/81
     const cueDisplayStateProperty = new DerivedProperty( [
         cueArrowsState.interactedWithKeyboardProperty,
@@ -181,15 +180,7 @@ class RatioHalf extends Rectangle {
       } );
     this.addChild( this.ratioHandNode );
 
-    this.ratioHandNode.addInputListener( {
-      focus: () => {
-        cueArrowsState.keyboardFocusedProperty.value = true;
-      },
-      blur: () => {
-        cueArrowsState.keyboardFocusedProperty.value = false;
-      }
-    } );
-
+    // This can change anytime there is a layout update.
     let modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
       getModelBoundsFromRange( valueRange ),
       bounds );
@@ -211,11 +202,10 @@ class RatioHalf extends Rectangle {
       return yValue;
     };
 
-
-    const positionVector = new Vector2( INITIAL_X_VALUE, 0 );
+    const initialVector = new Vector2( INITIAL_X_VALUE, 0 );
     let mappingInitialValue = true;
 
-    // Only the Ratio Half dragging allows for horizontal movement, so support that here.
+    // Only the RatioHalf DragListener allows for horizontal movement, so support that here.
     const positionProperty = new DynamicProperty( new Property( valueProperty ), {
       reentrant: true,
       bidirectional: true,
@@ -226,7 +216,7 @@ class RatioHalf extends Rectangle {
         // initial case
         if ( mappingInitialValue ) {
           mappingInitialValue = false;
-          return positionVector.setY( number );
+          return initialVector.setY( number );
         }
         else {
           return positionProperty.value.copy().setY( number );
@@ -272,7 +262,7 @@ class RatioHalf extends Rectangle {
         // reset logic in the hand that controls other input
         this.ratioHandNode.reset();
 
-        // snap final value to tick mark if applicable
+        // snap final value to tick mark, if applicable
         const newY = getSnapToTickMarkValue( positionProperty.value.y );
         if ( positionProperty.value.y !== newY ) {
           positionProperty.value.setY( newY );
@@ -294,7 +284,6 @@ class RatioHalf extends Rectangle {
     enabledRatioTermsRangeProperty.link( enabledRange => {
       const newBounds = getModelBoundsFromRange( enabledRange );
 
-
       // offset the bounds to account for the ratioHandNode's size, since the center of the ratioHandNode is controlled by the drag bounds.
       const modelHalfPointerPointer = modelViewTransform.viewToModelDeltaXY( this.ratioHandNode.width / 2, -this.framingRectangleHeight );
 
@@ -306,9 +295,11 @@ class RatioHalf extends Rectangle {
     this.ratioHandNode.addInputListener( dragListener );
     this.ratioHandNode.addInputListener( {
       focus: () => {
+        cueArrowsState.keyboardFocusedProperty.value = true;
         viewSounds.grabSoundClip.play();
       },
       blur: () => {
+        cueArrowsState.keyboardFocusedProperty.value = false;
         viewSounds.releaseSoundClip.play();
         this.isBeingInteractedWithProperty.value = false;
       }
@@ -386,7 +377,8 @@ class RatioHalf extends Rectangle {
 
   /**
    * The bottom of the Rectangle that contains the RatioHandNode is not the complete bounds of the Node. With that in
-   * mind, offset the bottom by the height that extends beyond the Rectangle.
+   * mind, offset the bottom by the height that extends beyond the Rectangle. For example, the cue arrows of the RatioHandNode can extend beyond the
+   * "ratio half box" (the draggable area).
    * @public
    * @param {number} desiredBottom
    */

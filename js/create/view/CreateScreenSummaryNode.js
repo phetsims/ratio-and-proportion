@@ -1,7 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * Node that holds the PDOM content for the screen summary in Ratio and Proportion.
+ * Node that holds the PDOM content for the screen summary in the Create screen.
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
