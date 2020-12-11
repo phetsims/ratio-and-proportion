@@ -321,6 +321,7 @@ class RAPScreenView extends ScreenView {
       this.antecedentRatioHalf.setBottomOfRatioHalf( this.layoutBounds.bottom );
       this.consequentRatioHalf.setBottomOfRatioHalf( this.layoutBounds.bottom );
 
+      // offset the bottom so that the center of the text is right on the tick mark
       labelsNode.bottom = this.layoutBounds.bottom - this.antecedentRatioHalf.framingRectangleHeight + labelsNode.labelHeight / 2;
     };
     this.layoutRAPScreeView( defaultRatioHalfBounds );

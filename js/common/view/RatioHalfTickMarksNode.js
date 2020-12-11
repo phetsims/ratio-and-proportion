@@ -1,7 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * Sim specific grid implementation with that supports customization through passed in Properties. This uses minor lines
+ * Sim specific grid implementation that supports customization through passed in Properties. This uses minor lines
  * from GridNode, but not major lines. In Ration and Proportion, these grid lines are called "tick marks"
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)

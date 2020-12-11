@@ -7,7 +7,7 @@
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 
-const TickMarkView = Enumeration.byKeys( [ 'VISIBLE', 'NONE', 'VISIBLE_WITH_UNITS' ], {
+const TickMarkView = Enumeration.byKeys( [ 'NONE', 'VISIBLE', 'VISIBLE_WITH_UNITS' ], {
   beforeFreeze: TickMarkView => {
 
     /**

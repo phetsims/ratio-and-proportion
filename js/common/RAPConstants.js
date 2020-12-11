@@ -33,7 +33,7 @@ const RAPConstants = {
   toFixed: x=> Utils.toFixedNumber( x,6),
 
   /**
-   * Handle keyboard input in a consistent way across all usages of keyboard input to the ratio. This function is
+   * Handle keyboard input in a consistent way across all usages of keyboard input to the ratio. This function creates and returns is
    * responsible for making sure that keyboard input snaps to
    *
    * @public
