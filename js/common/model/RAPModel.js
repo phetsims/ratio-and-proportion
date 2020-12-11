@@ -187,14 +187,12 @@ unclampedFitness: ${unclampedFitness}\n` );
    * @public
    */
   getIdealValueForTerm( ratioTerm ) {
-    let theReturn = null;
     if ( ratioTerm === RatioTerm.ANTECEDENT ) {
-      theReturn = this.targetRatioProperty.value * this.ratio.tupleProperty.value.consequent;
+      return this.targetRatioProperty.value * this.ratio.tupleProperty.value.consequent;
     }
     if ( ratioTerm === RatioTerm.CONSEQUENT ) {
-      theReturn = this.ratio.tupleProperty.value.antecedent / this.targetRatioProperty.value;
+      return this.ratio.tupleProperty.value.antecedent / this.targetRatioProperty.value;
     }
-    return Utils.toFixedNumber( theReturn, 6 );
   }
 
   /**

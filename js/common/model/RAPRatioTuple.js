@@ -5,7 +5,6 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import Utils from '../../../../dot/js/Utils.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 
 class RAPRatioTuple {
@@ -19,8 +18,8 @@ class RAPRatioTuple {
     assert && assert( typeof consequent === 'number' && !isNaN( consequent ) );
 
     // @public {number}
-    this.antecedent = Utils.toFixedNumber( antecedent, 6 );
-    this.consequent = Utils.toFixedNumber( consequent, 6 );
+    this.antecedent = antecedent;
+    this.consequent = consequent;
   }
 
   /**
@@ -88,17 +87,6 @@ class RAPRatioTuple {
    */
   getDistance() {
     return Math.abs( this.antecedent - this.consequent );
-  }
-
-  /**
-   * @public
-   * @param numberOfDigits
-   * @returns {RAPRatioTuple} - for chaining
-   */
-  toFixed( numberOfDigits ) {
-    this.antecedent = Utils.toFixedNumber( this.antecedent, numberOfDigits );
-    this.consequent = Utils.toFixedNumber( this.consequent, numberOfDigits );
-    return this;
   }
 }
 

@@ -58,7 +58,7 @@ const RAPConstants = {
       if ( applyConservationSnap ) {
 
         let returnValue = newValue;
-        const target = getIdealValue();
+        const target = Utils.toFixedNumber( getIdealValue(), 6 );
         if ( newValue > target !== oldValue > target && oldValue !== target ) {
           remainder = Utils.toFixedNumber( newValue - target, 6 );
           returnValue = target;

@@ -41,7 +41,7 @@ class RAPRatio {
       reentrant: true,
       valueType: 'number',
       map: ratioTuple => ratioTuple.antecedent,
-      inverseMap: antecedent => this.tupleProperty.value.withAntecedent( Utils.toFixedNumber( antecedent, 6 ) )
+      inverseMap: antecedent => this.tupleProperty.value.withAntecedent( antecedent )
     } );
 
     // @public {Property.<number>} - convenience Property based on the tupleProperty get getting/setting/listening
@@ -51,7 +51,7 @@ class RAPRatio {
       reentrant: true,
       valueType: 'number',
       map: ratioTuple => ratioTuple.consequent,
-      inverseMap: consequent => this.tupleProperty.value.withConsequent( Utils.toFixedNumber( consequent, 6 ) )
+      inverseMap: consequent => this.tupleProperty.value.withConsequent( consequent )
     } );
 
     // @public (read-only) - the velocity of each ratio value changing, adjusted in step
@@ -99,7 +99,7 @@ class RAPRatio {
 
         // guard against reentrancy in this case.
         this.lockRatioListenerEnabled = false;
-        this.tupleProperty.value = newRatioTuple.toFixed( 6 );
+        this.tupleProperty.value = newRatioTuple;
         this.lockRatioListenerEnabled = true;
       }
     } );
