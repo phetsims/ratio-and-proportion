@@ -20,7 +20,7 @@ const FITNESS_TOLERANCE_FACTOR = 0.5;
 // Add .001 to support two keyboard nav motions above 0 (counting the min range being >0).
 const NO_SUCCUSS_VALUE_THRESHOLD = .021;
 
-const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_COMPONENT_VALUE_RANGE;
+const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 class RAPModel {
 

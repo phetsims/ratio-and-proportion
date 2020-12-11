@@ -19,14 +19,14 @@ import RAPRatioTuple from './RAPRatioTuple.js';
 // The threshold for velocity of a moving ratio value to indivate that it is "moving."
 const VELOCITY_THRESHOLD = .01;
 
-const DEFAULT_VALUE_RANGE = RAPConstants.TOTAL_RATIO_COMPONENT_VALUE_RANGE;
+const DEFAULT_TERM_VALUE_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 const LOCK_RATIO_RANGE_MIN = .05;
 
 class RAPRatio {
   constructor() {
 
     // @public (read-only) {Property.<Range>}
-    this.enabledRatioTermsRangeProperty = new Property( RAPConstants.TOTAL_RATIO_COMPONENT_VALUE_RANGE );
+    this.enabledRatioTermsRangeProperty = new Property( RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE );
 
     // @public {Property.<RAPRatioTuple>} - central Property that holds the value of the ratio
     this.tupleProperty = new Property( new RAPRatioTuple( .2, .4 ), {
@@ -105,7 +105,7 @@ class RAPRatio {
     } );
 
     this.lockedProperty.link( ratioLocked => {
-      this.enabledRatioTermsRangeProperty.value = new Range( ratioLocked ? LOCK_RATIO_RANGE_MIN : DEFAULT_VALUE_RANGE.min, DEFAULT_VALUE_RANGE.max );
+      this.enabledRatioTermsRangeProperty.value = new Range( ratioLocked ? LOCK_RATIO_RANGE_MIN : DEFAULT_TERM_VALUE_RANGE.min, DEFAULT_TERM_VALUE_RANGE.max );
     } );
 
     this.enabledRatioTermsRangeProperty.link( enabledRange => {

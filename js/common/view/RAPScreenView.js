@@ -48,7 +48,7 @@ const RATIO_HALF_SPACING = 10;
 const uiScaleFunction = new LinearFunction( LAYOUT_BOUNDS.height, MAX_RATIO_HEIGHT, 1, 1.5, true );
 const uiPositionFunction = new LinearFunction( 1, 1.5, LAYOUT_BOUNDS.height * .15, -LAYOUT_BOUNDS.height * .2, true );
 
-const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_COMPONENT_VALUE_RANGE;
+const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 class RAPScreenView extends ScreenView {
 
@@ -126,7 +126,7 @@ class RAPScreenView extends ScreenView {
       fitness => !model.ratio.lockedProperty.value && fitness === model.fitnessRange.min );
 
     // @private
-    this.viewSounds = new ViewSounds( RAPConstants.TOTAL_RATIO_COMPONENT_VALUE_RANGE, options.tickMarkRangeProperty,
+    this.viewSounds = new ViewSounds( RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE, options.tickMarkRangeProperty,
       tickMarkViewProperty, playTickMarkBumpSoundProperty );
 
     // by default, the keyboard step size should be half of one default tick mark width. See https://github.com/phetsims/ratio-and-proportion/issues/85

@@ -27,7 +27,7 @@ const RAPConstants = {
   SHIFT_KEY_MULTIPLIER: 1 / 5,
 
   // The range that the each ratio component (antecedent/consequent) value can be
-  TOTAL_RATIO_COMPONENT_VALUE_RANGE: new Range( 0, 1 ),
+  TOTAL_RATIO_TERM_VALUE_RANGE: new Range( 0, 1 ),
 
   // Consistent way to fix numbers. This should only be used in the view for comparison and display, not in the model, see https://github.com/phetsims/ratio-and-proportion/issues/243
   toFixed: x=> Utils.toFixedNumber( x,6),

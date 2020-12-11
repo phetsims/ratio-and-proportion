@@ -17,7 +17,7 @@ QUnit.module( 'RAPModel' );
 // Copied from keyboard step calculation in RAPScreenView.js
 const keyboardStep = 1 / 2 / 10;
 
-QUnit.test( 'keyboard always can get in proportion: 2/7 moving down', assert => {
+QUnit.test( 'keyboard input to model always can get in proportion: 2/7 moving down', assert => {
 
   const model = new RAPModel( Tandem.OPT_OUT );
   const ratioTupleProperty = model.ratio.tupleProperty;
