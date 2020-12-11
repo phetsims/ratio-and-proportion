@@ -13,7 +13,7 @@ import RAPConstants from '../RAPConstants.js';
 import RAPRatio from './RAPRatio.js';
 import RatioTerm from './RatioTerm.js';
 
-// constant to help achieve feedback in 40% of the visual screen height.
+// constant to help achieve feedback in 40% of the visual screen height (2 defaut tick marks).
 const FITNESS_TOLERANCE_FACTOR = 0.5;
 
 // The value in which when either the antecedent or consequent is less than this, the ratio cannot be "in proportion".
@@ -29,10 +29,10 @@ class RAPModel {
    */
   constructor( tandem ) {
 
-    // The desired ratio of the antecedent as compared to the consequent. As in 1:2 (initial value).
+    // @public - The desired ratio of the antecedent as compared to the consequent. As in 1:2 (initial value).
     this.targetRatioProperty = new NumberProperty( .5 );
 
-    // @public - the current state of the ratio
+    // @public - the current state of the ratio (value of terms, if its locked, etc)
     this.ratio = new RAPRatio();
 
     // @public (read-only) - the Range that the ratioFitnessProperty can be.
@@ -40,7 +40,7 @@ class RAPModel {
 
     // @public {DerivedProperty.<number>}
     // How "correct" the proportion currently is. Max is this.fitnessRange.max, but the min can be arbitrarily negative,
-    // depending how far away the current
+    // depending how far away the current ratio is from the targetRatio
     this.unclampedFitnessProperty = new DerivedProperty( [
       this.ratio.tupleProperty,
       this.targetRatioProperty
@@ -52,7 +52,7 @@ class RAPModel {
       let unclampedFitness = this.calculateFitness( antecedent, consequent, ratio );
 
       // If either value is small enough, then we don't allow an "in proportion" fitness level, so make it just below that threshold.
-      if ( this.inProportion( unclampedFitness ) && this.valuesTooSmallForSuccess() ) {
+      if ( this.inProportion( unclampedFitness ) && this.valuesTooSmallForInProportion() ) {
         unclampedFitness = this.fitnessRange.max - this.getInProportionThreshold() - .01;
       }
 
@@ -70,9 +70,9 @@ unclampedFitness: ${unclampedFitness}\n` );
     } );
 
     // @public {DerivedProperty.<number>}
-    // How "correct" the proportion currently is. clamped within this.fitnessRange. If at max (1), the proportion of the two values is
-    // exactly the value of the targetRatioProperty. If min (0), it is outside the tolerance allowed for the proportion
-    // to give many feedbacks.
+    // How "correct" the proportion currently is. clamped within this.fitnessRange. If at max (1), the proportion of
+    // the two values is exactly the value of the targetRatioProperty. If min (0), it is outside the tolerance
+    // allowed for the proportion to give many feedbacks.
     this.ratioFitnessProperty = new DerivedProperty( [ this.unclampedFitnessProperty ],
       unclampedFitness => Utils.clamp( unclampedFitness, this.fitnessRange.min, this.fitnessRange.max ), {
         isValidValue: value => this.fitnessRange.contains( value )
@@ -84,7 +84,7 @@ unclampedFitness: ${unclampedFitness}\n` );
     } );
 
     // snap to target ratio when the ratio is locked.
-    this.ratio.lockedProperty.link( locked => locked && this.ratio.snapRatioToTarget( this.targetRatioProperty.value ) );
+    this.ratio.lockedProperty.link( locked => locked && this.ratio.setRatioToTarget( this.targetRatioProperty.value ) );
   }
 
   /**
@@ -96,7 +96,7 @@ unclampedFitness: ${unclampedFitness}\n` );
    * @private
    */
   fitnessBasedOnAntecedent( antecedent, consequentOptimal, targetRatio ) {
-    return 1 - FITNESS_TOLERANCE_FACTOR * Math.abs( antecedent - targetRatio * consequentOptimal );
+    return this.fitnessRange.max - FITNESS_TOLERANCE_FACTOR * Math.abs( antecedent - targetRatio * consequentOptimal );
   }
 
   /**
@@ -108,7 +108,7 @@ unclampedFitness: ${unclampedFitness}\n` );
    * @private
    */
   fitnessBasedOnConsequent( antecedentOptimal, consequent, targetRatio ) {
-    return 1 - FITNESS_TOLERANCE_FACTOR * Math.abs( consequent - antecedentOptimal / targetRatio );
+    return this.fitnessRange.max - FITNESS_TOLERANCE_FACTOR * Math.abs( consequent - antecedentOptimal / targetRatio );
   }
 
   /**
@@ -124,12 +124,16 @@ unclampedFitness: ${unclampedFitness}\n` );
     // multiply because the model values only span from 0-1
     const a = antecedent * 10;
     const b = consequent * 10;
+
+    // By taking the min of either value, we "smooth" out the fitness algorithm in cases where you change both ratio
+    // terms at the same time (or alternating).
     return Math.min( this.fitnessBasedOnAntecedent( a, b, targetRatio ), this.fitnessBasedOnConsequent( a, b, targetRatio ) );
   }
 
   /**
-   * Get the minimum fitness value (unclamped) for the provided target ratio
+   * Get the minimum fitness value (unclamped) for the provided target ratio, based on the range of the ratio terms.
    * @public
+   * @param {number} ratio
    * @returns {number}
    */
   getMinFitness( ratio = this.targetRatioProperty.value ) {
@@ -139,12 +143,12 @@ unclampedFitness: ${unclampedFitness}\n` );
   }
 
   /**
-   * If either value is smaller than a threshold, then some model functionality changes. This function will return true
-   * when the model is in that state. When true, one or both value is too small to allow for a success state.
+   * If either value is smaller than a threshold, then the fitness cannot be at its max, "in-proportion" state. This function
+   * will return true when the model is in that state. When true, one or both value is too small to allow for a success state.
    * @public
    * @returns {boolean}
    */
-  valuesTooSmallForSuccess() {
+  valuesTooSmallForInProportion() {
     return this.ratio.antecedentProperty.value <= NO_SUCCUSS_VALUE_THRESHOLD || this.ratio.consequentProperty.value <= NO_SUCCUSS_VALUE_THRESHOLD;
   }
 

@@ -44,7 +44,7 @@ class InProportionSoundGenerator extends SoundClip {
     this.previousRatioWasLargerThanTarget = this.calculateCurrentRatioLargerThanTarget();
 
     // @private {boolean} - true when, in the previous step, either term of the ratio was too small to indicate success.
-    this.previousRatioWasTooSmallForSuccess = this.model.valuesTooSmallForSuccess();
+    this.previousRatioWasTooSmallForSuccess = this.model.valuesTooSmallForInProportion();
 
     // @private - in certain cases ratio hand positions can move so quickly "through" the in-proportion range that an
     // actual "in proportion" value is never set. When this boolean is true, then this SoundGenerator will note when
@@ -80,7 +80,7 @@ class InProportionSoundGenerator extends SoundClip {
    */
   jumpedOverInProportionAndShouldSound() {
     return this.jumpingOverShouldSound &&
-           !this.model.valuesTooSmallForSuccess() && !this.previousRatioWasTooSmallForSuccess &&
+           !this.model.valuesTooSmallForInProportion() && !this.previousRatioWasTooSmallForSuccess &&
            this.calculateCurrentRatioLargerThanTarget() !== this.previousRatioWasLargerThanTarget;
   }
 
@@ -115,7 +115,7 @@ class InProportionSoundGenerator extends SoundClip {
 
     // for testing during next step()
     this.previousRatioWasLargerThanTarget = this.calculateCurrentRatioLargerThanTarget();
-    this.previousRatioWasTooSmallForSuccess = this.model.valuesTooSmallForSuccess();
+    this.previousRatioWasTooSmallForSuccess = this.model.valuesTooSmallForInProportion();
   }
 
   /**

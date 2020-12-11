@@ -51,7 +51,7 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
       model.ratioFitnessProperty
     ], () => {
       if ( model.ratio.movingInDirection() && // only when moving
-           !model.valuesTooSmallForSuccess() && // no moving in proportion success if too small
+           !model.valuesTooSmallForInProportion() && // no moving in proportion success if too small
            model.inProportion() ) { // must be fit enough to play the moving in proportion success
         this.movingInProportionSoundClip.setOutputLevel( 1, .1 );
         !this.movingInProportionSoundClip.isPlaying && this.movingInProportionSoundClip.play();

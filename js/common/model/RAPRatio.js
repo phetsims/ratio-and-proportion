@@ -145,11 +145,10 @@ class RAPRatio {
   }
 
   /**
-   *
    * @param {number} targetRatio
    * @public
    */
-  snapRatioToTarget( targetRatio ) {
+  setRatioToTarget( targetRatio ) {
 
     // Alter the antecedent to match the target ratio
     const currentRatioTuple = this.tupleProperty.value;
