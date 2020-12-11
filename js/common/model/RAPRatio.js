@@ -119,7 +119,7 @@ class RAPRatio {
    * While keeping the same ratio, make sure that both ratio terms are within the provided range
    * @private
    * @param {RAPRatioTuple} ratioTuple
-   * @param {number} ratio
+   * @param {number} ratio - to base clamping on
    * @param {Range} range
    * @returns {RAPRatioTuple}
    */

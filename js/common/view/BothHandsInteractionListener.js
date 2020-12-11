@@ -84,14 +84,14 @@ class BothHandsInteractionListener {
    * @private
    */
   onValueIncrementDecrement( tupleField, inputMapper, increment ) {
-    const currentValue = this.ratioTupleProperty.value[ tupleField ];
+    const currentTuple = this.ratioTupleProperty.value[ tupleField ];
 
     const changeAmount = globalKeyStateTracker.shiftKeyDown ? this.shiftKeyboardStep : this.keyboardStep;
     const valueDelta = changeAmount * ( increment ? 1 : -1 );
 
     // Because this interaction uses the keyboard, snap to the keyboard step to handle the case where the hands were
     // previously moved via mouse/touch. See https://github.com/phetsims/ratio-and-proportion/issues/156
-    const newValue = inputMapper( currentValue + valueDelta, currentValue, globalKeyStateTracker.shiftKeyDown ? this.shiftKeyboardStep : this.keyboardStep );
+    const newValue = inputMapper( currentTuple + valueDelta, currentTuple, globalKeyStateTracker.shiftKeyDown ? this.shiftKeyboardStep : this.keyboardStep );
     const newRatioTuple = tupleField === 'antecedent' ? this.ratioTupleProperty.value.withAntecedent( newValue ) : this.ratioTupleProperty.value.withConsequent( newValue );
 
     this.ratioTupleProperty.value = newRatioTuple.constrainFields( this.valueRange );

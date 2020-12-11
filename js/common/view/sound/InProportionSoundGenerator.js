@@ -18,10 +18,9 @@ class InProportionSoundGenerator extends SoundClip {
 
   /**
    * @param {RAPModel} model
-   * @param {function():number} getCurrentRatio
    * @param {Object} [options]
    */
-  constructor( model, getCurrentRatio, options ) {
+  constructor( model, options ) {
 
     options = merge( {
       initialOutputLevel: .5
@@ -31,7 +30,6 @@ class InProportionSoundGenerator extends SoundClip {
 
     // @private
     this.model = model;
-    this.getCurrentRatio = getCurrentRatio;
     this.targetRatioProperty = model.targetRatioProperty;
     this.fitnessProperty = model.ratioFitnessProperty;
 
@@ -58,7 +56,7 @@ class InProportionSoundGenerator extends SoundClip {
    * @returns {boolean}
    */
   calculateCurrentRatioLargerThanTarget() {
-    return this.getCurrentRatio() > this.model.targetRatioProperty.value;
+    return this.model.ratio.currentRatio > this.model.targetRatioProperty.value;
   }
 
   /**
