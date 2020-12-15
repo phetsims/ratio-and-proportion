@@ -18,7 +18,7 @@ const FITNESS_TOLERANCE_FACTOR = 0.5;
 
 // The value in which when either the antecedent or consequent is less than this, the ratio cannot be "in proportion".
 // Add .001 to support two keyboard nav motions above 0 (counting the min range being >0).
-const NO_SUCCUSS_VALUE_THRESHOLD = .021;
+const NO_SUCCUSS_VALUE_THRESHOLD = .01;
 
 const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 

@@ -34,8 +34,8 @@ import TickMarkView from './TickMarkView.js';
 const MIN_FRAMING_RECTANGLE_HEIGHT = 32;
 const MAX_FRAMING_RECTANGLE_HEIGHT = 64;
 
-// This value was calculated based on the design of snapping within the range of the ratio hand center circle, see https://github.com/phetsims/ratio-and-proportion/issues/122#issuecomment-672281015
-const SNAP_TO_TICK_MARK_THRESHOLD = .135842179584 / 2;
+// Snap exclusive within this percentage of a tick mark.
+const SNAP_TO_TICK_MARK_THRESHOLD = .1;
 
 // total horizontal drag distance;
 const X_MODEL_DRAG_DISTANCE = 1;
