@@ -24,7 +24,7 @@ class CreateScreen extends Screen {
       backgroundColorProperty: new Property( 'white' ),
       tandem: tandem,
       homeScreenIcon: new CreateScreenIcon(),
-      name: ratioAndProportionStrings.create,
+      name: ratioAndProportionStrings.screen.create,
       descriptionContent: ratioAndProportionStrings.a11y.create.homeScreenDescription,
       keyboardHelpNode: new CreateScreenKeyboardHelpContent()
     };

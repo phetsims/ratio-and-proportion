@@ -24,7 +24,7 @@ class DiscoverScreen extends Screen {
       backgroundColorProperty: new Property( 'white' ),
       tandem: tandem,
       homeScreenIcon: new DiscoverScreenIcon(),
-      name: ratioAndProportionStrings.discover,
+      name: ratioAndProportionStrings.screen.discover,
       descriptionContent: ratioAndProportionStrings.a11y.discover.homeScreenDescription,
       keyboardHelpNode: new DiscoverScreenKeyboardHelpContent()
     };
