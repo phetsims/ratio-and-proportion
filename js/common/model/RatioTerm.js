@@ -2,6 +2,7 @@
 
 /**
  * Data type that holds both terms of the ratio
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 

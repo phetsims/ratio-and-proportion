@@ -2,6 +2,7 @@
 
 /**
  * The icon displayed on the HomeScreen for the Create Screen
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 

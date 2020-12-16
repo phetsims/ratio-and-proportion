@@ -2,6 +2,7 @@
 
 /**
  * This file adds mechamarkers as an input controller to Ratio and Proportion
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 

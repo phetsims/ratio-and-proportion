@@ -3,6 +3,7 @@
 /**
  * A collection of the sounds associated with sim-specific view components making sounds. In general these have nothing
  * to do with model values, or the state of the model, but instead supply supplemental sound based on interaction input.
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 

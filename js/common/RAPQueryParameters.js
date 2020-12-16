@@ -8,6 +8,8 @@
 
 import ratioAndProportion from '../ratioAndProportion.js';
 
+//REVIEW: Some of these query parameters seem like they were created for testing out ideas.  Can the be removed?
+
 const RAPQueryParameters = QueryStringMachine.getAll( {
 
   // For mechamarker input. Tweak this as needed depending on the input camera, and the range that you will to use in

@@ -3,6 +3,7 @@
 /**
  * Model type that stores the state of the Ratio. This includes its values, the velocity of how it is changing, as well
  * as logic that maintains its "locked" state, when appropriate.
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 

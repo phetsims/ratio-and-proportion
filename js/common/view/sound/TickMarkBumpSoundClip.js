@@ -2,6 +2,7 @@
 
 /**
  * A short sound to indicate when a movable component has crossed over a tick mark.
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 

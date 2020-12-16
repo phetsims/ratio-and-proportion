@@ -1,8 +1,8 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * PDOM view for interacting with both hands at the same time. This adds a custom interaction, as well as PDOM formatting
- * like adding the "application" role to support alternative input.
+ * PDOM view for interacting with both hands at the same time. This adds a custom interaction, as well as PDOM
+ * formatting like adding the "application" role to support alternative input.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */

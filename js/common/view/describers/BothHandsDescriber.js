@@ -1,7 +1,8 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * Description for the positions of both hands reletive to each other.
+ * Description for the positions of both hands relative to each other.
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 

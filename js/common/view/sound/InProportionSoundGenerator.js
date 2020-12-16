@@ -3,6 +3,7 @@
 /**
  * A short but sustained note that plays when the ratio becomes "in proportion". This type has built-in functionality to allow the
  * note to sustain if in-proportion, but will quickly quiet when no longer "in proportion".
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 

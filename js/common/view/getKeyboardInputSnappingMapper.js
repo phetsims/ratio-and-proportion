@@ -3,7 +3,7 @@
 /**
  * Handle keyboard input in a consistent way across all usages of keyboard input to the ratio. This function creates and returns a
  * function that is responsible for making sure that keyboard input snaps to the in-proportion value if it would pass over it.
- * In some cases of targetProperty, the default keyboard steps are not granular enough to acheive the in-proportion state with keyboard
+ * In some cases of targetProperty, the default keyboard steps are not granular enough to achieve the in-proportion state with keyboard
  * input. This function will map those keyboard steps to exact, in-proportion values while conserving the same number keypresses to get
  * in between tick marks for consistent UX.
  *

@@ -2,6 +2,7 @@
 
 /**
  * Radio button group for choosing what Tick Marks are visible in the ratio view.
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
@@ -22,7 +23,7 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup {
 
   /**
    * @param {Property}tickMarkViewProperty
-   * @param options
+   * @param {Object} [options]
    */
   constructor( tickMarkViewProperty, options ) {
 

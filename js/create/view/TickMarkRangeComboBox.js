@@ -2,10 +2,10 @@
 
 /**
  * A combo box that displays the possible ranges for the tick marks and labels. The design requirements for this
- * component state that when disabled, that the elements aren't shown (as they are a distraction to the pedagogy. Instead
- * they are replaced with a solid horizontal line. To accomplish this, two ComboBoxes are created and then swapped out.
- * This ended up being easier and simpler than trying to add the ability to swap-out Nodes (and their PDOM content)
- * dynamically to a single ComboBox instance.
+ * component state that when disabled, that the elements aren't shown (as they are a distraction to the pedagogy).
+ * Instead they are replaced with a solid horizontal line. To accomplish this, two ComboBoxes are created and then
+ * swapped out. This ended up being easier and simpler than trying to add the ability to swap-out Nodes (and their PDOM
+ * content) dynamically to a single ComboBox instance.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -29,7 +29,6 @@ const RANGE_TEXT_OPTIONS = { font: TICK_MARK_RANGE_FONT };
 class TickMarkRangeComboBox extends Node {
 
   /**
-   *
    * @param {Property.<number>} tickMarkRangeProperty
    * @param {Node} comboBoxParent
    * @param {Property.<TickMarkView>}tickMarkViewProperty

@@ -1,5 +1,6 @@
 // Copyright 2020, University of Colorado Boulder
 
+//REVIEW: This is a pretty central class in the sim and should probably have a description.
 /**
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -13,9 +14,10 @@ import RAPConstants from '../RAPConstants.js';
 import RAPRatio from './RAPRatio.js';
 import RatioTerm from './RatioTerm.js';
 
-// constant to help achieve feedback in 40% of the visual screen height (2 defaut tick marks).
+// constant to help achieve feedback in 40% of the visual screen height (2 default tick marks).
 const FITNESS_TOLERANCE_FACTOR = 0.5;
 
+//REVIEW: Seems to have a typo in the name and the value in the description doesn't match the value assigned.
 // The value in which when either the antecedent or consequent is less than this, the ratio cannot be "in proportion".
 // Add .001 to support two keyboard nav motions above 0 (counting the min range being >0).
 const NO_SUCCUSS_VALUE_THRESHOLD = .01;
@@ -112,7 +114,6 @@ unclampedFitness: ${unclampedFitness}\n` );
   }
 
   /**
-   *
    * @param {number} antecedent
    * @param {number} consequent
    * @param {number} targetRatio

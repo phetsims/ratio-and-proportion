@@ -2,6 +2,7 @@
 
 /**
  * A looped sound that plays when both hands are moving in the same direction, and in proportion
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 

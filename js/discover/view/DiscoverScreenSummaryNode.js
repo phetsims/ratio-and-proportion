@@ -2,6 +2,7 @@
 
 /**
  * Node that holds the PDOM content for the screen summary in Ratio and Proportion.
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 

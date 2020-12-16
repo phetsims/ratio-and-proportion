@@ -1,5 +1,6 @@
 // Copyright 2020, University of Colorado Boulder
 
+//REVIEW: I (jbphet) don't know much about describers.  Would a description be useful, or is it obvious from the name what it does?
 /**
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
