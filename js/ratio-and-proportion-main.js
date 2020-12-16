@@ -18,7 +18,7 @@ const ratioAndProportionTitleString = ratioAndProportionStrings[ 'ratio-and-prop
 const simOptions = {
   credits: {
     softwareDevelopment: 'John Blanco, Michael Kauzmann',
-    team: 'Brett Fiedler, Emily B. Moore, Matthew Moore, Taliesin Smith, Dor Abrahamson and the Embodied Design Research Laboratory (UC Berkeley), Ellen Do and the ACME Lab (CU Boulder ATLAS Institute)',
+    team: 'Brett Fiedler, Emily B. Moore, Matthew Moore, Taliesin Smith, Dor Abrahamson and the Embodied Design Research Laboratory (UC Berkeley), Clement Zheng, Peter Gyory, and Ellen Do from the ACME Lab (CU Boulder ATLAS Institute)',
     qualityAssurance: 'Kathryn Woessner',
     soundDesign: 'Ashton Morris'
   },
