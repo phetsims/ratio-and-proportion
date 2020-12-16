@@ -27,7 +27,7 @@ class RAPRatio {
   constructor() {
 
     // @public (read-only) {Property.<Range>}
-    this.enabledRatioTermsRangeProperty = new Property( RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE );
+    this.enabledRatioTermsRangeProperty = new Property( DEFAULT_TERM_VALUE_RANGE );
 
     // @public {Property.<RAPRatioTuple>} - central Property that holds the value of the ratio
     this.tupleProperty = new Property( new RAPRatioTuple( .2, .4 ), {

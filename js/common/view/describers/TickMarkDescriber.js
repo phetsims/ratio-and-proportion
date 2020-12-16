@@ -46,18 +46,17 @@ const ORDINAL_TICK_MARKS = [
 // The value in which up to and including this value, the relative description will apply to the value of the tick mark
 // rounded down, instead of up, from this remainder.
 const ROUND_DOWN_THRESHOLD = .7;
+const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 class TickMarkDescriber {
 
   /**
-   * @param {Range} valueRange
    * @param {Property.<number>} tickMarkRangeProperty
    * @param {Property.<number>} tickMarkViewProperty
    */
-  constructor( valueRange, tickMarkRangeProperty, tickMarkViewProperty ) {
+  constructor( tickMarkRangeProperty, tickMarkViewProperty ) {
 
     // @private
-    this.valueRange = valueRange;
     this.tickMarkRangeProperty = tickMarkRangeProperty;
     this.tickMarkViewProperty = tickMarkViewProperty;
   }
@@ -71,9 +70,9 @@ class TickMarkDescriber {
    * @returns {{tickMarkPosition: number|"zero", relativePosition: string , ordinalPosition: string|null }}
    */
   getRelativePositionAndTickMarkNumberForPosition( handPosition ) {
-    assert && assert( this.valueRange.contains( handPosition ) );
+    assert && assert( TOTAL_RANGE.contains( handPosition ) );
 
-    const normalized = this.valueRange.getNormalizedValue( handPosition );
+    const normalized = TOTAL_RANGE.getNormalizedValue( handPosition );
     const numberOfTickMarks = this.tickMarkRangeProperty.value;
 
     // account for javascript rounding error
@@ -97,7 +96,7 @@ class TickMarkDescriber {
 
     const useExactTickMarkValues = this.tickMarkViewProperty.value === TickMarkView.VISIBLE_WITH_UNITS;
 
-    if ( remainder === this.valueRange.min ) {
+    if ( remainder === TOTAL_RANGE.min ) {
       if ( inZeroCase ) {
         relativePosition = ratioAndProportionStrings.a11y.tickMark.relative.at;
         tickMarkDisplayedNumber = ratioAndProportionStrings.a11y.tickMark.relative.zero;

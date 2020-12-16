@@ -15,21 +15,23 @@ import soundManager from '../../../../../tambo/js/soundManager.js';
 import grabSound from '../../../../../tambo/sounds/grab_mp3.js';
 import releaseSound from '../../../../../tambo/sounds/release_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
+import RAPConstants from '../../RAPConstants.js';
 import TickMarkView from '../TickMarkView.js';
 import BoundarySoundClip from './BoundarySoundClip.js';
 import TickMarkBumpSoundClip from './TickMarkBumpSoundClip.js';
+
+const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 class ViewSounds {
 
   /**
    *
-   * @param {Range} valueRange
    * @param {NumberProperty} tickMarkRangeProperty
    * @param {Property.<TickMarkView>} tickMarkViewProperty
    * @param {BooleanProperty} playTickMarkBumpSoundProperty
    * @param {Object} [options]
    */
-  constructor( valueRange, tickMarkRangeProperty, tickMarkViewProperty, playTickMarkBumpSoundProperty, options ) {
+  constructor( tickMarkRangeProperty, tickMarkViewProperty, playTickMarkBumpSoundProperty, options ) {
 
     options = merge( {
       addSoundOptions: {
@@ -43,8 +45,8 @@ class ViewSounds {
     // @public - available to control, but don't overwrite after construction
     this.grabSoundClip = new SoundClip( grabSound, options.soundClipOptions );
     this.releaseSoundClip = new SoundClip( releaseSound, options.soundClipOptions );
-    this.boundarySoundClip = new BoundarySoundClip( valueRange, options.soundClipOptions );
-    this.tickMarkBumpSoundClip = new TickMarkBumpSoundClip( tickMarkRangeProperty, valueRange, merge( {}, options.soundClipOptions, {
+    this.boundarySoundClip = new BoundarySoundClip( TOTAL_RANGE, options.soundClipOptions );
+    this.tickMarkBumpSoundClip = new TickMarkBumpSoundClip( tickMarkRangeProperty, TOTAL_RANGE, merge( {}, options.soundClipOptions, {
       enableControlProperties: [
         playTickMarkBumpSoundProperty,
         new DerivedProperty( [ tickMarkViewProperty ], tickMarkView => tickMarkView !== TickMarkView.NONE )

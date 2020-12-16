@@ -16,12 +16,13 @@ import RatioTerm from '../model/RatioTerm.js';
 import RAPConstants from '../RAPConstants.js';
 import getKeyboardInputSnappingMapper from './getKeyboardInputSnappingMapper.js';
 
+const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
+
 class BothHandsInteractionListener {
 
   /**
    * @param {Node} targetNode
    * @param {Property.<RAPRatioTuple>} ratioTupleProperty
-   * @param {Range} valueRange
    * @param {Property.<boolean>} antecedentInteractedWithProperty
    * @param {Property.<boolean>} consequentInteractedWithProperty
    * @param {Property.<number>} tickMarkRangeProperty
@@ -33,7 +34,7 @@ class BothHandsInteractionListener {
    * @param {function(RatioTerm):number} getIdealTerm
    * @param {Object} [options]
    */
-  constructor( targetNode, ratioTupleProperty, valueRange,
+  constructor( targetNode, ratioTupleProperty,
                antecedentInteractedWithProperty, consequentInteractedWithProperty, tickMarkRangeProperty, keyboardStep, boundarySoundClip, tickMarkBumpSoundClip,
                ratioLockedProperty, targetRatioProperty, getIdealTerm, options ) {
 
@@ -44,7 +45,6 @@ class BothHandsInteractionListener {
     }, options );
 
     // @private
-    this.valueRange = valueRange;
     this.targetNode = targetNode;
     this.antecedentInteractedWithProperty = antecedentInteractedWithProperty;
     this.consequentInteractedWithProperty = consequentInteractedWithProperty;
@@ -95,7 +95,7 @@ class BothHandsInteractionListener {
     const newValue = inputMapper( currentTuple + valueDelta, currentTuple, globalKeyStateTracker.shiftKeyDown ? this.shiftKeyboardStep : this.keyboardStep );
     const newRatioTuple = tupleField === 'antecedent' ? this.ratioTupleProperty.value.withAntecedent( newValue ) : this.ratioTupleProperty.value.withConsequent( newValue );
 
-    this.ratioTupleProperty.value = newRatioTuple.constrainFields( this.valueRange );
+    this.ratioTupleProperty.value = newRatioTuple.constrainFields( TOTAL_RANGE );
 
     this.handleSoundOnInput( this.ratioTupleProperty.value[ tupleField ] );
 
@@ -153,12 +153,12 @@ class BothHandsInteractionListener {
             }
 
             const newValue = 1 / this.tickMarkRangeProperty.value * i;
-            const constrained = this.valueRange.constrainValue( newValue );
+            const constrained = TOTAL_RANGE.constrainValue( newValue );
 
             this.ratioTupleProperty.value = new RAPRatioTuple( constrained, constrained );
 
             // If this brought to min or max, play the boundary sound
-            if ( constrained === this.valueRange.min || constrained === this.valueRange.max ) {
+            if ( constrained === TOTAL_RANGE.min || constrained === TOTAL_RANGE.max ) {
               this.boundarySoundClip.play();
             }
 

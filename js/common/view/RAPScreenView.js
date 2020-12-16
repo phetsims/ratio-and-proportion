@@ -49,8 +49,6 @@ const RATIO_HALF_SPACING = 10;
 const uiScaleFunction = new LinearFunction( LAYOUT_BOUNDS.height, MAX_RATIO_HEIGHT, 1, 1.5, true );
 const uiPositionFunction = new LinearFunction( 1, 1.5, LAYOUT_BOUNDS.height * .15, -LAYOUT_BOUNDS.height * .2, true );
 
-const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
-
 class RAPScreenView extends ScreenView {
 
   /**
@@ -85,11 +83,11 @@ class RAPScreenView extends ScreenView {
     // @protected - What is the unit value of the tick marks. Value reads as "1/x of the view height."
     this.tickMarkRangeProperty = new NumberProperty( 10 );
 
-    const tickMarkDescriber = new TickMarkDescriber( TOTAL_RANGE, this.tickMarkRangeProperty, this.tickMarkViewProperty );
+    const tickMarkDescriber = new TickMarkDescriber( this.tickMarkRangeProperty, this.tickMarkViewProperty );
 
     // @protected (read-only)
     this.ratioDescriber = new RatioDescriber( model );
-    this.handPositionsDescriber = new HandPositionsDescriber( ratio.tupleProperty, ratio.antecedentProperty, ratio.consequentProperty, TOTAL_RANGE, tickMarkDescriber );
+    this.handPositionsDescriber = new HandPositionsDescriber( ratio.tupleProperty, ratio.antecedentProperty, ratio.consequentProperty, tickMarkDescriber );
     const bothHandsDescriber = new BothHandsDescriber(
       ratio.antecedentProperty,
       ratio.consequentProperty,
@@ -125,7 +123,7 @@ class RAPScreenView extends ScreenView {
       fitness => !model.ratio.lockedProperty.value && fitness === model.fitnessRange.min );
 
     // @private
-    this.viewSounds = new ViewSounds( RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE, this.tickMarkRangeProperty,
+    this.viewSounds = new ViewSounds( this.tickMarkRangeProperty,
       this.tickMarkViewProperty, playTickMarkBumpSoundProperty );
 
     // by default, the keyboard step size should be half of one default tick mark width. See https://github.com/phetsims/ratio-and-proportion/issues/85
@@ -139,7 +137,6 @@ class RAPScreenView extends ScreenView {
     // @private {RatioHalf}
     this.antecedentRatioHalf = new RatioHalf(
       ratio.antecedentProperty,
-      TOTAL_RANGE,
       model.ratio.enabledRatioTermsRangeProperty,
       cueArrowsState.bothHands.antecedentCueDisplayedProperty,
       cueArrowsState,
@@ -167,7 +164,6 @@ class RAPScreenView extends ScreenView {
     // @private {RatioHalf}
     this.consequentRatioHalf = new RatioHalf(
       ratio.consequentProperty,
-      TOTAL_RANGE,
       model.ratio.enabledRatioTermsRangeProperty,
       cueArrowsState.bothHands.consequentCueDisplayedProperty,
       cueArrowsState,
@@ -190,7 +186,7 @@ class RAPScreenView extends ScreenView {
         helpText: ratioAndProportionStrings.a11y.rightHandHelpText
       } );
 
-    const bothHandsPDOMNode = new BothHandsPDOMNode( ratio.tupleProperty, TOTAL_RANGE,
+    const bothHandsPDOMNode = new BothHandsPDOMNode( ratio.tupleProperty,
       cueArrowsState, keyboardStep, this.tickMarkViewProperty, this.tickMarkRangeProperty, model.unclampedFitnessProperty,
       this.handPositionsDescriber, this.ratioDescriber, bothHandsDescriber, this.viewSounds, model.ratio.lockedProperty,
       model.targetRatioProperty, model.getIdealValueForTerm.bind( model ), merge( {

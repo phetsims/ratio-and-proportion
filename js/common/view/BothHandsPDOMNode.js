@@ -23,7 +23,6 @@ class BothHandsPDOMNode extends Node {
 
   /**
    * @param {Property.<RAPRatioTuple>} ratioTupleProperty
-   * @param {Range} valueRange - the total range of the hand
    * @param {CueArrowsState} cueArrowsState
    * @param {number} keyboardStep
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
@@ -39,7 +38,6 @@ class BothHandsPDOMNode extends Node {
    * @param {Object} [options]
    */
   constructor( ratioTupleProperty,
-               valueRange,
                cueArrowsState,
                keyboardStep,
                tickMarkViewProperty,
@@ -112,7 +110,7 @@ class BothHandsPDOMNode extends Node {
     interactiveNode.setAccessibleAttribute( 'aria-roledescription', sceneryPhetStrings.a11y.grabDrag.movable );
 
     // @private
-    this.bothHandsInteractionListener = new BothHandsInteractionListener( interactiveNode, ratioTupleProperty, valueRange,
+    this.bothHandsInteractionListener = new BothHandsInteractionListener( interactiveNode, ratioTupleProperty,
       this.antecedentInteractedWithProperty, this.consequentInteractedWithProperty, tickMarkRangeProperty, keyboardStep,
       viewSounds.boundarySoundClip, viewSounds.tickMarkBumpSoundClip, ratioLockedProperty, targetRatioProperty, getIdealTerm, {
         onInput: () => {

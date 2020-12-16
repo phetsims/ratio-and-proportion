@@ -16,18 +16,21 @@ const MIN_INTER_CLICK_TIME = ( 1 / 60 * 1000 ) * 2; // min time between clicks, 
 class TickMarkBumpSoundClip extends SoundClip {
 
   /**
-   *
-   * @param {NumberProperty} tickMarkRangeProperty
-   * @param {Range} valueRange
+   * @param {NumberProperty} tickMarkRangeProperty - serves as the divisor of the position range to yield position
+   * where bump sounds should occur.
+   * @param {Range} positionRange - the total range in position
    * @param {Object} [options]
    */
-  constructor( tickMarkRangeProperty, valueRange, options ) {
+  constructor( tickMarkRangeProperty, positionRange, options ) {
     super( tickMarkCrossBump, options );
 
+    // @private
     this.tickMarkRangeProperty = tickMarkRangeProperty;
-    this.valueRange = valueRange;
+    this.positionRange = positionRange;
     this.timeOfLastClick = 0;
 
+    // @private - by keeping track of the last value, we can test if we passed a tick mark. This is updated with the
+    // granularity of how often an interaction occurs, see this.onInteract().
     this.lastValue = null;
   }
 
@@ -41,10 +44,10 @@ class TickMarkBumpSoundClip extends SoundClip {
 
     // handle the sound as desired for mouse/touch style input (for vertical changes)
     for ( let i = 0; i < this.tickMarkRangeProperty.value; i++ ) {
-      const tickValue = ( i / this.valueRange.getLength() ) / this.tickMarkRangeProperty.value;
+      const tickValue = ( i / this.positionRange.getLength() ) / this.tickMarkRangeProperty.value;
 
       // Not at max or min, crossed a tick mark value
-      if ( currentValue !== this.valueRange.min && currentValue !== this.valueRange.max &&
+      if ( currentValue !== this.positionRange.min && currentValue !== this.positionRange.max &&
            this.lastValue < tickValue && currentValue >= tickValue || this.lastValue > tickValue && currentValue <= tickValue ) {
 
         // if enough time has passed since the last change

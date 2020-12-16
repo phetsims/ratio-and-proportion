@@ -62,11 +62,11 @@ class RAPRatioTuple {
   /**
    * Constrain both data fields to a provided range
    * @public
-   * @param {Range} valueRange
+   * @param {Range} range
    */
-  constrainFields( valueRange ) {
-    this.antecedent = valueRange.constrainValue( this.antecedent );
-    this.consequent = valueRange.constrainValue( this.consequent );
+  constrainFields( range ) {
+    this.antecedent = range.constrainValue( this.antecedent );
+    this.consequent = range.constrainValue( this.consequent );
 
     return this; // for chaining
   }

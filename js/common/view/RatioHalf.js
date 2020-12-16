@@ -25,6 +25,7 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import RAPConstants from '../RAPConstants.js';
 import CueDisplay from './CueDisplay.js';
 import RatioHalfTickMarksNode from './RatioHalfTickMarksNode.js';
 import RatioHandNode from './RatioHandNode.js';
@@ -52,11 +53,12 @@ function ratioHalfAccessibleNameBehavior( node, options, accessibleName, callbac
   return options;
 }
 
+const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
+
 class RatioHalf extends Rectangle {
 
   /**
    * @param {NumberProperty} valueProperty
-   * @param {Range} valueRange - the total range of the hand
    * @param {Property.<Range>} enabledRatioTermsRangeProperty - the current range that the hand can move
    * @param {BooleanProperty} displayBothHandsCueProperty
    * @param {CueArrowsState} cueArrowsState - interaction state to determine the interaction cue to display
@@ -76,7 +78,6 @@ class RatioHalf extends Rectangle {
    * @param {Object} [options]
    */
   constructor( valueProperty,
-               valueRange,
                enabledRatioTermsRangeProperty,
                displayBothHandsCueProperty,
                cueArrowsState,
@@ -182,7 +183,7 @@ class RatioHalf extends Rectangle {
 
     // This can change anytime there is a layout update.
     let modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
-      getModelBoundsFromRange( valueRange ),
+      getModelBoundsFromRange( TOTAL_RANGE ),
       bounds );
 
     // Snap mouse/touch input to the nearest tick mark if close enough. This helps with reproducible precision
@@ -191,7 +192,7 @@ class RatioHalf extends Rectangle {
         const tickMarkStep = 1 / tickMarkRangeProperty.value;
 
         // iterate through model values of each tick mark
-        for ( let i = valueRange.min; i < valueRange.max; i += tickMarkStep ) {
+        for ( let i = TOTAL_RANGE.min; i < TOTAL_RANGE.max; i += tickMarkStep ) {
           if ( Math.abs( yValue - i ) < tickMarkStep * SNAP_TO_TICK_MARK_THRESHOLD ) {
             return i;
           }
@@ -335,7 +336,7 @@ class RatioHalf extends Rectangle {
 
       // Don't count the space the framing rectangles take up as part of the draggableArea.
       modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
-        getModelBoundsFromRange( valueRange ),
+        getModelBoundsFromRange( TOTAL_RANGE ),
         boundsNoFramingRects
       );
 

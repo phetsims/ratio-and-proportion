@@ -4,7 +4,8 @@
  * A short sound to indicate when a movable component has reached the boundary of its movable bounds. This sound supports
  * playing a boundary sound based on horizontal motion, as well as vertical motion, but treats each as separate values,
  * and not as a Bounds2. This is to support some interactions (alternative input through keyboard) that only support vertical
- * movement (and thus only vertical boundary sounds).
+ * movement (and thus only vertical boundary sounds). While terms are named and groked in x/y directions, this could be
+ * used generally when you need a boundary sound to occur always on one axis, and optionally on another.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -16,7 +17,7 @@ import ratioAndProportion from '../../../ratioAndProportion.js';
 class BoundarySoundClip extends SoundClip {
 
   /**
-   * @param {Range} verticalRange
+   * @param {Range} verticalRange - the total range that the vertical position can take
    * @param {Object} [options]
    */
   constructor( verticalRange, options ) {

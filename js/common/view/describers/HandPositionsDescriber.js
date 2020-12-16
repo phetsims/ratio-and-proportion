@@ -11,6 +11,7 @@ import merge from '../../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
+import RAPConstants from '../../RAPConstants.js';
 import TickMarkView from '../TickMarkView.js';
 
 // constants
@@ -57,22 +58,22 @@ const DISTANCE_REGIONS_LOWERCASE = [
 
 assert && assert( DISTANCE_REGIONS_CAPITALIZED.length === DISTANCE_REGIONS_LOWERCASE.length, 'should be the same regions' );
 
+const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
+
 class HandPositionsDescriber {
 
   /**
    * @param {Property.<RAPRatioTuple>} ratioTupleProperty
    * @param {Property.<number>}antecedentProperty
    * @param {Property.<number>}consequentProperty
-   * @param {Range} valueRange
    * @param {TickMarkDescriber} tickMarkDescriber
    */
-  constructor( ratioTupleProperty, antecedentProperty, consequentProperty, valueRange, tickMarkDescriber ) {
+  constructor( ratioTupleProperty, antecedentProperty, consequentProperty, tickMarkDescriber ) {
 
     // @private - from model
     this.ratioTupleProperty = ratioTupleProperty;
     this.antecedentProperty = antecedentProperty;
     this.consequentProperty = consequentProperty;
-    this.valueRange = valueRange;
     this.tickMarkDescriber = tickMarkDescriber;
 
     // @private - keep track of previous distance regions to track repetition, and alter description accordingly. This
@@ -130,12 +131,12 @@ class HandPositionsDescriber {
    * @private
    */
   getQualitativePosition( position ) {
-    assert && assert( this.valueRange.contains( position ), 'position expected to be in valueRange' );
+    assert && assert( TOTAL_RANGE.contains( position ), 'position expected to be in position range' );
 
-    const normalizedPosition = this.valueRange.getNormalizedValue( position );
+    const normalizedPosition = TOTAL_RANGE.getNormalizedValue( position );
 
     let index = null;
-    if ( normalizedPosition === this.valueRange.max ) {
+    if ( normalizedPosition === TOTAL_RANGE.max ) {
       index = 0;
     }
     else if ( normalizedPosition >= .9 ) {
@@ -156,10 +157,10 @@ class HandPositionsDescriber {
     else if ( normalizedPosition > .1 ) {
       index = 6;
     }
-    else if ( normalizedPosition > this.valueRange.min ) {
+    else if ( normalizedPosition > TOTAL_RANGE.min ) {
       index = 7;
     }
-    else if ( normalizedPosition === this.valueRange.min ) {
+    else if ( normalizedPosition === TOTAL_RANGE.min ) {
       index = 8;
     }
 
@@ -175,10 +176,10 @@ class HandPositionsDescriber {
   getDistanceRegion( lowercase = false ) {
     const distance = this.ratioTupleProperty.value.getDistance();
 
-    assert && assert( this.valueRange.getLength() === 1, 'these hard coded values depend on a range of 1' );
+    assert && assert( TOTAL_RANGE.getLength() === 1, 'these hard coded values depend on a range of 1' );
 
     let index = null;
-    if ( distance === this.valueRange.getLength() ) {
+    if ( distance === TOTAL_RANGE.getLength() ) {
       index = 0;
     }
     else if ( distance >= .85 ) {
