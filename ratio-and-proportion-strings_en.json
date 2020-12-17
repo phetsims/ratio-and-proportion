@@ -362,7 +362,7 @@
           "value": "There are options to add plain or numbered tick marks. The tick marks are evenly-spaced horizontal lines that divide up the vertical space. In addition, you can increase the range of tick marks to explore larger numbers."
         },
         "interactionHint": {
-          "value": "Explore current challenge, or open My Challenge to create your own."
+          "value": "Explore current challenge, or look for My Challenge to create your own."
         },
         "qualitativeStateOfSim": {
           "value": "Currently, hands {{ratioFitness}} challenge ratio and {{distance}} each other:"
