@@ -175,13 +175,13 @@
           "value": "around"
         },
         "aroundHalfwayPast": {
-          "value": "around half-way past"
+          "value": "around halfway past"
         },
         "halfwayPast": {
-          "value": "half-way past"
+          "value": "halfway past"
         },
         "halfwayTo": {
-          "value": "half-way to"
+          "value": "halfway to"
         },
         "on": {
           "value": "on"
@@ -196,7 +196,7 @@
           "value": "zero"
         },
         "aroundHalfWayTo": {
-          "value": "around half-way to"
+          "value": "around halfway to"
         }
       },
       "semiQuantitativeHandPositionPattern": {
