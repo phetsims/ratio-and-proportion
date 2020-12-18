@@ -248,6 +248,7 @@ class RAPScreenView extends ScreenView {
         model.reset();
         cueArrowsState.reset();
         bothHandsPDOMNode.reset();
+        bothHandsDescriber.reset();
         this.reset();
       },
       tandem: tandem.createTandem( 'resetAllButton' )

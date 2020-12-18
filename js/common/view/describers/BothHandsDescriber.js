@@ -31,6 +31,10 @@ class BothHandsDescriber {
     this.ratioDescriber = ratioDescriber;
     this.handPositionsDescriber = handPositionsDescriber;
     this.ratioLockedProperty = ratioLockedProperty;
+
+    // @private - keep track of previous values at edge to make sure we only give edge alerts after we have already arrived, see https://github.com/phetsims/ratio-and-proportion/issues/247
+    this.previousAntecedentAtExtremity = false;
+    this.previousConsequentAtExtremity = false;
   }
 
   /**
@@ -102,24 +106,48 @@ class BothHandsDescriber {
     let direction = null; // where to go from here?
 
     if ( this.antecedentProperty.value === enabledRange.min ) {
-      handAtExtremity = ratioAndProportionStrings.a11y.leftHand;
-      extremityPosition = ratioAndProportionStrings.a11y.handPosition.nearBottom;
-      direction = ratioAndProportionStrings.a11y.up;
+      if ( this.previousAntecedentAtExtremity ) {
+        handAtExtremity = ratioAndProportionStrings.a11y.leftHand;
+        extremityPosition = ratioAndProportionStrings.a11y.handPosition.nearBottom;
+        direction = ratioAndProportionStrings.a11y.up;
+      }
+      else {
+        this.previousAntecedentAtExtremity = true;
+      }
     }
     else if ( this.antecedentProperty.value === enabledRange.max ) {
-      handAtExtremity = ratioAndProportionStrings.a11y.leftHand;
-      extremityPosition = ratioAndProportionStrings.a11y.handPosition.atTop;
-      direction = ratioAndProportionStrings.a11y.down;
+      if ( this.previousAntecedentAtExtremity ) {
+        handAtExtremity = ratioAndProportionStrings.a11y.leftHand;
+        extremityPosition = ratioAndProportionStrings.a11y.handPosition.atTop;
+        direction = ratioAndProportionStrings.a11y.down;
+      }
+      else {
+        this.previousAntecedentAtExtremity = true;
+      }
     }
     else if ( this.consequentProperty.value === enabledRange.min ) {
-      handAtExtremity = ratioAndProportionStrings.a11y.rightHand;
-      extremityPosition = ratioAndProportionStrings.a11y.handPosition.nearBottom;
-      direction = ratioAndProportionStrings.a11y.up;
+      if ( this.previousConsequentAtExtremity ) {
+        handAtExtremity = ratioAndProportionStrings.a11y.rightHand;
+        extremityPosition = ratioAndProportionStrings.a11y.handPosition.nearBottom;
+        direction = ratioAndProportionStrings.a11y.up;
+      }
+      else {
+        this.previousConsequentAtExtremity = true;
+      }
     }
     else if ( this.consequentProperty.value === enabledRange.max ) {
-      handAtExtremity = ratioAndProportionStrings.a11y.rightHand;
-      extremityPosition = ratioAndProportionStrings.a11y.handPosition.atTop;
-      direction = ratioAndProportionStrings.a11y.down;
+      if ( this.previousConsequentAtExtremity ) {
+        handAtExtremity = ratioAndProportionStrings.a11y.rightHand;
+        extremityPosition = ratioAndProportionStrings.a11y.handPosition.atTop;
+        direction = ratioAndProportionStrings.a11y.down;
+      }
+      else {
+        this.previousConsequentAtExtremity = true;
+      }
+    }
+    else {
+      this.previousAntecedentAtExtremity = false;
+      this.previousConsequentAtExtremity = false;
     }
 
     // Detect if we are at the edge of the range
@@ -132,6 +160,14 @@ class BothHandsDescriber {
     }
 
     return null;
+  }
+
+  /**
+   * @public
+   */
+  reset() {
+    this.previousAntecedentAtExtremity = false;
+    this.previousConsequentAtExtremity = false;
   }
 }
 
