@@ -9,7 +9,6 @@
 import Range from '../../../dot/js/Range.js';
 import Utils from '../../../dot/js/Utils.js';
 import ratioAndProportion from '../ratioAndProportion.js';
-import RAPQueryParameters from './RAPQueryParameters.js';
 
 const RAPConstants = {
 
@@ -21,7 +20,7 @@ const RAPConstants = {
 
   // distance (in fitness) from max fitness that still indicates a successful proportion when both hands moving in the
   // same direction. See RAPRatio.movingInDirection()
-  MOVING_IN_PROPORTION_FITNESS_THRESHOLD: RAPQueryParameters.movingInProportionThreshold,
+  MOVING_IN_PROPORTION_FITNESS_THRESHOLD: .3,
 
   // The value to multiple the keyboard step size by to get the shift + keydown step size
   SHIFT_KEY_MULTIPLIER: 1 / 5,

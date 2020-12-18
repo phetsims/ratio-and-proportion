@@ -11,10 +11,14 @@ import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import inProportionSound from '../../../../sounds/in-proportion/in-proportion_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
-import RAPQueryParameters from '../../RAPQueryParameters.js';
 
 const SUCCESS_OUTPUT_LEVEL = .8;
 const SILENT_LEVEL = 0;
+
+// The distance that you must move away from being in Proportion until you can then come back in proportion and get a
+// success sound to play. See InProportionSoundGenerator. In "fitness" units, so the default value is a space of 10%
+// of the fitness range.
+const HYSTERESIS_THRESHOLD = .1;
 
 class InProportionSoundGenerator extends SoundClip {
 
@@ -95,7 +99,7 @@ class InProportionSoundGenerator extends SoundClip {
     const isInRatio = this.model.inProportion();
 
     // Only use hysteresis when both hands are moving.
-    const hysteresisThreshold = this.model.ratio.movingInDirection() ? RAPQueryParameters.hysteresisThreshold : 0;
+    const hysteresisThreshold = this.model.ratio.movingInDirection() ? HYSTERESIS_THRESHOLD : 0;
 
     if ( !this.playedSuccessYet && ( isInRatio || this.jumpedOverInProportionAndShouldSound() ) ) {
       this.setOutputLevel( SUCCESS_OUTPUT_LEVEL, 0 );

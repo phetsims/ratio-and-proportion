@@ -16,7 +16,6 @@ import AriaHerald from '../../../../utterance-queue/js/AriaHerald.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
-import RAPQueryParameters from '../RAPQueryParameters.js';
 import BothHandsInteractionListener from './BothHandsInteractionListener.js';
 
 class BothHandsPDOMNode extends Node {
@@ -136,7 +135,7 @@ class BothHandsPDOMNode extends Node {
 
     // @private
     this.objectResponseUtterance = new Utterance( {
-      alertStableDelay: RAPQueryParameters.bothHandsObjectDelay,
+      alertStableDelay: 500,
       announcerOptions: {
 
         // This "object response" is meant to act more like aria-valuetext than a traditional, polite alert. We want
@@ -146,7 +145,7 @@ class BothHandsPDOMNode extends Node {
     } );
 
     // @private
-    this.contextResponseUtterance = new Utterance( { alertStableDelay: RAPQueryParameters.bothHandsContextDelay } );
+    this.contextResponseUtterance = new Utterance( { alertStableDelay: 2000 } );
 
     // @public (read-only) - expose this from the listener for general consumption
     this.isBeingInteractedWithProperty = this.bothHandsInteractionListener.isBeingInteractedWithProperty;
