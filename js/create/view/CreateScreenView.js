@@ -158,6 +158,7 @@ class CreateScreenView extends RAPScreenView {
       accessibleName: ratioAndProportionStrings.lockRatio,
       helpText: ratioAndProportionStrings.a11y.lockRatioHelpText
     } );
+    lockRatioCheckbox.touchArea = lockRatioCheckbox.localBounds.dilatedY( 0.5 * lockRatioCheckbox.height );
 
     // TODO: this should not be a separate FireListener. Instead we should be able to use the checkbox somehow. https://github.com/phetsims/ratio-and-proportion/issues/227
     lockRatioCheckbox.addInputListener( new FireListener( {
