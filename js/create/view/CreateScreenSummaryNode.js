@@ -24,14 +24,16 @@ class CreateScreenSummaryNode extends Node {
    * @param {Property.<number>} tickMarkRangeProperty
    * @param {NumberProperty} targetAntecedentProperty
    * @param {NumberProperty} targetConsequentProperty
+   * @param {Property.<boolean>} myChallengeAccordionBoxExpandedProperty
    */
   constructor( ratioFitnessProperty, antecedentProperty, consequentProperty, tickMarkViewProperty,
                ratioDescriber, handPositionsDescriber, tickMarkRangeProperty,
-               targetAntecedentProperty, targetConsequentProperty ) {
+               targetAntecedentProperty, targetConsequentProperty, myChallengeAccordionBoxExpandedProperty ) {
 
     const stateOfSimNode = new Node( { tagName: 'p' } );
     const leftHandBullet = new Node( { tagName: 'li' } );
     const rightHandBullet = new Node( { tagName: 'li' } );
+    const currentChallengeBullet = new Node( { tagName: 'li' } );
     const descriptionBullets = new Node( {
       tagName: 'ul',
       children: [ leftHandBullet, rightHandBullet ]
@@ -60,15 +62,24 @@ class CreateScreenSummaryNode extends Node {
       ]
     } );
 
+    myChallengeAccordionBoxExpandedProperty.link( expanded => {
+      if ( expanded ) {
+        descriptionBullets.addChild( currentChallengeBullet );
+      }
+      else if ( descriptionBullets.hasChild( currentChallengeBullet ) ) {
+        descriptionBullets.removeChild( currentChallengeBullet );
+      }
+    } );
+
     Property.multilink( [
       tickMarkViewProperty,
-      tickMarkRangeProperty,
       targetAntecedentProperty,
       targetConsequentProperty,
+      tickMarkRangeProperty,
       ratioFitnessProperty,
       antecedentProperty,
       consequentProperty
-    ], tickMarkView => {
+    ], ( tickMarkView, targetAntecedent, targetConsequent ) => {
       stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.screenSummary.qualitativeStateOfSim, {
         ratioFitness: ratioDescriber.getRatioFitness( false ), // lowercase
         distance: handPositionsDescriber.getDistanceRegion( true )
@@ -80,6 +91,8 @@ class CreateScreenSummaryNode extends Node {
       rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
         position: handPositionsDescriber.getHandPositionDescription( consequentProperty.value, tickMarkView )
       } );
+
+      currentChallengeBullet.innerContent = ratioDescriber.getCurrentChallengeSentence( targetAntecedent, targetConsequent );
     } );
   }
 }

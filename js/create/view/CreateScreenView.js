@@ -148,7 +148,8 @@ class CreateScreenView extends RAPScreenView {
       this.handPositionsDescriber,
       this.tickMarkRangeProperty,
       targetAntecedentProperty,
-      targetConsequentProperty
+      targetConsequentProperty,
+      myChallengeAccordionBox.expandedProperty
     ) );
 
     const ratioLockedUtterance = new ActivationUtterance();
