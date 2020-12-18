@@ -11,6 +11,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
+import Utils from '../../../../dot/js/Utils.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
@@ -289,7 +290,7 @@ class RAPScreenView extends ScreenView {
     this.layoutRAPScreeView = newRatioHalfBounds => {
 
       // between 0 and 1, 0 is the min height, 1 is the max height
-      const heightScalar = ( newRatioHalfBounds.height - LAYOUT_BOUNDS.height ) / ( MAX_RATIO_HEIGHT - LAYOUT_BOUNDS.height );
+      const heightScalar = Utils.clamp( ( newRatioHalfBounds.height - LAYOUT_BOUNDS.height ) / ( MAX_RATIO_HEIGHT - LAYOUT_BOUNDS.height ), 0, 1 );
 
       this.antecedentRatioHalf.layout( newRatioHalfBounds, heightScalar );
       this.consequentRatioHalf.layout( newRatioHalfBounds, heightScalar );
