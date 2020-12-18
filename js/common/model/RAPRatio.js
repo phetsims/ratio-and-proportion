@@ -21,7 +21,10 @@ import RAPRatioTuple from './RAPRatioTuple.js';
 const VELOCITY_THRESHOLD = .01;
 
 const DEFAULT_TERM_VALUE_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
-const LOCK_RATIO_RANGE_MIN = .05;
+
+// Use the same value as the no-success region threshold. This cannot be the same as the no-success threshold though
+// because that threshold value, by definition, will unlock the ratio, see https://github.com/phetsims/ratio-and-proportion/issues/257#issuecomment-748285667
+const LOCK_RATIO_RANGE_MIN = RAPConstants.NO_SUCCUSS_VALUE_THRESHOLD + Number.EPSILON;
 
 class RAPRatio {
   constructor() {

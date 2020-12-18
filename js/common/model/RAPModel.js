@@ -17,11 +17,6 @@ import RatioTerm from './RatioTerm.js';
 // constant to help achieve feedback in 40% of the visual screen height (2 default tick marks).
 const FITNESS_TOLERANCE_FACTOR = 0.5;
 
-//REVIEW: Seems to have a typo in the name and the value in the description doesn't match the value assigned.
-// The value in which when either the antecedent or consequent is less than this, the ratio cannot be "in proportion".
-// Add .001 to support two keyboard nav motions above 0 (counting the min range being >0).
-const NO_SUCCUSS_VALUE_THRESHOLD = .01;
-
 const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 class RAPModel {
@@ -150,7 +145,8 @@ unclampedFitness: ${unclampedFitness}\n` );
    * @returns {boolean}
    */
   valuesTooSmallForInProportion() {
-    return this.ratio.antecedentProperty.value <= NO_SUCCUSS_VALUE_THRESHOLD || this.ratio.consequentProperty.value <= NO_SUCCUSS_VALUE_THRESHOLD;
+    return this.ratio.antecedentProperty.value <= RAPConstants.NO_SUCCUSS_VALUE_THRESHOLD ||
+           this.ratio.consequentProperty.value <= RAPConstants.NO_SUCCUSS_VALUE_THRESHOLD;
   }
 
   /**
