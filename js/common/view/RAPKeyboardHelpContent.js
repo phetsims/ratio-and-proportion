@@ -31,7 +31,7 @@ class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
       sliderString: ratioAndProportionStrings.leftOrRightHand,
       maximumString: ratioAndProportionStrings.top,
       minimumString: ratioAndProportionStrings.bottom,
-      arrowKeyIconDisplay: SliderKeyboardHelpSection.ArrowKeysIconDisplay.UP_DOWN // on cue up/down arrows, not left/right also.
+      arrowKeyIconDisplay: SliderKeyboardHelpSection.ArrowKeyIconDisplay.UP_DOWN // on cue up/down arrows, not left/right also.
     } );
 
     const generalNavigationHelpSection = new GeneralKeyboardHelpSection( {
