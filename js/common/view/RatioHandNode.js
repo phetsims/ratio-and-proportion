@@ -42,7 +42,7 @@ class RatioHandNode extends Node {
   constructor( valueProperty, enabledRatioTermsRangeProperty, tickMarkViewProperty, keyboardStep, colorProperty,
                cueDisplayProperty, getIdealValue, options ) {
 
-    const shiftKeyboardStep = keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER;
+    const shiftKeyboardStep = RAPConstants.toFixed( keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER );
 
     // conserve keypresses while allowing keyboard input to access any "in-proportion" state, even if more granular than the keyboard step size allows.
     const mapKeyboardInput = getKeyboardInputSnappingMapper( getIdealValue, keyboardStep, shiftKeyboardStep );
@@ -188,9 +188,9 @@ class RatioHandNode extends Node {
 
     const ratioHandNode = new RatioHandNode(
       new Property( 0 ),
-      new Range( 0, 1 ),
+      new Property( new Range( 0, 1 ) ),
       tickMarkViewProperty,
-      new Property( 10 ),
+      1,
       new Property( options.handColor ),
       new Property( CueDisplay.NONE ),
       _.identity,
