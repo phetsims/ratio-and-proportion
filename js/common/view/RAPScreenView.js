@@ -15,6 +15,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
+import ParallelDOM from '../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Color from '../../../../scenery/js/util/Color.js';
@@ -158,7 +159,11 @@ class RAPScreenView extends ScreenView {
         accessibleName: ratioAndProportionStrings.a11y.leftHand,
         a11yDependencies: a11yDependencies,
         bothHandsCueDisplay: CueDisplay.W_S,
-        isRight: false // this way we get a left hand
+        isRight: false, // this way we get a left hand
+
+        // Added to the antecedent for ease, but it applies to both RatioHalfs in the PDOM
+        helpText: ratioAndProportionStrings.a11y.individualHandsHelpText,
+        helpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT
       }
     );
 
@@ -183,8 +188,7 @@ class RAPScreenView extends ScreenView {
       () => model.getIdealValueForTerm( RatioTerm.CONSEQUENT ), {
         handColorProperty: options.rightHandColorProperty,
         accessibleName: ratioAndProportionStrings.a11y.rightHand,
-        a11yDependencies: a11yDependencies,
-        helpText: ratioAndProportionStrings.a11y.rightHandHelpText
+        a11yDependencies: a11yDependencies
       } );
 
     const bothHandsPDOMNode = new BothHandsPDOMNode(

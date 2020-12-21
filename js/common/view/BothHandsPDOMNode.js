@@ -11,6 +11,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import merge from '../../../../phet-core/js/merge.js';
 import sceneryPhetStrings from '../../../../scenery-phet/js/sceneryPhetStrings.js';
+import ParallelDOM from '../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import AriaHerald from '../../../../utterance-queue/js/AriaHerald.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
@@ -57,8 +58,9 @@ class BothHandsPDOMNode extends Node {
 
       // pdom
       tagName: 'div',
-      helpText: ratioAndProportionStrings.a11y.bothHands.bothHandsHelpText, // overridden by options.gestureDescriptionHelpText when supported
       interactiveNodeOptions: {
+        helpText: ratioAndProportionStrings.a11y.bothHands.bothHandsHelpText, // overridden by options.gestureDescriptionHelpText when supported
+        helpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT,
         ariaRole: 'application',
         focusable: true,
         tagName: 'div',
