@@ -68,6 +68,7 @@ class BothHandsPDOMNode extends Node {
         ariaLabel: ratioAndProportionStrings.a11y.bothHands.bothHands
       }
     }, options );
+    assert && assert( !options.accessibleOrder, 'BothHandsPDOMNode sets its own accessibleOrder.' );
 
     super();
 
@@ -100,11 +101,14 @@ class BothHandsPDOMNode extends Node {
       cueArrowsState.bothHands.consequentCueDisplayedProperty.value = !consequentInteractedWith && bothHandsFocused;
     } );
 
+    const dynamicDescription = new Node( { tagName: 'p' } );
+    this.addChild( dynamicDescription );
+
     const interactiveNode = new Node( options.interactiveNodeOptions );
     this.addChild( interactiveNode );
 
-    const dynamicDescription = new Node( { tagName: 'p' } );
-    this.addChild( dynamicDescription );
+    // Make sure that any children inside the both hands interaction (like individual hands) come before the both hands interaction in the PDOM.
+    this.accessibleOrder = [ dynamicDescription, ...interactiveNode.children, null ];
 
     interactiveNode.setAccessibleAttribute( 'aria-roledescription', sceneryPhetStrings.a11y.grabDrag.movable );
 

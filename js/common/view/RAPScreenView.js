@@ -276,8 +276,6 @@ class RAPScreenView extends ScreenView {
 
     // accessible order (ratio first in nav order)
     this.pdomPlayAreaNode.accessibleOrder = [
-      this.antecedentRatioHalf,
-      this.consequentRatioHalf,
       bothHandsPDOMNode,
       this.tickMarkViewRadioButtonGroup
     ];
