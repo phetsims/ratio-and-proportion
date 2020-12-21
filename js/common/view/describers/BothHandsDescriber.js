@@ -10,6 +10,8 @@ import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
 
+const ratioDistancePositionContextResponsePatternString = ratioAndProportionStrings.a11y.ratio.distancePositionContextResponse;
+
 class BothHandsDescriber {
 
   /**
@@ -49,8 +51,20 @@ class BothHandsDescriber {
       return ratioLockedEdgeResponse;
     }
 
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.distancePositionContextResponse, {
+    return StringUtils.fillIn( ratioDistancePositionContextResponsePatternString, {
       distance: this.handPositionsDescriber.getBothHandsDistance( true, true ),
+      position: this.getBothHandsPosition()
+    } );
+  }
+
+  /**
+   * Similar to getBothHandsContextResponse, but without extra logic for edges and distance-progress.
+   * @public
+   * @returns {string}
+   */
+  getBothHandsDynamicDescription() {
+    return StringUtils.fillIn( ratioDistancePositionContextResponsePatternString, {
+      distance: this.handPositionsDescriber.getBothHandsDistance( false, true ),
       position: this.getBothHandsPosition()
     } );
   }

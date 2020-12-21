@@ -27,7 +27,6 @@ class BothHandsPDOMNode extends Node {
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
    * @param {Property.<number>} tickMarkRangeProperty
    * @param {Property.<number>} unclampedFitnessProperty
-   * @param {HandPositionsDescriber} handPositionsDescriber
    * @param {RatioDescriber} ratioDescriber
    * @param {BothHandsDescriber} bothHandsDescriber
    * @param {ViewSounds} viewSounds
@@ -42,7 +41,6 @@ class BothHandsPDOMNode extends Node {
                tickMarkViewProperty,
                tickMarkRangeProperty,
                unclampedFitnessProperty,
-               handPositionsDescriber,
                ratioDescriber,
                bothHandsDescriber,
                viewSounds,
@@ -72,8 +70,6 @@ class BothHandsPDOMNode extends Node {
 
     super();
 
-    // @private
-    this.handPositionsDescriber = handPositionsDescriber;
     this.bothHandsDescriber = bothHandsDescriber;
 
     // @private - To support proper cue arrow logic
@@ -156,13 +152,11 @@ class BothHandsPDOMNode extends Node {
 
     // Though most cases are covered by just listening to fitness, there are certain cases when Property values can change,
     // but the fitness doesn't. See https://github.com/phetsims/ratio-and-proportion/issues/222 as an example.
-    Property.multilink( [ ratioTupleProperty, unclampedFitnessProperty ], () => {
-      const tickMarkView = tickMarkViewProperty.value;
-      const isBeingInteractedWith = this.bothHandsInteractionListener.isBeingInteractedWithProperty.value;
+    Property.multilink( [ tickMarkViewProperty, ratioTupleProperty, unclampedFitnessProperty ], tickMarkView => {
 
-      dynamicDescription.innerContent = handPositionsDescriber.getBothHandsDistance();
+      dynamicDescription.innerContent = this.bothHandsDescriber.getBothHandsDynamicDescription();
 
-      if ( isBeingInteractedWith ) {
+      if ( this.bothHandsInteractionListener.isBeingInteractedWithProperty.value ) {
         this.alertBothHandsObjectResponse( tickMarkView );
       }
     } );
