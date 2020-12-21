@@ -27,7 +27,7 @@ function getKeyboardInputSnappingMapper( getIdealValue, keyboardStep, shiftKeybo
 
   const snappingFunction = ( newValue, oldValue, useShiftKeyStep ) => {
     // Don't conserve the snap for page up/down or home/end keys, just basic movement changes.
-    const applyConservationSnap = RAPConstants.toFixed( Math.abs( newValue - oldValue ), 6 ) <= shiftKeyboardStep;
+    const applyConservationSnap = RAPConstants.toFixed( Math.abs( newValue - oldValue ) ) <= shiftKeyboardStep;
 
     if ( remainder === 0 ) {
       const snapToKeyboardStep = useShiftKeyStep ? shiftKeyboardStep : keyboardStep;
@@ -39,9 +39,9 @@ function getKeyboardInputSnappingMapper( getIdealValue, keyboardStep, shiftKeybo
     if ( applyConservationSnap ) {
 
       let returnValue = newValue;
-      const target = RAPConstants.toFixed( getIdealValue(), 6 );
+      const target = RAPConstants.toFixed( getIdealValue() );
       if ( newValue > target !== oldValue > target && oldValue !== target ) {
-        remainder = RAPConstants.toFixed( newValue - target, 6 );
+        remainder = RAPConstants.toFixed( newValue - target );
         returnValue = target;
       }
 
@@ -51,7 +51,7 @@ function getKeyboardInputSnappingMapper( getIdealValue, keyboardStep, shiftKeybo
         returnValue = newValue;
       }
 
-      returnValue = RAPConstants.toFixed( returnValue, 6 );
+      returnValue = RAPConstants.toFixed( returnValue );
       assert && assert( !isNaN( returnValue ) );
 
       return returnValue;

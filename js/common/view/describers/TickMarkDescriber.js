@@ -76,10 +76,10 @@ class TickMarkDescriber {
     const numberOfTickMarks = this.tickMarkRangeProperty.value;
 
     // account for javascript rounding error
-    const expandedValue = RAPConstants.toFixed( normalized * numberOfTickMarks, 6 );
+    const expandedValue = RAPConstants.toFixed( normalized * numberOfTickMarks );
 
     // account for javascript rounding error
-    const remainder = RAPConstants.toFixed( expandedValue % 1, 6 );
+    const remainder = RAPConstants.toFixed( expandedValue % 1 );
 
     assert && assert( remainder < 1 && remainder >= 0, 'remainder not in range' );
 
