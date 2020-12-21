@@ -31,10 +31,9 @@ const RAPConstants = {
   // Consistent way to fix numbers. This should only be used in the view for comparison and display, not in the model, see https://github.com/phetsims/ratio-and-proportion/issues/243
   toFixed: x => Utils.toFixedNumber( x, 6 ),
 
-  // REVIEW: Seems to have a typo in the name and the value in the description doesn't match the value assigned.
   // The value in which when either the antecedent or consequent is less than this, the ratio cannot be "in proportion".
   // Add .001 to support two keyboard nav motions above 0 (counting the min range being >0).
-  NO_SUCCUSS_VALUE_THRESHOLD: .01
+  NO_SUCCESS_VALUE_THRESHOLD: .01
 };
 
 ratioAndProportion.register( 'RAPConstants', RAPConstants );

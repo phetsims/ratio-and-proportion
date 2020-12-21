@@ -145,8 +145,8 @@ unclampedFitness: ${unclampedFitness}\n` );
    * @returns {boolean}
    */
   valuesTooSmallForInProportion() {
-    return this.ratio.antecedentProperty.value <= RAPConstants.NO_SUCCUSS_VALUE_THRESHOLD ||
-           this.ratio.consequentProperty.value <= RAPConstants.NO_SUCCUSS_VALUE_THRESHOLD;
+    return this.ratio.antecedentProperty.value <= RAPConstants.NO_SUCCESS_VALUE_THRESHOLD ||
+           this.ratio.consequentProperty.value <= RAPConstants.NO_SUCCESS_VALUE_THRESHOLD;
   }
 
   /**

@@ -24,7 +24,7 @@ const DEFAULT_TERM_VALUE_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 // Use the same value as the no-success region threshold. This cannot be the same as the no-success threshold though
 // because that threshold value, by definition, will unlock the ratio, see https://github.com/phetsims/ratio-and-proportion/issues/257#issuecomment-748285667
-const LOCK_RATIO_RANGE_MIN = RAPConstants.NO_SUCCUSS_VALUE_THRESHOLD + Number.EPSILON;
+const LOCK_RATIO_RANGE_MIN = RAPConstants.NO_SUCCESS_VALUE_THRESHOLD + Number.EPSILON;
 
 class RAPRatio {
   constructor() {
