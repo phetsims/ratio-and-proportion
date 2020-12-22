@@ -28,15 +28,15 @@ class ChallengeRatioComboBoxNode extends Node {
    * @param {NumberProperty} targetRatioProperty
    * @param {RatioDescriber} ratioDescriber
    * @param {Property.<Color>} colorProperty
+   * @param {Node} comboBoxListParent
    * @param {Object} [options]
    */
-  constructor( targetRatioProperty, ratioDescriber, colorProperty, options ) {
+  constructor( targetRatioProperty, ratioDescriber, colorProperty, comboBoxListParent, options ) {
 
     assert && options && assert( !options.children, 'ChallengeRatioComboBoxNode sets its own children.' );
 
     super( options );
 
-    const comboBoxListParent = new Node();
 
     // sound generators
     const soundGenerators = [];
@@ -69,7 +69,8 @@ class ChallengeRatioComboBoxNode extends Node {
         a11yLabel: ratioAndProportionStrings.challenge3
       } )
     ], targetRatioProperty, comboBoxListParent, {
-      helpText: ratioAndProportionStrings.a11y.discover.challengesHelpText
+      helpText: ratioAndProportionStrings.a11y.discover.challengesHelpText,
+      maxWidth: 300 // empirically determined
     } );
 
     const proximityToRatioUtterance = new Utterance();
@@ -80,11 +81,10 @@ class ChallengeRatioComboBoxNode extends Node {
 
     this.children = [
       comboBoxHeading,
-      comboBox,
-      comboBoxListParent
+      comboBox
     ];
 
-    this.accessibleOrder = [ comboBoxHeading, comboBox, comboBoxListParent ];
+    this.accessibleOrder = [ comboBoxHeading, comboBox ];
   }
 }
 

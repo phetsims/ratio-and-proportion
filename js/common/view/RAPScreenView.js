@@ -323,8 +323,14 @@ class RAPScreenView extends ScreenView {
       this.topScalingUILayerNode.right = this.bottomScalingUILayerNode.right = this.layoutBounds.maxX - RAPConstants.SCREEN_VIEW_X_MARGIN;
       this.bottomScalingUILayerNode.bottom = this.layoutBounds.height - RAPConstants.SCREEN_VIEW_Y_MARGIN;
 
+      assert && assert( Math.min( this.topScalingUILayerNode.left, this.bottomScalingUILayerNode.left ) >
+                        ratioWidth - RAPConstants.SCREEN_VIEW_X_MARGIN,
+        'ratio width has to fit' );
+
       // topScalingUILayerNode is a proxy for the width of the controls to the right of the ratio
       this.antecedentRatioHalf.left = ( this.topScalingUILayerNode.left - ratioWidth ) / 2;
+      assert && assert( this.antecedentRatioHalf.left > 0, 'should not go beyond dev bounds' );
+
       labelsNode.left = this.antecedentRatioHalf.right + RATIO_HALF_SPACING;
       this.consequentRatioHalf.left = labelsNode.right + RATIO_HALF_SPACING;
 
@@ -333,6 +339,10 @@ class RAPScreenView extends ScreenView {
 
       // offset the bottom so that the center of the text is right on the tick mark
       labelsNode.bottom = this.layoutBounds.bottom - this.antecedentRatioHalf.framingRectangleHeight + labelsNode.labelHeight / 2;
+
+      assert && assert( this.antecedentRatioHalf.width + this.consequentRatioHalf.width +
+                        Math.max( this.topScalingUILayerNode.width, this.bottomScalingUILayerNode.width ) < LAYOUT_BOUNDS.width,
+        'everything should fit inside layout bounds' );
     };
     this.layoutRAPScreeView( defaultRatioHalfBounds );
   }

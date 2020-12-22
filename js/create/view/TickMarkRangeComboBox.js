@@ -60,7 +60,8 @@ class TickMarkRangeComboBox extends Node {
     const comboBoxOptions = {
       labelNode: new RichText( ratioAndProportionStrings.range, RANGE_TEXT_OPTIONS ),
       helpText: ratioAndProportionStrings.a11y.create.tickMarkRangeHelpText,
-      accessibleName: ratioAndProportionStrings.range
+      accessibleName: ratioAndProportionStrings.range,
+      maxWidth: 300 // empirically determined
     };
 
     const enabledComboBox = new ComboBox( items, tickMarkRangeProperty, comboBoxParent, comboBoxOptions );

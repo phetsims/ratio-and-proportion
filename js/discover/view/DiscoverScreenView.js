@@ -5,12 +5,12 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import RAPScreenView from '../../common/view/RAPScreenView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import ChallengeRatioComboBoxNode from './ChallengeRatioComboBoxNode.js';
 import DiscoverScreenSummaryNode from './DiscoverScreenSummaryNode.js';
-
 
 class DiscoverScreenView extends RAPScreenView {
 
@@ -31,9 +31,14 @@ class DiscoverScreenView extends RAPScreenView {
       }
     } );
 
-    const comboBoxContainer = new ChallengeRatioComboBoxNode( model.targetRatioProperty, this.ratioDescriber, handColorProperty );
+    const comboBoxListBoxParent = new Node();
+    const comboBoxContainer = new ChallengeRatioComboBoxNode( model.targetRatioProperty, this.ratioDescriber, handColorProperty, comboBoxListBoxParent );
 
     this.topScalingUILayerNode.addChild( comboBoxContainer );
+
+    // Should be on top. Don't scale it because that messes with the scaling that the list box goes through, and changes
+    // the dimensions of the scalingUILayerNode to make it too big. Discovered in https://github.com/phetsims/ratio-and-proportion/issues/273
+    this.addChild( comboBoxListBoxParent );
 
     this.pdomPlayAreaNode.accessibleOrder = this.pdomPlayAreaNode.accessibleOrder.concat( [ comboBoxContainer ] );
 
@@ -50,7 +55,7 @@ class DiscoverScreenView extends RAPScreenView {
     ) );
 
     // layout
-    comboBoxContainer.left = this.tickMarkViewRadioButtonGroup.left;
+    comboBoxContainer.right = this.tickMarkViewRadioButtonGroup.right;
     comboBoxContainer.top = this.tickMarkViewRadioButtonGroup.bottom + 20;
   }
 }

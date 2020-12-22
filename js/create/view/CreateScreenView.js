@@ -106,7 +106,10 @@ class CreateScreenView extends RAPScreenView {
       children: [ leftRatioSelector, rightRatioSelector ]
     } );
     const myChallengeAccordionBox = new AccordionBox( myChallengeContent, {
-      titleNode: new RichText( ratioAndProportionStrings.myChallenge, { font: new PhetFont( 20 ) } ),
+      titleNode: new RichText( ratioAndProportionStrings.myChallenge, {
+        font: new PhetFont( 20 ),
+        maxWidth: 250 // empirically determined
+      } ),
       accessibleName: ratioAndProportionStrings.myChallenge,
       titleAlignX: 'left',
       contentXMargin: 26,
@@ -156,7 +159,8 @@ class CreateScreenView extends RAPScreenView {
 
     const lockRatioCheckbox = new Checkbox( new RichText( ratioAndProportionStrings.lockRatio ), model.ratio.lockedProperty, {
       accessibleName: ratioAndProportionStrings.lockRatio,
-      helpText: ratioAndProportionStrings.a11y.lockRatioHelpText
+      helpText: ratioAndProportionStrings.a11y.lockRatioHelpText,
+      maxWidth: 250 // empirically determined
     } );
     lockRatioCheckbox.touchArea = lockRatioCheckbox.localBounds.dilatedY( 0.5 * lockRatioCheckbox.height );
 
@@ -183,8 +187,11 @@ class CreateScreenView extends RAPScreenView {
     // children - remember to not blow away children set by parent
     this.topScalingUILayerNode.addChild( myChallengeAccordionBox );
     this.topScalingUILayerNode.addChild( tickMarkRangeComboBox );
-    this.topScalingUILayerNode.addChild( tickMarkRangeComboBoxParent ); // Should be on top
     this.bottomScalingUILayerNode.addChild( lockRatioCheckbox );
+
+    // Should be on top. Don't scale it because that messes with the scaling that the list box goes through, and changes
+    // the dimensions of the scalingUILayerNode to make it too big. Discovered in https://github.com/phetsims/ratio-and-proportion/issues/273
+    this.addChild( tickMarkRangeComboBoxParent );
 
     // pdom
     this.pdomPlayAreaNode.accessibleOrder = this.pdomPlayAreaNode.accessibleOrder.concat( [
