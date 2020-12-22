@@ -146,7 +146,10 @@ class BothHandsInteractionListener {
 
         // for number keys 0-9, jump both values to that tick mark number. This value changes based on the tickMarkRangeProperty
         for ( let i = 0; i <= 9; i++ ) {
-          if ( event.key === i + '' ) {
+          if ( event.key === i + '' &&
+               !event.getModifierState( 'Control' ) &&
+               !event.getModifierState( 'Shift' ) &&
+               !event.getModifierState( 'Alt' ) ) {
 
             const wasLocked = this.ratioLockedProperty.value;
 
