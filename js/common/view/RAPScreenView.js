@@ -37,7 +37,6 @@ import RatioHalf from './RatioHalf.js';
 import InProportionSoundGenerator from './sound/InProportionSoundGenerator.js';
 import MovingInProportionSoundGenerator from './sound/MovingInProportionSoundGenerator.js';
 import StaccatoFrequencySoundGenerator from './sound/StaccatoFrequencySoundGenerator.js';
-import ViewSounds from './sound/ViewSounds.js';
 import TickMarkView from './TickMarkView.js';
 import TickMarkViewRadioButtonGroup from './TickMarkViewRadioButtonGroup.js';
 
@@ -124,10 +123,6 @@ class RAPScreenView extends ScreenView {
     const playTickMarkBumpSoundProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
       fitness => !model.ratio.lockedProperty.value && fitness === model.fitnessRange.min );
 
-    // @private
-    this.viewSounds = new ViewSounds( this.tickMarkRangeProperty,
-      this.tickMarkViewProperty, playTickMarkBumpSoundProperty );
-
     // by default, the keyboard step size should be half of one default tick mark width. See https://github.com/phetsims/ratio-and-proportion/issues/85
     const keyboardStep = 1 / 2 / this.tickMarkRangeProperty.value;
 
@@ -152,7 +147,7 @@ class RAPScreenView extends ScreenView {
       keyboardStep,
       model.ratio.lockedProperty,
       model.ratio.lockedProperty, // not a bug
-      this.viewSounds,
+      playTickMarkBumpSoundProperty,
       this.inProportionSoundGenerator,
       () => model.getIdealValueForTerm( RatioTerm.ANTECEDENT ), {
         handColorProperty: options.leftHandColorProperty,
@@ -183,7 +178,7 @@ class RAPScreenView extends ScreenView {
       keyboardStep,
       model.ratio.lockedProperty,
       model.ratio.lockedProperty, // not a bug
-      this.viewSounds,
+      playTickMarkBumpSoundProperty,
       this.inProportionSoundGenerator,
       () => model.getIdealValueForTerm( RatioTerm.CONSEQUENT ), {
         handColorProperty: options.rightHandColorProperty,
@@ -201,7 +196,7 @@ class RAPScreenView extends ScreenView {
       model.unclampedFitnessProperty,
       this.ratioDescriber,
       bothHandsDescriber,
-      this.viewSounds,
+      playTickMarkBumpSoundProperty,
       model.ratio.lockedProperty,
       model.targetRatioProperty,
       model.getIdealValueForTerm.bind( model ), merge( {
@@ -395,7 +390,6 @@ class RAPScreenView extends ScreenView {
     this.staccatoFrequencySoundGenerator.reset();
     this.inProportionSoundGenerator.reset();
     this.movingInProportionSoundGenerator.reset();
-    this.viewSounds.reset();
   }
 
   /**

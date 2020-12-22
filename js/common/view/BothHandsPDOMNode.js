@@ -18,6 +18,7 @@ import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import BothHandsInteractionListener from './BothHandsInteractionListener.js';
+import ViewSounds from './sound/ViewSounds.js';
 
 class BothHandsPDOMNode extends Node {
 
@@ -31,7 +32,7 @@ class BothHandsPDOMNode extends Node {
    * @param {Property.<number>} unclampedFitnessProperty
    * @param {RatioDescriber} ratioDescriber
    * @param {BothHandsDescriber} bothHandsDescriber
-   * @param {ViewSounds} viewSounds
+   * @param {BooleanProperty} playTickMarkBumpSoundProperty
    * @param {BooleanProperty} ratioLockedProperty
    * @param {Property.<number>} targetRatioProperty
    * @param {function(RatioTerm):number} getIdealTerm
@@ -46,7 +47,7 @@ class BothHandsPDOMNode extends Node {
                unclampedFitnessProperty,
                ratioDescriber,
                bothHandsDescriber,
-               viewSounds,
+               playTickMarkBumpSoundProperty,
                ratioLockedProperty,
                targetRatioProperty,
                getIdealTerm,
@@ -80,6 +81,8 @@ class BothHandsPDOMNode extends Node {
     this.antecedentInteractedWithProperty = new BooleanProperty( false );
     this.consequentInteractedWithProperty = new BooleanProperty( false );
     this.bothHandsFocusedProperty = new BooleanProperty( false );
+
+    this.viewSounds = new ViewSounds( tickMarkRangeProperty, tickMarkViewProperty, playTickMarkBumpSoundProperty );
 
     Property.multilink( [
       this.antecedentInteractedWithProperty,
@@ -115,7 +118,7 @@ class BothHandsPDOMNode extends Node {
     // @private
     this.bothHandsInteractionListener = new BothHandsInteractionListener( interactiveNode, ratioTupleProperty,
       this.antecedentInteractedWithProperty, this.consequentInteractedWithProperty, enabledRatioTermsRangeProperty, tickMarkRangeProperty, keyboardStep,
-      viewSounds.boundarySoundClip, viewSounds.tickMarkBumpSoundClip, ratioLockedProperty, targetRatioProperty, getIdealTerm, {
+      this.viewSounds.boundarySoundClip, this.viewSounds.tickMarkBumpSoundClip, ratioLockedProperty, targetRatioProperty, getIdealTerm, {
         onInput: () => {
           this.alertBothHandsContextResponse();
         }
@@ -125,11 +128,11 @@ class BothHandsPDOMNode extends Node {
     interactiveNode.addInputListener( {
       focus: () => {
         this.alertBothHandsObjectResponse( tickMarkViewProperty.value );
-        viewSounds.grabSoundClip.play();
+        this.viewSounds.grabSoundClip.play();
         this.bothHandsFocusedProperty.value = true;
       },
       blur: () => {
-        viewSounds.releaseSoundClip.play();
+        this.viewSounds.releaseSoundClip.play();
         this.bothHandsFocusedProperty.value = false;
 
         // This only works because the bothHandsInteractionListener needs alt-input control resetting
@@ -187,6 +190,7 @@ class BothHandsPDOMNode extends Node {
     this.bothHandsInteractionListener.reset();
     this.objectResponseUtterance.reset();
     this.contextResponseUtterance.reset();
+    this.viewSounds.reset();
   }
 
   /**

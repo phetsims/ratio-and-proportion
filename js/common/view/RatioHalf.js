@@ -29,6 +29,7 @@ import RAPConstants from '../RAPConstants.js';
 import CueDisplay from './CueDisplay.js';
 import RatioHalfTickMarksNode from './RatioHalfTickMarksNode.js';
 import RatioHandNode from './RatioHandNode.js';
+import ViewSounds from './sound/ViewSounds.js';
 import TickMarkView from './TickMarkView.js';
 
 // constants
@@ -72,7 +73,7 @@ class RatioHalf extends Rectangle {
    * @param {number} keyboardStep
    * @param {BooleanProperty} horizontalMovementAllowedProperty
    * @param {BooleanProperty} ratioLockedProperty
-   * @param {ViewSounds} viewSounds
+   * @param {BooleanProperty} playTickMarkBumpSoundProperty
    * @param {InProportionSoundGenerator} inProportionSoundGenerator
    * @param {function():number} getIdealValue - a function that gets the value of this RatioHalf term that would achieve the targetRatio
    * @param {Object} [options]
@@ -91,7 +92,7 @@ class RatioHalf extends Rectangle {
                keyboardStep,
                horizontalMovementAllowedProperty,
                ratioLockedProperty,
-               viewSounds,
+               playTickMarkBumpSoundProperty,
                inProportionSoundGenerator,
                getIdealValue,
                options ) {
@@ -130,6 +131,8 @@ class RatioHalf extends Rectangle {
     this.handPositionsDescriber = handPositionsDescriber;
     this.tickMarkViewProperty = tickMarkViewProperty;
     this.valueProperty = valueProperty;
+
+    const viewSounds = new ViewSounds( tickMarkRangeProperty, tickMarkViewProperty, playTickMarkBumpSoundProperty );
 
     // This follows the spec outlined in https://github.com/phetsims/ratio-and-proportion/issues/81
     const cueDisplayStateProperty = new DerivedProperty( [
@@ -352,6 +355,7 @@ class RatioHalf extends Rectangle {
     // @private
     this.resetRatioHalf = () => {
       this.ratioHandNode.reset();
+      viewSounds.reset();
       positionProperty.value.setX( INITIAL_X_VALUE );
       positionProperty.notifyListenersStatic();
     };
