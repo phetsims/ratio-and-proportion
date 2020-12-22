@@ -26,7 +26,7 @@ import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 const TICK_MARK_RANGE_FONT = new PhetFont( 16 );
 const RANGE_TEXT_OPTIONS = { font: TICK_MARK_RANGE_FONT };
 
-class TickMarkRangeComboBox extends Node {
+class TickMarkRangeComboBoxNode extends Node {
 
   /**
    * @param {Property.<number>} tickMarkRangeProperty
@@ -64,21 +64,23 @@ class TickMarkRangeComboBox extends Node {
       maxWidth: 300 // empirically determined
     };
 
-    const enabledComboBox = new ComboBox( items, tickMarkRangeProperty, comboBoxParent, comboBoxOptions );
+    // @private
+    this.enabledComboBox = new ComboBox( items, tickMarkRangeProperty, comboBoxParent, comboBoxOptions );
 
     const value = true;
 
-    const disabledComboBox = new ComboBox( [
+    // @private
+    this.disabledComboBox = new ComboBox( [
       new ComboBoxItem( new HSeparator( widestItem, { centerY: -5 } ), value, { a11yLabel: ratioAndProportionStrings.a11y.tickMark.tickMarksHidden } ),
       items[ 0 ] // add this one to get the proper height of the text.
     ], new BooleanProperty( value ), new Node(), comboBoxOptions );
 
     // always disabled
-    disabledComboBox.enabledProperty.value = false;
+    this.disabledComboBox.enabledProperty.value = false;
 
     // when not displaying the tick marks, show the "blank" line instead of the RichText.
     tickMarkViewProperty.link( tickMarkView => {
-      this.children = tickMarkView === TickMarkView.NONE ? [ disabledComboBox ] : [ enabledComboBox ];
+      this.children = tickMarkView === TickMarkView.NONE ? [ this.disabledComboBox ] : [ this.enabledComboBox ];
     } );
 
     const tickMarkRangeChangedUtterance = new ActivationUtterance();
@@ -90,7 +92,15 @@ class TickMarkRangeComboBox extends Node {
       phet.joist.sim.utteranceQueue.addToBack( tickMarkRangeChangedUtterance );
     } );
   }
+
+  /**
+   * @public
+   */
+  hideListBox() {
+    this.enabledComboBox.hideListBox();
+    this.disabledComboBox.hideListBox();
+  }
 }
 
-ratioAndProportion.register( 'TickMarkRangeComboBox', TickMarkRangeComboBox );
-export default TickMarkRangeComboBox;
+ratioAndProportion.register( 'TickMarkRangeComboBoxNode', TickMarkRangeComboBoxNode );
+export default TickMarkRangeComboBoxNode;

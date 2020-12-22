@@ -32,15 +32,17 @@ class DiscoverScreenView extends RAPScreenView {
     } );
 
     const comboBoxListBoxParent = new Node();
-    const comboBoxContainer = new ChallengeRatioComboBoxNode( model.targetRatioProperty, this.ratioDescriber, handColorProperty, comboBoxListBoxParent );
 
-    this.topScalingUILayerNode.addChild( comboBoxContainer );
+    // @private
+    this.comboBoxContainer = new ChallengeRatioComboBoxNode( model.targetRatioProperty, this.ratioDescriber, handColorProperty, comboBoxListBoxParent );
+
+    this.topScalingUILayerNode.addChild( this.comboBoxContainer );
 
     // Should be on top. Don't scale it because that messes with the scaling that the list box goes through, and changes
     // the dimensions of the scalingUILayerNode to make it too big. Discovered in https://github.com/phetsims/ratio-and-proportion/issues/273
     this.addChild( comboBoxListBoxParent );
 
-    this.pdomPlayAreaNode.accessibleOrder = this.pdomPlayAreaNode.accessibleOrder.concat( [ comboBoxContainer ] );
+    this.pdomPlayAreaNode.accessibleOrder = this.pdomPlayAreaNode.accessibleOrder.concat( [ this.comboBoxContainer ] );
 
     // set this after the supertype has initialized the view code needed to create the screen summary
     this.setScreenSummaryContent( new DiscoverScreenSummaryNode(
@@ -51,12 +53,23 @@ class DiscoverScreenView extends RAPScreenView {
       this.tickMarkViewProperty,
       this.ratioDescriber,
       this.handPositionsDescriber,
-      comboBoxContainer.ratioToChallengeNameMap
+      this.comboBoxContainer.ratioToChallengeNameMap
     ) );
 
     // layout
-    comboBoxContainer.right = this.tickMarkViewRadioButtonGroup.right;
-    comboBoxContainer.top = this.tickMarkViewRadioButtonGroup.bottom + 20;
+    this.comboBoxContainer.right = this.tickMarkViewRadioButtonGroup.right;
+    this.comboBoxContainer.top = this.tickMarkViewRadioButtonGroup.bottom + 20;
+  }
+
+  /**
+   * @override
+   * @public
+   * @param {number} width
+   * @param {number} height
+   */
+  layout( width, height ) {
+    this.comboBoxContainer.hideListBox(); // hidden when layout changes, see https://github.com/phetsims/ratio-and-proportion/issues/324
+    super.layout( width, height );
   }
 }
 

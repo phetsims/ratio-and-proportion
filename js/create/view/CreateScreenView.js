@@ -25,7 +25,7 @@ import RatioHandNode from '../../common/view/RatioHandNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import CreateScreenSummaryNode from './CreateScreenSummaryNode.js';
-import TickMarkRangeComboBox from './TickMarkRangeComboBox.js';
+import TickMarkRangeComboBoxNode from './TickMarkRangeComboBoxNode.js';
 
 const PICKER_SCALE = 1.5;
 const ICON_SCALE = .9;
@@ -139,7 +139,8 @@ class CreateScreenView extends RAPScreenView {
 
     const tickMarkRangeComboBoxParent = new Node();
 
-    const tickMarkRangeComboBox = new TickMarkRangeComboBox( this.tickMarkRangeProperty, tickMarkRangeComboBoxParent, this.tickMarkViewProperty );
+    // @private
+    this.tickMarkRangeComboBoxNode = new TickMarkRangeComboBoxNode( this.tickMarkRangeProperty, tickMarkRangeComboBoxParent, this.tickMarkViewProperty );
 
     // set this after the supertype has initialized the view code needed to create the screen summary
     this.setScreenSummaryContent( new CreateScreenSummaryNode(
@@ -186,7 +187,7 @@ class CreateScreenView extends RAPScreenView {
 
     // children - remember to not blow away children set by parent
     this.topScalingUILayerNode.addChild( myChallengeAccordionBox );
-    this.topScalingUILayerNode.addChild( tickMarkRangeComboBox );
+    this.topScalingUILayerNode.addChild( this.tickMarkRangeComboBoxNode );
     this.bottomScalingUILayerNode.addChild( lockRatioCheckbox );
 
     // Should be on top. Don't scale it because that messes with the scaling that the list box goes through, and changes
@@ -195,7 +196,7 @@ class CreateScreenView extends RAPScreenView {
 
     // pdom
     this.pdomPlayAreaNode.accessibleOrder = this.pdomPlayAreaNode.accessibleOrder.concat( [
-      tickMarkRangeComboBox,
+      this.tickMarkRangeComboBoxNode,
       tickMarkRangeComboBoxParent,
       myChallengeAccordionBox,
       lockRatioCheckbox
@@ -206,9 +207,9 @@ class CreateScreenView extends RAPScreenView {
     lockRatioCheckbox.bottom = this.resetAllButton.top - 20;
 
     // ui layer node layout (scales based on width). This only needs to be laid out once, as the container is scaled.
-    tickMarkRangeComboBox.right = myChallengeAccordionBox.right = tickMarkRangeComboBoxParent.right = this.tickMarkViewRadioButtonGroup.right;
-    tickMarkRangeComboBox.top = tickMarkRangeComboBoxParent.top = this.tickMarkViewRadioButtonGroup.bottom + 10;
-    myChallengeAccordionBox.top = tickMarkRangeComboBox.bottom + 30;
+    this.tickMarkRangeComboBoxNode.right = myChallengeAccordionBox.right = tickMarkRangeComboBoxParent.right = this.tickMarkViewRadioButtonGroup.right;
+    this.tickMarkRangeComboBoxNode.top = tickMarkRangeComboBoxParent.top = this.tickMarkViewRadioButtonGroup.bottom + 10;
+    myChallengeAccordionBox.top = this.tickMarkRangeComboBoxNode.bottom + 30;
 
     // @private
     this.resetCreateScreenView = () => {
@@ -216,6 +217,17 @@ class CreateScreenView extends RAPScreenView {
       targetConsequentProperty.reset();
       myChallengeAccordionBox.expandedProperty.value = DEFAULT_EXPANDED;
     };
+  }
+
+  /**
+   * @override
+   * @public
+   * @param {number} width
+   * @param {number} height
+   */
+  layout( width, height ) {
+    this.tickMarkRangeComboBoxNode.hideListBox(); // hidden when layout changes, see https://github.com/phetsims/ratio-and-proportion/issues/324
+    super.layout( width, height );
   }
 
   /**

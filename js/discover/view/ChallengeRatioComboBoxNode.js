@@ -55,7 +55,7 @@ class ChallengeRatioComboBoxNode extends Node {
       innerContent: ratioAndProportionStrings.challengeRatio,
       tagName: 'h3'
     } );
-    const comboBox = new ComboBox( [
+    this.comboBox = new ComboBox( [
       new ChallengeComboBoxItem( this.ratioToChallengeNameMap.get( 1 / 2 ).capitalized, RAPColorProfile.discoverChallenge1Property.value, 1 / 2, targetRatioProperty, colorProperty, {
         soundPlayer: soundGenerators[ 0 ],
         a11yLabel: ratioAndProportionStrings.challenge1
@@ -81,10 +81,17 @@ class ChallengeRatioComboBoxNode extends Node {
 
     this.children = [
       comboBoxHeading,
-      comboBox
+      this.comboBox
     ];
 
-    this.accessibleOrder = [ comboBoxHeading, comboBox ];
+    this.accessibleOrder = [ comboBoxHeading, this.comboBox ];
+  }
+
+  /**
+   * @public
+   */
+  hideListBox(){
+    this.comboBox.hideListBox();
   }
 }
 
