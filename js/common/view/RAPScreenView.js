@@ -193,6 +193,7 @@ class RAPScreenView extends ScreenView {
 
     const bothHandsPDOMNode = new BothHandsPDOMNode(
       ratio.tupleProperty,
+      ratio.enabledRatioTermsRangeProperty,
       cueArrowsState,
       keyboardStep,
       this.tickMarkViewProperty,

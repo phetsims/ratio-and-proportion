@@ -23,6 +23,7 @@ class BothHandsPDOMNode extends Node {
 
   /**
    * @param {Property.<RAPRatioTuple>} ratioTupleProperty
+   * @param {Property.<Range>} enabledRatioTermsRangeProperty
    * @param {CueArrowsState} cueArrowsState
    * @param {number} keyboardStep
    * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
@@ -37,6 +38,7 @@ class BothHandsPDOMNode extends Node {
    * @param {Object} [options]
    */
   constructor( ratioTupleProperty,
+               enabledRatioTermsRangeProperty,
                cueArrowsState,
                keyboardStep,
                tickMarkViewProperty,
@@ -112,7 +114,7 @@ class BothHandsPDOMNode extends Node {
 
     // @private
     this.bothHandsInteractionListener = new BothHandsInteractionListener( interactiveNode, ratioTupleProperty,
-      this.antecedentInteractedWithProperty, this.consequentInteractedWithProperty, tickMarkRangeProperty, keyboardStep,
+      this.antecedentInteractedWithProperty, this.consequentInteractedWithProperty, enabledRatioTermsRangeProperty, tickMarkRangeProperty, keyboardStep,
       viewSounds.boundarySoundClip, viewSounds.tickMarkBumpSoundClip, ratioLockedProperty, targetRatioProperty, getIdealTerm, {
         onInput: () => {
           this.alertBothHandsContextResponse();
