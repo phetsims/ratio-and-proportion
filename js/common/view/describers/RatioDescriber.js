@@ -1,6 +1,6 @@
 // Copyright 2020, University of Colorado Boulder
 
-//REVIEW: I (jbphet) don't know much about describers.  Would a description be useful, or is it obvious from the name what it does?
+// REVIEW: I (jbphet) don't know much about describers.  Would a description of what this is be useful, or is it obvious from the name what it does?
 /**
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -83,9 +83,9 @@ class RatioDescriber {
 
     const unclampedFitness = this.unclampedFitnessProperty.value;
 
-    const mappingFuntion = unclampedFitness > 0 ? greaterThanZeroMapping : lessThanZeroMapping;
+    const mappingFunction = unclampedFitness > 0 ? greaterThanZeroMapping : lessThanZeroMapping;
 
-    return ratioRegions[ Math.floor( mappingFuntion( unclampedFitness ) ) ];
+    return ratioRegions[ Math.floor( mappingFunction( unclampedFitness ) ) ];
   }
 
   /**

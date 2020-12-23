@@ -22,6 +22,8 @@ import ViewSounds from './sound/ViewSounds.js';
 
 class BothHandsPDOMNode extends Node {
 
+  // REVIEW: This is a ton of parameters, and seems like a good application of a "config" object.
+
   /**
    * @param {Property.<RAPRatioTuple>} ratioTupleProperty
    * @param {Property.<Range>} enabledRatioTermsRangeProperty

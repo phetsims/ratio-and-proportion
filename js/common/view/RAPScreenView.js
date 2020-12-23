@@ -1,6 +1,6 @@
 // Copyright 2020, University of Colorado Boulder
 
-//REVIEW: Missing description.
+// REVIEW: Missing description.
 /**
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -109,7 +109,7 @@ class RAPScreenView extends ScreenView {
     soundManager.addSoundGenerator( this.inProportionSoundGenerator );
     soundManager.addSoundGenerator( this.movingInProportionSoundGenerator );
 
-    //REVIEW: Is the following comment incomplete?
+    // REVIEW: Is the following comment incomplete?
     // Properties that keep track of
     const cueArrowsState = new CueArrowsState();
 

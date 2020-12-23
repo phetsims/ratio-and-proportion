@@ -17,7 +17,7 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPConstants from '../RAPConstants.js';
 import RAPRatioTuple from './RAPRatioTuple.js';
 
-// The threshold for velocity of a moving ratio value to indivate that it is "moving."
+// The threshold for velocity of a moving ratio value to indicate that it is "moving."
 const VELOCITY_THRESHOLD = .01;
 
 const DEFAULT_TERM_VALUE_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
@@ -31,6 +31,8 @@ class RAPRatio {
 
     // @public (read-only) {Property.<Range>}
     this.enabledRatioTermsRangeProperty = new Property( DEFAULT_TERM_VALUE_RANGE );
+
+    // REVIEW: Why not construct this with initial values instead of using what seems like arbitrary ones below?
 
     // @public {Property.<RAPRatioTuple>} - central Property that holds the value of the ratio
     this.tupleProperty = new Property( new RAPRatioTuple( .2, .4 ), {
@@ -74,6 +76,11 @@ class RAPRatio {
     // listener. This is predominately needed because even same antecedent/consequent values get wrapped in a new
     // RAPRatioTuple instance.
     this.lockRatioListenerEnabled = true;
+
+    // REVIEW: The linkage below seems quite complex, and appears to be a consequence of the design choice to use a
+    // tuple for the ratio instead of just independent antecedent and consequent properties.  And yet, there are derived
+    // versions of antecedent and consequent properties above anyway.  Wouldn't it be simpler to do away with the tuple
+    // and thus never be in a situation where it needed to be recreated because half of it had changed?
 
     // Listener that will handle keeping both ratio tuple values in sync when the ratio is locked.
     this.tupleProperty.link( ( tuple, oldTuple ) => {

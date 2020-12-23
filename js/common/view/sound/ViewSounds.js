@@ -25,7 +25,6 @@ const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 class ViewSounds {
 
   /**
-   *
    * @param {NumberProperty} tickMarkRangeProperty
    * @param {Property.<TickMarkView>} tickMarkViewProperty
    * @param {BooleanProperty} playTickMarkBumpSoundProperty

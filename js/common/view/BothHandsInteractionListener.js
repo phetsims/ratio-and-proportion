@@ -20,6 +20,8 @@ const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 class BothHandsInteractionListener {
 
+  // REVIEW: This is a ton of parameters, and seems like a good application of a "config" object.
+
   /**
    * @param {Node} targetNode
    * @param {Property.<RAPRatioTuple>} ratioTupleProperty

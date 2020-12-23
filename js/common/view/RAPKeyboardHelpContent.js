@@ -45,7 +45,7 @@ class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
   }
 }
 
-//REVIEW - was this intended to be a description of the class that didn't get finished?
+// REVIEW - was this intended to be a description of the class that didn't get finished?
 /**
  * @param {Object} [options]
  * @constructor

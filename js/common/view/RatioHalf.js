@@ -58,6 +58,8 @@ const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 class RatioHalf extends Rectangle {
 
+  // REVIEW: Lots of parameters here, would a config object be better?
+
   /**
    * @param {NumberProperty} valueProperty
    * @param {Property.<Range>} enabledRatioTermsRangeProperty - the current range that the hand can move

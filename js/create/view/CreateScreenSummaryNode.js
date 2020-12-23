@@ -14,6 +14,8 @@ import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
 class CreateScreenSummaryNode extends Node {
 
+  // REVIEW: This is a ton of parameters, and seems like a good application of a "config" object.
+
   /**
    * @param {Property.<number>} ratioFitnessProperty
    * @param {Property.<number>} antecedentProperty

@@ -44,7 +44,8 @@ class RatioHandNode extends Node {
 
     const shiftKeyboardStep = RAPConstants.toFixed( keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER );
 
-    // conserve keypresses while allowing keyboard input to access any "in-proportion" state, even if more granular than the keyboard step size allows.
+    // Conserve keypresses while allowing keyboard input to access any "in-proportion" state, even if more granular than
+    // the keyboard step size allows.
     const mapKeyboardInput = getKeyboardInputSnappingMapper( getIdealValue, keyboardStep, shiftKeyboardStep );
 
     options = merge( {
@@ -166,7 +167,8 @@ class RatioHandNode extends Node {
   }
 
   /**
-   * Call to reset input characteristics for alternative input. See https://github.com/phetsims/ratio-and-proportion/issues/175#issuecomment-729292704
+   * Call to reset input characteristics for alternative input. See
+   * https://github.com/phetsims/ratio-and-proportion/issues/175#issuecomment-729292704
    * @public
    */
   reset() {

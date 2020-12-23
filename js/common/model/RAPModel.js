@@ -1,6 +1,6 @@
 // Copyright 2020, University of Colorado Boulder
 
-//REVIEW: This is a pretty central class in the sim and should probably have a description.
+// REVIEW: This is a pretty central class in the sim and should probably have a description.
 /**
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -29,11 +29,20 @@ class RAPModel {
     // @public - The desired ratio of the antecedent as compared to the consequent. As in 1:2 (initial value).
     this.targetRatioProperty = new NumberProperty( .5 );
 
+    // REVIEW: The target ratio property (above) and the ratio (below) rely on hard-coded constants to be correctly
+    // REVIEW: initialized.  Why not construct the ratio with values, then use its currentRatio to initialize targetRatioProperty?
+
     // @public - the current state of the ratio (value of terms, if its locked, etc)
     this.ratio = new RAPRatio();
 
+    // REVIEW - The rest of the code doesn't seem to ever change fitnessRange.  Can it be a constant and a static?
     // @public (read-only) - the Range that the ratioFitnessProperty can be.
     this.fitnessRange = new Range( 0, 1 );
+
+    // REVIEW: The comment below says, in part, "the min can be arbitrarily negative, depending how far away the current
+    // ratio is from the targetRatio".  The phrase "arbitrarily negative" seems problematic.  It can't really be
+    // arbitrary if it's the result of a calculation, which it almost certainly is.  What calculation?  How negative?
+    // How are clients expected to interpret these negative values?
 
     // @public {DerivedProperty.<number>}
     // How "correct" the proportion currently is. Max is this.fitnessRange.max, but the min can be arbitrarily negative,
@@ -48,11 +57,13 @@ class RAPModel {
 
       let unclampedFitness = this.calculateFitness( antecedent, consequent, ratio );
 
-      // If either value is small enough, then we don't allow an "in proportion" fitness level, so make it just below that threshold.
+      // If either value is small enough, then we don't allow an "in proportion" fitness level, so make it just below
+      // that threshold.
       if ( this.inProportion( unclampedFitness ) && this.valuesTooSmallForInProportion() ) {
         unclampedFitness = this.fitnessRange.max - this.getInProportionThreshold() - .01;
       }
 
+      // REVIEW: This looks weird in terms of indentation.  Why not use \n or <br> and the + operator to keep it neater?
       phet.log && phet.log( `
 left: ${antecedent}, 
 right: ${consequent}, 
@@ -66,10 +77,15 @@ unclampedFitness: ${unclampedFitness}\n` );
       isValidValue: value => value <= this.fitnessRange.max
     } );
 
+    // REVIEW: Somewhere it should be explained why the clamped and unclamped values are both needed.
+
+    // REVIEW: Suggest more consistent names for fitness properties, e.g. clampedRatioFitnessProperty and unclampedRatioFitnessProperty
+
     // @public {DerivedProperty.<number>}
     // How "correct" the proportion currently is. clamped within this.fitnessRange. If at max (1), the proportion of
     // the two values is exactly the value of the targetRatioProperty. If min (0), it is outside the tolerance
     // allowed for the proportion to give many feedbacks.
+    // REVIEW: "...it is outside the tolerance allowed for the proportion to give many feedbacks." -> Can this be clarified and/or reworded?
     this.ratioFitnessProperty = new DerivedProperty( [ this.unclampedFitnessProperty ],
       unclampedFitness => Utils.clamp( unclampedFitness, this.fitnessRange.min, this.fitnessRange.max ), {
         isValidValue: value => this.fitnessRange.contains( value )
@@ -108,6 +124,8 @@ unclampedFitness: ${unclampedFitness}\n` );
     return this.fitnessRange.max - FITNESS_TOLERANCE_FACTOR * Math.abs( consequent - antecedentOptimal / targetRatio );
   }
 
+  // REVIEW: Suggest adding an explanation somewhere of how the fitness value works.
+
   /**
    * @param {number} antecedent
    * @param {number} consequent
@@ -116,6 +134,11 @@ unclampedFitness: ${unclampedFitness}\n` );
    * @private
    */
   calculateFitness( antecedent, consequent, targetRatio ) {
+
+    // REVIEW: The comment below says, in part, "...because the model values only span from 0-1".  This is the first
+    // time this is mentioned that this reviewer (jbphet) has encountered.  Is this a constraint of the model?  Is it
+    // enforced anywhere?  Why is it like this?  Also, why is it necessary to multiply by any number?  A ratio is a
+    // ratio, so it seems kind of odd.
 
     // multiply because the model values only span from 0-1
     const a = antecedent * 10;
