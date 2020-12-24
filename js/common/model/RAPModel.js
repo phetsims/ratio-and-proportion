@@ -150,8 +150,10 @@ unclampedFitness: ${unclampedFitness}\n` );
    * @returns {number}
    */
   getMinFitness( ratio = this.targetRatioProperty.value ) {
-    const minRatioFitness = this.calculateFitness( TOTAL_RANGE.min, TOTAL_RANGE.max, ratio );
-    const maxRatioFitness = this.calculateFitness( TOTAL_RANGE.max, TOTAL_RANGE.min, ratio );
+    const minRatioFitness = Math.min( this.calculateFitness( TOTAL_RANGE.min, TOTAL_RANGE.max, ratio ),
+      this.calculateFitness( TOTAL_RANGE.min, TOTAL_RANGE.min, ratio ) );
+    const maxRatioFitness = Math.min( this.calculateFitness( TOTAL_RANGE.min, TOTAL_RANGE.max, ratio ),
+      this.calculateFitness( TOTAL_RANGE.max, TOTAL_RANGE.max, ratio ) );
     return Math.min( minRatioFitness, maxRatioFitness );
   }
 
