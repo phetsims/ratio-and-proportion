@@ -9,13 +9,16 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPConstants from '../RAPConstants.js';
 import RAPRatio from './RAPRatio.js';
 import RatioTerm from './RatioTerm.js';
 
-// constant to help achieve feedback in 40% of the visual screen height (2 default tick marks).
-const FITNESS_TOLERANCE_FACTOR = 0.5;
+// constant to help achieve feedback in 40% of the visual screen height (2 default tick marks). Calculated by taking the
+// fitness distance when the right hand is 2 tick marks from the target ratio. This number is based on a target ratio of
+// .5, so it is normalized here. When used, it should be multiplied by the current target ratio.
+const MIN_CLAMPED_FITNESS_DISTANCE = 0.08944271909999162 / .5;
 
 const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
@@ -105,33 +108,12 @@ unclampedFitness: ${unclampedFitness}\n` );
     this.ratio.lockedProperty.link( locked => locked && this.ratio.setRatioToTarget( this.targetRatioProperty.value ) );
   }
 
-  /**
-   * fitness according to treating the consequent as "correct" in relation to the target ratio
-   * @param {number} antecedent
-   * @param {number} consequentOptimal
-   * @param {number} targetRatio
-   * @returns {number}
-   * @private
-   */
-  fitnessBasedOnAntecedent( antecedent, consequentOptimal, targetRatio ) {
-    return this.fitnessRange.max - FITNESS_TOLERANCE_FACTOR * Math.abs( antecedent - targetRatio * consequentOptimal );
-  }
-
-  /**
-   * fitness according to treating the antecedent as "correct" in relation to the target ratio
-   * @param {number} antecedentOptimal
-   * @param {number} consequent
-   * @param {number} targetRatio
-   * @returns {number}
-   * @private
-   */
-  fitnessBasedOnConsequent( antecedentOptimal, consequent, targetRatio ) {
-    return this.fitnessRange.max - FITNESS_TOLERANCE_FACTOR * Math.abs( consequent - antecedentOptimal / targetRatio );
-  }
-
   // REVIEW: Suggest adding an explanation somewhere of how the fitness value works.
 
   /**
+   * This fitness algorithm is explained in https://github.com/phetsims/ratio-and-proportion/issues/325. It is based
+   * on plotting and intersection between a point representing the current ratio, and the function of the current ratio.
+   * This is possible because the ratio values are normalized between 0 and 1.
    * @param {number} antecedent
    * @param {number} consequent
    * @param {number} targetRatio
@@ -145,13 +127,20 @@ unclampedFitness: ${unclampedFitness}\n` );
     // enforced anywhere?  Why is it like this?  Also, why is it necessary to multiply by any number?  A ratio is a
     // ratio, so it seems kind of odd.
 
-    // multiply because the model values only span from 0-1
-    const a = antecedent * 10;
-    const b = consequent * 10;
+    // Calculate the inverse slope from the current target ratio.
+    const coefficient = -1 / targetRatio;
 
-    // By taking the min of either value, we "smooth" out the fitness algorithm in cases where you change both ratio
-    // terms at the same time (or alternating).
-    return Math.min( this.fitnessBasedOnAntecedent( a, b, targetRatio ), this.fitnessBasedOnConsequent( a, b, targetRatio ) );
+    const yIntercept = antecedent - consequent * coefficient;
+
+    const pointOnTarget = Utils.lineLineIntersection(
+      Vector2.ZERO, new Vector2( 1, targetRatio ), // line for the target ratio
+      new Vector2( 0, yIntercept ), new Vector2( 1, coefficient + yIntercept ) // line for the inverse slope of target
+    );
+
+    // Find the distance between the current ratio, and the calculated intersection with the target ratio function.
+    const distanceFromTarget = new Vector2( consequent, antecedent ).distance( pointOnTarget );
+
+    return this.fitnessRange.max - ( this.fitnessRange.max * distanceFromTarget ) / ( MIN_CLAMPED_FITNESS_DISTANCE * targetRatio );
   }
 
   /**
