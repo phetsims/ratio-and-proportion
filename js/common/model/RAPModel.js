@@ -57,9 +57,14 @@ class RAPModel {
 
       let unclampedFitness = this.calculateFitness( antecedent, consequent, ratio );
 
-      // If either value is small enough, then we don't allow an "in proportion" fitness level, so make it just below
-      // that threshold.
-      if ( this.inProportion( unclampedFitness ) && this.valuesTooSmallForInProportion() ) {
+      if ( this.inProportion( unclampedFitness ) &&
+
+           // If either value is small enough, then we don't allow an "in proportion" fitness level, so make it just below
+           // that threshold.
+           ( this.valuesTooSmallForInProportion() ||
+
+             // In this case, the normal model behavior looks buggy because both values are equal, but still in proportion.
+             this.ratioEvenButNotAtTarget() ) ) {
         unclampedFitness = this.fitnessRange.max - this.getInProportionThreshold() - .01;
       }
 
@@ -217,6 +222,17 @@ unclampedFitness: ${unclampedFitness}\n` );
     if ( ratioTerm === RatioTerm.CONSEQUENT ) {
       return this.ratio.tupleProperty.value.antecedent / this.targetRatioProperty.value;
     }
+  }
+
+  /**
+   * A special case in the model where the target ratio is not 1, but both ratio terms are even. This case is worth
+   * its own function because it often produces weird bugs in the view's output, see https://github.com/phetsims/ratio-and-proportion/issues/297 and https://github.com/phetsims/ratio-and-proportion/issues/299
+   * @returns {boolean}
+   * @public
+   */
+  ratioEvenButNotAtTarget() {
+    return this.targetRatioProperty.value !== 1 &&
+           this.ratio.tupleProperty.value.antecedent === this.ratio.tupleProperty.value.consequent;
   }
 
   /**

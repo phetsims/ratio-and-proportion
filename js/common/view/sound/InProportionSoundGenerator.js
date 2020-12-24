@@ -101,7 +101,10 @@ class InProportionSoundGenerator extends SoundClip {
     // Only use hysteresis when both hands are moving.
     const hysteresisThreshold = this.model.ratio.movingInDirection() ? HYSTERESIS_THRESHOLD : 0;
 
-    if ( !this.playedSuccessYet && ( isInRatio || this.jumpedOverInProportionAndShouldSound() ) ) {
+    if ( !this.playedSuccessYet &&
+         ( isInRatio || this.jumpedOverInProportionAndShouldSound() ) &&
+         !this.model.ratioEvenButNotAtTarget()  // don't allow this sound if target isn't 1 but both values are 1
+    ) {
       this.setOutputLevel( SUCCESS_OUTPUT_LEVEL, 0 );
       this.play();
       this.playedSuccessYet = true;

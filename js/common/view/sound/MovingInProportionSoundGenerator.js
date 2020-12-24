@@ -55,7 +55,7 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
       if ( model.ratio.movingInDirection() && // only when moving
            !model.valuesTooSmallForInProportion() && // no moving in proportion success if too small
            model.inProportion() && // must be fit enough to play the moving in proportion success
-           !( model.targetRatioProperty.value !== 1 && currentTuple.antecedent === currentTuple.consequent ) // target isn't 1 but both values are 1
+           !model.ratioEvenButNotAtTarget()  // don't allow this sound if target isn't 1 but both values are 1
       ) {
         this.movingInProportionSoundClip.setOutputLevel( 1, .1 );
         !this.movingInProportionSoundClip.isPlaying && this.movingInProportionSoundClip.play();
