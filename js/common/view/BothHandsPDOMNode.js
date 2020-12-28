@@ -121,15 +121,25 @@ class BothHandsPDOMNode extends Node {
     interactiveNode.setAccessibleAttribute( 'aria-roledescription', sceneryPhetStrings.a11y.grabDrag.movable );
 
     // @private
-    this.bothHandsInteractionListener = new BothHandsInteractionListener( interactiveNode, ratioTupleProperty,
-      this.antecedentInteractedWithProperty, this.consequentInteractedWithProperty, enabledRatioTermsRangeProperty, tickMarkRangeProperty, keyboardStep,
-      this.viewSounds.boundarySoundClip, this.viewSounds.tickMarkBumpSoundClip, ratioLockedProperty, targetRatioProperty, getIdealTerm, {
-        onInput: () => {
-          this.alertBothHandsContextResponse();
-        }
-      } );
-    interactiveNode.addInputListener( this.bothHandsInteractionListener );
+    this.bothHandsInteractionListener = new BothHandsInteractionListener( {
+      targetNode: interactiveNode,
+      ratioTupleProperty: ratioTupleProperty,
+      antecedentInteractedWithProperty: this.antecedentInteractedWithProperty,
+      consequentInteractedWithProperty: this.consequentInteractedWithProperty,
+      enabledRatioTermsRangeProperty: enabledRatioTermsRangeProperty,
+      tickMarkRangeProperty: tickMarkRangeProperty,
+      keyboardStep: keyboardStep,
+      boundarySoundClip: this.viewSounds.boundarySoundClip,
+      tickMarkBumpSoundClip: this.viewSounds.tickMarkBumpSoundClip,
+      ratioLockedProperty: ratioLockedProperty,
+      targetRatioProperty: targetRatioProperty,
+      getIdealTerm: getIdealTerm,
+      onInput: () => {
+        this.alertBothHandsContextResponse();
+      }
+    } );
 
+    interactiveNode.addInputListener( this.bothHandsInteractionListener );
     interactiveNode.addInputListener( {
       focus: () => {
         this.alertBothHandsObjectResponse( tickMarkViewProperty.value );

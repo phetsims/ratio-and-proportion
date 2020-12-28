@@ -1,7 +1,8 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * Keyboard drag listener for moving both ratio halves at the same time
+ * Keyboard interaction listener for moving both ratio halves at the same time. This includes step-wise movement on
+ * each ratio term independently (at the same time), as well as jumping both terms to the same value.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -9,6 +10,7 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import merge from '../../../../phet-core/js/merge.js';
+import required from '../../../../phet-core/js/required.js';
 import globalKeyStateTracker from '../../../../scenery/js/accessibility/globalKeyStateTracker.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
@@ -20,52 +22,73 @@ const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 class BothHandsInteractionListener {
 
-  // REVIEW: This is a ton of parameters, and seems like a good application of a "config" object.
-
   /**
-   * @param {Node} targetNode
-   * @param {Property.<RAPRatioTuple>} ratioTupleProperty
-   * @param {Property.<boolean>} antecedentInteractedWithProperty
-   * @param {Property.<boolean>} consequentInteractedWithProperty
-   * @param {Property.<Range>} enabledRatioTermsRangeProperty
-   * @param {Property.<number>} tickMarkRangeProperty
-   * @param {number} keyboardStep
-   * @param {BoundarySoundClip} boundarySoundClip
-   * @param {TickMarkBumpSoundClip} tickMarkBumpSoundClip
-   * @param {Property.<boolean>} ratioLockedProperty
-   * @param {Property.<number>} targetRatioProperty
-   * @param {function(RatioTerm):number} getIdealTerm
-   * @param {Object} [options]
+   * @param {Object} config
    */
-  constructor( targetNode, ratioTupleProperty,
-               antecedentInteractedWithProperty, consequentInteractedWithProperty, enabledRatioTermsRangeProperty,
-               tickMarkRangeProperty, keyboardStep, boundarySoundClip, tickMarkBumpSoundClip,
-               ratioLockedProperty, targetRatioProperty, getIdealTerm, options ) {
+  constructor( config ) {
 
-    options = merge( {
+    config = merge( {
+
+      // {Node} targetNode - Node to add listeners to
+      targetNode: required( config.targetNode ),
+
+      // {Property.<RAPRatioTuple>} ratioTupleProperty
+      ratioTupleProperty: required( config.ratioTupleProperty ),
+
+      // {Property.<boolean>} antecedentInteractedWithProperty
+      antecedentInteractedWithProperty: required( config.antecedentInteractedWithProperty ),
+
+      // {Property.<boolean>} consequentInteractedWithProperty
+      consequentInteractedWithProperty: required( config.consequentInteractedWithProperty ),
+
+      // {Property.<Range>} enabledRatioTermsRangeProperty
+      enabledRatioTermsRangeProperty: required( config.enabledRatioTermsRangeProperty ),
+
+      // {Property.<number>} tickMarkRangeProperty
+      tickMarkRangeProperty: required( config.tickMarkRangeProperty ),
+
+      // {number} keyboardStep
+      keyboardStep: required( config.keyboardStep ),
+
+      // {BoundarySoundClip} boundarySoundClip
+      boundarySoundClip: required( config.boundarySoundClip ),
+
+      // {TickMarkBumpSoundClip} tickMarkBumpSoundClip
+      tickMarkBumpSoundClip: required( config.tickMarkBumpSoundClip ),
+
+      // {Property.<boolean>} ratioLockedProperty
+      ratioLockedProperty: required( config.ratioLockedProperty ),
+
+      // {Property.<number>} targetRatioProperty
+      targetRatioProperty: required( config.targetRatioProperty ),
+
+      // {function(RatioTerm):number} getIdealTerm
+      getIdealTerm: required( config.getIdealTerm ),
 
       // Called whenever an interaction occurs that this listener responds to, even if not change occurs to the ratio.
       onInput: _.noop
-    }, options );
+    }, config );
 
     // @private
-    this.targetNode = targetNode;
-    this.antecedentInteractedWithProperty = antecedentInteractedWithProperty;
-    this.consequentInteractedWithProperty = consequentInteractedWithProperty;
-    this.enabledRatioTermsRangeProperty = enabledRatioTermsRangeProperty;
-    this.tickMarkRangeProperty = tickMarkRangeProperty;
-    this.ratioTupleProperty = ratioTupleProperty;
-    this.keyboardStep = keyboardStep;
+    this.targetNode = config.targetNode;
+    this.antecedentInteractedWithProperty = config.antecedentInteractedWithProperty;
+    this.consequentInteractedWithProperty = config.consequentInteractedWithProperty;
+    this.enabledRatioTermsRangeProperty = config.enabledRatioTermsRangeProperty;
+    this.tickMarkRangeProperty = config.tickMarkRangeProperty;
+    this.ratioTupleProperty = config.ratioTupleProperty;
+    this.keyboardStep = config.keyboardStep;
     this.shiftKeyboardStep = this.keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER;
-    this.boundarySoundClip = boundarySoundClip;
-    this.tickMarkBumpSoundClip = tickMarkBumpSoundClip;
-    this.ratioLockedProperty = ratioLockedProperty;
-    this.targetRatioProperty = targetRatioProperty;
-    this.onInput = options.onInput;
+    this.boundarySoundClip = config.boundarySoundClip;
+    this.tickMarkBumpSoundClip = config.tickMarkBumpSoundClip;
+    this.ratioLockedProperty = config.ratioLockedProperty;
+    this.targetRatioProperty = config.targetRatioProperty;
+    this.onInput = config.onInput;
 
     // @private
-    this.antecedentMapKeyboardInput = getKeyboardInputSnappingMapper( () => getIdealTerm( RatioTerm.ANTECEDENT ), keyboardStep, this.shiftKeyboardStep );
-    this.consequentMapKeyboardInput = getKeyboardInputSnappingMapper( () => getIdealTerm( RatioTerm.CONSEQUENT ), keyboardStep, this.shiftKeyboardStep );
+    this.antecedentMapKeyboardInput = getKeyboardInputSnappingMapper(
+      () => config.getIdealTerm( RatioTerm.ANTECEDENT ), config.keyboardStep, this.shiftKeyboardStep );
+    this.consequentMapKeyboardInput = getKeyboardInputSnappingMapper(
+      () => config.getIdealTerm( RatioTerm.CONSEQUENT ), config.keyboardStep, this.shiftKeyboardStep );
 
     // @private - true whenever the user is interacting with this listener
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
