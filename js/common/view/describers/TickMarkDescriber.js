@@ -1,6 +1,8 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
+ * Class responsible for formulating quantitative description strings about position, based on the value of the ratio
+ * relative to the tick marks in the screen.
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 

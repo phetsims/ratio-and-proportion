@@ -2,7 +2,7 @@
 
 /**
  * Description for the positions of each hand, as well as their positional relationship like the distance between each
- * hand, and if they have gotten closer to or farther from each other.
+ * hand, and if they have gotten closer to or farther from each other ("distance progress").
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */

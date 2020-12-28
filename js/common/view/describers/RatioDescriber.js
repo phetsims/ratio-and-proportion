@@ -1,7 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 
-// REVIEW: I (jbphet) don't know much about describers.  Would a description of what this is be useful, or is it obvious from the name what it does?
 /**
+ * Class responsible for formulating description strings about the state of the ratio and its fitness.
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 

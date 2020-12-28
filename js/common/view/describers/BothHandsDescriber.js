@@ -1,7 +1,8 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * Description for the positions of both hands relative to each other.
+ * Class responsible for formulating description strings specific to the both-hands interaction and associated
+ * description (like in the screen summary and PDOMNode).
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */

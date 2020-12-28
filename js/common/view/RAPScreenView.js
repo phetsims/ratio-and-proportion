@@ -1,7 +1,15 @@
 // Copyright 2020, University of Colorado Boulder
 
-// REVIEW: Missing description.
 /**
+ * Base class ScreenView which creates view components that all screens use. This includes the central ratio "scene" which
+ * has two RatioHalf instances and supports showing tick marks and their labels. There is a RadioButtonGroup to control
+ * the tick mark view too. Subtypes are responsible for creating a control for changing the model's targetRatioProperty.
+ *
+ * This type creates its own layout function, because the ratio interaction is inherently quite vertical. This type
+ * maximizes the vertical space of a layout and extends the ratio to a vertical aspect ratio when possible. It also
+ * supports scaling up UI controls (on the right) to match the aspect ratio. See this.topScalingUILayerNode and
+ * this.bottomScalingUILayerNode for more details.
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
