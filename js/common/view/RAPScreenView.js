@@ -109,8 +109,7 @@ class RAPScreenView extends ScreenView {
     soundManager.addSoundGenerator( this.inProportionSoundGenerator );
     soundManager.addSoundGenerator( this.movingInProportionSoundGenerator );
 
-    // REVIEW: Is the following comment incomplete?
-    // Properties that keep track of
+    // A collection of properties that keep track of which cues should be displayed for both the antecedent and consequent hands.
     const cueArrowsState = new CueArrowsState();
 
     const tickMarksAndLabelsColorProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
