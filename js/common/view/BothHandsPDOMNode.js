@@ -202,6 +202,7 @@ class BothHandsPDOMNode extends Node {
     this.bothHandsInteractionListener.reset();
     this.objectResponseUtterance.reset();
     this.contextResponseUtterance.reset();
+    this.ratioUnlockedFromBothHandsUtterance.reset();
     this.viewSounds.reset();
   }
 
