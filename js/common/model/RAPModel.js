@@ -33,7 +33,7 @@ class RAPModel {
   constructor( tandem ) {
 
     // @public - the current state of the ratio (value of terms, if its locked, etc)
-    this.ratio = new RAPRatio();
+    this.ratio = new RAPRatio( .2, .4 );
 
     // @public - The desired ratio of the antecedent as compared to the consequent. As in 1:2. Initialized to default ratio
     // so that we always start in-proportion.
@@ -103,12 +103,11 @@ unclampedFitness: ${unclampedFitness}
     this.ratio.lockedProperty.link( locked => locked && this.ratio.setRatioToTarget( this.targetRatioProperty.value ) );
   }
 
-  // REVIEW: Suggest adding an explanation somewhere of how the fitness value works.
-
   /**
    * This fitness algorithm is explained in https://github.com/phetsims/ratio-and-proportion/issues/325. It is based
-   * on plotting and intersection between a point representing the current ratio, and the function of the current ratio.
-   * This is possible because the ratio values are normalized between 0 and 1.
+   * on plotting the perpendicular intersection between a point representing the current ratio, and the function of the
+   * target ratio. This is possible because the ratio term values are normalized between 0 and 1
+   * (see RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE).
    * @param {number} antecedent
    * @param {number} consequent
    * @param {number} targetRatio
@@ -116,11 +115,6 @@ unclampedFitness: ${unclampedFitness}
    * @private
    */
   calculateFitness( antecedent, consequent, targetRatio ) {
-
-    // REVIEW: The comment below says, in part, "...because the model values only span from 0-1".  This is the first
-    // time this is mentioned that this reviewer (jbphet) has encountered.  Is this a constraint of the model?  Is it
-    // enforced anywhere?  Why is it like this?  Also, why is it necessary to multiply by any number?  A ratio is a
-    // ratio, so it seems kind of odd.
 
     // Calculate the inverse slope from the current target ratio.
     const coefficient = -1 / targetRatio;

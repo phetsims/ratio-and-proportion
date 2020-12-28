@@ -38,5 +38,8 @@ const RAPConstants = {
   NO_SUCCESS_VALUE_THRESHOLD: .01
 };
 
+assert && assert( RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE.min === 0 && RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE.max === 1,
+  'There are assumptions in the model about ratio terms being normalized, see RAPModel.calculateFitness() before changing and proceed with caution' );
+
 ratioAndProportion.register( 'RAPConstants', RAPConstants );
 export default RAPConstants;

@@ -27,7 +27,12 @@ const DEFAULT_TERM_VALUE_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 const LOCK_RATIO_RANGE_MIN = RAPConstants.NO_SUCCESS_VALUE_THRESHOLD + Number.EPSILON;
 
 class RAPRatio {
-  constructor() {
+
+  /**
+   * @param {number} initialAntecedent
+   * @param {number} initialConsequent
+   */
+  constructor( initialAntecedent, initialConsequent) {
 
     // @public (read-only) {Property.<Range>}
     this.enabledRatioTermsRangeProperty = new Property( DEFAULT_TERM_VALUE_RANGE );
@@ -35,7 +40,7 @@ class RAPRatio {
     // REVIEW: Why not construct this with initial values instead of using what seems like arbitrary ones below?
 
     // @public {Property.<RAPRatioTuple>} - central Property that holds the value of the ratio
-    this.tupleProperty = new Property( new RAPRatioTuple( .2, .4 ), {
+    this.tupleProperty = new Property( new RAPRatioTuple( initialAntecedent, initialConsequent ), {
       valueType: RAPRatioTuple,
       reentrant: true
     } );
