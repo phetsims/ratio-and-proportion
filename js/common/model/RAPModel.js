@@ -39,14 +39,13 @@ class RAPModel {
     // so that we always start in-proportion.
     this.targetRatioProperty = new NumberProperty( this.ratio.currentRatio );
 
-    // REVIEW: The comment below says, in part, "the min can be arbitrarily negative, depending how far away the current
-    // ratio is from the targetRatio".  The phrase "arbitrarily negative" seems problematic.  It can't really be
-    // arbitrary if it's the result of a calculation, which it almost certainly is.  What calculation?  How negative?
-    // How are clients expected to interpret these negative values?
-
     // @public {DerivedProperty.<number>}
-    // How "correct" the proportion currently is. Max is RATIO_FITNESS_RANGE.max, but the min can be arbitrarily negative,
-    // depending how far away the current ratio is from the targetRatio
+    // How "correct" the proportion currently is. Max is RATIO_FITNESS_RANGE.max, but the min depends on the range of the
+    // ratio terms (see RAPRatio), and the current targetRatio value. Thus using this Property should likely be used with
+    // `RAPModel.getMinFitness()`. In most cases, this should not be used, since it isn't normalized. See
+    // `ttohis.ratioFitnessProperty` for the preferred method of moniring ratio fitness. This Property can be useful
+    // if you need to map feedback based on the entire range of fitness, and not just when the current ratio gets
+    // "close enough" to the target (since negative values in this Property are all clamped to 0 in this.ratioFitnessProperty).
     this.unclampedFitnessProperty = new DerivedProperty( [
       this.ratio.tupleProperty,
       this.targetRatioProperty
@@ -83,15 +82,13 @@ unclampedFitness: ${unclampedFitness}
       isValidValue: value => value <= RAPConstants.RATIO_FITNESS_RANGE.max
     } );
 
-    // REVIEW: Somewhere it should be explained why the clamped and unclamped values are both needed.
-
-    // REVIEW: Suggest more consistent names for fitness properties, e.g. clampedRatioFitnessProperty and unclampedRatioFitnessProperty
-
     // @public {DerivedProperty.<number>}
     // How "correct" the proportion currently is. clamped within RATIO_FITNESS_RANGE. If at max (1), the proportion of
-    // the two values is exactly the value of the targetRatioProperty. If min (0), it is outside the tolerance
-    // allowed for the proportion to give many feedbacks.
-    // REVIEW: "...it is outside the tolerance allowed for the proportion to give many feedbacks." -> Can this be clarified and/or reworded?
+    // the two ratio terms is exactly the value of the targetRatioProperty. If min (0), it is at or outside the tolerance
+    // threshold for some feedback in the view (like color/sound); in that case those will be omitted until the ratio is
+    // closer to the target. In general, this Property should be used to listen to the fitness of the current ratio. It
+    // is preferable to the unclampedFitnessProperty because it is normalized, and simpler when comparing the current ratio
+    // to the target ratio.
     this.ratioFitnessProperty = new DerivedProperty( [ this.unclampedFitnessProperty ],
       unclampedFitness => Utils.clamp( unclampedFitness, RAPConstants.RATIO_FITNESS_RANGE.min, RAPConstants.RATIO_FITNESS_RANGE.max ), {
         isValidValue: value => RAPConstants.RATIO_FITNESS_RANGE.contains( value )
