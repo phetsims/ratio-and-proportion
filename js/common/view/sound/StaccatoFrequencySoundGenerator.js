@@ -1,8 +1,8 @@
 // Copyright 2020, University of Colorado Boulder
 
-// REVIEW: The specifics of the description seems like it's out of date (they are no longer marimba bonks anymore (I think)).
 /**
- * "Marimba bonks" that change frequency based on the fitness of the Proportion
+ * "Marimba bonk" sounds that change frequency based on the fitness of the Proportion. There are three different types
+ * of sounds that randomly cycle through to give variety to sounds played that are the same note.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
