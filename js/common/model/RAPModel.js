@@ -11,7 +11,6 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -40,17 +39,13 @@ class RAPModel {
     // so that we always start in-proportion.
     this.targetRatioProperty = new NumberProperty( this.ratio.currentRatio );
 
-    // REVIEW - The rest of the code doesn't seem to ever change fitnessRange.  Can it be a constant and a static?
-    // @public (read-only) - the Range that the ratioFitnessProperty can be.
-    this.fitnessRange = new Range( 0, 1 );
-
     // REVIEW: The comment below says, in part, "the min can be arbitrarily negative, depending how far away the current
     // ratio is from the targetRatio".  The phrase "arbitrarily negative" seems problematic.  It can't really be
     // arbitrary if it's the result of a calculation, which it almost certainly is.  What calculation?  How negative?
     // How are clients expected to interpret these negative values?
 
     // @public {DerivedProperty.<number>}
-    // How "correct" the proportion currently is. Max is this.fitnessRange.max, but the min can be arbitrarily negative,
+    // How "correct" the proportion currently is. Max is RATIO_FITNESS_RANGE.max, but the min can be arbitrarily negative,
     // depending how far away the current ratio is from the targetRatio
     this.unclampedFitnessProperty = new DerivedProperty( [
       this.ratio.tupleProperty,
@@ -70,7 +65,7 @@ class RAPModel {
 
              // In this case, the normal model behavior looks buggy because both values are equal, but still in proportion.
              this.ratioEvenButNotAtTarget() ) ) {
-        unclampedFitness = this.fitnessRange.max - this.getInProportionThreshold() - .01;
+        unclampedFitness = RAPConstants.RATIO_FITNESS_RANGE.max - this.getInProportionThreshold() - .01;
       }
 
       // REVIEW: This looks weird in terms of indentation.  Why not use \n or <br> and the + operator to keep it neater?
@@ -84,7 +79,7 @@ unclampedFitness: ${unclampedFitness}\n` );
 
       return unclampedFitness;
     }, {
-      isValidValue: value => value <= this.fitnessRange.max
+      isValidValue: value => value <= RAPConstants.RATIO_FITNESS_RANGE.max
     } );
 
     // REVIEW: Somewhere it should be explained why the clamped and unclamped values are both needed.
@@ -92,13 +87,13 @@ unclampedFitness: ${unclampedFitness}\n` );
     // REVIEW: Suggest more consistent names for fitness properties, e.g. clampedRatioFitnessProperty and unclampedRatioFitnessProperty
 
     // @public {DerivedProperty.<number>}
-    // How "correct" the proportion currently is. clamped within this.fitnessRange. If at max (1), the proportion of
+    // How "correct" the proportion currently is. clamped within RATIO_FITNESS_RANGE. If at max (1), the proportion of
     // the two values is exactly the value of the targetRatioProperty. If min (0), it is outside the tolerance
     // allowed for the proportion to give many feedbacks.
     // REVIEW: "...it is outside the tolerance allowed for the proportion to give many feedbacks." -> Can this be clarified and/or reworded?
     this.ratioFitnessProperty = new DerivedProperty( [ this.unclampedFitnessProperty ],
-      unclampedFitness => Utils.clamp( unclampedFitness, this.fitnessRange.min, this.fitnessRange.max ), {
-        isValidValue: value => this.fitnessRange.contains( value )
+      unclampedFitness => Utils.clamp( unclampedFitness, RAPConstants.RATIO_FITNESS_RANGE.min, RAPConstants.RATIO_FITNESS_RANGE.max ), {
+        isValidValue: value => RAPConstants.RATIO_FITNESS_RANGE.contains( value )
       } );
 
     // This must be done here, because of the reentrant nature of how fitness changes when the ratio is locked
@@ -142,7 +137,7 @@ unclampedFitness: ${unclampedFitness}\n` );
     // Find the distance between the current ratio, and the calculated intersection with the target ratio function.
     const distanceFromTarget = new Vector2( consequent, antecedent ).distance( pointOnTarget );
 
-    return this.fitnessRange.max - ( this.fitnessRange.max * distanceFromTarget ) / ( MIN_CLAMPED_FITNESS_DISTANCE * targetRatio );
+    return RAPConstants.RATIO_FITNESS_RANGE.max - ( RAPConstants.RATIO_FITNESS_RANGE.max * distanceFromTarget ) / ( MIN_CLAMPED_FITNESS_DISTANCE * targetRatio );
   }
 
   /**
@@ -190,7 +185,7 @@ unclampedFitness: ${unclampedFitness}\n` );
    * @returns {boolean}
    */
   inProportion( fitness = this.ratioFitnessProperty.value ) {
-    return fitness > this.fitnessRange.max - this.getInProportionThreshold();
+    return fitness > RAPConstants.RATIO_FITNESS_RANGE.max - this.getInProportionThreshold();
   }
 
   /**

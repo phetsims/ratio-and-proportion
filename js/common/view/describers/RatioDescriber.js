@@ -9,6 +9,7 @@ import LinearFunction from '../../../../../dot/js/LinearFunction.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
+import RAPConstants from '../../RAPConstants.js';
 
 // constants
 const RATIO_FITNESS_STRINGS_CAPITALIZED = [
@@ -48,7 +49,6 @@ class RatioDescriber {
     // @private - from model
     this.ratioFitnessProperty = model.ratioFitnessProperty;
     this.unclampedFitnessProperty = model.unclampedFitnessProperty;
-    this.fitnessRange = model.fitnessRange;
     this.model = model;
 
     phet.log && model.unclampedFitnessProperty.link( () => {
@@ -75,10 +75,10 @@ class RatioDescriber {
     }
 
     // normalize based on the fitness that is not in proportion
-    const normalizedMax = this.fitnessRange.max - this.model.getInProportionThreshold();
+    const normalizedMax = RAPConstants.RATIO_FITNESS_RANGE.max - this.model.getInProportionThreshold();
 
-    const lessThanZeroMapping = new LinearFunction( this.model.getMinFitness(), this.fitnessRange.min, 0, ZERO_FITNESS_REGION_INDEX - 1, true );
-    const greaterThanZeroMapping = new LinearFunction( this.fitnessRange.min, normalizedMax,
+    const lessThanZeroMapping = new LinearFunction( this.model.getMinFitness(), RAPConstants.RATIO_FITNESS_RANGE.min, 0, ZERO_FITNESS_REGION_INDEX - 1, true );
+    const greaterThanZeroMapping = new LinearFunction( RAPConstants.RATIO_FITNESS_RANGE.min, normalizedMax,
       ZERO_FITNESS_REGION_INDEX, lastIndex, true );
 
     const unclampedFitness = this.unclampedFitnessProperty.value;

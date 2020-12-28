@@ -15,6 +15,8 @@ const RAPConstants = {
   SCREEN_VIEW_X_MARGIN: 15,
   SCREEN_VIEW_Y_MARGIN: 15,
 
+  RATIO_FITNESS_RANGE: new Range( 0, 1 ),
+
   // distance (in fitness) from max fitness that still indicates a successful proportion
   IN_PROPORTION_FITNESS_THRESHOLD: .025,
 

@@ -102,7 +102,7 @@ class RAPScreenView extends ScreenView {
     // @private - SoundGenerators that sonify different aspects of the model
     this.inProportionSoundGenerator = new InProportionSoundGenerator( model );
     this.movingInProportionSoundGenerator = new MovingInProportionSoundGenerator( model );
-    this.staccatoFrequencySoundGenerator = new StaccatoFrequencySoundGenerator( model.ratioFitnessProperty, model.fitnessRange,
+    this.staccatoFrequencySoundGenerator = new StaccatoFrequencySoundGenerator( model.ratioFitnessProperty, RAPConstants.RATIO_FITNESS_RANGE,
       model.inProportion.bind( model ) );
 
     soundManager.addSoundGenerator( this.staccatoFrequencySoundGenerator );
@@ -121,7 +121,7 @@ class RAPScreenView extends ScreenView {
 
     // Tick mark sounds get played when ratio isn't locked, and when staccato sounds aren't playing
     const playTickMarkBumpSoundProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
-      fitness => !model.ratio.lockedProperty.value && fitness === model.fitnessRange.min );
+      fitness => !model.ratio.lockedProperty.value && fitness === RAPConstants.RATIO_FITNESS_RANGE.min );
 
     // by default, the keyboard step size should be half of one default tick mark width. See https://github.com/phetsims/ratio-and-proportion/issues/85
     const keyboardStep = 1 / 2 / this.tickMarkRangeProperty.value;
@@ -237,7 +237,7 @@ class RAPScreenView extends ScreenView {
         color = Color.interpolateRGBA(
           RAPColorProfile.backgroundOutOfFitnessProperty.value,
           RAPColorProfile.backgroundInterpolationToFitnessProperty.value,
-          ( fitness - model.fitnessRange.min ) / ( 1 - model.getInProportionThreshold() )
+          ( fitness - RAPConstants.RATIO_FITNESS_RANGE.min ) / ( 1 - model.getInProportionThreshold() )
         );
       }
       backgroundNode.setFill( color );
