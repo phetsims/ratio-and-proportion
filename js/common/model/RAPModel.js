@@ -1,7 +1,11 @@
 // Copyright 2020, University of Colorado Boulder
 
-// REVIEW: This is a pretty central class in the sim and should probably have a description.
 /**
+ * This is the main model for the ratio in this sim. It has a RAPRatio, with its antecedent and consequent tuple, and
+ * add to it a target ratio value, as well as a fitness of how close the current ratio (stored in the RAPRatio instance)
+ * is to the target. In general use RAPRatio.ratioFitnessProperty (ranged from 0-1) to determine if you are far or close
+ * to the target, respectively. See implementation-notes.md for more information.
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
@@ -29,14 +33,12 @@ class RAPModel {
    */
   constructor( tandem ) {
 
-    // @public - The desired ratio of the antecedent as compared to the consequent. As in 1:2 (initial value).
-    this.targetRatioProperty = new NumberProperty( .5 );
-
-    // REVIEW: The target ratio property (above) and the ratio (below) rely on hard-coded constants to be correctly
-    // REVIEW: initialized.  Why not construct the ratio with values, then use its currentRatio to initialize targetRatioProperty?
-
     // @public - the current state of the ratio (value of terms, if its locked, etc)
     this.ratio = new RAPRatio();
+
+    // @public - The desired ratio of the antecedent as compared to the consequent. As in 1:2. Initialized to default ratio
+    // so that we always start in-proportion.
+    this.targetRatioProperty = new NumberProperty( this.ratio.currentRatio );
 
     // REVIEW - The rest of the code doesn't seem to ever change fitnessRange.  Can it be a constant and a static?
     // @public (read-only) - the Range that the ratioFitnessProperty can be.
