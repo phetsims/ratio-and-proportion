@@ -132,74 +132,82 @@ class RAPScreenView extends ScreenView {
     const a11yDependencies = [ model.unclampedFitnessProperty, this.tickMarkViewProperty, this.tickMarkRangeProperty, model.targetRatioProperty ];
 
     // @private {RatioHalf}
-    this.antecedentRatioHalf = new RatioHalf(
-      ratio.antecedentProperty,
-      model.ratio.enabledRatioTermsRangeProperty,
-      cueArrowsState.bothHands.antecedentCueDisplayedProperty,
-      cueArrowsState,
-      defaultRatioHalfBounds,
-      this.tickMarkViewProperty,
-      this.tickMarkRangeProperty,
-      this.ratioDescriber,
-      this.handPositionsDescriber,
-      bothHandsDescriber,
-      tickMarksAndLabelsColorProperty,
-      keyboardStep,
-      model.ratio.lockedProperty,
-      model.ratio.lockedProperty, // not a bug
-      playTickMarkBumpSoundProperty,
-      this.inProportionSoundGenerator,
-      () => model.getIdealValueForTerm( RatioTerm.ANTECEDENT ), {
-        handColorProperty: options.leftHandColorProperty,
-        accessibleName: ratioAndProportionStrings.a11y.leftHand,
-        a11yDependencies: a11yDependencies,
-        bothHandsCueDisplay: CueDisplay.W_S,
-        isRight: false, // this way we get a left hand
+    this.antecedentRatioHalf = new RatioHalf( {
 
-        // Added to the antecedent for ease, but it applies to both RatioHalfs in the PDOM
-        helpText: ratioAndProportionStrings.a11y.individualHandsHelpText,
-        helpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT
-      }
-    );
+      // config
+      valueProperty: ratio.antecedentProperty,
+      enabledRatioTermsRangeProperty: model.ratio.enabledRatioTermsRangeProperty,
+      displayBothHandsCueProperty: cueArrowsState.bothHands.antecedentCueDisplayedProperty,
+      cueArrowsState: cueArrowsState,
+      bounds: defaultRatioHalfBounds,
+      tickMarkViewProperty: this.tickMarkViewProperty,
+      tickMarkRangeProperty: this.tickMarkRangeProperty,
+      ratioDescriber: this.ratioDescriber,
+      handPositionsDescriber: this.handPositionsDescriber,
+      bothHandsDescriber: bothHandsDescriber,
+      colorProperty: tickMarksAndLabelsColorProperty,
+      keyboardStep: keyboardStep,
+      horizontalMovementAllowedProperty: model.ratio.lockedProperty,
+      ratioLockedProperty: model.ratio.lockedProperty, // not a bug
+      playTickMarkBumpSoundProperty: playTickMarkBumpSoundProperty,
+      inProportionSoundGenerator: this.inProportionSoundGenerator,
+      getIdealValue: () => model.getIdealValueForTerm( RatioTerm.ANTECEDENT ),
+
+      // optional
+      handColorProperty: options.leftHandColorProperty,
+      accessibleName: ratioAndProportionStrings.a11y.leftHand,
+      a11yDependencies: a11yDependencies,
+      bothHandsCueDisplay: CueDisplay.W_S,
+      isRight: false, // this way we get a left hand
+
+      // Added to the antecedent for ease, but it applies to both RatioHalfs in the PDOM
+      helpText: ratioAndProportionStrings.a11y.individualHandsHelpText,
+      helpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT
+    } );
 
     // @private {RatioHalf}
-    this.consequentRatioHalf = new RatioHalf(
-      ratio.consequentProperty,
-      model.ratio.enabledRatioTermsRangeProperty,
-      cueArrowsState.bothHands.consequentCueDisplayedProperty,
-      cueArrowsState,
-      defaultRatioHalfBounds,
-      this.tickMarkViewProperty,
-      this.tickMarkRangeProperty,
-      this.ratioDescriber,
-      this.handPositionsDescriber,
-      bothHandsDescriber,
-      tickMarksAndLabelsColorProperty,
-      keyboardStep,
-      model.ratio.lockedProperty,
-      model.ratio.lockedProperty, // not a bug
-      playTickMarkBumpSoundProperty,
-      this.inProportionSoundGenerator,
-      () => model.getIdealValueForTerm( RatioTerm.CONSEQUENT ), {
-        handColorProperty: options.rightHandColorProperty,
-        accessibleName: ratioAndProportionStrings.a11y.rightHand,
-        a11yDependencies: a11yDependencies
-      } );
+    this.consequentRatioHalf = new RatioHalf( {
 
-    const bothHandsPDOMNode = new BothHandsPDOMNode(
-      ratio.tupleProperty,
-      ratio.enabledRatioTermsRangeProperty,
-      cueArrowsState,
-      keyboardStep,
-      this.tickMarkViewProperty,
-      this.tickMarkRangeProperty,
-      model.unclampedFitnessProperty,
-      this.ratioDescriber,
-      bothHandsDescriber,
-      playTickMarkBumpSoundProperty,
-      model.ratio.lockedProperty,
-      model.targetRatioProperty,
-      model.getIdealValueForTerm.bind( model ), merge( {
+      // required
+      valueProperty: ratio.consequentProperty,
+      enabledRatioTermsRangeProperty: model.ratio.enabledRatioTermsRangeProperty,
+      displayBothHandsCueProperty: cueArrowsState.bothHands.consequentCueDisplayedProperty,
+      cueArrowsState: cueArrowsState,
+      bounds: defaultRatioHalfBounds,
+      tickMarkViewProperty: this.tickMarkViewProperty,
+      tickMarkRangeProperty: this.tickMarkRangeProperty,
+      ratioDescriber: this.ratioDescriber,
+      handPositionsDescriber: this.handPositionsDescriber,
+      bothHandsDescriber: bothHandsDescriber,
+      colorProperty: tickMarksAndLabelsColorProperty,
+      keyboardStep: keyboardStep,
+      horizontalMovementAllowedProperty: model.ratio.lockedProperty,
+      ratioLockedProperty: model.ratio.lockedProperty, // not a bug
+      playTickMarkBumpSoundProperty: playTickMarkBumpSoundProperty,
+      inProportionSoundGenerator: this.inProportionSoundGenerator,
+      getIdealValue: () => model.getIdealValueForTerm( RatioTerm.CONSEQUENT ),
+
+      // optional
+      handColorProperty: options.rightHandColorProperty,
+      accessibleName: ratioAndProportionStrings.a11y.rightHand,
+      a11yDependencies: a11yDependencies
+    } );
+
+    const bothHandsPDOMNode = new BothHandsPDOMNode( merge( {
+        ratioTupleProperty: ratio.tupleProperty,
+        enabledRatioTermsRangeProperty: ratio.enabledRatioTermsRangeProperty,
+        cueArrowsState: cueArrowsState,
+        keyboardStep: keyboardStep,
+        tickMarkViewProperty: this.tickMarkViewProperty,
+        tickMarkRangeProperty: this.tickMarkRangeProperty,
+        unclampedFitnessProperty: model.unclampedFitnessProperty,
+        ratioDescriber: this.ratioDescriber,
+        bothHandsDescriber: bothHandsDescriber,
+        playTickMarkBumpSoundProperty: playTickMarkBumpSoundProperty,
+        ratioLockedProperty: model.ratio.lockedProperty,
+        targetRatioProperty: model.targetRatioProperty,
+        getIdealTerm: model.getIdealValueForTerm.bind( model ),
+
         interactiveNodeOptions: {
           children: [ this.antecedentRatioHalf, this.consequentRatioHalf ]
         }

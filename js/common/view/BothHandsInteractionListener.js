@@ -29,41 +29,45 @@ class BothHandsInteractionListener {
 
     config = merge( {
 
-      // {Node} targetNode - Node to add listeners to
+      // ---- REQUIRED -------------------------------------------------
+
+      // {Node} - Node to add listeners to
       targetNode: required( config.targetNode ),
 
-      // {Property.<RAPRatioTuple>} ratioTupleProperty
+      // {Property.<RAPRatioTuple>}
       ratioTupleProperty: required( config.ratioTupleProperty ),
 
-      // {Property.<boolean>} antecedentInteractedWithProperty
+      // {Property.<boolean>}
       antecedentInteractedWithProperty: required( config.antecedentInteractedWithProperty ),
 
-      // {Property.<boolean>} consequentInteractedWithProperty
+      // {Property.<boolean>}
       consequentInteractedWithProperty: required( config.consequentInteractedWithProperty ),
 
-      // {Property.<Range>} enabledRatioTermsRangeProperty
+      // {Property.<Range>}
       enabledRatioTermsRangeProperty: required( config.enabledRatioTermsRangeProperty ),
 
-      // {Property.<number>} tickMarkRangeProperty
+      // {Property.<number>}
       tickMarkRangeProperty: required( config.tickMarkRangeProperty ),
 
-      // {number} keyboardStep
+      // {number}
       keyboardStep: required( config.keyboardStep ),
 
-      // {BoundarySoundClip} boundarySoundClip
+      // {BoundarySoundClip}
       boundarySoundClip: required( config.boundarySoundClip ),
 
-      // {TickMarkBumpSoundClip} tickMarkBumpSoundClip
+      // {TickMarkBumpSoundClip}
       tickMarkBumpSoundClip: required( config.tickMarkBumpSoundClip ),
 
-      // {Property.<boolean>} ratioLockedProperty
+      // {Property.<boolean>}
       ratioLockedProperty: required( config.ratioLockedProperty ),
 
-      // {Property.<number>} targetRatioProperty
+      // {Property.<number>}
       targetRatioProperty: required( config.targetRatioProperty ),
 
-      // {function(RatioTerm):number} getIdealTerm
+      // {function(RatioTerm):number}
       getIdealTerm: required( config.getIdealTerm ),
+
+      // ---- OPTIONAL -------------------------------------------------
 
       // Called whenever an interaction occurs that this listener responds to, even if not change occurs to the ratio.
       onInput: _.noop

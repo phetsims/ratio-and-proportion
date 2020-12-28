@@ -10,6 +10,7 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import merge from '../../../../phet-core/js/merge.js';
+import required from '../../../../phet-core/js/required.js';
 import sceneryPhetStrings from '../../../../scenery-phet/js/sceneryPhetStrings.js';
 import ParallelDOM from '../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -25,40 +26,55 @@ const OBJECT_RESPONSE_DELAY = 500;
 
 class BothHandsPDOMNode extends Node {
 
-  // REVIEW: This is a ton of parameters, and seems like a good application of a "config" object.
-
   /**
-   * @param {Property.<RAPRatioTuple>} ratioTupleProperty
-   * @param {Property.<Range>} enabledRatioTermsRangeProperty
-   * @param {CueArrowsState} cueArrowsState
-   * @param {number} keyboardStep
-   * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
-   * @param {Property.<number>} tickMarkRangeProperty
-   * @param {Property.<number>} unclampedFitnessProperty
-   * @param {RatioDescriber} ratioDescriber
-   * @param {BothHandsDescriber} bothHandsDescriber
-   * @param {BooleanProperty} playTickMarkBumpSoundProperty
-   * @param {BooleanProperty} ratioLockedProperty
-   * @param {Property.<number>} targetRatioProperty
-   * @param {function(RatioTerm):number} getIdealTerm
-   * @param {Object} [options]
+   * @param {Object} config
    */
-  constructor( ratioTupleProperty,
-               enabledRatioTermsRangeProperty,
-               cueArrowsState,
-               keyboardStep,
-               tickMarkViewProperty,
-               tickMarkRangeProperty,
-               unclampedFitnessProperty,
-               ratioDescriber,
-               bothHandsDescriber,
-               playTickMarkBumpSoundProperty,
-               ratioLockedProperty,
-               targetRatioProperty,
-               getIdealTerm,
-               options ) {
+  constructor( config ) {
 
-    options = merge( {
+    config = merge( {
+
+      // ---- REQUIRED -------------------------------------------------
+
+      // {Property.<RAPRatioTuple>}
+      ratioTupleProperty: required( config.ratioTupleProperty ),
+
+      // {Property.<Range>}
+      enabledRatioTermsRangeProperty: required( config.enabledRatioTermsRangeProperty ),
+
+      // {CueArrowsState}
+      cueArrowsState: required( config.cueArrowsState ),
+
+      // {number}
+      keyboardStep: required( config.keyboardStep ),
+
+      // {EnumerationProperty.<TickMarkView>}
+      tickMarkViewProperty: required( config.tickMarkViewProperty ),
+
+      // {Property.<number>}
+      tickMarkRangeProperty: required( config.tickMarkRangeProperty ),
+
+      // {Property.<number>}
+      unclampedFitnessProperty: required( config.unclampedFitnessProperty ),
+
+      // {RatioDescriber}
+      ratioDescriber: required( config.ratioDescriber ),
+
+      // {BothHandsDescriber}
+      bothHandsDescriber: required( config.bothHandsDescriber ),
+
+      // {BooleanProperty}
+      playTickMarkBumpSoundProperty: required( config.playTickMarkBumpSoundProperty ),
+
+      // {BooleanProperty}
+      ratioLockedProperty: required( config.ratioLockedProperty ),
+
+      // {Property.<number>}
+      targetRatioProperty: required( config.targetRatioProperty ),
+
+      // {function(RatioTerm):number}
+      getIdealTerm: required( config.getIdealTerm ),
+
+      // ---- OPTIONAL -------------------------------------------------
 
       // {string|null} help text to be displayed on devices supporting gesture description
       // (see `Sim.supportsGestureDescription`). When null, this will be the same as the default helpText.
@@ -75,29 +91,29 @@ class BothHandsPDOMNode extends Node {
         innerContent: ratioAndProportionStrings.a11y.bothHands.bothHands,
         ariaLabel: ratioAndProportionStrings.a11y.bothHands.bothHands
       }
-    }, options );
-    assert && assert( !options.accessibleOrder, 'BothHandsPDOMNode sets its own accessibleOrder.' );
+    }, config );
+    assert && assert( !config.accessibleOrder, 'BothHandsPDOMNode sets its own accessibleOrder.' );
 
     super();
 
-    this.bothHandsDescriber = bothHandsDescriber;
+    this.bothHandsDescriber = config.bothHandsDescriber;
 
     // @private - To support proper cue arrow logic
     this.antecedentInteractedWithProperty = new BooleanProperty( false );
     this.consequentInteractedWithProperty = new BooleanProperty( false );
     this.bothHandsFocusedProperty = new BooleanProperty( false );
 
-    this.viewSounds = new ViewSounds( tickMarkRangeProperty, tickMarkViewProperty, playTickMarkBumpSoundProperty );
+    this.viewSounds = new ViewSounds( config.tickMarkRangeProperty, config.tickMarkViewProperty, config.playTickMarkBumpSoundProperty );
 
     Property.multilink( [
       this.antecedentInteractedWithProperty,
       this.consequentInteractedWithProperty
     ], ( antecedentInteractedWith, consequentInteractedWith ) => {
-      cueArrowsState.bothHands.interactedWithProperty.value = antecedentInteractedWith || consequentInteractedWith;
+      config.cueArrowsState.bothHands.interactedWithProperty.value = antecedentInteractedWith || consequentInteractedWith;
 
       // If both hands have been interacted with, then no need for individual cues either
       if ( antecedentInteractedWith && consequentInteractedWith ) {
-        cueArrowsState.interactedWithKeyboardProperty.value = true;
+        config.cueArrowsState.interactedWithKeyboardProperty.value = true;
       }
     } );
     Property.multilink( [
@@ -105,14 +121,14 @@ class BothHandsPDOMNode extends Node {
       this.consequentInteractedWithProperty,
       this.bothHandsFocusedProperty
     ], ( antecedentInteractedWith, consequentInteractedWith, bothHandsFocused ) => {
-      cueArrowsState.bothHands.antecedentCueDisplayedProperty.value = !antecedentInteractedWith && bothHandsFocused;
-      cueArrowsState.bothHands.consequentCueDisplayedProperty.value = !consequentInteractedWith && bothHandsFocused;
+      config.cueArrowsState.bothHands.antecedentCueDisplayedProperty.value = !antecedentInteractedWith && bothHandsFocused;
+      config.cueArrowsState.bothHands.consequentCueDisplayedProperty.value = !consequentInteractedWith && bothHandsFocused;
     } );
 
     const dynamicDescription = new Node( { tagName: 'p' } );
     this.addChild( dynamicDescription );
 
-    const interactiveNode = new Node( options.interactiveNodeOptions );
+    const interactiveNode = new Node( config.interactiveNodeOptions );
     this.addChild( interactiveNode );
 
     // Make sure that any children inside the both hands interaction (like individual hands) come before the both hands interaction in the PDOM.
@@ -123,17 +139,17 @@ class BothHandsPDOMNode extends Node {
     // @private
     this.bothHandsInteractionListener = new BothHandsInteractionListener( {
       targetNode: interactiveNode,
-      ratioTupleProperty: ratioTupleProperty,
+      ratioTupleProperty: config.ratioTupleProperty,
       antecedentInteractedWithProperty: this.antecedentInteractedWithProperty,
       consequentInteractedWithProperty: this.consequentInteractedWithProperty,
-      enabledRatioTermsRangeProperty: enabledRatioTermsRangeProperty,
-      tickMarkRangeProperty: tickMarkRangeProperty,
-      keyboardStep: keyboardStep,
+      enabledRatioTermsRangeProperty: config.enabledRatioTermsRangeProperty,
+      tickMarkRangeProperty: config.tickMarkRangeProperty,
+      keyboardStep: config.keyboardStep,
       boundarySoundClip: this.viewSounds.boundarySoundClip,
       tickMarkBumpSoundClip: this.viewSounds.tickMarkBumpSoundClip,
-      ratioLockedProperty: ratioLockedProperty,
-      targetRatioProperty: targetRatioProperty,
-      getIdealTerm: getIdealTerm,
+      ratioLockedProperty: config.ratioLockedProperty,
+      targetRatioProperty: config.targetRatioProperty,
+      getIdealTerm: config.getIdealTerm,
       onInput: () => {
         this.alertBothHandsContextResponse();
       }
@@ -142,7 +158,7 @@ class BothHandsPDOMNode extends Node {
     interactiveNode.addInputListener( this.bothHandsInteractionListener );
     interactiveNode.addInputListener( {
       focus: () => {
-        this.alertBothHandsObjectResponse( tickMarkViewProperty.value );
+        this.alertBothHandsObjectResponse( config.tickMarkViewProperty.value );
         this.viewSounds.grabSoundClip.play();
         this.bothHandsFocusedProperty.value = true;
       },
@@ -181,25 +197,26 @@ class BothHandsPDOMNode extends Node {
 
     // Though most cases are covered by just listening to fitness, there are certain cases when Property values can change,
     // but the fitness doesn't. See https://github.com/phetsims/ratio-and-proportion/issues/222 as an example.
-    Property.multilink( [ tickMarkViewProperty, ratioTupleProperty, unclampedFitnessProperty ], tickMarkView => {
+    Property.multilink( [ config.tickMarkViewProperty, config.ratioTupleProperty, config.unclampedFitnessProperty ],
+      tickMarkView => {
 
-      dynamicDescription.innerContent = this.bothHandsDescriber.getBothHandsDynamicDescription();
+        dynamicDescription.innerContent = this.bothHandsDescriber.getBothHandsDynamicDescription();
 
-      if ( this.bothHandsInteractionListener.isBeingInteractedWithProperty.value ) {
-        this.alertBothHandsObjectResponse( tickMarkView );
-      }
-    } );
+        if ( this.bothHandsInteractionListener.isBeingInteractedWithProperty.value ) {
+          this.alertBothHandsObjectResponse( tickMarkView );
+        }
+      } );
 
     // emit this utterance immediately, so that it comes before the object response above.
     this.bothHandsInteractionListener.inputCauseRatioUnlockEmitter.addListener( () => {
       phet.joist.sim.utteranceQueue.addToBack( this.ratioUnlockedFromBothHandsUtterance );
     } );
 
-    if ( phet.joist.sim.supportsGestureDescription && options.gestureDescriptionHelpText ) {
-      options.helpText = options.gestureDescriptionHelpText;
+    if ( phet.joist.sim.supportsGestureDescription && config.gestureDescriptionHelpText ) {
+      config.helpText = config.gestureDescriptionHelpText;
     }
 
-    this.mutate( options );
+    this.mutate( config );
   }
 
   /**
