@@ -37,7 +37,7 @@ class CreateScreenView extends RAPScreenView {
       }
     } );
 
-    const myChallengeAccordionBox = new MyChallengeAccordionBox( model.targetRatioProperty, handColorProperty,
+    const myChallengeAccordionBox = new MyChallengeAccordionBox( model.targetRatioProperty, model.ratio.lockedProperty, handColorProperty,
       this.tickMarkViewProperty, this.ratioDescriber );
 
     const tickMarkRangeComboBoxParent = new Node();

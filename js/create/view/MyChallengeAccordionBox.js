@@ -20,6 +20,7 @@ import RichText from '../../../../scenery/js/nodes/RichText.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
+import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
@@ -32,12 +33,13 @@ class MyChallengeAccordionBox extends AccordionBox {
 
   /**
    * @param {Property.<number>} targetRatioProperty
+   * @param {Property.<boolean>} ratioLockedProperty
    * @param {Property.<ColorDef>} handColorProperty
    * @param {Property.<TickMarkView>} tickMarkViewProperty
    * @param {RatioDescriber} ratioDescriber
    * @param {Object} [options]
    */
-  constructor( targetRatioProperty, handColorProperty, tickMarkViewProperty, ratioDescriber, options ) {
+  constructor( targetRatioProperty, ratioLockedProperty, handColorProperty, tickMarkViewProperty, ratioDescriber, options ) {
 
     options = merge( {
       titleNode: new RichText( ratioAndProportionStrings.myChallenge, {
@@ -70,6 +72,23 @@ class MyChallengeAccordionBox extends AccordionBox {
 
     const targetAntecedentProperty = new NumberProperty( initialRatioFraction.numerator );
     const targetConsequentProperty = new NumberProperty( initialRatioFraction.denominator );
+
+    // @private
+    const ratioUnlockedFromMyChallenge = new Utterance( {
+      alert: ratioAndProportionStrings.a11y.lockRatioCheckboxUnlockedContextResponse
+    } );
+
+    // When either of these change, then the model is about to unlock the ratio, so alert that. This relies on listener
+    // order to work, but I can't seem to discover another way to make sure that the ratio unlocked description get's
+    // before the main NumberPicker context response in a place where we have information about if the ratio was just
+    // unlocked, see https://github.com/phetsims/ratio-and-proportion/issues/227 for extensive investigation. NOTE:
+    // This should be above the creation of the NumberPickers to make sure that this fires before the RAPModel.targetRatioProperty
+    // changes.
+    Property.multilink( [ targetAntecedentProperty, targetConsequentProperty ], () => {
+
+      // if currently locked, then it is about to be unlocked
+      ratioLockedProperty.value && phet.joist.sim.utteranceQueue.addToBack( ratioUnlockedFromMyChallenge );
+    } );
 
     const antecedentNumberPicker = new NumberPicker( targetAntecedentProperty, rangeProperty, {
       scale: PICKER_SCALE,
@@ -132,6 +151,16 @@ class MyChallengeAccordionBox extends AccordionBox {
     Property.multilink( [ targetAntecedentProperty, targetConsequentProperty ], ( targetAntecedent, targetConsequent ) => {
       targetRatioProperty.value = targetAntecedent / targetConsequent;
     } );
+
+    // @private
+    this.resetMyChallengeAccordionBox = () => {
+      this.expandedProperty.value = DEFAULT_EXPANDED;
+
+      this.targetAntecedentProperty.reset();
+      this.targetConsequentProperty.reset();
+
+      ratioUnlockedFromMyChallenge.reset();
+    };
   }
 
   /**
@@ -140,10 +169,7 @@ class MyChallengeAccordionBox extends AccordionBox {
    */
   reset() {
     super.reset();
-    this.expandedProperty.value = DEFAULT_EXPANDED;
-
-    this.targetAntecedentProperty.reset();
-    this.targetConsequentProperty.reset();
+    this.resetMyChallengeAccordionBox();
   }
 }
 
