@@ -4,32 +4,19 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Property from '../../../../axon/js/Property.js';
-import Range from '../../../../dot/js/Range.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import Fraction from '../../../../phetcommon/js/model/Fraction.js';
-import NumberPicker from '../../../../scenery-phet/js/NumberPicker.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import FireListener from '../../../../scenery/js/listeners/FireListener.js';
-import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
-import VBox from '../../../../scenery/js/nodes/VBox.js';
-import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
 import RAPColorProfile from '../../common/view/RAPColorProfile.js';
 import RAPScreenView from '../../common/view/RAPScreenView.js';
-import RatioHandNode from '../../common/view/RatioHandNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import CreateScreenSummaryNode from './CreateScreenSummaryNode.js';
+import MyChallengeAccordionBox from './MyChallengeAccordionBox.js';
 import TickMarkRangeComboBoxNode from './TickMarkRangeComboBoxNode.js';
 
-const PICKER_SCALE = 1.5;
-const ICON_SCALE = .9;
-const DEFAULT_EXPANDED = false;
 
 class CreateScreenView extends RAPScreenView {
 
@@ -50,92 +37,8 @@ class CreateScreenView extends RAPScreenView {
       }
     } );
 
-    // Allow us to get the reduced fraction as the initial value of the custom "My Challenge"
-    const initialRatioFraction = Fraction.fromDecimal( model.targetRatioProperty.value );
-    const rangeProperty = new Property( new Range( 1, 10 ) );
-    assert && assert( rangeProperty.value.contains( initialRatioFraction.numerator ), 'unsupported numerator' );
-    assert && assert( rangeProperty.value.contains( initialRatioFraction.denominator ), 'unsupported denominator' );
-
-    const targetAntecedentProperty = new NumberProperty( initialRatioFraction.numerator );
-    const targetConsequentProperty = new NumberProperty( initialRatioFraction.denominator );
-
-    const antecedentNumberPicker = new NumberPicker( targetAntecedentProperty, rangeProperty, {
-      scale: PICKER_SCALE,
-      color: handColorProperty.value,
-      center: Vector2.ZERO,
-      accessibleName: ratioAndProportionStrings.a11y.leftValue,
-      a11yDependencies: [ targetConsequentProperty ],
-      a11yCreateContextResponseAlert: () => this.ratioDescriber.getTargetRatioChangeAlert( targetAntecedentProperty.value, targetConsequentProperty.value )
-    } );
-    const leftRatioSelector = new VBox( {
-      align: 'origin',
-      spacing: 10,
-      children: [
-        RatioHandNode.createIcon( false, this.tickMarkViewProperty, {
-          handColor: handColorProperty.value, handNodeOptions: { scale: ICON_SCALE }
-        } ),
-        new Node( { children: [ antecedentNumberPicker ] } ) ]
-    } );
-
-    const consequentNumberPicker = new NumberPicker( targetConsequentProperty, rangeProperty, {
-      scale: PICKER_SCALE,
-      color: handColorProperty.value,
-      center: Vector2.ZERO,
-      accessibleName: ratioAndProportionStrings.a11y.rightValue,
-      a11yDependencies: [ targetAntecedentProperty ],
-      a11yCreateContextResponseAlert: () => this.ratioDescriber.getTargetRatioChangeAlert( targetAntecedentProperty.value, targetConsequentProperty.value )
-    } );
-    const rightRatioSelector = new VBox( {
-      align: 'origin',
-      spacing: 10,
-      children: [
-        RatioHandNode.createIcon( true, this.tickMarkViewProperty, {
-          handColor: handColorProperty.value, handNodeOptions: { scale: ICON_SCALE }
-        } ),
-        new Node( { children: [ consequentNumberPicker ] } ) ]
-    } );
-
-    Property.multilink( [ targetAntecedentProperty, targetConsequentProperty ], ( targetAntecedent, targetConsequent ) => {
-      model.targetRatioProperty.value = targetAntecedent / targetConsequent;
-    } );
-
-    const myChallengeContent = new HBox( {
-      spacing: 40,
-      tagName: 'div',
-      descriptionContent: ratioAndProportionStrings.a11y.create.myChallengeHelpText, // help text for the content
-      children: [ leftRatioSelector, rightRatioSelector ]
-    } );
-    const myChallengeAccordionBox = new AccordionBox( myChallengeContent, {
-      titleNode: new RichText( ratioAndProportionStrings.myChallenge, {
-        font: new PhetFont( 20 ),
-        maxWidth: 250 // empirically determined
-      } ),
-      accessibleName: ratioAndProportionStrings.myChallenge,
-      titleAlignX: 'left',
-      contentXMargin: 26,
-      contentYMargin: 15,
-      contentYSpacing: 15,
-
-      // Copied from NLCConstants.js, see https://github.com/phetsims/ratio-and-proportion/issues/58#issuecomment-646377333
-      cornerRadius: 5,
-      buttonXMargin: 10,
-      buttonYMargin: 10,
-      expandCollapseButtonOptions: {
-        touchAreaXDilation: 15,
-        touchAreaYDilation: 15,
-        mouseAreaXDilation: 5,
-        mouseAreaYDilation: 5
-      }
-    } );
-    myChallengeAccordionBox.expandedProperty.value = DEFAULT_EXPANDED;
-
-    const accordionBoxUtterance = new ActivationUtterance();
-    myChallengeAccordionBox.expandedProperty.lazyLink( expanded => {
-      accordionBoxUtterance.alert = expanded ?
-                                    this.ratioDescriber.getCurrentChallengeSentence( targetAntecedentProperty.value, targetConsequentProperty.value ) :
-                                    ratioAndProportionStrings.a11y.ratio.currentChallengeHidden;
-      phet.joist.sim.utteranceQueue.addToBack( accordionBoxUtterance );
-    } );
+    const myChallengeAccordionBox = new MyChallengeAccordionBox( model.targetRatioProperty, handColorProperty,
+      this.tickMarkViewProperty, this.ratioDescriber );
 
     const tickMarkRangeComboBoxParent = new Node();
 
@@ -151,9 +54,7 @@ class CreateScreenView extends RAPScreenView {
       this.ratioDescriber,
       this.handPositionsDescriber,
       this.tickMarkRangeProperty,
-      targetAntecedentProperty,
-      targetConsequentProperty,
-      myChallengeAccordionBox.expandedProperty
+      myChallengeAccordionBox
     ) );
 
     const ratioLockedUtterance = new ActivationUtterance();
@@ -214,9 +115,7 @@ class CreateScreenView extends RAPScreenView {
 
     // @private
     this.resetCreateScreenView = () => {
-      targetAntecedentProperty.reset();
-      targetConsequentProperty.reset();
-      myChallengeAccordionBox.expandedProperty.value = DEFAULT_EXPANDED;
+      myChallengeAccordionBox.reset();
     };
   }
 

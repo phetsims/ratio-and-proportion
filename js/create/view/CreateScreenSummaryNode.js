@@ -24,13 +24,10 @@ class CreateScreenSummaryNode extends Node {
    * @param {RatioDescriber} ratioDescriber
    * @param {HandPositionsDescriber} handPositionsDescriber
    * @param {Property.<number>} tickMarkRangeProperty
-   * @param {NumberProperty} targetAntecedentProperty
-   * @param {NumberProperty} targetConsequentProperty
-   * @param {Property.<boolean>} myChallengeAccordionBoxExpandedProperty
+   * @param {MyChallengeAccordionBox} myChallengeAccordionBox
    */
   constructor( ratioFitnessProperty, antecedentProperty, consequentProperty, tickMarkViewProperty,
-               ratioDescriber, handPositionsDescriber, tickMarkRangeProperty,
-               targetAntecedentProperty, targetConsequentProperty, myChallengeAccordionBoxExpandedProperty ) {
+               ratioDescriber, handPositionsDescriber, tickMarkRangeProperty, myChallengeAccordionBox ) {
 
     const stateOfSimNode = new Node( { tagName: 'p' } );
     const leftHandBullet = new Node( { tagName: 'li' } );
@@ -64,7 +61,7 @@ class CreateScreenSummaryNode extends Node {
       ]
     } );
 
-    myChallengeAccordionBoxExpandedProperty.link( expanded => {
+    myChallengeAccordionBox.expandedProperty.link( expanded => {
       if ( expanded ) {
         descriptionBullets.addChild( currentChallengeBullet );
       }
@@ -75,8 +72,8 @@ class CreateScreenSummaryNode extends Node {
 
     Property.multilink( [
       tickMarkViewProperty,
-      targetAntecedentProperty,
-      targetConsequentProperty,
+      myChallengeAccordionBox.targetAntecedentProperty,
+      myChallengeAccordionBox.targetConsequentProperty,
       tickMarkRangeProperty,
       ratioFitnessProperty,
       antecedentProperty,
