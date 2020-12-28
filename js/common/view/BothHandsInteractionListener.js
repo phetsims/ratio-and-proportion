@@ -155,13 +155,14 @@ class BothHandsInteractionListener {
 
             const wasLocked = this.ratioLockedProperty.value;
 
-            // capture now before altering the ratio lockedProperty changes it
-            const rangeForConstraining = this.enabledRatioTermsRangeProperty.value;
-
-            // Unlock ratio before moving both values to prevent model assertions.
-            if ( this.ratioLockedProperty ) {
+            // unlock the ratio because we are snapping out of locked ratio, if target is 1, then we are maintaining
+            // that ratio with this input and we can keep the ratio locked.
+            if ( wasLocked && this.targetRatioProperty.value !== 1 ) {
               this.ratioLockedProperty.value = false;
             }
+
+            // capture now before altering the ratio lockedProperty changes it
+            const rangeForConstraining = this.enabledRatioTermsRangeProperty.value;
 
             const newValue = 1 / this.tickMarkRangeProperty.value * i;
             const constrained = rangeForConstraining.constrainValue( newValue );
@@ -172,11 +173,10 @@ class BothHandsInteractionListener {
               this.boundarySoundClip.play();
             }
 
-            // If the target was 1, we need to skate around the inability for the model to set both values when the
-            // ratio is locked. Special case for 0, since 0/0 is not in target ratio.
-            if ( wasLocked && !this.ratioLockedProperty.value && this.targetRatioProperty.value === 1 && this.ratioTupleProperty.value !== 0 ) {
-              this.ratioLockedProperty.value = true;
-            }
+            // If the target was 1, or perhaps another way, then setting both values should maintain the locked state
+            // if it was previously locked.
+            assert && wasLocked && this.targetRatioProperty.value === 1 &&
+            assert( this.ratioLockedProperty.value, 'should be locked still after setting both values' );
 
             // Because this input can "knock" the ratio out of locked mode, see https://github.com/phetsims/ratio-and-proportion/issues/227
             if ( wasLocked && this.ratioLockedProperty.value === false ) {

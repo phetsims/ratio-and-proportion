@@ -95,8 +95,10 @@ class RAPRatio {
         let newConsequent = tuple.consequent;
 
         if ( this.enabledRatioTermsRangeProperty.value.contains( oldTuple.antecedent ) &&
-             this.enabledRatioTermsRangeProperty.value.contains( oldTuple.consequent ) ) {
-          assert && assert( !( antecedentChanged && consequentChanged ), 'so long as it values were not constrained, both values should not change when ratio is locked' );
+             this.enabledRatioTermsRangeProperty.value.contains( oldTuple.consequent ) &&
+             antecedentChanged && consequentChanged ) {
+          assert && assert( RAPConstants.toFixed( tuple.ratio ) === RAPConstants.toFixed( oldTuple.ratio ),
+            'if both values change while locked, the ratio should be maintained.' );
         }
 
         if ( antecedentChanged ) {
