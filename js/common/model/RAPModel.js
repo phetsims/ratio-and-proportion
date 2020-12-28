@@ -68,14 +68,15 @@ class RAPModel {
         unclampedFitness = RAPConstants.RATIO_FITNESS_RANGE.max - this.getInProportionThreshold() - .01;
       }
 
-      // REVIEW: This looks weird in terms of indentation.  Why not use \n or <br> and the + operator to keep it neater?
       phet.log && phet.log( `
 left: ${antecedent}, 
 right: ${consequent}, 
 distance: ${Math.abs( consequent - antecedent )}, 
 current ratio: ${this.ratio.currentRatio}, 
 target ratio: ${this.targetRatioProperty.value},
-unclampedFitness: ${unclampedFitness}\n` );
+unclampedFitness: ${unclampedFitness}
+`
+      );
 
       return unclampedFitness;
     }, {
