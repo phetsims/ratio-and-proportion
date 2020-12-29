@@ -26,6 +26,7 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import RatioTerm from '../model/RatioTerm.js';
 import RAPConstants from '../RAPConstants.js';
 import CueDisplay from './CueDisplay.js';
 import RatioHalfTickMarksNode from './RatioHalfTickMarksNode.js';
@@ -70,8 +71,8 @@ class RatioHalf extends Rectangle {
       // {RatioTerm}
       ratioTerm: required( config.ratioTerm ),
 
-      // {NumberProperty}
-      valueProperty: required( config.valueProperty ),
+      // {Property.<RAPRatioTuple>}
+      ratioTupleProperty: required( config.ratioTupleProperty ),
 
       // {Property.<Range>} - the current range that the hand can move
       enabledRatioTermsRangeProperty: required( config.enabledRatioTermsRangeProperty ),
@@ -158,7 +159,7 @@ class RatioHalf extends Rectangle {
     this.handPositionsDescriber = config.handPositionsDescriber;
     this.tickMarkViewProperty = config.tickMarkViewProperty;
     this.ratioTerm = config.ratioTerm;
-    this.valueProperty = config.valueProperty;
+    this.ratioTupleProperty = config.ratioTupleProperty;
 
     const viewSounds = new ViewSounds( config.tickMarkRangeProperty, config.tickMarkViewProperty, config.playTickMarkBumpSoundProperty );
 
@@ -177,19 +178,21 @@ class RatioHalf extends Rectangle {
                CueDisplay.ARROWS;
       } );
 
-    // "Framing" rectangles on the top and bottom of the drag area of the ratio half
-    const topRect = new Rectangle( 0, 0, 10, this.framingRectangleHeight, { fill: config.colorProperty } );
-    this.addChild( topRect );
-    const bottomRect = new Rectangle( 0, 0, 10, this.framingRectangleHeight, { fill: config.colorProperty } );
-    this.addChild( bottomRect );
 
-    const tickMarksNode = new RatioHalfTickMarksNode( config.tickMarkViewProperty, config.tickMarkRangeProperty,
-      config.bounds.width, config.bounds.height - 2 * this.framingRectangleHeight,
-      config.colorProperty );
-    this.addChild( tickMarksNode );
+    // @public {Property.<number>} - Create a mapping directly to just this ratio term value. This is to support
+    // AccessibleValueHandler, which powers the PDOM interaction off of {Property.<number>}.
+    const ratioTermSpecificProperty = new DynamicProperty( new Property( this.ratioTupleProperty ), {
+      bidirectional: true,
+      reentrant: true,
+      valueType: 'number',
+      map: ratioTuple => ratioTuple.getForTerm( this.ratioTerm ),
+      inverseMap: term => this.ratioTerm === RatioTerm.ANTECEDENT ? this.ratioTupleProperty.value.withAntecedent( term ) :
+                          this.ratioTerm === RatioTerm.CONSEQUENT ? this.ratioTupleProperty.value.withConsequent( term ) :
+                          assert && assert( false, `unexpected ratioTerm ${this.ratioTerm}` )
+    } );
 
     // @private - The draggable element inside the Node framed with thick rectangles on the top and bottom.
-    this.ratioHandNode = new RatioHandNode( config.valueProperty, config.enabledRatioTermsRangeProperty, config.tickMarkViewProperty,
+    this.ratioHandNode = new RatioHandNode( ratioTermSpecificProperty, config.enabledRatioTermsRangeProperty, config.tickMarkViewProperty,
       config.keyboardStep, config.handColorProperty, cueDisplayStateProperty, config.getIdealValue, {
         startDrag: () => {
           config.cueArrowsState.interactedWithKeyboardProperty.value = true;
@@ -197,11 +200,11 @@ class RatioHalf extends Rectangle {
           viewSounds.boundarySoundClip.onStartInteraction();
         },
         drag: () => {
-          viewSounds.boundarySoundClip.onInteract( config.valueProperty.value );
-          viewSounds.tickMarkBumpSoundClip.onInteract( config.valueProperty.value );
+          viewSounds.boundarySoundClip.onInteract( config.ratioTupleProperty.value.getForTerm( this.ratioTerm ) );
+          viewSounds.tickMarkBumpSoundClip.onInteract( config.ratioTupleProperty.value.getForTerm( this.ratioTerm ) );
         },
         endDrag: () => {
-          viewSounds.boundarySoundClip.onEndInteraction( config.valueProperty.value );
+          viewSounds.boundarySoundClip.onEndInteraction( config.ratioTupleProperty.value.getForTerm( this.ratioTerm ) );
         },
         isRight: config.isRight,
 
@@ -210,7 +213,6 @@ class RatioHalf extends Rectangle {
         a11yCreateContextResponseAlert: () => this.getSingleHandContextResponse(),
         a11yDependencies: config.a11yDependencies.concat( [ config.ratioLockedProperty ] )
       } );
-    this.addChild( this.ratioHandNode );
 
     // This can change anytime there is a layout update.
     let modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
@@ -237,8 +239,9 @@ class RatioHalf extends Rectangle {
     const initialVector = new Vector2( INITIAL_X_VALUE, 0 );
     let mappingInitialValue = true;
 
-    // Only the RatioHalf DragListener allows for horizontal movement, so support that here.
-    const positionProperty = new DynamicProperty( new Property( config.valueProperty ), {
+    // Only the RatioHalf DragListener allows for horizontal movement, so support that here. This adds the horizontal axis.
+    // We expand on ratioTermSpecificProperty since we already have it, but we could also just use the ratioTupleProperty.
+    const positionProperty = new DynamicProperty( new Property( ratioTermSpecificProperty ), {
       reentrant: true,
       bidirectional: true,
       valueType: Vector2,
@@ -337,12 +340,28 @@ class RatioHalf extends Rectangle {
       }
     } );
 
-    this.mutate( config );
+    // "Framing" rectangles on the top and bottom of the drag area of the ratio half
+    const topRect = new Rectangle( 0, 0, 10, this.framingRectangleHeight, { fill: config.colorProperty } );
+    const bottomRect = new Rectangle( 0, 0, 10, this.framingRectangleHeight, { fill: config.colorProperty } );
+
+    const tickMarksNode = new RatioHalfTickMarksNode( config.tickMarkViewProperty, config.tickMarkRangeProperty,
+      config.bounds.width, config.bounds.height - 2 * this.framingRectangleHeight,
+      config.colorProperty );
 
     const updatePointer = position => {
       this.ratioHandNode.translation = modelViewTransform.modelToViewPosition( position );
     };
     positionProperty.link( updatePointer );
+
+    this.mutate( config );
+
+    assert && assert( !config.children, 'RatioHalf sets its own children.' );
+    this.children = [
+      topRect,
+      bottomRect,
+      tickMarksNode,
+      this.ratioHandNode
+    ];
 
     // @private
     this.layoutRatioHalf = ( newBounds, heightScalar ) => {
@@ -404,7 +423,8 @@ class RatioHalf extends Rectangle {
 
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.distancePositionContextResponse, {
       distance: this.handPositionsDescriber.getSingleHandDistance( this.ratioTerm ),
-      position: this.handPositionsDescriber.getHandPositionDescription( this.valueProperty.value, this.tickMarkViewProperty.value, false )
+      position: this.handPositionsDescriber.getHandPositionDescription( this.ratioTupleProperty.value.getForTerm( this.ratioTerm ),
+        this.tickMarkViewProperty.value, false )
     } );
   }
 

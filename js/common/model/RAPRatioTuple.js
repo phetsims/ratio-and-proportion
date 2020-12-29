@@ -7,6 +7,7 @@
  */
 
 import ratioAndProportion from '../../ratioAndProportion.js';
+import RatioTerm from './RatioTerm.js';
 
 class RAPRatioTuple {
 
@@ -86,6 +87,22 @@ class RAPRatioTuple {
    */
   getDistance() {
     return Math.abs( this.antecedent - this.consequent );
+  }
+
+  /**
+   * @public
+   * @param {RatioTerm} ratioTerm
+   * @returns {number}
+   */
+  getForTerm( ratioTerm ) {
+    switch( ratioTerm ) {
+      case RatioTerm.ANTECEDENT:
+        return this.antecedent;
+      case RatioTerm.CONSEQUENT:
+        return this.consequent;
+      default:
+        assert && assert( false, `unexpected ratioTerm ${ratioTerm}` );
+    }
   }
 }
 

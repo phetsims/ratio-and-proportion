@@ -142,7 +142,7 @@ class RAPScreenView extends ScreenView {
 
       // config
       ratioTerm: RatioTerm.ANTECEDENT,
-      valueProperty: ratio.antecedentProperty,
+      ratioTupleProperty: ratio.tupleProperty,
       enabledRatioTermsRangeProperty: model.ratio.enabledRatioTermsRangeProperty,
       displayBothHandsCueProperty: cueArrowsState.bothHands.antecedentCueDisplayedProperty,
       cueArrowsState: cueArrowsState,
@@ -177,7 +177,7 @@ class RAPScreenView extends ScreenView {
 
       // required
       ratioTerm: RatioTerm.CONSEQUENT,
-      valueProperty: ratio.consequentProperty,
+      ratioTupleProperty: ratio.tupleProperty,
       enabledRatioTermsRangeProperty: model.ratio.enabledRatioTermsRangeProperty,
       displayBothHandsCueProperty: cueArrowsState.bothHands.consequentCueDisplayedProperty,
       cueArrowsState: cueArrowsState,

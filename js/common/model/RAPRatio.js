@@ -8,7 +8,6 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
@@ -41,26 +40,6 @@ class RAPRatio {
     this.tupleProperty = new Property( new RAPRatioTuple( initialAntecedent, initialConsequent ), {
       valueType: RAPRatioTuple,
       reentrant: true
-    } );
-
-    // @public {Property.<number>} - convenience Property based on the tupleProperty get getting/setting/listening
-    // to the antecedent only. In general, it is best and simplest to just use this.tupleProperty directly.
-    this.antecedentProperty = new DynamicProperty( new Property( this.tupleProperty ), {
-      bidirectional: true,
-      reentrant: true,
-      valueType: 'number',
-      map: ratioTuple => ratioTuple.antecedent,
-      inverseMap: antecedent => this.tupleProperty.value.withAntecedent( antecedent )
-    } );
-
-    // @public {Property.<number>} - convenience Property based on the tupleProperty get getting/setting/listening
-    // to the consequent only. In general, it is best and simplest to just use this.tupleProperty directly.
-    this.consequentProperty = new DynamicProperty( new Property( this.tupleProperty ), {
-      bidirectional: true,
-      reentrant: true,
-      valueType: 'number',
-      map: ratioTuple => ratioTuple.consequent,
-      inverseMap: consequent => this.tupleProperty.value.withConsequent( consequent )
     } );
 
     // @public (read-only) - the velocity of each ratio value changing, adjusted in step
@@ -243,9 +222,6 @@ class RAPRatio {
 
     // it is easiest if this is reset first
     this.lockedProperty.reset();
-
-    this.antecedentProperty.reset();
-    this.consequentProperty.reset();
 
     this.enabledRatioTermsRangeProperty.reset();
     this.changeInAntecedentProperty.reset();
