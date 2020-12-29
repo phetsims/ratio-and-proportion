@@ -64,8 +64,8 @@ class HandPositionsDescriber {
 
   /**
    * @param {Property.<RAPRatioTuple>} ratioTupleProperty
-   * @param {Property.<number>}antecedentProperty
-   * @param {Property.<number>}consequentProperty
+   * @param {Property.<number>} antecedentProperty
+   * @param {Property.<number>} consequentProperty
    * @param {TickMarkDescriber} tickMarkDescriber
    */
   constructor( ratioTupleProperty, antecedentProperty, consequentProperty, tickMarkDescriber ) {

@@ -44,7 +44,7 @@ class RAPRatio {
     } );
 
     // @public {Property.<number>} - convenience Property based on the tupleProperty get getting/setting/listening
-    // to the antecedent only.
+    // to the antecedent only. In general, it is best and simplest to just use this.tupleProperty directly.
     this.antecedentProperty = new DynamicProperty( new Property( this.tupleProperty ), {
       bidirectional: true,
       reentrant: true,
@@ -54,7 +54,7 @@ class RAPRatio {
     } );
 
     // @public {Property.<number>} - convenience Property based on the tupleProperty get getting/setting/listening
-    // to the consequent only.
+    // to the consequent only. In general, it is best and simplest to just use this.tupleProperty directly.
     this.consequentProperty = new DynamicProperty( new Property( this.tupleProperty ), {
       bidirectional: true,
       reentrant: true,
