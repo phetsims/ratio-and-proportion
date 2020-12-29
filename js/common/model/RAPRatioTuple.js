@@ -91,6 +91,15 @@ class RAPRatioTuple {
 
   /**
    * @public
+   * @param {RAPRatioTuple} otherRatioTuple
+   * @returns {boolean}
+   */
+  equals( otherRatioTuple ) {
+    return this.antecedent === otherRatioTuple.antecedent && this.consequent === otherRatioTuple.consequent;
+  }
+
+  /**
+   * @public
    * @param {RatioTerm} ratioTerm
    * @returns {number}
    */

@@ -39,6 +39,7 @@ class RAPRatio {
     // @public {Property.<RAPRatioTuple>} - central Property that holds the value of the ratio
     this.tupleProperty = new Property( new RAPRatioTuple( initialAntecedent, initialConsequent ), {
       valueType: RAPRatioTuple,
+      useDeepEquality: true,
       reentrant: true
     } );
 
