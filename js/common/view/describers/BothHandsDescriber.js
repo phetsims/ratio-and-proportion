@@ -16,19 +16,17 @@ const ratioDistancePositionContextResponsePatternString = ratioAndProportionStri
 class BothHandsDescriber {
 
   /**
-   * @param {Property.<number>} antecedentProperty
-   * @param {Property.<number>} consequentProperty
+   * @param {Property.<RAPRatioTuple>} ratioTupleProperty
    * @param {Property.<Range>} enabledRatioTermsRangeProperty
    * @param ratioLockedProperty
    * @param {Property.<TickMarkView>} tickMarkViewProperty
    * @param {RatioDescriber} ratioDescriber
    * @param {HandPositionsDescriber} handPositionsDescriber
    */
-  constructor( antecedentProperty, consequentProperty, enabledRatioTermsRangeProperty, ratioLockedProperty, tickMarkViewProperty, ratioDescriber, handPositionsDescriber ) {
+  constructor( ratioTupleProperty, enabledRatioTermsRangeProperty, ratioLockedProperty, tickMarkViewProperty, ratioDescriber, handPositionsDescriber ) {
 
     // @private - from model
-    this.antecedentProperty = antecedentProperty;
-    this.consequentProperty = consequentProperty;
+    this.ratioTupleProperty = ratioTupleProperty;
     this.enabledRatioTermsRangeProperty = enabledRatioTermsRangeProperty;
     this.tickMarkViewProperty = tickMarkViewProperty;
     this.ratioDescriber = ratioDescriber;
@@ -79,8 +77,9 @@ class BothHandsDescriber {
   getBothHandsPosition() {
     const tickMarkView = this.tickMarkViewProperty.value;
 
-    const leftPosition = this.handPositionsDescriber.getHandPositionDescription( this.antecedentProperty.value, tickMarkView, false );
-    const rightPosition = this.handPositionsDescriber.getHandPositionDescription( this.consequentProperty.value, tickMarkView, false );
+    const currentTuple = this.ratioTupleProperty.value;
+    const leftPosition = this.handPositionsDescriber.getHandPositionDescription( currentTuple.antecedent, tickMarkView, false );
+    const rightPosition = this.handPositionsDescriber.getHandPositionDescription( currentTuple.consequent, tickMarkView, false );
 
     if ( leftPosition === rightPosition ) {
       return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.equalObjectResponseAlert, {
@@ -120,7 +119,7 @@ class BothHandsDescriber {
     let extremityPosition = null; // where are we now?
     let direction = null; // where to go from here?
 
-    if ( this.antecedentProperty.value === enabledRange.min ) {
+    if ( this.ratioTupleProperty.value.antecedent === enabledRange.min ) {
       if ( this.previousAntecedentAtExtremity ) {
         handAtExtremity = ratioAndProportionStrings.a11y.leftHand;
         extremityPosition = ratioAndProportionStrings.a11y.handPosition.nearBottom;
@@ -130,7 +129,7 @@ class BothHandsDescriber {
         this.previousAntecedentAtExtremity = true;
       }
     }
-    else if ( this.antecedentProperty.value === enabledRange.max ) {
+    else if ( this.ratioTupleProperty.value.antecedent === enabledRange.max ) {
       if ( this.previousAntecedentAtExtremity ) {
         handAtExtremity = ratioAndProportionStrings.a11y.leftHand;
         extremityPosition = ratioAndProportionStrings.a11y.handPosition.atTop;
@@ -140,7 +139,7 @@ class BothHandsDescriber {
         this.previousAntecedentAtExtremity = true;
       }
     }
-    else if ( this.consequentProperty.value === enabledRange.min ) {
+    else if ( this.ratioTupleProperty.value.consequent === enabledRange.min ) {
       if ( this.previousConsequentAtExtremity ) {
         handAtExtremity = ratioAndProportionStrings.a11y.rightHand;
         extremityPosition = ratioAndProportionStrings.a11y.handPosition.nearBottom;
@@ -150,7 +149,7 @@ class BothHandsDescriber {
         this.previousConsequentAtExtremity = true;
       }
     }
-    else if ( this.consequentProperty.value === enabledRange.max ) {
+    else if ( this.ratioTupleProperty.value.consequent === enabledRange.max ) {
       if ( this.previousConsequentAtExtremity ) {
         handAtExtremity = ratioAndProportionStrings.a11y.rightHand;
         extremityPosition = ratioAndProportionStrings.a11y.handPosition.atTop;

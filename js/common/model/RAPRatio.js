@@ -68,8 +68,8 @@ class RAPRatio {
     this.changeInConsequentProperty = new NumberProperty( 0 );
 
     // @private - keep track of previous values to calculate the change
-    this.previousAntecedentProperty = new NumberProperty( this.antecedentProperty.value );
-    this.previousConsequentProperty = new NumberProperty( this.consequentProperty.value );
+    this.previousAntecedentProperty = new NumberProperty( this.tupleProperty.value.antecedent );
+    this.previousConsequentProperty = new NumberProperty( this.tupleProperty.value.consequent );
     this.stepCountTracker = 0; // Used for keeping track of how often dVelocity is checked.
 
     // @public - when true, moving one ratio value will maintain the current ratio by updating the other value Property
@@ -120,8 +120,11 @@ class RAPRatio {
     } );
 
     this.enabledRatioTermsRangeProperty.link( enabledRange => {
-      const newAntecedent = enabledRange.constrainValue( this.antecedentProperty.value );
-      const newConsequent = enabledRange.constrainValue( this.consequentProperty.value );
+      const currentTuple = this.tupleProperty.value;
+      const newAntecedent = enabledRange.constrainValue( currentTuple.antecedent );
+      const newConsequent = enabledRange.constrainValue( currentTuple.consequent );
+
+      // new instance to trigger notifications
       this.tupleProperty.value = new RAPRatioTuple( newAntecedent, newConsequent );
     } );
   }
@@ -227,8 +230,9 @@ class RAPRatio {
 
     // only recalculate every X steps to help smooth out noise
     if ( ++this.stepCountTracker % 30 === 0 ) {
-      this.calculateCurrentVelocity( this.previousAntecedentProperty, this.antecedentProperty.value, this.changeInAntecedentProperty );
-      this.calculateCurrentVelocity( this.previousConsequentProperty, this.consequentProperty.value, this.changeInConsequentProperty );
+      const currentTuple = this.tupleProperty.value;
+      this.calculateCurrentVelocity( this.previousAntecedentProperty, currentTuple.antecedent, this.changeInAntecedentProperty );
+      this.calculateCurrentVelocity( this.previousConsequentProperty, currentTuple.consequent, this.changeInConsequentProperty );
     }
   }
 

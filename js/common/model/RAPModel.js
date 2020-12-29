@@ -153,8 +153,9 @@ unclampedFitness: ${unclampedFitness}
    * @returns {boolean}
    */
   valuesTooSmallForInProportion() {
-    return this.ratio.antecedentProperty.value <= RAPConstants.NO_SUCCESS_VALUE_THRESHOLD ||
-           this.ratio.consequentProperty.value <= RAPConstants.NO_SUCCESS_VALUE_THRESHOLD;
+    const currentTuple = this.ratio.tupleProperty.value;
+    return currentTuple.antecedent <= RAPConstants.NO_SUCCESS_VALUE_THRESHOLD ||
+           currentTuple.consequent <= RAPConstants.NO_SUCCESS_VALUE_THRESHOLD;
   }
 
   /**

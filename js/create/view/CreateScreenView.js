@@ -48,8 +48,7 @@ class CreateScreenView extends RAPScreenView {
     // set this after the supertype has initialized the view code needed to create the screen summary
     this.setScreenSummaryContent( new CreateScreenSummaryNode(
       model.ratioFitnessProperty,
-      model.ratio.antecedentProperty,
-      model.ratio.consequentProperty,
+      model.ratio.tupleProperty,
       this.tickMarkViewProperty,
       this.ratioDescriber,
       this.handPositionsDescriber,

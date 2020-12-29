@@ -10,6 +10,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import MarkerInput from '../../../../tangible/js/MarkerInput.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
+import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import RAPQueryParameters from '../RAPQueryParameters.js';
 
 // constants
@@ -23,11 +24,10 @@ const HEIGHT_OF_ONE = RAPQueryParameters.heightInPixels;
 class ProportionMarkerInput extends MarkerInput {
 
   /**
-   * @param {NumberProperty} antecedentProperty
-   * @param {NumberProperty} consequentProperty
+   * @param {Property.<RAPRatioTuple>} ratioTupleProperty
    * @param {BooleanProperty} firstInteractionProperty - TODO: support this for cue arrows, https://github.com/phetsims/ratio-and-proportion/issues/89
    */
-  constructor( antecedentProperty, consequentProperty, firstInteractionProperty ) {
+  constructor( ratioTupleProperty, firstInteractionProperty ) {
     super();
 
     // @public (read-only)
@@ -40,8 +40,7 @@ class ProportionMarkerInput extends MarkerInput {
     // } );
 
     // @private
-    this.antecedentProperty = antecedentProperty;
-    this.consequentProperty = consequentProperty;
+    this.ratioTupleProperty = ratioTupleProperty;
   }
 
   /**
@@ -62,8 +61,9 @@ class ProportionMarkerInput extends MarkerInput {
 
       assert && assert( leftMarker.present && baseMarker.present && rightMarker.present, 'all markers must be present' );
 
-      this.antecedentProperty.value = Utils.clamp( Math.abs( baseMarker.center.y - leftMarker.center.y ) / HEIGHT_OF_ONE, 0, 1 );
-      this.consequentProperty.value = Utils.clamp( Math.abs( baseMarker.center.y - rightMarker.center.y ) / HEIGHT_OF_ONE, 0, 1 );
+      const newAntecedent = Utils.clamp( Math.abs( baseMarker.center.y - leftMarker.center.y ) / HEIGHT_OF_ONE, 0, 1 );
+      const newConsequent = Utils.clamp( Math.abs( baseMarker.center.y - rightMarker.center.y ) / HEIGHT_OF_ONE, 0, 1 );
+      this.ratioTupleProperty.value = new RAPRatioTuple( newAntecedent, newConsequent );
     }
   }
 }

@@ -98,8 +98,7 @@ class RAPScreenView extends ScreenView {
     this.ratioDescriber = new RatioDescriber( model );
     this.handPositionsDescriber = new HandPositionsDescriber( ratio.tupleProperty, ratio.antecedentProperty, ratio.consequentProperty, tickMarkDescriber );
     const bothHandsDescriber = new BothHandsDescriber(
-      ratio.antecedentProperty,
-      ratio.consequentProperty,
+      ratio.tupleProperty,
       ratio.enabledRatioTermsRangeProperty,
       ratio.lockedProperty,
       this.tickMarkViewProperty,
@@ -222,7 +221,7 @@ class RAPScreenView extends ScreenView {
     );
 
     // @private TODO: add support for mechamarker input again https://github.com/phetsims/ratio-and-proportion/issues/89
-    // this.markerInput = new ProportionMarkerInput( ratio.antecedentProperty, ratio.consequentProperty );
+    // this.markerInput = new ProportionMarkerInput( ratio.tupleProperty );
 
     const soundGeneratorEnabledProperty = DerivedProperty.or( [
       this.antecedentRatioHalf.isBeingInteractedWithProperty,

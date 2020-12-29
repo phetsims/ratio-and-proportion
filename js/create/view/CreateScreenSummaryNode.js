@@ -16,15 +16,14 @@ class CreateScreenSummaryNode extends Node {
 
   /**
    * @param {Property.<number>} ratioFitnessProperty
-   * @param {Property.<number>} antecedentProperty
-   * @param {Property.<number>} consequentProperty
+   * @param {Property.<RAPRatioTuple>} ratioTupleProperty
    * @param {Property.<TickMarkView>} tickMarkViewProperty
    * @param {RatioDescriber} ratioDescriber
    * @param {HandPositionsDescriber} handPositionsDescriber
    * @param {Property.<number>} tickMarkRangeProperty
    * @param {MyChallengeAccordionBox} myChallengeAccordionBox
    */
-  constructor( ratioFitnessProperty, antecedentProperty, consequentProperty, tickMarkViewProperty,
+  constructor( ratioFitnessProperty, ratioTupleProperty, tickMarkViewProperty,
                ratioDescriber, handPositionsDescriber, tickMarkRangeProperty, myChallengeAccordionBox ) {
 
     const stateOfSimNode = new Node( { tagName: 'p' } );
@@ -72,21 +71,20 @@ class CreateScreenSummaryNode extends Node {
       tickMarkViewProperty,
       myChallengeAccordionBox.targetAntecedentProperty,
       myChallengeAccordionBox.targetConsequentProperty,
+      ratioTupleProperty,
       tickMarkRangeProperty,
-      ratioFitnessProperty,
-      antecedentProperty,
-      consequentProperty
-    ], ( tickMarkView, targetAntecedent, targetConsequent ) => {
+      ratioFitnessProperty
+    ], ( tickMarkView, targetAntecedent, targetConsequent, currentTuple ) => {
       stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.screenSummary.qualitativeStateOfSim, {
         ratioFitness: ratioDescriber.getRatioFitness( false ), // lowercase
         distance: handPositionsDescriber.getDistanceRegion( true )
       } );
 
       leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
-        position: handPositionsDescriber.getHandPositionDescription( antecedentProperty.value, tickMarkView )
+        position: handPositionsDescriber.getHandPositionDescription( currentTuple.antecedent, tickMarkView )
       } );
       rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
-        position: handPositionsDescriber.getHandPositionDescription( consequentProperty.value, tickMarkView )
+        position: handPositionsDescriber.getHandPositionDescription( currentTuple.consequent, tickMarkView )
       } );
 
       currentChallengeBullet.innerContent = ratioDescriber.getCurrentChallengeSentence( targetAntecedent, targetConsequent );
