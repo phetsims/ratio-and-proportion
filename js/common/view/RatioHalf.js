@@ -67,6 +67,9 @@ class RatioHalf extends Rectangle {
     config = merge( {
       // ---- REQUIRED -------------------------------------------------
 
+      // {RatioTerm}
+      ratioTerm: required( config.ratioTerm ),
+
       // {NumberProperty}
       valueProperty: required( config.valueProperty ),
 
@@ -154,6 +157,7 @@ class RatioHalf extends Rectangle {
     this.bothHandsDescriber = config.bothHandsDescriber;
     this.handPositionsDescriber = config.handPositionsDescriber;
     this.tickMarkViewProperty = config.tickMarkViewProperty;
+    this.ratioTerm = config.ratioTerm;
     this.valueProperty = config.valueProperty;
 
     const viewSounds = new ViewSounds( config.tickMarkRangeProperty, config.tickMarkViewProperty, config.playTickMarkBumpSoundProperty );
@@ -399,7 +403,7 @@ class RatioHalf extends Rectangle {
     }
 
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.distancePositionContextResponse, {
-      distance: this.handPositionsDescriber.getSingleHandDistance( this.valueProperty ),
+      distance: this.handPositionsDescriber.getSingleHandDistance( this.ratioTerm ),
       position: this.handPositionsDescriber.getHandPositionDescription( this.valueProperty.value, this.tickMarkViewProperty.value, false )
     } );
   }

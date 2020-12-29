@@ -11,6 +11,7 @@ import merge from '../../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
+import RatioTerm from '../../model/RatioTerm.js';
 import RAPConstants from '../../RAPConstants.js';
 import TickMarkView from '../TickMarkView.js';
 
@@ -64,16 +65,12 @@ class HandPositionsDescriber {
 
   /**
    * @param {Property.<RAPRatioTuple>} ratioTupleProperty
-   * @param {Property.<number>} antecedentProperty
-   * @param {Property.<number>} consequentProperty
    * @param {TickMarkDescriber} tickMarkDescriber
    */
-  constructor( ratioTupleProperty, antecedentProperty, consequentProperty, tickMarkDescriber ) {
+  constructor( ratioTupleProperty, tickMarkDescriber ) {
 
     // @private - from model
     this.ratioTupleProperty = ratioTupleProperty;
-    this.antecedentProperty = antecedentProperty;
-    this.consequentProperty = consequentProperty;
     this.tickMarkDescriber = tickMarkDescriber;
 
     // @private - keep track of previous distance regions to track repetition, and alter description accordingly. This
@@ -215,12 +212,12 @@ class HandPositionsDescriber {
 
   /**
    * @public
-   * @param {Property} valueProperty - controlling one of the two hands
+   * @param {RatioTerm} ratioTerm - which ratio term is this for? Antecedent or consequent
    * @returns {string}
    */
-  getSingleHandDistance( valueProperty ) {
-    assert && assert( valueProperty === this.antecedentProperty || valueProperty === this.consequentProperty, 'Should be one of the two' );
-    const otherHand = valueProperty === this.antecedentProperty ? rightHandLowerString : leftHandLowerString;
+  getSingleHandDistance( ratioTerm ) {
+    assert && assert( RatioTerm.includes( ratioTerm ), 'unsupported RatioTerm' );
+    const otherHand = ratioTerm === RatioTerm.ANTECEDENT ? rightHandLowerString : leftHandLowerString;
 
     const distanceRegion = this.getDistanceRegion();
 

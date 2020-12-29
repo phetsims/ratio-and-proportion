@@ -96,7 +96,7 @@ class RAPScreenView extends ScreenView {
 
     // @protected (read-only)
     this.ratioDescriber = new RatioDescriber( model );
-    this.handPositionsDescriber = new HandPositionsDescriber( ratio.tupleProperty, ratio.antecedentProperty, ratio.consequentProperty, tickMarkDescriber );
+    this.handPositionsDescriber = new HandPositionsDescriber( ratio.tupleProperty, tickMarkDescriber );
     const bothHandsDescriber = new BothHandsDescriber(
       ratio.tupleProperty,
       ratio.enabledRatioTermsRangeProperty,
@@ -141,6 +141,7 @@ class RAPScreenView extends ScreenView {
     this.antecedentRatioHalf = new RatioHalf( {
 
       // config
+      ratioTerm: RatioTerm.ANTECEDENT,
       valueProperty: ratio.antecedentProperty,
       enabledRatioTermsRangeProperty: model.ratio.enabledRatioTermsRangeProperty,
       displayBothHandsCueProperty: cueArrowsState.bothHands.antecedentCueDisplayedProperty,
@@ -175,6 +176,7 @@ class RAPScreenView extends ScreenView {
     this.consequentRatioHalf = new RatioHalf( {
 
       // required
+      ratioTerm: RatioTerm.CONSEQUENT,
       valueProperty: ratio.consequentProperty,
       enabledRatioTermsRangeProperty: model.ratio.enabledRatioTermsRangeProperty,
       displayBothHandsCueProperty: cueArrowsState.bothHands.consequentCueDisplayedProperty,
