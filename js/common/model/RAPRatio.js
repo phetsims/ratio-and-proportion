@@ -223,6 +223,8 @@ class RAPRatio {
     // it is easiest if this is reset first
     this.lockedProperty.reset();
 
+    this.tupleProperty.reset();
+
     this.enabledRatioTermsRangeProperty.reset();
     this.changeInAntecedentProperty.reset();
     this.changeInConsequentProperty.reset();
