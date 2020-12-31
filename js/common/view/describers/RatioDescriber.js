@@ -6,7 +6,9 @@
  */
 
 import LinearFunction from '../../../../../dot/js/LinearFunction.js';
+import Utils from '../../../../../dot/js/Utils.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
+import sceneryPhetStrings from '../../../../../scenery-phet/js/sceneryPhetStrings.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
 import RAPConstants from '../../RAPConstants.js';
@@ -32,6 +34,20 @@ const RATIO_FITNESS_STRINGS_LOWERCASE = [
   ratioAndProportionStrings.a11y.ratio.lowercase.veryCloseTo,
   ratioAndProportionStrings.a11y.ratio.lowercase.extremelyCloseTo,
   ratioAndProportionStrings.a11y.ratio.lowercase.at
+];
+
+const NUMBER_TO_WORD = [
+  sceneryPhetStrings.zero,
+  sceneryPhetStrings.one,
+  sceneryPhetStrings.two,
+  sceneryPhetStrings.three,
+  sceneryPhetStrings.four,
+  sceneryPhetStrings.five,
+  sceneryPhetStrings.six,
+  sceneryPhetStrings.seven,
+  sceneryPhetStrings.eight,
+  sceneryPhetStrings.nine,
+  sceneryPhetStrings.ten
 ];
 
 // an unclamped fitness of 0 should map to "somewhatCloseTo" region
@@ -119,6 +135,17 @@ class RatioDescriber {
       targetAntecedent: antecedent,
       targetConsequent: consequent
     } );
+  }
+
+  /**
+   * @public
+   * @param {number} number
+   * @returns {string}
+   */
+  getWordFromNumber( number ) {
+    assert && assert( Utils.isInteger( number ) );
+    assert && assert( NUMBER_TO_WORD.length > number );
+    return NUMBER_TO_WORD[ number ];
   }
 
   /**

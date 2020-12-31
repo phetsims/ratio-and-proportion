@@ -96,6 +96,7 @@ class MyChallengeAccordionBox extends AccordionBox {
       center: Vector2.ZERO,
       accessibleName: ratioAndProportionStrings.a11y.leftValue,
       a11yDependencies: [ targetConsequentProperty ],
+      a11yCreateAriaValueText: ratioDescriber.getWordFromNumber,
       a11yCreateContextResponseAlert: () => ratioDescriber.getTargetRatioChangeAlert( targetAntecedentProperty.value, targetConsequentProperty.value )
     } );
     const leftRatioSelector = new VBox( {
@@ -114,6 +115,7 @@ class MyChallengeAccordionBox extends AccordionBox {
       center: Vector2.ZERO,
       accessibleName: ratioAndProportionStrings.a11y.rightValue,
       a11yDependencies: [ targetAntecedentProperty ],
+      a11yCreateAriaValueText: ratioDescriber.getWordFromNumber,
       a11yCreateContextResponseAlert: () => ratioDescriber.getTargetRatioChangeAlert( targetAntecedentProperty.value, targetConsequentProperty.value )
     } );
     const rightRatioSelector = new VBox( {
