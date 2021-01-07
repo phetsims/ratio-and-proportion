@@ -180,6 +180,12 @@ class BothHandsInteractionListener {
                !event.getModifierState( 'Shift' ) &&
                !event.getModifierState( 'Alt' ) ) {
 
+            // If the ratio is locked, and the target is 1, this case means that going to 0:0 would be a buggy case.
+            // Here we will just disable this feature.
+            if ( this.ratioLockedProperty.value && this.targetRatioProperty.value === 1 && i === 0 ) {
+              return;
+            }
+
             const wasLocked = this.ratioLockedProperty.value;
 
             // unlock the ratio because we are snapping out of locked ratio, if target is 1, then we are maintaining
