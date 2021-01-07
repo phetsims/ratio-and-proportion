@@ -6,7 +6,6 @@
  */
 
 import LinearFunction from '../../../../../dot/js/LinearFunction.js';
-import Utils from '../../../../../dot/js/Utils.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import sceneryPhetStrings from '../../../../../scenery-phet/js/sceneryPhetStrings.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
@@ -143,7 +142,7 @@ class RatioDescriber {
    * @returns {string}
    */
   getWordFromNumber( number ) {
-    assert && assert( Utils.isInteger( number ) );
+    assert && assert( Number.isInteger( number ) );
     assert && assert( NUMBER_TO_WORD.length > number );
     return NUMBER_TO_WORD[ number ];
   }
