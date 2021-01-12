@@ -158,7 +158,7 @@ class BothHandsPDOMNode extends Node {
     interactiveNode.addInputListener( this.bothHandsInteractionListener );
     interactiveNode.addInputListener( {
       focus: () => {
-        this.alertBothHandsObjectResponse( config.tickMarkViewProperty.value );
+        this.alertBothHandsObjectResponse();
         this.viewSounds.grabSoundClip.play();
         this.bothHandsFocusedProperty.value = true;
       },
@@ -198,12 +198,12 @@ class BothHandsPDOMNode extends Node {
     // Though most cases are covered by just listening to fitness, there are certain cases when Property values can change,
     // but the fitness doesn't. See https://github.com/phetsims/ratio-and-proportion/issues/222 as an example.
     Property.multilink( [ config.tickMarkViewProperty, config.ratioTupleProperty, config.unclampedFitnessProperty ],
-      tickMarkView => {
+      () => {
 
         dynamicDescription.innerContent = this.bothHandsDescriber.getBothHandsDynamicDescription();
 
         if ( this.bothHandsInteractionListener.isBeingInteractedWithProperty.value ) {
-          this.alertBothHandsObjectResponse( tickMarkView );
+          this.alertBothHandsObjectResponse();
         }
       } );
 
@@ -243,9 +243,8 @@ class BothHandsPDOMNode extends Node {
 
   /**
    * @private
-   * @param {TickMarkView} tickMarkView
    */
-  alertBothHandsContextResponse( tickMarkView ) {
+  alertBothHandsContextResponse() {
     this.contextResponseUtterance.alert = this.bothHandsDescriber.getBothHandsContextResponse();
     phet.joist.sim.utteranceQueue.addToBack( this.contextResponseUtterance );
   }
