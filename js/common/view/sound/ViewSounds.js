@@ -44,8 +44,11 @@ class ViewSounds {
     // @public - available to control, but don't overwrite after construction
     this.grabSoundClip = new SoundClip( grabSound, options.soundClipOptions );
     this.releaseSoundClip = new SoundClip( releaseSound, options.soundClipOptions );
-    this.boundarySoundClip = new BoundarySoundClip( TOTAL_RANGE, options.soundClipOptions );
+    this.boundarySoundClip = new BoundarySoundClip( TOTAL_RANGE, merge( {}, options.soundClipOptions, {
+      initialOutputLevel: .3 // increased from feedback in https://github.com/phetsims/ratio-and-proportion/issues/246
+    } ) );
     this.tickMarkBumpSoundClip = new TickMarkBumpSoundClip( tickMarkRangeProperty, TOTAL_RANGE, merge( {}, options.soundClipOptions, {
+      initialOutputLevel: .3, // increased from feedback in https://github.com/phetsims/ratio-and-proportion/issues/246
       enableControlProperties: [
         playTickMarkBumpSoundProperty,
         new DerivedProperty( [ tickMarkViewProperty ], tickMarkView => tickMarkView !== TickMarkView.NONE )
