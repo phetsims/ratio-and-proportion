@@ -43,7 +43,7 @@ class RAPModel {
     // How "correct" the proportion currently is. Max is RATIO_FITNESS_RANGE.max, but the min depends on the range of the
     // ratio terms (see RAPRatio), and the current targetRatio value. Thus using this Property should likely be used with
     // `RAPModel.getMinFitness()`. In most cases, this should not be used, since it isn't normalized. See
-    // `ttohis.ratioFitnessProperty` for the preferred method of moniring ratio fitness. This Property can be useful
+    // `this.ratioFitnessProperty` for the preferred method of monitoring ratio fitness. This Property can be useful
     // if you need to map feedback based on the entire range of fitness, and not just when the current ratio gets
     // "close enough" to the target (since negative values in this Property are all clamped to 0 in this.ratioFitnessProperty).
     this.unclampedFitnessProperty = new DerivedProperty( [
@@ -76,6 +76,7 @@ target ratio: ${this.targetRatioProperty.value},
 unclampedFitness: ${unclampedFitness}
 `
       );
+      console.log( 'unclampedFitness = ' + unclampedFitness );
 
       return unclampedFitness;
     }, {
