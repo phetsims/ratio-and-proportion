@@ -76,7 +76,6 @@ target ratio: ${this.targetRatioProperty.value},
 unclampedFitness: ${unclampedFitness}
 `
       );
-      console.log( 'unclampedFitness = ' + unclampedFitness );
 
       return unclampedFitness;
     }, {
