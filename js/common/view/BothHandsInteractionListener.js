@@ -97,8 +97,8 @@ class BothHandsInteractionListener {
     // @private - true whenever the user is interacting with this listener
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
 
-    // @public - called when this input causes the ratio to become unlocked (when originally locked)
-    this.inputCauseRatioUnlockEmitter = new Emitter();
+    // @public - called when this input occurs when the ratio is locked with a target of N:N. Jumping to zero is not allowed for this case, see, https://github.com/phetsims/ratio-and-proportion/issues/227#issuecomment-758036456
+    this.jumpToZeroWhileLockedEmitter = new Emitter();
   }
 
   /**
@@ -183,6 +183,7 @@ class BothHandsInteractionListener {
             // If the ratio is locked, and the target is 1, this case means that going to 0:0 would be a buggy case.
             // Here we will just disable this feature.
             if ( this.ratioLockedProperty.value && this.targetRatioProperty.value === 1 && i === 0 ) {
+              this.jumpToZeroWhileLockedEmitter.emit();
               return;
             }
 
@@ -211,16 +212,13 @@ class BothHandsInteractionListener {
             assert && wasLocked && this.targetRatioProperty.value === 1 &&
             assert( this.ratioLockedProperty.value, 'should be locked still after setting both values' );
 
-            // Because this input can "knock" the ratio out of locked mode, see https://github.com/phetsims/ratio-and-proportion/issues/227
-            if ( wasLocked && this.ratioLockedProperty.value === false ) {
-              this.inputCauseRatioUnlockEmitter.emit();
-            }
 
             // Count number key interaction as cue-removing interaction.
             this.antecedentInteractedWithProperty.value = true;
             this.consequentInteractedWithProperty.value = true;
 
-            this.onInput();
+            // Extra arg here because this input can "knock" the ratio out of locked mode, see https://github.com/phetsims/ratio-and-proportion/issues/227
+            this.onInput( wasLocked && this.ratioLockedProperty.value === false );
 
             break;
           }

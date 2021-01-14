@@ -75,7 +75,7 @@ class MyChallengeAccordionBox extends AccordionBox {
 
     // @private
     const ratioUnlockedFromMyChallenge = new Utterance( {
-      alert: ratioAndProportionStrings.a11y.lockRatioCheckboxUnlockedContextResponse
+      alert: ratioAndProportionStrings.a11y.ratioNoLongerLocked
     } );
 
     // When either of these change, then the model is about to unlock the ratio, so alert that. This relies on listener

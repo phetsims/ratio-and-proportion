@@ -71,7 +71,7 @@ class CreateScreenView extends RAPScreenView {
       attach: false, // Since this is the second PressListener to be added to the checkbox (so annoying)
       fire: () => {
         ratioLockedUtterance.alert = model.ratio.lockedProperty.value ? ratioAndProportionStrings.a11y.lockRatioCheckboxContextResponse :
-                                     ratioAndProportionStrings.a11y.lockRatioCheckboxUnlockedContextResponse;
+                                     ratioAndProportionStrings.a11y.ratioNoLongerLocked;
         phet.joist.sim.utteranceQueue.addToBack( ratioLockedUtterance );
       }
     } ) );

@@ -146,6 +146,9 @@
       },
       "eachObjectResponseAlert": {
         "value": "left {{leftPosition}}, right {{rightPosition}}"
+      },
+      "cannotJumpToZeroWhenLocked": {
+        "value": "Can’t jump both hands to zero with ratio locked."
       }
     },
     "tickMark": {
@@ -310,7 +313,7 @@
     "lockRatioCheckboxContextResponse": {
       "value": "Hands locked at challenge ratio. Move hands and observe."
     },
-    "lockRatioCheckboxUnlockedContextResponse": {
+    "ratioNoLongerLocked": {
       "value": "Ratio no longer locked."
     },
     "screenSummaryControlAreaParagraph": {

@@ -150,8 +150,12 @@ class BothHandsPDOMNode extends Node {
       ratioLockedProperty: config.ratioLockedProperty,
       targetRatioProperty: config.targetRatioProperty,
       getIdealTerm: config.getIdealTerm,
-      onInput: () => {
-        this.alertBothHandsContextResponse();
+      onInput: knockedOutOfLock => {
+        if ( knockedOutOfLock ) {
+          phet.joist.sim.utteranceQueue.addToBack( this.ratioUnlockedFromBothHandsUtterance );
+        }
+
+        this.alertBothHandsContextResponse( knockedOutOfLock );
       }
     } );
 
@@ -185,7 +189,7 @@ class BothHandsPDOMNode extends Node {
     // @private
     this.contextResponseUtterance = new Utterance( { alertStableDelay: 2000 } );
     this.ratioUnlockedFromBothHandsUtterance = new Utterance( {
-      alert: ratioAndProportionStrings.a11y.lockRatioCheckboxUnlockedContextResponse,
+      alert: ratioAndProportionStrings.a11y.ratioNoLongerLocked,
 
       // slightly longer than the object response so that we make sure it comes after that assertive alert. This is
       // because we don't want it interrupted like it was originally in https://github.com/phetsims/ratio-and-proportion/issues/227#issuecomment-740173738
@@ -208,8 +212,10 @@ class BothHandsPDOMNode extends Node {
       } );
 
     // emit this utterance immediately, so that it comes before the object response above.
-    this.bothHandsInteractionListener.inputCauseRatioUnlockEmitter.addListener( () => {
-      phet.joist.sim.utteranceQueue.addToBack( this.ratioUnlockedFromBothHandsUtterance );
+    this.bothHandsInteractionListener.jumpToZeroWhileLockedEmitter.addListener( () => {
+      phet.joist.sim.utteranceQueue.addToBack( ratioAndProportionStrings.a11y.bothHands.cannotJumpToZeroWhenLocked );
+      this.contextResponseUtterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse();
+      phet.joist.sim.utteranceQueue.addToBack( this.contextResponseUtterance );
     } );
 
     if ( phet.joist.sim.supportsGestureDescription && config.gestureDescriptionHelpText ) {
@@ -244,8 +250,13 @@ class BothHandsPDOMNode extends Node {
   /**
    * @private
    */
-  alertBothHandsContextResponse() {
-    this.contextResponseUtterance.alert = this.bothHandsDescriber.getBothHandsContextResponse();
+  alertBothHandsContextResponse( knockedOutOfLock ) {
+    if ( knockedOutOfLock ) {
+      this.contextResponseUtterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse();
+    }
+    else {
+      this.contextResponseUtterance.alert = this.bothHandsDescriber.getBothHandsContextResponse();
+    }
     phet.joist.sim.utteranceQueue.addToBack( this.contextResponseUtterance );
   }
 }
