@@ -138,17 +138,6 @@ class RatioDescriber {
 
   /**
    * @public
-   * @param {number} number
-   * @returns {string}
-   */
-  getWordFromNumber( number ) {
-    assert && assert( Number.isInteger( number ) );
-    assert && assert( NUMBER_TO_WORD.length > number );
-    return NUMBER_TO_WORD[ number ];
-  }
-
-  /**
-   * @public
    * @param {number} antecedent
    * @param {number} consequent
    * @returns {string}
@@ -158,6 +147,17 @@ class RatioDescriber {
       proximityToRatio: this.getProximityToNewChallengeRatioSentence(),
       currentChallenge: this.getCurrentChallengeSentence( antecedent, consequent )
     } );
+  }
+
+  /**
+   * @public
+   * @param {number} number
+   * @returns {string}
+   */
+  getWordFromNumber( number ) {
+    assert && assert( Number.isInteger( number ) );
+    assert && assert( NUMBER_TO_WORD.length > number );
+    return NUMBER_TO_WORD[ number ];
   }
 }
 
