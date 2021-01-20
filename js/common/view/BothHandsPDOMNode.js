@@ -202,18 +202,17 @@ class BothHandsPDOMNode extends Node {
     // Though most cases are covered by just listening to fitness, there are certain cases when Property values can change,
     // but the fitness doesn't. See https://github.com/phetsims/ratio-and-proportion/issues/222 as an example.
     Property.multilink( [
-        config.tickMarkViewProperty,
-        config.ratioTupleProperty,
-        config.unclampedFitnessProperty
-      ],
-      () => {
+      config.tickMarkViewProperty,
+      config.ratioTupleProperty,
+      config.unclampedFitnessProperty
+    ], () => {
 
-        dynamicDescription.innerContent = this.bothHandsDescriber.getBothHandsDynamicDescription();
+      dynamicDescription.innerContent = this.bothHandsDescriber.getBothHandsDynamicDescription();
 
-        if ( this.bothHandsInteractionListener.isBeingInteractedWithProperty.value ) {
-          this.alertBothHandsObjectResponse();
-        }
-      } );
+      if ( this.bothHandsInteractionListener.isBeingInteractedWithProperty.value ) {
+        this.alertBothHandsObjectResponse();
+      }
+    } );
 
     // emit this utterance immediately, so that it comes before the object response above.
     this.bothHandsInteractionListener.jumpToZeroWhileLockedEmitter.addListener( () => {
