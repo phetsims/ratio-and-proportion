@@ -19,6 +19,9 @@ import RAPRatioTuple from './RAPRatioTuple.js';
 // The threshold for velocity of a moving ratio value to indicate that it is "moving."
 const VELOCITY_THRESHOLD = .01;
 
+// How often (in frames) to capture the change in ratio values for the ratio's "velocity"
+const STEP_FRAME_GRANULARITY = 30;
+
 const DEFAULT_TERM_VALUE_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 // Use the same value as the no-success region threshold. This cannot be the same as the no-success threshold though
@@ -46,7 +49,8 @@ class RAPRatio {
       reentrant: true
     } );
 
-    // @public (read-only) - the velocity of each ratio value changing, adjusted in step
+    // @public (read-only) - The change in ratio values since last capture. The frequency (or granularity) of this value
+    // is determined by STEP_FRAME_GRANULARITY.
     this.changeInAntecedentProperty = new NumberProperty( 0 );
     this.changeInConsequentProperty = new NumberProperty( 0 );
 
@@ -212,7 +216,7 @@ class RAPRatio {
   step() {
 
     // only recalculate every X steps to help smooth out noise
-    if ( ++this.stepCountTracker % 30 === 0 ) {
+    if ( ++this.stepCountTracker % STEP_FRAME_GRANULARITY === 0 ) {
       const currentTuple = this.tupleProperty.value;
       this.calculateCurrentVelocity( this.previousAntecedentProperty, currentTuple.antecedent, this.changeInAntecedentProperty );
       this.calculateCurrentVelocity( this.previousConsequentProperty, currentTuple.consequent, this.changeInConsequentProperty );
