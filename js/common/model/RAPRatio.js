@@ -36,7 +36,10 @@ class RAPRatio {
     // @public (read-only) {Property.<Range>}
     this.enabledRatioTermsRangeProperty = new Property( DEFAULT_TERM_VALUE_RANGE );
 
-    // @public {Property.<RAPRatioTuple>} - central Property that holds the value of the ratio
+    // @public {Property.<RAPRatioTuple>} - Central Property that holds the value of the ratio. Using a tuple that holds
+    // both the antecedent and consequent values as a single data structure is vital for changing both hands at once, and
+    // in supporting the "locked ratio" state. Otherwise there are complicated reentrant cases where changing the
+    // antecedent cascades to the consequent to snap it back into ratio. Thus the creation of RAPRatioTuple.
     this.tupleProperty = new Property( new RAPRatioTuple( initialAntecedent, initialConsequent ), {
       valueType: RAPRatioTuple,
       useDeepEquality: true,
