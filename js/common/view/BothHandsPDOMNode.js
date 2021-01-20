@@ -201,7 +201,11 @@ class BothHandsPDOMNode extends Node {
 
     // Though most cases are covered by just listening to fitness, there are certain cases when Property values can change,
     // but the fitness doesn't. See https://github.com/phetsims/ratio-and-proportion/issues/222 as an example.
-    Property.multilink( [ config.tickMarkViewProperty, config.ratioTupleProperty, config.unclampedFitnessProperty ],
+    Property.multilink( [
+        config.tickMarkViewProperty,
+        config.ratioTupleProperty,
+        config.unclampedFitnessProperty
+      ],
       () => {
 
         dynamicDescription.innerContent = this.bothHandsDescriber.getBothHandsDynamicDescription();
