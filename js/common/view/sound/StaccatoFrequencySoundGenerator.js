@@ -7,6 +7,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import dotRandom from '../../../../../dot/js/dotRandom.js';
 import LinearFunction from '../../../../../dot/js/LinearFunction.js';
 import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
@@ -110,7 +111,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     const isInRatio = this.isInProportion();
     if ( this.timeSinceLastPlay > this.timeLinearFunction( newFitness ) && !isInRatio && newFitness > 0 ) {
       const sounds = this.staccatoSoundClips[ Math.floor( newFitness * this.staccatoSoundClips.length ) ];
-      sounds[ Math.floor( phet.joist.random.nextDouble() * sounds.length ) ].play();
+      sounds[ Math.floor( dotRandom.nextDouble() * sounds.length ) ].play();
       this.timeSinceLastPlay = 0;
     }
   }
