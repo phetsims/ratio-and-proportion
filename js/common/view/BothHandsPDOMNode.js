@@ -96,6 +96,10 @@ class BothHandsPDOMNode extends Node {
 
     super();
 
+    if ( phet.joist.sim.supportsGestureDescription && config.gestureDescriptionHelpText ) {
+      config.interactiveNodeOptions.helpText = config.gestureDescriptionHelpText;
+    }
+
     this.bothHandsDescriber = config.bothHandsDescriber;
 
     // @private - To support proper cue arrow logic
@@ -220,10 +224,6 @@ class BothHandsPDOMNode extends Node {
       this.contextResponseUtterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse();
       phet.joist.sim.utteranceQueue.addToBack( this.contextResponseUtterance );
     } );
-
-    if ( phet.joist.sim.supportsGestureDescription && config.gestureDescriptionHelpText ) {
-      config.helpText = config.gestureDescriptionHelpText;
-    }
 
     this.mutate( config );
   }
