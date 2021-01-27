@@ -14,7 +14,7 @@ The basic model for this simulation is as simple as the formula for a two-term r
 
 or
 
-    current ratio = antecedent/consequent
+    ratio = antecedent/consequent
 
 In this simulation, both the antecedent and consequent values are mutable.
 
