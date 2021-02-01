@@ -20,6 +20,9 @@ In addition to this document, you are encouraged to read:
 
 ## Model
 
+Each screen's model is a `RAPModel`, which contains a `RAPRatio` and keeps the "fitness" of that ratio as it pertains to
+its target ratio value.
+
 ### Terminology
 
 * **term** - a component number in a ratio
@@ -62,16 +65,15 @@ ratio. See `RAPModel.calculateFitness()` for details.
 
 ## Model states
 
-Below is a list of multiple states that the model is in. In addition to explaining how the sim can get into this state,
-there is a list of the output modalities that are occur in this state.
+Below is a list of multiple states that the model can be in. These states are mutually exclusive unless otherwise
+stated. In addition to explaining how the sim can get into a state, each lists the output modalities that occur in the
+specified state.
 
 ### In Proportion
 
 This state occurs when the current ratio is close enough to the target ratio to indicate success feedback. In fitness
-units this is `>=1-IN_PROPORTION_FITNESS_THRESHOLD`. This state also occurs when either ratio term is less
-than `NO_SUCCESS_VALUE_THRESHOLD`, the model cannot be in proportion, instead the fitness is set just below that
-in-proportion threshold. This helps with strange behavior that can be gathered for small ratios (and setting either term
-to zero).
+units this is `>=1-IN_PROPORTION_FITNESS_THRESHOLD`. This state is a range to accommodate a tolerance around the perfect
+ratio. If this state was instead only a single value, it would be nearly impossible to access it using a mouse.
 
 * Visual: dark green (`RAPScreenView.js`)
 * Sound: "success ding" (`InProportionSoundGenerator.js`)
@@ -79,7 +81,8 @@ to zero).
 #### In-proportion values when one or more are too small for success
 
 Even though the ratio term values are technically in proportion, the fitness will be just slightly less
-than `IN_PROPORTION_FITNESS_THRESHOLD` in this mode. This is for pedagogical reasons.
+than `IN_PROPORTION_FITNESS_THRESHOLD` in this mode. This is for pedagogical reasons. The output modalities are none the
+wiser, and will treat this as "out of proportion" (see next state).
 
 * Visual: a hair lighter than the dark green for normal in proportion
 * No in-proportion sound ever plays
@@ -87,29 +90,30 @@ than `IN_PROPORTION_FITNESS_THRESHOLD` in this mode. This is for pedagogical rea
 
 ### Out of proportion
 
-When the fitness is between `0` and `1-IN_PROPORTION_FITNESS_THRESHOLD`, many feedback modalities in the view will only
-produce in this range.
+This state occurs when the fitness is between `0` and `1-IN_PROPORTION_FITNESS_THRESHOLD`. Many feedback modalities in
+the view will only produce in this range.
 
-* Visual: green gradient (RAPScreenView.js)
+* Visual: green gradient (`RAPScreenView.js`)
 * Sound: `StaccatoFrequencySoundGenerator.js`
 
 ### Far from proportion
 
-When the clamped fitness (`RAPModel.ratioFitnessProperty`) is 0, there is often less feedback from the sim.
+When the clamped fitness (`RAPModel.ratioFitnessProperty`) is 0, there is less feedback from the sim.
 
-* Interactive Description: some description, like the proximity to target ratio, still provide feedback in this state,
+* Interactive Description: some description, like the proximity to target ratio, still provides feedback in this state,
   but there is not sound or visual feedback.
 
 ### Moving in Proportion
 
-When the ratio is in proportion, and both hands are moving in the same direction, fast enough, at the same time, we call
-this "moving in direction."
+This is a subset of the in-proportion state. When the ratio is in proportion, and both hands are moving in the same
+direction, fast enough, at the same time, we call this "moving in direction."
 When moving in direction, the "In Proportion" threshold is increased to allow for easier in-proportion feedback. The
 model is moving in proportion when moving in direction with a fitness `>=1-MOVING_IN_PROPORTION_FITNESS_THRESHOLD`.
 
 * Moving in Proportion Sound: choir sound (`MovingInProportionSoundGenerator.js`)
-* Visual: dark green
-* Success Sound: "success ringing ding/chord" upon entering this state.
+* Same output for in-proportion state:
+    * Visual: dark green
+    * Success Sound: "success ringing ding/chord" upon entering this state.
 
 ## Dynamic Layout
 
