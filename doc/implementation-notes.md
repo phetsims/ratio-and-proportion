@@ -23,7 +23,7 @@ In addition to this document, you are encouraged to read:
 ### Terminology
 
 * **term** - a component number in a ratio
-* **antecedant** - the first term
+* **antecedent** - the first term
 * **consequent** - the second term
 * **current ratio** - made by dividing the current values of the ratio
 * **target ratio** - goal ratio that indicates success.
@@ -49,20 +49,20 @@ based on this relationship.
 
 ### Fitness
 
-An algorithm is used to determine how accurate the current ratio is to the target ratio. We call this fitness,
+An algorithm is used to determine how accurate the current ratio is to the target ratio. We call this "fitness",
 see `ratioFitnessProperty`. This algorithm went through a lot of prototyping (see
 https://github.com/phetsims/ratio-and-proportion/issues/14). The algorithm that is used predominately takes into
 consideration the visual/spacial distance that the consequent hand can travel from the "in proportion" state (see below)
 , before being "far from proportion". When the tick marks are showing 0-10, the consequent can move two tick marks away
 from the "in proportion" value before the `ratioFitnessProperty` is 0. Because of the relationship ratio terms have, the
 antecedent value's distance between being in-proportion and far-from proportion varies based on the target ratio. The
-fitness algorithm is based euclidean distance between two points, the current ratio and the target ratio. These points
-are calculated by using the current ratio to get a function with an inverse slope to the function of the target ratio.
-See `RAPModel.calculateFitness()` for details.
+fitness algorithm is based on the euclidean distance between two points, the current ratio and the target ratio. These
+points are calculated by using the current ratio to get a function with an inverse slope to the function of the target
+ratio. See `RAPModel.calculateFitness()` for details.
 
 ## Model states
 
-Below is a list of multiple states the the model is in. In addition to explaining how the sim can get into this state,
+Below is a list of multiple states that the model is in. In addition to explaining how the sim can get into this state,
 there is a list of the output modalities that are occur in this state.
 
 ### In Proportion
@@ -76,14 +76,14 @@ to zero).
 * Visual: dark green (`RAPScreenView.js`)
 * Sound: "success ding" (`InProportionSoundGenerator.js`)
 
-#### In proportion values when one or more are too small for success
+#### In-proportion values when one or more are too small for success
 
 Even though the ratio term values are technically in proportion, the fitness will be just slightly less
 than `IN_PROPORTION_FITNESS_THRESHOLD` in this mode. This is for pedagogical reasons.
 
 * Visual: a hair lighter than the dark green for normal in proportion
 * No in-proportion sound ever plays
-* No Moving in Proportion Sound (choir)
+* No moving-in-proportion sound (choir)
 
 ### Out of proportion
 
@@ -113,8 +113,8 @@ model is moving in proportion when moving in direction with a fitness `>=1-MOVIN
 
 ## Dynamic Layout
 
-This sim is more vertically oriented than most, and as a result, a lot of visual layout changes based on the aspect
-ratio. This is chiefly centered around the ratio hands having the maximum vertical space possible. That said the hands
+This sim is more vertically oriented than most, and as a result, a lot of the visual layout changes based on the aspect
+ratio. This is chiefly centered around the ratio hands having the maximum vertical space possible. That said, the hands
 and controls also scale to give a better experience on iPad and phone-like devices in "vertical mode." The right
 controls scale in two Nodes, one that stays justified to the top right of the layout bounds, and one to the bottom
 right. See
