@@ -84,7 +84,7 @@ class ChallengeRatioComboBoxNode extends Node {
       this.comboBox
     ];
 
-    this.accessibleOrder = [ comboBoxHeading, this.comboBox ];
+    this.pdomOrder = [ comboBoxHeading, this.comboBox ];
   }
 
   /**

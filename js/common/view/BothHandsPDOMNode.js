@@ -92,7 +92,7 @@ class BothHandsPDOMNode extends Node {
         ariaLabel: ratioAndProportionStrings.a11y.bothHands.bothHands
       }
     }, config );
-    assert && assert( !config.accessibleOrder, 'BothHandsPDOMNode sets its own accessibleOrder.' );
+    assert && assert( !config.pdomOrder, 'BothHandsPDOMNode sets its own pdomOrder.' );
 
     super();
 
@@ -136,7 +136,7 @@ class BothHandsPDOMNode extends Node {
     this.addChild( interactiveNode );
 
     // Make sure that any children inside the both hands interaction (like individual hands) come before the both hands interaction in the PDOM.
-    this.accessibleOrder = [ dynamicDescription, ...interactiveNode.children, null ];
+    this.pdomOrder = [ dynamicDescription, ...interactiveNode.children, null ];
 
     interactiveNode.setAccessibleAttribute( 'aria-roledescription', sceneryPhetStrings.a11y.grabDrag.movable );
 

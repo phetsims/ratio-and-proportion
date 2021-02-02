@@ -96,7 +96,7 @@ class CreateScreenView extends RAPScreenView {
     this.addChild( tickMarkRangeComboBoxParent );
 
     // pdom
-    this.pdomPlayAreaNode.accessibleOrder = this.pdomPlayAreaNode.accessibleOrder.concat( [
+    this.pdomPlayAreaNode.pdomOrder = this.pdomPlayAreaNode.pdomOrder.concat( [
       this.tickMarkRangeComboBoxNode,
       tickMarkRangeComboBoxParent,
       myChallengeAccordionBox,
