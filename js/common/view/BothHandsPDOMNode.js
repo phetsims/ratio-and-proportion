@@ -138,7 +138,7 @@ class BothHandsPDOMNode extends Node {
     // Make sure that any children inside the both hands interaction (like individual hands) come before the both hands interaction in the PDOM.
     this.pdomOrder = [ dynamicDescription, ...interactiveNode.children, null ];
 
-    interactiveNode.setAccessibleAttribute( 'aria-roledescription', sceneryPhetStrings.a11y.grabDrag.movable );
+    interactiveNode.setPDOMAttribute( 'aria-roledescription', sceneryPhetStrings.a11y.grabDrag.movable );
 
     // @private
     this.bothHandsInteractionListener = new BothHandsInteractionListener( {
