@@ -166,7 +166,7 @@ class BothHandsPDOMNode extends Node {
     interactiveNode.addInputListener( this.bothHandsInteractionListener );
     interactiveNode.addInputListener( {
       focus: () => {
-        this.alertBothHandsObjectResponse();
+        this.alertBothHandsObjectResponse( true );
         this.viewSounds.grabSoundClip.play();
         this.bothHandsFocusedProperty.value = true;
       },
@@ -188,6 +188,11 @@ class BothHandsPDOMNode extends Node {
         // this to cut off any other alert. This fixes alert-build-up described in https://github.com/phetsims/ratio-and-proportion/issues/214
         ariaLivePriority: AriaHerald.AriaLive.ASSERTIVE
       }
+    } );
+
+    // @private - just to fire on focus, make this polite for https://github.com/phetsims/ratio-and-proportion/issues/347, TODO: remove this if that issue doesn't go in this direction
+    this.objectResponseOnFocusUtterance = new Utterance( {
+      alertStableDelay: 50
     } );
 
     // @private
@@ -245,9 +250,10 @@ class BothHandsPDOMNode extends Node {
   /**
    * @private
    */
-  alertBothHandsObjectResponse() {
-    this.objectResponseUtterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse();
-    phet.joist.sim.utteranceQueue.addToBack( this.objectResponseUtterance );
+  alertBothHandsObjectResponse( onFocus = false ) {
+    const utterance = onFocus ? this.objectResponseOnFocusUtterance : this.objectResponseUtterance;
+    utterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse();
+    phet.joist.sim.utteranceQueue.addToBack( utterance );
   }
 
   /**
