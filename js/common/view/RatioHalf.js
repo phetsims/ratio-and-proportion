@@ -38,7 +38,8 @@ import TickMarkView from './TickMarkView.js';
 const MIN_FRAMING_RECTANGLE_HEIGHT = 32;
 const MAX_FRAMING_RECTANGLE_HEIGHT = 64;
 
-// Snap exclusive within this percentage of a tick mark.
+// Snap exclusive within this percentage of a tick mark. Thus actual snapping distance is based on the current tick
+// mark range value.
 const SNAP_TO_TICK_MARK_THRESHOLD = .1;
 
 // total horizontal drag distance;
@@ -221,7 +222,7 @@ class RatioHalf extends Rectangle {
 
     // Snap mouse/touch input to the nearest tick mark if close enough. This helps with reproducible precision
     const getSnapToTickMarkValue = yValue => {
-      if ( TickMarkView.displayHorizontal( config.tickMarkViewProperty.value ) && config.tickMarkRangeProperty.value === config.tickMarkRangeProperty.initialValue ) {
+      if ( TickMarkView.displayHorizontal( config.tickMarkViewProperty.value ) ) {
         const tickMarkStep = 1 / config.tickMarkRangeProperty.value;
 
         // iterate through model values of each tick mark
