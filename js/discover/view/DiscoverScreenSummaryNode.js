@@ -61,20 +61,24 @@ class DiscoverScreenSummaryNode extends Node {
     } );
 
     // This derivedProperty is already dependent on all other dependencies for getStateOfSimString
-    Property.multilink( [ targetRatioProperty, tickMarkViewProperty, ratioTupleProperty, ratioFitnessProperty ],
-      ( currentTargetRatio, tickMarkView, currentTuple ) => {
-        stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.discover.screenSummary.qualitativeStateOfSim, {
-          ratioFitness: ratioDescriber.getRatioFitness( false ), // lowercase
-          currentChallenge: ratioToChallengeNameMap.get( currentTargetRatio ).lowercase,
-          distance: handPositionsDescriber.getDistanceRegion( true )
-        } );
-        leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
-          position: handPositionsDescriber.getHandPositionDescription( currentTuple.antecedent, tickMarkView )
-        } );
-        rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
-          position: handPositionsDescriber.getHandPositionDescription( currentTuple.consequent, tickMarkView )
-        } );
+    Property.multilink( [
+      targetRatioProperty,
+      tickMarkViewProperty,
+      ratioTupleProperty,
+      ratioFitnessProperty
+    ], ( currentTargetRatio, tickMarkView, currentTuple ) => {
+      stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.discover.screenSummary.qualitativeStateOfSim, {
+        ratioFitness: ratioDescriber.getRatioFitness( false ), // lowercase
+        currentChallenge: ratioToChallengeNameMap.get( currentTargetRatio ).lowercase,
+        distance: handPositionsDescriber.getDistanceRegion( true )
       } );
+      leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
+        position: handPositionsDescriber.getHandPositionDescription( currentTuple.antecedent, tickMarkView )
+      } );
+      rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
+        position: handPositionsDescriber.getHandPositionDescription( currentTuple.consequent, tickMarkView )
+      } );
+    } );
   }
 }
 
