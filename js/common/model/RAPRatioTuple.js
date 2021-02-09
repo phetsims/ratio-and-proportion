@@ -113,6 +113,14 @@ class RAPRatioTuple {
         assert && assert( false, `unexpected ratioTerm ${ratioTerm}` );
     }
   }
+
+  /**
+   * @public
+   * @returns {RAPRatioTuple}
+   */
+  copy() {
+    return new RAPRatioTuple( this.antecedent, this.consequent );
+  }
 }
 
 ratioAndProportion.register( 'RAPRatioTuple', RAPRatioTuple );

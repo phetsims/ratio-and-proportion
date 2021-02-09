@@ -93,7 +93,7 @@ class RAPRatio {
           newAntecedent = newConsequent * previousRatio;
         }
 
-        const newRatioTuple = this.clampRatioTupleValuesInRange( new RAPRatioTuple( newAntecedent, newConsequent ), previousRatio );
+        const newRatioTuple = this.clampRatioTupleValuesInRange( newAntecedent, newConsequent, previousRatio );
 
         // guard against reentrancy in this case.
         this.lockRatioListenerEnabled = false;
@@ -119,14 +119,13 @@ class RAPRatio {
   /**
    * While keeping the same ratio, make sure that both ratio terms are within the provided range
    * @private
-   * @param {RAPRatioTuple} ratioTuple
+   * @param {number} antecedent
+   * @param {number} consequent
    * @param {number} ratio - to base clamping on
-   * @param {Range} range
-   * @returns {RAPRatioTuple}
+   * @param {Range} [range]
+   * @returns {RAPRatioTuple} - a new RAPRatioTuple, not mutated
    */
-  clampRatioTupleValuesInRange( ratioTuple, ratio, range = this.enabledRatioTermsRangeProperty.value ) {
-    let antecedent = ratioTuple.antecedent;
-    let consequent = ratioTuple.consequent;
+  clampRatioTupleValuesInRange( antecedent, consequent, ratio, range = this.enabledRatioTermsRangeProperty.value ) {
 
     // Handle if the antecedent is out of range
     if ( !range.contains( antecedent ) ) {
@@ -150,20 +149,21 @@ class RAPRatio {
    * @public
    */
   setRatioToTarget( targetRatio ) {
-
-    // Alter the antecedent to match the target ratio
     const currentRatioTuple = this.tupleProperty.value;
 
+    let antecedent = currentRatioTuple.antecedent;
+    let consequent = currentRatioTuple.consequent;
+
     // Snap the smaller value, because that will yield a smaller snap distance, see https://github.com/phetsims/ratio-and-proportion/issues/257
-    if ( currentRatioTuple.antecedent > currentRatioTuple.consequent ) {
-      currentRatioTuple.antecedent = targetRatio * currentRatioTuple.consequent;
+    if ( antecedent < consequent ) {
+      antecedent = targetRatio * consequent;
     }
     else {
-      currentRatioTuple.consequent = currentRatioTuple.antecedent / targetRatio;
+      consequent = antecedent / targetRatio;
     }
 
     // Then clamp to be within the currently enabled range.
-    const newRatioTuple = this.clampRatioTupleValuesInRange( currentRatioTuple, targetRatio );
+    const newRatioTuple = this.clampRatioTupleValuesInRange( antecedent, consequent, targetRatio );
     assert && assert( newRatioTuple !== currentRatioTuple,
       'Cannot mutate here, as we rely on notifications below when setting the Property.' );
 
