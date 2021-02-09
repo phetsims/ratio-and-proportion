@@ -212,6 +212,7 @@ class BothHandsPDOMNode extends Node {
     // but the fitness doesn't. See https://github.com/phetsims/ratio-and-proportion/issues/222 as an example.
     Property.multilink( [
       config.tickMarkViewProperty,
+      config.tickMarkRangeProperty,
       config.ratioTupleProperty,
       config.unclampedFitnessProperty
     ], () => {
