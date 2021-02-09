@@ -117,6 +117,7 @@ class BothHandsInteractionListener {
    * @private
    */
   onValueIncrementDecrement( tupleField, inputMapper, increment ) {
+    this.isBeingInteractedWithProperty.value = true;
     const currentTuple = this.ratioTupleProperty.value[ tupleField ];
 
     const changeAmount = globalKeyStateTracker.shiftKeyDown ? this.shiftKeyboardStep : this.keyboardStep;
@@ -153,7 +154,6 @@ class BothHandsInteractionListener {
       // their behavior during scenery event dispatch
       sceneryEvent.pointer.reserveForKeyboardDrag();
 
-      this.isBeingInteractedWithProperty.value = true;
 
       if ( event.key === 'ArrowDown' ) {
         this.consequentInteractedWithProperty.value = true;
@@ -179,6 +179,8 @@ class BothHandsInteractionListener {
                !event.getModifierState( 'Control' ) &&
                !event.getModifierState( 'Shift' ) &&
                !event.getModifierState( 'Alt' ) ) {
+
+            this.isBeingInteractedWithProperty.value = true;
 
             // If the ratio is locked, and the target is 1, this case means that going to 0:0 would be a buggy case.
             // Here we will just disable this feature.
