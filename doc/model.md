@@ -4,11 +4,11 @@
 
 This document is a high-level description of the model used in PhET's Ratio and Proportion simulation.
 
+### Overview
 
-----------
+The main concept of this simulation centers on ratios. Specifically, the spatial relations between controllable objects and the continuous nature of ratios for a range of values.
 
-
-The basic model for this simulation is as simple as the formula for a two-term ratio:
+The basic model for this simulation is simply the formula for a two-term ratio:
 
     antecedent:consequent
 
@@ -16,29 +16,34 @@ or
 
     ratio = antecedent/consequent
 
-In this simulation, both the antecedent and consequent values are mutable.
+In this model, both the antecedent and consequent values are variables controlled by the left (antecedent) and right (consequent) objects visually represented as left and right hands, respectively. While the hands can be moved in both vertical and horizontal directions, the model only takes into account the vertical position of the center of the hands. The horizontal position is bounded by the width of the thick boundaries at the top and bottom of the play area.
+
+Compared to more numerically focused models of the mathematical concept of ratio, this simulation encourages exploration of various positions of objects in space to achieve a specific, target ratio without precise feedback on the exact, numerical position of the objects. 
+
+A number of constraints and boundaries are implemented to encourage the user to manipulate the hands to find multiple positions that trigger the target ratio determined by the Challenge selector (“Discover” screen) or set by the user (“Create” screen).  
 
 ### Ratio Fitness feedback
 
-The current ratio is compared to a target ratio; the simulation gives feedback depending on how close the two are. When
-the target ratio and the current ratio close enough (within a small tolerance), the ratio is "in proportion".
+The current ratio between the left and right hand is compared to a target ratio and the physical distance between the hands is used to determine a “fitness” value; The fitness value (0-1, where 1 is perfectly in ratio) is used to calculate how close a user is to the target ratio.
 
-The algorithm for fitness is not exclusive to mathematically comparing the two ratios, but also takes into consideration
-the "physical distance" that each ratio hand is from where it would be if the ratio was at its target.
-
-#### Zero case
-
-To simplify the simulation model and to match with learning goals of the simulation, setting either term to 0 does not
-produce feedback to match the mathematical expression, for example 1:0 is undefined, yet this simulation still provides
-feedback based on that current ratio's proximity to the target. The same is true for 0:0.
-
-#### Locked ratio
-
-The ratio can be "locked" such that changing either term of the ratio with update the other term to maintain the same
-ratio as when the ratio became locked.
+When the user moves the hands such that the fitness approaches 1, the simulation gives feedback through color changes (darkening green = closer) and sound (higher pitch and frequency = closer) until the hands reach values whose ratio match the target ratio. To aid in finding the ratio, there is a small tolerance where the simulation reports the user’s ratio matches the target ratio (i.e., fitness is close to, but not equal to 1). The ratio is considered to be “in proportion”.
 
 ### In Proportion state
 
-Success feedback is provided in the sim for making the ratio the same as the target ratio.
+When the target ratio and the current ratio close enough (within a small tolerance window), the ratio is "in proportion". Success feedback (dark green color, success sound) is provided in the sim for making the ratio the same as the target ratio.
 
-Further success feedback is provided when the current ratio can be moved in the play area while staying in proportion.
+### Moving In Proportion state
+
+Further, dynamic success feedback (continuous green color and a unique success sound) is provided by the model when the hands are moved vertically such that the In Proportion state remains true. For example, if the hands are continuously moved from the bottom to the top at values to maintain a ratio of 1:2 (i.e., the right hand moves twice as fast as the left hand), then the model is in the “moving in proportion” state and the user receives success feedback. To aid in this task, the model widens the tolerance to achieve the In Proportion state while both hands are moving in the same direction (both the antecedent and consequent are both increasing or both decreasing).
+
+### Model Constraints and Features
+
+The algorithm for fitness is not exclusive to mathematically comparing the two ratios, but also takes into consideration the "physical distance" that each ratio hand is from where it would be if the ratio was at its target. To aid in the learning goals of the simulation, which include exploration of a large range of values for each hand, there are aspects of the mathematics of ratios that are deemphasized in the model through cases, especially at low values of the antecedent and consequent.
+
+#### Zero case
+
+To simplify the simulation model and to match with learning goals of the simulation, setting either term to 0 does not produce feedback to match the mathematical expression. For example 1:0 is undefined, yet this simulation still provides feedback based on that current ratio's proximity to the target, indicating the ratio is “close”. The same is true for 0:0. In these cases, the “closeness” of the ratio is dominated by the amount the user must move to find positions (term values) that match the target ratio and not the mathematical value (undefined).
+
+#### Locked ratio case
+
+The ratio can be "locked" such that changing either term (hand) of the ratio will update the other term (hand) to maintain the same ratio as when the ratio became locked. This continuously triggers the Moving In Proportion state. In order to lock the ratio, the fitness for the hand positions must be in the In Proportion state.
