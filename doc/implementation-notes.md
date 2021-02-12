@@ -56,12 +56,14 @@ An algorithm is used to determine how accurate the current ratio is to the targe
 see `ratioFitnessProperty`. This algorithm went through a lot of prototyping (see
 https://github.com/phetsims/ratio-and-proportion/issues/14). The algorithm that is used predominately takes into
 consideration the visual/spacial distance that the consequent hand can travel from the "in proportion" state (see below)
-, before being "far from proportion". When the tick marks are showing 0-10, the consequent can move two tick marks away
-from the "in proportion" value before the `ratioFitnessProperty` is 0. Because of the relationship ratio terms have, the
-antecedent value's distance between being in-proportion and far-from proportion varies based on the target ratio. The
-fitness algorithm is based on the euclidean distance between two points, the current ratio and the target ratio. These
-points are calculated by using the current ratio to get a function with an inverse slope to the function of the target
-ratio. See `RAPModel.calculateFitness()` for details.
+, before being "far from proportion". When the tick marks are showing 0-10 with a targetRatio of >1, the consequent can
+move two tick marks away from the "in proportion" value before the `ratioFitnessProperty` is 0. Because of the
+relationship ratio terms have, the antecedent value's distance between being in-proportion and far-from proportion
+varies based on the target ratio. The fitness algorithm is based on the euclidean distance between two points, the
+current ratio and the target ratio. These points are calculated by using the current ratio to get a function with an
+inverse slope to the function of the target ratio. When the targetRatio is `>1`, the fitness algorithm is reversed such
+that the antecedent and consequent are flipped. This is to give consistent fitness relationship for `targetRatio=1/10` and
+`targetRatio=10`. See `RAPModel.calculateFitness()` for details.
 
 ## Model states
 

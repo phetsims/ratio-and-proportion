@@ -106,7 +106,12 @@ unclampedFitness: ${unclampedFitness}
   /**
    * This fitness algorithm is explained in https://github.com/phetsims/ratio-and-proportion/issues/325. It is based
    * on plotting the perpendicular intersection between a point representing the current ratio, and the function of the
-   * target ratio. This is possible because the ratio term values are normalized between 0 and 1
+   * target ratio. This is possible because the ratio term values are normalized between 0 and 1.
+   *
+   * NOTE: when targetRatio is greater than 1, the algorithm is flipped to yield the same fitness relationship to the
+   * larger term value. Thus moving the consequent when the target ratio is 1/2 will yield identical fitness to moving the
+   * antecedent when the target ratio is 2.
+   *
    * (see RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE).
    * @param {number} antecedent
    * @param {number} consequent
@@ -115,6 +120,16 @@ unclampedFitness: ${unclampedFitness}
    * @private
    */
   calculateFitness( antecedent, consequent, targetRatio ) {
+
+    // This fitness algorithm was designed and executed to target ratios between 0 and 1, when larger, the fitness looks
+    // best if the reciprocal is calculated (yielding a similar relationship between the consequent and target ratio of X,
+    // as with antecedent when the targetRatio is 1/X). See https://github.com/phetsims/ratio-and-proportion/issues/345
+    if ( targetRatio > 1 ) {
+      const oldAnt = antecedent;
+      antecedent = consequent;
+      consequent = oldAnt;
+      targetRatio = 1 / targetRatio;
+    }
 
     // Calculate the inverse slope from the current target ratio.
     const coefficient = -1 / targetRatio;
