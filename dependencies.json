@@ -1,5 +1,5 @@
 {
-  "comment": "# ratio-and-proportion 1.0.0-rc.1 Fri Feb 12 2021 00:20:14 GMT-0500 (Eastern Standard Time)",
+  "comment": "# ratio-and-proportion 1.0.0-rc.1 Fri Feb 12 2021 20:18:17 GMT-0900 (Alaska Standard Time)",
   "assert": {
     "sha": "3df8c5ff9a465b031f84195a90bbb7e1be10a14d",
     "branch": "HEAD"
@@ -25,8 +25,8 @@
     "branch": "HEAD"
   },
   "joist": {
-    "sha": "3fa538cd809741bccffd1ab35a579f5517cfd579",
-    "branch": "HEAD"
+    "sha": "c5528cd452fc07355f3a5bce3c5e059346cfc3e8",
+    "branch": "ratio-and-proportion-1.0"
   },
   "kite": {
     "sha": "b9a0e9a4a2e9c36846d61ca66ce828662d894c87",
@@ -61,11 +61,11 @@
     "branch": "HEAD"
   },
   "ratio-and-proportion": {
-    "sha": "ef29a7a401e184677ae437d5729786000bf935d7",
+    "sha": "f06ccbeb7f611681b1e441fde25f01f2dc13edbc",
     "branch": "1.0"
   },
   "scenery": {
-    "sha": "1e8e278706e381b76703c3071866ae81152880e2",
+    "sha": "ba0e66f1bf10cca741a09acd3aef2e1783e4cadc",
     "branch": "ratio-and-proportion-1.0"
   },
   "scenery-phet": {
@@ -97,7 +97,7 @@
     "branch": "HEAD"
   },
   "utterance-queue": {
-    "sha": "3a7fe6dfaf4fd09851f91be8378b6c2cb67934de",
-    "branch": "HEAD"
+    "sha": "1f1e3c1e58c0b0ffbf7e64dc5820481bc570a372",
+    "branch": "ratio-and-proportion-1.0"
   }
 }
