@@ -33,11 +33,15 @@ class RAPRatio {
   /**
    * @param {number} initialAntecedent
    * @param {number} initialConsequent
+   * @param {Tandem} tandem
    */
-  constructor( initialAntecedent, initialConsequent ) {
+  constructor( initialAntecedent, initialConsequent, tandem ) {
 
     // @public (read-only) {Property.<Range>}
-    this.enabledRatioTermsRangeProperty = new Property( DEFAULT_TERM_VALUE_RANGE );
+    this.enabledRatioTermsRangeProperty = new Property( DEFAULT_TERM_VALUE_RANGE, {
+      tandem: tandem.createTandem( 'enabledRatioTermsRangeProperty' ),
+      phetioType: Property.PropertyIO( Range.RangeIO )
+    } );
 
     // @public {Property.<RAPRatioTuple>} - Central Property that holds the value of the ratio. Using a tuple that holds
     // both the antecedent and consequent values as a single data structure is vital for changing both hands at once, and
@@ -46,7 +50,11 @@ class RAPRatio {
     this.tupleProperty = new Property( new RAPRatioTuple( initialAntecedent, initialConsequent ), {
       valueType: RAPRatioTuple,
       useDeepEquality: true,
-      reentrant: true
+      reentrant: true,
+
+      // phet-io
+      tandem: tandem.createTandem( 'tupleProperty' ),
+      phetioType: Property.PropertyIO( RAPRatioTuple.RAPRatioTupleIO )
     } );
 
     // @public (read-only) - The change in ratio values since last capture. The frequency (or granularity) of this value
@@ -60,7 +68,7 @@ class RAPRatio {
     this.stepCountTracker = 0; // Used for keeping track of how often dVelocity is checked.
 
     // @public - when true, moving one ratio value will maintain the current ratio by updating the other value Property
-    this.lockedProperty = new BooleanProperty( false );
+    this.lockedProperty = new BooleanProperty( false, { tandem: tandem.createTandem( 'lockedProperty' ) } );
 
     // @private - To avoid an infinite loop as setting the tupleProperty from inside its lock-ratio-support
     // listener. This is predominately needed because even same antecedent/consequent values get wrapped in a new

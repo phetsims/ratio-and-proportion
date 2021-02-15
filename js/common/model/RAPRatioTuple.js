@@ -6,6 +6,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import IOType from '../../../../tandem/js/types/IOType.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioTerm from './RatioTerm.js';
 
@@ -121,7 +122,32 @@ class RAPRatioTuple {
   copy() {
     return new RAPRatioTuple( this.antecedent, this.consequent );
   }
+
+  /**
+   * @public
+   * @param {RAPRatioTuple} rapRatioTuple
+   * @returns {Object}
+   */
+  toStateObject( rapRatioTuple ) {
+    return {
+      antecedent: this.antecedent,
+      consequent: this.consequent
+    };
+  }
+
+  /**
+   * @public
+   * @param {Object} stateObject see toStateObject
+   * @returns {RAPRatioTuple}
+   */
+  fromStateObject( stateObject ) {
+    return new RAPRatioTuple( stateObject.antecedent, stateObject.consequent );
+  }
 }
+
+RAPRatioTuple.RAPRatioTupleIO = IOType.fromCoreType( 'RAPRatioTupleIO', RAPRatioTuple, {
+  documentation: 'the basic data structure that holds both ratio term values, the antecedent and consequent.'
+} );
 
 ratioAndProportion.register( 'RAPRatioTuple', RAPRatioTuple );
 export default RAPRatioTuple;

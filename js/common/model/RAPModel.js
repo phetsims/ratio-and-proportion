@@ -13,6 +13,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPConstants from '../RAPConstants.js';
 import RAPRatio from './RAPRatio.js';
@@ -33,11 +34,14 @@ class RAPModel {
   constructor( tandem ) {
 
     // @public - the current state of the ratio (value of terms, if its locked, etc)
-    this.ratio = new RAPRatio( .2, .4 );
+    this.ratio = new RAPRatio( .2, .4, tandem.createTandem( 'ratio' ) );
 
     // @public - The desired ratio of the antecedent as compared to the consequent. As in 1:2. Initialized to default ratio
     // so that we always start in-proportion.
-    this.targetRatioProperty = new NumberProperty( this.ratio.currentRatio );
+    this.targetRatioProperty = new NumberProperty( this.ratio.currentRatio, {
+      tandem: tandem.createTandem( 'targetRatioProperty' ),
+      phetioStudioControl: false
+    } );
 
     // @public {DerivedProperty.<number>}
     // How "correct" the proportion currently is. Max is RATIO_FITNESS_RANGE.max, but the min depends on the range of the
@@ -79,7 +83,13 @@ unclampedFitness: ${unclampedFitness}
 
       return unclampedFitness;
     }, {
-      isValidValue: value => value <= RAPConstants.RATIO_FITNESS_RANGE.max
+      isValidValue: value => value <= RAPConstants.RATIO_FITNESS_RANGE.max,
+
+      // phet-io
+      tandem: tandem.createTandem( 'unclampedFitnessProperty' ),
+      phetioDocumentation: 'A number stating how "correct" the current ratio is to the target. The max is 1, and min is ' +
+                           'based on what the target ratio is',
+      phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
     } );
 
     // @public {DerivedProperty.<number>}
