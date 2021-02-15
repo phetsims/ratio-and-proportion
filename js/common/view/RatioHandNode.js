@@ -159,7 +159,8 @@ class RatioHandNode extends Node {
 
     // reset remainder when unfocused
     this.addInputListener( {
-      blur: () => mapKeyboardInput.reset()
+      blur: () => mapKeyboardInput.reset(),
+      down: () => mapKeyboardInput.reset()
     } );
 
     // @private
