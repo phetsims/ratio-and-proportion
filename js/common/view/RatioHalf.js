@@ -338,6 +338,11 @@ class RatioHalf extends Rectangle {
         config.cueArrowsState.keyboardFocusedProperty.value = false;
         viewSounds.releaseSoundClip.play();
         this.isBeingInteractedWithProperty.value = false;
+      },
+      down: () => {
+
+        // Support the case when you have the hand focused, and then you press the hand with a mouse
+        config.cueArrowsState.keyboardFocusedProperty.value = false;
       }
     } );
 

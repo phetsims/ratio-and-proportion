@@ -176,6 +176,10 @@ class BothHandsPDOMNode extends Node {
 
         // This only works because the bothHandsInteractionListener needs alt-input control resetting
         this.bothHandsInteractionListener.reset();
+      },
+      down: () => {
+        this.bothHandsFocusedProperty.value = false;
+        this.bothHandsInteractionListener.reset();
       }
     } );
 
