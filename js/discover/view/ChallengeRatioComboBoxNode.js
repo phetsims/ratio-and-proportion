@@ -29,9 +29,10 @@ class ChallengeRatioComboBoxNode extends Node {
    * @param {RatioDescriber} ratioDescriber
    * @param {Property.<Color>} colorProperty
    * @param {Node} comboBoxListParent
+   * @param {Tandem} comboBoxTandem - to pass directly to the comboBox
    * @param {Object} [options]
    */
-  constructor( targetRatioProperty, ratioDescriber, colorProperty, comboBoxListParent, options ) {
+  constructor( targetRatioProperty, ratioDescriber, colorProperty, comboBoxListParent, comboBoxTandem, options ) {
 
     assert && options && assert( !options.children, 'ChallengeRatioComboBoxNode sets its own children.' );
 
@@ -70,7 +71,10 @@ class ChallengeRatioComboBoxNode extends Node {
       } )
     ], targetRatioProperty, comboBoxListParent, {
       helpText: ratioAndProportionStrings.a11y.discover.challengesHelpText,
-      maxWidth: 300 // empirically determined
+      maxWidth: 300,// empirically determined
+
+      // phet-io
+      tandem: comboBoxTandem
     } );
 
     const proximityToRatioUtterance = new Utterance();
@@ -90,7 +94,7 @@ class ChallengeRatioComboBoxNode extends Node {
   /**
    * @public
    */
-  hideListBox(){
+  hideListBox() {
     this.comboBox.hideListBox();
   }
 }

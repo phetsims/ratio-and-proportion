@@ -41,15 +41,18 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup {
     super( tickMarkViewProperty, [ {
         node: new FontAwesomeNode( 'eye_close', { scale: 0.8 } ),
         value: TickMarkView.NONE,
-        labelContent: ratioAndProportionStrings.a11y.tickMark.showNo
+        labelContent: ratioAndProportionStrings.a11y.tickMark.showNo,
+        tandemName: 'showNoRadioButton'
       }, {
         node: new TickMarksIconPath(),
         value: TickMarkView.VISIBLE,
-        labelContent: ratioAndProportionStrings.a11y.tickMark.show
+        labelContent: ratioAndProportionStrings.a11y.tickMark.show,
+        tandemName: 'showRadioButton'
       }, {
         node: new NumberedTickMarksIconPath(),
         value: TickMarkView.VISIBLE_WITH_UNITS,
-        labelContent: ratioAndProportionStrings.a11y.tickMark.showNumbered
+        labelContent: ratioAndProportionStrings.a11y.tickMark.showNumbered,
+        tandemName: 'showNumberedRadioButton'
       } ],
       options );
 

@@ -8,6 +8,7 @@ import FireListener from '../../../../scenery/js/listeners/FireListener.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
 import RAPColorProfile from '../../common/view/RAPColorProfile.js';
 import RAPScreenView from '../../common/view/RAPScreenView.js';
@@ -38,7 +39,7 @@ class CreateScreenView extends RAPScreenView {
     } );
 
     const myChallengeAccordionBox = new MyChallengeAccordionBox( model.targetRatioProperty, model.ratio.lockedProperty, handColorProperty,
-      this.tickMarkViewProperty, this.ratioDescriber );
+      this.tickMarkViewProperty, this.ratioDescriber, { tandem: tandem.createTandem( 'myChallengeAccordionBox' ) } );
 
     const tickMarkRangeComboBoxParent = new Node();
 
@@ -61,7 +62,10 @@ class CreateScreenView extends RAPScreenView {
     const lockRatioCheckbox = new Checkbox( new RichText( ratioAndProportionStrings.lockRatio ), model.ratio.lockedProperty, {
       accessibleName: ratioAndProportionStrings.lockRatio,
       helpText: ratioAndProportionStrings.a11y.lockRatioHelpText,
-      maxWidth: 250 // empirically determined
+      maxWidth: 250, // empirically determined
+
+      // phet-io
+      tandem: tandem.createTandem( 'lockRatioCheckbox' )
     } );
     lockRatioCheckbox.touchArea = lockRatioCheckbox.localBounds.dilatedXY( 8, 0.5 * lockRatioCheckbox.height );
     lockRatioCheckbox.mouseArea = lockRatioCheckbox.localBounds.dilatedXY( 8, 0.5 * lockRatioCheckbox.height );
@@ -73,7 +77,10 @@ class CreateScreenView extends RAPScreenView {
         ratioLockedUtterance.alert = model.ratio.lockedProperty.value ? ratioAndProportionStrings.a11y.lockRatioCheckboxContextResponse :
                                      ratioAndProportionStrings.a11y.ratioNoLongerLocked;
         phet.joist.sim.utteranceQueue.addToBack( ratioLockedUtterance );
-      }
+      },
+
+      // phet-io
+      tandem: Tandem.OPT_OUT
     } ) );
 
     // The "lock ratio" checkbox should not be enabled when the ratio is not in proportion.

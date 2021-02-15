@@ -90,7 +90,7 @@ class RAPScreenView extends ScreenView {
     } );
 
     // @protected - What is the unit value of the tick marks. Value reads as "1/x of the view height."
-    this.tickMarkRangeProperty = new NumberProperty( 10 );
+    this.tickMarkRangeProperty = new NumberProperty( 10, { tandem: tandem.createTandem( 'tickMarkRangeProperty' ) } );
 
     const tickMarkDescriber = new TickMarkDescriber( this.tickMarkRangeProperty, this.tickMarkViewProperty );
 
@@ -169,7 +169,10 @@ class RAPScreenView extends ScreenView {
 
       // Added to the antecedent for ease, but it applies to both RatioHalfs in the PDOM
       helpText: ratioAndProportionStrings.a11y.individualHandsHelpText,
-      helpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT
+      helpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT,
+
+      // phet-io
+      tandem: tandem.createTandem( 'antecedentRatioHalf' )
     } );
 
     // @private {RatioHalf}
@@ -198,7 +201,10 @@ class RAPScreenView extends ScreenView {
       // optional
       handColorProperty: options.rightHandColorProperty,
       accessibleName: ratioAndProportionStrings.a11y.rightHand,
-      a11yDependencies: a11yDependencies
+      a11yDependencies: a11yDependencies,
+
+      // phet-io
+      tandem: tandem.createTandem( 'consequentRatioHalf' )
     } );
 
     const bothHandsPDOMNode = new BothHandsPDOMNode( merge( {
@@ -280,7 +286,9 @@ class RAPScreenView extends ScreenView {
     } );
 
     // @protected - subtype is responsible for layout
-    this.tickMarkViewRadioButtonGroup = new TickMarkViewRadioButtonGroup( this.tickMarkViewProperty );
+    this.tickMarkViewRadioButtonGroup = new TickMarkViewRadioButtonGroup( this.tickMarkViewProperty, {
+      tandem: tandem.createTandem( 'tickMarkViewRadioButtonGroup' )
+    } );
 
     // add this Node to the layer that is scaled up to support vertical aspect ratios
     this.topScalingUILayerNode.addChild( this.tickMarkViewRadioButtonGroup );

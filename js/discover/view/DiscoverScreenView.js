@@ -34,7 +34,8 @@ class DiscoverScreenView extends RAPScreenView {
     const comboBoxListBoxParent = new Node();
 
     // @private
-    this.comboBoxContainer = new ChallengeRatioComboBoxNode( model.targetRatioProperty, this.ratioDescriber, handColorProperty, comboBoxListBoxParent );
+    this.comboBoxContainer = new ChallengeRatioComboBoxNode( model.targetRatioProperty, this.ratioDescriber,
+      handColorProperty, comboBoxListBoxParent, tandem.createTandem( 'myChallengeComboBox' ) );
 
     this.topScalingUILayerNode.addChild( this.comboBoxContainer );
 

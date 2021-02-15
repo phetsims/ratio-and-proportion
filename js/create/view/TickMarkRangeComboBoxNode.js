@@ -18,6 +18,7 @@ import RichText from '../../../../scenery/js/nodes/RichText.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
 import HSeparator from '../../../../sun/js/HSeparator.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
 import TickMarkView from '../../common/view/TickMarkView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -61,7 +62,10 @@ class TickMarkRangeComboBoxNode extends Node {
       labelNode: new RichText( ratioAndProportionStrings.range, RANGE_TEXT_OPTIONS ),
       helpText: ratioAndProportionStrings.a11y.create.tickMarkRangeHelpText,
       accessibleName: ratioAndProportionStrings.range,
-      maxWidth: 300 // empirically determined
+      maxWidth: 300, // empirically determined
+
+      // phet-io
+      tandem: Tandem.OPT_OUT
     };
 
     // @private

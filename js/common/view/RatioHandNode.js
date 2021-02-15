@@ -20,6 +20,7 @@ import FocusHighlightFromNode from '../../../../scenery/js/accessibility/FocusHi
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import AccessibleSlider from '../../../../sun/js/accessibility/AccessibleSlider.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPConstants from '../RAPConstants.js';
 import CueDisplay from './CueDisplay.js';
@@ -186,7 +187,9 @@ class RatioHandNode extends Node {
   static createIcon( isRight, tickMarkViewProperty, options ) {
     options = merge( {
       handColor: 'black',
-      handNodeOptions: {}
+      handNodeOptions: {
+        tandem: Tandem.OPT_OUT
+      }
     }, options );
 
     const ratioHandNode = new RatioHandNode(

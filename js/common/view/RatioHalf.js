@@ -138,7 +138,7 @@ class RatioHalf extends Rectangle {
       bothHandsCueDisplay: CueDisplay.UP_DOWN,
 
       // phet-io
-      tandem: Tandem.OPTIONAL,
+      tandem: Tandem.REQUIRED,
 
       // pdom
       tagName: 'div',
@@ -152,7 +152,9 @@ class RatioHalf extends Rectangle {
 
     // @public (read-only) - this behaves a bit differently depending on modality. For mouse/touch, any time you are
     // dragging this will be considered interaction, for keyboard, you must press a key before the interaction starts.
-    this.isBeingInteractedWithProperty = new BooleanProperty( false );
+    this.isBeingInteractedWithProperty = new BooleanProperty( false, {
+      tandem: config.tandem.createTandem( 'isBeingInteractedWithProperty' )
+    } );
 
     // @private
     this.ratioLockedProperty = config.ratioLockedProperty;
@@ -268,7 +270,6 @@ class RatioHalf extends Rectangle {
     // transform and dragBounds set in layout code below
     const dragListener = new DragListener( {
       positionProperty: positionProperty,
-      tandem: config.tandem.createTandem( 'dragListener' ),
       dragBoundsProperty: dragBoundsProperty,
       start: () => {
         if ( config.horizontalMovementAllowedProperty.value ) {
@@ -313,7 +314,10 @@ class RatioHalf extends Rectangle {
 
         // Support context response on interaction end from mouse/touch input.
         this.ratioHandNode.alertContextResponse();
-      }
+      },
+
+      // phet-io
+      tandem: config.tandem.createTandem( 'dragListener' )
     } );
 
     // When the range changes, update the dragBounds of the drag listener

@@ -19,6 +19,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
@@ -61,7 +62,10 @@ class MyChallengeAccordionBox extends AccordionBox {
         touchAreaYDilation: 15,
         mouseAreaXDilation: 5,
         mouseAreaYDilation: 5
-      }
+      },
+
+      // phet-io
+      tandem: Tandem.REQUIRED
     }, options );
 
     // Allow us to get the reduced fraction as the initial value of the custom "My Challenge"
@@ -97,7 +101,10 @@ class MyChallengeAccordionBox extends AccordionBox {
       accessibleName: ratioAndProportionStrings.a11y.leftValue,
       a11yDependencies: [ targetConsequentProperty ],
       a11yCreateAriaValueText: ratioDescriber.getWordFromNumber,
-      a11yCreateContextResponseAlert: () => ratioDescriber.getTargetRatioChangeAlert( targetAntecedentProperty.value, targetConsequentProperty.value )
+      a11yCreateContextResponseAlert: () => ratioDescriber.getTargetRatioChangeAlert( targetAntecedentProperty.value, targetConsequentProperty.value ),
+
+      // phet-io
+      tandem: options.tandem.createTandem( 'antecedentNumberPicker' )
     } );
     const leftRatioSelector = new VBox( {
       align: 'origin',
@@ -116,7 +123,8 @@ class MyChallengeAccordionBox extends AccordionBox {
       accessibleName: ratioAndProportionStrings.a11y.rightValue,
       a11yDependencies: [ targetAntecedentProperty ],
       a11yCreateAriaValueText: ratioDescriber.getWordFromNumber,
-      a11yCreateContextResponseAlert: () => ratioDescriber.getTargetRatioChangeAlert( targetAntecedentProperty.value, targetConsequentProperty.value )
+      a11yCreateContextResponseAlert: () => ratioDescriber.getTargetRatioChangeAlert( targetAntecedentProperty.value, targetConsequentProperty.value ),
+      tandem: options.tandem.createTandem( 'consequentNumberPicker' )
     } );
     const rightRatioSelector = new VBox( {
       align: 'origin',
