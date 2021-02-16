@@ -159,6 +159,7 @@ class BothHandsInteractionListener {
       // their behavior during scenery event dispatch
       sceneryEvent.pointer.reserveForKeyboardDrag();
 
+      const event = sceneryEvent.domEvent;
 
       if ( event.key === 'ArrowDown' ) {
         this.consequentInteractedWithProperty.value = true;
