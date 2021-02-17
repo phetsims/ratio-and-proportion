@@ -12,6 +12,7 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import merge from '../../../../phet-core/js/merge.js';
 import required from '../../../../phet-core/js/required.js';
 import globalKeyStateTracker from '../../../../scenery/js/accessibility/globalKeyStateTracker.js';
+import KeyboardUtils from '../../../../scenery/js/accessibility/KeyboardUtils.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import RatioTerm from '../model/RatioTerm.js';
@@ -154,21 +155,22 @@ class BothHandsInteractionListener {
       // their behavior during scenery event dispatch
       sceneryEvent.pointer.reserveForKeyboardDrag();
 
-      const event = sceneryEvent.domEvent;
+      const domEvent = sceneryEvent.domEvent;
+      const key = KeyboardUtils.getKeyDef( domEvent );
 
-      if ( event.key === 'ArrowDown' ) {
+      if ( key === KeyboardUtils.KEY_DOWN_ARROW ) {
         this.consequentInteractedWithProperty.value = true;
         this.onValueIncrementDecrement( 'consequent', this.consequentMapKeyboardInput, false );
       }
-      else if ( event.key === 'ArrowUp' ) {
+      else if ( key === KeyboardUtils.KEY_UP_ARROW ) {
         this.onValueIncrementDecrement( 'consequent', this.consequentMapKeyboardInput, true );
         this.consequentInteractedWithProperty.value = true;
       }
-      else if ( event.key.toLowerCase() === 'w' ) {
+      else if ( key === KeyboardUtils.KEY_W ) {
         this.antecedentInteractedWithProperty.value = true;
         this.onValueIncrementDecrement( 'antecedent', this.antecedentMapKeyboardInput, true );
       }
-      else if ( event.key.toLowerCase() === 's' ) {
+      else if ( key === KeyboardUtils.KEY_S ) {
         this.antecedentInteractedWithProperty.value = true;
         this.onValueIncrementDecrement( 'antecedent', this.antecedentMapKeyboardInput, false );
       }
@@ -176,10 +178,10 @@ class BothHandsInteractionListener {
 
         // for number keys 0-9, jump both values to that tick mark number. This value changes based on the tickMarkRangeProperty
         for ( let i = 0; i <= 9; i++ ) {
-          if ( event.key === i + '' &&
-               !event.getModifierState( 'Control' ) &&
-               !event.getModifierState( 'Shift' ) &&
-               !event.getModifierState( 'Alt' ) ) {
+          if ( domEvent.key === i + '' &&
+               !domEvent.getModifierState( 'Control' ) &&
+               !domEvent.getModifierState( 'Shift' ) &&
+               !domEvent.getModifierState( 'Alt' ) ) {
 
             this.isBeingInteractedWithProperty.value = true;
 
