@@ -99,6 +99,11 @@ class BothHandsInteractionListener {
 
     // @public - called when this input occurs when the ratio is locked with a target of N:N. Jumping to zero is not allowed for this case, see, https://github.com/phetsims/ratio-and-proportion/issues/227#issuecomment-758036456
     this.jumpToZeroWhileLockedEmitter = new Emitter();
+
+    // The custom jumping logic uses special logic to determine if jumping caused a boundary to be hit. That occurs in
+    // keydown, but we want the sound only to play once on keyup. Use this as a marker to signify that the boundary
+    // sound should be played.
+    this.playBoundarySoundOnKeyup = false;
   }
 
   /**
@@ -130,7 +135,7 @@ class BothHandsInteractionListener {
 
     this.ratioTupleProperty.value = newRatioTuple.constrainFields( this.enabledRatioTermsRangeProperty.value );
 
-    this.handleSoundOnInput( this.ratioTupleProperty.value[ tupleField ] );
+    this.tickMarkBumpSoundClip.onInteract( this.ratioTupleProperty.value[ tupleField ] );
 
     this.onInput();
   }
@@ -206,7 +211,7 @@ class BothHandsInteractionListener {
 
             // If this brought to min or max, play the boundary sound
             if ( constrained === TOTAL_RANGE.min || constrained === TOTAL_RANGE.max ) {
-              this.boundarySoundClip.play();
+              this.playBoundarySoundOnKeyup = true;
             }
 
             // If the target was 1, or perhaps another way, then setting both values should maintain the locked state
@@ -229,13 +234,36 @@ class BothHandsInteractionListener {
     }
   }
 
+
   /**
    * @public
-   * Handle sound output based on an input for this interaction
+   * @param {SceneryEvent} sceneryEvent
+   */
+  keyup( sceneryEvent ) {
+
+    if ( sceneryEvent.target === this.targetNode ) {
+
+      const domEvent = sceneryEvent.domEvent;
+
+      if ( KeyboardUtils.isAnyKeyEvent( domEvent, [ KeyboardUtils.KEY_DOWN_ARROW, KeyboardUtils.KEY_UP_ARROW ] ) ) {
+        this.handleBoundarySoundOnInput( this.ratioTupleProperty.value.consequent );
+      }
+      else if ( KeyboardUtils.isAnyKeyEvent( domEvent, [ KeyboardUtils.KEY_W, KeyboardUtils.KEY_S ] ) ) {
+        this.handleBoundarySoundOnInput( this.ratioTupleProperty.value.antecedent );
+      }
+      if ( this.playBoundarySoundOnKeyup ) {
+        this.boundarySoundClip.play();
+        this.playBoundarySoundOnKeyup = false;
+      }
+    }
+  }
+
+  /**
+   * @public
+   * Handle boundary sound output based on an input for this interaction
    * @param {number} newValue
    */
-  handleSoundOnInput( newValue ) {
-    this.tickMarkBumpSoundClip.onInteract( newValue );
+  handleBoundarySoundOnInput( newValue ) {
     this.boundarySoundClip.onStartInteraction( newValue );
     this.boundarySoundClip.onInteract( newValue );
     this.boundarySoundClip.onEndInteraction( newValue );
