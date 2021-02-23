@@ -25,20 +25,27 @@ function getKeyboardInputSnappingMapper( getIdealValue, keyboardStep, shiftKeybo
   // keep track of the remainder for next input post-process
   let remainder = 0;
 
-  const snappingFunction = ( newValue, oldValue, useShiftKeyStep ) => {
+  const snappingFunction = ( newValue, oldValue, useShiftKeyStep, alreadyInProportion ) => {
     // Don't conserve the snap for page up/down or home/end keys, just basic movement changes.
     const applyConservationSnap = RAPConstants.toFixed( Math.abs( newValue - oldValue ) ) <= shiftKeyboardStep &&
                                   newValue > RAPConstants.NO_SUCCESS_VALUE_THRESHOLD &&
                                   oldValue > RAPConstants.NO_SUCCESS_VALUE_THRESHOLD;
 
-    if ( remainder === 0 ) {
+
+    // Default case if there is no saved remainder, then just step normally. Skip if already in proportion (which happens
+    // if the in-proportion threshold is larger that the step-size difference that snapping to the exact value would have.
+    // see https://github.com/phetsims/ratio-and-proportion/issues/354 for details.
+    if ( remainder === 0 || alreadyInProportion ) {
+      remainder = 0;
       const snapToKeyboardStep = useShiftKeyStep ? shiftKeyboardStep : keyboardStep;
       newValue = RAPConstants.toFixed(
         Utils.roundSymmetric( newValue / snapToKeyboardStep ) * snapToKeyboardStep,
         Utils.numberOfDecimalPlaces( snapToKeyboardStep ) );
     }
 
-    if ( applyConservationSnap ) {
+    // If we are in the case where we want to potentially snap to the value that would yield the in-proportion state.
+    // No need to do this if we are already in Proportion.
+    if ( applyConservationSnap && !alreadyInProportion ) {
 
       let returnValue = newValue;
       const target = RAPConstants.toFixed( getIdealValue() );
