@@ -201,6 +201,7 @@ class RatioHandNode extends Node {
       new Property( options.handColor ),
       new Property( CueDisplay.NONE ),
       _.identity,
+      _.stubFalse,
       merge( {
         isRight: isRight,
         asIcon: true,
