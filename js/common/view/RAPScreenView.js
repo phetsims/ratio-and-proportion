@@ -137,6 +137,8 @@ class RAPScreenView extends ScreenView {
     // description on each ratioHalf should be updated whenever these change
     const a11yDependencies = [ model.unclampedFitnessProperty, this.tickMarkViewProperty, this.tickMarkRangeProperty, model.targetRatioProperty ];
 
+    const isInProportion = model.inProportion.bind( model );
+
     // @private {RatioHalf}
     this.antecedentRatioHalf = new RatioHalf( {
 
@@ -159,6 +161,7 @@ class RAPScreenView extends ScreenView {
       playTickMarkBumpSoundProperty: playTickMarkBumpSoundProperty,
       inProportionSoundGenerator: this.inProportionSoundGenerator,
       getIdealValue: () => model.getIdealValueForTerm( RatioTerm.ANTECEDENT ),
+      isInProportion: isInProportion,
 
       // optional
       handColorProperty: options.leftHandColorProperty,
@@ -197,6 +200,7 @@ class RAPScreenView extends ScreenView {
       playTickMarkBumpSoundProperty: playTickMarkBumpSoundProperty,
       inProportionSoundGenerator: this.inProportionSoundGenerator,
       getIdealValue: () => model.getIdealValueForTerm( RatioTerm.CONSEQUENT ),
+      isInProportion: isInProportion,
 
       // optional
       handColorProperty: options.rightHandColorProperty,
@@ -221,6 +225,7 @@ class RAPScreenView extends ScreenView {
         ratioLockedProperty: model.ratio.lockedProperty,
         targetRatioProperty: model.targetRatioProperty,
         getIdealTerm: model.getIdealValueForTerm.bind( model ),
+        isInProportion: isInProportion,
 
         interactiveNodeOptions: {
           children: [ this.antecedentRatioHalf, this.consequentRatioHalf ]

@@ -123,6 +123,9 @@ class RatioHalf extends Rectangle {
       // {function():number} - a function that gets the value of this RatioHalf term that would achieve the targetRatio
       getIdealValue: required( config.getIdealValue ),
 
+      // {function():boolean} - is the model in proportion right now
+      isInProportion: required( config.isInProportion ),
+
       // ---- OPTIONAL -------------------------------------------------
 
       // {boolean} right ratio or the left ratio
@@ -196,7 +199,7 @@ class RatioHalf extends Rectangle {
 
     // @private - The draggable element inside the Node framed with thick rectangles on the top and bottom.
     this.ratioHandNode = new RatioHandNode( ratioTermSpecificProperty, config.enabledRatioTermsRangeProperty, config.tickMarkViewProperty,
-      config.keyboardStep, config.handColorProperty, cueDisplayStateProperty, config.getIdealValue, {
+      config.keyboardStep, config.handColorProperty, cueDisplayStateProperty, config.getIdealValue, config.isInProportion, {
         startDrag: () => {
           config.cueArrowsState.interactedWithKeyboardProperty.value = true;
           this.isBeingInteractedWithProperty.value = true;

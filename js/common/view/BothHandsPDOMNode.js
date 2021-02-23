@@ -74,6 +74,10 @@ class BothHandsPDOMNode extends Node {
       // {function(RatioTerm):number}
       getIdealTerm: required( config.getIdealTerm ),
 
+      // {function():boolean} - is the model in proportion right now
+      isInProportion: required( config.isInProportion ),
+
+
       // ---- OPTIONAL -------------------------------------------------
 
       // {string|null} help text to be displayed on devices supporting gesture description
@@ -154,6 +158,7 @@ class BothHandsPDOMNode extends Node {
       ratioLockedProperty: config.ratioLockedProperty,
       targetRatioProperty: config.targetRatioProperty,
       getIdealTerm: config.getIdealTerm,
+      isInProportion: config.isInProportion,
       onInput: knockedOutOfLock => {
         if ( knockedOutOfLock ) {
           phet.joist.sim.utteranceQueue.addToBack( this.ratioUnlockedFromBothHandsUtterance );

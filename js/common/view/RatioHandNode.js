@@ -38,10 +38,11 @@ class RatioHandNode extends Node {
    * @param {Property.<ColorDef>} colorProperty - controls the color of the hand. This is for both the filled in and cut out hands.
    * @param {EnumerationProperty.<CueDisplay>} cueDisplayProperty
    * @param {function():number} getIdealValue
+   * @param {function():boolean} isInProportion - if the model is in proportion
    * @param {Object} [options]
    */
   constructor( valueProperty, enabledRatioTermsRangeProperty, tickMarkViewProperty, keyboardStep, colorProperty,
-               cueDisplayProperty, getIdealValue, options ) {
+               cueDisplayProperty, getIdealValue, isInProportion, options ) {
 
     const shiftKeyboardStep = RAPConstants.toFixed( keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER );
 
@@ -62,7 +63,7 @@ class RatioHandNode extends Node {
       // Because this interaction uses the keyboard, snap to the keyboard step to handle the case where the hands were
       // previously moved via mouse/touch. See https://github.com/phetsims/ratio-and-proportion/issues/156
       a11yMapValue: ( newValue, oldValue ) => {
-        return mapKeyboardInput( newValue, oldValue, this.shiftKeyDown );
+        return mapKeyboardInput( newValue, oldValue, this.shiftKeyDown, isInProportion() );
       }
     }, options );
     super();
