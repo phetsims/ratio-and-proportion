@@ -71,7 +71,7 @@ class ChallengeRatioComboBoxNode extends Node {
       } )
     ], targetRatioProperty, comboBoxListParent, {
       helpText: ratioAndProportionStrings.a11y.discover.challengesHelpText,
-      maxWidth: 300,// empirically determined
+      maxWidth: 300, // empirically determined
 
       // phet-io
       tandem: comboBoxTandem
