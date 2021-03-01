@@ -55,10 +55,10 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
   /**
    * @param {Property.<number>} fitnessProperty
    * @param {Range} fitnessRange
-   * @param {function():boolean} isInProportion - true when the model ratio is in proportion
+   * @param {Property.<boolean>} inProportionProperty - true when the model ratio is in proportion
    * @param {Object} [options]
    */
-  constructor( fitnessProperty, fitnessRange, isInProportion, options ) {
+  constructor( fitnessProperty, fitnessRange, inProportionProperty, options ) {
     options = merge( {
       initialOutputLevel: 0.25
     }, options );
@@ -66,7 +66,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     super( options );
 
     // @private
-    this.isInProportion = isInProportion;
+    this.inProportionProperty = inProportionProperty;
     this.fitnessProperty = fitnessProperty;
 
     // @private {SoundClip[]}
@@ -108,7 +108,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     // If fitness is less than zero, make sure enough time has past that it will play a sound immediately.
     this.timeSinceLastPlay = newFitness > 0 ? this.timeSinceLastPlay + dt * 1000 : 1000000;
 
-    const isInRatio = this.isInProportion();
+    const isInRatio = this.inProportionProperty.value;
     if ( this.timeSinceLastPlay > this.timeLinearFunction( newFitness ) && !isInRatio && newFitness > 0 ) {
       const sounds = this.staccatoSoundClips[ Math.floor( newFitness * this.staccatoSoundClips.length ) ];
       sounds[ Math.floor( dotRandom.nextDouble() * sounds.length ) ].play();

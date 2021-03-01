@@ -4,6 +4,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import Property from '../../../../axon/js/Property.js';
 import FireListener from '../../../../scenery/js/listeners/FireListener.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
@@ -84,8 +85,11 @@ class CreateScreenView extends RAPScreenView {
     } ) );
 
     // The "lock ratio" checkbox should not be enabled when the ratio is not in proportion.
-    model.ratioFitnessProperty.link( () => {
-      lockRatioCheckbox.enabledProperty.value = model.inProportion();
+    Property.multilink( [
+      model.inProportionProperty,
+      model.ratioFitnessProperty
+    ], inProportion => {
+      lockRatioCheckbox.enabledProperty.value = inProportion;
 
       // If the checkbox get's disabled, then unlock the ratio.
       if ( !lockRatioCheckbox.enabledProperty.value ) {

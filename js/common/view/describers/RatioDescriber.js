@@ -85,7 +85,7 @@ class RatioDescriber {
     const ratioRegions = capitalized ? RATIO_FITNESS_STRINGS_CAPITALIZED : RATIO_FITNESS_STRINGS_LOWERCASE;
 
     // hard coded region for in proportion
-    if ( this.model.inProportion() ) {
+    if ( this.model.inProportionProperty.value ) {
       return ratioRegions[ lastIndex ];
     }
 

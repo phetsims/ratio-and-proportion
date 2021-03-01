@@ -68,8 +68,8 @@ class BothHandsInteractionListener {
       // {function(RatioTerm):number}
       getIdealTerm: required( config.getIdealTerm ),
 
-      // {function():boolean} - is the model in proportion right now
-      isInProportion: required( config.isInProportion ),
+      // {Property.<boolean>} - is the model in proportion right now
+      inProportionProperty: required( config.inProportionProperty ),
 
       // ---- OPTIONAL -------------------------------------------------
 
@@ -90,7 +90,7 @@ class BothHandsInteractionListener {
     this.tickMarkBumpSoundClip = config.tickMarkBumpSoundClip;
     this.ratioLockedProperty = config.ratioLockedProperty;
     this.targetRatioProperty = config.targetRatioProperty;
-    this.isInProportion = config.isInProportion;
+    this.inProportionProperty = config.inProportionProperty;
     this.onInput = config.onInput;
 
     // @private
@@ -135,7 +135,7 @@ class BothHandsInteractionListener {
 
     // Because this interaction uses the keyboard, snap to the keyboard step to handle the case where the hands were
     // previously moved via mouse/touch. See https://github.com/phetsims/ratio-and-proportion/issues/156
-    const newValue = inputMapper( currentTuple + valueDelta, currentTuple, globalKeyStateTracker.shiftKeyDown ? this.shiftKeyboardStep : this.keyboardStep, this.isInProportion() );
+    const newValue = inputMapper( currentTuple + valueDelta, currentTuple, globalKeyStateTracker.shiftKeyDown ? this.shiftKeyboardStep : this.keyboardStep, this.inProportionProperty.value );
     const newRatioTuple = tupleField === 'antecedent' ? this.ratioTupleProperty.value.withAntecedent( newValue ) : this.ratioTupleProperty.value.withConsequent( newValue );
 
     this.ratioTupleProperty.value = newRatioTuple.constrainFields( this.enabledRatioTermsRangeProperty.value );

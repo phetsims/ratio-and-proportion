@@ -52,7 +52,8 @@ class RAPModel {
     // "close enough" to the target (since negative values in this Property are all clamped to 0 in this.ratioFitnessProperty).
     this.unclampedFitnessProperty = new DerivedProperty( [
       this.ratio.tupleProperty,
-      this.targetRatioProperty
+      this.targetRatioProperty,
+      this.ratio.movingInDirectionProperty
     ], ( ratioTuple, ratio ) => {
 
       const antecedent = ratioTuple.antecedent;
@@ -103,6 +104,12 @@ unclampedFitness: ${unclampedFitness}
       unclampedFitness => Utils.clamp( unclampedFitness, RAPConstants.RATIO_FITNESS_RANGE.min, RAPConstants.RATIO_FITNESS_RANGE.max ), {
         isValidValue: value => RAPConstants.RATIO_FITNESS_RANGE.contains( value )
       } );
+
+    // @public - whether or not the model is in its "in proportion" state.
+    this.inProportionProperty = new DerivedProperty( [
+      this.unclampedFitnessProperty,
+      this.ratio.movingInDirectionProperty
+    ], this.inProportion.bind( this ) );
 
     // This must be done here, because of the reentrant nature of how fitness changes when the ratio is locked
     this.targetRatioProperty.link( () => {
@@ -189,7 +196,7 @@ unclampedFitness: ${unclampedFitness}
    */
   getInProportionThreshold() {
     let threshold = RAPConstants.IN_PROPORTION_FITNESS_THRESHOLD;
-    if ( this.ratio.movingInDirection() ) {
+    if ( this.ratio.movingInDirectionProperty.value ) {
       threshold = RAPConstants.MOVING_IN_PROPORTION_FITNESS_THRESHOLD;
     }
     return threshold;
@@ -198,7 +205,7 @@ unclampedFitness: ${unclampedFitness}
   /**
    * This is the sim's definition of if the ratio is in the "success" metric, what we call "in proportion." This changes
    * based on if moving in proportion (bimodal interaction), or not.
-   * @public
+   * @private
    * @param {number} [fitness] - if provided, calculate if this fitness is in proportion
    * @returns {boolean}
    */

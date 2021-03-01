@@ -47,14 +47,14 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
     this.movingInProportionSoundClip.connect( this.soundSourceDestination );
 
     Property.multilink( [
+      model.ratio.movingInDirectionProperty,
+      model.inProportionProperty,
       model.ratio.tupleProperty,
-      model.ratio.changeInAntecedentProperty,
-      model.ratio.changeInConsequentProperty,
       model.ratioFitnessProperty
-    ], currentTuple => {
-      if ( model.ratio.movingInDirection() && // only when moving
+    ], ( movingInDirection, inProportion ) => {
+      if ( movingInDirection && // only when moving
            !model.valuesTooSmallForInProportion() && // no moving in proportion success if too small
-           model.inProportion() && // must be fit enough to play the moving in proportion success
+           inProportion && // must be fit enough to play the moving in proportion success
            !model.ratioEvenButNotAtTarget()  // don't allow this sound if target isn't 1 but both values are 1
       ) {
         this.movingInProportionSoundClip.setOutputLevel( 1, .1 );

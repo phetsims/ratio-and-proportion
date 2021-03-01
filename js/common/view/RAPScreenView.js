@@ -110,7 +110,7 @@ class RAPScreenView extends ScreenView {
     this.inProportionSoundGenerator = new InProportionSoundGenerator( model );
     this.movingInProportionSoundGenerator = new MovingInProportionSoundGenerator( model );
     this.staccatoFrequencySoundGenerator = new StaccatoFrequencySoundGenerator( model.ratioFitnessProperty, RAPConstants.RATIO_FITNESS_RANGE,
-      model.inProportion.bind( model ) );
+      model.inProportionProperty );
 
     soundManager.addSoundGenerator( this.staccatoFrequencySoundGenerator );
     soundManager.addSoundGenerator( this.inProportionSoundGenerator );
@@ -137,7 +137,6 @@ class RAPScreenView extends ScreenView {
     // description on each ratioHalf should be updated whenever these change
     const a11yDependencies = [ model.unclampedFitnessProperty, this.tickMarkViewProperty, this.tickMarkRangeProperty, model.targetRatioProperty ];
 
-    const isInProportion = model.inProportion.bind( model );
 
     // @private {RatioHalf}
     this.antecedentRatioHalf = new RatioHalf( {
@@ -161,7 +160,7 @@ class RAPScreenView extends ScreenView {
       playTickMarkBumpSoundProperty: playTickMarkBumpSoundProperty,
       inProportionSoundGenerator: this.inProportionSoundGenerator,
       getIdealValue: () => model.getIdealValueForTerm( RatioTerm.ANTECEDENT ),
-      isInProportion: isInProportion,
+      inProportionProperty: model.inProportionProperty,
 
       // optional
       handColorProperty: options.leftHandColorProperty,
@@ -200,7 +199,7 @@ class RAPScreenView extends ScreenView {
       playTickMarkBumpSoundProperty: playTickMarkBumpSoundProperty,
       inProportionSoundGenerator: this.inProportionSoundGenerator,
       getIdealValue: () => model.getIdealValueForTerm( RatioTerm.CONSEQUENT ),
-      isInProportion: isInProportion,
+      inProportionProperty: model.inProportionProperty,
 
       // optional
       handColorProperty: options.rightHandColorProperty,
@@ -225,7 +224,7 @@ class RAPScreenView extends ScreenView {
         ratioLockedProperty: model.ratio.lockedProperty,
         targetRatioProperty: model.targetRatioProperty,
         getIdealTerm: model.getIdealValueForTerm.bind( model ),
-        isInProportion: isInProportion,
+        inProportionProperty: model.inProportionProperty,
 
         interactiveNodeOptions: {
           children: [ this.antecedentRatioHalf, this.consequentRatioHalf ]
@@ -255,16 +254,20 @@ class RAPScreenView extends ScreenView {
     } );
 
     // adjust the background color based on the current ratio fitness
-    model.ratioFitnessProperty.link( fitness => {
+    Property.multilink( [
+      model.ratioFitnessProperty,
+      model.inProportionProperty
+    ], ( fitness, inProportion ) => {
       let color = null;
-      if ( model.inProportion() ) {
+      if ( inProportion ) {
         color = RAPColorProfile.backgroundInFitnessProperty.value;
       }
       else {
+        const interpolatedDistance = ( fitness - RAPConstants.RATIO_FITNESS_RANGE.min ) / ( 1 - model.getInProportionThreshold() );
         color = Color.interpolateRGBA(
           RAPColorProfile.backgroundOutOfFitnessProperty.value,
           RAPColorProfile.backgroundInterpolationToFitnessProperty.value,
-          ( fitness - RAPConstants.RATIO_FITNESS_RANGE.min ) / ( 1 - model.getInProportionThreshold() )
+          Utils.clamp( interpolatedDistance, 0, 1 )
         );
       }
       backgroundNode.setFill( color );
