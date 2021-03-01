@@ -8,6 +8,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
@@ -49,7 +50,7 @@ class RAPRatio {
       reentrant: true
     } );
 
-    // @public (read-only) - The change in ratio values since last capture. The frequency (or granularity) of this value
+    // @private - The change in ratio values since last capture. The frequency (or granularity) of this value
     // is determined by STEP_FRAME_GRANULARITY.
     this.changeInAntecedentProperty = new NumberProperty( 0 );
     this.changeInConsequentProperty = new NumberProperty( 0 );
@@ -61,6 +62,25 @@ class RAPRatio {
 
     // @public - when true, moving one ratio value will maintain the current ratio by updating the other value Property
     this.lockedProperty = new BooleanProperty( false );
+
+    // @public - if the ratio is in the "moving in direction" state: whether or not the two hands are moving fast
+    // enough together in the same direction. This indicates, among other things a bimodal interaction.
+    this.movingInDirectionProperty = new DerivedProperty( [
+      this.changeInAntecedentProperty,
+      this.changeInConsequentProperty,
+      this.lockedProperty
+    ], ( changeInAntecedent, changeInConsequent, ratioLocked ) => {
+      const bothMoving = changeInAntecedent !== 0 && changeInConsequent !== 0;
+
+      // both hands should be moving in the same direction
+      const movingInSameDirection = changeInAntecedent > 0 === changeInConsequent > 0;
+
+      const movingFastEnough = Math.abs( changeInAntecedent ) > VELOCITY_THRESHOLD && // antecedent past threshold
+                               Math.abs( changeInConsequent ) > VELOCITY_THRESHOLD; // consequent past threshold
+
+      // Ignore the speed component when the ratio is locked
+      return bothMoving && movingInSameDirection && ( movingFastEnough || ratioLocked );
+    } );
 
     // @private - To avoid an infinite loop as setting the tupleProperty from inside its lock-ratio-support
     // listener. This is predominately needed because even same antecedent/consequent values get wrapped in a new
@@ -171,24 +191,6 @@ class RAPRatio {
     this.lockRatioListenerEnabled = false;
     this.tupleProperty.value = newRatioTuple;
     this.lockRatioListenerEnabled = true;
-  }
-
-  /**
-   * Whether or not the two hands are moving fast enough together in the same direction. This indicates a bimodal interaction.
-   * @public
-   * @returns {boolean}
-   */
-  movingInDirection() {
-    const bothMoving = this.changeInAntecedentProperty.value !== 0 && this.changeInConsequentProperty.value !== 0;
-
-    // both hands should be moving in the same direction
-    const movingInSameDirection = this.changeInAntecedentProperty.value > 0 === this.changeInConsequentProperty.value > 0;
-
-    const movingFastEnough = Math.abs( this.changeInAntecedentProperty.value ) > VELOCITY_THRESHOLD && // antecedent past threshold
-                             Math.abs( this.changeInConsequentProperty.value ) > VELOCITY_THRESHOLD; // consequent past threshold
-
-    // Ignore the speed component when the ratio is locked
-    return bothMoving && movingInSameDirection && ( movingFastEnough || this.lockedProperty.value );
   }
 
   /**

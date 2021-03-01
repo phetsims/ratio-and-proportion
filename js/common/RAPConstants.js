@@ -21,7 +21,7 @@ const RAPConstants = {
   IN_PROPORTION_FITNESS_THRESHOLD: .025,
 
   // distance (in fitness) from max fitness that still indicates a successful proportion when both hands moving in the
-  // same direction. See RAPRatio.movingInDirection()
+  // same direction. See RAPRatio.movingInDirectionProperty
   MOVING_IN_PROPORTION_FITNESS_THRESHOLD: .3,
 
   // The value to multiple the keyboard step size by to get the shift + keydown step size
