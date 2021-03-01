@@ -23,6 +23,9 @@ const VELOCITY_THRESHOLD = .01;
 // How often (in frames) to capture the change in ratio values for the ratio's "velocity"
 const STEP_FRAME_GRANULARITY = 30;
 
+// How many values must be different within the STEP_FRAME_GRANULARITY number of frames to trigger a velocity calculation.
+const VELOCITY_MEMORY = 3;
+
 const DEFAULT_TERM_VALUE_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 // Use the same value as the no-success region threshold. This cannot be the same as the no-success threshold though
@@ -58,15 +61,9 @@ class RAPRatio {
       phetioType: Property.PropertyIO( RAPRatioTuple.RAPRatioTupleIO )
     } );
 
-    // @private - The change in ratio values since last capture. The frequency (or granularity) of this value
-    // is determined by STEP_FRAME_GRANULARITY.
-    this.changeInAntecedentProperty = new NumberProperty( 0 );
-    this.changeInConsequentProperty = new NumberProperty( 0 );
-
-    // @private - keep track of previous values to calculate the change
-    this.previousAntecedentProperty = new NumberProperty( this.tupleProperty.value.antecedent );
-    this.previousConsequentProperty = new NumberProperty( this.tupleProperty.value.consequent );
-    this.stepCountTracker = 0; // Used for keeping track of how often dVelocity is checked.
+    // @private
+    this.antecedentVelocityTracker = new VelocityTracker();
+    this.consequentVelocityTracker = new VelocityTracker();
 
     // @public - when true, moving one ratio value will maintain the current ratio by updating the other value Property
     this.lockedProperty = new BooleanProperty( false, { tandem: tandem.createTandem( 'lockedProperty' ) } );
@@ -74,8 +71,8 @@ class RAPRatio {
     // @public - if the ratio is in the "moving in direction" state: whether or not the two hands are moving fast
     // enough together in the same direction. This indicates, among other things a bimodal interaction.
     this.movingInDirectionProperty = new DerivedProperty( [
-      this.changeInAntecedentProperty,
-      this.changeInConsequentProperty,
+      this.antecedentVelocityTracker.currentVelocityProperty,
+      this.consequentVelocityTracker.currentVelocityProperty,
       this.lockedProperty
     ], ( changeInAntecedent, changeInConsequent, ratioLocked ) => {
       const bothMoving = changeInAntecedent !== 0 && changeInConsequent !== 0;
@@ -210,27 +207,12 @@ class RAPRatio {
   }
 
   /**
-   * @private
-   * @param {Property.<number>} previousValueProperty
-   * @param {number} currentValue
-   * @param {Property.<number>} currentVelocityProperty
-   */
-  calculateCurrentVelocity( previousValueProperty, currentValue, currentVelocityProperty ) {
-    currentVelocityProperty.value = currentValue - previousValueProperty.value;
-    previousValueProperty.value = currentValue;
-  }
-
-  /**
    * @public
    */
   step() {
-
-    // only recalculate every X steps to help smooth out noise
-    if ( ++this.stepCountTracker % STEP_FRAME_GRANULARITY === 0 ) {
-      const currentTuple = this.tupleProperty.value;
-      this.calculateCurrentVelocity( this.previousAntecedentProperty, currentTuple.antecedent, this.changeInAntecedentProperty );
-      this.calculateCurrentVelocity( this.previousConsequentProperty, currentTuple.consequent, this.changeInConsequentProperty );
-    }
+    const currentTuple = this.tupleProperty.value;
+    this.antecedentVelocityTracker.step( currentTuple.antecedent );
+    this.consequentVelocityTracker.step( currentTuple.consequent );
   }
 
   /**
@@ -244,12 +226,60 @@ class RAPRatio {
     this.tupleProperty.reset();
 
     this.enabledRatioTermsRangeProperty.reset();
-    this.changeInAntecedentProperty.reset();
-    this.changeInConsequentProperty.reset();
-    this.previousAntecedentProperty.reset();
-    this.previousConsequentProperty.reset();
-    this.stepCountTracker = 0;
+    this.antecedentVelocityTracker.reset();
+    this.consequentVelocityTracker.reset();
     this.lockRatioListenerEnabled = true;
+  }
+}
+
+// Private class to keep details about tracking the velocity of each ratio term encapsulated.
+class VelocityTracker {
+  constructor() {
+
+    // @private - keep track of previous values to calculate the change, only unique values are appended to this
+    this.previousValues = [];
+    this.earliestTime = 0;
+
+    // @private - The change in ratio values since last capture. The frequency (or granularity) of this value
+    // is determined by STEP_FRAME_GRANULARITY.
+    this.currentVelocityProperty = new NumberProperty( 0 );
+
+    this.stepCountTracker = 0; // Used for keeping track of how often dVelocity is checked.
+  }
+
+  /**
+   * @public
+   */
+  reset() {
+    this.currentVelocityProperty.reset();
+    this.stepCountTracker = 0;
+    this.previousValues.length = 0;
+  }
+
+  /**
+   * @public
+   * @param {number} currentValue
+   */
+  step( currentValue ) {
+    this.stepCountTracker++;
+
+    // Capture a value at even time periods within the timeframe for each velocity calculation.
+    if ( this.stepCountTracker % Math.floor( STEP_FRAME_GRANULARITY / VELOCITY_MEMORY ) === 0 ) {
+      this.previousValues.push( currentValue );
+      while ( this.previousValues.length > VELOCITY_MEMORY ) {
+        this.previousValues.shift();
+      }
+    }
+
+    // only recalculate every X steps to help smooth out noise
+    if ( this.stepCountTracker % STEP_FRAME_GRANULARITY === 0 ) {
+      if ( this.previousValues.length === VELOCITY_MEMORY && _.uniq( this.previousValues ).length >= VELOCITY_MEMORY ) {
+        this.currentVelocityProperty.value = this.previousValues[ this.previousValues.length - 1 ] - this.previousValues[ 0 ];
+      }
+      else {
+        this.currentVelocityProperty.value = 0;
+      }
+    }
   }
 }
 
