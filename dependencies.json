@@ -1,5 +1,5 @@
 {
-  "comment": "# ratio-and-proportion 1.1.0-dev.4 Mon Mar 01 2021 17:34:56 GMT-0900 (Alaska Standard Time)",
+  "comment": "# ratio-and-proportion 1.1.0-dev.5 Tue Mar 02 2021 09:22:12 GMT-0900 (Alaska Standard Time)",
   "assert": {
     "sha": "3df8c5ff9a465b031f84195a90bbb7e1be10a14d",
     "branch": "master"
@@ -61,7 +61,7 @@
     "branch": "master"
   },
   "ratio-and-proportion": {
-    "sha": "514b82899fdf78b3f063209c489c5853321d036d",
+    "sha": "ea63d6fd2a834ff1fe01ed569e97f039a4e47651",
     "branch": "master"
   },
   "scenery": {
@@ -93,7 +93,7 @@
     "branch": "master"
   },
   "tangible": {
-    "sha": "e574fd9a988731e5a81da4c04c7f071c877ffa32",
+    "sha": "b6577c05bc6507300dadc82616a5a49b60e7c927",
     "branch": "master"
   },
   "twixt": {
