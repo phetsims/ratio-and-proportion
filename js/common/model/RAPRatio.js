@@ -53,12 +53,12 @@ class RAPRatio {
       reentrant: true
     } );
 
-    // @private
-    this.antecedentVelocityTracker = new VelocityTracker();
-    this.consequentVelocityTracker = new VelocityTracker();
-
     // @public - when true, moving one ratio value will maintain the current ratio by updating the other value Property
     this.lockedProperty = new BooleanProperty( false );
+
+    // @private
+    this.antecedentVelocityTracker = new VelocityTracker( this.lockedProperty );
+    this.consequentVelocityTracker = new VelocityTracker( this.lockedProperty );
 
     // @public - if the ratio is in the "moving in direction" state: whether or not the two hands are moving fast
     // enough together in the same direction. This indicates, among other things a bimodal interaction.
@@ -226,7 +226,10 @@ class RAPRatio {
 
 // Private class to keep details about tracking the velocity of each ratio term encapsulated.
 class VelocityTracker {
-  constructor() {
+  constructor( ratioLockedProperty ) {
+
+    // @private
+    this.ratioLockedProperty = ratioLockedProperty;
 
     // @private - keep track of previous values to calculate the change, only unique values are appended to this
     this.previousValues = [];
@@ -236,7 +239,8 @@ class VelocityTracker {
     // is determined by STEP_FRAME_GRANULARITY.
     this.currentVelocityProperty = new NumberProperty( 0 );
 
-    this.stepCountTracker = 0; // Used for keeping track of how often dVelocity is checked.
+    // @private - Used for keeping track of how often dVelocity is checked.
+    this.stepCountTracker = 0;
   }
 
   /**
@@ -268,8 +272,9 @@ class VelocityTracker {
 
       // There must be at least VELOCITY_MEMORY number of unique values (VELOCITY_MEMORY-1 number of changes) in order
       // to have velocity in this model. This doesn't account for the case in which you change from A -> B -> A, but that
-      // is acceptable for our particular case since this velocity is very directional.
-      if ( this.previousValues.length >= VELOCITY_MEMORY && _.uniq( this.previousValues ).length >= VELOCITY_MEMORY ) {
+      // is acceptable for our particular case since this velocity is very directional. When locked
+      if ( this.previousValues.length >= VELOCITY_MEMORY &&
+           ( _.uniq( this.previousValues ).length >= VELOCITY_MEMORY || this.ratioLockedProperty.value ) ) {
         this.currentVelocityProperty.value = this.previousValues[ this.previousValues.length - 1 ] - this.previousValues[ 0 ];
       }
       else {
