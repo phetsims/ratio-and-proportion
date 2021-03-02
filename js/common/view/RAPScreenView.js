@@ -236,8 +236,15 @@ class RAPScreenView extends ScreenView {
     );
 
     if ( RAPQueryParameters.tangible ) {
-      // @private TODO: add support for mechamarker input again https://github.com/phetsims/ratio-and-proportion/issues/89
+
+      // @private
       this.markerInput = new RAPMarkerInput( ratio.tupleProperty );
+
+      this.markerInput.isBeingInteractedWithProperty.lazyLink( interactedWithMarkers => {
+        if ( interactedWithMarkers ) {
+          cueArrowsState.interactedWithMouseProperty.value = true;
+        }
+      } );
     }
 
     const soundGeneratorEnabledProperty = DerivedProperty.or( [
@@ -293,6 +300,7 @@ class RAPScreenView extends ScreenView {
         cueArrowsState.reset();
         bothHandsPDOMNode.reset();
         bothHandsDescriber.reset();
+        this.markerInput && this.markerInput.reset();
         this.reset();
       },
       tandem: tandem.createTandem( 'resetAllButton' )

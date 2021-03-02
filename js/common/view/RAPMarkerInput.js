@@ -26,19 +26,12 @@ class RAPMarkerInput extends MarkerInput {
 
   /**
    * @param {Property.<RAPRatioTuple>} ratioTupleProperty
-   * @param {BooleanProperty} firstInteractionProperty - TODO: support this for cue arrows, https://github.com/phetsims/ratio-and-proportion/issues/89
    */
-  constructor( ratioTupleProperty, firstInteractionProperty ) {
+  constructor( ratioTupleProperty ) {
     super();
 
     // @public (read-only)
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
-
-
-    // TODO: support this for cue arrows, https://github.com/phetsims/ratio-and-proportion/issues/89
-    // this.isBeingInteractedWithProperty.lazyLink( interactedWith => {
-    //   interactedWith && firstInteractionProperty.set( false );
-    // } );
 
     // @private
     this.ratioTupleProperty = ratioTupleProperty;
@@ -47,8 +40,21 @@ class RAPMarkerInput extends MarkerInput {
   /**
    * @public
    */
+  reset() {
+    this.isBeingInteractedWithProperty.reset();
+  }
+
+  /**
+   * @public
+   */
   step() {
 
+
+    phet.log && phet.log( [
+      RATIO_MARKER_LEFT, this.Beholder.getMarker( RATIO_MARKER_LEFT ).present, '\n',
+      BASE_MARKER, this.Beholder.getMarker( BASE_MARKER ).present, '\n',
+      RATIO_MARKER_RIGHT, this.Beholder.getMarker( RATIO_MARKER_RIGHT ).present, '\n'
+    ] );
 
     // This controller needs all three markers
     this.isBeingInteractedWithProperty.value = this.Beholder.getMarker( RATIO_MARKER_LEFT ).present &&

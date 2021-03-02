@@ -14,7 +14,7 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 class CueArrowsState {
   constructor() {
 
-    // @public - if either hand has been moved with a mouse
+    // @public - if either hand has been moved with a mouse or touch or marker input
     this.interactedWithMouseProperty = new BooleanProperty( false );
 
     // @public - if either hand has been moved with a keyboard
