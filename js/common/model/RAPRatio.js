@@ -21,7 +21,7 @@ import RAPRatioTuple from './RAPRatioTuple.js';
 const VELOCITY_THRESHOLD = .01;
 
 // How often (in frames) to capture the change in ratio values for the ratio's "velocity"
-const STEP_FRAME_GRANULARITY = 40;
+const STEP_FRAME_GRANULARITY = 30;
 
 // How many values must be different within the STEP_FRAME_GRANULARITY number of frames to trigger a velocity calculation.
 const VELOCITY_MEMORY = 3;
