@@ -14,14 +14,15 @@ import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import RAPQueryParameters from '../RAPQueryParameters.js';
 
 // constants
-const BASE_MARKER = 1;
+// Note marker 2 of original aruco doesn't work well when camera is flipped.
+const BASE_MARKER = 4;
 const RATIO_MARKER_LEFT = 2;
-const RATIO_MARKER_RIGHT = 3;
+const RATIO_MARKER_RIGHT = 0;
 
 // "one" here refers to the max value of each ratio half. Their range is from 0 to 1
 const HEIGHT_OF_ONE = RAPQueryParameters.heightInPixels;
 
-class ProportionMarkerInput extends MarkerInput {
+class RAPMarkerInput extends MarkerInput {
 
   /**
    * @param {Property.<RAPRatioTuple>} ratioTupleProperty
@@ -48,16 +49,16 @@ class ProportionMarkerInput extends MarkerInput {
    */
   step() {
 
+
     // This controller needs all three markers
-    this.isBeingInteractedWithProperty.value = this.Mechamarkers.getMarker( RATIO_MARKER_LEFT ).present &&
-                                               this.Mechamarkers.getMarker( BASE_MARKER ).present &&
-                                               this.Mechamarkers.getMarker( RATIO_MARKER_RIGHT ).present;
+    this.isBeingInteractedWithProperty.value = this.Beholder.getMarker( RATIO_MARKER_LEFT ).present &&
+                                               this.Beholder.getMarker( BASE_MARKER ).present &&
+                                               this.Beholder.getMarker( RATIO_MARKER_RIGHT ).present;
 
     if ( this.isBeingInteractedWithProperty.value ) {
-
-      const baseMarker = this.Mechamarkers.getMarker( BASE_MARKER );
-      const leftMarker = this.Mechamarkers.getMarker( RATIO_MARKER_LEFT );
-      const rightMarker = this.Mechamarkers.getMarker( RATIO_MARKER_RIGHT );
+      const baseMarker = this.Beholder.getMarker( BASE_MARKER );
+      const leftMarker = this.Beholder.getMarker( RATIO_MARKER_LEFT );
+      const rightMarker = this.Beholder.getMarker( RATIO_MARKER_RIGHT );
 
       assert && assert( leftMarker.present && baseMarker.present && rightMarker.present, 'all markers must be present' );
 
@@ -68,5 +69,5 @@ class ProportionMarkerInput extends MarkerInput {
   }
 }
 
-ratioAndProportion.register( 'ProportionMarkerInput', ProportionMarkerInput );
-export default ProportionMarkerInput;
+ratioAndProportion.register( 'RAPMarkerInput', RAPMarkerInput );
+export default RAPMarkerInput;

@@ -13,6 +13,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -32,6 +33,7 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import RatioTerm from '../model/RatioTerm.js';
 import RAPConstants from '../RAPConstants.js';
+import RAPQueryParameters from '../RAPQueryParameters.js';
 import BothHandsPDOMNode from './BothHandsPDOMNode.js';
 import CueArrowsState from './CueArrowsState.js';
 import CueDisplay from './CueDisplay.js';
@@ -40,6 +42,7 @@ import HandPositionsDescriber from './describers/HandPositionsDescriber.js';
 import RatioDescriber from './describers/RatioDescriber.js';
 import TickMarkDescriber from './describers/TickMarkDescriber.js';
 import RAPColorProfile from './RAPColorProfile.js';
+import RAPMarkerInput from './RAPMarkerInput.js';
 import RAPTickMarkLabelsNode from './RAPTickMarkLabelsNode.js';
 import RatioHalf from './RatioHalf.js';
 import InProportionSoundGenerator from './sound/InProportionSoundGenerator.js';
@@ -232,14 +235,16 @@ class RAPScreenView extends ScreenView {
       }, options.bothHandsPDOMNodeOptions )
     );
 
-    // @private TODO: add support for mechamarker input again https://github.com/phetsims/ratio-and-proportion/issues/89
-    // this.markerInput = new ProportionMarkerInput( ratio.tupleProperty );
+    if ( RAPQueryParameters.tangible ) {
+      // @private TODO: add support for mechamarker input again https://github.com/phetsims/ratio-and-proportion/issues/89
+      this.markerInput = new RAPMarkerInput( ratio.tupleProperty );
+    }
 
     const soundGeneratorEnabledProperty = DerivedProperty.or( [
       this.antecedentRatioHalf.isBeingInteractedWithProperty,
       this.consequentRatioHalf.isBeingInteractedWithProperty,
-      // this.markerInput.isBeingInteractedWithProperty, // TODO: add support for mechamarker input again https://github.com/phetsims/ratio-and-proportion/issues/89
-      bothHandsPDOMNode.isBeingInteractedWithProperty
+      bothHandsPDOMNode.isBeingInteractedWithProperty,
+      this.markerInput ? this.markerInput.isBeingInteractedWithProperty : new BooleanProperty( false )
     ] );
 
     this.inProportionSoundGenerator.addEnableControlProperty( soundGeneratorEnabledProperty );
@@ -431,8 +436,7 @@ class RAPScreenView extends ScreenView {
    */
   step( dt ) {
 
-    // TODO: add support for mechamarker input, https://github.com/phetsims/ratio-and-proportion/issues/89
-    // this.markerInput.step( dt );
+    this.markerInput && this.markerInput.step( dt );
     this.inProportionSoundGenerator.step( dt );
     this.staccatoFrequencySoundGenerator.step( dt );
   }

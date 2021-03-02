@@ -15,6 +15,10 @@ const RAPQueryParameters = QueryStringMachine.getAll( {
   heightInPixels: {
     type: 'number',
     defaultValue: 600
+  },
+
+  tangible: {
+    type: 'flag'
   }
 } );
 
