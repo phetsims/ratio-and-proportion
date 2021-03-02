@@ -263,20 +263,26 @@ class VelocityTracker {
   step( currentValue ) {
     this.stepCountTracker++;
 
-    // Capture a value at even time periods within the timeframe for each velocity calculation.
-    if ( this.stepCountTracker % Math.floor( STEP_FRAME_GRANULARITY / VELOCITY_MEMORY ) === 0 ) {
-      this.previousValues.push( currentValue );
-      while ( this.previousValues.length > VELOCITY_MEMORY ) {
-        this.previousValues.shift();
-      }
-    }
+    // Capture a value at intervals within the timeframe for each velocity calculation.
+    this.previousValues.push( currentValue );
 
     // only recalculate every X steps to help smooth out noise
     if ( this.stepCountTracker % STEP_FRAME_GRANULARITY === 0 ) {
-      if ( this.previousValues.length === VELOCITY_MEMORY && _.uniq( this.previousValues ).length >= VELOCITY_MEMORY ) {
+
+      // Keep only at most this many values in the list.
+      while ( this.previousValues.length > STEP_FRAME_GRANULARITY ) {
+        this.previousValues.shift();
+      }
+
+      // There must be at least VELOCITY_MEMORY number of unique values (VELOCITY_MEMORY-1 number of changes) in order
+      // to have velocity in this model. This doesn't account for the case in which you change from A -> B -> A, but that
+      // is acceptable for our particular case since this velocity is very directional.
+      if ( this.previousValues.length >= VELOCITY_MEMORY && _.uniq( this.previousValues ).length >= VELOCITY_MEMORY ) {
         this.currentVelocityProperty.value = this.previousValues[ this.previousValues.length - 1 ] - this.previousValues[ 0 ];
       }
       else {
+
+        // No velocity if the above criteria hasn't been fulfilled
         this.currentVelocityProperty.value = 0;
       }
     }
