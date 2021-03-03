@@ -1,5 +1,5 @@
 {
-  "comment": "# ratio-and-proportion 1.0.0-rc.2 Tue Mar 02 2021 18:16:02 GMT-0900 (Alaska Standard Time)",
+  "comment": "# ratio-and-proportion 1.0.0-rc.3 Tue Mar 02 2021 18:25:56 GMT-0900 (Alaska Standard Time)",
   "assert": {
     "sha": "3df8c5ff9a465b031f84195a90bbb7e1be10a14d",
     "branch": "HEAD"
@@ -26,7 +26,7 @@
   },
   "joist": {
     "sha": "a7a745ea99694375680dd69692e0e94d17abf298",
-    "branch": "ratio-and-proportion-1.0"
+    "branch": "HEAD"
   },
   "kite": {
     "sha": "b9a0e9a4a2e9c36846d61ca66ce828662d894c87",
@@ -61,12 +61,12 @@
     "branch": "HEAD"
   },
   "ratio-and-proportion": {
-    "sha": "a40f5d4623785c914e6fdc51dd056304170a2245",
+    "sha": "5d673ec2d4aa7a4a51e6d2ee9b6a36dd02d5fa9a",
     "branch": "1.0"
   },
   "scenery": {
     "sha": "d41ad47ce3c89394e52c9db45115c2b1c70db078",
-    "branch": "ratio-and-proportion-1.0"
+    "branch": "HEAD"
   },
   "scenery-phet": {
     "sha": "f9cc52056c13b669ffb66e5ad5ef487afd612326",
@@ -82,7 +82,7 @@
   },
   "sun": {
     "sha": "0f006d597e38caa6f749cf07459285dc34603c49",
-    "branch": "ratio-and-proportion-1.0"
+    "branch": "HEAD"
   },
   "tambo": {
     "sha": "28abc68a5323fa9aca2c486e512b5fd9bdf7b81f",
