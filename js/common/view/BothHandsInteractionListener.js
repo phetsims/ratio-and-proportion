@@ -12,6 +12,7 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import merge from '../../../../phet-core/js/merge.js';
 import required from '../../../../phet-core/js/required.js';
 import globalKeyStateTracker from '../../../../scenery/js/accessibility/globalKeyStateTracker.js';
+import KeyboardUtils from '../../../../scenery/js/accessibility/KeyboardUtils.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import RatioTerm from '../model/RatioTerm.js';
@@ -250,10 +251,10 @@ class BothHandsInteractionListener {
 
       const domEvent = sceneryEvent.domEvent;
 
-      if ( KeyboardUtils.isAnyKeyEvent( domEvent, [ KeyboardUtils.KEY_DOWN_ARROW, KeyboardUtils.KEY_UP_ARROW ] ) ) {
+      if ( domEvent.keyCode === KeyboardUtils.KEY_DOWN_ARROW || domEvent.keyCode === KeyboardUtils.KEY_UP_ARROW ) {
         this.handleBoundarySoundOnInput( this.ratioTupleProperty.value.consequent );
       }
-      else if ( KeyboardUtils.isAnyKeyEvent( domEvent, [ KeyboardUtils.KEY_W, KeyboardUtils.KEY_S ] ) ) {
+      if ( domEvent.keyCode === KeyboardUtils.KEY_W || domEvent.keyCode === KeyboardUtils.KEY_S ) {
         this.handleBoundarySoundOnInput( this.ratioTupleProperty.value.antecedent );
       }
       if ( this.playBoundarySoundOnKeyup ) {
