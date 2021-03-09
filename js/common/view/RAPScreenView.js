@@ -55,6 +55,10 @@ const ONE_QUARTER_LAYOUT_WIDTH = LAYOUT_BOUNDS.width * .25;
 const RATIO_HALF_WIDTH = ONE_QUARTER_LAYOUT_WIDTH;
 const RATIO_HALF_SPACING = 10;
 
+// Percentage of the layout bounds width that is taken up by the ratio (including margins) rather than the control
+// area on the right.
+const RATIO_SECTION_WIDTH = 2 / 3;
+
 const uiScaleFunction = new LinearFunction( LAYOUT_BOUNDS.height, MAX_RATIO_HEIGHT, 1, 1.5, true );
 const uiPositionFunction = new LinearFunction( 1, 1.5, LAYOUT_BOUNDS.height * .15, -LAYOUT_BOUNDS.height * .2, true );
 
@@ -348,8 +352,7 @@ class RAPScreenView extends ScreenView {
         'ratio width has to fit' );
 
       // topScalingUILayerNode is a proxy for the width of the controls to the right of the ratio
-      this.antecedentRatioHalf.left = ( this.topScalingUILayerNode.left - ratioWidth ) / 2;
-      assert && assert( this.antecedentRatioHalf.left > 0, 'should not go beyond dev bounds' );
+      this.antecedentRatioHalf.left = ( Math.max( RATIO_SECTION_WIDTH * this.layoutBounds.width, ratioWidth ) - ratioWidth ) / 2;
 
       labelsNode.left = this.antecedentRatioHalf.right + RATIO_HALF_SPACING;
       this.consequentRatioHalf.left = labelsNode.right + RATIO_HALF_SPACING;
