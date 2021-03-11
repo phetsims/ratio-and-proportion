@@ -12,13 +12,13 @@ import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import inProportionSound from '../../../../sounds/in-proportion/in-proportion_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 
-const SUCCESS_OUTPUT_LEVEL = .8;
+const SUCCESS_OUTPUT_LEVEL = 0.8;
 const SILENT_LEVEL = 0;
 
 // The distance that you must move away from being in Proportion until you can then come back in proportion and get a
 // success sound to play. See InProportionSoundGenerator. In "fitness" units, so the default value is a space of 10%
 // of the fitness range.
-const HYSTERESIS_THRESHOLD = .1;
+const HYSTERESIS_THRESHOLD = 0.1;
 
 class InProportionSoundGenerator extends SoundClip {
 
@@ -29,7 +29,7 @@ class InProportionSoundGenerator extends SoundClip {
   constructor( model, options ) {
 
     options = merge( {
-      initialOutputLevel: .5
+      initialOutputLevel: 0.5
     }, options );
 
     super( inProportionSound, options );
@@ -117,7 +117,7 @@ class InProportionSoundGenerator extends SoundClip {
 
     // if we were in ratio, but now we are not, then fade out the
     if ( !isInRatio && this.outputLevel !== SILENT_LEVEL ) {
-      this.setOutputLevel( SILENT_LEVEL, .1 );
+      this.setOutputLevel( SILENT_LEVEL, 0.1 );
     }
 
     // for testing during next step()

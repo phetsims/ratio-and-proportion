@@ -22,7 +22,7 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
    */
   constructor( model, options ) {
     options = merge( {
-      initialOutputLevel: .13
+      initialOutputLevel: 0.13
     }, options );
 
     super( options );
@@ -40,7 +40,7 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
       sound: movingInProportionOrganLoop,
       options: {
         loop: true,
-        initialOutputLevel: .6,
+        initialOutputLevel: 0.6,
         trimSilence: true
       }
     } ] );
@@ -57,11 +57,11 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
            inProportion && // must be fit enough to play the moving in proportion success
            !model.ratioEvenButNotAtTarget()  // don't allow this sound if target isn't 1 but both values are 1
       ) {
-        this.movingInProportionSoundClip.setOutputLevel( 1, .1 );
+        this.movingInProportionSoundClip.setOutputLevel( 1, 0.1 );
         !this.movingInProportionSoundClip.isPlaying && this.movingInProportionSoundClip.play();
       }
       else {
-        this.movingInProportionSoundClip.setOutputLevel( 0, .2 );
+        this.movingInProportionSoundClip.setOutputLevel( 0, 0.2 );
       }
     } );
   }

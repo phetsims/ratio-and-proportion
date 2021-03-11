@@ -40,7 +40,7 @@ const MAX_FRAMING_RECTANGLE_HEIGHT = 64;
 
 // Snap exclusive within this percentage of a tick mark. Thus actual snapping distance is based on the current tick
 // mark range value.
-const SNAP_TO_TICK_MARK_THRESHOLD = .1;
+const SNAP_TO_TICK_MARK_THRESHOLD = 0.1;
 
 // total horizontal drag distance;
 const X_MODEL_DRAG_DISTANCE = 1;
@@ -389,7 +389,7 @@ class RatioHalf extends Rectangle {
       const handScale = heightScalar * ( MAX_HAND_SCALE - MIN_HAND_SCALE ) + MIN_HAND_SCALE;
       this.ratioHandNode.setScaleMagnitude( handScale );
 
-      const framingRectWidth = newBounds.width - newBounds.width * .1;
+      const framingRectWidth = newBounds.width - newBounds.width * 0.1;
       topRect.rectWidth = framingRectWidth;
       topRect.centerX = bottomRect.centerX = newBounds.centerX;
       bottomRect.rectWidth = framingRectWidth;

@@ -18,11 +18,11 @@ const RAPConstants = {
   RATIO_FITNESS_RANGE: new Range( 0, 1 ),
 
   // distance (in fitness) from max fitness that still indicates a successful proportion
-  IN_PROPORTION_FITNESS_THRESHOLD: .025,
+  IN_PROPORTION_FITNESS_THRESHOLD: 0.025,
 
   // distance (in fitness) from max fitness that still indicates a successful proportion when both hands moving in the
   // same direction. See RAPRatio.movingInDirectionProperty
-  MOVING_IN_PROPORTION_FITNESS_THRESHOLD: .3,
+  MOVING_IN_PROPORTION_FITNESS_THRESHOLD: 0.3,
 
   // The value to multiple the keyboard step size by to get the shift + keydown step size
   SHIFT_KEY_MULTIPLIER: 1 / 5,
@@ -35,7 +35,7 @@ const RAPConstants = {
 
   // The value in which when either the antecedent or consequent is less than this, the ratio cannot be "in proportion".
   // Add .001 to support two keyboard nav motions above 0 (counting the min range being >0).
-  NO_SUCCESS_VALUE_THRESHOLD: .01
+  NO_SUCCESS_VALUE_THRESHOLD: 0.01
 };
 
 assert && assert( RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE.min === 0 && RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE.max === 1,

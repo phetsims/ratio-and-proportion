@@ -136,22 +136,22 @@ class HandPositionsDescriber {
     if ( normalizedPosition === TOTAL_RANGE.max ) {
       index = 0;
     }
-    else if ( normalizedPosition >= .9 ) {
+    else if ( normalizedPosition >= 0.9 ) {
       index = 1;
     }
-    else if ( normalizedPosition > .65 ) {
+    else if ( normalizedPosition > 0.65 ) {
       index = 2;
     }
-    else if ( normalizedPosition > .5 ) {
+    else if ( normalizedPosition > 0.5 ) {
       index = 3;
     }
-    else if ( normalizedPosition === .5 ) {
+    else if ( normalizedPosition === 0.5 ) {
       index = 4;
     }
-    else if ( normalizedPosition >= .35 ) {
+    else if ( normalizedPosition >= 0.35 ) {
       index = 5;
     }
-    else if ( normalizedPosition > .1 ) {
+    else if ( normalizedPosition > 0.1 ) {
       index = 6;
     }
     else if ( normalizedPosition > TOTAL_RANGE.min ) {
@@ -179,25 +179,25 @@ class HandPositionsDescriber {
     if ( distance === TOTAL_RANGE.getLength() ) {
       index = 0;
     }
-    else if ( distance >= .85 ) {
+    else if ( distance >= 0.85 ) {
       index = 1;
     }
-    else if ( distance >= .7 ) {
+    else if ( distance >= 0.7 ) {
       index = 2;
     }
-    else if ( distance >= .55 ) {
+    else if ( distance >= 0.55 ) {
       index = 3;
     }
-    else if ( distance >= .4 ) {
+    else if ( distance >= 0.4 ) {
       index = 4;
     }
-    else if ( distance >= .3 ) {
+    else if ( distance >= 0.3 ) {
       index = 5;
     }
-    else if ( distance >= .2 ) {
+    else if ( distance >= 0.2 ) {
       index = 6;
     }
-    else if ( distance >= .1 ) {
+    else if ( distance >= 0.1 ) {
       index = 7;
     }
     else if ( distance > 0 ) {

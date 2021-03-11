@@ -86,8 +86,8 @@ class RatioHandNode extends Node {
     this.addChild( handContainer );
 
     // empirical multipliers to center hand on palm. Don't change these without altering the layout for the cue arrows too.
-    handContainer.right = handContainer.width * .365;
-    handContainer.bottom = handContainer.height * .54;
+    handContainer.right = handContainer.width * 0.365;
+    handContainer.bottom = handContainer.height * 0.54;
 
     assert && assert( !options.focusHighlight, 'RatioHandNode sets its own focusHighlight' );
     this.focusHighlight = new FocusHighlightFromNode( handContainer );
@@ -153,9 +153,9 @@ class RatioHandNode extends Node {
     this.scale( rightHandFlipScale );
 
     // This .1 is to offset the centering of the white circle, it is empirically determined.
-    upCue.centerX = downCue.centerX = this.centerX + ( options.isRight ? 1 : -1 ) * this.width * .1;
+    upCue.centerX = downCue.centerX = this.centerX + ( options.isRight ? 1 : -1 ) * this.width * 0.1;
 
-    const areaBounds = handContainer.bounds.dilatedXY( handContainer.width * .2, handContainer.height * .2 );
+    const areaBounds = handContainer.bounds.dilatedXY( handContainer.width * 0.2, handContainer.height * 0.2 );
     this.touchArea = areaBounds;
     this.mouseArea = areaBounds;
 

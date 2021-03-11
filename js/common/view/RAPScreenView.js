@@ -54,7 +54,7 @@ import TickMarkViewRadioButtonGroup from './TickMarkViewRadioButtonGroup.js';
 // constants
 const LAYOUT_BOUNDS = ScreenView.DEFAULT_LAYOUT_BOUNDS;
 const MAX_RATIO_HEIGHT = LAYOUT_BOUNDS.width * 2; // relatively arbitrary, but good to set a max so it can't get too skinny
-const ONE_QUARTER_LAYOUT_WIDTH = LAYOUT_BOUNDS.width * .25;
+const ONE_QUARTER_LAYOUT_WIDTH = LAYOUT_BOUNDS.width * 0.25;
 const RATIO_HALF_WIDTH = ONE_QUARTER_LAYOUT_WIDTH;
 const RATIO_HALF_SPACING = 10;
 
@@ -63,7 +63,7 @@ const RATIO_HALF_SPACING = 10;
 const RATIO_SECTION_WIDTH = 2 / 3;
 
 const uiScaleFunction = new LinearFunction( LAYOUT_BOUNDS.height, MAX_RATIO_HEIGHT, 1, 1.5, true );
-const uiPositionFunction = new LinearFunction( 1, 1.5, LAYOUT_BOUNDS.height * .15, -LAYOUT_BOUNDS.height * .2, true );
+const uiPositionFunction = new LinearFunction( 1, 1.5, LAYOUT_BOUNDS.height * 0.15, -LAYOUT_BOUNDS.height * 0.2, true );
 
 class RAPScreenView extends ScreenView {
 

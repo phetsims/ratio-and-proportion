@@ -18,7 +18,7 @@ import RAPConstants from '../RAPConstants.js';
 import RAPRatioTuple from './RAPRatioTuple.js';
 
 // The threshold for velocity of a moving ratio value to indicate that it is "moving."
-const VELOCITY_THRESHOLD = .01;
+const VELOCITY_THRESHOLD = 0.01;
 
 // How often (in frames) to capture the change in ratio values for the ratio's "velocity"
 const STEP_FRAME_GRANULARITY = 30;

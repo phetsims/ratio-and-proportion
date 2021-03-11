@@ -47,7 +47,7 @@ const ORDINAL_TICK_MARKS = [
 
 // The value in which up to and including this value, the relative description will apply to the value of the tick mark
 // rounded down, instead of up, from this remainder.
-const ROUND_DOWN_THRESHOLD = .7;
+const ROUND_DOWN_THRESHOLD = 0.7;
 const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 class TickMarkDescriber {
@@ -108,7 +108,7 @@ class TickMarkDescriber {
         relativePosition = ratioAndProportionStrings.a11y.tickMark.relative.on;
       }
     }
-    else if ( remainder <= .2 ) {
+    else if ( remainder <= 0.2 ) {
       if ( inZeroCase ) {
         relativePosition = ratioAndProportionStrings.a11y.tickMark.relative.near;
         tickMarkDisplayedNumber = ratioAndProportionStrings.a11y.tickMark.relative.zero;
@@ -121,9 +121,9 @@ class TickMarkDescriber {
     else if ( remainder <= ROUND_DOWN_THRESHOLD ) {
       // handle these middle cases differently depending on current tickMarkView
 
-      tickMarkDisplayedNumber += .5; // For these middle values, add .5
+      tickMarkDisplayedNumber += 0.5; // For these middle values, add .5
 
-      if ( remainder === .5 ) {
+      if ( remainder === 0.5 ) {
 
         // If showing numbers, then the description looks like "on 2.5" instead of "half-way past second"
         relativePosition = useExactTickMarkValues ? ratioAndProportionStrings.a11y.tickMark.relative.on :
@@ -134,7 +134,7 @@ class TickMarkDescriber {
       else {
         if ( useExactTickMarkValues ) {
 
-          if ( remainder !== .5 ) {
+          if ( remainder !== 0.5 ) {
             // on either side of .5, do this
 
             relativePosition = ratioAndProportionStrings.a11y.tickMark.relative.around;

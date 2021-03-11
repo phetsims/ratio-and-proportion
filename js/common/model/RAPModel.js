@@ -22,7 +22,7 @@ import RatioTerm from './RatioTerm.js';
 // constant to help achieve feedback in 40% of the visual screen height (2 default tick marks). Calculated by taking the
 // fitness distance when the right hand is 2 tick marks from the target ratio. This number is based on a target ratio of
 // .5, so it is normalized here. When used, it should be multiplied by the current target ratio.
-const MIN_CLAMPED_FITNESS_DISTANCE = 0.08944271909999162 / .5;
+const MIN_CLAMPED_FITNESS_DISTANCE = 0.08944271909999162 / 0.5;
 
 const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
@@ -34,7 +34,7 @@ class RAPModel {
   constructor( tandem ) {
 
     // @public - the current state of the ratio (value of terms, if its locked, etc)
-    this.ratio = new RAPRatio( .2, .4, tandem.createTandem( 'ratio' ) );
+    this.ratio = new RAPRatio( 0.2, 0.4, tandem.createTandem( 'ratio' ) );
 
     // @public - The desired ratio of the antecedent as compared to the consequent. As in 1:2. Initialized to default ratio
     // so that we always start in-proportion.
@@ -69,7 +69,7 @@ class RAPModel {
 
              // In this case, the normal model behavior looks buggy because both values are equal, but still in proportion.
              this.ratioEvenButNotAtTarget() ) ) {
-        unclampedFitness = RAPConstants.RATIO_FITNESS_RANGE.max - this.getInProportionThreshold() - .01;
+        unclampedFitness = RAPConstants.RATIO_FITNESS_RANGE.max - this.getInProportionThreshold() - 0.01;
       }
 
       phet.log && phet.log( `

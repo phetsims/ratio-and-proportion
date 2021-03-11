@@ -27,7 +27,7 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
 const PICKER_SCALE = 1.5;
-const ICON_SCALE = .9;
+const ICON_SCALE = 0.9;
 const DEFAULT_EXPANDED = false;
 
 class MyChallengeAccordionBox extends AccordionBox {

@@ -17,7 +17,7 @@ import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import TickMarkView from './TickMarkView.js';
 
 // constants
-const ICON_SCALE = .45;
+const ICON_SCALE = 0.45;
 
 class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup {
 
