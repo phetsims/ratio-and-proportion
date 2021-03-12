@@ -187,7 +187,7 @@ class BothHandsInteractionListener {
 
         // for number keys 0-9, jump both values to that tick mark number. This value changes based on the tickMarkRangeProperty
         for ( let i = 0; i <= 9; i++ ) {
-          if ( domEvent.key === i + '' &&
+          if ( domEvent.key === `${i}` &&
                !domEvent.getModifierState( 'Control' ) &&
                !domEvent.getModifierState( 'Shift' ) &&
                !domEvent.getModifierState( 'Alt' ) ) {
