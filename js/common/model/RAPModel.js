@@ -235,6 +235,8 @@ unclampedFitness: ${unclampedFitness}
     if ( ratioTerm === RatioTerm.CONSEQUENT ) {
       return this.ratio.tupleProperty.value.antecedent / this.targetRatioProperty.value;
     }
+    assert && assert( false, 'Invalidat ratioTerm' );
+    return -1;
   }
 
   /**

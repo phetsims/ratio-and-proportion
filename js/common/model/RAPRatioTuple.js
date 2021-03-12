@@ -112,6 +112,7 @@ class RAPRatioTuple {
         return this.consequent;
       default:
         assert && assert( false, `unexpected ratioTerm ${ratioTerm}` );
+        return -1;
     }
   }
 
