@@ -110,16 +110,6 @@ class RAPScreenView extends ScreenView {
       this.handPositionsDescriber
     );
 
-    // @private - SoundGenerators that sonify different aspects of the model
-    this.inProportionSoundGenerator = new InProportionSoundGenerator( model );
-    this.movingInProportionSoundGenerator = new MovingInProportionSoundGenerator( model );
-    this.staccatoFrequencySoundGenerator = new StaccatoFrequencySoundGenerator( model.ratioFitnessProperty, RAPConstants.RATIO_FITNESS_RANGE,
-      model.inProportionProperty );
-
-    soundManager.addSoundGenerator( this.staccatoFrequencySoundGenerator );
-    soundManager.addSoundGenerator( this.inProportionSoundGenerator );
-    soundManager.addSoundGenerator( this.movingInProportionSoundGenerator );
-
     // A collection of properties that keep track of which cues should be displayed for both the antecedent and consequent hands.
     const cueArrowsState = new CueArrowsState();
 
@@ -162,7 +152,9 @@ class RAPScreenView extends ScreenView {
       horizontalMovementAllowedProperty: model.ratio.lockedProperty,
       ratioLockedProperty: model.ratio.lockedProperty, // not a bug
       playTickMarkBumpSoundProperty: playTickMarkBumpSoundProperty,
-      inProportionSoundGenerator: this.inProportionSoundGenerator,
+
+      // Make this a closure so support creation order
+      setJumpingOverProportionShouldTriggerSound: isJumping => this.inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( isJumping ),
       getIdealValue: () => model.getIdealValueForTerm( RatioTerm.ANTECEDENT ),
       inProportionProperty: model.inProportionProperty,
 
@@ -198,7 +190,9 @@ class RAPScreenView extends ScreenView {
       horizontalMovementAllowedProperty: model.ratio.lockedProperty,
       ratioLockedProperty: model.ratio.lockedProperty, // not a bug
       playTickMarkBumpSoundProperty: playTickMarkBumpSoundProperty,
-      inProportionSoundGenerator: this.inProportionSoundGenerator,
+
+      // Make this a closure so support creation order
+      setJumpingOverProportionShouldTriggerSound: isJumping => this.inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( isJumping ),
       getIdealValue: () => model.getIdealValueForTerm( RatioTerm.CONSEQUENT ),
       inProportionProperty: model.inProportionProperty,
 
@@ -240,9 +234,20 @@ class RAPScreenView extends ScreenView {
       bothHandsPDOMNode.isBeingInteractedWithProperty
     ] );
 
-    this.inProportionSoundGenerator.addEnableControlProperty( soundGeneratorEnabledProperty );
-    this.movingInProportionSoundGenerator.addEnableControlProperty( soundGeneratorEnabledProperty );
-    this.staccatoFrequencySoundGenerator.addEnableControlProperty( soundGeneratorEnabledProperty );
+
+    // @private - SoundGenerators that sonify different aspects of the model
+    this.inProportionSoundGenerator = new InProportionSoundGenerator( model, soundGeneratorEnabledProperty );
+    this.movingInProportionSoundGenerator = new MovingInProportionSoundGenerator( model, {
+      enableControlProperties: [ soundGeneratorEnabledProperty ]
+    } );
+    this.staccatoFrequencySoundGenerator = new StaccatoFrequencySoundGenerator( model.ratioFitnessProperty, RAPConstants.RATIO_FITNESS_RANGE,
+      model.inProportionProperty, {
+        enableControlProperties: [ soundGeneratorEnabledProperty ]
+      } );
+
+    soundManager.addSoundGenerator( this.staccatoFrequencySoundGenerator );
+    soundManager.addSoundGenerator( this.inProportionSoundGenerator );
+    soundManager.addSoundGenerator( this.movingInProportionSoundGenerator );
 
     // these dimensions are just temporary, and will be recomputed below in the layout function
     const labelsNode = new RAPTickMarkLabelsNode( this.tickMarkViewProperty, this.tickMarkRangeProperty, 1000, tickMarksAndLabelsColorProperty );

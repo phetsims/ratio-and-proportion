@@ -14,6 +14,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import stepTimer from '../../../../axon/js/stepTimer.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -117,8 +118,8 @@ class RatioHalf extends Rectangle {
       // {BooleanProperty}
       playTickMarkBumpSoundProperty: required( config.playTickMarkBumpSoundProperty ),
 
-      // {InProportionSoundGenerator}
-      inProportionSoundGenerator: required( config.inProportionSoundGenerator ),
+      // {function(boolean)} - see InProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound()
+      setJumpingOverProportionShouldTriggerSound: required( config.setJumpingOverProportionShouldTriggerSound ),
 
       // {function():number} - a function that gets the value of this RatioHalf term that would achieve the targetRatio
       getIdealValue: required( config.getIdealValue ),
@@ -280,7 +281,7 @@ class RatioHalf extends Rectangle {
         viewSounds.grabSoundClip.play();
         config.cueArrowsState.interactedWithMouseProperty.value = true;
 
-        config.inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( true );
+        config.setJumpingOverProportionShouldTriggerSound( true );
         viewSounds.boundarySoundClip.onStartInteraction();
       },
       drag: () => {
@@ -310,12 +311,16 @@ class RatioHalf extends Rectangle {
 
         startingX = null;
         viewSounds.releaseSoundClip.play();
-        this.isBeingInteractedWithProperty.value = false;
-        config.inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( false );
+        // this.isBeingInteractedWithProperty.value = false;
+        config.setJumpingOverProportionShouldTriggerSound( false );
         viewSounds.boundarySoundClip.onEndInteraction( positionProperty.value.y );
 
         // Support context response on interaction end from mouse/touch input.
         this.ratioHandNode.alertContextResponse();
+
+        stepTimer.setTimeout( () => {
+          this.isBeingInteractedWithProperty.value = false;
+        }, 100 );
       }
     } );
 
