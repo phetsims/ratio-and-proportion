@@ -7,6 +7,8 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
+import NumberProperty from '../../../../../axon/js/NumberProperty.js';
 import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import inProportionSound from '../../../../sounds/in-proportion/in-proportion_mp3.js';
@@ -20,17 +22,24 @@ const SILENT_LEVEL = 0;
 // of the fitness range.
 const HYSTERESIS_THRESHOLD = 0.1;
 
+// The minimum time, in seconds, that this SoundClip will play, even if outside control Properties try to turn it off.
+const MANDATORY_PLAY_TIME = 0.4;
+
 class InProportionSoundGenerator extends SoundClip {
 
   /**
    * @param {RAPModel} model
+   * @param {Property} enabledControlProperty - not supposed to be settable, just listened to. NOTE: this is not simply
+   *                                            an on/off Property for the SoundGenerator, see below.
    * @param {Object} [options]
    */
-  constructor( model, options ) {
+  constructor( model, enabledControlProperty, options ) {
 
     options = merge( {
       initialOutputLevel: 0.5
     }, options );
+
+    assert && assert( !options.enableControlProperties, 'use the parameter instead, and note doc for difference in implementation' );
 
     super( inProportionSound, options );
 
@@ -42,6 +51,16 @@ class InProportionSoundGenerator extends SoundClip {
     // @private - keep track of if the success sound has already played. This will be set back to false when the fitness
     // goes back out of range for the success sound.
     this.playedSuccessYet = false;
+
+    // @private - keep track of how long the sound has already played for. This is used to make sure that the beginning
+    // of this sound is always played, even when the outside enabledControlProperty is set to false.
+    this.timePlayedSoFarProperty = new NumberProperty( 0 );
+
+    // In addition to any supplemental enabledControlProperty that the client wants to pass in, make sure to set up
+    // an override to ensure that there is always a minimum, "mandatory" time that this sound occurs, even if it doesn't
+    // stay in proportion for as long as that ding sound occurs.
+    this.addEnableControlProperty( DerivedProperty.or( [ new DerivedProperty( [ this.timePlayedSoFarProperty ],
+      timePlayed => timePlayed > 0 && timePlayed <= MANDATORY_PLAY_TIME ), enabledControlProperty ] ) );
 
     // @private {boolean} - True when, in the previous step, the current ratio (calculated from currentRatio) is larger than
     // the target ratio.
@@ -101,6 +120,11 @@ class InProportionSoundGenerator extends SoundClip {
     // Only use hysteresis when both hands are moving.
     const hysteresisThreshold = this.model.ratio.movingInDirectionProperty.value ? HYSTERESIS_THRESHOLD : 0;
 
+    // Increment only when Playing, since fullEnabledProperty sets things to stop() playing.
+    if ( this.isPlaying ) {
+      this.timePlayedSoFarProperty.value += dt;
+    }
+
     if ( !this.playedSuccessYet &&
          ( isInRatio || this.jumpedOverInProportionAndShouldSound() ) &&
          !this.model.ratioEvenButNotAtTarget()  // don't allow this sound if target isn't 1 but both values are 1
@@ -108,6 +132,7 @@ class InProportionSoundGenerator extends SoundClip {
       this.setOutputLevel( SUCCESS_OUTPUT_LEVEL, 0 );
       this.play();
       this.playedSuccessYet = true;
+      this.timePlayedSoFarProperty.value = 0;
     }
     else if ( this.playedSuccessYet && newFitness < 1 - this.model.getInProportionThreshold() - hysteresisThreshold ) {
 
@@ -115,8 +140,10 @@ class InProportionSoundGenerator extends SoundClip {
       this.playedSuccessYet = false;
     }
 
-    // if we were in ratio, but now we are not, then fade out the
-    if ( !isInRatio && this.outputLevel !== SILENT_LEVEL ) {
+    // if we were in ratio, but now we are not, then fade out the clip, but only fade out if the full mandatory portion
+    // of the clip has played.
+    if ( this.timePlayedSoFarProperty.value > MANDATORY_PLAY_TIME &&
+         !isInRatio && this.outputLevel !== SILENT_LEVEL ) {
       this.setOutputLevel( SILENT_LEVEL, 0.1 );
     }
 
