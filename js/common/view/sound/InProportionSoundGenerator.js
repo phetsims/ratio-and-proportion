@@ -23,6 +23,7 @@ const SILENT_LEVEL = 0;
 const HYSTERESIS_THRESHOLD = 0.1;
 
 // The minimum time, in seconds, that this SoundClip will play, even if outside control Properties try to turn it off.
+// NOTE: This is a hardcoded time within the `in-proportion_mp3.js` sound, do not change the sound without changing this.
 const MANDATORY_PLAY_TIME = 0.4;
 
 class InProportionSoundGenerator extends SoundClip {
