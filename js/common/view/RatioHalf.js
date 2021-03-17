@@ -316,6 +316,7 @@ class RatioHalf extends Rectangle {
 
         // Support context response on interaction end from mouse/touch input.
         this.ratioHandNode.alertContextResponse();
+      }
     } );
 
     // When the range changes, update the dragBounds of the drag listener

@@ -18,7 +18,7 @@ import RAPConstants from '../RAPConstants.js';
  * @param {function():number} getIdealValue - get the ideal target value
  * @param {number} keyboardStep
  * @param {number} shiftKeyboardStep
- * @returns {function(newValue: number, oldValue:number, isBeingInteractedWithProperty:boolean):number} - returns a function that returns the snap/conserved value
+ * @returns {function(newValue: number, oldValue:number, useShiftKeyStep:boolean, alreadyInProportion:boolean):number} - returns a function that returns the snap/conserved value
  */
 function getKeyboardInputSnappingMapper( getIdealValue, keyboardStep, shiftKeyboardStep ) {
 
@@ -32,11 +32,8 @@ function getKeyboardInputSnappingMapper( getIdealValue, keyboardStep, shiftKeybo
                                   oldValue > RAPConstants.NO_SUCCESS_VALUE_THRESHOLD;
 
 
-    // Default case if there is no saved remainder, then just step normally. Skip if already in proportion (which happens
-    // if the in-proportion threshold is larger that the step-size difference that snapping to the exact value would have.
-    // see https://github.com/phetsims/ratio-and-proportion/issues/354 for details.
-    if ( remainder === 0 || alreadyInProportion ) {
-      remainder = 0;
+    // Default case if there is no saved remainder, then just step normally.
+    if ( remainder === 0 ) {
       const snapToKeyboardStep = useShiftKeyStep ? shiftKeyboardStep : keyboardStep;
       newValue = RAPConstants.toFixed(
         Utils.roundSymmetric( newValue / snapToKeyboardStep ) * snapToKeyboardStep,
@@ -44,8 +41,8 @@ function getKeyboardInputSnappingMapper( getIdealValue, keyboardStep, shiftKeybo
     }
 
     // If we are in the case where we want to potentially snap to the value that would yield the in-proportion state.
-    // No need to do this if we are already in Proportion.
-    if ( applyConservationSnap && !alreadyInProportion ) {
+    // No need to do this if we are already in Proportion. Skip if already in proportion without a snapped remainder.
+    if ( applyConservationSnap && !( alreadyInProportion && remainder === 0 ) ) {
 
       let returnValue = newValue;
       const target = RAPConstants.toFixed( getIdealValue() );
