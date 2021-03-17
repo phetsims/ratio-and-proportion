@@ -1,5 +1,5 @@
 {
-  "comment": "# ratio-and-proportion 1.1.0-dev.6 Tue Mar 16 2021 16:58:35 GMT-0800 (Alaska Daylight Time)",
+  "comment": "# ratio-and-proportion 1.1.0-dev.8 Tue Mar 16 2021 18:12:08 GMT-0800 (Alaska Daylight Time)",
   "assert": {
     "sha": "423d662a3672e3de42852ee6d6fdec705ac98dd5",
     "branch": "master"
@@ -61,7 +61,7 @@
     "branch": "master"
   },
   "ratio-and-proportion": {
-    "sha": "6ef6033a46e45d8ecdb486cc990a39f89eea7725",
+    "sha": "30e2a62aaed91236ce442d2258ae537662f28add",
     "branch": "master"
   },
   "scenery": {
@@ -73,7 +73,7 @@
     "branch": "master"
   },
   "sherpa": {
-    "sha": "09e77b5453fff2ce57c589c9c7752e380ec3ee1e",
+    "sha": "3bbd781e188d01162f89980299d3e6d3379cbbde",
     "branch": "master"
   },
   "studio": {
@@ -93,7 +93,7 @@
     "branch": "master"
   },
   "tangible": {
-    "sha": "5f66e122566d1c4f7413b42e019b0b3cd2b4e947",
+    "sha": "b7c5226c2f80a7f970475467a35af843524f8f52",
     "branch": "master"
   },
   "twixt": {
