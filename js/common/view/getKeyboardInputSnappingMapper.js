@@ -45,9 +45,9 @@ function getKeyboardInputSnappingMapper( getIdealValue, keyboardStep, shiftKeybo
     if ( applyConservationSnap && !( alreadyInProportion && remainder === 0 ) ) {
 
       let returnValue = newValue;
-      const target = RAPConstants.toFixed( getIdealValue() );
+      const target = getIdealValue();
       if ( newValue > target !== oldValue > target && oldValue !== target ) {
-        remainder = RAPConstants.toFixed( newValue - target );
+        remainder = newValue - target;
         returnValue = target;
       }
 
@@ -57,7 +57,6 @@ function getKeyboardInputSnappingMapper( getIdealValue, keyboardStep, shiftKeybo
         returnValue = newValue;
       }
 
-      returnValue = RAPConstants.toFixed( returnValue );
       assert && assert( !isNaN( returnValue ) );
 
       return returnValue;
