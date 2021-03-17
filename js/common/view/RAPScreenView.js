@@ -127,6 +127,7 @@ class RAPScreenView extends ScreenView {
       fitness => !model.ratio.lockedProperty.value && fitness === RAPConstants.RATIO_FITNESS_RANGE.min );
 
     // by default, the keyboard step size should be half of one default tick mark width. See https://github.com/phetsims/ratio-and-proportion/issues/85
+    // NOTE: do not change this without changing the copied constant in getKeyboardInputSnappingMapperTests.js
     const keyboardStep = 1 / 2 / this.tickMarkRangeProperty.value;
 
     const defaultRatioHalfBounds = Bounds2.rect( 0, 0, RATIO_HALF_WIDTH, LAYOUT_BOUNDS.height );

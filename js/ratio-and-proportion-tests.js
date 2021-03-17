@@ -7,6 +7,6 @@
  */
 
 import qunitStart from '../../chipper/js/sim-tests/qunitStart.js';
-import './common/model/RAPModelTests.js';
+import './common/view/getKeyboardInputSnappingMapperTests.js';
 
 qunitStart();
