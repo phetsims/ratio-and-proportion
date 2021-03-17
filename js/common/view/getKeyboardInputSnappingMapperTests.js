@@ -8,12 +8,12 @@
 
 import Tandem from '../../../../tandem/js/Tandem.js';
 import RAPConstants from '../RAPConstants.js';
-import getKeyboardInputSnappingMapper from '../view/getKeyboardInputSnappingMapper.js';
-import RAPModel from './RAPModel.js';
-import RAPRatioTuple from './RAPRatioTuple.js';
-import RatioTerm from './RatioTerm.js';
+import getKeyboardInputSnappingMapper from './getKeyboardInputSnappingMapper.js';
+import RAPModel from '../model/RAPModel.js';
+import RAPRatioTuple from '../model/RAPRatioTuple.js';
+import RatioTerm from '../model/RatioTerm.js';
 
-QUnit.module( 'RAPModel' );
+QUnit.module( 'getKeyboardInputSnappingMapperTests' );
 
 // Copied from keyboard step calculation in RAPScreenView.js
 const keyboardStep = 1 / 2 / 10;
