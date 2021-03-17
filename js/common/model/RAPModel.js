@@ -24,6 +24,11 @@ import RatioTerm from './RatioTerm.js';
 // .5, so it is normalized here. When used, it should be multiplied by the current target ratio.
 const MIN_CLAMPED_FITNESS_DISTANCE = 0.08944271909999162 / 0.5;
 
+// The value in which, if a ratio term's difference between its ideal (to achieve the exact target ratio) is less than
+// this value, then the model will automatically force the in-proportion state. This is to support general mouse/touch
+// usability with small ratios, see https://github.com/phetsims/ratio-and-proportion/issues/369
+const MINIMUM_DISTANCE_FORCES_IN_PROPORTION = 0.001;
+
 const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 class RAPModel {
@@ -146,6 +151,16 @@ unclampedFitness: ${unclampedFitness}
       antecedent = consequent;
       consequent = oldAnt;
       targetRatio = 1 / targetRatio;
+    }
+
+    const idealAntecedent = consequent * targetRatio;
+    const idealConsequent = antecedent / targetRatio;
+
+    // If either value is so very close to the ideal, map to being in-proportion. This is to support general usability
+    // for small displays that may not have as much granularity for very small or very large ratios.
+    if ( Math.abs( antecedent - idealAntecedent ) < MINIMUM_DISTANCE_FORCES_IN_PROPORTION ||
+         Math.abs( consequent - idealConsequent ) < MINIMUM_DISTANCE_FORCES_IN_PROPORTION ) {
+      return RAPConstants.RATIO_FITNESS_RANGE.max;
     }
 
     // Calculate the inverse slope from the current target ratio.
