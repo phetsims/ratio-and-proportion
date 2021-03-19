@@ -201,8 +201,8 @@ unclampedFitness: ${unclampedFitness}
    */
   valuesTooSmallForInProportion() {
     const currentTuple = this.ratio.tupleProperty.value;
-    return currentTuple.antecedent <= RAPConstants.NO_SUCCESS_VALUE_THRESHOLD ||
-           currentTuple.consequent <= RAPConstants.NO_SUCCESS_VALUE_THRESHOLD;
+    return currentTuple.antecedent < RAPConstants.NO_SUCCESS_VALUE_THRESHOLD ||
+           currentTuple.consequent < RAPConstants.NO_SUCCESS_VALUE_THRESHOLD;
   }
 
   /**
