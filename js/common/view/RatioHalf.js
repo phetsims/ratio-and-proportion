@@ -14,7 +14,6 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import stepTimer from '../../../../axon/js/stepTimer.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -311,17 +310,12 @@ class RatioHalf extends Rectangle {
 
         startingX = null;
         viewSounds.releaseSoundClip.play();
-        // this.isBeingInteractedWithProperty.value = false;
+        this.isBeingInteractedWithProperty.value = false;
         config.setJumpingOverProportionShouldTriggerSound( false );
         viewSounds.boundarySoundClip.onEndInteraction( positionProperty.value.y );
 
         // Support context response on interaction end from mouse/touch input.
         this.ratioHandNode.alertContextResponse();
-
-        stepTimer.setTimeout( () => {
-          this.isBeingInteractedWithProperty.value = false;
-        }, 100 );
-      }
     } );
 
     // When the range changes, update the dragBounds of the drag listener
