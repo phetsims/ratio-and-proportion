@@ -7,6 +7,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../../axon/js/NumberProperty.js';
 import merge from '../../../../../phet-core/js/merge.js';
@@ -51,17 +52,26 @@ class InProportionSoundGenerator extends SoundClip {
 
     // @private - keep track of if the success sound has already played. This will be set back to false when the fitness
     // goes back out of range for the success sound.
-    this.playedSuccessYet = false;
+    this.playedSuccessYetProperty = new BooleanProperty( model.inProportionProperty.value );
 
     // @private - keep track of how long the sound has already played for. This is used to make sure that the beginning
     // of this sound is always played, even when the outside enabledControlProperty is set to false.
-    this.timePlayedSoFarProperty = new NumberProperty( 0 );
+    this.timePlayedSoFarProperty = new NumberProperty( MANDATORY_PLAY_TIME );
+
+    const playedMandatoryPortionYetProperty = new DerivedProperty( [ this.timePlayedSoFarProperty, this.playedSuccessYetProperty ],
+      ( timePlayed, playedSuccessYet ) => playedSuccessYet && timePlayed <= MANDATORY_PLAY_TIME );
 
     // In addition to any supplemental enabledControlProperty that the client wants to pass in, make sure to set up
     // an override to ensure that there is always a minimum, "mandatory" time that this sound occurs, even if it doesn't
     // stay in proportion for as long as that ding sound occurs.
-    this.addEnableControlProperty( DerivedProperty.or( [ new DerivedProperty( [ this.timePlayedSoFarProperty ],
-      timePlayed => timePlayed > 0 && timePlayed <= MANDATORY_PLAY_TIME ), enabledControlProperty ] ) );
+    this.addEnableControlProperty( DerivedProperty.or( [ playedMandatoryPortionYetProperty, enabledControlProperty ] ) );
+
+    // Whenever the inProportionProperty changes, we want to run step eagerly. This is in-part hacky, as perhaps this
+    // whole sound generator should run on inProportionProperty, but there are enough time-based parts of this sound
+    // generator that it makes sense to just call the step function here instead.
+    model.inProportionProperty.lazyLink( inProportion => {
+      inProportion && this.step( 0 );
+    } );
 
     // @private {boolean} - True when, in the previous step, the current ratio (calculated from currentRatio) is larger than
     // the target ratio.
@@ -126,19 +136,19 @@ class InProportionSoundGenerator extends SoundClip {
       this.timePlayedSoFarProperty.value += dt;
     }
 
-    if ( !this.playedSuccessYet &&
+    if ( !this.playedSuccessYetProperty.value &&
          ( isInRatio || this.jumpedOverInProportionAndShouldSound() ) &&
          !this.model.ratioEvenButNotAtTarget()  // don't allow this sound if target isn't 1 but both values are 1
     ) {
       this.setOutputLevel( SUCCESS_OUTPUT_LEVEL, 0 );
       this.play();
-      this.playedSuccessYet = true;
+      this.playedSuccessYetProperty.value = true;
       this.timePlayedSoFarProperty.value = 0;
     }
-    else if ( this.playedSuccessYet && newFitness < 1 - this.model.getInProportionThreshold() - hysteresisThreshold ) {
+    else if ( this.playedSuccessYetProperty.value && newFitness < 1 - this.model.getInProportionThreshold() - hysteresisThreshold ) {
 
       // The fitness has gone away from being in proportion enough that you can now get the sound again
-      this.playedSuccessYet = false;
+      this.playedSuccessYetProperty.value = false;
     }
 
     // if we were in ratio, but now we are not, then fade out the clip, but only fade out if the full mandatory portion
@@ -159,8 +169,11 @@ class InProportionSoundGenerator extends SoundClip {
    */
   reset() {
     this.stop();
-    this.playedSuccessYet = false;
+    this.playedSuccessYetProperty.reset();
+    this.timePlayedSoFarProperty.reset();
     this.previousRatioWasLargerThanTarget = this.calculateCurrentRatioLargerThanTarget();
+    this.previousRatioWasTooSmallForSuccess = this.model.valuesTooSmallForInProportion();
+    this.jumpingOverShouldSound = false;
   }
 }
 
