@@ -1,5 +1,5 @@
 {
-  "comment": "# ratio-and-proportion 1.0.0-rc.4 Mon Mar 22 2021 14:52:58 GMT-0800 (Alaska Daylight Time)",
+  "comment": "# ratio-and-proportion 1.0.0 Wed Mar 24 2021 17:58:17 GMT-0800 (Alaska Daylight Time)",
   "assert": {
     "sha": "3df8c5ff9a465b031f84195a90bbb7e1be10a14d",
     "branch": "HEAD"
@@ -61,7 +61,7 @@
     "branch": "HEAD"
   },
   "ratio-and-proportion": {
-    "sha": "ef281d14aa9c055b3f2e775d952c6d641a10f4e4",
+    "sha": "4e8686542f249256c902edecfaf3f8992c2cc408",
     "branch": "1.0"
   },
   "scenery": {
