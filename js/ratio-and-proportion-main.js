@@ -20,7 +20,7 @@ const simOptions = {
     softwareDevelopment: 'John Blanco, Michael Kauzmann',
     team: 'Brett Fiedler, Amanda McGarry, Emily B. Moore, Matthew Moore, Taliesin Smith',
     contributors: 'Dor Abrahamson and the Embodied Design Research Laboratory (UC Berkeley); Clement Zheng, Peter Gyory, and Ellen Do from the ACME Lab (CU Boulder ATLAS Institute)',
-    qualityAssurance: 'Liam Mulhall, Kathryn Woessner, Steele Dalton, Megan Lai, Devon Quispe, Brooklyn Lash, Logan Bray',
+    qualityAssurance: 'Logan Bray, Steele Dalton, Megan Lai, Brooklyn Lash, Liam Mulhall, Devon Quispe, Kathryn Woessner',
     soundDesign: 'Ashton Morris'
   },
   hasKeyboardHelpContent: true
