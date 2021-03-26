@@ -107,7 +107,7 @@ class RAPRatio {
         if ( this.enabledRatioTermsRangeProperty.value.contains( oldTuple.antecedent ) &&
              this.enabledRatioTermsRangeProperty.value.contains( oldTuple.consequent ) &&
              antecedentChanged && consequentChanged ) {
-          assert && assert( RAPConstants.toFixed( tuple.getRatio() ) === RAPConstants.toFixed( oldTuple.getRatio() ),
+          assert && assert( RAPConstants.toFixed( tuple.getRatio() ) === RAPConstants.toFixed( oldTuple.getRatio() ), // eslint-disable-line bad-sim-text
             'if both values change while locked, the ratio should be maintained.' );
         }
 

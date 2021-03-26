@@ -44,7 +44,7 @@ class RatioHandNode extends Node {
   constructor( valueProperty, enabledRatioTermsRangeProperty, tickMarkViewProperty, keyboardStep, colorProperty,
                cueDisplayProperty, getIdealValue, inProportionProperty, options ) {
 
-    const shiftKeyboardStep = RAPConstants.toFixed( keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER );
+    const shiftKeyboardStep = RAPConstants.toFixed( keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER ); // eslint-disable-line bad-sim-text
 
     // Conserve keypresses while allowing keyboard input to access any "in-proportion" state, even if more granular than
     // the keyboard step size allows.
