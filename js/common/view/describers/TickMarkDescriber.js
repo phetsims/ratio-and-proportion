@@ -6,6 +6,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import Utils from '../../../../../dot/js/Utils.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
 import RAPConstants from '../../RAPConstants.js';
@@ -54,7 +55,7 @@ class TickMarkDescriber {
 
   /**
    * @param {Property.<number>} tickMarkRangeProperty
-   * @param {Property.<number>} tickMarkViewProperty
+   * @param {Property.<TickMarkView>} tickMarkViewProperty
    */
   constructor( tickMarkRangeProperty, tickMarkViewProperty ) {
 
@@ -81,7 +82,12 @@ class TickMarkDescriber {
     const expandedValue = normalized * numberOfTickMarks;
 
     // account for javascript rounding error
-    const remainder = expandedValue % 1;
+    let remainder = expandedValue % 1;
+
+    if ( Utils.toFixedNumber( remainder, 2 ) === RAPConstants.toFixed( remainder ) ) { // eslint-disable-line bad-sim-text
+      remainder = RAPConstants.toFixed( remainder ); // eslint-disable-line bad-sim-text
+    }
+
 
     assert && assert( remainder < 1 && remainder >= 0, 'remainder not in range' );
 
@@ -123,36 +129,29 @@ class TickMarkDescriber {
 
       tickMarkDisplayedNumber += 0.5; // For these middle values, add .5
 
-      if ( remainder === 0.5 ) {
+      if ( remainder < 0.5 ) {
+        relativePosition = useExactTickMarkValues ? ratioAndProportionStrings.a11y.tickMark.relative.almostOn :
+                           inZeroCase ? ratioAndProportionStrings.a11y.tickMark.relative.almostHalfwayTo :
+                           ratioAndProportionStrings.a11y.tickMark.relative.almostHalfwayPast;
+      }
+      else if ( remainder === 0.5 ) {
 
         // If showing numbers, then the description looks like "on 2.5" instead of "half-way past second"
         relativePosition = useExactTickMarkValues ? ratioAndProportionStrings.a11y.tickMark.relative.on :
                            inZeroCase ? ratioAndProportionStrings.a11y.tickMark.relative.halfwayTo :
                            ratioAndProportionStrings.a11y.tickMark.relative.halfwayPast;
       }
-
+      else if ( remainder <= ROUND_DOWN_THRESHOLD ) {
+        relativePosition = useExactTickMarkValues ? ratioAndProportionStrings.a11y.tickMark.relative.around :
+                           inZeroCase ? ratioAndProportionStrings.a11y.tickMark.relative.aroundHalfwayTo :
+                           ratioAndProportionStrings.a11y.tickMark.relative.aroundHalfwayPast;
+      }
       else {
-        if ( useExactTickMarkValues ) {
-
-          if ( remainder !== 0.5 ) {
-            // on either side of .5, do this
-
-            relativePosition = ratioAndProportionStrings.a11y.tickMark.relative.around;
-          }
-        }
-        else {
-          if ( inZeroCase ) {
-            tickMarkDisplayedNumber = roundedUp; // when in zero case, instead of using "zero" here, use "1".
-            relativePosition = ratioAndProportionStrings.a11y.tickMark.relative.aroundHalfWayTo;
-          }
-          else {
-            relativePosition = ratioAndProportionStrings.a11y.tickMark.relative.aroundHalfwayPast;
-          }
-        }
+        assert && assert( false, 'all cases should be covered' );
       }
     }
     else if ( remainder < 1 ) {
-      relativePosition = ratioAndProportionStrings.a11y.tickMark.relative.around;
+      relativePosition = ratioAndProportionStrings.a11y.tickMark.relative.almostOn;
     }
     else {
       assert && assert( false, `unexpected remainder value: ${remainder}` );

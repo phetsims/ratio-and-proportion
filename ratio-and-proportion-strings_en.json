@@ -180,11 +180,23 @@
         "aroundHalfwayPast": {
           "value": "around halfway past"
         },
+        "almostHalfwayPast": {
+          "value": "almost halfway past"
+        },
         "halfwayPast": {
           "value": "halfway past"
         },
         "halfwayTo": {
           "value": "halfway to"
+        },
+        "aroundHalfwayTo": {
+          "value": "around halfway to"
+        },
+        "almostHalfwayTo": {
+          "value": "almost halfway to"
+        },
+        "almostOn": {
+          "value": "almost on"
         },
         "on": {
           "value": "on"
@@ -197,9 +209,6 @@
         },
         "zero": {
           "value": "zero"
-        },
-        "aroundHalfWayTo": {
-          "value": "around halfway to"
         }
       },
       "semiQuantitativeHandPositionPattern": {
