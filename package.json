@@ -23,7 +23,9 @@
     "generatedUnitTests": true,
     "supportsSound": true,
     "supportsEnhancedSound": true,
-    "supportsInteractiveDescription": true,
+    "features":{
+      "supportsInteractiveDescription": true
+    },
     "supportedBrands": [
       "phet",
       "phet-io",
