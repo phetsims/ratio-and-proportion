@@ -142,7 +142,7 @@ class RatioHalf extends Rectangle {
 
       // phet-io
       tandem: Tandem.REQUIRED,
-      inputEnabledPropertyPhetioInstrumented: true,
+      phetioInputEnabledPropertyInstrumented: true,
 
       // pdom
       tagName: 'div',
