@@ -11,7 +11,7 @@ import tickMarkCrossBump from '../../../../../tambo/sounds/general-soft-click_mp
 import ratioAndProportion from '../../../ratioAndProportion.js';
 
 // This value was copied from similar sound work done in Waves Intro
-const MIN_INTER_CLICK_TIME = ( 1 / 60 * 1000 ) * 2; // min time between clicking sounds, in milliseconds, empirically determined
+const MIN_INTER_CLICK_TIME = 33.3; // min time between clicking sounds, in milliseconds, empirically determined
 
 class TickMarkBumpSoundClip extends SoundClip {
 
