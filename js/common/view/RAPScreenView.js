@@ -32,7 +32,7 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import RatioTerm from '../model/RatioTerm.js';
-import RAPConstants from '../RAPConstants.js';
+import rapConstants from '../rapConstants.js';
 import RAPQueryParameters from '../RAPQueryParameters.js';
 import BothHandsPDOMNode from './BothHandsPDOMNode.js';
 import CueArrowsState from './CueArrowsState.js';
@@ -124,7 +124,7 @@ class RAPScreenView extends ScreenView {
 
     // Tick mark sounds get played when ratio isn't locked, and when staccato sounds aren't playing
     const playTickMarkBumpSoundProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
-      fitness => !model.ratio.lockedProperty.value && fitness === RAPConstants.RATIO_FITNESS_RANGE.min );
+      fitness => !model.ratio.lockedProperty.value && fitness === rapConstants.RATIO_FITNESS_RANGE.min );
 
     // by default, the keyboard step size should be half of one default tick mark width. See https://github.com/phetsims/ratio-and-proportion/issues/85
     // NOTE: do not change this without changing the copied constant in getKeyboardInputSnappingMapperTests.js
@@ -259,7 +259,7 @@ class RAPScreenView extends ScreenView {
     this.movingInProportionSoundGenerator = new MovingInProportionSoundGenerator( model, {
       enableControlProperties: [ soundGeneratorEnabledProperty ]
     } );
-    this.staccatoFrequencySoundGenerator = new StaccatoFrequencySoundGenerator( model.ratioFitnessProperty, RAPConstants.RATIO_FITNESS_RANGE,
+    this.staccatoFrequencySoundGenerator = new StaccatoFrequencySoundGenerator( model.ratioFitnessProperty, rapConstants.RATIO_FITNESS_RANGE,
       model.inProportionProperty, {
         enableControlProperties: [ soundGeneratorEnabledProperty ]
       } );
@@ -285,7 +285,7 @@ class RAPScreenView extends ScreenView {
         color = RAPColorProfile.backgroundInFitnessProperty.value;
       }
       else {
-        const interpolatedDistance = ( fitness - RAPConstants.RATIO_FITNESS_RANGE.min ) / ( 1 - model.getInProportionThreshold() );
+        const interpolatedDistance = ( fitness - rapConstants.RATIO_FITNESS_RANGE.min ) / ( 1 - model.getInProportionThreshold() );
         color = Color.interpolateRGBA(
           RAPColorProfile.backgroundOutOfFitnessProperty.value,
           RAPColorProfile.backgroundInterpolationToFitnessProperty.value,
@@ -371,11 +371,11 @@ class RAPScreenView extends ScreenView {
       this.topScalingUILayerNode.top = uiPositionFunction( uiLayerScale );
 
       // do this again each time after scaling
-      this.topScalingUILayerNode.right = this.bottomScalingUILayerNode.right = this.layoutBounds.maxX - RAPConstants.SCREEN_VIEW_X_MARGIN;
-      this.bottomScalingUILayerNode.bottom = this.layoutBounds.height - RAPConstants.SCREEN_VIEW_Y_MARGIN;
+      this.topScalingUILayerNode.right = this.bottomScalingUILayerNode.right = this.layoutBounds.maxX - rapConstants.SCREEN_VIEW_X_MARGIN;
+      this.bottomScalingUILayerNode.bottom = this.layoutBounds.height - rapConstants.SCREEN_VIEW_Y_MARGIN;
 
       assert && assert( Math.min( this.topScalingUILayerNode.left, this.bottomScalingUILayerNode.left ) >
-                        ratioWidth - RAPConstants.SCREEN_VIEW_X_MARGIN,
+                        ratioWidth - rapConstants.SCREEN_VIEW_X_MARGIN,
         'ratio width has to fit' );
 
       // topScalingUILayerNode is a proxy for the width of the controls to the right of the ratio

@@ -27,7 +27,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import RatioTerm from '../model/RatioTerm.js';
-import RAPConstants from '../RAPConstants.js';
+import rapConstants from '../rapConstants.js';
 import CueDisplay from './CueDisplay.js';
 import RatioHalfTickMarksNode from './RatioHalfTickMarksNode.js';
 import RatioHandNode from './RatioHandNode.js';
@@ -57,7 +57,7 @@ function ratioHalfAccessibleNameBehavior( node, options, accessibleName, callbac
   return options;
 }
 
-const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
+const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 class RatioHalf extends Rectangle {
 

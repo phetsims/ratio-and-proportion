@@ -15,7 +15,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import RAPConstants from '../RAPConstants.js';
+import rapConstants from '../rapConstants.js';
 import RAPRatio from './RAPRatio.js';
 import RatioTerm from './RatioTerm.js';
 
@@ -29,7 +29,7 @@ const MIN_CLAMPED_FITNESS_DISTANCE = 0.08944271909999162 / 0.5;
 // usability with small ratios, see https://github.com/phetsims/ratio-and-proportion/issues/369
 const MINIMUM_DISTANCE_FORCES_IN_PROPORTION = 0.001;
 
-const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
+const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 class RAPModel {
 
@@ -74,7 +74,7 @@ class RAPModel {
 
              // In this case, the normal model behavior looks buggy because both values are equal, but still in proportion.
              this.ratioEvenButNotAtTarget() ) ) {
-        unclampedFitness = RAPConstants.RATIO_FITNESS_RANGE.max - this.getInProportionThreshold() - 0.01;
+        unclampedFitness = rapConstants.RATIO_FITNESS_RANGE.max - this.getInProportionThreshold() - 0.01;
       }
 
       phet.log && phet.log( `
@@ -89,7 +89,7 @@ unclampedFitness: ${unclampedFitness}
 
       return unclampedFitness;
     }, {
-      isValidValue: value => value <= RAPConstants.RATIO_FITNESS_RANGE.max,
+      isValidValue: value => value <= rapConstants.RATIO_FITNESS_RANGE.max,
 
       // phet-io
       tandem: tandem.createTandem( 'unclampedFitnessProperty' ),
@@ -106,8 +106,8 @@ unclampedFitness: ${unclampedFitness}
     // is preferable to the unclampedFitnessProperty because it is normalized, and simpler when comparing the current ratio
     // to the target ratio.
     this.ratioFitnessProperty = new DerivedProperty( [ this.unclampedFitnessProperty ],
-      unclampedFitness => Utils.clamp( unclampedFitness, RAPConstants.RATIO_FITNESS_RANGE.min, RAPConstants.RATIO_FITNESS_RANGE.max ), {
-        isValidValue: value => RAPConstants.RATIO_FITNESS_RANGE.contains( value )
+      unclampedFitness => Utils.clamp( unclampedFitness, rapConstants.RATIO_FITNESS_RANGE.min, rapConstants.RATIO_FITNESS_RANGE.max ), {
+        isValidValue: value => rapConstants.RATIO_FITNESS_RANGE.contains( value )
       } );
 
     // @public - whether or not the model is in its "in proportion" state.
@@ -134,7 +134,7 @@ unclampedFitness: ${unclampedFitness}
    * larger term value. Thus moving the consequent when the target ratio is 1/2 will yield identical fitness to moving the
    * antecedent when the target ratio is 2.
    *
-   * (see RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE).
+   * (see rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE).
    * @param {number} antecedent
    * @param {number} consequent
    * @param {number} targetRatio
@@ -160,7 +160,7 @@ unclampedFitness: ${unclampedFitness}
     // for small displays that may not have as much granularity for very small or very large ratios.
     if ( Math.abs( antecedent - idealAntecedent ) < MINIMUM_DISTANCE_FORCES_IN_PROPORTION ||
          Math.abs( consequent - idealConsequent ) < MINIMUM_DISTANCE_FORCES_IN_PROPORTION ) {
-      return RAPConstants.RATIO_FITNESS_RANGE.max;
+      return rapConstants.RATIO_FITNESS_RANGE.max;
     }
 
     // Calculate the inverse slope from the current target ratio.
@@ -176,7 +176,7 @@ unclampedFitness: ${unclampedFitness}
     // Find the distance between the current ratio, and the calculated intersection with the target ratio function.
     const distanceFromTarget = new Vector2( consequent, antecedent ).distance( pointOnTarget );
 
-    return RAPConstants.RATIO_FITNESS_RANGE.max - ( RAPConstants.RATIO_FITNESS_RANGE.max * distanceFromTarget ) / ( MIN_CLAMPED_FITNESS_DISTANCE * targetRatio );
+    return rapConstants.RATIO_FITNESS_RANGE.max - ( rapConstants.RATIO_FITNESS_RANGE.max * distanceFromTarget ) / ( MIN_CLAMPED_FITNESS_DISTANCE * targetRatio );
   }
 
   /**
@@ -201,8 +201,8 @@ unclampedFitness: ${unclampedFitness}
    */
   valuesTooSmallForInProportion() {
     const currentTuple = this.ratio.tupleProperty.value;
-    return currentTuple.antecedent < RAPConstants.NO_SUCCESS_VALUE_THRESHOLD ||
-           currentTuple.consequent < RAPConstants.NO_SUCCESS_VALUE_THRESHOLD;
+    return currentTuple.antecedent < rapConstants.NO_SUCCESS_VALUE_THRESHOLD ||
+           currentTuple.consequent < rapConstants.NO_SUCCESS_VALUE_THRESHOLD;
   }
 
   /**
@@ -210,9 +210,9 @@ unclampedFitness: ${unclampedFitness}
    * @returns {number}
    */
   getInProportionThreshold() {
-    let threshold = RAPConstants.IN_PROPORTION_FITNESS_THRESHOLD;
+    let threshold = rapConstants.IN_PROPORTION_FITNESS_THRESHOLD;
     if ( this.ratio.movingInDirectionProperty.value ) {
-      threshold = RAPConstants.MOVING_IN_PROPORTION_FITNESS_THRESHOLD;
+      threshold = rapConstants.MOVING_IN_PROPORTION_FITNESS_THRESHOLD;
     }
     return threshold;
   }
@@ -225,7 +225,7 @@ unclampedFitness: ${unclampedFitness}
    * @returns {boolean}
    */
   inProportion( fitness = this.ratioFitnessProperty.value ) {
-    return fitness > RAPConstants.RATIO_FITNESS_RANGE.max - this.getInProportionThreshold();
+    return fitness > rapConstants.RATIO_FITNESS_RANGE.max - this.getInProportionThreshold();
   }
 
   /**

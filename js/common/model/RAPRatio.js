@@ -14,7 +14,7 @@ import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import RAPConstants from '../RAPConstants.js';
+import rapConstants from '../rapConstants.js';
 import RAPRatioTuple from './RAPRatioTuple.js';
 
 // The threshold for velocity of a moving ratio value to indicate that it is "moving."
@@ -26,11 +26,11 @@ const STEP_FRAME_GRANULARITY = 30;
 // How many values must be different within the STEP_FRAME_GRANULARITY number of frames to trigger a velocity calculation.
 const VELOCITY_MEMORY = 3;
 
-const DEFAULT_TERM_VALUE_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
+const DEFAULT_TERM_VALUE_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 // Use the same value as the no-success region threshold. This cannot be the same as the no-success threshold though
 // because that threshold value, by definition, will unlock the ratio, see https://github.com/phetsims/ratio-and-proportion/issues/257#issuecomment-748285667
-const LOCK_RATIO_RANGE_MIN = RAPConstants.NO_SUCCESS_VALUE_THRESHOLD + Number.EPSILON;
+const LOCK_RATIO_RANGE_MIN = rapConstants.NO_SUCCESS_VALUE_THRESHOLD + Number.EPSILON;
 
 class RAPRatio {
 
@@ -107,7 +107,7 @@ class RAPRatio {
         if ( this.enabledRatioTermsRangeProperty.value.contains( oldTuple.antecedent ) &&
              this.enabledRatioTermsRangeProperty.value.contains( oldTuple.consequent ) &&
              antecedentChanged && consequentChanged ) {
-          assert && assert( RAPConstants.toFixed( tuple.getRatio() ) === RAPConstants.toFixed( oldTuple.getRatio() ), // eslint-disable-line bad-sim-text
+          assert && assert( rapConstants.toFixed( tuple.getRatio() ) === rapConstants.toFixed( oldTuple.getRatio() ), // eslint-disable-line bad-sim-text
             'if both values change while locked, the ratio should be maintained.' );
         }
 

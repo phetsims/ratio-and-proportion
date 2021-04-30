@@ -12,7 +12,7 @@ import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
 import RatioTerm from '../../model/RatioTerm.js';
-import RAPConstants from '../../RAPConstants.js';
+import rapConstants from '../../rapConstants.js';
 import TickMarkView from '../TickMarkView.js';
 
 // constants
@@ -59,7 +59,7 @@ const DISTANCE_REGIONS_LOWERCASE = [
 
 assert && assert( DISTANCE_REGIONS_CAPITALIZED.length === DISTANCE_REGIONS_LOWERCASE.length, 'should be the same regions' );
 
-const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
+const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 class HandPositionsDescriber {
 

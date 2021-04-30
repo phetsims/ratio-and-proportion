@@ -16,10 +16,10 @@ import KeyboardUtils from '../../../../scenery/js/accessibility/KeyboardUtils.js
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import RatioTerm from '../model/RatioTerm.js';
-import RAPConstants from '../RAPConstants.js';
+import rapConstants from '../rapConstants.js';
 import getKeyboardInputSnappingMapper from './getKeyboardInputSnappingMapper.js';
 
-const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
+const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 class BothHandsInteractionListener {
 
@@ -85,7 +85,7 @@ class BothHandsInteractionListener {
     this.tickMarkRangeProperty = config.tickMarkRangeProperty;
     this.ratioTupleProperty = config.ratioTupleProperty;
     this.keyboardStep = config.keyboardStep;
-    this.shiftKeyboardStep = this.keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER;
+    this.shiftKeyboardStep = this.keyboardStep * rapConstants.SHIFT_KEY_MULTIPLIER;
     this.boundarySoundClip = config.boundarySoundClip;
     this.tickMarkBumpSoundClip = config.tickMarkBumpSoundClip;
     this.ratioLockedProperty = config.ratioLockedProperty;

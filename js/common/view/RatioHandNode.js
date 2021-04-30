@@ -22,7 +22,7 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import AccessibleSlider from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import RAPConstants from '../RAPConstants.js';
+import rapConstants from '../rapConstants.js';
 import CueDisplay from './CueDisplay.js';
 import getKeyboardInputSnappingMapper from './getKeyboardInputSnappingMapper.js';
 import RAPColorProfile from './RAPColorProfile.js';
@@ -44,7 +44,7 @@ class RatioHandNode extends Node {
   constructor( valueProperty, enabledRatioTermsRangeProperty, tickMarkViewProperty, keyboardStep, colorProperty,
                cueDisplayProperty, getIdealValue, inProportionProperty, options ) {
 
-    const shiftKeyboardStep = RAPConstants.toFixed( keyboardStep * RAPConstants.SHIFT_KEY_MULTIPLIER ); // eslint-disable-line bad-sim-text
+    const shiftKeyboardStep = rapConstants.toFixed( keyboardStep * rapConstants.SHIFT_KEY_MULTIPLIER ); // eslint-disable-line bad-sim-text
 
     // Conserve keypresses while allowing keyboard input to access any "in-proportion" state, even if more granular than
     // the keyboard step size allows.

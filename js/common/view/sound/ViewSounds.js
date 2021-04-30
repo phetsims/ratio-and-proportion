@@ -15,12 +15,12 @@ import soundManager from '../../../../../tambo/js/soundManager.js';
 import grabSound from '../../../../../tambo/sounds/grab_mp3.js';
 import releaseSound from '../../../../../tambo/sounds/release_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
-import RAPConstants from '../../RAPConstants.js';
+import rapConstants from '../../rapConstants.js';
 import TickMarkView from '../TickMarkView.js';
 import BoundarySoundClip from './BoundarySoundClip.js';
 import TickMarkBumpSoundClip from './TickMarkBumpSoundClip.js';
 
-const TOTAL_RANGE = RAPConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
+const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 class ViewSounds {
 
