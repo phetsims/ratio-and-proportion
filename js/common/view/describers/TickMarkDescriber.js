@@ -75,13 +75,13 @@ class TickMarkDescriber {
   getRelativePositionAndTickMarkNumberForPosition( handPosition ) {
     assert && assert( TOTAL_RANGE.contains( handPosition ) );
 
-    const normalized = TOTAL_RANGE.getNormalizedValue( handPosition );
+    // account for javascript rounding error, don't use rapConstants because we only want to handle rounding trouble.
+    const normalized = Utils.toFixedNumber( TOTAL_RANGE.getNormalizedValue( handPosition ), 9 );
     const numberOfTickMarks = this.tickMarkRangeProperty.value;
 
     // account for javascript rounding error
     const expandedValue = normalized * numberOfTickMarks;
 
-    // account for javascript rounding error
     let remainder = expandedValue % 1;
 
     if ( Utils.toFixedNumber( remainder, 2 ) === rapConstants.toFixed( remainder ) ) { // eslint-disable-line bad-sim-text
