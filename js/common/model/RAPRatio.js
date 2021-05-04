@@ -13,6 +13,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
+import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import rapConstants from '../rapConstants.js';
 import RAPRatioTuple from './RAPRatioTuple.js';
@@ -85,6 +86,9 @@ class RAPRatio {
 
       // Ignore the speed component when the ratio is locked
       return bothMoving && movingInSameDirection && ( movingFastEnough || ratioLocked );
+    }, {
+      tandem: tandem.createTandem( 'movingInDirectionProperty' ),
+      phetioType: DerivedProperty.DerivedPropertyIO( BooleanIO )
     } );
 
     // @private - To avoid an infinite loop as setting the tupleProperty from inside its lock-ratio-support

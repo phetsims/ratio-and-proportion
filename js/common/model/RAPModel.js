@@ -13,6 +13,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import rapConstants from '../rapConstants.js';
@@ -114,7 +115,10 @@ unclampedFitness: ${unclampedFitness}
     this.inProportionProperty = new DerivedProperty( [
       this.unclampedFitnessProperty,
       this.ratio.movingInDirectionProperty
-    ], this.inProportion.bind( this ) );
+    ], this.inProportion.bind( this ), {
+      tandem: tandem.createTandem( 'inProportionProperty' ),
+      phetioType: DerivedProperty.DerivedPropertyIO( BooleanIO )
+    } );
 
     // This must be done here, because of the reentrant nature of how fitness changes when the ratio is locked
     this.targetRatioProperty.link( () => {
