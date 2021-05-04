@@ -141,7 +141,7 @@ class RAPRatioTuple {
    * @param {Object} stateObject see toStateObject
    * @returns {RAPRatioTuple}
    */
-  fromStateObject( stateObject ) {
+  static fromStateObject( stateObject ) {
     return new RAPRatioTuple( stateObject.antecedent, stateObject.consequent );
   }
 }
