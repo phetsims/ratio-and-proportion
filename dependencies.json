@@ -1,5 +1,5 @@
 {
-  "comment": "# ratio-and-proportion 1.0.1-rc.1 Fri Apr 23 2021 15:27:03 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# ratio-and-proportion 1.0.1-rc.1 Mon May 10 2021 12:07:32 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "3df8c5ff9a465b031f84195a90bbb7e1be10a14d",
     "branch": "HEAD"
@@ -53,15 +53,15 @@
     "branch": "HEAD"
   },
   "phetmarks": {
-    "sha": "acb3e0e7cbfb22b1985755cef1bf0746dfb32d8d",
-    "branch": "HEAD"
+    "sha": "97bc474841ec9479c42fdcb1672e58ce734be3b3",
+    "branch": "ratio-and-proportion-1.0"
   },
   "query-string-machine": {
     "sha": "aac2d124a39b0019ff139d1221061dfbbedfd330",
     "branch": "HEAD"
   },
   "ratio-and-proportion": {
-    "sha": "5a5fb61c6fe31d1c64752ec38d9a3f8513112c66",
+    "sha": "a9600c0444bcc76802d41738d262912acaf6b863",
     "branch": "1.0"
   },
   "scenery": {
