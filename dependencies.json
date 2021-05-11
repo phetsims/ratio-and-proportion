@@ -1,5 +1,5 @@
 {
-  "comment": "# ratio-and-proportion 1.1.0-rc.2 Mon May 10 2021 12:09:25 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# ratio-and-proportion 1.1.0-rc.2 Tue May 11 2021 16:46:59 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "1820bb58c7c5cfd5e3dca0043ba4cc8c9c80fb42",
     "branch": "HEAD"
@@ -13,8 +13,8 @@
     "branch": "HEAD"
   },
   "chipper": {
-    "sha": "ae21ede418ce0f8313940604d70ca035fb446841",
-    "branch": "HEAD"
+    "sha": "9d788fb22aa4ce669e7e71f462ddddfb65ee2d59",
+    "branch": "ratio-and-proportion-1.1"
   },
   "dot": {
     "sha": "edece2944d45157d241d62e1d1e0e11c2c40e3dc",
@@ -54,14 +54,14 @@
   },
   "phetmarks": {
     "sha": "3fb7fbef71736f0264567164e1c6fbf686c6e590",
-    "branch": "ratio-and-proportion-1.1"
+    "branch": "HEAD"
   },
   "query-string-machine": {
     "sha": "b9bc26fe6c949a0353a003c454e15eba5141ac7d",
     "branch": "HEAD"
   },
   "ratio-and-proportion": {
-    "sha": "bf7f094be52a49379c8307af30fb7ef7333e521e",
+    "sha": "8c5b4a3efd2a9022a101e7daf712899b42457df3",
     "branch": "1.1"
   },
   "scenery": {
