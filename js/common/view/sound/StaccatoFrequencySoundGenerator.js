@@ -1,4 +1,4 @@
-// Copyright 2020, University of Colorado Boulder
+// Copyright 2020-2021, University of Colorado Boulder
 
 /**
  * "Marimba bonk" sounds that change frequency based on the fitness of the Proportion. There are three different types

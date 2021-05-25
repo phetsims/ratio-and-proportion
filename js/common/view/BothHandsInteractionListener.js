@@ -1,4 +1,4 @@
-// Copyright 2020, University of Colorado Boulder
+// Copyright 2020-2021, University of Colorado Boulder
 
 /**
  * Keyboard interaction listener for moving both ratio halves at the same time. This includes step-wise movement on

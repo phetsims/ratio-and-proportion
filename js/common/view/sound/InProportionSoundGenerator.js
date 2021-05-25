@@ -1,4 +1,4 @@
-// Copyright 2020, University of Colorado Boulder
+// Copyright 2020-2021, University of Colorado Boulder
 
 /**
  * A short but sustained note that plays when the ratio becomes "in proportion". This type has built-in functionality to allow the

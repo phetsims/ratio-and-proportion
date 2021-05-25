@@ -1,4 +1,4 @@
-// Copyright 2020-2021, University of Colorado Boulder
+// Copyright 2021, University of Colorado Boulder
 
 /**
  * Constants used throughout this simulation. This is a singleton to support PhET-iO instrumentation. On startup, the
