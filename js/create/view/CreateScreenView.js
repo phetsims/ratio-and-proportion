@@ -71,7 +71,7 @@ class CreateScreenView extends RAPScreenView {
     lockRatioCheckbox.touchArea = lockRatioCheckbox.localBounds.dilatedXY( 8, 0.5 * lockRatioCheckbox.height );
     lockRatioCheckbox.mouseArea = lockRatioCheckbox.localBounds.dilatedXY( 8, 0.5 * lockRatioCheckbox.height );
 
-    // TODO: this should not be a separate FireListener. Instead we should be able to use the checkbox somehow. https://github.com/phetsims/ratio-and-proportion/issues/227
+    // TODO: this should not be a separate FireListener. Instead we should be able to use the checkbox somehow. https://github.com/phetsims/sun/issues/701
     lockRatioCheckbox.addInputListener( new FireListener( {
       attach: false, // Since this is the second PressListener to be added to the checkbox (so annoying)
       fire: () => {
