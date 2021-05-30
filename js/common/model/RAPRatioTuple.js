@@ -7,6 +7,7 @@
  */
 
 import IOType from '../../../../tandem/js/types/IOType.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioTerm from './RatioTerm.js';
 
@@ -145,6 +146,11 @@ class RAPRatioTuple {
     return new RAPRatioTuple( stateObject.antecedent, stateObject.consequent );
   }
 }
+
+RAPRatioTuple.STATE_SCHEMA = {
+  antecedent: NumberIO,
+  consequent: NumberIO
+};
 
 RAPRatioTuple.RAPRatioTupleIO = IOType.fromCoreType( 'RAPRatioTupleIO', RAPRatioTuple, {
   documentation: 'the basic data structure that holds both ratio term values, the antecedent and consequent.'

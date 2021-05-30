@@ -12,6 +12,7 @@ import Utils from '../../../dot/js/Utils.js';
 import PhetioObject from '../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import IOType from '../../../tandem/js/types/IOType.js';
+import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import ratioAndProportion from '../ratioAndProportion.js';
 
 class RAPConstants extends PhetioObject {
@@ -22,7 +23,17 @@ class RAPConstants extends PhetioObject {
         phetioType: new IOType( 'RAPConstantsIO', {
           isValidValue: _.stubTrue,
           toStateObject: object => object.toStateObject(),
-          superType: IOType.ObjectIO
+          superType: IOType.ObjectIO,
+          stateSchema: {
+            SCREEN_VIEW_X_MARGIN: NumberIO,
+            SCREEN_VIEW_Y_MARGIN: NumberIO,
+            RATIO_FITNESS_RANGE: Range.RangeIO,
+            IN_PROPORTION_FITNESS_THRESHOLD: NumberIO,
+            MOVING_IN_PROPORTION_FITNESS_THRESHOLD: NumberIO,
+            SHIFT_KEY_MULTIPLIER: NumberIO,
+            TOTAL_RATIO_TERM_VALUE_RANGE: Range.RangeIO,
+            NO_SUCCESS_VALUE_THRESHOLD: NumberIO
+          }
         } ),
         phetioState: true
       }
