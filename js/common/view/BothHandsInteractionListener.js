@@ -165,7 +165,7 @@ class BothHandsInteractionListener {
       sceneryEvent.pointer.reserveForKeyboardDrag();
 
       const domEvent = sceneryEvent.domEvent;
-      const key = KeyboardUtils.getKeyDef( domEvent );
+      const key = KeyboardUtils.getEventCode( domEvent );
 
       if ( key === KeyboardUtils.KEY_DOWN_ARROW ) {
         this.consequentInteractedWithProperty.value = true;
