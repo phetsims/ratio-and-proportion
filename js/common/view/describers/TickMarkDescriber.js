@@ -79,15 +79,14 @@ class TickMarkDescriber {
     const normalized = Utils.toFixedNumber( TOTAL_RANGE.getNormalizedValue( handPosition ), 9 );
     const numberOfTickMarks = this.tickMarkRangeProperty.value;
 
-    // account for javascript rounding error
-    const expandedValue = normalized * numberOfTickMarks;
+    // account for javascript rounding error, less decimal places that above so that remander can be created correctly.
+    const expandedValue = Utils.toFixedNumber( normalized * numberOfTickMarks, 7 );
 
     let remainder = expandedValue % 1;
 
     if ( Utils.toFixedNumber( remainder, 2 ) === rapConstants.toFixed( remainder ) ) { // eslint-disable-line bad-sim-text
       remainder = rapConstants.toFixed( remainder ); // eslint-disable-line bad-sim-text
     }
-
 
     assert && assert( remainder < 1 && remainder >= 0, 'remainder not in range' );
 
