@@ -21,8 +21,8 @@
     "simulation": true,
     "runnable": true,
     "generatedUnitTests": true,
-    "supportsSound": true,
     "features": {
+      "supportsSound": true,
       "supportsEnhancedSound": true,
       "supportsInteractiveDescription": true
     },
