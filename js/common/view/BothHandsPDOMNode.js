@@ -199,7 +199,7 @@ class BothHandsPDOMNode extends Node {
       }
     } );
 
-    // @private - just to fire on focus, make this polite for https://github.com/phetsims/ratio-and-proportion/issues/347, TODO: remove this if that issue doesn't go in this direction
+    // @private - just to fire on focus, make this polite for https://github.com/phetsims/ratio-and-proportion/issues/347
     this.objectResponseOnFocusUtterance = new Utterance( {
       alertStableDelay: 50
     } );
