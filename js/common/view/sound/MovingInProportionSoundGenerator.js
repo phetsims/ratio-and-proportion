@@ -11,7 +11,7 @@ import merge from '../../../../../phet-core/js/merge.js';
 import CompositeSoundClip from '../../../../../tambo/js/sound-generators/CompositeSoundClip.js';
 import SoundGenerator from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
 import choirLoopSound from '../../../../sounds/moving-in-proportion/moving-in-proportion-choir-loop_mp3.js';
-import movingInProportionOrganLoop from '../../../../sounds/moving-in-proportion/moving-in-proportion-organ-loop_mp3.js';
+import movingInProportionOrganLoopSound from '../../../../sounds/moving-in-proportion/moving-in-proportion-organ-loop_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 
 class MovingInProportionSoundGenerator extends SoundGenerator {
@@ -37,7 +37,7 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
         trimSilence: true
       }
     }, {
-      sound: movingInProportionOrganLoop,
+      sound: movingInProportionOrganLoopSound,
       options: {
         loop: true,
         initialOutputLevel: 0.6,

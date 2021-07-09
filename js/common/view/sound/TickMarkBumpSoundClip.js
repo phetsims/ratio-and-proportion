@@ -7,7 +7,7 @@
  */
 
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
-import tickMarkCrossBump from '../../../../../tambo/sounds/general-soft-click_mp3.js';
+import tickMarkCrossBumpSound from '../../../../../tambo/sounds/general-soft-click_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 
 // This value was copied from similar sound work done in Waves Intro
@@ -22,7 +22,7 @@ class TickMarkBumpSoundClip extends SoundClip {
    * @param {Object} [options]
    */
   constructor( tickMarkRangeProperty, positionRange, options ) {
-    super( tickMarkCrossBump, options );
+    super( tickMarkCrossBumpSound, options );
 
     // @private
     this.tickMarkRangeProperty = tickMarkRangeProperty;
