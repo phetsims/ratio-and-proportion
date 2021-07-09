@@ -10,7 +10,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import ParallelDOM from '../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import FontAwesomeNode from '../../../../sun/js/FontAwesomeNode.js';
+import eyeSlashRegularShape from '../../../../sherpa/js/fontawesome-5/eyeSlashRegularShape.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
@@ -39,7 +39,7 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup {
     }, options );
 
     super( tickMarkViewProperty, [ {
-        node: new FontAwesomeNode( 'eye_close', { scale: 0.8 } ),
+        node: new Path( eyeSlashRegularShape, { scale: 0.05, fill: 'black' } ),
         value: TickMarkView.NONE,
         labelContent: ratioAndProportionStrings.a11y.tickMark.showNo,
         tandemName: 'showNoRadioButton'
