@@ -12,7 +12,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
-import RAPColorProfile from '../../common/view/RAPColorProfile.js';
+import RAPColors from '../../common/view/RAPColors.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
 import TickMarkView from '../../common/view/TickMarkView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -27,7 +27,7 @@ class DiscoverScreenIcon extends ScreenIcon {
 
     options = merge( {
       fill: 'white',
-      handColor: RAPColorProfile.discoverChallenge1Property.value
+      handColor: RAPColors.discoverChallenge1Property.value
     }, options );
 
     const tickMarksHiddenProperty = new Property( TickMarkView.NONE );

@@ -11,7 +11,7 @@ import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
-import RAPColorProfile from '../../common/view/RAPColorProfile.js';
+import RAPColors from '../../common/view/RAPColors.js';
 import RAPScreenView from '../../common/view/RAPScreenView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
@@ -29,7 +29,7 @@ class CreateScreenView extends RAPScreenView {
   constructor( model, tandem ) {
 
     // For this screen, one Property controls the color of both hands.
-    const handColorProperty = RAPColorProfile.createScreenHandProperty;
+    const handColorProperty = RAPColors.createScreenHandProperty;
 
     super( model, tandem, {
       leftHandColorProperty: handColorProperty,

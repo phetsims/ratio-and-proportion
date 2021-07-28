@@ -25,7 +25,7 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import rapConstants from '../rapConstants.js';
 import CueDisplay from './CueDisplay.js';
 import getKeyboardInputSnappingMapper from './getKeyboardInputSnappingMapper.js';
-import RAPColorProfile from './RAPColorProfile.js';
+import RAPColors from './RAPColors.js';
 import TickMarkView from './TickMarkView.js';
 
 class RatioHandNode extends Node {
@@ -102,7 +102,7 @@ class RatioHandNode extends Node {
     const rightHandFlipScale = new Vector2( ( options.isRight ? 1 : -1 ), 1 );
 
     const cueArrowOptions = {
-      fill: RAPColorProfile.cueArrowsProperty,
+      fill: RAPColors.cueArrowsProperty,
       stroke: 'black',
       headWidth: 40,
       headHeight: 20,

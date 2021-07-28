@@ -11,7 +11,7 @@ import ScreenIcon from '../../../../joist/js/ScreenIcon.js';
 import NumberPicker from '../../../../scenery-phet/js/NumberPicker.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
-import RAPColorProfile from '../../common/view/RAPColorProfile.js';
+import RAPColors from '../../common/view/RAPColors.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 
 
@@ -22,7 +22,7 @@ class CreateScreenIcon extends ScreenIcon {
    */
   constructor( options ) {
 
-    const numberPickerColor = RAPColorProfile.createScreenHandProperty;
+    const numberPickerColor = RAPColors.createScreenHandProperty;
     const numberPickerRange = new Range( 0, 10 );
 
     const leftNode = new VBox( {

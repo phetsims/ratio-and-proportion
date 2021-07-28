@@ -41,7 +41,7 @@ import BothHandsDescriber from './describers/BothHandsDescriber.js';
 import HandPositionsDescriber from './describers/HandPositionsDescriber.js';
 import RatioDescriber from './describers/RatioDescriber.js';
 import TickMarkDescriber from './describers/TickMarkDescriber.js';
-import RAPColorProfile from './RAPColorProfile.js';
+import RAPColors from './RAPColors.js';
 import RAPMarkerInput from './RAPMarkerInput.js';
 import RAPTickMarkLabelsNode from './RAPTickMarkLabelsNode.js';
 import RatioHalf from './RatioHalf.js';
@@ -118,8 +118,8 @@ class RAPScreenView extends ScreenView {
 
     const tickMarksAndLabelsColorProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
       fitness => Color.interpolateRGBA(
-        RAPColorProfile.tickMarksAndLabelsOutOfFitnessProperty.value,
-        RAPColorProfile.tickMarksAndLabelsInFitnessProperty.value, fitness
+        RAPColors.tickMarksAndLabelsOutOfFitnessProperty.value,
+        RAPColors.tickMarksAndLabelsInFitnessProperty.value, fitness
       ) );
 
     // Tick mark sounds get played when ratio isn't locked, and when staccato sounds aren't playing
@@ -282,13 +282,13 @@ class RAPScreenView extends ScreenView {
     ], ( fitness, inProportion ) => {
       let color = null;
       if ( inProportion ) {
-        color = RAPColorProfile.backgroundInFitnessProperty.value;
+        color = RAPColors.backgroundInFitnessProperty.value;
       }
       else {
         const interpolatedDistance = ( fitness - rapConstants.RATIO_FITNESS_RANGE.min ) / ( 1 - model.getInProportionThreshold() );
         color = Color.interpolateRGBA(
-          RAPColorProfile.backgroundOutOfFitnessProperty.value,
-          RAPColorProfile.backgroundInterpolationToFitnessProperty.value,
+          RAPColors.backgroundOutOfFitnessProperty.value,
+          RAPColors.backgroundInterpolationToFitnessProperty.value,
           Utils.clamp( interpolatedDistance, 0, 1 )
         );
       }
