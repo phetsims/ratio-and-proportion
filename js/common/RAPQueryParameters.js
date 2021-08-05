@@ -6,6 +6,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import logGlobal from '../../../phet-core/js/logGlobal.js';
 import ratioAndProportion from '../ratioAndProportion.js';
 
 const RAPQueryParameters = QueryStringMachine.getAll( {
@@ -23,4 +24,10 @@ const RAPQueryParameters = QueryStringMachine.getAll( {
 } );
 
 ratioAndProportion.register( 'RAPQueryParameters', RAPQueryParameters );
+
+// Log query parameters
+logGlobal( 'phet.chipper.queryParameters' );
+logGlobal( 'phet.preloads.phetio.queryParameters' );
+logGlobal( 'phet.ratioAndProportion.RAPQueryParameters' );
+
 export default RAPQueryParameters;
