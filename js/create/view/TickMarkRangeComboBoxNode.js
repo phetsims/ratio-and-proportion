@@ -93,7 +93,7 @@ class TickMarkRangeComboBoxNode extends Node {
       tickMarkRangeChangedUtterance.alert = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.tickMarkRangeContextResponse, {
         range: tickMarkRangeMap[ range ]
       } );
-      phet.joist.sim.utteranceQueue.addToBack( tickMarkRangeChangedUtterance );
+      this.alertDescriptionUtterance( tickMarkRangeChangedUtterance );
     } );
   }
 

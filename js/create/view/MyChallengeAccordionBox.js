@@ -91,7 +91,7 @@ class MyChallengeAccordionBox extends AccordionBox {
     Property.multilink( [ targetAntecedentProperty, targetConsequentProperty ], () => {
 
       // if currently locked, then it is about to be unlocked
-      ratioLockedProperty.value && phet.joist.sim.utteranceQueue.addToBack( ratioUnlockedFromMyChallenge );
+      ratioLockedProperty.value && this.alertDescriptionUtterance( ratioUnlockedFromMyChallenge );
     } );
 
     const antecedentNumberPicker = new NumberPicker( targetAntecedentProperty, rangeProperty, {
@@ -155,7 +155,7 @@ class MyChallengeAccordionBox extends AccordionBox {
       accordionBoxUtterance.alert = expanded ?
                                     ratioDescriber.getCurrentChallengeSentence( targetAntecedentProperty.value, targetConsequentProperty.value ) :
                                     ratioAndProportionStrings.a11y.ratio.currentChallengeHidden;
-      phet.joist.sim.utteranceQueue.addToBack( accordionBoxUtterance );
+      this.alertDescriptionUtterance( accordionBoxUtterance );
     } );
 
     Property.multilink( [ targetAntecedentProperty, targetConsequentProperty ], ( targetAntecedent, targetConsequent ) => {

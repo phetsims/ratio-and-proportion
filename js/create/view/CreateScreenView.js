@@ -77,7 +77,7 @@ class CreateScreenView extends RAPScreenView {
       fire: () => {
         ratioLockedUtterance.alert = model.ratio.lockedProperty.value ? ratioAndProportionStrings.a11y.lockRatioCheckboxContextResponse :
                                      ratioAndProportionStrings.a11y.ratioNoLongerLocked;
-        phet.joist.sim.utteranceQueue.addToBack( ratioLockedUtterance );
+        this.alertDescriptionUtterance( ratioLockedUtterance );
       },
 
       // phet-io

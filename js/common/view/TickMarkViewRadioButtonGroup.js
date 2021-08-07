@@ -74,7 +74,7 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup {
           assert && assert( false, 'unsupported tickMarkView' );
       }
 
-      phet.joist.sim.utteranceQueue.addToBack( tickMarkContextResponseUtterance );
+      this.alertDescriptionUtterance( tickMarkContextResponseUtterance );
     } );
   }
 }

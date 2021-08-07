@@ -80,7 +80,7 @@ class ChallengeRatioComboBoxNode extends Node {
     const proximityToRatioUtterance = new Utterance();
     targetRatioProperty.lazyLink( () => {
       proximityToRatioUtterance.alert = ratioDescriber.getProximityToNewChallengeRatioSentence();
-      phet.joist.sim.utteranceQueue.addToBack( proximityToRatioUtterance );
+      this.alertDescriptionUtterance( proximityToRatioUtterance );
     } );
 
     this.children = [

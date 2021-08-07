@@ -161,7 +161,7 @@ class BothHandsPDOMNode extends Node {
       inProportionProperty: config.inProportionProperty,
       onInput: knockedOutOfLock => {
         if ( knockedOutOfLock ) {
-          phet.joist.sim.utteranceQueue.addToBack( this.ratioUnlockedFromBothHandsUtterance );
+          this.alertDescriptionUtterance( this.ratioUnlockedFromBothHandsUtterance );
         }
 
         this.alertBothHandsContextResponse( knockedOutOfLock );
@@ -235,9 +235,9 @@ class BothHandsPDOMNode extends Node {
 
     // emit this utterance immediately, so that it comes before the object response above.
     this.bothHandsInteractionListener.jumpToZeroWhileLockedEmitter.addListener( () => {
-      phet.joist.sim.utteranceQueue.addToBack( ratioAndProportionStrings.a11y.bothHands.cannotJumpToZeroWhenLocked );
+      this.alertDescriptionUtterance( ratioAndProportionStrings.a11y.bothHands.cannotJumpToZeroWhenLocked );
       this.contextResponseUtterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse();
-      phet.joist.sim.utteranceQueue.addToBack( this.contextResponseUtterance );
+      this.alertDescriptionUtterance( this.contextResponseUtterance );
     } );
 
     this.mutate( config );
@@ -263,7 +263,7 @@ class BothHandsPDOMNode extends Node {
   alertBothHandsObjectResponse( onFocus = false ) {
     const utterance = onFocus ? this.objectResponseOnFocusUtterance : this.objectResponseUtterance;
     utterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse();
-    phet.joist.sim.utteranceQueue.addToBack( utterance );
+    this.alertDescriptionUtterance( utterance );
   }
 
   /**
@@ -276,7 +276,7 @@ class BothHandsPDOMNode extends Node {
     else {
       this.contextResponseUtterance.alert = this.bothHandsDescriber.getBothHandsContextResponse();
     }
-    phet.joist.sim.utteranceQueue.addToBack( this.contextResponseUtterance );
+    this.alertDescriptionUtterance( this.contextResponseUtterance );
   }
 }
 
