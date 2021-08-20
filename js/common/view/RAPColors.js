@@ -12,40 +12,40 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 
 // Even though there is only one Profile, it is still nice to use this pattern for color organizing.
 const RAPColors = {
-  tickMarksAndLabelsInFitnessProperty: new ProfileColorProperty( 'tickMarksAndLabelsInFitness', {
+  tickMarksAndLabelsInFitnessProperty: new ProfileColorProperty( ratioAndProportion, 'tickMarksAndLabelsInFitness', {
     default: Color.DARK_GRAY
   } ),
-  tickMarksAndLabelsOutOfFitnessProperty: new ProfileColorProperty( 'tickMarksAndLabelsOutOfFitness', {
+  tickMarksAndLabelsOutOfFitnessProperty: new ProfileColorProperty( ratioAndProportion, 'tickMarksAndLabelsOutOfFitness', {
     default: Color.GRAY
   } ),
 
   // the color will jump from backgroundInterpolationToFitness to this when actually in ratio
-  backgroundInFitnessProperty: new ProfileColorProperty( 'backgroundInFitness', {
+  backgroundInFitnessProperty: new ProfileColorProperty( ratioAndProportion, 'backgroundInFitness', {
     default: new Color( '#5ab46c' )
   } ),
 
   // this will be the max of the interpolation for the background color
-  backgroundInterpolationToFitnessProperty: new ProfileColorProperty( 'backgroundInterpolationToFitness', {
+  backgroundInterpolationToFitnessProperty: new ProfileColorProperty( ratioAndProportion, 'backgroundInterpolationToFitness', {
     default: new Color( '#77ce81' )
   } ),
-  backgroundOutOfFitnessProperty: new ProfileColorProperty( 'backgroundOutOfFitness', {
+  backgroundOutOfFitnessProperty: new ProfileColorProperty( ratioAndProportion, 'backgroundOutOfFitness', {
     default: new Color( 'white' )
   } ),
 
   // cue arrows around the ratio hands.
-  cueArrowsProperty: new ProfileColorProperty( 'cueArrows', {
+  cueArrowsProperty: new ProfileColorProperty( ratioAndProportion, 'cueArrows', {
     default: Color.DARK_GRAY
   } ),
-  createScreenHandProperty: new ProfileColorProperty( 'createScreenHand', {
+  createScreenHandProperty: new ProfileColorProperty( ratioAndProportion, 'createScreenHand', {
     default: new Color( '#8d5cbd' )
   } ),
-  discoverChallenge1Property: new ProfileColorProperty( 'discoverChallenge1', {
+  discoverChallenge1Property: new ProfileColorProperty( ratioAndProportion, 'discoverChallenge1', {
     default: new Color( 233, 69, 69 )
   } ),
-  discoverChallenge2Property: new ProfileColorProperty( 'discoverChallenge2', {
+  discoverChallenge2Property: new ProfileColorProperty( ratioAndProportion, 'discoverChallenge2', {
     default: new Color( 87, 182, 221 )
   } ),
-  discoverChallenge3Property: new ProfileColorProperty( 'discoverChallenge3', {
+  discoverChallenge3Property: new ProfileColorProperty( ratioAndProportion, 'discoverChallenge3', {
     default: new Color( 255, 200, 0 )
   } )
 };
