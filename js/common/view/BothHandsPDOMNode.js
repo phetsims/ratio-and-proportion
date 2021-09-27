@@ -14,7 +14,7 @@ import required from '../../../../phet-core/js/required.js';
 import sceneryPhetStrings from '../../../../scenery-phet/js/sceneryPhetStrings.js';
 import ParallelDOM from '../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import AriaHerald from '../../../../utterance-queue/js/AriaHerald.js';
+import AriaLiveAnnouncer from '../../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
@@ -195,7 +195,7 @@ class BothHandsPDOMNode extends Node {
 
         // This "object response" is meant to act more like aria-valuetext than a traditional, polite alert. We want
         // this to cut off any other alert. This fixes alert-build-up described in https://github.com/phetsims/ratio-and-proportion/issues/214
-        ariaLivePriority: AriaHerald.AriaLive.ASSERTIVE
+        ariaLivePriority: AriaLiveAnnouncer.AriaLive.ASSERTIVE
       }
     } );
 
