@@ -17,6 +17,7 @@ import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import rapConstants from '../rapConstants.js';
 import RAPRatioTuple from './RAPRatioTuple.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 // The threshold for velocity of a moving ratio value to indicate that it is "moving."
 const VELOCITY_THRESHOLD = 0.01;
@@ -35,12 +36,21 @@ const LOCK_RATIO_RANGE_MIN = rapConstants.NO_SUCCESS_VALUE_THRESHOLD + Number.EP
 
 class RAPRatio {
 
+  enabledRatioTermsRangeProperty: Property<Range>;
+  tupleProperty: Property<RAPRatioTuple>;
+  lockedProperty: BooleanProperty;
+  antecedentVelocityTracker: VelocityTracker;
+  consequentVelocityTracker: VelocityTracker;
+  movingInDirectionProperty: DerivedProperty<boolean>;
+  lockRatioListenerEnabled: boolean;
+
+
   /**
    * @param {number} initialAntecedent
    * @param {number} initialConsequent
    * @param {Tandem} tandem
    */
-  constructor( initialAntecedent, initialConsequent, tandem ) {
+  constructor( initialAntecedent: number, initialConsequent: number, tandem: Tandem ) {
 
     // @public (read-only) {Property.<Range>}
     this.enabledRatioTermsRangeProperty = new Property( DEFAULT_TERM_VALUE_RANGE, {
@@ -75,7 +85,7 @@ class RAPRatio {
       this.antecedentVelocityTracker.currentVelocityProperty,
       this.consequentVelocityTracker.currentVelocityProperty,
       this.lockedProperty
-    ], ( changeInAntecedent, changeInConsequent, ratioLocked ) => {
+    ], ( changeInAntecedent: number, changeInConsequent: number, ratioLocked: boolean ) => {
       const bothMoving = changeInAntecedent !== 0 && changeInConsequent !== 0;
 
       // both hands should be moving in the same direction
@@ -97,7 +107,7 @@ class RAPRatio {
     this.lockRatioListenerEnabled = true;
 
     // Listener that will handle keeping both ratio tuple values in sync when the ratio is locked.
-    this.tupleProperty.link( ( tuple, oldTuple ) => {
+    this.tupleProperty.link( ( tuple: RAPRatioTuple, oldTuple: RAPRatioTuple ) => {
       if ( this.lockedProperty.value && this.lockRatioListenerEnabled ) {
         assert && assert( oldTuple, 'need an old value to compute locked ratio values' );
 
@@ -131,11 +141,11 @@ class RAPRatio {
       }
     } );
 
-    this.lockedProperty.link( ratioLocked => {
+    this.lockedProperty.link( ( ratioLocked: boolean ) => {
       this.enabledRatioTermsRangeProperty.value = new Range( ratioLocked ? LOCK_RATIO_RANGE_MIN : DEFAULT_TERM_VALUE_RANGE.min, DEFAULT_TERM_VALUE_RANGE.max );
     } );
 
-    this.enabledRatioTermsRangeProperty.link( enabledRange => {
+    this.enabledRatioTermsRangeProperty.link( ( enabledRange: Range ) => {
       const currentTuple = this.tupleProperty.value;
       const newAntecedent = enabledRange.constrainValue( currentTuple.antecedent );
       const newConsequent = enabledRange.constrainValue( currentTuple.consequent );
@@ -154,7 +164,7 @@ class RAPRatio {
    * @param {Range} [range]
    * @returns {RAPRatioTuple} - a new RAPRatioTuple, not mutated
    */
-  clampRatioTupleValuesInRange( antecedent, consequent, ratio, range = this.enabledRatioTermsRangeProperty.value ) {
+  clampRatioTupleValuesInRange( antecedent: number, consequent: number, ratio: number, range: Range = this.enabledRatioTermsRangeProperty.value ) {
 
     // Handle if the antecedent is out of range
     if ( !range.contains( antecedent ) ) {
@@ -177,7 +187,7 @@ class RAPRatio {
    * @param {number} targetRatio
    * @public
    */
-  setRatioToTarget( targetRatio ) {
+  setRatioToTarget( targetRatio: number ) {
     const currentRatioTuple = this.tupleProperty.value;
 
     let antecedent = currentRatioTuple.antecedent;
@@ -238,7 +248,14 @@ class RAPRatio {
 
 // Private class to keep details about tracking the velocity of each ratio term encapsulated.
 class VelocityTracker {
-  constructor( ratioLockedProperty ) {
+
+  ratioLockedProperty: Property<boolean>;
+  previousValues: number[];
+  earliestTime: number;
+  currentVelocityProperty: NumberProperty;
+  stepCountTracker: number;
+
+  constructor( ratioLockedProperty: Property<boolean> ) {
 
     // @private
     this.ratioLockedProperty = ratioLockedProperty;
@@ -268,7 +285,7 @@ class VelocityTracker {
    * @public
    * @param {number} currentValue
    */
-  step( currentValue ) {
+  step( currentValue: number ) {
     this.stepCountTracker++;
 
     // Capture a value at intervals within the timeframe for each velocity calculation.

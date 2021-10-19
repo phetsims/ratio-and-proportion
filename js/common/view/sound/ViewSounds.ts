@@ -16,13 +16,21 @@ import grabSound from '../../../../../tambo/sounds/grab_mp3.js';
 import releaseSound from '../../../../../tambo/sounds/release_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import rapConstants from '../../rapConstants.js';
-import TickMarkView from '../TickMarkView.js';
+import TickMarkView, { TickMarkViewType } from '../TickMarkView.js';
 import BoundarySoundClip from './BoundarySoundClip.js';
 import TickMarkBumpSoundClip from './TickMarkBumpSoundClip.js';
+import NumberProperty from '../../../../../axon/js/NumberProperty.js';
+import Property from '../../../../../axon/js/Property.js';
+import BooleanProperty from '../../../../../axon/js/BooleanProperty.js';
 
 const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 class ViewSounds {
+
+  readonly grabSoundClip: SoundClip;
+  readonly releaseSoundClip: SoundClip;
+  readonly boundarySoundClip: SoundClip;
+  readonly tickMarkBumpSoundClip: SoundClip;
 
   /**
    * @param {NumberProperty} tickMarkRangeProperty
@@ -30,7 +38,8 @@ class ViewSounds {
    * @param {BooleanProperty} playTickMarkBumpSoundProperty
    * @param {Object} [options]
    */
-  constructor( tickMarkRangeProperty, tickMarkViewProperty, playTickMarkBumpSoundProperty, options ) {
+  constructor( tickMarkRangeProperty: NumberProperty, tickMarkViewProperty: Property<TickMarkViewType>,
+               playTickMarkBumpSoundProperty: BooleanProperty, options: any ) {
 
     options = merge( {
       addSoundOptions: {
@@ -51,7 +60,7 @@ class ViewSounds {
       initialOutputLevel: 0.3, // increased from feedback in https://github.com/phetsims/ratio-and-proportion/issues/246
       enableControlProperties: [
         playTickMarkBumpSoundProperty,
-        new DerivedProperty( [ tickMarkViewProperty ], tickMarkView => tickMarkView !== TickMarkView.NONE )
+        new DerivedProperty( [ tickMarkViewProperty ], ( tickMarkView: TickMarkViewType ) => tickMarkView !== TickMarkView.NONE )
       ]
     } ) );
 

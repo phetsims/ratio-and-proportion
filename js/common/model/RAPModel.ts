@@ -18,7 +18,9 @@ import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import rapConstants from '../rapConstants.js';
 import RAPRatio from './RAPRatio.js';
-import RatioTerm from './RatioTerm.js';
+import RatioTerm, { RatioTermType } from './RatioTerm.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import RAPRatioTuple from './RAPRatioTuple.js';
 
 // constant to help achieve feedback in 40% of the visual screen height (2 default tick marks). Calculated by taking the
 // fitness distance when the right hand is 2 tick marks from the target ratio. This number is based on a target ratio of
@@ -34,10 +36,16 @@ const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 class RAPModel {
 
+  ratio: RAPRatio;
+  targetRatioProperty: NumberProperty;
+  unclampedFitnessProperty: DerivedProperty<number>;
+  ratioFitnessProperty: DerivedProperty<number>;
+  inProportionProperty: DerivedProperty<boolean>;
+
   /**
    * @param {Tandem} tandem
    */
-  constructor( tandem ) {
+  constructor( tandem: Tandem ) {
 
     // @public - the current state of the ratio (value of terms, if its locked, etc)
     this.ratio = new RAPRatio( 0.2, 0.4, tandem.createTandem( 'ratio' ) );
@@ -60,7 +68,7 @@ class RAPModel {
       this.ratio.tupleProperty,
       this.targetRatioProperty,
       this.ratio.movingInDirectionProperty
-    ], ( ratioTuple, ratio ) => {
+    ], ( ratioTuple: RAPRatioTuple, ratio: number ) => {
 
       const antecedent = ratioTuple.antecedent;
       const consequent = ratioTuple.consequent;
@@ -90,7 +98,7 @@ unclampedFitness: ${unclampedFitness}
 
       return unclampedFitness;
     }, {
-      isValidValue: value => value <= rapConstants.RATIO_FITNESS_RANGE.max,
+      isValidValue: ( value: number ) => value <= rapConstants.RATIO_FITNESS_RANGE.max,
 
       // phet-io
       tandem: tandem.createTandem( 'unclampedFitnessProperty' ),
@@ -107,8 +115,8 @@ unclampedFitness: ${unclampedFitness}
     // is preferable to the unclampedFitnessProperty because it is normalized, and simpler when comparing the current ratio
     // to the target ratio.
     this.ratioFitnessProperty = new DerivedProperty( [ this.unclampedFitnessProperty ],
-      unclampedFitness => Utils.clamp( unclampedFitness, rapConstants.RATIO_FITNESS_RANGE.min, rapConstants.RATIO_FITNESS_RANGE.max ), {
-        isValidValue: value => rapConstants.RATIO_FITNESS_RANGE.contains( value )
+      ( unclampedFitness: number ) => Utils.clamp( unclampedFitness, rapConstants.RATIO_FITNESS_RANGE.min, rapConstants.RATIO_FITNESS_RANGE.max ), {
+        isValidValue: ( value: number ) => rapConstants.RATIO_FITNESS_RANGE.contains( value )
       } );
 
     // @public - whether or not the model is in its "in proportion" state.
@@ -126,7 +134,7 @@ unclampedFitness: ${unclampedFitness}
     } );
 
     // snap to target ratio when the ratio is locked.
-    this.ratio.lockedProperty.link( locked => locked && this.ratio.setRatioToTarget( this.targetRatioProperty.value ) );
+    this.ratio.lockedProperty.link( ( locked: boolean ) => locked && this.ratio.setRatioToTarget( this.targetRatioProperty.value ) );
   }
 
   /**
@@ -145,7 +153,7 @@ unclampedFitness: ${unclampedFitness}
    * @returns {number}
    * @private
    */
-  calculateFitness( antecedent, consequent, targetRatio ) {
+  calculateFitness( antecedent: number, consequent: number, targetRatio: number ) {
 
     // This fitness algorithm was designed and executed to target ratios between 0 and 1, when larger, the fitness looks
     // best if the reciprocal is calculated (yielding a similar relationship between the consequent and target ratio of X,
@@ -177,8 +185,10 @@ unclampedFitness: ${unclampedFitness}
       new Vector2( 0, yIntercept ), new Vector2( 1, coefficient + yIntercept ) // line for the inverse slope of target
     );
 
+    assert && assert( pointOnTarget !== null );
+
     // Find the distance between the current ratio, and the calculated intersection with the target ratio function.
-    const distanceFromTarget = new Vector2( consequent, antecedent ).distance( pointOnTarget );
+    const distanceFromTarget = new Vector2( consequent, antecedent ).distance( <Vector2>pointOnTarget );
 
     return rapConstants.RATIO_FITNESS_RANGE.max - ( rapConstants.RATIO_FITNESS_RANGE.max * distanceFromTarget ) / ( MIN_CLAMPED_FITNESS_DISTANCE * targetRatio );
   }
@@ -247,7 +257,7 @@ unclampedFitness: ${unclampedFitness}
    * @returns {number}
    * @public
    */
-  getIdealValueForTerm( ratioTerm ) {
+  getIdealValueForTerm( ratioTerm: RatioTermType ) {
     if ( ratioTerm === RatioTerm.ANTECEDENT ) {
       return this.targetRatioProperty.value * this.ratio.tupleProperty.value.consequent;
     }

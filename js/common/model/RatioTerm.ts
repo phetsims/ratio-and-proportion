@@ -9,7 +9,16 @@
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 
-const RatioTerm = Enumeration.byKeys( [ 'ANTECEDENT', 'CONSEQUENT' ] );
+type RatioTermType = {
+  ANTECEDENT: Object;
+  CONSEQUENT: Object;
+}
+
+// @ts-ignore
+const RatioTerm = <RatioTermType>Enumeration.byKeys( [ 'ANTECEDENT', 'CONSEQUENT' ] );
+
 
 ratioAndProportion.register( 'RatioTerm', RatioTerm );
+
+export { RatioTermType };
 export default RatioTerm;

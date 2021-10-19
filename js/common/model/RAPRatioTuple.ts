@@ -8,18 +8,28 @@
 
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import Range from '../../../../dot/js/Range.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import RatioTerm from './RatioTerm.js';
+import RatioTerm, { RatioTermType } from './RatioTerm.js';
 
 class RAPRatioTuple {
+
+  public antecedent: number;
+  public consequent: number;
+
+  public static RAPRatioTupleIO: IOType;
+  public static STATE_SCHEMA: {
+    antecedent: IOType,
+    consequent: IOType
+  };
 
   /**
    * @param {number} antecedent
    * @param {number} consequent
    */
-  constructor( antecedent, consequent ) {
-    assert && assert( typeof antecedent === 'number' && !isNaN( antecedent ) );
-    assert && assert( typeof consequent === 'number' && !isNaN( consequent ) );
+  constructor( antecedent: number, consequent: number ) {
+    assert && assert( !isNaN( antecedent ) );
+    assert && assert( !isNaN( consequent ) );
 
     // @public {number}
     this.antecedent = antecedent;
@@ -31,7 +41,7 @@ class RAPRatioTuple {
    * @returns {RAPRatioTuple}
    * @public
    */
-  withAntecedent( antecedent ) {
+  withAntecedent( antecedent: number ) {
     return new RAPRatioTuple( antecedent, this.consequent );
   }
 
@@ -40,7 +50,7 @@ class RAPRatioTuple {
    * @returns {RAPRatioTuple}
    * @public
    */
-  withConsequent( consequent ) {
+  withConsequent( consequent: number ) {
     return new RAPRatioTuple( this.antecedent, consequent );
   }
 
@@ -49,7 +59,7 @@ class RAPRatioTuple {
    * @returns {RAPRatioTuple}
    * @public
    */
-  plusAntecedent( antecedentDelta ) {
+  plusAntecedent( antecedentDelta: number ) {
     return new RAPRatioTuple( this.antecedent + antecedentDelta, this.consequent );
   }
 
@@ -58,7 +68,7 @@ class RAPRatioTuple {
    * @returns {RAPRatioTuple}
    * @public
    */
-  plusConsequent( consequentDelta ) {
+  plusConsequent( consequentDelta: number ) {
     return new RAPRatioTuple( this.antecedent, this.consequent + consequentDelta );
   }
 
@@ -67,7 +77,7 @@ class RAPRatioTuple {
    * @public
    * @param {Range} range
    */
-  constrainFields( range ) {
+  constrainFields( range: Range ) {
     this.antecedent = range.constrainValue( this.antecedent );
     this.consequent = range.constrainValue( this.consequent );
 
@@ -96,7 +106,7 @@ class RAPRatioTuple {
    * @param {RAPRatioTuple} otherRatioTuple
    * @returns {boolean}
    */
-  equals( otherRatioTuple ) {
+  equals( otherRatioTuple: RAPRatioTuple ) {
     return this.antecedent === otherRatioTuple.antecedent && this.consequent === otherRatioTuple.consequent;
   }
 
@@ -105,7 +115,7 @@ class RAPRatioTuple {
    * @param {RatioTerm} ratioTerm
    * @returns {number}
    */
-  getForTerm( ratioTerm ) {
+  getForTerm( ratioTerm: RatioTermType ) {
     switch( ratioTerm ) {
       case RatioTerm.ANTECEDENT:
         return this.antecedent;
@@ -130,7 +140,7 @@ class RAPRatioTuple {
    * @param {RAPRatioTuple} rapRatioTuple
    * @returns {Object}
    */
-  toStateObject( rapRatioTuple ) {
+  toStateObject( rapRatioTuple: RAPRatioTuple ) {
     return {
       antecedent: this.antecedent,
       consequent: this.consequent
@@ -142,7 +152,7 @@ class RAPRatioTuple {
    * @param {Object} stateObject see toStateObject
    * @returns {RAPRatioTuple}
    */
-  static fromStateObject( stateObject ) {
+  static fromStateObject( stateObject: any ) {
     return new RAPRatioTuple( stateObject.antecedent, stateObject.consequent );
   }
 }
