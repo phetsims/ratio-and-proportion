@@ -17,12 +17,22 @@ import ratioAndProportion from '../ratioAndProportion.js';
 
 class RAPConstants extends PhetioObject {
 
+  SCREEN_VIEW_X_MARGIN: number;
+  SCREEN_VIEW_Y_MARGIN: number;
+  RATIO_FITNESS_RANGE: Range;
+  IN_PROPORTION_FITNESS_THRESHOLD: number;
+  MOVING_IN_PROPORTION_FITNESS_THRESHOLD: number;
+  SHIFT_KEY_MULTIPLIER: number;
+  TOTAL_RATIO_TERM_VALUE_RANGE: Range;
+  toFixed: ( x: number ) => number;
+  NO_SUCCESS_VALUE_THRESHOLD: number;
+
   constructor() {
     super( {
         tandem: Tandem.GLOBAL_MODEL.createTandem( 'rapConstants' ),
         phetioType: new IOType( 'RAPConstantsIO', {
           isValidValue: _.stubTrue,
-          toStateObject: object => object.toStateObject(),
+          toStateObject: ( object: RAPConstants ) => object.toStateObject(),
           superType: IOType.ObjectIO,
           stateSchema: {
             SCREEN_VIEW_X_MARGIN: NumberIO,

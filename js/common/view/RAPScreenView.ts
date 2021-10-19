@@ -48,8 +48,10 @@ import RatioHalf from './RatioHalf.js';
 import InProportionSoundGenerator from './sound/InProportionSoundGenerator.js';
 import MovingInProportionSoundGenerator from './sound/MovingInProportionSoundGenerator.js';
 import StaccatoFrequencySoundGenerator from './sound/StaccatoFrequencySoundGenerator.js';
-import TickMarkView from './TickMarkView.js';
+import TickMarkView, { TickMarkViewType } from './TickMarkView.js';
 import TickMarkViewRadioButtonGroup from './TickMarkViewRadioButtonGroup.js';
+import RAPModel from '../model/RAPModel.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 // constants
 const LAYOUT_BOUNDS = ScreenView.DEFAULT_LAYOUT_BOUNDS;
@@ -67,12 +69,20 @@ const uiPositionFunction = new LinearFunction( 1, 1.5, LAYOUT_BOUNDS.height * 0.
 
 class RAPScreenView extends ScreenView {
 
+  protected tickMarkViewProperty: Property<TickMarkViewType>;
+  protected tickMarkRangeProperty: NumberProperty;
+  protected readonly ratioDescriber: RatioDescriber;
+  handPositionsDescriber: HandPositionsDescriber;
+  private antecedentRatioHalf: RatioHalf;
+  private consequentRatioHalf: RatioHalf;
+  markerInput: RAPMarkerInput | null;
+
   /**
    * @param {RAPModel} model
    * @param {Tandem} tandem
    * @param {Object} [options]
    */
-  constructor( model, tandem, options ) {
+  constructor( model: RAPModel, tandem: Tandem, options: any ) {
 
     options = merge( {
       tandem: tandem,
@@ -91,6 +101,7 @@ class RAPScreenView extends ScreenView {
     // for ease at usage sites
     const ratio = model.ratio;
 
+    // @ts-ignore
     // @protected
     this.tickMarkViewProperty = new EnumerationProperty( TickMarkView, TickMarkView.NONE, {
       tandem: tandem.createTandem( 'tickMarkViewProperty' )
@@ -117,14 +128,14 @@ class RAPScreenView extends ScreenView {
     const cueArrowsState = new CueArrowsState();
 
     const tickMarksAndLabelsColorProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
-      fitness => Color.interpolateRGBA(
+      ( fitness: number ) => Color.interpolateRGBA(
         RAPColors.tickMarksAndLabelsOutOfFitnessProperty.value,
         RAPColors.tickMarksAndLabelsInFitnessProperty.value, fitness
       ) );
 
     // Tick mark sounds get played when ratio isn't locked, and when staccato sounds aren't playing
     const playTickMarkBumpSoundProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
-      fitness => !model.ratio.lockedProperty.value && fitness === rapConstants.RATIO_FITNESS_RANGE.min );
+      ( fitness: number ) => !model.ratio.lockedProperty.value && fitness === rapConstants.RATIO_FITNESS_RANGE.min );
 
     // by default, the keyboard step size should be half of one default tick mark width. See https://github.com/phetsims/ratio-and-proportion/issues/85
     // NOTE: do not change this without changing the copied constant in getKeyboardInputSnappingMapperTests.js
@@ -158,7 +169,7 @@ class RAPScreenView extends ScreenView {
       playTickMarkBumpSoundProperty: playTickMarkBumpSoundProperty,
 
       // Make this a closure so support creation order
-      setJumpingOverProportionShouldTriggerSound: isJumping => this.inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( isJumping ),
+      setJumpingOverProportionShouldTriggerSound: ( isJumping: boolean ) => this.inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( isJumping ),
       getIdealValue: () => model.getIdealValueForTerm( RatioTerm.ANTECEDENT ),
       inProportionProperty: model.inProportionProperty,
 
@@ -199,7 +210,7 @@ class RAPScreenView extends ScreenView {
       playTickMarkBumpSoundProperty: playTickMarkBumpSoundProperty,
 
       // Make this a closure so support creation order
-      setJumpingOverProportionShouldTriggerSound: isJumping => this.inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( isJumping ),
+      setJumpingOverProportionShouldTriggerSound: ( isJumping: boolean ) => this.inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( isJumping ),
       getIdealValue: () => model.getIdealValueForTerm( RatioTerm.CONSEQUENT ),
       inProportionProperty: model.inProportionProperty,
 
@@ -234,12 +245,14 @@ class RAPScreenView extends ScreenView {
       }, options.bothHandsPDOMNodeOptions )
     );
 
+    this.markerInput = null;
+
     if ( RAPQueryParameters.tangible ) {
 
       // @private
       this.markerInput = new RAPMarkerInput( ratio.tupleProperty );
 
-      this.markerInput.isBeingInteractedWithProperty.lazyLink( interactedWithMarkers => {
+      this.markerInput.isBeingInteractedWithProperty.lazyLink( ( interactedWithMarkers: boolean ) => {
         if ( interactedWithMarkers ) {
           cueArrowsState.interactedWithMouseProperty.value = true;
         }

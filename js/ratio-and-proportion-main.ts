@@ -13,6 +13,7 @@ import CreateScreen from './create/CreateScreen.js';
 import DiscoverScreen from './discover/DiscoverScreen.js';
 import ratioAndProportionStrings from './ratioAndProportionStrings.js';
 
+// @ts-ignore
 const ratioAndProportionTitleString = ratioAndProportionStrings[ 'ratio-and-proportion' ].title;
 
 const simOptions = {

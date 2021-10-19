@@ -12,6 +12,7 @@ import MarkerInput from '../../../../tangible/js/MarkerInput.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import RAPQueryParameters from '../RAPQueryParameters.js';
+import Property from '../../../../axon/js/Property.js';
 
 // constants
 // Note marker 2 of original aruco doesn't work well when camera is flipped.
@@ -24,10 +25,13 @@ const HEIGHT_OF_ONE = RAPQueryParameters.heightInPixels;
 
 class RAPMarkerInput extends MarkerInput {
 
+  readonly isBeingInteractedWithProperty: BooleanProperty;
+  private ratioTupleProperty: Property<RAPRatioTuple>;
+
   /**
    * @param {Property.<RAPRatioTuple>} ratioTupleProperty
    */
-  constructor( ratioTupleProperty ) {
+  constructor( ratioTupleProperty: Property<RAPRatioTuple> ) {
     super();
 
     // @public (read-only)

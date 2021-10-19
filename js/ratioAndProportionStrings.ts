@@ -7,7 +7,7 @@
 import getStringModule from '../../chipper/js/getStringModule.js';
 import ratioAndProportion from './ratioAndProportion.js';
 
-const ratioAndProportionStrings = getStringModule( 'RATIO_AND_PROPORTION' );
+const ratioAndProportionStrings = getStringModule( 'RATIO_AND_PROPORTION' ) as any;
 
 ratioAndProportion.register( 'ratioAndProportionStrings', ratioAndProportionStrings );
 

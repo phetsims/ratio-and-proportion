@@ -12,6 +12,16 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 
 // Even though there is only one Profile, it is still nice to use this pattern for color organizing.
 class CueArrowsState {
+
+  interactedWithMouseProperty: BooleanProperty;
+  interactedWithKeyboardProperty: BooleanProperty;
+  keyboardFocusedProperty: BooleanProperty;
+  bothHands: {
+    antecedentCueDisplayedProperty: BooleanProperty;
+    consequentCueDisplayedProperty: BooleanProperty;
+    interactedWithProperty: BooleanProperty;
+  }
+
   constructor() {
 
     // @public - if either hand has been moved with a mouse or touch or marker input
