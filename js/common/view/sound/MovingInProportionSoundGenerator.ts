@@ -13,23 +13,24 @@ import SoundGenerator from '../../../../../tambo/js/sound-generators/SoundGenera
 import choirLoopSound from '../../../../sounds/moving-in-proportion/moving-in-proportion-choir-loop_mp3.js';
 import movingInProportionOrganLoopSound from '../../../../sounds/moving-in-proportion/moving-in-proportion-organ-loop_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
+import RAPModel from '../../model/RAPModel.js';
 
 class MovingInProportionSoundGenerator extends SoundGenerator {
+
+  private movingInProportionSoundClip: CompositeSoundClip;
 
   /**
    * @param {RAPModel} model
    * @param {Object} [options]
    */
-  constructor( model, options ) {
+  constructor( model: RAPModel, options: any ) {
     options = merge( {
       initialOutputLevel: 0.13
     }, options );
 
     super( options );
 
-    // @private {SoundClip|CompositeSoundClip|null} - null when no sound
-    this.movingInProportionSoundClip = null;
-
+    // @private {CompositeSoundClip}
     this.movingInProportionSoundClip = new CompositeSoundClip( [ {
       sound: choirLoopSound,
       options: {
@@ -51,7 +52,7 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
       model.inProportionProperty,
       model.ratio.tupleProperty,
       model.ratioFitnessProperty
-    ], ( movingInDirection, inProportion ) => {
+    ], ( movingInDirection: boolean, inProportion: boolean ) => {
       if ( movingInDirection && // only when moving
            !model.valuesTooSmallForInProportion() && // no moving in proportion success if too small
            inProportion && // must be fit enough to play the moving in proportion success
@@ -71,7 +72,7 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
    * @public
    */
   reset() {
-    this.movingInProportionSoundClip.stop( 0 );
+    this.movingInProportionSoundClip.stop();
   }
 }
 

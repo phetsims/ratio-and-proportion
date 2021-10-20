@@ -36,7 +36,6 @@ import rapConstants from '../rapConstants.js';
 import RAPQueryParameters from '../RAPQueryParameters.js';
 import BothHandsPDOMNode from './BothHandsPDOMNode.js';
 import CueArrowsState from './CueArrowsState.js';
-import CueDisplay from './CueDisplay.js';
 import BothHandsDescriber from './describers/BothHandsDescriber.js';
 import HandPositionsDescriber from './describers/HandPositionsDescriber.js';
 import RatioDescriber from './describers/RatioDescriber.js';
@@ -76,6 +75,9 @@ class RAPScreenView extends ScreenView {
   private antecedentRatioHalf: RatioHalf;
   private consequentRatioHalf: RatioHalf;
   markerInput: RAPMarkerInput | null;
+  inProportionSoundGenerator: InProportionSoundGenerator;
+  movingInProportionSoundGenerator: MovingInProportionSoundGenerator;
+  staccatoFrequencySoundGenerator: StaccatoFrequencySoundGenerator;
 
   /**
    * @param {RAPModel} model
@@ -170,6 +172,8 @@ class RAPScreenView extends ScreenView {
 
       // Make this a closure so support creation order
       setJumpingOverProportionShouldTriggerSound: ( isJumping: boolean ) => this.inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( isJumping ),
+
+      // @ts-ignore
       getIdealValue: () => model.getIdealValueForTerm( RatioTerm.ANTECEDENT ),
       inProportionProperty: model.inProportionProperty,
 
@@ -177,7 +181,7 @@ class RAPScreenView extends ScreenView {
       handColorProperty: options.leftHandColorProperty,
       accessibleName: ratioAndProportionStrings.a11y.leftHand,
       a11yDependencies: a11yDependencies,
-      bothHandsCueDisplay: CueDisplay.W_S,
+      bothHandsCueDisplay: 'W_S',
       isRight: false, // this way we get a left hand
 
       // Added to the antecedent for ease, but it applies to both RatioHalfs in the PDOM
@@ -211,6 +215,8 @@ class RAPScreenView extends ScreenView {
 
       // Make this a closure so support creation order
       setJumpingOverProportionShouldTriggerSound: ( isJumping: boolean ) => this.inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( isJumping ),
+
+      // @ts-ignore
       getIdealValue: () => model.getIdealValueForTerm( RatioTerm.CONSEQUENT ),
       inProportionProperty: model.inProportionProperty,
 

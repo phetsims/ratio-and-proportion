@@ -26,13 +26,16 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
-import RatioTerm from '../model/RatioTerm.js';
+import RatioTerm, { RatioTermType } from '../model/RatioTerm.js';
 import rapConstants from '../rapConstants.js';
 import CueDisplay from './CueDisplay.js';
 import RatioHalfTickMarksNode from './RatioHalfTickMarksNode.js';
 import RatioHandNode from './RatioHandNode.js';
 import ViewSounds from './sound/ViewSounds.js';
-import TickMarkView from './TickMarkView.js';
+import TickMarkView, { TickMarkViewType } from './TickMarkView.js';
+import BothHandsDescriber from './describers/BothHandsDescriber.js';
+import HandPositionsDescriber from './describers/HandPositionsDescriber.js';
+import RAPRatioTuple from '../model/RAPRatioTuple.js';
 
 // constants
 const MIN_FRAMING_RECTANGLE_HEIGHT = 32;
@@ -61,10 +64,20 @@ const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 class RatioHalf extends Rectangle {
 
+
+  public readonly framingRectangleHeight: number;
+  public readonly isBeingInteractedWithProperty: BooleanProperty;
+  private ratioLockedProperty: BooleanProperty;
+  private bothHandsDescriber: BothHandsDescriber;
+  private handPositionsDescriber: HandPositionsDescriber;
+  private tickMarkViewProperty: Property<TickMarkViewType>;
+  private ratioTerm: RatioTermType;
+  private ratioTupleProperty: Property<RAPRatioTuple>;
+
   /**
    * @param {Object} config
    */
-  constructor( config ) {
+  constructor( config: any ) {
 
     config = merge( {
       // ---- REQUIRED -------------------------------------------------
@@ -138,7 +151,7 @@ class RatioHalf extends Rectangle {
       a11yDependencies: [],
 
       // {CueDisplay}
-      bothHandsCueDisplay: CueDisplay.UP_DOWN,
+      bothHandsCueDisplay: 'UP_DOWN',
 
       // phet-io
       tandem: Tandem.REQUIRED,
@@ -171,18 +184,22 @@ class RatioHalf extends Rectangle {
     const viewSounds = new ViewSounds( config.tickMarkRangeProperty, config.tickMarkViewProperty, config.playTickMarkBumpSoundProperty );
 
     // This follows the spec outlined in https://github.com/phetsims/ratio-and-proportion/issues/81
-    const cueDisplayStateProperty = new DerivedProperty( [
+    const cueDisplayStateProperty: DerivedProperty<CueDisplay> = new DerivedProperty( [
         config.cueArrowsState.interactedWithKeyboardProperty,
         config.cueArrowsState.interactedWithMouseProperty,
         config.cueArrowsState.keyboardFocusedProperty,
         config.cueArrowsState.bothHands.interactedWithProperty,
         config.displayBothHandsCueProperty
       ],
-      ( interactedWithKeyboard, interactedWithMouse, keyboardFocused, bothHandsInteractedWith, displayBothHands ) => {
+      ( interactedWithKeyboard: boolean,
+        interactedWithMouse: boolean,
+        keyboardFocused: boolean,
+        bothHandsInteractedWith: boolean,
+        displayBothHands: boolean ) => {
         return displayBothHands ? config.bothHandsCueDisplay :
-               keyboardFocused && !interactedWithKeyboard ? CueDisplay.UP_DOWN :
-               ( interactedWithKeyboard || interactedWithMouse || bothHandsInteractedWith ) ? CueDisplay.NONE :
-               CueDisplay.ARROWS;
+               keyboardFocused && !interactedWithKeyboard ? 'UP_DOWN' :
+               ( interactedWithKeyboard || interactedWithMouse || bothHandsInteractedWith ) ? 'NONE' :
+               'ARROWS';
       } );
 
 

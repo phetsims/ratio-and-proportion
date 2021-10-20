@@ -37,6 +37,7 @@ import g001Sound from '../../../../sounds/staccato/staccato-g-001_mp3.js';
 import g002Sound from '../../../../sounds/staccato/staccato-g-002_mp3.js';
 import gSound from '../../../../sounds/staccato/staccato-g_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
+import Property from '../../../../../axon/js/Property.js';
 
 // organize the sounds by variation and note
 const staccatoSounds = [
@@ -52,13 +53,18 @@ const staccatoSounds = [
 
 class StaccatoFrequencySoundGenerator extends SoundGenerator {
 
+
+  private inProportionProperty: Property<boolean>;
+  private fitnessProperty: Property<number>;
+  private staccatoSoundClips: SoundClip[][];
+
   /**
    * @param {Property.<number>} fitnessProperty
    * @param {Range} fitnessRange
    * @param {Property.<boolean>} inProportionProperty - true when the model ratio is in proportion
    * @param {Object} [options]
    */
-  constructor( fitnessProperty, fitnessRange, inProportionProperty, options ) {
+  constructor( fitnessProperty: Property<number>, fitnessRange: Range, inProportionProperty: Property<boolean>, options: object ) {
     options = merge( {
       initialOutputLevel: 0.25
     }, options );
@@ -69,7 +75,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     this.inProportionProperty = inProportionProperty;
     this.fitnessProperty = fitnessProperty;
 
-    // @private {SoundClip[]}
+    // @private {SoundClip[][]}
     this.staccatoSoundClips = [];
 
     // create a SoundClip for each sound

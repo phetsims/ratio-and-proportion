@@ -14,6 +14,8 @@ import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import inProportionSound from '../../../../sounds/in-proportion/in-proportion_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
+import RAPModel from '../../model/RAPModel.js';
+import Property from '../../../../../axon/js/Property.js';
 
 const SUCCESS_OUTPUT_LEVEL = 0.8;
 const SILENT_LEVEL = 0;
@@ -29,13 +31,22 @@ const MANDATORY_PLAY_TIME = 0.4;
 
 class InProportionSoundGenerator extends SoundClip {
 
+  private model: RAPModel;
+  private targetRatioProperty: Property<number>;
+  private fitnessProperty: Property<number>;
+  private playedSuccessYetProperty: Property<boolean>;
+  private timePlayedSoFarProperty: Property<number>;
+  private previousRatioWasLargerThanTarget: boolean;
+  private previousRatioWasTooSmallForSuccess: boolean;
+  private jumpingOverShouldSound: boolean;
+
   /**
    * @param {RAPModel} model
    * @param {Property} enabledControlProperty - not supposed to be settable, just listened to. NOTE: this is not simply
    *                                            an on/off Property for the SoundGenerator, see below.
    * @param {Object} [options]
    */
-  constructor( model, enabledControlProperty, options ) {
+  constructor( model: RAPModel, enabledControlProperty: Property<boolean>, options: any ) {
 
     options = merge( {
       initialOutputLevel: 0.5
@@ -58,8 +69,8 @@ class InProportionSoundGenerator extends SoundClip {
     // of this sound is always played, even when the outside enabledControlProperty is set to false.
     this.timePlayedSoFarProperty = new NumberProperty( MANDATORY_PLAY_TIME );
 
-    const playedMandatoryPortionYetProperty = new DerivedProperty( [ this.timePlayedSoFarProperty, this.playedSuccessYetProperty ],
-      ( timePlayed, playedSuccessYet ) => playedSuccessYet && timePlayed <= MANDATORY_PLAY_TIME );
+    const playedMandatoryPortionYetProperty: DerivedProperty<boolean> = new DerivedProperty( [ this.timePlayedSoFarProperty, this.playedSuccessYetProperty ],
+      ( timePlayed: number, playedSuccessYet: boolean ) => playedSuccessYet && timePlayed <= MANDATORY_PLAY_TIME );
 
     // In addition to any supplemental enabledControlProperty that the client wants to pass in, make sure to set up
     // an override to ensure that there is always a minimum, "mandatory" time that this sound occurs, even if it doesn't
@@ -69,7 +80,7 @@ class InProportionSoundGenerator extends SoundClip {
     // Whenever the inProportionProperty changes, we want to run step eagerly. This is in-part hacky, as perhaps this
     // whole sound generator should run on inProportionProperty, but there are enough time-based parts of this sound
     // generator that it makes sense to just call the step function here instead.
-    model.inProportionProperty.lazyLink( inProportion => {
+    model.inProportionProperty.lazyLink( ( inProportion: boolean ) => {
       inProportion && this.step( 0 );
     } );
 
@@ -101,7 +112,7 @@ class InProportionSoundGenerator extends SoundClip {
    * @public
    * @param {boolean} jumpingOverShouldSound
    */
-  setJumpingOverProportionShouldTriggerSound( jumpingOverShouldSound ) {
+  setJumpingOverProportionShouldTriggerSound( jumpingOverShouldSound: boolean ) {
     this.jumpingOverShouldSound = jumpingOverShouldSound;
   }
 
@@ -123,7 +134,7 @@ class InProportionSoundGenerator extends SoundClip {
    * @param {number} dt
    * @public
    */
-  step( dt ) {
+  step( dt: number ) {
     const newFitness = this.fitnessProperty.value;
 
     const isInRatio = this.model.inProportion();

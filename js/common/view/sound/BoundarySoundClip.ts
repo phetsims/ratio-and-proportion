@@ -13,14 +13,20 @@
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import boundarySound from '../../../../../tambo/sounds/general-boundary-boop_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
+import Range from '../../../../../dot/js/Range.js';
 
 class BoundarySoundClip extends SoundClip {
+
+  private verticalRange: Range;
+  private lastYPosition: number | null;
+  private lastXPosition: number | null;
+  private playedThisInteraction: boolean;
 
   /**
    * @param {Range} verticalRange - the total range that the vertical position can take
    * @param {Object} [options]
    */
-  constructor( verticalRange, options ) {
+  constructor( verticalRange: Range, options: any ) {
     super( boundarySound, options );
 
     // @private
@@ -41,7 +47,7 @@ class BoundarySoundClip extends SoundClip {
    * @param {number} [horizontalPosition]
    * @param {Range} [horizontalRange] - the horizontal range can change based on view scaling
    */
-  onInteract( verticalPosition, horizontalPosition, horizontalRange ) {
+  onInteract( verticalPosition: number, horizontalPosition: number, horizontalRange: Range ) {
 
     if ( this.lastYPosition !== verticalPosition &&
          ( verticalPosition === this.verticalRange.min || verticalPosition === this.verticalRange.max ) ) {
@@ -74,7 +80,7 @@ class BoundarySoundClip extends SoundClip {
    * @public
    * @param {number} verticalPosition
    */
-  onEndInteraction( verticalPosition ) {
+  onEndInteraction( verticalPosition: number ) {
     if ( !this.playedThisInteraction &&
          ( verticalPosition === this.verticalRange.min || verticalPosition === this.verticalRange.max ) ) {
       this.play();
