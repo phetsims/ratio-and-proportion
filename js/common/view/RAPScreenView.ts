@@ -320,6 +320,8 @@ class RAPScreenView extends ScreenView {
           Utils.clamp( interpolatedDistance, 0, 1 )
         );
       }
+
+      // @ts-ignore
       backgroundNode.setFill( color );
     } );
 
