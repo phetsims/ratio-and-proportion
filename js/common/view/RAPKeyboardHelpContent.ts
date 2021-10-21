@@ -23,7 +23,7 @@ class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
    * @param {KeyboardHelpSection} challengeHelpSection - keyboard help section for determining how to change the target ratio
    * @param {Object} [options]
    */
-  constructor( challengeHelpSection, options ) {
+  constructor( challengeHelpSection: KeyboardHelpSection, options?: any ) {
 
     const moveLeftOrRightHandHelpSection = new SliderKeyboardHelpSection( {
       headingString: ratioAndProportionStrings.moveHandsIndividually,
@@ -50,7 +50,7 @@ class BothHandsHelpSection extends KeyboardHelpSection {
   /**
    * @param {Object} [options]
    */
-  constructor( options ) {
+  constructor( options?: any ) {
 
     const moveLeftHand = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.moveLeftHand,
       KeyboardHelpIconFactory.iconRow( [ new LetterKeyNode( 'W' ), new LetterKeyNode( 'S' ) ] ),

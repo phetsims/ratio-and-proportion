@@ -45,8 +45,8 @@ class BothHandsInteractionListener {
   private onInput: ( knockOutOfLock?: boolean ) => void;
   private antecedentMapKeyboardInput: KeyboardInputMapper;
   private consequentMapKeyboardInput: KeyboardInputMapper;
-  private isBeingInteractedWithProperty: Property<boolean>;
-  private jumpToZeroWhileLockedEmitter: Emitter<[]>;
+  isBeingInteractedWithProperty: Property<boolean>;
+  jumpToZeroWhileLockedEmitter: Emitter<[]>;
   private playBoundarySoundOnKeyup: boolean;
 
   /**

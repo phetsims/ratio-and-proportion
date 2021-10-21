@@ -32,6 +32,12 @@ class BothHandsPDOMNode extends Node {
   private consequentInteractedWithProperty: Property<boolean>;
   private bothHandsFocusedProperty: Property<boolean>;
   private viewSounds: ViewSounds;
+  objectResponseUtterance: Utterance;
+  objectResponseOnFocusUtterance: Utterance;
+  contextResponseUtterance: Utterance;
+  ratioUnlockedFromBothHandsUtterance: Utterance;
+  isBeingInteractedWithProperty: Property<boolean>;
+  bothHandsInteractionListener: BothHandsInteractionListener;
 
   /**
    * @param {Object} config
@@ -166,7 +172,7 @@ class BothHandsPDOMNode extends Node {
       targetRatioProperty: config.targetRatioProperty,
       getIdealTerm: config.getIdealTerm,
       inProportionProperty: config.inProportionProperty,
-      onInput: knockedOutOfLock => {
+      onInput: ( knockedOutOfLock: boolean ) => {
         if ( knockedOutOfLock ) {
           this.alertDescriptionUtterance( this.ratioUnlockedFromBothHandsUtterance );
         }
@@ -276,7 +282,7 @@ class BothHandsPDOMNode extends Node {
   /**
    * @private
    */
-  alertBothHandsContextResponse( knockedOutOfLock ) {
+  alertBothHandsContextResponse( knockedOutOfLock: boolean ) {
     if ( knockedOutOfLock ) {
       this.contextResponseUtterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse();
     }
