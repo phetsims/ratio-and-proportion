@@ -12,13 +12,14 @@ import ratioAndProportionStrings from '../ratioAndProportionStrings.js';
 import DiscoverScreenIcon from './view/DiscoverScreenIcon.js';
 import DiscoverScreenKeyboardHelpContent from './view/DiscoverScreenKeyboardHelpContent.js';
 import DiscoverScreenView from './view/DiscoverScreenView.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 
 class DiscoverScreen extends Screen {
 
   /**
    * @param {Tandem} tandem
    */
-  constructor( tandem ) {
+  constructor( tandem: Tandem ) {
 
     const options = {
       backgroundColorProperty: new Property( 'white' ),
@@ -31,7 +32,7 @@ class DiscoverScreen extends Screen {
 
     super(
       () => new RAPModel( tandem.createTandem( 'model' ) ),
-      model => new DiscoverScreenView( model, tandem.createTandem( 'view' ) ),
+      ( model: RAPModel ) => new DiscoverScreenView( model, tandem.createTandem( 'view' ) ),
       options
     );
   }

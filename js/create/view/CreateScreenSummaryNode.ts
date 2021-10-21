@@ -11,6 +11,11 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import RAPRatioTuple from '../../common/model/RAPRatioTuple.js';
+import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
+import HandPositionsDescriber from '../../common/view/describers/HandPositionsDescriber.js';
+import { TickMarkViewType } from '../../common/view/TickMarkView.js';
+import MyChallengeAccordionBox from './MyChallengeAccordionBox.js';
 
 class CreateScreenSummaryNode extends Node {
 
@@ -23,8 +28,10 @@ class CreateScreenSummaryNode extends Node {
    * @param {Property.<number>} tickMarkRangeProperty
    * @param {MyChallengeAccordionBox} myChallengeAccordionBox
    */
-  constructor( ratioFitnessProperty, ratioTupleProperty, tickMarkViewProperty,
-               ratioDescriber, handPositionsDescriber, tickMarkRangeProperty, myChallengeAccordionBox ) {
+  constructor( ratioFitnessProperty: Property<number>, ratioTupleProperty: Property<RAPRatioTuple>,
+               tickMarkViewProperty: Property<TickMarkViewType>,
+               ratioDescriber: RatioDescriber, handPositionsDescriber: HandPositionsDescriber,
+               tickMarkRangeProperty: Property<number>, myChallengeAccordionBox: MyChallengeAccordionBox ) {
 
     const stateOfSimNode = new Node( { tagName: 'p' } );
     const leftHandBullet = new Node( { tagName: 'li' } );
@@ -58,7 +65,7 @@ class CreateScreenSummaryNode extends Node {
       ]
     } );
 
-    myChallengeAccordionBox.expandedProperty.link( expanded => {
+    myChallengeAccordionBox.expandedProperty.link( ( expanded: boolean ) => {
       if ( expanded ) {
         descriptionBullets.addChild( currentChallengeBullet );
       }
@@ -74,7 +81,7 @@ class CreateScreenSummaryNode extends Node {
       ratioTupleProperty,
       tickMarkRangeProperty,
       ratioFitnessProperty
-    ], ( tickMarkView, targetAntecedent, targetConsequent, currentTuple ) => {
+    ], ( tickMarkView: TickMarkViewType, targetAntecedent: number, targetConsequent: number, currentTuple: RAPRatioTuple ) => {
       stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.screenSummary.qualitativeStateOfSim, {
         ratioFitness: ratioDescriber.getRatioFitness( false ), // lowercase
         distance: handPositionsDescriber.getDistanceRegion( true )

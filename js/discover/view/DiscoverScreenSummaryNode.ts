@@ -11,6 +11,10 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import RAPRatioTuple from '../../common/model/RAPRatioTuple.js';
+import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
+import HandPositionsDescriber from '../../common/view/describers/HandPositionsDescriber.js';
+import { TickMarkViewType } from '../../common/view/TickMarkView.js';
 
 class DiscoverScreenSummaryNode extends Node {
 
@@ -23,8 +27,10 @@ class DiscoverScreenSummaryNode extends Node {
    * @param {HandPositionsDescriber} handPositionsDescriber
    * @param {Map.<number,string>} ratioToChallengeNameMap - map from target ratio to name of challenge
    */
-  constructor( ratioFitnessProperty, ratioTupleProperty, targetRatioProperty, tickMarkViewProperty,
-               ratioDescriber, handPositionsDescriber, ratioToChallengeNameMap ) {
+  constructor( ratioFitnessProperty: Property<number>, ratioTupleProperty: Property<RAPRatioTuple>,
+               targetRatioProperty: Property<number>, tickMarkViewProperty: Property<TickMarkViewType>,
+               ratioDescriber: RatioDescriber, handPositionsDescriber: HandPositionsDescriber,
+               ratioToChallengeNameMap: Map<number, { lowercase: string, capitalized: string }> ) {
 
     const stateOfSimNode = new Node( {
       tagName: 'p'
@@ -66,7 +72,7 @@ class DiscoverScreenSummaryNode extends Node {
       tickMarkViewProperty,
       ratioTupleProperty,
       ratioFitnessProperty
-    ], ( currentTargetRatio, tickMarkView, currentTuple ) => {
+    ], ( currentTargetRatio: number, tickMarkView: TickMarkViewType, currentTuple: RAPRatioTuple ) => {
       stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.discover.screenSummary.qualitativeStateOfSim, {
         ratioFitness: ratioDescriber.getRatioFitness( false ), // lowercase
         currentChallenge: ratioToChallengeNameMap.get( currentTargetRatio ).lowercase,

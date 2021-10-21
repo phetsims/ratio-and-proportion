@@ -20,14 +20,18 @@ import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
 import HSeparator from '../../../../sun/js/HSeparator.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
-import TickMarkView from '../../common/view/TickMarkView.js';
+import TickMarkView, { TickMarkViewType } from '../../common/view/TickMarkView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import Property from '../../../../axon/js/Property.js';
 
 const TICK_MARK_RANGE_FONT = new PhetFont( 16 );
 const RANGE_TEXT_OPTIONS = { font: TICK_MARK_RANGE_FONT };
 
 class TickMarkRangeComboBoxNode extends Node {
+
+  private enabledComboBox: ComboBox;
+  private disabledComboBox: ComboBox;
 
   /**
    * @param {Property.<number>} tickMarkRangeProperty
@@ -35,10 +39,11 @@ class TickMarkRangeComboBoxNode extends Node {
    * @param {Property.<TickMarkView>}tickMarkViewProperty
    * @param {Object} [options]
    */
-  constructor( tickMarkRangeProperty, comboBoxParent, tickMarkViewProperty, options ) {
+  constructor( tickMarkRangeProperty: Property<number>, comboBoxParent: Node,
+               tickMarkViewProperty: Property<TickMarkViewType>, options?: any ) {
     super();
 
-    const tickMarkRangeMap = {
+    const tickMarkRangeMap: Record<number, string> = {
       10: ratioAndProportionStrings.zeroToTen,
       20: ratioAndProportionStrings.zeroToTwenty,
       30: ratioAndProportionStrings.zeroToThirty
@@ -83,13 +88,13 @@ class TickMarkRangeComboBoxNode extends Node {
     this.disabledComboBox.enabledProperty.value = false;
 
     // when not displaying the tick marks, show the "blank" line instead of the RichText.
-    tickMarkViewProperty.link( tickMarkView => {
+    tickMarkViewProperty.link( ( tickMarkView: TickMarkViewType ) => {
       this.children = tickMarkView === TickMarkView.NONE ? [ this.disabledComboBox ] : [ this.enabledComboBox ];
     } );
 
     const tickMarkRangeChangedUtterance = new ActivationUtterance();
 
-    tickMarkRangeProperty.lazyLink( range => {
+    tickMarkRangeProperty.lazyLink( ( range: number ) => {
       tickMarkRangeChangedUtterance.alert = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.tickMarkRangeContextResponse, {
         range: tickMarkRangeMap[ range ]
       } );

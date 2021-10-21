@@ -18,15 +18,20 @@ import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import CreateScreenSummaryNode from './CreateScreenSummaryNode.js';
 import MyChallengeAccordionBox from './MyChallengeAccordionBox.js';
 import TickMarkRangeComboBoxNode from './TickMarkRangeComboBoxNode.js';
+import RAPModel from '../../common/model/RAPModel.js';
+import Bounds2 from '../../../../dot/js/Bounds2';
 
 
 class CreateScreenView extends RAPScreenView {
+
+  private tickMarkRangeComboBoxNode: TickMarkRangeComboBoxNode;
+  private resetCreateScreenView: () => void;
 
   /**
    * @param {RAPModel} model
    * @param {Tandem} tandem
    */
-  constructor( model, tandem ) {
+  constructor( model: RAPModel, tandem: Tandem ) {
 
     // For this screen, one Property controls the color of both hands.
     const handColorProperty = RAPColors.createScreenHandProperty;
@@ -88,7 +93,7 @@ class CreateScreenView extends RAPScreenView {
     Property.multilink( [
       model.inProportionProperty,
       model.ratioFitnessProperty
-    ], inProportion => {
+    ], ( inProportion: boolean ) => {
       lockRatioCheckbox.enabledProperty.value = inProportion;
 
       // If the checkbox get's disabled, then unlock the ratio.
@@ -132,12 +137,11 @@ class CreateScreenView extends RAPScreenView {
   /**
    * @override
    * @public
-   * @param {number} width
-   * @param {number} height
+   * @param {Bounds2} bounds
    */
-  layout( width, height ) {
+  layout( bounds: Bounds2 ) {
     this.tickMarkRangeComboBoxNode.hideListBox(); // hidden when layout changes, see https://github.com/phetsims/ratio-and-proportion/issues/324
-    super.layout( width, height );
+    super.layout( bounds );
   }
 
   /**

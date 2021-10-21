@@ -10,7 +10,8 @@ import Utils from '../../../../../dot/js/Utils.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
 import rapConstants from '../../rapConstants.js';
-import TickMarkView from '../TickMarkView.js';
+import TickMarkView, { TickMarkViewType } from '../TickMarkView.js';
+import Property from '../../../../../axon/js/Property';
 
 // constants
 const ORDINAL_TICK_MARKS = [
@@ -53,11 +54,14 @@ const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 class TickMarkDescriber {
 
+  private tickMarkRangeProperty: Property<number>;
+  private tickMarkViewProperty: Property<TickMarkViewType>;
+
   /**
    * @param {Property.<number>} tickMarkRangeProperty
    * @param {Property.<TickMarkView>} tickMarkViewProperty
    */
-  constructor( tickMarkRangeProperty, tickMarkViewProperty ) {
+  constructor( tickMarkRangeProperty: Property<number>, tickMarkViewProperty: Property<TickMarkViewType> ) {
 
     // @private
     this.tickMarkRangeProperty = tickMarkRangeProperty;
@@ -72,7 +76,7 @@ class TickMarkDescriber {
    * @param {number} handPosition
    * @returns {{tickMarkPosition: number|"zero", relativePosition: string , ordinalPosition: string|null }}
    */
-  getRelativePositionAndTickMarkNumberForPosition( handPosition ) {
+  getRelativePositionAndTickMarkNumberForPosition( handPosition: number ) {
     assert && assert( TOTAL_RANGE.contains( handPosition ) );
 
     // account for javascript rounding error, don't use rapConstants because we only want to handle rounding trouble.

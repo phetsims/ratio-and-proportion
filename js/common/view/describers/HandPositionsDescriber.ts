@@ -13,7 +13,10 @@ import ratioAndProportion from '../../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
 import RatioTerm from '../../model/RatioTerm.js';
 import rapConstants from '../../rapConstants.js';
-import TickMarkView from '../TickMarkView.js';
+import TickMarkView, { TickMarkViewType } from '../TickMarkView.js';
+import Property from '../../../../../axon/js/Property';
+import RAPRatioTuple from '../../model/RAPRatioTuple.js';
+import TickMarkDescriber from './TickMarkDescriber.js';
 
 // constants
 const leftHandLowerString = ratioAndProportionStrings.a11y.leftHandLower;
@@ -63,11 +66,16 @@ const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 class HandPositionsDescriber {
 
+  private ratioTupleProperty: Property<RAPRatioTuple>;
+  private tickMarkDescriber: TickMarkDescriber;
+  private previousDistanceRegion: null | string;
+  private previousDistance: number;
+
   /**
    * @param {Property.<RAPRatioTuple>} ratioTupleProperty
    * @param {TickMarkDescriber} tickMarkDescriber
    */
-  constructor( ratioTupleProperty, tickMarkDescriber ) {
+  constructor( ratioTupleProperty: Property<RAPRatioTuple>, tickMarkDescriber: TickMarkDescriber ) {
 
     // @private - from model
     this.ratioTupleProperty = ratioTupleProperty;
@@ -87,7 +95,7 @@ class HandPositionsDescriber {
    * @param {boolean} useOfPlayArea - whether the position should end with "of Play Area", like "at bottom of Play Area"
    * @returns {string}
    */
-  getHandPositionDescription( position, tickMarkView, useOfPlayArea = true ) {
+  getHandPositionDescription( position: number, tickMarkView: TickMarkViewType, useOfPlayArea = true ) {
     if ( TickMarkView.describeQualitative( tickMarkView ) ) {
       const qualitativeHandPosition = this.getQualitativePosition( position );
       return !useOfPlayArea ? qualitativeHandPosition : StringUtils.fillIn( ratioAndProportionStrings.a11y.ofPlayAreaPattern, {
@@ -105,7 +113,7 @@ class HandPositionsDescriber {
    * @param {boolean} semiQuantitative=false
    * @returns {string}
    */
-  getQuantitativeHandPosition( handPosition, semiQuantitative = false ) {
+  getQuantitativeHandPosition( handPosition: number, semiQuantitative = false ) {
     const tickMarkData = this.tickMarkDescriber.getRelativePositionAndTickMarkNumberForPosition( handPosition );
 
     // semi quantitative description uses ordinal numbers instead of full numbers.
@@ -127,7 +135,7 @@ class HandPositionsDescriber {
    * @returns {string} - the qualitative position
    * @private
    */
-  getQualitativePosition( position ) {
+  getQualitativePosition( position: number ) {
     assert && assert( TOTAL_RANGE.contains( position ), 'position expected to be in position range' );
 
     const normalizedPosition = TOTAL_RANGE.getNormalizedValue( position );
@@ -163,7 +171,7 @@ class HandPositionsDescriber {
 
     assert && assert( index !== null, 'should have been in one of these regions' );
 
-    return QUALITATIVE_POSITIONS[ index ];
+    return QUALITATIVE_POSITIONS[ index as number ];
   }
 
   /**
@@ -206,6 +214,8 @@ class HandPositionsDescriber {
     else if ( distance === 0 ) {
       index = 9;
     }
+    assert && assert( index !== null );
+    index = index as number;
     assert && assert( index < DISTANCE_REGIONS_CAPITALIZED.length, 'out of range' );
     return ( lowercase ? DISTANCE_REGIONS_LOWERCASE : DISTANCE_REGIONS_CAPITALIZED )[ index ];
   }
@@ -215,8 +225,8 @@ class HandPositionsDescriber {
    * @param {RatioTerm} ratioTerm - which ratio term is this for? Antecedent or consequent
    * @returns {string}
    */
-  getSingleHandDistance( ratioTerm ) {
-    assert && assert( RatioTerm.includes( ratioTerm ), 'unsupported RatioTerm' );
+  getSingleHandDistance( ratioTerm: RatioTerm ) {
+    assert && assert( typeof RatioTerm[ ratioTerm ] === 'number', 'unsupported RatioTerm' );
     const otherHand = ratioTerm === RatioTerm.ANTECEDENT ? rightHandLowerString : leftHandLowerString;
 
     const distanceRegion = this.getDistanceRegion();
@@ -285,7 +295,7 @@ class HandPositionsDescriber {
    * @param {Object} [options]
    * @returns {string|null} - null if no change
    */
-  getDistanceProgressString( options ) {
+  getDistanceProgressString( options?: any ) {
     options = merge( {
       closerString: ratioAndProportionStrings.a11y.handPosition.closerTo,
       fartherString: ratioAndProportionStrings.a11y.handPosition.fartherFrom

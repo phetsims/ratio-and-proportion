@@ -52,7 +52,7 @@ const staccatoSounds = [
   [ gSound, g001Sound, g002Sound ]
 ];
 
-type LinearFunctionStub = ( x: number ) => number;
+type LinearFunctionType = ( x: number ) => number;
 
 class StaccatoFrequencySoundGenerator extends SoundGenerator {
 
@@ -60,7 +60,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
   private inProportionProperty: Property<boolean>;
   private fitnessProperty: Property<number>;
   private staccatoSoundClips: SoundClip[][];
-  private timeLinearFunction: LinearFunctionStub;
+  private timeLinearFunction: LinearFunctionType;
   private timeSinceLastPlay: number;
 
   /**
@@ -102,7 +102,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
       fitnessRange.max,
       500,
       120,
-      true ) as LinearFunctionStub;
+      true ) as LinearFunctionType;
 
     // @private - in ms, keep track of the amount of time that has passed since the last staccato sound played
     this.timeSinceLastPlay = 0;

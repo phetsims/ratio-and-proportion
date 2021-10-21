@@ -10,10 +10,25 @@
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
+import Property from '../../../../../axon/js/Property.js';
+import RAPRatioTuple from '../../model/RAPRatioTuple.js';
+import Range from '../../../../../dot/js/Range.js';
+import RatioDescriber from './RatioDescriber.js';
+import HandPositionsDescriber from './HandPositionsDescriber.js';
+import { TickMarkViewType } from '../TickMarkView.js';
 
 const ratioDistancePositionContextResponsePatternString = ratioAndProportionStrings.a11y.ratio.distancePositionContextResponse;
 
 class BothHandsDescriber {
+
+  private ratioTupleProperty: Property<RAPRatioTuple>;
+  private enabledRatioTermsRangeProperty: Property<Range>;
+  private tickMarkViewProperty: Property<TickMarkViewType>;
+  private ratioDescriber: RatioDescriber;
+  private handPositionsDescriber: HandPositionsDescriber;
+  private ratioLockedProperty: Property<boolean>;
+  private previousAntecedentAtExtremity: boolean;
+  private previousConsequentAtExtremity: boolean;
 
   /**
    * @param {Property.<RAPRatioTuple>} ratioTupleProperty
@@ -23,7 +38,9 @@ class BothHandsDescriber {
    * @param {RatioDescriber} ratioDescriber
    * @param {HandPositionsDescriber} handPositionsDescriber
    */
-  constructor( ratioTupleProperty, enabledRatioTermsRangeProperty, ratioLockedProperty, tickMarkViewProperty, ratioDescriber, handPositionsDescriber ) {
+  constructor( ratioTupleProperty: Property<RAPRatioTuple>, enabledRatioTermsRangeProperty: Property<Range>,
+               ratioLockedProperty: Property<boolean>, tickMarkViewProperty: Property<TickMarkViewType>,
+               ratioDescriber: RatioDescriber, handPositionsDescriber: HandPositionsDescriber ) {
 
     // @private - from model
     this.ratioTupleProperty = ratioTupleProperty;

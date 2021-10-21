@@ -11,6 +11,8 @@ import sceneryPhetStrings from '../../../../../scenery-phet/js/sceneryPhetString
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
 import rapConstants from '../../rapConstants.js';
+import Property from '../../../../../axon/js/Property.js';
+import RAPModel from '../../model/RAPModel.js';
 
 // constants
 const RATIO_FITNESS_STRINGS_CAPITALIZED = [
@@ -52,14 +54,20 @@ const NUMBER_TO_WORD = [
 // an unclamped fitness of 0 should map to "somewhatCloseTo" region
 const ZERO_FITNESS_REGION_INDEX = 4;
 
+type LinearFunctionType = ( x: number ) => number;
+
 assert && assert( RATIO_FITNESS_STRINGS_LOWERCASE.length === RATIO_FITNESS_STRINGS_CAPITALIZED.length, 'should be the same length' );
 
 class RatioDescriber {
 
+  private ratioFitnessProperty: Property<number>;
+  private unclampedFitnessProperty: Property<number>;
+  private model: RAPModel;
+
   /**
    * @param {RAPModel} model
    */
-  constructor( model ) {
+  constructor( model: RAPModel ) {
 
     // @private - from model
     this.ratioFitnessProperty = model.ratioFitnessProperty;
@@ -77,6 +85,8 @@ class RatioDescriber {
    * @returns {string}
    */
   getRatioFitness( capitalized = true ) {
+
+    // @ts-ignore
     assert && assert( ZERO_FITNESS_REGION_INDEX !== 0, 'should not be first index' );
 
     const lastIndex = RATIO_FITNESS_STRINGS_CAPITALIZED.length - 1;
@@ -92,9 +102,9 @@ class RatioDescriber {
     // normalize based on the fitness that is not in proportion
     const normalizedMax = rapConstants.RATIO_FITNESS_RANGE.max - this.model.getInProportionThreshold();
 
-    const lessThanZeroMapping = new LinearFunction( this.model.getMinFitness(), rapConstants.RATIO_FITNESS_RANGE.min, 0, ZERO_FITNESS_REGION_INDEX - 1, true );
-    const greaterThanZeroMapping = new LinearFunction( rapConstants.RATIO_FITNESS_RANGE.min, normalizedMax,
-      ZERO_FITNESS_REGION_INDEX, lastIndex, true );
+    const lessThanZeroMapping = <LinearFunctionType>( new LinearFunction( this.model.getMinFitness(), rapConstants.RATIO_FITNESS_RANGE.min, 0, ZERO_FITNESS_REGION_INDEX - 1, true ) );
+    const greaterThanZeroMapping = <LinearFunctionType>( new LinearFunction( rapConstants.RATIO_FITNESS_RANGE.min, normalizedMax,
+      ZERO_FITNESS_REGION_INDEX, lastIndex, true ) );
 
     const unclampedFitness = this.unclampedFitnessProperty.value;
 
@@ -129,7 +139,7 @@ class RatioDescriber {
    * @param {number} consequent
    * @returns {string}
    */
-  getCurrentChallengeSentence( antecedent, consequent ) {
+  getCurrentChallengeSentence( antecedent: number, consequent: number ) {
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.currentChallenge, {
       targetAntecedent: antecedent,
       targetConsequent: consequent
@@ -142,7 +152,7 @@ class RatioDescriber {
    * @param {number} consequent
    * @returns {string}
    */
-  getTargetRatioChangeAlert( antecedent, consequent ) {
+  getTargetRatioChangeAlert( antecedent: number, consequent: number ) {
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.targetRatioChangedContextResponse, {
       proximityToRatio: this.getProximityToNewChallengeRatioSentence(),
       currentChallenge: this.getCurrentChallengeSentence( antecedent, consequent )
@@ -154,7 +164,7 @@ class RatioDescriber {
    * @param {number} number
    * @returns {string}
    */
-  getWordFromNumber( number ) {
+  getWordFromNumber( number: number ) {
     assert && assert( Number.isInteger( number ) );
     assert && assert( NUMBER_TO_WORD.length > number );
     return NUMBER_TO_WORD[ number ];

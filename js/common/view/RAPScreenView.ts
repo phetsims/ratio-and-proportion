@@ -64,21 +64,29 @@ const RATIO_HALF_SPACING = 10;
 // area on the right.
 const RATIO_SECTION_WIDTH = 2 / 3;
 
-const uiScaleFunction = new LinearFunction( LAYOUT_BOUNDS.height, MAX_RATIO_HEIGHT, 1, 1.5, true );
-const uiPositionFunction = new LinearFunction( 1, 1.5, LAYOUT_BOUNDS.height * 0.15, -LAYOUT_BOUNDS.height * 0.2, true );
+type LinearFunctionType = ( x: number ) => number
+
+const uiScaleFunction = new LinearFunction( LAYOUT_BOUNDS.height, MAX_RATIO_HEIGHT, 1, 1.5, true ) as LinearFunctionType;
+const uiPositionFunction = new LinearFunction( 1, 1.5, LAYOUT_BOUNDS.height * 0.15, -LAYOUT_BOUNDS.height * 0.2, true ) as LinearFunctionType;
 
 class RAPScreenView extends ScreenView {
 
-  protected tickMarkViewProperty: Property<TickMarkViewType>;
+  protected tickMarkViewProperty: EnumerationProperty<TickMarkViewType>;
   protected tickMarkRangeProperty: NumberProperty;
   protected readonly ratioDescriber: RatioDescriber;
   handPositionsDescriber: HandPositionsDescriber;
   private antecedentRatioHalf: RatioHalf;
   private consequentRatioHalf: RatioHalf;
-  markerInput: RAPMarkerInput | null;
-  inProportionSoundGenerator: InProportionSoundGenerator;
-  movingInProportionSoundGenerator: MovingInProportionSoundGenerator;
-  staccatoFrequencySoundGenerator: StaccatoFrequencySoundGenerator;
+  private markerInput: RAPMarkerInput | null;
+  private inProportionSoundGenerator: InProportionSoundGenerator;
+  private movingInProportionSoundGenerator: MovingInProportionSoundGenerator;
+  private staccatoFrequencySoundGenerator: StaccatoFrequencySoundGenerator;
+
+  protected topScalingUILayerNode: Node;
+  protected bottomScalingUILayerNode: Node;
+  protected resetAllButton: ResetAllButton;
+  protected tickMarkViewRadioButtonGroup: TickMarkViewRadioButtonGroup;
+  private layoutRAPScreeView: ( b: Bounds2 ) => void
 
   /**
    * @param {RAPModel} model
@@ -130,7 +138,7 @@ class RAPScreenView extends ScreenView {
     // A collection of properties that keep track of which cues should be displayed for both the antecedent and consequent hands.
     const cueArrowsState = new CueArrowsState();
 
-    const tickMarksAndLabelsColorProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
+    const tickMarksAndLabelsColorProperty: DerivedProperty<Color> = new DerivedProperty( [ model.ratioFitnessProperty ],
       ( fitness: number ) => Color.interpolateRGBA(
         RAPColors.tickMarksAndLabelsOutOfFitnessProperty.value,
         RAPColors.tickMarksAndLabelsInFitnessProperty.value, fitness
@@ -299,7 +307,7 @@ class RAPScreenView extends ScreenView {
     Property.multilink( [
       model.ratioFitnessProperty,
       model.inProportionProperty
-    ], ( fitness, inProportion ) => {
+    ], ( fitness: number, inProportion: boolean ) => {
       let color = null;
       if ( inProportion ) {
         color = RAPColors.backgroundInFitnessProperty.value;
@@ -425,7 +433,7 @@ class RAPScreenView extends ScreenView {
    * @override
    * @public
    */
-  layout( viewBounds ) {
+  layout( viewBounds: Bounds2 ) {
     this.resetTransform();
 
     const scale = this.getLayoutScale( viewBounds );
@@ -472,9 +480,9 @@ class RAPScreenView extends ScreenView {
    * @public
    * @param {number} dt
    */
-  step( dt ) {
+  step( dt: number ) {
 
-    this.markerInput && this.markerInput.step( dt );
+    this.markerInput && this.markerInput.step();
     this.inProportionSoundGenerator.step( dt );
     this.staccatoFrequencySoundGenerator.step( dt );
   }

@@ -20,7 +20,7 @@ class CreateScreenIcon extends ScreenIcon {
   /**
    * @param {Object} [options]
    */
-  constructor( options ) {
+  constructor( options?: any ) {
 
     const numberPickerColor = RAPColors.createScreenHandProperty;
     const numberPickerRange = new Range( 0, 10 );

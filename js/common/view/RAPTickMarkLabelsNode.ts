@@ -32,7 +32,7 @@ class RAPTickMarkLabelsNode extends Node {
    * @param {Object} [options]
    */
   constructor( tickMarkViewProperty: Property<TickMarkViewType>, tickMarkRangeProperty: Property<number>, height: number,
-               colorProperty: Property<Color>, options?: any ) {
+               colorProperty: Property<Color | string>, options?: any ) {
 
     if ( options ) {
       assert && assert( !options.hasOwnProperty( 'children' ), 'RAPTickMarkLabelsNode sets its own children' );
@@ -64,13 +64,13 @@ class RAPTickMarkLabelsNode extends Node {
    */
   get labelHeight() {
     assert && assert( this.heightOfText, 'cannot get labelHeight until labels have been drawn' );
-    return this.heightOfText;
+    return this.heightOfText as number;
   }
 
   /**
    * @public
    */
-  layout( height:number ) {
+  layout( height: number ) {
 
     this.totalHeight = height;
     this.update( this.tickMarkRangeProperty.value, this.tickMarkViewProperty.value );

@@ -11,6 +11,9 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
+import Color from '../../../../scenery/js/util/Color.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
 
 class ChallengeComboBoxItem extends ComboBoxItem {
 
@@ -23,7 +26,8 @@ class ChallengeComboBoxItem extends ComboBoxItem {
    * to match this item's color too.
    * @param {Object} [options]
    */
-  constructor( text, color, value, valueProperty, colorProperty, options ) {
+  constructor( text: string, color: Color | string, value: number, valueProperty: NumberProperty,
+               colorProperty: Property<Color | string>, options?: any ) {
     super( new HBox( {
       spacing: 8,
       children: [
@@ -31,7 +35,7 @@ class ChallengeComboBoxItem extends ComboBoxItem {
         new RichText( text ) ]
     } ), value, options );
 
-    valueProperty.link( newValue => {
+    valueProperty.link( ( newValue: number ) => {
       if ( newValue === value ) {
         colorProperty.value = color;
       }

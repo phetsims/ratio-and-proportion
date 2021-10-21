@@ -12,13 +12,14 @@ import ratioAndProportionStrings from '../ratioAndProportionStrings.js';
 import CreateScreenIcon from './view/CreateScreenIcon.js';
 import CreateScreenKeyboardHelpContent from './view/CreateScreenKeyboardHelpContent.js';
 import CreateScreenView from './view/CreateScreenView.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 
 class CreateScreen extends Screen {
 
   /**
    * @param {Tandem} tandem
    */
-  constructor( tandem ) {
+  constructor( tandem: Tandem ) {
 
     const options = {
       backgroundColorProperty: new Property( 'white' ),
@@ -31,7 +32,7 @@ class CreateScreen extends Screen {
 
     super(
       () => new RAPModel( tandem.createTandem( 'model' ) ),
-      model => new CreateScreenView( model, tandem.createTandem( 'view' ) ),
+      ( model: RAPModel ) => new CreateScreenView( model, tandem.createTandem( 'view' ) ),
       options
     );
   }

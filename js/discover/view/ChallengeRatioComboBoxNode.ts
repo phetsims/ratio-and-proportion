@@ -16,6 +16,11 @@ import RAPColors from '../../common/view/RAPColors.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import ChallengeComboBoxItem from './ChallengeComboBoxItem.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
+import Property from '../../../../axon/js/Property.js';
+import Color from '../../../../scenery/js/util/Color.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 // constants
 const SELECTION_SOUND_OPTIONS = {
@@ -23,6 +28,9 @@ const SELECTION_SOUND_OPTIONS = {
 };
 
 class ChallengeRatioComboBoxNode extends Node {
+
+  readonly ratioToChallengeNameMap: Map<number, { capitalized: string, lowercase: string }>;
+  private comboBox: ComboBox;
 
   /**
    * @param {NumberProperty} targetRatioProperty
@@ -32,7 +40,8 @@ class ChallengeRatioComboBoxNode extends Node {
    * @param {Tandem} comboBoxTandem - to pass directly to the comboBox
    * @param {Object} [options]
    */
-  constructor( targetRatioProperty, ratioDescriber, colorProperty, comboBoxListParent, comboBoxTandem, options ) {
+  constructor( targetRatioProperty: NumberProperty, ratioDescriber: RatioDescriber, colorProperty: Property<Color | string>,
+               comboBoxListParent: Node, comboBoxTandem: Tandem, options?: any ) {
 
     assert && options && assert( !options.children, 'ChallengeRatioComboBoxNode sets its own children.' );
 

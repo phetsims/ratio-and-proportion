@@ -25,6 +25,10 @@ import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import Color from '../../../../scenery/js/util/Color.js';
+import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
+import { TickMarkViewType } from '../../common/view/TickMarkView.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 const PICKER_SCALE = 1.5;
 const ICON_SCALE = 0.9;
@@ -32,15 +36,21 @@ const DEFAULT_EXPANDED = false;
 
 class MyChallengeAccordionBox extends AccordionBox {
 
+  targetAntecedentProperty: Property<number>;
+  targetConsequentProperty: Property<number>;
+  private resetMyChallengeAccordionBox: () => void;
+
   /**
    * @param {Property.<number>} targetRatioProperty
    * @param {Property.<boolean>} ratioLockedProperty
    * @param {Property.<ColorDef>} handColorProperty
-   * @param {Property.<TickMarkView>} tickMarkViewProperty
+   * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
    * @param {RatioDescriber} ratioDescriber
    * @param {Object} [options]
    */
-  constructor( targetRatioProperty, ratioLockedProperty, handColorProperty, tickMarkViewProperty, ratioDescriber, options ) {
+  constructor( targetRatioProperty: Property<number>, ratioLockedProperty: Property<boolean>,
+               handColorProperty: Property<Color | string>, tickMarkViewProperty: EnumerationProperty<TickMarkViewType>,
+               ratioDescriber: RatioDescriber, options?: any ) {
 
     options = merge( {
       titleNode: new RichText( ratioAndProportionStrings.myChallenge, {
@@ -151,16 +161,17 @@ class MyChallengeAccordionBox extends AccordionBox {
     this.expandedProperty.value = DEFAULT_EXPANDED;
 
     const accordionBoxUtterance = new ActivationUtterance();
-    this.expandedProperty.lazyLink( expanded => {
+    this.expandedProperty.lazyLink( ( expanded: boolean ) => {
       accordionBoxUtterance.alert = expanded ?
                                     ratioDescriber.getCurrentChallengeSentence( targetAntecedentProperty.value, targetConsequentProperty.value ) :
                                     ratioAndProportionStrings.a11y.ratio.currentChallengeHidden;
       this.alertDescriptionUtterance( accordionBoxUtterance );
     } );
 
-    Property.multilink( [ targetAntecedentProperty, targetConsequentProperty ], ( targetAntecedent, targetConsequent ) => {
-      targetRatioProperty.value = targetAntecedent / targetConsequent;
-    } );
+    Property.multilink( [ targetAntecedentProperty, targetConsequentProperty ],
+      ( targetAntecedent: number, targetConsequent: number ) => {
+        targetRatioProperty.value = targetAntecedent / targetConsequent;
+      } );
 
     // @private
     this.resetMyChallengeAccordionBox = () => {

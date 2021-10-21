@@ -11,14 +11,19 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import ChallengeRatioComboBoxNode from './ChallengeRatioComboBoxNode.js';
 import DiscoverScreenSummaryNode from './DiscoverScreenSummaryNode.js';
+import RAPModel from '../../common/model/RAPModel.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 class DiscoverScreenView extends RAPScreenView {
+
+  private comboBoxContainer: ChallengeRatioComboBoxNode;
 
   /**
    * @param {RAPModel} model
    * @param {Tandem} tandem
    */
-  constructor( model, tandem ) {
+  constructor( model: RAPModel, tandem: Tandem ) {
 
     // For this screen, one Property controls the color of both hands.
     const handColorProperty = new Property( 'black' );
@@ -64,12 +69,11 @@ class DiscoverScreenView extends RAPScreenView {
   /**
    * @override
    * @public
-   * @param {number} width
-   * @param {number} height
+   * @param {Bounds2} bounds
    */
-  layout( width, height ) {
+  layout( bounds: Bounds2 ) {
     this.comboBoxContainer.hideListBox(); // hidden when layout changes, see https://github.com/phetsims/ratio-and-proportion/issues/324
-    super.layout( width, height );
+    super.layout( bounds );
   }
 }
 
