@@ -17,16 +17,42 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import RatioTerm from '../model/RatioTerm.js';
 import rapConstants from '../rapConstants.js';
-import getKeyboardInputSnappingMapper from './getKeyboardInputSnappingMapper.js';
+import getKeyboardInputSnappingMapper, { KeyboardInputMapper } from './getKeyboardInputSnappingMapper.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Property from '../../../../axon/js/Property.js';
+import Range from '../../../../dot/js/Range.js';
+import BoundarySoundClip from './sound/BoundarySoundClip.js';
+import TickMarkBumpSoundClip from './sound/TickMarkBumpSoundClip.js';
+import SceneryEvent from '../../../../scenery/js/input/SceneryEvent.js';
 
 const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 class BothHandsInteractionListener {
 
+  private targetNode: Node;
+  private antecedentInteractedWithProperty: BooleanProperty;
+  private consequentInteractedWithProperty: BooleanProperty;
+  private enabledRatioTermsRangeProperty: Property<Range>;
+  private tickMarkRangeProperty: Property<number>;
+  private ratioTupleProperty: Property<RAPRatioTuple>;
+  private keyboardStep: number;
+  private shiftKeyboardStep: number;
+  private boundarySoundClip: BoundarySoundClip;
+  private tickMarkBumpSoundClip: TickMarkBumpSoundClip;
+  private ratioLockedProperty: Property<boolean>;
+  private targetRatioProperty: Property<number>;
+  private inProportionProperty: Property<boolean>;
+  private onInput: ( knockOutOfLock?: boolean ) => void;
+  private antecedentMapKeyboardInput: KeyboardInputMapper;
+  private consequentMapKeyboardInput: KeyboardInputMapper;
+  private isBeingInteractedWithProperty: Property<boolean>;
+  private jumpToZeroWhileLockedEmitter: Emitter<[]>;
+  private playBoundarySoundOnKeyup: boolean;
+
   /**
    * @param {Object} config
    */
-  constructor( config ) {
+  constructor( config: any ) {
 
     config = merge( {
 
@@ -126,16 +152,16 @@ class BothHandsInteractionListener {
    * @param {boolean} increment - if the value is being incremented, as opposed to decremented.
    * @private
    */
-  onValueIncrementDecrement( tupleField, inputMapper, increment ) {
+  onValueIncrementDecrement( tupleField: 'antecedent' | 'consequent', inputMapper: KeyboardInputMapper, increment: boolean ) {
     this.isBeingInteractedWithProperty.value = true;
-    const currentTuple = this.ratioTupleProperty.value[ tupleField ];
+    const currentValueFromTuple = this.ratioTupleProperty.value[ tupleField ];
 
     const changeAmount = globalKeyStateTracker.shiftKeyDown ? this.shiftKeyboardStep : this.keyboardStep;
     const valueDelta = changeAmount * ( increment ? 1 : -1 );
 
     // Because this interaction uses the keyboard, snap to the keyboard step to handle the case where the hands were
     // previously moved via mouse/touch. See https://github.com/phetsims/ratio-and-proportion/issues/156
-    const newValue = inputMapper( currentTuple + valueDelta, currentTuple, globalKeyStateTracker.shiftKeyDown ? this.shiftKeyboardStep : this.keyboardStep, this.inProportionProperty.value );
+    const newValue = inputMapper( currentValueFromTuple + valueDelta, currentValueFromTuple, globalKeyStateTracker.shiftKeyDown, this.inProportionProperty.value );
     const newRatioTuple = tupleField === 'antecedent' ? this.ratioTupleProperty.value.withAntecedent( newValue ) : this.ratioTupleProperty.value.withConsequent( newValue );
 
     this.ratioTupleProperty.value = newRatioTuple.constrainFields( this.enabledRatioTermsRangeProperty.value );
@@ -156,7 +182,7 @@ class BothHandsInteractionListener {
    * @public
    * @param {SceneryEvent} sceneryEvent
    */
-  keydown( sceneryEvent ) {
+  keydown( sceneryEvent: SceneryEvent ) {
 
     if ( sceneryEvent.target === this.targetNode ) {
 
@@ -164,7 +190,8 @@ class BothHandsInteractionListener {
       // their behavior during scenery event dispatch
       sceneryEvent.pointer.reserveForKeyboardDrag();
 
-      const domEvent = sceneryEvent.domEvent;
+      assert && assert( sceneryEvent.domEvent, 'dom event expected' );
+      const domEvent = sceneryEvent.domEvent as Event;
       const key = KeyboardUtils.getEventCode( domEvent );
 
       if ( key === KeyboardUtils.KEY_DOWN_ARROW ) {
@@ -188,8 +215,14 @@ class BothHandsInteractionListener {
         // for number keys 0-9, jump both values to that tick mark number. This value changes based on the tickMarkRangeProperty
         for ( let i = 0; i <= 9; i++ ) {
           if ( KeyboardUtils.getNumberFromCode( domEvent ) === i &&
+
+               // @ts-ignore
                !domEvent.getModifierState( 'Control' ) &&
+
+               // @ts-ignore
                !domEvent.getModifierState( 'Shift' ) &&
+
+               // @ts-ignore
                !domEvent.getModifierState( 'Alt' ) ) {
 
             this.isBeingInteractedWithProperty.value = true;
@@ -246,11 +279,12 @@ class BothHandsInteractionListener {
    * @public
    * @param {SceneryEvent} sceneryEvent
    */
-  keyup( sceneryEvent ) {
+  keyup( sceneryEvent: SceneryEvent ) {
 
     if ( sceneryEvent.target === this.targetNode ) {
 
-      const domEvent = sceneryEvent.domEvent;
+      assert && assert( sceneryEvent.domEvent, 'domEvent expected' );
+      const domEvent = sceneryEvent.domEvent as Event;
 
       if ( KeyboardUtils.isAnyKeyEvent( domEvent, [ KeyboardUtils.KEY_DOWN_ARROW, KeyboardUtils.KEY_UP_ARROW ] ) ) {
         this.handleBoundarySoundOnInput( this.ratioTupleProperty.value.consequent );
@@ -270,8 +304,8 @@ class BothHandsInteractionListener {
    * Handle boundary sound output based on an input for this interaction
    * @param {number} newValue
    */
-  handleBoundarySoundOnInput( newValue ) {
-    this.boundarySoundClip.onStartInteraction( newValue );
+  handleBoundarySoundOnInput( newValue: number ) {
+    this.boundarySoundClip.onStartInteraction();
     this.boundarySoundClip.onInteract( newValue );
     this.boundarySoundClip.onEndInteraction( newValue );
   }

@@ -9,11 +9,18 @@
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import tickMarkCrossBumpSound from '../../../../../tambo/sounds/general-soft-click_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
+import NumberProperty from '../../../../../axon/js/NumberProperty.js';
+import Range from '../../../../../dot/js/Range.js';
 
 // This value was copied from similar sound work done in Waves Intro
 const MIN_INTER_CLICK_TIME = 33.3; // min time between clicking sounds, in milliseconds, empirically determined
 
 class TickMarkBumpSoundClip extends SoundClip {
+
+  private tickMarkRangeProperty: NumberProperty;
+  private positionRange: Range;
+  private timeOfLastClick: number;
+  private lastValue: null | number;
 
   /**
    * @param {NumberProperty} tickMarkRangeProperty - serves as the divisor of the position range to yield position
@@ -21,7 +28,7 @@ class TickMarkBumpSoundClip extends SoundClip {
    * @param {Range} positionRange - the total range in position
    * @param {Object} [options]
    */
-  constructor( tickMarkRangeProperty, positionRange, options ) {
+  constructor( tickMarkRangeProperty: NumberProperty, positionRange: Range, options?: any ) {
     super( tickMarkCrossBumpSound, options );
 
     // @private
@@ -38,24 +45,27 @@ class TickMarkBumpSoundClip extends SoundClip {
    * Call this when an interaction occurs that could potentially cause a tick mark sound to play.
    *
    * @public
-   * @param currentValue
+   * @param {number} currentValue
    */
-  onInteract( currentValue ) {
+  onInteract( currentValue: number ) {
 
-    // handle the sound as desired for mouse/touch style input (for vertical changes)
-    for ( let i = 0; i < this.tickMarkRangeProperty.value; i++ ) {
-      const tickValue = ( i / this.positionRange.getLength() ) / this.tickMarkRangeProperty.value;
+    if ( this.lastValue !== null ) {
 
-      // Not at max or min, crossed a tick mark value
-      if ( currentValue !== this.positionRange.min && currentValue !== this.positionRange.max &&
-           this.lastValue < tickValue && currentValue >= tickValue || this.lastValue > tickValue && currentValue <= tickValue ) {
+      // handle the sound as desired for mouse/touch style input (for vertical changes)
+      for ( let i = 0; i < this.tickMarkRangeProperty.value; i++ ) {
+        const tickValue = ( i / this.positionRange.getLength() ) / this.tickMarkRangeProperty.value;
 
-        // if enough time has passed since the last change
-        if ( phet.joist.elapsedTime - this.timeOfLastClick >= MIN_INTER_CLICK_TIME ) {
-          this.play();
-          this.timeOfLastClick = phet.joist.elapsedTime;
+        // Not at max or min, crossed a tick mark value
+        if ( currentValue !== this.positionRange.min && currentValue !== this.positionRange.max &&
+             this.lastValue < tickValue && currentValue >= tickValue || this.lastValue > tickValue && currentValue <= tickValue ) {
+
+          // if enough time has passed since the last change
+          if ( phet.joist.elapsedTime - this.timeOfLastClick >= MIN_INTER_CLICK_TIME ) {
+            this.play();
+            this.timeOfLastClick = phet.joist.elapsedTime;
+          }
+          break;
         }
-        break;
       }
     }
 

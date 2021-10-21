@@ -8,6 +8,7 @@
  */
 
 import dotRandom from '../../../../../dot/js/dotRandom.js';
+import Range from '../../../../../dot/js/Range.js';
 import LinearFunction from '../../../../../dot/js/LinearFunction.js';
 import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
@@ -51,12 +52,16 @@ const staccatoSounds = [
   [ gSound, g001Sound, g002Sound ]
 ];
 
+type LinearFunctionStub = ( x: number ) => number;
+
 class StaccatoFrequencySoundGenerator extends SoundGenerator {
 
 
   private inProportionProperty: Property<boolean>;
   private fitnessProperty: Property<number>;
   private staccatoSoundClips: SoundClip[][];
+  private timeLinearFunction: LinearFunctionStub;
+  private timeSinceLastPlay: number;
 
   /**
    * @param {Property.<number>} fitnessProperty
@@ -97,7 +102,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
       fitnessRange.max,
       500,
       120,
-      true );
+      true ) as LinearFunctionStub;
 
     // @private - in ms, keep track of the amount of time that has passed since the last staccato sound played
     this.timeSinceLastPlay = 0;
@@ -108,7 +113,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
    * @param {number} dt
    * @public
    */
-  step( dt ) {
+  step( dt: number ) {
     const newFitness = this.fitnessProperty.value;
 
     // If fitness is less than zero, make sure enough time has past that it will play a sound immediately.

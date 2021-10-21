@@ -29,8 +29,8 @@ class ViewSounds {
 
   readonly grabSoundClip: SoundClip;
   readonly releaseSoundClip: SoundClip;
-  readonly boundarySoundClip: SoundClip;
-  readonly tickMarkBumpSoundClip: SoundClip;
+  readonly boundarySoundClip: BoundarySoundClip;
+  readonly tickMarkBumpSoundClip: TickMarkBumpSoundClip;
 
   /**
    * @param {NumberProperty} tickMarkRangeProperty
@@ -39,7 +39,7 @@ class ViewSounds {
    * @param {Object} [options]
    */
   constructor( tickMarkRangeProperty: NumberProperty, tickMarkViewProperty: Property<TickMarkViewType>,
-               playTickMarkBumpSoundProperty: BooleanProperty, options: any ) {
+               playTickMarkBumpSoundProperty: BooleanProperty, options?: any ) {
 
     options = merge( {
       addSoundOptions: {

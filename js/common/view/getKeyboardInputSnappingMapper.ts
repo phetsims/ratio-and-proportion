@@ -14,18 +14,24 @@ import Utils from '../../../../dot/js/Utils.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import rapConstants from '../rapConstants.js';
 
+type KeyboardInputMapper = {
+  ( newValue: number, oldVaue: number, useShiftKeyStep: boolean, alreadyInProportion: boolean ): number,
+  reset: () => void
+}
+
+
 /**
  * @param {function():number} getIdealValue - get the ideal target value
  * @param {number} keyboardStep
  * @param {number} shiftKeyboardStep
- * @returns {function(newValue: number, oldValue:number, useShiftKeyStep:boolean, alreadyInProportion:boolean):number} - returns a function that returns the snap/conserved value
+ * @returns {KeyboardInputMapper} - returns a function that returns the snap/conserved value
  */
-function getKeyboardInputSnappingMapper( getIdealValue, keyboardStep, shiftKeyboardStep ) {
+function getKeyboardInputSnappingMapper( getIdealValue: () => number, keyboardStep: number, shiftKeyboardStep: number ) {
 
   // keep track of the remainder for next input post-process
   let remainder = 0;
 
-  const snappingFunction = ( newValue, oldValue, useShiftKeyStep, alreadyInProportion ) => {
+  const snappingFunction: KeyboardInputMapper = ( newValue, oldValue, useShiftKeyStep, alreadyInProportion ) => {
     // Don't conserve the snap for page up/down or home/end keys, just basic movement changes.
     const applyConservationSnap = rapConstants.toFixed( Math.abs( newValue - oldValue ) ) <= shiftKeyboardStep && // eslint-disable-line bad-sim-text
                                   newValue > rapConstants.NO_SUCCESS_VALUE_THRESHOLD &&
@@ -36,8 +42,7 @@ function getKeyboardInputSnappingMapper( getIdealValue, keyboardStep, shiftKeybo
     if ( remainder === 0 ) {
       const snapToKeyboardStep = useShiftKeyStep ? shiftKeyboardStep : keyboardStep;
       newValue = rapConstants.toFixed( // eslint-disable-line bad-sim-text
-        Utils.roundSymmetric( newValue / snapToKeyboardStep ) * snapToKeyboardStep,
-        Utils.numberOfDecimalPlaces( snapToKeyboardStep ) );
+        Utils.roundSymmetric( newValue / snapToKeyboardStep ) * snapToKeyboardStep );
     }
 
     // If we are in the case where we want to potentially snap to the value that would yield the in-proportion state.
@@ -71,4 +76,5 @@ function getKeyboardInputSnappingMapper( getIdealValue, keyboardStep, shiftKeybo
 }
 
 ratioAndProportion.register( 'getKeyboardInputSnappingMapper', getKeyboardInputSnappingMapper );
+export { KeyboardInputMapper };
 export default getKeyboardInputSnappingMapper;

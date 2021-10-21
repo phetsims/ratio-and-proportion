@@ -84,7 +84,7 @@ class RAPScreenView extends ScreenView {
    * @param {Tandem} tandem
    * @param {Object} [options]
    */
-  constructor( model: RAPModel, tandem: Tandem, options: any ) {
+  constructor( model: RAPModel, tandem: Tandem, options?: any ) {
 
     options = merge( {
       tandem: tandem,

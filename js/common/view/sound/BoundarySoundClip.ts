@@ -26,7 +26,7 @@ class BoundarySoundClip extends SoundClip {
    * @param {Range} verticalRange - the total range that the vertical position can take
    * @param {Object} [options]
    */
-  constructor( verticalRange: Range, options: any ) {
+  constructor( verticalRange: Range, options?: any ) {
     super( boundarySound, options );
 
     // @private
@@ -47,7 +47,7 @@ class BoundarySoundClip extends SoundClip {
    * @param {number} [horizontalPosition]
    * @param {Range} [horizontalRange] - the horizontal range can change based on view scaling
    */
-  onInteract( verticalPosition: number, horizontalPosition: number, horizontalRange: Range ) {
+  onInteract( verticalPosition: number, horizontalPosition?: number, horizontalRange?: Range ) {
 
     if ( this.lastYPosition !== verticalPosition &&
          ( verticalPosition === this.verticalRange.min || verticalPosition === this.verticalRange.max ) ) {
@@ -55,7 +55,7 @@ class BoundarySoundClip extends SoundClip {
     }
     this.lastYPosition = verticalPosition;
 
-    if ( horizontalPosition ) {
+    if ( horizontalPosition && horizontalRange ) {
 
       if ( this.lastXPosition !== horizontalPosition &&
            ( horizontalPosition === horizontalRange.min || horizontalPosition === horizontalRange.max ) ) {

@@ -23,7 +23,7 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
    * @param {RAPModel} model
    * @param {Object} [options]
    */
-  constructor( model: RAPModel, options: any ) {
+  constructor( model: RAPModel, options?: any ) {
     options = merge( {
       initialOutputLevel: 0.13
     }, options );
