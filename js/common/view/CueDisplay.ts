@@ -6,5 +6,12 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-type CueDisplay = 'NONE'| 'W_S'| 'UP_DOWN'| 'ARROWS';
+
+enum CueDisplay {
+  NONE,
+  W_S,
+  UP_DOWN,
+  ARROWS
+}
+
 export default CueDisplay;

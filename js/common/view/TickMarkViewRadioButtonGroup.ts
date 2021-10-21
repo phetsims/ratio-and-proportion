@@ -14,7 +14,8 @@ import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularR
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
-import TickMarkView from './TickMarkView.js';
+import TickMarkView, { TickMarkViewType } from './TickMarkView.js';
+import Property from '../../../../axon/js/Property.js';
 
 // constants
 const ICON_SCALE = 0.45;
@@ -22,10 +23,10 @@ const ICON_SCALE = 0.45;
 class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup {
 
   /**
-   * @param {Property}tickMarkViewProperty
+   * @param {Property.<TickMarkViewType>} tickMarkViewProperty
    * @param {Object} [options]
    */
-  constructor( tickMarkViewProperty, options ) {
+  constructor( tickMarkViewProperty: Property<TickMarkViewType>, options?: any ) {
 
     options = merge( {
       orientation: 'horizontal',
@@ -57,7 +58,7 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup {
       options );
 
     const tickMarkContextResponseUtterance = new ActivationUtterance();
-    tickMarkViewProperty.lazyLink( tickMarkView => {
+    tickMarkViewProperty.lazyLink( ( tickMarkView: TickMarkViewType ) => {
 
       switch( tickMarkView ) {
         case TickMarkView.NONE:
@@ -84,7 +85,7 @@ class NumberedTickMarksIconPath extends Path {
   /**
    * @param {Object} [options]
    */
-  constructor( options ) {
+  constructor( options?: any ) {
 
     options = merge( {
       fill: 'black',
@@ -118,7 +119,7 @@ class TickMarksIconPath extends Path {
   /**
    * @param {Object} [options]
    */
-  constructor( options ) {
+  constructor( options?: any ) {
 
     options = merge( {
       fill: 'black',

@@ -26,9 +26,14 @@ import rapConstants from '../rapConstants.js';
 import CueDisplay from './CueDisplay.js';
 import getKeyboardInputSnappingMapper from './getKeyboardInputSnappingMapper.js';
 import RAPColors from './RAPColors.js';
-import TickMarkView from './TickMarkView.js';
+import TickMarkView, { TickMarkViewType } from './TickMarkView.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import Color from '../../../../scenery/js/util/Color.js';
 
 class RatioHandNode extends Node {
+
+  private focusHighlight: FocusHighlightFromNode;
+  private resetRatioHandNode: () => void;
 
   /**
    * @param {Property.<number>} valueProperty
@@ -41,8 +46,11 @@ class RatioHandNode extends Node {
    * @param {Property.<boolean>} inProportionProperty - if the model is in proportion
    * @param {Object} [options]
    */
-  constructor( valueProperty, enabledRatioTermsRangeProperty, tickMarkViewProperty, keyboardStep, colorProperty,
-               cueDisplayProperty, getIdealValue, inProportionProperty, options ) {
+  constructor( valueProperty: Property<number>, enabledRatioTermsRangeProperty: Property<Range>,
+               tickMarkViewProperty: EnumerationProperty<TickMarkViewType>, keyboardStep: number,
+               colorProperty: Property<Color | string>,
+               cueDisplayProperty: Property<CueDisplay>, getIdealValue: ( n?: number ) => number,
+               inProportionProperty: Property<boolean>, options?: any ) {
 
     const shiftKeyboardStep = rapConstants.toFixed( keyboardStep * rapConstants.SHIFT_KEY_MULTIPLIER ); // eslint-disable-line bad-sim-text
 
@@ -62,7 +70,7 @@ class RatioHandNode extends Node {
 
       // Because this interaction uses the keyboard, snap to the keyboard step to handle the case where the hands were
       // previously moved via mouse/touch. See https://github.com/phetsims/ratio-and-proportion/issues/156
-      a11yMapValue: ( newValue, oldValue ) => {
+      a11yMapValue: ( newValue: number, oldValue: number ) => {
         return mapKeyboardInput( newValue, oldValue, this.shiftKeyDown, inProportionProperty.value );
       }
     }, options );
@@ -93,7 +101,7 @@ class RatioHandNode extends Node {
     this.focusHighlight = new FocusHighlightFromNode( handContainer );
 
     // Only display the "cut-out target circles" when the tick marks are being shown
-    tickMarkViewProperty.link( tickMarkView => {
+    tickMarkViewProperty.link( ( tickMarkView: TickMarkViewType ) => {
       const displayCutOut = TickMarkView.displayHorizontal( tickMarkView );
       cutOutHandNode.visible = displayCutOut;
       filledInHandNode.visible = !displayCutOut;
@@ -141,7 +149,7 @@ class RatioHandNode extends Node {
     this.addChild( upCue );
     this.addChild( downCue );
 
-    cueDisplayProperty.link( cueDisplay => {
+    cueDisplayProperty.link( ( cueDisplay: CueDisplay ) => {
       cueArrowUp.visible = cueArrowDown.visible = cueDisplay === CueDisplay.ARROWS;
       cueArrowKeyUp.visible = cueArrowKeyDown.visible = cueDisplay === CueDisplay.UP_DOWN;
       cueWKeyUp.visible = cueSKeyDown.visible = cueDisplay === CueDisplay.W_S;
@@ -185,7 +193,7 @@ class RatioHandNode extends Node {
    * @returns {Node}
    * @public
    */
-  static createIcon( isRight, tickMarkViewProperty, options ) {
+  static createIcon( isRight: boolean, tickMarkViewProperty: EnumerationProperty<TickMarkViewType>, options?: any ) {
     options = merge( {
       handColor: 'black',
       handNodeOptions: {
@@ -201,7 +209,7 @@ class RatioHandNode extends Node {
       new Property( options.handColor ),
       new Property( CueDisplay.NONE ),
       _.identity,
-      _.stubFalse,
+      new Property( false ),
       merge( {
         isRight: isRight,
         asIcon: true,
@@ -219,7 +227,7 @@ class FilledInHandPath extends Path {
   /**
    * @param {Object} [options]
    */
-  constructor( options ) {
+  constructor( options?: any ) {
 
     options = merge( {
       stroke: 'black',
@@ -245,7 +253,7 @@ class CutOutHandPath extends Path {
   /**
    * @param {Object} [options]
    */
-  constructor( options ) {
+  constructor( options?: any ) {
 
     options = merge( {
       stroke: 'black',

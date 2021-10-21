@@ -51,6 +51,7 @@ import TickMarkView, { TickMarkViewType } from './TickMarkView.js';
 import TickMarkViewRadioButtonGroup from './TickMarkViewRadioButtonGroup.js';
 import RAPModel from '../model/RAPModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import CueDisplay from './CueDisplay.js';
 
 // constants
 const LAYOUT_BOUNDS = ScreenView.DEFAULT_LAYOUT_BOUNDS;
@@ -181,7 +182,7 @@ class RAPScreenView extends ScreenView {
       handColorProperty: options.leftHandColorProperty,
       accessibleName: ratioAndProportionStrings.a11y.leftHand,
       a11yDependencies: a11yDependencies,
-      bothHandsCueDisplay: 'W_S',
+      bothHandsCueDisplay: CueDisplay.W_S,
       isRight: false, // this way we get a left hand
 
       // Added to the antecedent for ease, but it applies to both RatioHalfs in the PDOM

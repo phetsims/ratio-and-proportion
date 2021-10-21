@@ -18,7 +18,7 @@ import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import rapConstants from '../rapConstants.js';
 import RAPRatio from './RAPRatio.js';
-import RatioTerm, { RatioTermType } from './RatioTerm.js';
+import RatioTerm from './RatioTerm.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import RAPRatioTuple from './RAPRatioTuple.js';
 
@@ -257,7 +257,7 @@ unclampedFitness: ${unclampedFitness}
    * @returns {number}
    * @public
    */
-  getIdealValueForTerm( ratioTerm: RatioTermType ) {
+  getIdealValueForTerm( ratioTerm: RatioTerm ) {
     if ( ratioTerm === RatioTerm.ANTECEDENT ) {
       return this.targetRatioProperty.value * this.ratio.tupleProperty.value.consequent;
     }

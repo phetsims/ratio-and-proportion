@@ -6,19 +6,10 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
-
-type RatioTermType = {
-  ANTECEDENT: Object;
-  CONSEQUENT: Object;
+// @ts-ignore
+enum RatioTerm {
+  ANTECEDENT,
+  CONSEQUENT
 }
 
-// @ts-ignore
-const RatioTerm = <RatioTermType>Enumeration.byKeys( [ 'ANTECEDENT', 'CONSEQUENT' ] );
-
-
-ratioAndProportion.register( 'RatioTerm', RatioTerm );
-
-export { RatioTermType };
 export default RatioTerm;

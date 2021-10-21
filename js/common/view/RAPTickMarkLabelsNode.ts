@@ -11,11 +11,18 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import TickMarkView from './TickMarkView.js';
+import TickMarkView, { TickMarkViewType } from './TickMarkView.js';
+import Color from '../../../../scenery/js/util/Color.js';
 
 const LABEL_X = 0;
 
 class RAPTickMarkLabelsNode extends Node {
+
+  private totalHeight: number;
+  private heightOfText: number | null;
+  private tickMarkViewProperty: Property<TickMarkViewType>;
+  private tickMarkRangeProperty: Property<number>;
+  private colorProperty: Property<Color>;
 
   /**
    * @param {Property.<TickMarkView>} tickMarkViewProperty
@@ -24,7 +31,8 @@ class RAPTickMarkLabelsNode extends Node {
    * @param {Property.<Color>} colorProperty
    * @param {Object} [options]
    */
-  constructor( tickMarkViewProperty, tickMarkRangeProperty, height, colorProperty, options ) {
+  constructor( tickMarkViewProperty: Property<TickMarkViewType>, tickMarkRangeProperty: Property<number>, height: number,
+               colorProperty: Property<Color>, options?: any ) {
 
     if ( options ) {
       assert && assert( !options.hasOwnProperty( 'children' ), 'RAPTickMarkLabelsNode sets its own children' );
@@ -62,7 +70,7 @@ class RAPTickMarkLabelsNode extends Node {
   /**
    * @public
    */
-  layout( height ) {
+  layout( height:number ) {
 
     this.totalHeight = height;
     this.update( this.tickMarkRangeProperty.value, this.tickMarkViewProperty.value );
@@ -71,7 +79,7 @@ class RAPTickMarkLabelsNode extends Node {
   /**
    * @private
    */
-  update( tickMarkRange, tickMarkView ) {
+  update( tickMarkRange: number, tickMarkView: TickMarkViewType ) {
 
     // subtract one to account for potential rounding errors. This helps guarantee that the last line is drawn.
     const horizontalSpacing = ( this.totalHeight - 1 ) / tickMarkRange;
@@ -86,7 +94,7 @@ class RAPTickMarkLabelsNode extends Node {
    * @param {boolean} showTickMarkUnits
    * @param {number} horizontalSpacing
    */
-  updateUnitLabels( showTickMarkUnits, horizontalSpacing ) {
+  updateUnitLabels( showTickMarkUnits: boolean, horizontalSpacing: number ) {
     this.children = [];
 
     assert && assert( typeof horizontalSpacing === 'number', 'Unit Labels only supported for horizontal lines' );

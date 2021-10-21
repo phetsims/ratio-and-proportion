@@ -26,7 +26,7 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
-import RatioTerm, { RatioTermType } from '../model/RatioTerm.js';
+import RatioTerm from '../model/RatioTerm.js';
 import rapConstants from '../rapConstants.js';
 import CueDisplay from './CueDisplay.js';
 import RatioHalfTickMarksNode from './RatioHalfTickMarksNode.js';
@@ -48,12 +48,12 @@ const SNAP_TO_TICK_MARK_THRESHOLD = 0.1;
 // total horizontal drag distance;
 const X_MODEL_DRAG_DISTANCE = 1;
 const INITIAL_X_VALUE = 0;
-const getModelBoundsFromRange = range => new Bounds2( -1 * X_MODEL_DRAG_DISTANCE / 2, range.min, X_MODEL_DRAG_DISTANCE / 2, range.max );
+const getModelBoundsFromRange = ( range: Range ) => new Bounds2( -1 * X_MODEL_DRAG_DISTANCE / 2, range.min, X_MODEL_DRAG_DISTANCE / 2, range.max );
 
 const MIN_HAND_SCALE = 1.2;
 const MAX_HAND_SCALE = 2.5;
 
-function ratioHalfAccessibleNameBehavior( node, options, accessibleName, callbacksForOtherNodes ) {
+function ratioHalfAccessibleNameBehavior( node: RatioHalf, options: any, accessibleName: string, callbacksForOtherNodes: { (): void }[] ) {
   callbacksForOtherNodes.push( () => {
     node.ratioHandNode.accessibleName = accessibleName;
   } );
@@ -62,17 +62,22 @@ function ratioHalfAccessibleNameBehavior( node, options, accessibleName, callbac
 
 const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
+type LayoutFunction = ( bounds: Bounds2, heightScalar: number ) => void;
+
 class RatioHalf extends Rectangle {
 
 
-  public readonly framingRectangleHeight: number;
+  public framingRectangleHeight: number;
   public readonly isBeingInteractedWithProperty: BooleanProperty;
   private ratioLockedProperty: BooleanProperty;
   private bothHandsDescriber: BothHandsDescriber;
   private handPositionsDescriber: HandPositionsDescriber;
   private tickMarkViewProperty: Property<TickMarkViewType>;
-  private ratioTerm: RatioTermType;
+  private ratioTerm: RatioTerm;
   private ratioTupleProperty: Property<RAPRatioTuple>;
+  ratioHandNode: RatioHandNode;
+  private layoutRatioHalf: LayoutFunction;
+  private resetRatioHalf: () => void;
 
   /**
    * @param {Object} config
@@ -151,7 +156,7 @@ class RatioHalf extends Rectangle {
       a11yDependencies: [],
 
       // {CueDisplay}
-      bothHandsCueDisplay: 'UP_DOWN',
+      bothHandsCueDisplay: CueDisplay.UP_DOWN,
 
       // phet-io
       tandem: Tandem.REQUIRED,
@@ -197,9 +202,9 @@ class RatioHalf extends Rectangle {
         bothHandsInteractedWith: boolean,
         displayBothHands: boolean ) => {
         return displayBothHands ? config.bothHandsCueDisplay :
-               keyboardFocused && !interactedWithKeyboard ? 'UP_DOWN' :
-               ( interactedWithKeyboard || interactedWithMouse || bothHandsInteractedWith ) ? 'NONE' :
-               'ARROWS';
+               keyboardFocused && !interactedWithKeyboard ? CueDisplay.UP_DOWN :
+               ( interactedWithKeyboard || interactedWithMouse || bothHandsInteractedWith ) ? CueDisplay.NONE :
+               CueDisplay.ARROWS;
       } );
 
 
@@ -209,10 +214,10 @@ class RatioHalf extends Rectangle {
       bidirectional: true,
       reentrant: true,
       valueType: 'number',
-      map: ratioTuple => ratioTuple.getForTerm( this.ratioTerm ),
-      inverseMap: term => this.ratioTerm === RatioTerm.ANTECEDENT ? this.ratioTupleProperty.value.withAntecedent( term ) :
-                          this.ratioTerm === RatioTerm.CONSEQUENT ? this.ratioTupleProperty.value.withConsequent( term ) :
-                          assert && assert( false, `unexpected ratioTerm ${this.ratioTerm}` )
+      map: ( ratioTuple: RAPRatioTuple ) => ratioTuple.getForTerm( this.ratioTerm ),
+      inverseMap: ( term: number ) => this.ratioTerm === RatioTerm.ANTECEDENT ? this.ratioTupleProperty.value.withAntecedent( term ) :
+                                      this.ratioTerm === RatioTerm.CONSEQUENT ? this.ratioTupleProperty.value.withConsequent( term ) :
+                                      assert && assert( false, `unexpected ratioTerm ${this.ratioTerm}` )
     } );
 
     // @private - The draggable element inside the Node framed with thick rectangles on the top and bottom.
@@ -244,7 +249,7 @@ class RatioHalf extends Rectangle {
       config.bounds );
 
     // Snap mouse/touch input to the nearest tick mark if close enough. This helps with reproducible precision
-    const getSnapToTickMarkValue = yValue => {
+    const getSnapToTickMarkValue = ( yValue: number ) => {
       if ( TickMarkView.displayHorizontal( config.tickMarkViewProperty.value ) ) {
         const tickMarkStep = 1 / config.tickMarkRangeProperty.value;
 
@@ -269,8 +274,8 @@ class RatioHalf extends Rectangle {
       reentrant: true,
       bidirectional: true,
       valueType: Vector2,
-      inverseMap: vector2 => vector2.y,
-      map: number => {
+      inverseMap: ( vector2: Vector2 ) => vector2.y,
+      map: ( number: number ) => {
 
         // initial case
         if ( mappingInitialValue ) {
@@ -286,7 +291,7 @@ class RatioHalf extends Rectangle {
     const dragBoundsProperty = new Property( new Bounds2( 0, 0, 1, 1 ) );
 
     // When set to a value, the horizontal position will not be changed throughout the whole drag. Set to null when not dragging.
-    let startingX = null;
+    let startingX: null | number = null;
 
     // transform and dragBounds set in layout code below
     const dragListener = new DragListener( {
@@ -342,7 +347,7 @@ class RatioHalf extends Rectangle {
     } );
 
     // When the range changes, update the dragBounds of the drag listener
-    config.enabledRatioTermsRangeProperty.link( enabledRange => {
+    config.enabledRatioTermsRangeProperty.link( ( enabledRange: Range ) => {
       const newBounds = getModelBoundsFromRange( enabledRange );
 
       // offset the bounds to account for the ratioHandNode's size, since the center of the ratioHandNode is controlled by the drag bounds.
@@ -379,7 +384,7 @@ class RatioHalf extends Rectangle {
       config.bounds.width, config.bounds.height - 2 * this.framingRectangleHeight,
       config.colorProperty );
 
-    const updatePointer = position => {
+    const updatePointer = ( position: Vector2 ) => {
       this.ratioHandNode.translation = modelViewTransform.modelToViewPosition( position );
     };
     positionProperty.link( updatePointer );
@@ -466,7 +471,7 @@ class RatioHalf extends Rectangle {
    * @public
    * @param {number} desiredBottom
    */
-  setBottomOfRatioHalf( desiredBottom ) {
+  setBottomOfRatioHalf( desiredBottom: number ) {
 
     // `selfBounds` is used for the position of the Rectangle, since RatioHalf extends Rectangle
     this.bottom = desiredBottom + ( this.bounds.bottom - this.localToParentBounds( this.selfBounds ).bottom );
@@ -477,7 +482,7 @@ class RatioHalf extends Rectangle {
    * @param {Bounds2} bounds - the bounds of this RatioHalf, effects dimensions, dragBounds, and width of guiding rectangles
    * @param {number} heightScalar - normalized between 0 and 1. When 1, it the ratio half will be the tallest it gets, at 0, the shortest
    */
-  layout( bounds, heightScalar ) {
+  layout( bounds: Bounds2, heightScalar: number ) {
     assert && assert( heightScalar >= 0 && heightScalar <= 1, 'scalar should be between 0 and 1' );
     this.layoutRatioHalf( bounds, heightScalar );
   }
