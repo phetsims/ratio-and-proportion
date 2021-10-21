@@ -38,16 +38,27 @@ const RATIO_FITNESS_STRINGS_LOWERCASE = [
 ];
 
 const NUMBER_TO_WORD = [
+  // @ts-ignore
   sceneryPhetStrings.zero,
+  // @ts-ignore
   sceneryPhetStrings.one,
+  // @ts-ignore
   sceneryPhetStrings.two,
+  // @ts-ignore
   sceneryPhetStrings.three,
+  // @ts-ignore
   sceneryPhetStrings.four,
+  // @ts-ignore
   sceneryPhetStrings.five,
+  // @ts-ignore
   sceneryPhetStrings.six,
+  // @ts-ignore
   sceneryPhetStrings.seven,
+  // @ts-ignore
   sceneryPhetStrings.eight,
+  // @ts-ignore
   sceneryPhetStrings.nine,
+  // @ts-ignore
   sceneryPhetStrings.ten
 ];
 

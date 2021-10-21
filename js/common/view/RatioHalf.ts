@@ -210,6 +210,7 @@ class RatioHalf extends Rectangle {
 
     // @public {Property.<number>} - Create a mapping directly to just this ratio term value. This is to support
     // AccessibleValueHandler, which powers the PDOM interaction off of {Property.<number>}.
+    // @ts-ignore
     const ratioTermSpecificProperty = new DynamicProperty( new Property( this.ratioTupleProperty ), {
       bidirectional: true,
       reentrant: true,
@@ -218,7 +219,7 @@ class RatioHalf extends Rectangle {
       inverseMap: ( term: number ) => this.ratioTerm === RatioTerm.ANTECEDENT ? this.ratioTupleProperty.value.withAntecedent( term ) :
                                       this.ratioTerm === RatioTerm.CONSEQUENT ? this.ratioTupleProperty.value.withConsequent( term ) :
                                       assert && assert( false, `unexpected ratioTerm ${this.ratioTerm}` )
-    } );
+    } ) as Property<number>;
 
     // @private - The draggable element inside the Node framed with thick rectangles on the top and bottom.
     this.ratioHandNode = new RatioHandNode( ratioTermSpecificProperty, config.enabledRatioTermsRangeProperty, config.tickMarkViewProperty,
@@ -339,6 +340,7 @@ class RatioHalf extends Rectangle {
         viewSounds.boundarySoundClip.onEndInteraction( positionProperty.value.y );
 
         // Support context response on interaction end from mouse/touch input.
+        // @ts-ignore
         this.ratioHandNode.alertContextResponse();
       },
 

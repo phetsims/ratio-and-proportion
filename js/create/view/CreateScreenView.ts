@@ -19,7 +19,7 @@ import CreateScreenSummaryNode from './CreateScreenSummaryNode.js';
 import MyChallengeAccordionBox from './MyChallengeAccordionBox.js';
 import TickMarkRangeComboBoxNode from './TickMarkRangeComboBoxNode.js';
 import RAPModel from '../../common/model/RAPModel.js';
-import Bounds2 from '../../../../dot/js/Bounds2';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 
 class CreateScreenView extends RAPScreenView {

@@ -66,17 +66,17 @@ class ChallengeRatioComboBoxNode extends Node {
       tagName: 'h3'
     } );
     this.comboBox = new ComboBox( [
-      new ChallengeComboBoxItem( this.ratioToChallengeNameMap.get( 1 / 2 ).capitalized, RAPColors.discoverChallenge1Property.value, 1 / 2, targetRatioProperty, colorProperty, {
+      new ChallengeComboBoxItem( ( this.ratioToChallengeNameMap.get( 1 / 2 ) as any ).capitalized, RAPColors.discoverChallenge1Property.value, 1 / 2, targetRatioProperty, colorProperty, {
         soundPlayer: soundGenerators[ 0 ],
         a11yLabel: ratioAndProportionStrings.challenge1,
         tandemName: 'challenge1Item'
       } ),
-      new ChallengeComboBoxItem( this.ratioToChallengeNameMap.get( 1 / 3 ).capitalized, RAPColors.discoverChallenge2Property.value, 1 / 3, targetRatioProperty, colorProperty, {
+      new ChallengeComboBoxItem( ( this.ratioToChallengeNameMap.get( 1 / 3 ) as any ).capitalized, RAPColors.discoverChallenge2Property.value, 1 / 3, targetRatioProperty, colorProperty, {
         soundPlayer: soundGenerators[ 1 ],
         a11yLabel: ratioAndProportionStrings.challenge2,
         tandemName: 'challenge2Item'
       } ),
-      new ChallengeComboBoxItem( this.ratioToChallengeNameMap.get( 3 / 4 ).capitalized, RAPColors.discoverChallenge3Property.value, 3 / 4, targetRatioProperty, colorProperty, {
+      new ChallengeComboBoxItem( ( this.ratioToChallengeNameMap.get( 3 / 4 ) as any ).capitalized, RAPColors.discoverChallenge3Property.value, 3 / 4, targetRatioProperty, colorProperty, {
         soundPlayer: soundGenerators[ 2 ],
         a11yLabel: ratioAndProportionStrings.challenge3,
         tandemName: 'challenge3Item'

@@ -22,7 +22,7 @@ class RAPTickMarkLabelsNode extends Node {
   private heightOfText: number | null;
   private tickMarkViewProperty: Property<TickMarkViewType>;
   private tickMarkRangeProperty: Property<number>;
-  private colorProperty: Property<Color>;
+  private colorProperty: Property<Color | string>;
 
   /**
    * @param {Property.<TickMarkView>} tickMarkViewProperty

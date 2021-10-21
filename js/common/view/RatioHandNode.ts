@@ -63,7 +63,7 @@ class RatioHandNode extends Node {
       isRight: true, // right hand or left hand
       asIcon: false, // when true, no input will be attached
 
-      ariaOrientation: Orientation.VERTICAL,
+      ariaOrientation: ( Orientation as any ).VERTICAL,
       keyboardStep: keyboardStep,
       pageKeyboardStep: 1 / 5,
       shiftKeyboardStep: shiftKeyboardStep,
@@ -71,12 +71,15 @@ class RatioHandNode extends Node {
       // Because this interaction uses the keyboard, snap to the keyboard step to handle the case where the hands were
       // previously moved via mouse/touch. See https://github.com/phetsims/ratio-and-proportion/issues/156
       a11yMapValue: ( newValue: number, oldValue: number ) => {
+
+        // @ts-ignore
         return mapKeyboardInput( newValue, oldValue, this.shiftKeyDown, inProportionProperty.value );
       }
     }, options );
     super();
 
     // Always the same range, always enabled
+    // @ts-ignore
     !options.asIcon && this.initializeAccessibleSlider( valueProperty, enabledRatioTermsRangeProperty, new BooleanProperty( true ), options );
 
     // @private
