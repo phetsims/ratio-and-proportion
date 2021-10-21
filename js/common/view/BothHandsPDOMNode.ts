@@ -20,16 +20,23 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import BothHandsInteractionListener from './BothHandsInteractionListener.js';
 import ViewSounds from './sound/ViewSounds.js';
+import BothHandsDescriber from './describers/BothHandsDescriber.js';
 
 // constants
 const OBJECT_RESPONSE_DELAY = 500;
 
 class BothHandsPDOMNode extends Node {
 
+  private bothHandsDescriber: BothHandsDescriber;
+  private antecedentInteractedWithProperty: Property<boolean>;
+  private consequentInteractedWithProperty: Property<boolean>;
+  private bothHandsFocusedProperty: Property<boolean>;
+  private viewSounds: ViewSounds;
+
   /**
    * @param {Object} config
    */
-  constructor( config ) {
+  constructor( config: any ) {
 
     config = merge( {
 
@@ -116,7 +123,7 @@ class BothHandsPDOMNode extends Node {
     Property.multilink( [
       this.antecedentInteractedWithProperty,
       this.consequentInteractedWithProperty
-    ], ( antecedentInteractedWith, consequentInteractedWith ) => {
+    ], ( antecedentInteractedWith: boolean, consequentInteractedWith: boolean ) => {
       config.cueArrowsState.bothHands.interactedWithProperty.value = antecedentInteractedWith || consequentInteractedWith;
 
       // If both hands have been interacted with, then no need for individual cues either
@@ -128,7 +135,7 @@ class BothHandsPDOMNode extends Node {
       this.antecedentInteractedWithProperty,
       this.consequentInteractedWithProperty,
       this.bothHandsFocusedProperty
-    ], ( antecedentInteractedWith, consequentInteractedWith, bothHandsFocused ) => {
+    ], ( antecedentInteractedWith: boolean, consequentInteractedWith: boolean, bothHandsFocused: boolean ) => {
       config.cueArrowsState.bothHands.antecedentCueDisplayedProperty.value = !antecedentInteractedWith && bothHandsFocused;
       config.cueArrowsState.bothHands.consequentCueDisplayedProperty.value = !consequentInteractedWith && bothHandsFocused;
     } );
