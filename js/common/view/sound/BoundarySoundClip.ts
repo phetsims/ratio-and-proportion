@@ -100,7 +100,7 @@ class BoundarySoundClip extends SoundClip {
    * @public
    */
   reset() {
-    this.stop();
+    this.stop( 0 );
     this.playedThisInteraction = false;
     this.lastYPosition = null;
     this.lastXPosition = null;

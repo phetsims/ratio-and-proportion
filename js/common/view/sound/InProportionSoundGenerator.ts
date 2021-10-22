@@ -179,7 +179,7 @@ class InProportionSoundGenerator extends SoundClip {
    * @public
    */
   reset() {
-    this.stop();
+    this.stop( 0 );
     this.playedSuccessYetProperty.reset();
     this.timePlayedSoFarProperty.reset();
     this.previousRatioWasLargerThanTarget = this.calculateCurrentRatioLargerThanTarget();

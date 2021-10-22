@@ -76,7 +76,7 @@ class TickMarkBumpSoundClip extends SoundClip {
    * @public
    */
   reset() {
-    this.stop();
+    this.stop( 0 );
     this.timeOfLastClick = 0;
     this.lastValue = null;
   }
