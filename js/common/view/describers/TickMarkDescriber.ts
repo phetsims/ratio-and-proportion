@@ -11,7 +11,7 @@ import ratioAndProportion from '../../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
 import rapConstants from '../../rapConstants.js';
 import TickMarkView, { TickMarkViewType } from '../TickMarkView.js';
-import Property from '../../../../../axon/js/Property';
+import Property from '../../../../../axon/js/Property.js';
 
 // constants
 const ORDINAL_TICK_MARKS = [

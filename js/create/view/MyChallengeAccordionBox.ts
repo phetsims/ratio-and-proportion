@@ -101,6 +101,7 @@ class MyChallengeAccordionBox extends AccordionBox {
     Property.multilink( [ targetAntecedentProperty, targetConsequentProperty ], () => {
 
       // if currently locked, then it is about to be unlocked
+      // @ts-ignore
       ratioLockedProperty.value && this.alertDescriptionUtterance( ratioUnlockedFromMyChallenge );
     } );
 
@@ -165,6 +166,7 @@ class MyChallengeAccordionBox extends AccordionBox {
       accordionBoxUtterance.alert = expanded ?
                                     ratioDescriber.getCurrentChallengeSentence( targetAntecedentProperty.value, targetConsequentProperty.value ) :
                                     ratioAndProportionStrings.a11y.ratio.currentChallengeHidden;
+      // @ts-ignore
       this.alertDescriptionUtterance( accordionBoxUtterance );
     } );
 

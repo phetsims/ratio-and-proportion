@@ -55,6 +55,7 @@ const MAX_HAND_SCALE = 2.5;
 
 function ratioHalfAccessibleNameBehavior( node: RatioHalf, options: any, accessibleName: string, callbacksForOtherNodes: { (): void }[] ) {
   callbacksForOtherNodes.push( () => {
+    // @ts-ignore
     node.ratioHandNode.accessibleName = accessibleName;
   } );
   return options;

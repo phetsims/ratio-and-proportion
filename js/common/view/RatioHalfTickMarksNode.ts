@@ -12,7 +12,7 @@ import GridNode from '../../../../griddle/js/GridNode.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import TickMarkView, { TickMarkViewType } from './TickMarkView.js';
-import Color from '../../../../scenery/js/util/Color';
+import Color from '../../../../scenery/js/util/Color.js';
 
 class RatioHalfTickMarksNode extends GridNode {
 

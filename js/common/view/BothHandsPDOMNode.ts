@@ -109,6 +109,7 @@ class BothHandsPDOMNode extends Node {
         ariaLabel: ratioAndProportionStrings.a11y.bothHands.bothHands
       }
     }, config );
+    // @ts-ignore
     assert && assert( !config.pdomOrder, 'BothHandsPDOMNode sets its own pdomOrder.' );
 
     super();
@@ -153,8 +154,10 @@ class BothHandsPDOMNode extends Node {
     this.addChild( interactiveNode );
 
     // Make sure that any children inside the both hands interaction (like individual hands) come before the both hands interaction in the PDOM.
+    // @ts-ignore
     this.pdomOrder = [ dynamicDescription, ...interactiveNode.children, null ];
 
+    // @ts-ignore
     interactiveNode.setPDOMAttribute( 'aria-roledescription', sceneryPhetStrings.a11y.grabDrag.movable );
 
     // @private
@@ -174,6 +177,8 @@ class BothHandsPDOMNode extends Node {
       inProportionProperty: config.inProportionProperty,
       onInput: ( knockedOutOfLock: boolean ) => {
         if ( knockedOutOfLock ) {
+
+          // @ts-ignore
           this.alertDescriptionUtterance( this.ratioUnlockedFromBothHandsUtterance );
         }
 
@@ -239,6 +244,7 @@ class BothHandsPDOMNode extends Node {
       config.unclampedFitnessProperty
     ], () => {
 
+      // @ts-ignore
       dynamicDescription.innerContent = this.bothHandsDescriber.getBothHandsDynamicDescription();
 
       if ( this.bothHandsInteractionListener.isBeingInteractedWithProperty.value ) {
@@ -248,8 +254,12 @@ class BothHandsPDOMNode extends Node {
 
     // emit this utterance immediately, so that it comes before the object response above.
     this.bothHandsInteractionListener.jumpToZeroWhileLockedEmitter.addListener( () => {
+
+      // @ts-ignore
       this.alertDescriptionUtterance( ratioAndProportionStrings.a11y.bothHands.cannotJumpToZeroWhenLocked );
       this.contextResponseUtterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse();
+
+      // @ts-ignore
       this.alertDescriptionUtterance( this.contextResponseUtterance );
     } );
 
@@ -276,6 +286,8 @@ class BothHandsPDOMNode extends Node {
   alertBothHandsObjectResponse( onFocus = false ) {
     const utterance = onFocus ? this.objectResponseOnFocusUtterance : this.objectResponseUtterance;
     utterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse();
+
+    // @ts-ignore
     this.alertDescriptionUtterance( utterance );
   }
 
@@ -289,6 +301,8 @@ class BothHandsPDOMNode extends Node {
     else {
       this.contextResponseUtterance.alert = this.bothHandsDescriber.getBothHandsContextResponse();
     }
+
+    // @ts-ignore
     this.alertDescriptionUtterance( this.contextResponseUtterance );
   }
 }

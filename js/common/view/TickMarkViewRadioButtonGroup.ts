@@ -75,6 +75,7 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup {
           assert && assert( false, 'unsupported tickMarkView' );
       }
 
+      // @ts-ignore
       this.alertDescriptionUtterance( tickMarkContextResponseUtterance );
     } );
   }

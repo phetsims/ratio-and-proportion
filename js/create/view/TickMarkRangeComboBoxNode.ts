@@ -98,6 +98,7 @@ class TickMarkRangeComboBoxNode extends Node {
       tickMarkRangeChangedUtterance.alert = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.tickMarkRangeContextResponse, {
         range: tickMarkRangeMap[ range ]
       } );
+      // @ts-ignore
       this.alertDescriptionUtterance( tickMarkRangeChangedUtterance );
     } );
   }

@@ -7,9 +7,12 @@
  */
 
 // @ts-ignore
+/* eslint-disable */ // TODO fix lint, https://github.com/phetsims/ratio-and-proportion/issues/404
 enum RatioTerm {
   ANTECEDENT,
   CONSEQUENT
 }
+
+/* eslint-enable */
 
 export default RatioTerm;

@@ -14,7 +14,7 @@ import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
 import RatioTerm from '../../model/RatioTerm.js';
 import rapConstants from '../../rapConstants.js';
 import TickMarkView, { TickMarkViewType } from '../TickMarkView.js';
-import Property from '../../../../../axon/js/Property';
+import Property from '../../../../../axon/js/Property.js';
 import RAPRatioTuple from '../../model/RAPRatioTuple.js';
 import TickMarkDescriber from './TickMarkDescriber.js';
 

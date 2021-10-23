@@ -48,6 +48,7 @@ class DiscoverScreenView extends RAPScreenView {
     // the dimensions of the scalingUILayerNode to make it too big. Discovered in https://github.com/phetsims/ratio-and-proportion/issues/273
     this.addChild( comboBoxListBoxParent );
 
+    // @ts-ignore
     this.pdomPlayAreaNode.pdomOrder = ( this.pdomPlayAreaNode as any ).pdomOrder.concat( [ this.comboBoxContainer, comboBoxListBoxParent ] );
 
     // set this after the supertype has initialized the view code needed to create the screen summary

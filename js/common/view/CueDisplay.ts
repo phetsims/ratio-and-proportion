@@ -7,11 +7,13 @@
  */
 
 
+/* eslint-disable */ // TODO: fix lint https://github.com/phetsims/ratio-and-proportion/issues/404
 enum CueDisplay {
   NONE,
   W_S,
   UP_DOWN,
   ARROWS
 }
+/* eslint-enable */
 
 export default CueDisplay;

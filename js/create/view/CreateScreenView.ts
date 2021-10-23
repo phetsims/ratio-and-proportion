@@ -82,6 +82,8 @@ class CreateScreenView extends RAPScreenView {
       fire: () => {
         ratioLockedUtterance.alert = model.ratio.lockedProperty.value ? ratioAndProportionStrings.a11y.lockRatioCheckboxContextResponse :
                                      ratioAndProportionStrings.a11y.ratioNoLongerLocked;
+
+        // @ts-ignore
         this.alertDescriptionUtterance( ratioLockedUtterance );
       },
 
@@ -112,6 +114,7 @@ class CreateScreenView extends RAPScreenView {
     this.addChild( tickMarkRangeComboBoxParent );
 
     // pdom
+    // @ts-ignore
     this.pdomPlayAreaNode.pdomOrder = ( this.pdomPlayAreaNode as any ).pdomOrder.concat( [
       this.tickMarkRangeComboBoxNode,
       tickMarkRangeComboBoxParent,

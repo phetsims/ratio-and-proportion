@@ -10,7 +10,7 @@ import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import Range from '../../../../dot/js/Range.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import RatioTerm  from './RatioTerm.js';
+import RatioTerm from './RatioTerm.js';
 
 class RAPRatioTuple {
 

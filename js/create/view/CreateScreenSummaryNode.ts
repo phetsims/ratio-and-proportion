@@ -82,18 +82,24 @@ class CreateScreenSummaryNode extends Node {
       tickMarkRangeProperty,
       ratioFitnessProperty
     ], ( tickMarkView: TickMarkViewType, targetAntecedent: number, targetConsequent: number, currentTuple: RAPRatioTuple ) => {
+
+      // @ts-ignore
       stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.screenSummary.qualitativeStateOfSim, {
         ratioFitness: ratioDescriber.getRatioFitness( false ), // lowercase
         distance: handPositionsDescriber.getDistanceRegion( true )
       } );
 
+      // @ts-ignore
       leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
         position: handPositionsDescriber.getHandPositionDescription( currentTuple.antecedent, tickMarkView )
       } );
+
+      // @ts-ignore
       rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
         position: handPositionsDescriber.getHandPositionDescription( currentTuple.consequent, tickMarkView )
       } );
 
+      // @ts-ignore
       currentChallengeBullet.innerContent = ratioDescriber.getCurrentChallengeSentence( targetAntecedent, targetConsequent );
     } );
   }

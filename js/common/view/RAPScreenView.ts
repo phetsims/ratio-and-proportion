@@ -369,12 +369,14 @@ class RAPScreenView extends ScreenView {
     ];
 
     // accessible order (ratio first in nav order)
+    // @ts-ignore
     this.pdomPlayAreaNode.pdomOrder = [
       bothHandsPDOMNode,
       this.tickMarkViewRadioButtonGroup
     ];
 
     // accessible order
+    // @ts-ignore
     this.pdomControlAreaNode.pdomOrder = [
       this.resetAllButton
     ];

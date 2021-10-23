@@ -73,14 +73,20 @@ class DiscoverScreenSummaryNode extends Node {
       ratioTupleProperty,
       ratioFitnessProperty
     ], ( currentTargetRatio: number, tickMarkView: TickMarkViewType, currentTuple: RAPRatioTuple ) => {
+
+      // @ts-ignore
       stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.discover.screenSummary.qualitativeStateOfSim, {
         ratioFitness: ratioDescriber.getRatioFitness( false ), // lowercase
         currentChallenge: ( ratioToChallengeNameMap.get( currentTargetRatio ) as any ).lowercase,
         distance: handPositionsDescriber.getDistanceRegion( true )
       } );
+
+      // @ts-ignore
       leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
         position: handPositionsDescriber.getHandPositionDescription( currentTuple.antecedent, tickMarkView )
       } );
+
+      // @ts-ignore
       rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
         position: handPositionsDescriber.getHandPositionDescription( currentTuple.consequent, tickMarkView )
       } );
