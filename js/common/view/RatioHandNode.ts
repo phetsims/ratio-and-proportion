@@ -47,7 +47,7 @@ class RatioHandNode extends Node {
    * @param {Object} [options]
    */
   constructor( valueProperty: Property<number>, enabledRatioTermsRangeProperty: Property<Range>,
-               tickMarkViewProperty: EnumerationProperty<TickMarkViewType>, keyboardStep: number,
+               tickMarkViewProperty: EnumerationProperty, keyboardStep: number,
                colorProperty: Property<Color | string>,
                cueDisplayProperty: Property<CueDisplay>, getIdealValue: ( n?: number ) => number,
                inProportionProperty: Property<boolean>, options?: any ) {
@@ -196,7 +196,7 @@ class RatioHandNode extends Node {
    * @returns {Node}
    * @public
    */
-  static createIcon( isRight: boolean, tickMarkViewProperty: EnumerationProperty<TickMarkViewType>, options?: any ) {
+  static createIcon( isRight: boolean, tickMarkViewProperty: EnumerationProperty, options?: any ) {
     options = merge( {
       handColor: 'black',
       handNodeOptions: {

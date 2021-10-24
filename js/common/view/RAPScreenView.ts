@@ -47,7 +47,7 @@ import RatioHalf from './RatioHalf.js';
 import InProportionSoundGenerator from './sound/InProportionSoundGenerator.js';
 import MovingInProportionSoundGenerator from './sound/MovingInProportionSoundGenerator.js';
 import StaccatoFrequencySoundGenerator from './sound/StaccatoFrequencySoundGenerator.js';
-import TickMarkView, { TickMarkViewType } from './TickMarkView.js';
+import TickMarkView from './TickMarkView.js';
 import TickMarkViewRadioButtonGroup from './TickMarkViewRadioButtonGroup.js';
 import RAPModel from '../model/RAPModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -71,7 +71,7 @@ const uiPositionFunction = new LinearFunction( 1, 1.5, LAYOUT_BOUNDS.height * 0.
 
 class RAPScreenView extends ScreenView {
 
-  protected tickMarkViewProperty: EnumerationProperty<TickMarkViewType>;
+  protected tickMarkViewProperty: EnumerationProperty;
   protected tickMarkRangeProperty: NumberProperty;
   protected readonly ratioDescriber: RatioDescriber;
   handPositionsDescriber: HandPositionsDescriber;
