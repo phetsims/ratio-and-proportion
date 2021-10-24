@@ -27,7 +27,6 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
-import { TickMarkViewType } from '../../common/view/TickMarkView.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 const PICKER_SCALE = 1.5;
