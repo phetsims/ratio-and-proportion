@@ -49,7 +49,7 @@ class MyChallengeAccordionBox extends AccordionBox {
    */
   constructor( targetRatioProperty: Property<number>, ratioLockedProperty: Property<boolean>,
                handColorProperty: Property<Color | string>, tickMarkViewProperty: EnumerationProperty,
-               ratioDescriber: RatioDescriber, options?: any ) {
+               ratioDescriber: RatioDescriber, options: AccordionBoxOptions ) {
 
     options = merge( {
       titleNode: new RichText( ratioAndProportionStrings.myChallenge, {
@@ -75,7 +75,7 @@ class MyChallengeAccordionBox extends AccordionBox {
 
       // phet-io
       tandem: Tandem.REQUIRED
-    }, options );
+    }, options ) as Required<AccordionBoxOptions>;
 
     // Allow us to get the reduced fraction as the initial value of the custom "My Challenge"
     const initialRatioFraction = Fraction.fromDecimal( targetRatioProperty.value );

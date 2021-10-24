@@ -12,6 +12,11 @@ import Range from '../../../../dot/js/Range.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioTerm from './RatioTerm.js';
 
+type RAPRatioTupleState = {
+  antecedent: number,
+  consequent: number
+};
+
 class RAPRatioTuple {
 
   public antecedent: number;
@@ -138,10 +143,10 @@ class RAPRatioTuple {
   /**
    * @public
    * @param {RAPRatioTuple} rapRatioTuple
-   * @returns {Object}
+   * @returns {RAPRatioTupleState}
    */
   toStateObject( rapRatioTuple: RAPRatioTuple ) {
-    return {
+    return <RAPRatioTupleState>{
       antecedent: this.antecedent,
       consequent: this.consequent
     };
@@ -149,10 +154,10 @@ class RAPRatioTuple {
 
   /**
    * @public
-   * @param {Object} stateObject see toStateObject
+   * @param {RAPRatioTupleState} stateObject see toStateObject
    * @returns {RAPRatioTuple}
    */
-  static fromStateObject( stateObject: any ) {
+  static fromStateObject( stateObject: RAPRatioTupleState ) {
     return new RAPRatioTuple( stateObject.antecedent, stateObject.consequent );
   }
 }

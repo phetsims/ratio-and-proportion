@@ -27,6 +27,26 @@ import SceneryEvent from '../../../../scenery/js/input/SceneryEvent.js';
 
 const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
+type OnInputType = ( knockOutOfLock?: boolean ) => void;
+const onInputDefault = () => {};
+
+type BothHandsInteractionListenerOptions = {
+  targetNode: Node;
+  ratioTupleProperty: Property<RAPRatioTuple>;
+  antecedentInteractedWithProperty: BooleanProperty;
+  consequentInteractedWithProperty: BooleanProperty;
+  enabledRatioTermsRangeProperty: Property<Range>;
+  tickMarkRangeProperty: Property<number>;
+  keyboardStep: number;
+  boundarySoundClip: BoundarySoundClip;
+  tickMarkBumpSoundClip: TickMarkBumpSoundClip;
+  ratioLockedProperty: Property<boolean>;
+  targetRatioProperty: Property<number>;
+  inProportionProperty: Property<boolean>;
+  getIdealTerm: ( ratioTerm: RatioTerm ) => number;
+  onInput?: OnInputType;
+};
+
 class BothHandsInteractionListener {
 
   private targetNode: Node;
@@ -42,7 +62,7 @@ class BothHandsInteractionListener {
   private ratioLockedProperty: Property<boolean>;
   private targetRatioProperty: Property<number>;
   private inProportionProperty: Property<boolean>;
-  private onInput: ( knockOutOfLock?: boolean ) => void;
+  private onInput: OnInputType;
   private antecedentMapKeyboardInput: KeyboardInputMapper;
   private consequentMapKeyboardInput: KeyboardInputMapper;
   isBeingInteractedWithProperty: Property<boolean>;
@@ -52,9 +72,9 @@ class BothHandsInteractionListener {
   /**
    * @param {Object} config
    */
-  constructor( config: any ) {
+  constructor( config: BothHandsInteractionListenerOptions ) {
 
-    config = merge( {
+    const filledConfig = merge( {
 
       // ---- REQUIRED -------------------------------------------------
 
@@ -100,30 +120,30 @@ class BothHandsInteractionListener {
       // ---- OPTIONAL -------------------------------------------------
 
       // Called whenever an interaction occurs that this listener responds to, even if not change occurs to the ratio.
-      onInput: _.noop
-    }, config );
+      onInput: onInputDefault
+    }, config ) as Required<BothHandsInteractionListenerOptions>;
 
     // @private
-    this.targetNode = config.targetNode;
-    this.antecedentInteractedWithProperty = config.antecedentInteractedWithProperty;
-    this.consequentInteractedWithProperty = config.consequentInteractedWithProperty;
-    this.enabledRatioTermsRangeProperty = config.enabledRatioTermsRangeProperty;
-    this.tickMarkRangeProperty = config.tickMarkRangeProperty;
-    this.ratioTupleProperty = config.ratioTupleProperty;
-    this.keyboardStep = config.keyboardStep;
+    this.targetNode = filledConfig.targetNode;
+    this.ratioTupleProperty = filledConfig.ratioTupleProperty;
+    this.antecedentInteractedWithProperty = filledConfig.antecedentInteractedWithProperty;
+    this.consequentInteractedWithProperty = filledConfig.consequentInteractedWithProperty;
+    this.enabledRatioTermsRangeProperty = filledConfig.enabledRatioTermsRangeProperty;
+    this.tickMarkRangeProperty = filledConfig.tickMarkRangeProperty;
+    this.keyboardStep = filledConfig.keyboardStep;
     this.shiftKeyboardStep = this.keyboardStep * rapConstants.SHIFT_KEY_MULTIPLIER;
-    this.boundarySoundClip = config.boundarySoundClip;
-    this.tickMarkBumpSoundClip = config.tickMarkBumpSoundClip;
-    this.ratioLockedProperty = config.ratioLockedProperty;
-    this.targetRatioProperty = config.targetRatioProperty;
-    this.inProportionProperty = config.inProportionProperty;
-    this.onInput = config.onInput;
+    this.boundarySoundClip = filledConfig.boundarySoundClip;
+    this.tickMarkBumpSoundClip = filledConfig.tickMarkBumpSoundClip;
+    this.ratioLockedProperty = filledConfig.ratioLockedProperty;
+    this.targetRatioProperty = filledConfig.targetRatioProperty;
+    this.inProportionProperty = filledConfig.inProportionProperty;
+    this.onInput = filledConfig.onInput;
 
     // @private
     this.antecedentMapKeyboardInput = getKeyboardInputSnappingMapper(
-      () => config.getIdealTerm( RatioTerm.ANTECEDENT ), config.keyboardStep, this.shiftKeyboardStep );
+      () => filledConfig.getIdealTerm( RatioTerm.ANTECEDENT ), filledConfig.keyboardStep, this.shiftKeyboardStep );
     this.consequentMapKeyboardInput = getKeyboardInputSnappingMapper(
-      () => config.getIdealTerm( RatioTerm.CONSEQUENT ), config.keyboardStep, this.shiftKeyboardStep );
+      () => filledConfig.getIdealTerm( RatioTerm.CONSEQUENT ), filledConfig.keyboardStep, this.shiftKeyboardStep );
 
     // @private - true whenever the user is interacting with this listener
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
@@ -265,7 +285,7 @@ class BothHandsInteractionListener {
             this.consequentInteractedWithProperty.value = true;
 
             // Extra arg here because this input can "knock" the ratio out of locked mode, see https://github.com/phetsims/ratio-and-proportion/issues/227
-            this.onInput( wasLocked && this.ratioLockedProperty.value === false );
+            this.onInput( wasLocked && !this.ratioLockedProperty.value );
 
             break;
           }

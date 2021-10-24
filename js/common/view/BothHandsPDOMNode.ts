@@ -175,7 +175,7 @@ class BothHandsPDOMNode extends Node {
       targetRatioProperty: config.targetRatioProperty,
       getIdealTerm: config.getIdealTerm,
       inProportionProperty: config.inProportionProperty,
-      onInput: ( knockedOutOfLock: boolean ) => {
+      onInput: ( knockedOutOfLock?: boolean ) => {
         if ( knockedOutOfLock ) {
 
           // @ts-ignore
@@ -294,7 +294,7 @@ class BothHandsPDOMNode extends Node {
   /**
    * @private
    */
-  alertBothHandsContextResponse( knockedOutOfLock: boolean ) {
+  alertBothHandsContextResponse( knockedOutOfLock?: boolean ) {
     if ( knockedOutOfLock ) {
       this.contextResponseUtterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse();
     }
