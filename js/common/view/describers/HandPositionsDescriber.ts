@@ -226,7 +226,6 @@ class HandPositionsDescriber {
    * @returns {string}
    */
   getSingleHandDistance( ratioTerm: RatioTerm ) {
-    assert && assert( typeof RatioTerm[ ratioTerm ] === 'number', 'unsupported RatioTerm' );
     const otherHand = ratioTerm === RatioTerm.ANTECEDENT ? rightHandLowerString : leftHandLowerString;
 
     const distanceRegion = this.getDistanceRegion();
