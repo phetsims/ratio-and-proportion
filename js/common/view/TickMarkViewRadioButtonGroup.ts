@@ -84,9 +84,10 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup {
 class NumberedTickMarksIconPath extends Path {
 
   /**
+   * // TODO: remove lint disable when ColorDef type is in common code, https://github.com/phetsims/ratio-and-proportion/issues/404
    * @param {Object} [options]
    */
-  constructor( options?: any ) {
+  constructor( options?: PathOptions ) { // eslint-disable-line no-undef
 
     options = merge( {
       fill: 'black',
@@ -118,9 +119,10 @@ class NumberedTickMarksIconPath extends Path {
 class TickMarksIconPath extends Path {
 
   /**
+   * // TODO: remove lint disable when ColorDef type is in common code, https://github.com/phetsims/ratio-and-proportion/issues/404
    * @param {Object} [options]
    */
-  constructor( options?: any ) {
+  constructor( options?: PathOptions ) { // eslint-disable-line no-undef
 
     options = merge( {
       fill: 'black',

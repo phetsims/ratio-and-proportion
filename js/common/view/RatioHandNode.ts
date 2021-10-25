@@ -29,6 +29,13 @@ import RAPColors from './RAPColors.js';
 import TickMarkView, { TickMarkViewType } from './TickMarkView.js';
 import Color from '../../../../scenery/js/util/Color.js';
 
+type CreateIconOptions = {
+
+// TODO: remove lint disable when ColorDef type is in common code, https://github.com/phetsims/ratio-and-proportion/issues/404
+  handColor?: ColorDef, // eslint-disable-line no-undef
+  handNodeOptions?: NodeOptions
+};
+
 class RatioHandNode extends Node {
 
   private focusHighlight: FocusHighlightFromNode;
@@ -195,13 +202,13 @@ class RatioHandNode extends Node {
    * @returns {Node}
    * @public
    */
-  static createIcon( isRight: boolean, tickMarkViewProperty: Property<TickMarkViewType>, options?: any ): Node {
+  static createIcon( isRight: boolean, tickMarkViewProperty: Property<TickMarkViewType>, options?: CreateIconOptions ): Node {
     options = merge( {
       handColor: 'black',
       handNodeOptions: {
         tandem: Tandem.OPT_OUT
       }
-    }, options );
+    }, options ) as Required<CreateIconOptions>;
 
     const ratioHandNode = new RatioHandNode(
       new Property( 0 ),
@@ -227,9 +234,10 @@ class RatioHandNode extends Node {
 class FilledInHandPath extends Path {
 
   /**
+   * // TODO: remove lint disable when ColorDef type is in common code, https://github.com/phetsims/ratio-and-proportion/issues/404
    * @param {Object} [options]
    */
-  constructor( options?: any ) {
+  constructor( options?: PathOptions ) { // eslint-disable-line no-undef
 
     options = merge( {
       stroke: 'black',
@@ -253,9 +261,10 @@ c-0.716,0.717-1.074,1.574-1.074,2.572v17.188h-1.041V4.31C28.729,3.311,28.371,2.4
 class CutOutHandPath extends Path {
 
   /**
+   * // TODO: remove lint disable when ColorDef type is in common code, https://github.com/phetsims/ratio-and-proportion/issues/404
    * @param {Object} [options]
    */
-  constructor( options?: any ) {
+  constructor( options?: PathOptions ) { // eslint-disable-line no-undef
 
     options = merge( {
       stroke: 'black',
