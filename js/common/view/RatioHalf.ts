@@ -118,69 +118,69 @@ class RatioHalf extends Rectangle {
   private resetRatioHalf: () => void;
 
   /**
-   * @param {Object} config
+   * @param {Object} [options]
    */
-  constructor( config: RatioHalfOptions ) {
+  constructor( options: RatioHalfOptions ) {
 
-    const filledConfig = merge( {
+    const filledOptions = merge( {
       // ---- REQUIRED -------------------------------------------------
 
       // {RatioTerm}
-      ratioTerm: required( config.ratioTerm ),
+      ratioTerm: required( options.ratioTerm ),
 
       // {Property.<RAPRatioTuple>}
-      ratioTupleProperty: required( config.ratioTupleProperty ),
+      ratioTupleProperty: required( options.ratioTupleProperty ),
 
       // {Property.<Range>} - the current range that the hand can move
-      enabledRatioTermsRangeProperty: required( config.enabledRatioTermsRangeProperty ),
+      enabledRatioTermsRangeProperty: required( options.enabledRatioTermsRangeProperty ),
 
       // {BooleanProperty}
-      displayBothHandsCueProperty: required( config.displayBothHandsCueProperty ),
+      displayBothHandsCueProperty: required( options.displayBothHandsCueProperty ),
 
       // {CueArrowsState} - interaction state to determine the interaction cue to display
-      cueArrowsState: required( config.cueArrowsState ),
+      cueArrowsState: required( options.cueArrowsState ),
 
       // {Bounds2} - the initial bounds that the Node takes up
-      bounds: required( config.bounds ),
+      bounds: required( options.bounds ),
 
       // {EnumerationProperty.<TickMarkView>}
-      tickMarkViewProperty: required( config.tickMarkViewProperty ),
+      tickMarkViewProperty: required( options.tickMarkViewProperty ),
 
       // {Property.<number>}
-      tickMarkRangeProperty: required( config.tickMarkRangeProperty ),
+      tickMarkRangeProperty: required( options.tickMarkRangeProperty ),
 
       // {RatioDescriber}
-      ratioDescriber: required( config.ratioDescriber ),
+      ratioDescriber: required( options.ratioDescriber ),
 
       // {HandPositionsDescriber}
-      handPositionsDescriber: required( config.handPositionsDescriber ),
+      handPositionsDescriber: required( options.handPositionsDescriber ),
 
       // {BothHandsDescriber}
-      bothHandsDescriber: required( config.bothHandsDescriber ),
+      bothHandsDescriber: required( options.bothHandsDescriber ),
 
       // {Property.<Color>}
-      colorProperty: required( config.colorProperty ),
+      colorProperty: required( options.colorProperty ),
 
       // {number}
-      keyboardStep: required( config.keyboardStep ),
+      keyboardStep: required( options.keyboardStep ),
 
       // {BooleanProperty}
-      horizontalMovementAllowedProperty: required( config.horizontalMovementAllowedProperty ),
+      horizontalMovementAllowedProperty: required( options.horizontalMovementAllowedProperty ),
 
       // {BooleanProperty}
-      ratioLockedProperty: required( config.ratioLockedProperty ),
+      ratioLockedProperty: required( options.ratioLockedProperty ),
 
       // {BooleanProperty}
-      playTickMarkBumpSoundProperty: required( config.playTickMarkBumpSoundProperty ),
+      playTickMarkBumpSoundProperty: required( options.playTickMarkBumpSoundProperty ),
 
       // {function(boolean)} - see InProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound()
-      setJumpingOverProportionShouldTriggerSound: required( config.setJumpingOverProportionShouldTriggerSound ),
+      setJumpingOverProportionShouldTriggerSound: required( options.setJumpingOverProportionShouldTriggerSound ),
 
       // {function():number} - a function that gets the value of this RatioHalf term that would achieve the targetRatio
-      getIdealValue: required( config.getIdealValue ),
+      getIdealValue: required( options.getIdealValue ),
 
       // {Property.<boolean>} - is the model in proportion right now
-      inProportionProperty: required( config.inProportionProperty ),
+      inProportionProperty: required( options.inProportionProperty ),
 
       // ---- OPTIONAL -------------------------------------------------
 
@@ -203,9 +203,9 @@ class RatioHalf extends Rectangle {
       // pdom
       tagName: 'div',
       accessibleNameBehavior: ratioHalfAccessibleNameBehavior
-    }, config ) as RatioHalfImplementationOptions;
+    }, options ) as RatioHalfImplementationOptions;
 
-    super( 0, 0, filledConfig.bounds.width, filledConfig.bounds.height );
+    super( 0, 0, filledOptions.bounds.width, filledOptions.bounds.height );
 
     // @public (read-only) - the height of the framing rectangles, updated in layout function
     this.framingRectangleHeight = MIN_FRAMING_RECTANGLE_HEIGHT;
@@ -213,33 +213,33 @@ class RatioHalf extends Rectangle {
     // @public (read-only) - this behaves a bit differently depending on modality. For mouse/touch, any time you are
     // dragging this will be considered interaction, for keyboard, you must press a key before the interaction starts.
     this.isBeingInteractedWithProperty = new BooleanProperty( false, {
-      tandem: filledConfig.tandem.createTandem( 'isBeingInteractedWithProperty' )
+      tandem: filledOptions.tandem.createTandem( 'isBeingInteractedWithProperty' )
     } );
 
     // @private
-    this.ratioLockedProperty = filledConfig.ratioLockedProperty;
-    this.bothHandsDescriber = filledConfig.bothHandsDescriber;
-    this.handPositionsDescriber = filledConfig.handPositionsDescriber;
-    this.tickMarkViewProperty = filledConfig.tickMarkViewProperty;
-    this.ratioTerm = filledConfig.ratioTerm;
-    this.ratioTupleProperty = filledConfig.ratioTupleProperty;
+    this.ratioLockedProperty = filledOptions.ratioLockedProperty;
+    this.bothHandsDescriber = filledOptions.bothHandsDescriber;
+    this.handPositionsDescriber = filledOptions.handPositionsDescriber;
+    this.tickMarkViewProperty = filledOptions.tickMarkViewProperty;
+    this.ratioTerm = filledOptions.ratioTerm;
+    this.ratioTupleProperty = filledOptions.ratioTupleProperty;
 
-    const viewSounds = new ViewSounds( filledConfig.tickMarkRangeProperty, filledConfig.tickMarkViewProperty, filledConfig.playTickMarkBumpSoundProperty );
+    const viewSounds = new ViewSounds( filledOptions.tickMarkRangeProperty, filledOptions.tickMarkViewProperty, filledOptions.playTickMarkBumpSoundProperty );
 
     // This follows the spec outlined in https://github.com/phetsims/ratio-and-proportion/issues/81
     const cueDisplayStateProperty: DerivedProperty<CueDisplay> = new DerivedProperty( [
-        filledConfig.cueArrowsState.interactedWithKeyboardProperty,
-        filledConfig.cueArrowsState.interactedWithMouseProperty,
-        filledConfig.cueArrowsState.keyboardFocusedProperty,
-        filledConfig.cueArrowsState.bothHands.interactedWithProperty,
-        filledConfig.displayBothHandsCueProperty
+        filledOptions.cueArrowsState.interactedWithKeyboardProperty,
+        filledOptions.cueArrowsState.interactedWithMouseProperty,
+        filledOptions.cueArrowsState.keyboardFocusedProperty,
+        filledOptions.cueArrowsState.bothHands.interactedWithProperty,
+        filledOptions.displayBothHandsCueProperty
       ],
       ( interactedWithKeyboard: boolean,
         interactedWithMouse: boolean,
         keyboardFocused: boolean,
         bothHandsInteractedWith: boolean,
         displayBothHands: boolean ) => {
-        return displayBothHands ? filledConfig.bothHandsCueDisplay :
+        return displayBothHands ? filledOptions.bothHandsCueDisplay :
                keyboardFocused && !interactedWithKeyboard ? CueDisplay.UP_DOWN :
                ( interactedWithKeyboard || interactedWithMouse || bothHandsInteractedWith ) ? CueDisplay.NONE :
                CueDisplay.ARROWS;
@@ -260,37 +260,37 @@ class RatioHalf extends Rectangle {
     } ) as Property<number>;
 
     // @private - The draggable element inside the Node framed with thick rectangles on the top and bottom.
-    this.ratioHandNode = new RatioHandNode( ratioTermSpecificProperty, filledConfig.enabledRatioTermsRangeProperty, filledConfig.tickMarkViewProperty,
-      filledConfig.keyboardStep, filledConfig.handColorProperty, cueDisplayStateProperty, filledConfig.getIdealValue, filledConfig.inProportionProperty, {
+    this.ratioHandNode = new RatioHandNode( ratioTermSpecificProperty, filledOptions.enabledRatioTermsRangeProperty, filledOptions.tickMarkViewProperty,
+      filledOptions.keyboardStep, filledOptions.handColorProperty, cueDisplayStateProperty, filledOptions.getIdealValue, filledOptions.inProportionProperty, {
         startDrag: () => {
-          filledConfig.cueArrowsState.interactedWithKeyboardProperty.value = true;
+          filledOptions.cueArrowsState.interactedWithKeyboardProperty.value = true;
           this.isBeingInteractedWithProperty.value = true;
           viewSounds.boundarySoundClip.onStartInteraction();
         },
         drag: () => {
-          viewSounds.boundarySoundClip.onInteract( filledConfig.ratioTupleProperty.value.getForTerm( this.ratioTerm ) );
-          viewSounds.tickMarkBumpSoundClip.onInteract( filledConfig.ratioTupleProperty.value.getForTerm( this.ratioTerm ) );
+          viewSounds.boundarySoundClip.onInteract( filledOptions.ratioTupleProperty.value.getForTerm( this.ratioTerm ) );
+          viewSounds.tickMarkBumpSoundClip.onInteract( filledOptions.ratioTupleProperty.value.getForTerm( this.ratioTerm ) );
         },
         endDrag: () => {
-          viewSounds.boundarySoundClip.onEndInteraction( filledConfig.ratioTupleProperty.value.getForTerm( this.ratioTerm ) );
+          viewSounds.boundarySoundClip.onEndInteraction( filledOptions.ratioTupleProperty.value.getForTerm( this.ratioTerm ) );
         },
-        isRight: filledConfig.isRight,
+        isRight: filledOptions.isRight,
 
-        a11yCreateAriaValueText: () => filledConfig.ratioLockedProperty.value ? filledConfig.ratioDescriber.getProximityToChallengeRatio() :
-                                       filledConfig.ratioDescriber.getProximityToChallengeRatio(),
+        a11yCreateAriaValueText: () => filledOptions.ratioLockedProperty.value ? filledOptions.ratioDescriber.getProximityToChallengeRatio() :
+                                       filledOptions.ratioDescriber.getProximityToChallengeRatio(),
         a11yCreateContextResponseAlert: () => this.getSingleHandContextResponse(),
-        a11yDependencies: filledConfig.a11yDependencies.concat( [ filledConfig.ratioLockedProperty ] )
+        a11yDependencies: filledOptions.a11yDependencies.concat( [ filledOptions.ratioLockedProperty ] )
       } );
 
     // This can change anytime there is a layout update.
     let modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
       getModelBoundsFromRange( TOTAL_RANGE ),
-      filledConfig.bounds );
+      filledOptions.bounds );
 
     // Snap mouse/touch input to the nearest tick mark if close enough. This helps with reproducible precision
     const getSnapToTickMarkValue = ( yValue: number ) => {
-      if ( TickMarkView.displayHorizontal( filledConfig.tickMarkViewProperty.value ) ) {
-        const tickMarkStep = 1 / filledConfig.tickMarkRangeProperty.value;
+      if ( TickMarkView.displayHorizontal( filledOptions.tickMarkViewProperty.value ) ) {
+        const tickMarkStep = 1 / filledOptions.tickMarkRangeProperty.value;
 
         // iterate through model values of each tick mark
         for ( let i = TOTAL_RANGE.min; i < TOTAL_RANGE.max; i += tickMarkStep ) {
@@ -337,13 +337,13 @@ class RatioHalf extends Rectangle {
       positionProperty: positionProperty,
       dragBoundsProperty: dragBoundsProperty,
       start: () => {
-        if ( filledConfig.horizontalMovementAllowedProperty.value ) {
+        if ( filledOptions.horizontalMovementAllowedProperty.value ) {
           startingX = positionProperty.value.x;
         }
         viewSounds.grabSoundClip.play();
-        filledConfig.cueArrowsState.interactedWithMouseProperty.value = true;
+        filledOptions.cueArrowsState.interactedWithMouseProperty.value = true;
 
-        filledConfig.setJumpingOverProportionShouldTriggerSound( true );
+        filledOptions.setJumpingOverProportionShouldTriggerSound( true );
         viewSounds.boundarySoundClip.onStartInteraction();
       },
       drag: () => {
@@ -374,7 +374,7 @@ class RatioHalf extends Rectangle {
         startingX = null;
         viewSounds.releaseSoundClip.play();
         this.isBeingInteractedWithProperty.value = false;
-        filledConfig.setJumpingOverProportionShouldTriggerSound( false );
+        filledOptions.setJumpingOverProportionShouldTriggerSound( false );
         viewSounds.boundarySoundClip.onEndInteraction( positionProperty.value.y );
 
         // Support context response on interaction end from mouse/touch input.
@@ -383,11 +383,11 @@ class RatioHalf extends Rectangle {
       },
 
       // phet-io
-      tandem: filledConfig.tandem.createTandem( 'dragListener' )
+      tandem: filledOptions.tandem.createTandem( 'dragListener' )
     } );
 
     // When the range changes, update the dragBounds of the drag listener
-    filledConfig.enabledRatioTermsRangeProperty.link( ( enabledRange: Range ) => {
+    filledOptions.enabledRatioTermsRangeProperty.link( ( enabledRange: Range ) => {
       const newBounds = getModelBoundsFromRange( enabledRange );
 
       // offset the bounds to account for the ratioHandNode's size, since the center of the ratioHandNode is controlled by the drag bounds.
@@ -401,37 +401,37 @@ class RatioHalf extends Rectangle {
     this.ratioHandNode.addInputListener( dragListener );
     this.ratioHandNode.addInputListener( {
       focus: () => {
-        filledConfig.cueArrowsState.keyboardFocusedProperty.value = true;
+        filledOptions.cueArrowsState.keyboardFocusedProperty.value = true;
         viewSounds.grabSoundClip.play();
       },
       blur: () => {
-        filledConfig.cueArrowsState.keyboardFocusedProperty.value = false;
+        filledOptions.cueArrowsState.keyboardFocusedProperty.value = false;
         viewSounds.releaseSoundClip.play();
         this.isBeingInteractedWithProperty.value = false;
       },
       down: () => {
 
         // Support the case when you have the hand focused, and then you press the hand with a mouse
-        filledConfig.cueArrowsState.keyboardFocusedProperty.value = false;
+        filledOptions.cueArrowsState.keyboardFocusedProperty.value = false;
       }
     } );
 
     // "Framing" rectangles on the top and bottom of the drag area of the ratio half
-    const topRect = new Rectangle( 0, 0, 10, this.framingRectangleHeight, { fill: filledConfig.colorProperty } );
-    const bottomRect = new Rectangle( 0, 0, 10, this.framingRectangleHeight, { fill: filledConfig.colorProperty } );
+    const topRect = new Rectangle( 0, 0, 10, this.framingRectangleHeight, { fill: filledOptions.colorProperty } );
+    const bottomRect = new Rectangle( 0, 0, 10, this.framingRectangleHeight, { fill: filledOptions.colorProperty } );
 
-    const tickMarksNode = new RatioHalfTickMarksNode( filledConfig.tickMarkViewProperty, filledConfig.tickMarkRangeProperty,
-      filledConfig.bounds.width, filledConfig.bounds.height - 2 * this.framingRectangleHeight,
-      filledConfig.colorProperty );
+    const tickMarksNode = new RatioHalfTickMarksNode( filledOptions.tickMarkViewProperty, filledOptions.tickMarkRangeProperty,
+      filledOptions.bounds.width, filledOptions.bounds.height - 2 * this.framingRectangleHeight,
+      filledOptions.colorProperty );
 
     const updatePointer = ( position: Vector2 ) => {
       this.ratioHandNode.translation = modelViewTransform.modelToViewPosition( position );
     };
     positionProperty.link( updatePointer );
 
-    this.mutate( config );
+    this.mutate( options );
 
-    assert && assert( !filledConfig.children, 'RatioHalf sets its own children.' );
+    assert && assert( !filledOptions.children, 'RatioHalf sets its own children.' );
     this.children = [
       topRect,
       bottomRect,
