@@ -77,7 +77,7 @@ class DiscoverScreenSummaryNode extends Node {
       // @ts-ignore
       stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.discover.screenSummary.qualitativeStateOfSim, {
         ratioFitness: ratioDescriber.getRatioFitness( false ), // lowercase
-        currentChallenge: ( ratioToChallengeNameMap.get( currentTargetRatio ) as any ).lowercase,
+        currentChallenge: ratioToChallengeNameMap.get( currentTargetRatio )!.lowercase,
         distance: handPositionsDescriber.getDistanceRegion( true )
       } );
 

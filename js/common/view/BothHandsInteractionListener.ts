@@ -30,6 +30,8 @@ const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 type OnInputType = ( knockOutOfLock?: boolean ) => void;
 const onInputDefault = () => {};
 
+type getIdealTermType = ( ratioTerm: RatioTerm ) => number;
+
 type BothHandsInteractionListenerOptions = {
   targetNode: Node;
   ratioTupleProperty: Property<RAPRatioTuple>;
@@ -43,7 +45,7 @@ type BothHandsInteractionListenerOptions = {
   ratioLockedProperty: Property<boolean>;
   targetRatioProperty: Property<number>;
   inProportionProperty: Property<boolean>;
-  getIdealTerm: ( ratioTerm: RatioTerm ) => number;
+  getIdealTerm: getIdealTermType;
   onInput?: OnInputType;
 };
 
@@ -332,4 +334,5 @@ class BothHandsInteractionListener {
 }
 
 ratioAndProportion.register( 'BothHandsInteractionListener', BothHandsInteractionListener );
+export { getIdealTermType };
 export default BothHandsInteractionListener;

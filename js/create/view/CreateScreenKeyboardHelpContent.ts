@@ -24,7 +24,7 @@ class MyChallengeHelpSection extends KeyboardHelpSection {
   /**
    * @param {Object} [options]
    */
-  constructor( options?: any ) {
+  constructor( options?: NodeOptions ) {
 
     const setHandRatioValue = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.setHandRatioValue,
       KeyboardHelpIconFactory.upDownArrowKeysRowIcon(),

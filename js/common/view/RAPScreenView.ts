@@ -34,7 +34,7 @@ import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import RatioTerm from '../model/RatioTerm.js';
 import rapConstants from '../rapConstants.js';
 import RAPQueryParameters from '../RAPQueryParameters.js';
-import BothHandsPDOMNode from './BothHandsPDOMNode.js';
+import BothHandsPDOMNode, { BothHandsPDOMNodeOptions } from './BothHandsPDOMNode.js';
 import CueArrowsState from './CueArrowsState.js';
 import BothHandsDescriber from './describers/BothHandsDescriber.js';
 import HandPositionsDescriber from './describers/HandPositionsDescriber.js';
@@ -69,6 +69,18 @@ type LinearFunctionType = ( x: number ) => number
 const uiScaleFunction = new LinearFunction( LAYOUT_BOUNDS.height, MAX_RATIO_HEIGHT, 1, 1.5, true ) as LinearFunctionType;
 const uiPositionFunction = new LinearFunction( 1, 1.5, LAYOUT_BOUNDS.height * 0.15, -LAYOUT_BOUNDS.height * 0.2, true ) as LinearFunctionType;
 
+type RAPScreenViewDefinedOptions = {
+
+  // TODO: why is lint not cooperating? https://github.com/phetsims/ratio-and-proportion/issues/404
+  leftHandColorProperty?: Property<ColorDef>; // eslint-disable-line no-undef
+  rightHandColorProperty?: Property<ColorDef>; // eslint-disable-line no-undef
+  bothHandsPDOMNodeOptions?: Partial<BothHandsPDOMNodeOptions>; // Because all the required pieces are added by this type
+}
+
+// TODO: Should be ScreenViewOptions instead of NodeOptions, https://github.com/phetsims/ratio-and-proportion/issues/404
+type RAPScreenViewOptions = RAPScreenViewDefinedOptions & NodeOptions;
+type RAPScreenViewImplementationOptions = Required<RAPScreenViewDefinedOptions> & NodeOptions;
+
 class RAPScreenView extends ScreenView {
 
   protected tickMarkViewProperty: EnumerationProperty;
@@ -93,7 +105,7 @@ class RAPScreenView extends ScreenView {
    * @param {Tandem} tandem
    * @param {Object} [options]
    */
-  constructor( model: RAPModel, tandem: Tandem, options?: any ) {
+  constructor( model: RAPModel, tandem: Tandem, options?: RAPScreenViewOptions ) {
 
     options = merge( {
       tandem: tandem,
@@ -105,7 +117,7 @@ class RAPScreenView extends ScreenView {
 
       // Passed through to BothHandsPDOMNode
       bothHandsPDOMNodeOptions: null
-    }, options );
+    }, options ) as RAPScreenViewImplementationOptions;
 
     super( options );
 
@@ -257,7 +269,7 @@ class RAPScreenView extends ScreenView {
         interactiveNodeOptions: {
           children: [ this.antecedentRatioHalf, this.consequentRatioHalf ]
         }
-      }, options.bothHandsPDOMNodeOptions )
+      }, options.bothHandsPDOMNodeOptions ) as BothHandsPDOMNodeOptions
     );
 
     this.markerInput = null;

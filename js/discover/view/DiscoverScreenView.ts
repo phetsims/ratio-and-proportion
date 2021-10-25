@@ -49,7 +49,7 @@ class DiscoverScreenView extends RAPScreenView {
     this.addChild( comboBoxListBoxParent );
 
     // @ts-ignore
-    this.pdomPlayAreaNode.pdomOrder = ( this.pdomPlayAreaNode as any ).pdomOrder.concat( [ this.comboBoxContainer, comboBoxListBoxParent ] );
+    this.pdomPlayAreaNode.pdomOrder = this.pdomPlayAreaNode.pdomOrder.concat( [ this.comboBoxContainer, comboBoxListBoxParent ] );
 
     // set this after the supertype has initialized the view code needed to create the screen summary
     this.setScreenSummaryContent( new DiscoverScreenSummaryNode(

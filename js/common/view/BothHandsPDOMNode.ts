@@ -18,12 +18,39 @@ import AriaLiveAnnouncer from '../../../../utterance-queue/js/AriaLiveAnnouncer.
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
-import BothHandsInteractionListener from './BothHandsInteractionListener.js';
+import BothHandsInteractionListener, { getIdealTermType } from './BothHandsInteractionListener.js';
 import ViewSounds from './sound/ViewSounds.js';
 import BothHandsDescriber from './describers/BothHandsDescriber.js';
+import RAPRatioTuple from '../model/RAPRatioTuple.js';
+import Range from '../../../../dot/js/Range.js';
+import CueArrowsState from './CueArrowsState.js';
+import { TickMarkViewType } from './TickMarkView.js';
+import RatioDescriber from './describers/RatioDescriber.js';
 
 // constants
 const OBJECT_RESPONSE_DELAY = 500;
+
+type BothHandsPDOMNodeDefinedOptions = {
+  ratioTupleProperty: Property<RAPRatioTuple>;
+  enabledRatioTermsRangeProperty: Property<Range>;
+  cueArrowsState: CueArrowsState;
+  keyboardStep: number;
+  tickMarkViewProperty: Property<TickMarkViewType>;
+  tickMarkRangeProperty: Property<number>;
+  unclampedFitnessProperty: Property<number>;
+  ratioDescriber: RatioDescriber;
+  bothHandsDescriber: BothHandsDescriber;
+  playTickMarkBumpSoundProperty: Property<boolean>;
+  ratioLockedProperty: Property<boolean>;
+  targetRatioProperty: Property<number>;
+  getIdealTerm: getIdealTermType;
+  inProportionProperty: Property<boolean>;
+  gestureDescriptionHelpText?: string;
+  interactiveNodeOptions?: NodeOptions;
+};
+
+type BothHandsPDOMNodeOptions = BothHandsPDOMNodeDefinedOptions & NodeOptions;
+type BothHandsPDOMNodeImplementationOptions = Required<BothHandsPDOMNodeDefinedOptions> & Pick<NodeOptions, 'tagName'>
 
 class BothHandsPDOMNode extends Node {
 
@@ -40,55 +67,55 @@ class BothHandsPDOMNode extends Node {
   bothHandsInteractionListener: BothHandsInteractionListener;
 
   /**
-   * @param {Object} config
+   * @param {Object} [options]
    */
-  constructor( config: any ) {
+  constructor( options: BothHandsPDOMNodeOptions ) {
 
-    config = merge( {
+    const filledOptions = merge( {
 
       // ---- REQUIRED -------------------------------------------------
 
       // {Property.<RAPRatioTuple>}
-      ratioTupleProperty: required( config.ratioTupleProperty ),
+      ratioTupleProperty: required( options.ratioTupleProperty ),
 
       // {Property.<Range>}
-      enabledRatioTermsRangeProperty: required( config.enabledRatioTermsRangeProperty ),
+      enabledRatioTermsRangeProperty: required( options.enabledRatioTermsRangeProperty ),
 
       // {CueArrowsState}
-      cueArrowsState: required( config.cueArrowsState ),
+      cueArrowsState: required( options.cueArrowsState ),
 
       // {number}
-      keyboardStep: required( config.keyboardStep ),
+      keyboardStep: required( options.keyboardStep ),
 
       // {EnumerationProperty.<TickMarkView>}
-      tickMarkViewProperty: required( config.tickMarkViewProperty ),
+      tickMarkViewProperty: required( options.tickMarkViewProperty ),
 
       // {Property.<number>}
-      tickMarkRangeProperty: required( config.tickMarkRangeProperty ),
+      tickMarkRangeProperty: required( options.tickMarkRangeProperty ),
 
       // {Property.<number>}
-      unclampedFitnessProperty: required( config.unclampedFitnessProperty ),
+      unclampedFitnessProperty: required( options.unclampedFitnessProperty ),
 
       // {RatioDescriber}
-      ratioDescriber: required( config.ratioDescriber ),
+      ratioDescriber: required( options.ratioDescriber ),
 
       // {BothHandsDescriber}
-      bothHandsDescriber: required( config.bothHandsDescriber ),
+      bothHandsDescriber: required( options.bothHandsDescriber ),
 
       // {BooleanProperty}
-      playTickMarkBumpSoundProperty: required( config.playTickMarkBumpSoundProperty ),
+      playTickMarkBumpSoundProperty: required( options.playTickMarkBumpSoundProperty ),
 
       // {BooleanProperty}
-      ratioLockedProperty: required( config.ratioLockedProperty ),
+      ratioLockedProperty: required( options.ratioLockedProperty ),
 
       // {Property.<number>}
-      targetRatioProperty: required( config.targetRatioProperty ),
+      targetRatioProperty: required( options.targetRatioProperty ),
 
       // {function(RatioTerm):number}
-      getIdealTerm: required( config.getIdealTerm ),
+      getIdealTerm: required( options.getIdealTerm ),
 
       // {Property.<boolean>} - is the model in proportion right now
-      inProportionProperty: required( config.inProportionProperty ),
+      inProportionProperty: required( options.inProportionProperty ),
 
 
       // ---- OPTIONAL -------------------------------------------------
@@ -108,34 +135,35 @@ class BothHandsPDOMNode extends Node {
         innerContent: ratioAndProportionStrings.a11y.bothHands.bothHands,
         ariaLabel: ratioAndProportionStrings.a11y.bothHands.bothHands
       }
-    }, config );
+    }, options ) as BothHandsPDOMNodeImplementationOptions;
+
     // @ts-ignore
-    assert && assert( !config.pdomOrder, 'BothHandsPDOMNode sets its own pdomOrder.' );
+    assert && assert( !filledOptions.pdomOrder, 'BothHandsPDOMNode sets its own pdomOrder.' );
 
     super();
 
-    if ( phet.joist.sim.supportsGestureDescription && config.gestureDescriptionHelpText ) {
-      config.interactiveNodeOptions.helpText = config.gestureDescriptionHelpText;
+    if ( phet.joist.sim.supportsGestureDescription && filledOptions.gestureDescriptionHelpText ) {
+      filledOptions.interactiveNodeOptions.helpText = filledOptions.gestureDescriptionHelpText;
     }
 
-    this.bothHandsDescriber = config.bothHandsDescriber;
+    this.bothHandsDescriber = filledOptions.bothHandsDescriber;
 
     // @private - To support proper cue arrow logic
     this.antecedentInteractedWithProperty = new BooleanProperty( false );
     this.consequentInteractedWithProperty = new BooleanProperty( false );
     this.bothHandsFocusedProperty = new BooleanProperty( false );
 
-    this.viewSounds = new ViewSounds( config.tickMarkRangeProperty, config.tickMarkViewProperty, config.playTickMarkBumpSoundProperty );
+    this.viewSounds = new ViewSounds( filledOptions.tickMarkRangeProperty, filledOptions.tickMarkViewProperty, filledOptions.playTickMarkBumpSoundProperty );
 
     Property.multilink( [
       this.antecedentInteractedWithProperty,
       this.consequentInteractedWithProperty
     ], ( antecedentInteractedWith: boolean, consequentInteractedWith: boolean ) => {
-      config.cueArrowsState.bothHands.interactedWithProperty.value = antecedentInteractedWith || consequentInteractedWith;
+      filledOptions.cueArrowsState.bothHands.interactedWithProperty.value = antecedentInteractedWith || consequentInteractedWith;
 
       // If both hands have been interacted with, then no need for individual cues either
       if ( antecedentInteractedWith && consequentInteractedWith ) {
-        config.cueArrowsState.interactedWithKeyboardProperty.value = true;
+        filledOptions.cueArrowsState.interactedWithKeyboardProperty.value = true;
       }
     } );
     Property.multilink( [
@@ -143,14 +171,14 @@ class BothHandsPDOMNode extends Node {
       this.consequentInteractedWithProperty,
       this.bothHandsFocusedProperty
     ], ( antecedentInteractedWith: boolean, consequentInteractedWith: boolean, bothHandsFocused: boolean ) => {
-      config.cueArrowsState.bothHands.antecedentCueDisplayedProperty.value = !antecedentInteractedWith && bothHandsFocused;
-      config.cueArrowsState.bothHands.consequentCueDisplayedProperty.value = !consequentInteractedWith && bothHandsFocused;
+      filledOptions.cueArrowsState.bothHands.antecedentCueDisplayedProperty.value = !antecedentInteractedWith && bothHandsFocused;
+      filledOptions.cueArrowsState.bothHands.consequentCueDisplayedProperty.value = !consequentInteractedWith && bothHandsFocused;
     } );
 
     const dynamicDescription = new Node( { tagName: 'p' } );
     this.addChild( dynamicDescription );
 
-    const interactiveNode = new Node( config.interactiveNodeOptions );
+    const interactiveNode = new Node( filledOptions.interactiveNodeOptions );
     this.addChild( interactiveNode );
 
     // Make sure that any children inside the both hands interaction (like individual hands) come before the both hands interaction in the PDOM.
@@ -163,18 +191,18 @@ class BothHandsPDOMNode extends Node {
     // @private
     this.bothHandsInteractionListener = new BothHandsInteractionListener( {
       targetNode: interactiveNode,
-      ratioTupleProperty: config.ratioTupleProperty,
+      ratioTupleProperty: filledOptions.ratioTupleProperty,
       antecedentInteractedWithProperty: this.antecedentInteractedWithProperty,
       consequentInteractedWithProperty: this.consequentInteractedWithProperty,
-      enabledRatioTermsRangeProperty: config.enabledRatioTermsRangeProperty,
-      tickMarkRangeProperty: config.tickMarkRangeProperty,
-      keyboardStep: config.keyboardStep,
+      enabledRatioTermsRangeProperty: filledOptions.enabledRatioTermsRangeProperty,
+      tickMarkRangeProperty: filledOptions.tickMarkRangeProperty,
+      keyboardStep: filledOptions.keyboardStep,
       boundarySoundClip: this.viewSounds.boundarySoundClip,
       tickMarkBumpSoundClip: this.viewSounds.tickMarkBumpSoundClip,
-      ratioLockedProperty: config.ratioLockedProperty,
-      targetRatioProperty: config.targetRatioProperty,
-      getIdealTerm: config.getIdealTerm,
-      inProportionProperty: config.inProportionProperty,
+      ratioLockedProperty: filledOptions.ratioLockedProperty,
+      targetRatioProperty: filledOptions.targetRatioProperty,
+      getIdealTerm: filledOptions.getIdealTerm,
+      inProportionProperty: filledOptions.inProportionProperty,
       onInput: ( knockedOutOfLock?: boolean ) => {
         if ( knockedOutOfLock ) {
 
@@ -213,6 +241,7 @@ class BothHandsPDOMNode extends Node {
 
         // This "object response" is meant to act more like aria-valuetext than a traditional, polite alert. We want
         // this to cut off any other alert. This fixes alert-build-up described in https://github.com/phetsims/ratio-and-proportion/issues/214
+        // TODO: https://github.com/phetsims/ratio-and-proportion/issues/404
         ariaLivePriority: ( AriaLiveAnnouncer.AriaLive as any ).ASSERTIVE
       }
     } );
@@ -238,10 +267,10 @@ class BothHandsPDOMNode extends Node {
     // Though most cases are covered by just listening to fitness, there are certain cases when Property values can change,
     // but the fitness doesn't. See https://github.com/phetsims/ratio-and-proportion/issues/222 as an example.
     Property.multilink( [
-      config.tickMarkViewProperty,
-      config.tickMarkRangeProperty,
-      config.ratioTupleProperty,
-      config.unclampedFitnessProperty
+      filledOptions.tickMarkViewProperty,
+      filledOptions.tickMarkRangeProperty,
+      filledOptions.ratioTupleProperty,
+      filledOptions.unclampedFitnessProperty
     ], () => {
 
       // @ts-ignore
@@ -263,7 +292,7 @@ class BothHandsPDOMNode extends Node {
       this.alertDescriptionUtterance( this.contextResponseUtterance );
     } );
 
-    this.mutate( config );
+    this.mutate( filledOptions );
   }
 
   /**
@@ -308,4 +337,5 @@ class BothHandsPDOMNode extends Node {
 }
 
 ratioAndProportion.register( 'BothHandsPDOMNode', BothHandsPDOMNode );
+export { BothHandsPDOMNodeOptions };
 export default BothHandsPDOMNode;

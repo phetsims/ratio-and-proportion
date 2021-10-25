@@ -64,6 +64,11 @@ assert && assert( DISTANCE_REGIONS_CAPITALIZED.length === DISTANCE_REGIONS_LOWER
 
 const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
+type GetDistanceProgressStringOptions = {
+  closerString?: string;
+  fartherString?: string
+}
+
 class HandPositionsDescriber {
 
   private ratioTupleProperty: Property<RAPRatioTuple>;
@@ -294,19 +299,19 @@ class HandPositionsDescriber {
    * @param {Object} [options]
    * @returns {string|null} - null if no change
    */
-  getDistanceProgressString( options?: any ) {
-    options = merge( {
+  getDistanceProgressString( options?: GetDistanceProgressStringOptions ) {
+    const filledOptions = merge( {
       closerString: ratioAndProportionStrings.a11y.handPosition.closerTo,
       fartherString: ratioAndProportionStrings.a11y.handPosition.fartherFrom
-    }, options );
+    }, options ) as Required<GetDistanceProgressStringOptions>;
 
     const currentDistance = this.ratioTupleProperty.value.getDistance();
     let distanceProgressString = null;
     if ( currentDistance < this.previousDistance ) {
-      distanceProgressString = options.closerString;
+      distanceProgressString = filledOptions.closerString;
     }
     else if ( currentDistance > this.previousDistance ) {
-      distanceProgressString = options.fartherString;
+      distanceProgressString = filledOptions.fartherString;
     }
 
     this.previousDistance = currentDistance;

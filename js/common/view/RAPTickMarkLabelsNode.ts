@@ -32,11 +32,7 @@ class RAPTickMarkLabelsNode extends Node {
    * @param {Object} [options]
    */
   constructor( tickMarkViewProperty: Property<TickMarkViewType>, tickMarkRangeProperty: Property<number>, height: number,
-               colorProperty: Property<Color | string>, options?: any ) {
-
-    if ( options ) {
-      assert && assert( !options.hasOwnProperty( 'children' ), 'RAPTickMarkLabelsNode sets its own children' );
-    }
+               colorProperty: Property<Color | string>, options?: Omit<NodeOptions, 'children'> ) {
 
     super();
 

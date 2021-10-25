@@ -19,7 +19,6 @@ import rapConstants from '../../rapConstants.js';
 import TickMarkView, { TickMarkViewType } from '../TickMarkView.js';
 import BoundarySoundClip from './BoundarySoundClip.js';
 import TickMarkBumpSoundClip from './TickMarkBumpSoundClip.js';
-import NumberProperty from '../../../../../axon/js/NumberProperty.js';
 import Property from '../../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../../axon/js/BooleanProperty.js';
 
@@ -38,7 +37,7 @@ class ViewSounds {
    * @param {BooleanProperty} playTickMarkBumpSoundProperty
    * @param {Object} [options]
    */
-  constructor( tickMarkRangeProperty: NumberProperty, tickMarkViewProperty: Property<TickMarkViewType>,
+  constructor( tickMarkRangeProperty: Property<number>, tickMarkViewProperty: Property<TickMarkViewType>,
                playTickMarkBumpSoundProperty: BooleanProperty, options?: any ) {
 
     options = merge( {

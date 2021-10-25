@@ -9,26 +9,26 @@
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import tickMarkCrossBumpSound from '../../../../../tambo/sounds/general-soft-click_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
-import NumberProperty from '../../../../../axon/js/NumberProperty.js';
 import Range from '../../../../../dot/js/Range.js';
+import Property from '../../../../../axon/js/Property.js';
 
 // This value was copied from similar sound work done in Waves Intro
 const MIN_INTER_CLICK_TIME = 33.3; // min time between clicking sounds, in milliseconds, empirically determined
 
 class TickMarkBumpSoundClip extends SoundClip {
 
-  private tickMarkRangeProperty: NumberProperty;
+  private tickMarkRangeProperty: Property<number>;
   private positionRange: Range;
   private timeOfLastClick: number;
   private lastValue: null | number;
 
   /**
-   * @param {NumberProperty} tickMarkRangeProperty - serves as the divisor of the position range to yield position
+   * @param {Property<number>} tickMarkRangeProperty - serves as the divisor of the position range to yield position
    * where bump sounds should occur.
    * @param {Range} positionRange - the total range in position
    * @param {Object} [options]
    */
-  constructor( tickMarkRangeProperty: NumberProperty, positionRange: Range, options?: any ) {
+  constructor( tickMarkRangeProperty: Property<number>, positionRange: Range, options?: any ) {
     super( tickMarkCrossBumpSound, options );
 
     // @private

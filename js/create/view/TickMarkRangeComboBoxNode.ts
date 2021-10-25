@@ -37,10 +37,9 @@ class TickMarkRangeComboBoxNode extends Node {
    * @param {Property.<number>} tickMarkRangeProperty
    * @param {Node} comboBoxParent
    * @param {Property.<TickMarkView>}tickMarkViewProperty
-   * @param {Object} [options]
    */
   constructor( tickMarkRangeProperty: Property<number>, comboBoxParent: Node,
-               tickMarkViewProperty: Property<TickMarkViewType>, options?: any ) {
+               tickMarkViewProperty: Property<TickMarkViewType> ) {
     super();
 
     const tickMarkRangeMap: Record<number, string> = {

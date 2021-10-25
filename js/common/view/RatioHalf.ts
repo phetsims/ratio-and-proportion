@@ -53,7 +53,7 @@ const getModelBoundsFromRange = ( range: Range ) => new Bounds2( -1 * X_MODEL_DR
 const MIN_HAND_SCALE = 1.2;
 const MAX_HAND_SCALE = 2.5;
 
-function ratioHalfAccessibleNameBehavior( node: RatioHalf, options: any, accessibleName: string, callbacksForOtherNodes: { (): void }[] ) {
+function ratioHalfAccessibleNameBehavior( node: RatioHalf, options: NodeOptions, accessibleName: string, callbacksForOtherNodes: { (): void }[] ) {
   callbacksForOtherNodes.push( () => {
     // @ts-ignore
     node.ratioHandNode.accessibleName = accessibleName;
