@@ -153,7 +153,7 @@ unclampedFitness: ${unclampedFitness}
    * @returns {number}
    * @private
    */
-  calculateFitness( antecedent: number, consequent: number, targetRatio: number ) {
+  calculateFitness( antecedent: number, consequent: number, targetRatio: number ): number {
 
     // This fitness algorithm was designed and executed to target ratios between 0 and 1, when larger, the fitness looks
     // best if the reciprocal is calculated (yielding a similar relationship between the consequent and target ratio of X,
@@ -199,7 +199,7 @@ unclampedFitness: ${unclampedFitness}
    * @param {number} ratio
    * @returns {number}
    */
-  getMinFitness( ratio = this.targetRatioProperty.value ) {
+  getMinFitness( ratio = this.targetRatioProperty.value ): number {
     const minRatioFitness = Math.min( this.calculateFitness( TOTAL_RANGE.min, TOTAL_RANGE.max, ratio ),
       this.calculateFitness( TOTAL_RANGE.min, TOTAL_RANGE.min, ratio ) );
     const maxRatioFitness = Math.min( this.calculateFitness( TOTAL_RANGE.min, TOTAL_RANGE.max, ratio ),
@@ -213,7 +213,7 @@ unclampedFitness: ${unclampedFitness}
    * @public
    * @returns {boolean}
    */
-  valuesTooSmallForInProportion() {
+  valuesTooSmallForInProportion(): boolean {
     const currentTuple = this.ratio.tupleProperty.value;
     return currentTuple.antecedent < rapConstants.NO_SUCCESS_VALUE_THRESHOLD ||
            currentTuple.consequent < rapConstants.NO_SUCCESS_VALUE_THRESHOLD;
@@ -223,7 +223,7 @@ unclampedFitness: ${unclampedFitness}
    * @public
    * @returns {number}
    */
-  getInProportionThreshold() {
+  getInProportionThreshold(): number {
     let threshold = rapConstants.IN_PROPORTION_FITNESS_THRESHOLD;
     if ( this.ratio.movingInDirectionProperty.value ) {
       threshold = rapConstants.MOVING_IN_PROPORTION_FITNESS_THRESHOLD;
@@ -238,7 +238,7 @@ unclampedFitness: ${unclampedFitness}
    * @param {number} [fitness] - if provided, calculate if this fitness is in proportion
    * @returns {boolean}
    */
-  inProportion( fitness = this.ratioFitnessProperty.value ) {
+  inProportion( fitness = this.ratioFitnessProperty.value ): boolean {
     return fitness > rapConstants.RATIO_FITNESS_RANGE.max - this.getInProportionThreshold();
   }
 
@@ -246,7 +246,7 @@ unclampedFitness: ${unclampedFitness}
    * @public
    * @override
    */
-  step() {
+  step(): void {
     this.ratio.step();
   }
 
@@ -257,7 +257,7 @@ unclampedFitness: ${unclampedFitness}
    * @returns {number}
    * @public
    */
-  getIdealValueForTerm( ratioTerm: RatioTerm ) {
+  getIdealValueForTerm( ratioTerm: RatioTerm ): number {
     if ( ratioTerm === RatioTerm.ANTECEDENT ) {
       return this.targetRatioProperty.value * this.ratio.tupleProperty.value.consequent;
     }
@@ -274,7 +274,7 @@ unclampedFitness: ${unclampedFitness}
    * @returns {boolean}
    * @public
    */
-  ratioEvenButNotAtTarget() {
+  ratioEvenButNotAtTarget(): boolean {
     return this.targetRatioProperty.value !== 1 &&
            this.ratio.tupleProperty.value.antecedent === this.ratio.tupleProperty.value.consequent;
   }
@@ -283,7 +283,7 @@ unclampedFitness: ${unclampedFitness}
    * Resets the model.
    * @public
    */
-  reset() {
+  reset(): void {
     this.ratio.reset(); // do this first
 
     this.targetRatioProperty.reset();

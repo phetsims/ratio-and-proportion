@@ -44,14 +44,14 @@ class RAPMarkerInput extends MarkerInput {
   /**
    * @public
    */
-  reset() {
+  reset(): void {
     this.isBeingInteractedWithProperty.reset();
   }
 
   /**
    * @public
    */
-  step() {
+  step(): void {
 
 
     phet.log && phet.log( [

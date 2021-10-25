@@ -59,7 +59,7 @@ class BothHandsDescriber {
    * @public
    * @returns {string}
    */
-  getBothHandsContextResponse() {
+  getBothHandsContextResponse(): string {
 
     // only applicable if the ratio is locked
     const ratioLockedEdgeResponse = this.getRatioLockedEdgeCaseContextResponse();
@@ -78,7 +78,7 @@ class BothHandsDescriber {
    * @public
    * @returns {string}
    */
-  getBothHandsDynamicDescription() {
+  getBothHandsDynamicDescription(): string {
     return StringUtils.fillIn( ratioDistancePositionContextResponsePatternString, {
       distance: this.handPositionsDescriber.getBothHandsDistance( false, true ),
       position: this.getBothHandsPosition()
@@ -91,7 +91,7 @@ class BothHandsDescriber {
    * @public
    * @returns {string}
    */
-  getBothHandsPosition() {
+  getBothHandsPosition(): string {
     const tickMarkView = this.tickMarkViewProperty.value;
 
     const currentTuple = this.ratioTupleProperty.value;
@@ -115,7 +115,7 @@ class BothHandsDescriber {
    * @public
    * @returns {string}
    */
-  getBothHandsObjectResponse() {
+  getBothHandsObjectResponse(): string {
     return this.ratioDescriber.getProximityToChallengeRatio();
   }
 
@@ -124,7 +124,7 @@ class BothHandsDescriber {
    * @private
    * @returns {string|null} - null if not in the edge case or the ratio is not locked
    */
-  getRatioLockedEdgeCaseContextResponse() {
+  getRatioLockedEdgeCaseContextResponse(): null | string {
 
     if ( !this.ratioLockedProperty.value ) {
       return null;
@@ -196,7 +196,7 @@ class BothHandsDescriber {
   /**
    * @public
    */
-  reset() {
+  reset(): void {
     this.previousAntecedentAtExtremity = false;
     this.previousConsequentAtExtremity = false;
   }

@@ -47,7 +47,7 @@ class TickMarkBumpSoundClip extends SoundClip {
    * @public
    * @param {number} currentValue
    */
-  onInteract( currentValue: number ) {
+  onInteract( currentValue: number ): void {
 
     if ( this.lastValue !== null ) {
 
@@ -75,7 +75,7 @@ class TickMarkBumpSoundClip extends SoundClip {
   /**
    * @public
    */
-  reset() {
+  reset(): void {
     this.stop( 0 );
     this.timeOfLastClick = 0;
     this.lastValue = null;

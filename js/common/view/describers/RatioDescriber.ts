@@ -95,7 +95,7 @@ class RatioDescriber {
    * @param {boolean} capitalized
    * @returns {string}
    */
-  getRatioFitness( capitalized = true ) {
+  getRatioFitness( capitalized = true ): string {
 
     // @ts-ignore
     assert && assert( ZERO_FITNESS_REGION_INDEX !== 0, 'should not be first index' );
@@ -128,7 +128,7 @@ class RatioDescriber {
    * @public
    * @returns {string}
    */
-  getProximityToChallengeRatio() {
+  getProximityToChallengeRatio(): string {
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.proximityToRatioObjectResponse, {
       proximityToRatio: this.getRatioFitness( false )
     } );
@@ -138,7 +138,7 @@ class RatioDescriber {
    * @public
    * @returns {string}
    */
-  getProximityToNewChallengeRatioSentence() {
+  getProximityToNewChallengeRatioSentence(): string {
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.proximityToNewRatioPattern, {
       proximity: this.getRatioFitness( false )
     } );
@@ -150,7 +150,7 @@ class RatioDescriber {
    * @param {number} consequent
    * @returns {string}
    */
-  getCurrentChallengeSentence( antecedent: number, consequent: number ) {
+  getCurrentChallengeSentence( antecedent: number, consequent: number ): string {
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.currentChallenge, {
       targetAntecedent: antecedent,
       targetConsequent: consequent
@@ -163,7 +163,7 @@ class RatioDescriber {
    * @param {number} consequent
    * @returns {string}
    */
-  getTargetRatioChangeAlert( antecedent: number, consequent: number ) {
+  getTargetRatioChangeAlert( antecedent: number, consequent: number ): string {
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.targetRatioChangedContextResponse, {
       proximityToRatio: this.getProximityToNewChallengeRatioSentence(),
       currentChallenge: this.getCurrentChallengeSentence( antecedent, consequent )
@@ -175,7 +175,7 @@ class RatioDescriber {
    * @param {number} number
    * @returns {string}
    */
-  getWordFromNumber( number: number ) {
+  getWordFromNumber( number: number ): string {
     assert && assert( Number.isInteger( number ) );
     assert && assert( NUMBER_TO_WORD.length > number );
     return NUMBER_TO_WORD[ number ];

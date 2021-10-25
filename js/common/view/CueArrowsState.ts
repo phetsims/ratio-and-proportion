@@ -51,7 +51,7 @@ class CueArrowsState {
   /**
    * @public
    */
-  reset() {
+  reset(): void {
     this.interactedWithMouseProperty.reset();
     this.interactedWithKeyboardProperty.reset();
     this.keyboardFocusedProperty.reset();

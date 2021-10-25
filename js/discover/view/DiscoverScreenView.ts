@@ -72,7 +72,7 @@ class DiscoverScreenView extends RAPScreenView {
    * @public
    * @param {Bounds2} bounds
    */
-  layout( bounds: Bounds2 ) {
+  layout( bounds: Bounds2 ): void {
     this.comboBoxContainer.hideListBox(); // hidden when layout changes, see https://github.com/phetsims/ratio-and-proportion/issues/324
     super.layout( bounds );
   }

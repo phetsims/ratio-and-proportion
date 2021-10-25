@@ -189,7 +189,7 @@ class MyChallengeAccordionBox extends AccordionBox {
    * @public
    * @override
    */
-  reset() {
+  reset(): void {
     super.reset();
     this.resetMyChallengeAccordionBox();
   }

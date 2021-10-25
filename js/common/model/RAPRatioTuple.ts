@@ -46,7 +46,7 @@ class RAPRatioTuple {
    * @returns {RAPRatioTuple}
    * @public
    */
-  withAntecedent( antecedent: number ) {
+  withAntecedent( antecedent: number ): RAPRatioTuple {
     return new RAPRatioTuple( antecedent, this.consequent );
   }
 
@@ -55,7 +55,7 @@ class RAPRatioTuple {
    * @returns {RAPRatioTuple}
    * @public
    */
-  withConsequent( consequent: number ) {
+  withConsequent( consequent: number ): RAPRatioTuple {
     return new RAPRatioTuple( this.antecedent, consequent );
   }
 
@@ -64,7 +64,7 @@ class RAPRatioTuple {
    * @returns {RAPRatioTuple}
    * @public
    */
-  plusAntecedent( antecedentDelta: number ) {
+  plusAntecedent( antecedentDelta: number ): RAPRatioTuple {
     return new RAPRatioTuple( this.antecedent + antecedentDelta, this.consequent );
   }
 
@@ -73,7 +73,7 @@ class RAPRatioTuple {
    * @returns {RAPRatioTuple}
    * @public
    */
-  plusConsequent( consequentDelta: number ) {
+  plusConsequent( consequentDelta: number ): RAPRatioTuple {
     return new RAPRatioTuple( this.antecedent, this.consequent + consequentDelta );
   }
 
@@ -81,8 +81,9 @@ class RAPRatioTuple {
    * Constrain both data fields to a provided range
    * @public
    * @param {Range} range
+   * @returns {RAPRatioTuple}
    */
-  constrainFields( range: Range ) {
+  constrainFields( range: Range ): RAPRatioTuple {
     this.antecedent = range.constrainValue( this.antecedent );
     this.consequent = range.constrainValue( this.consequent );
 
@@ -93,7 +94,7 @@ class RAPRatioTuple {
    * @public
    * @returns {number}
    */
-  getRatio() {
+  getRatio(): number {
     return this.consequent === 0 ? Number.POSITIVE_INFINITY : this.antecedent / this.consequent;
   }
 
@@ -102,7 +103,7 @@ class RAPRatioTuple {
    * @public
    * @returns {number} - greater than 0
    */
-  getDistance() {
+  getDistance(): number {
     return Math.abs( this.antecedent - this.consequent );
   }
 
@@ -111,7 +112,7 @@ class RAPRatioTuple {
    * @param {RAPRatioTuple} otherRatioTuple
    * @returns {boolean}
    */
-  equals( otherRatioTuple: RAPRatioTuple ) {
+  equals( otherRatioTuple: RAPRatioTuple ): boolean {
     return this.antecedent === otherRatioTuple.antecedent && this.consequent === otherRatioTuple.consequent;
   }
 
@@ -120,7 +121,7 @@ class RAPRatioTuple {
    * @param {RatioTerm} ratioTerm
    * @returns {number}
    */
-  getForTerm( ratioTerm: RatioTerm ) {
+  getForTerm( ratioTerm: RatioTerm ): number {
     switch( ratioTerm ) {
       case RatioTerm.ANTECEDENT:
         return this.antecedent;
@@ -136,7 +137,7 @@ class RAPRatioTuple {
    * @public
    * @returns {RAPRatioTuple}
    */
-  copy() {
+  copy(): RAPRatioTuple {
     return new RAPRatioTuple( this.antecedent, this.consequent );
   }
 
@@ -145,8 +146,8 @@ class RAPRatioTuple {
    * @param {RAPRatioTuple} rapRatioTuple
    * @returns {RAPRatioTupleState}
    */
-  toStateObject( rapRatioTuple: RAPRatioTuple ) {
-    return <RAPRatioTupleState>{
+  toStateObject( rapRatioTuple: RAPRatioTuple ): RAPRatioTupleState {
+    return {
       antecedent: this.antecedent,
       consequent: this.consequent
     };
@@ -157,7 +158,7 @@ class RAPRatioTuple {
    * @param {RAPRatioTupleState} stateObject see toStateObject
    * @returns {RAPRatioTuple}
    */
-  static fromStateObject( stateObject: RAPRatioTupleState ) {
+  static fromStateObject( stateObject: RAPRatioTupleState ): RAPRatioTuple {
     return new RAPRatioTuple( stateObject.antecedent, stateObject.consequent );
   }
 }

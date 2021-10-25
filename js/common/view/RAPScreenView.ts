@@ -449,7 +449,7 @@ class RAPScreenView extends ScreenView {
    * @override
    * @public
    */
-  layout( viewBounds: Bounds2 ) {
+  layout( viewBounds: Bounds2 ): void {
     this.resetTransform();
 
     const scale = this.getLayoutScale( viewBounds );
@@ -481,7 +481,7 @@ class RAPScreenView extends ScreenView {
   /**
    * @public
    */
-  reset() {
+  reset(): void {
     this.tickMarkRangeProperty.reset();
     this.tickMarkViewProperty.reset();
     this.antecedentRatioHalf.reset();
@@ -496,7 +496,7 @@ class RAPScreenView extends ScreenView {
    * @public
    * @param {number} dt
    */
-  step( dt: number ) {
+  step( dt: number ): void {
 
     this.markerInput && this.markerInput.step();
     this.inProportionSoundGenerator.step( dt );

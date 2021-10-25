@@ -162,7 +162,7 @@ class BothHandsInteractionListener {
   /**
    * @public
    */
-  reset() {
+  reset(): void {
     this.antecedentMapKeyboardInput.reset();
     this.consequentMapKeyboardInput.reset();
   }
@@ -174,7 +174,7 @@ class BothHandsInteractionListener {
    * @param {boolean} increment - if the value is being incremented, as opposed to decremented.
    * @private
    */
-  onValueIncrementDecrement( tupleField: 'antecedent' | 'consequent', inputMapper: KeyboardInputMapper, increment: boolean ) {
+  onValueIncrementDecrement( tupleField: 'antecedent' | 'consequent', inputMapper: KeyboardInputMapper, increment: boolean ): void {
     this.isBeingInteractedWithProperty.value = true;
     const currentValueFromTuple = this.ratioTupleProperty.value[ tupleField ];
 
@@ -196,7 +196,7 @@ class BothHandsInteractionListener {
   /**
    * @public
    */
-  blur() {
+  blur(): void {
     this.isBeingInteractedWithProperty.value = false;
   }
 
@@ -204,7 +204,7 @@ class BothHandsInteractionListener {
    * @public
    * @param {SceneryEvent} sceneryEvent
    */
-  keydown( sceneryEvent: SceneryEvent ) {
+  keydown( sceneryEvent: SceneryEvent ): void {
 
     if ( sceneryEvent.target === this.targetNode ) {
 
@@ -301,7 +301,7 @@ class BothHandsInteractionListener {
    * @public
    * @param {SceneryEvent} sceneryEvent
    */
-  keyup( sceneryEvent: SceneryEvent ) {
+  keyup( sceneryEvent: SceneryEvent ): void {
 
     if ( sceneryEvent.target === this.targetNode ) {
 
@@ -326,7 +326,7 @@ class BothHandsInteractionListener {
    * Handle boundary sound output based on an input for this interaction
    * @param {number} newValue
    */
-  handleBoundarySoundOnInput( newValue: number ) {
+  handleBoundarySoundOnInput( newValue: number ): void {
     this.boundarySoundClip.onStartInteraction();
     this.boundarySoundClip.onInteract( newValue );
     this.boundarySoundClip.onEndInteraction( newValue );

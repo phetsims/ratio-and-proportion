@@ -164,7 +164,7 @@ class RAPRatio {
    * @param {Range} [range]
    * @returns {RAPRatioTuple} - a new RAPRatioTuple, not mutated
    */
-  clampRatioTupleValuesInRange( antecedent: number, consequent: number, ratio: number, range: Range = this.enabledRatioTermsRangeProperty.value ) {
+  clampRatioTupleValuesInRange( antecedent: number, consequent: number, ratio: number, range: Range = this.enabledRatioTermsRangeProperty.value ): RAPRatioTuple {
 
     // Handle if the antecedent is out of range
     if ( !range.contains( antecedent ) ) {
@@ -187,7 +187,7 @@ class RAPRatio {
    * @param {number} targetRatio
    * @public
    */
-  setRatioToTarget( targetRatio: number ) {
+  setRatioToTarget( targetRatio: number ): void {
     const currentRatioTuple = this.tupleProperty.value;
 
     let antecedent = currentRatioTuple.antecedent;
@@ -216,14 +216,14 @@ class RAPRatio {
    * @public
    * @returns {number}
    */
-  get currentRatio() {
+  get currentRatio(): number {
     return this.tupleProperty.value.getRatio();
   }
 
   /**
    * @public
    */
-  step() {
+  step(): void {
     const currentTuple = this.tupleProperty.value;
     this.antecedentVelocityTracker.step( currentTuple.antecedent );
     this.consequentVelocityTracker.step( currentTuple.consequent );
@@ -232,7 +232,7 @@ class RAPRatio {
   /**
    * @public
    */
-  reset() {
+  reset(): void {
 
     // it is easiest if this is reset first
     this.lockedProperty.reset();
@@ -275,7 +275,7 @@ class VelocityTracker {
   /**
    * @public
    */
-  reset() {
+  reset(): void {
     this.currentVelocityProperty.reset();
     this.stepCountTracker = 0;
     this.previousValues.length = 0;
@@ -285,7 +285,7 @@ class VelocityTracker {
    * @public
    * @param {number} currentValue
    */
-  step( currentValue: number ) {
+  step( currentValue: number ): void {
     this.stepCountTracker++;
 
     // Capture a value at intervals within the timeframe for each velocity calculation.

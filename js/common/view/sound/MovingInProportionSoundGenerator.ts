@@ -71,7 +71,7 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
    * stop any in-progress sound generation
    * @public
    */
-  reset() {
+  reset(): void {
     this.movingInProportionSoundClip.stop();
   }
 }

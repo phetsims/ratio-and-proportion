@@ -298,7 +298,7 @@ class BothHandsPDOMNode extends Node {
   /**
    * @public
    */
-  reset() {
+  reset(): void {
     this.antecedentInteractedWithProperty.reset();
     this.consequentInteractedWithProperty.reset();
     this.bothHandsFocusedProperty.reset();
@@ -312,7 +312,7 @@ class BothHandsPDOMNode extends Node {
   /**
    * @private
    */
-  alertBothHandsObjectResponse( onFocus = false ) {
+  alertBothHandsObjectResponse( onFocus = false ): void {
     const utterance = onFocus ? this.objectResponseOnFocusUtterance : this.objectResponseUtterance;
     utterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse();
 
@@ -323,7 +323,7 @@ class BothHandsPDOMNode extends Node {
   /**
    * @private
    */
-  alertBothHandsContextResponse( knockedOutOfLock?: boolean ) {
+  alertBothHandsContextResponse( knockedOutOfLock?: boolean ): void {
     if ( knockedOutOfLock ) {
       this.contextResponseUtterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse();
     }

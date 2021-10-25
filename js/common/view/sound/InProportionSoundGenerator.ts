@@ -102,7 +102,7 @@ class InProportionSoundGenerator extends SoundClip {
    * @private
    * @returns {boolean}
    */
-  calculateCurrentRatioLargerThanTarget() {
+  calculateCurrentRatioLargerThanTarget(): boolean {
     return this.model.ratio.currentRatio > this.model.targetRatioProperty.value;
   }
 
@@ -112,7 +112,7 @@ class InProportionSoundGenerator extends SoundClip {
    * @public
    * @param {boolean} jumpingOverShouldSound
    */
-  setJumpingOverProportionShouldTriggerSound( jumpingOverShouldSound: boolean ) {
+  setJumpingOverProportionShouldTriggerSound( jumpingOverShouldSound: boolean ): void {
     this.jumpingOverShouldSound = jumpingOverShouldSound;
   }
 
@@ -123,7 +123,7 @@ class InProportionSoundGenerator extends SoundClip {
    * @private
    * @returns {boolean}
    */
-  jumpedOverInProportionAndShouldSound() {
+  jumpedOverInProportionAndShouldSound(): boolean {
     return this.jumpingOverShouldSound &&
            !this.model.valuesTooSmallForInProportion() && !this.previousRatioWasTooSmallForSuccess &&
            this.calculateCurrentRatioLargerThanTarget() !== this.previousRatioWasLargerThanTarget;
@@ -134,7 +134,7 @@ class InProportionSoundGenerator extends SoundClip {
    * @param {number} dt
    * @public
    */
-  step( dt: number ) {
+  step( dt: number ): void {
     const newFitness = this.fitnessProperty.value;
 
     const isInRatio = this.model.inProportion();
@@ -178,7 +178,7 @@ class InProportionSoundGenerator extends SoundClip {
    * stop any in-progress sound generation
    * @public
    */
-  reset() {
+  reset(): void {
     this.stop( 0 );
     this.playedSuccessYetProperty.reset();
     this.timePlayedSoFarProperty.reset();

@@ -142,7 +142,7 @@ class CreateScreenView extends RAPScreenView {
    * @public
    * @param {Bounds2} bounds
    */
-  layout( bounds: Bounds2 ) {
+  layout( bounds: Bounds2 ): void {
     this.tickMarkRangeComboBoxNode.hideListBox(); // hidden when layout changes, see https://github.com/phetsims/ratio-and-proportion/issues/324
     super.layout( bounds );
   }
@@ -151,7 +151,7 @@ class CreateScreenView extends RAPScreenView {
    * @public
    * @override
    */
-  reset() {
+  reset(): void {
     this.resetCreateScreenView();
     super.reset();
   }

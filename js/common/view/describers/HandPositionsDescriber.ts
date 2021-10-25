@@ -100,7 +100,7 @@ class HandPositionsDescriber {
    * @param {boolean} useOfPlayArea - whether the position should end with "of Play Area", like "at bottom of Play Area"
    * @returns {string}
    */
-  getHandPositionDescription( position: number, tickMarkView: TickMarkViewType, useOfPlayArea = true ) {
+  getHandPositionDescription( position: number, tickMarkView: TickMarkViewType, useOfPlayArea = true ): string {
     if ( TickMarkView.describeQualitative( tickMarkView ) ) {
       const qualitativeHandPosition = this.getQualitativePosition( position );
       return !useOfPlayArea ? qualitativeHandPosition : StringUtils.fillIn( ratioAndProportionStrings.a11y.ofPlayAreaPattern, {
@@ -118,7 +118,7 @@ class HandPositionsDescriber {
    * @param {boolean} semiQuantitative=false
    * @returns {string}
    */
-  getQuantitativeHandPosition( handPosition: number, semiQuantitative = false ) {
+  getQuantitativeHandPosition( handPosition: number, semiQuantitative = false ): string {
     const tickMarkData = this.tickMarkDescriber.getRelativePositionAndTickMarkNumberForPosition( handPosition );
 
     // semi quantitative description uses ordinal numbers instead of full numbers.
@@ -140,7 +140,7 @@ class HandPositionsDescriber {
    * @returns {string} - the qualitative position
    * @private
    */
-  getQualitativePosition( position: number ) {
+  getQualitativePosition( position: number ): string {
     assert && assert( TOTAL_RANGE.contains( position ), 'position expected to be in position range' );
 
     const normalizedPosition = TOTAL_RANGE.getNormalizedValue( position );
@@ -183,7 +183,7 @@ class HandPositionsDescriber {
    * @private
    * @returns {string}
    */
-  getDistanceRegion( lowercase = false ) {
+  getDistanceRegion( lowercase = false ): string {
     const distance = this.ratioTupleProperty.value.getDistance();
 
     assert && assert( TOTAL_RANGE.getLength() === 1, 'these hard coded values depend on a range of 1' );
@@ -230,7 +230,7 @@ class HandPositionsDescriber {
    * @param {RatioTerm} ratioTerm - which ratio term is this for? Antecedent or consequent
    * @returns {string}
    */
-  getSingleHandDistance( ratioTerm: RatioTerm ) {
+  getSingleHandDistance( ratioTerm: RatioTerm ): string {
     const otherHand = ratioTerm === RatioTerm.ANTECEDENT ? rightHandLowerString : leftHandLowerString;
 
     const distanceRegion = this.getDistanceRegion();
@@ -264,7 +264,7 @@ class HandPositionsDescriber {
    * @param {boolean} capitalized
    * @returns {string}
    */
-  getBothHandsDistance( overrideWithDistanceProgress = false, capitalized = false ) {
+  getBothHandsDistance( overrideWithDistanceProgress = false, capitalized = false ): string {
     const distanceRegion = this.getDistanceRegion( true );
 
     if ( overrideWithDistanceProgress ) {
@@ -299,7 +299,7 @@ class HandPositionsDescriber {
    * @param {Object} [options]
    * @returns {string|null} - null if no change
    */
-  getDistanceProgressString( options?: GetDistanceProgressStringOptions ) {
+  getDistanceProgressString( options?: GetDistanceProgressStringOptions ): null | string {
     const filledOptions = merge( {
       closerString: ratioAndProportionStrings.a11y.handPosition.closerTo,
       fartherString: ratioAndProportionStrings.a11y.handPosition.fartherFrom

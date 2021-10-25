@@ -453,7 +453,7 @@ class RatioHalf extends Rectangle {
    * @public
    * @returns {null|string} - null means no alert will occur
    */
-  getSingleHandContextResponse() {
+  getSingleHandContextResponse(): null | string {
 
     // When locked, give a description of both-hands, instead of just a single one.
     if ( this.ratioLockedProperty.value ) {
@@ -474,7 +474,7 @@ class RatioHalf extends Rectangle {
    * @public
    * @param {number} desiredBottom
    */
-  setBottomOfRatioHalf( desiredBottom: number ) {
+  setBottomOfRatioHalf( desiredBottom: number ): void {
 
     // `selfBounds` is used for the position of the Rectangle, since RatioHalf extends Rectangle
     this.bottom = desiredBottom + ( this.bounds.bottom - this.localToParentBounds( this.selfBounds ).bottom );
@@ -485,7 +485,7 @@ class RatioHalf extends Rectangle {
    * @param {Bounds2} bounds - the bounds of this RatioHalf, effects dimensions, dragBounds, and width of guiding rectangles
    * @param {number} heightScalar - normalized between 0 and 1. When 1, it the ratio half will be the tallest it gets, at 0, the shortest
    */
-  layout( bounds: Bounds2, heightScalar: number ) {
+  layout( bounds: Bounds2, heightScalar: number ): void {
     assert && assert( heightScalar >= 0 && heightScalar <= 1, 'scalar should be between 0 and 1' );
     this.layoutRatioHalf( bounds, heightScalar );
   }
@@ -493,7 +493,7 @@ class RatioHalf extends Rectangle {
   /**
    * @public
    */
-  reset() {
+  reset(): void {
     this.resetRatioHalf();
   }
 }

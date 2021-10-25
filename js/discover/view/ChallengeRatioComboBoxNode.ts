@@ -108,7 +108,7 @@ class ChallengeRatioComboBoxNode extends Node {
   /**
    * @public
    */
-  hideListBox() {
+  hideListBox(): void {
     this.comboBox.hideListBox();
   }
 }

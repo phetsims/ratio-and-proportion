@@ -74,7 +74,7 @@ class ViewSounds {
   /**
    * @public
    */
-  reset() {
+  reset(): void {
     this.boundarySoundClip.reset();
     this.tickMarkBumpSoundClip.reset();
   }

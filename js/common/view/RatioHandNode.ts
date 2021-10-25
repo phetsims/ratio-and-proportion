@@ -185,7 +185,7 @@ class RatioHandNode extends Node {
    * https://github.com/phetsims/ratio-and-proportion/issues/175#issuecomment-729292704
    * @public
    */
-  reset() {
+  reset(): void {
     this.resetRatioHandNode();
   }
 
@@ -196,7 +196,7 @@ class RatioHandNode extends Node {
    * @returns {Node}
    * @public
    */
-  static createIcon( isRight: boolean, tickMarkViewProperty: EnumerationProperty, options?: any ) {
+  static createIcon( isRight: boolean, tickMarkViewProperty: EnumerationProperty, options?: any ): Node {
     options = merge( {
       handColor: 'black',
       handNodeOptions: {

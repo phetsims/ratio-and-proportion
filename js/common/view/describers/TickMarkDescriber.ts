@@ -47,6 +47,13 @@ const ORDINAL_TICK_MARKS = [
   ratioAndProportionStrings.a11y.tickMark.ordinal.twentyNinth
 ];
 
+type TickMarkDescriptionData = {
+  tickMarkPosition: number | 'zero', // TODO: is it zero though? https://github.com/phetsims/ratio-and-proportion/issues/404
+  relativePosition: string,
+  ordinalPosition: string | null
+}
+
+
 // The value in which up to and including this value, the relative description will apply to the value of the tick mark
 // rounded down, instead of up, from this remainder.
 const ROUND_DOWN_THRESHOLD = 0.7;
@@ -74,9 +81,9 @@ class TickMarkDescriber {
    * with certain edge cases (like for "zero" case).
    * @public
    * @param {number} handPosition
-   * @returns {{tickMarkPosition: number|"zero", relativePosition: string , ordinalPosition: string|null }}
+   * @returns {TickMarkDescriptionData}
    */
-  getRelativePositionAndTickMarkNumberForPosition( handPosition: number ) {
+  getRelativePositionAndTickMarkNumberForPosition( handPosition: number ): TickMarkDescriptionData {
     assert && assert( TOTAL_RANGE.contains( handPosition ) );
 
     // account for javascript rounding error, don't use rapConstants because we only want to handle rounding trouble.

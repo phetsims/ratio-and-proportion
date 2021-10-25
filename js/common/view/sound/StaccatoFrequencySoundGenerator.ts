@@ -113,7 +113,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
    * @param {number} dt
    * @public
    */
-  step( dt: number ) {
+  step( dt: number ): void {
     const newFitness = this.fitnessProperty.value;
 
     // If fitness is less than zero, make sure enough time has past that it will play a sound immediately.
@@ -131,7 +131,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
    * stop any in-progress sound generation
    * @public
    */
-  reset() {
+  reset(): void {
     this.timeSinceLastPlay = 0;
   }
 }

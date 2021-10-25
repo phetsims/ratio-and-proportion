@@ -58,15 +58,15 @@ class RAPTickMarkLabelsNode extends Node {
    * @returns {number}
    *
    */
-  get labelHeight() {
+  get labelHeight(): number {
     assert && assert( this.heightOfText, 'cannot get labelHeight until labels have been drawn' );
-    return this.heightOfText as number;
+    return this.heightOfText!;
   }
 
   /**
    * @public
    */
-  layout( height: number ) {
+  layout( height: number ): void {
 
     this.totalHeight = height;
     this.update( this.tickMarkRangeProperty.value, this.tickMarkViewProperty.value );
@@ -75,7 +75,7 @@ class RAPTickMarkLabelsNode extends Node {
   /**
    * @private
    */
-  update( tickMarkRange: number, tickMarkView: TickMarkViewType ) {
+  update( tickMarkRange: number, tickMarkView: TickMarkViewType ): void {
 
     // subtract one to account for potential rounding errors. This helps guarantee that the last line is drawn.
     const horizontalSpacing = ( this.totalHeight - 1 ) / tickMarkRange;
@@ -90,7 +90,7 @@ class RAPTickMarkLabelsNode extends Node {
    * @param {boolean} showTickMarkUnits
    * @param {number} horizontalSpacing
    */
-  updateUnitLabels( showTickMarkUnits: boolean, horizontalSpacing: number ) {
+  updateUnitLabels( showTickMarkUnits: boolean, horizontalSpacing: number ): void {
     this.children = [];
 
     assert && assert( typeof horizontalSpacing === 'number', 'Unit Labels only supported for horizontal lines' );

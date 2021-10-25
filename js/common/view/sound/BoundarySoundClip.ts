@@ -47,7 +47,7 @@ class BoundarySoundClip extends SoundClip {
    * @param {number} [horizontalPosition]
    * @param {Range} [horizontalRange] - the horizontal range can change based on view scaling
    */
-  onInteract( verticalPosition: number, horizontalPosition?: number, horizontalRange?: Range ) {
+  onInteract( verticalPosition: number, horizontalPosition?: number, horizontalRange?: Range ): void {
 
     if ( this.lastYPosition !== verticalPosition &&
          ( verticalPosition === this.verticalRange.min || verticalPosition === this.verticalRange.max ) ) {
@@ -69,7 +69,7 @@ class BoundarySoundClip extends SoundClip {
   /**
    * @public
    */
-  onStartInteraction() {
+  onStartInteraction(): void {
     this.playedThisInteraction = false;
   }
 
@@ -80,7 +80,7 @@ class BoundarySoundClip extends SoundClip {
    * @public
    * @param {number} verticalPosition
    */
-  onEndInteraction( verticalPosition: number ) {
+  onEndInteraction( verticalPosition: number ): void {
     if ( !this.playedThisInteraction &&
          ( verticalPosition === this.verticalRange.min || verticalPosition === this.verticalRange.max ) ) {
       this.play();
@@ -91,7 +91,7 @@ class BoundarySoundClip extends SoundClip {
    * @override
    * @public
    */
-  play() {
+  play(): void {
     this.playedThisInteraction = true;
     super.play();
   }
@@ -99,7 +99,7 @@ class BoundarySoundClip extends SoundClip {
   /**
    * @public
    */
-  reset() {
+  reset(): void {
     this.stop( 0 );
     this.playedThisInteraction = false;
     this.lastYPosition = null;

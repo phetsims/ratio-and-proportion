@@ -105,7 +105,7 @@ class TickMarkRangeComboBoxNode extends Node {
   /**
    * @public
    */
-  hideListBox() {
+  hideListBox(): void {
     this.enabledComboBox.hideListBox();
     this.disabledComboBox.hideListBox();
   }
