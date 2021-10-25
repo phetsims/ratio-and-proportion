@@ -27,7 +27,6 @@ import CueDisplay from './CueDisplay.js';
 import getKeyboardInputSnappingMapper from './getKeyboardInputSnappingMapper.js';
 import RAPColors from './RAPColors.js';
 import TickMarkView, { TickMarkViewType } from './TickMarkView.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Color from '../../../../scenery/js/util/Color.js';
 
 class RatioHandNode extends Node {
@@ -47,9 +46,9 @@ class RatioHandNode extends Node {
    * @param {Object} [options]
    */
   constructor( valueProperty: Property<number>, enabledRatioTermsRangeProperty: Property<Range>,
-               tickMarkViewProperty: EnumerationProperty, keyboardStep: number,
+               tickMarkViewProperty: Property<TickMarkViewType>, keyboardStep: number,
                colorProperty: Property<Color | string>,
-               cueDisplayProperty: Property<CueDisplay>, getIdealValue: ( n?: number ) => number,
+               cueDisplayProperty: Property<CueDisplay>, getIdealValue: () => number,
                inProportionProperty: Property<boolean>, options?: any ) {
 
     const shiftKeyboardStep = rapConstants.toFixed( keyboardStep * rapConstants.SHIFT_KEY_MULTIPLIER ); // eslint-disable-line bad-sim-text
@@ -196,7 +195,7 @@ class RatioHandNode extends Node {
    * @returns {Node}
    * @public
    */
-  static createIcon( isRight: boolean, tickMarkViewProperty: EnumerationProperty, options?: any ): Node {
+  static createIcon( isRight: boolean, tickMarkViewProperty: Property<TickMarkViewType>, options?: any ): Node {
     options = merge( {
       handColor: 'black',
       handNodeOptions: {
@@ -211,7 +210,7 @@ class RatioHandNode extends Node {
       1,
       new Property( options.handColor ),
       new Property( CueDisplay.NONE ),
-      _.identity,
+      () => -1,
       new Property( false ),
       merge( {
         isRight: isRight,

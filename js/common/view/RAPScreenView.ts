@@ -47,7 +47,7 @@ import RatioHalf from './RatioHalf.js';
 import InProportionSoundGenerator from './sound/InProportionSoundGenerator.js';
 import MovingInProportionSoundGenerator from './sound/MovingInProportionSoundGenerator.js';
 import StaccatoFrequencySoundGenerator from './sound/StaccatoFrequencySoundGenerator.js';
-import TickMarkView from './TickMarkView.js';
+import TickMarkView, { TickMarkViewType } from './TickMarkView.js';
 import TickMarkViewRadioButtonGroup from './TickMarkViewRadioButtonGroup.js';
 import RAPModel from '../model/RAPModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -83,7 +83,7 @@ type RAPScreenViewImplementationOptions = Required<RAPScreenViewDefinedOptions> 
 
 class RAPScreenView extends ScreenView {
 
-  protected tickMarkViewProperty: EnumerationProperty;
+  protected tickMarkViewProperty: Property<TickMarkViewType>;
   protected tickMarkRangeProperty: NumberProperty;
   protected readonly ratioDescriber: RatioDescriber;
   handPositionsDescriber: HandPositionsDescriber;
@@ -157,7 +157,7 @@ class RAPScreenView extends ScreenView {
       ) );
 
     // Tick mark sounds get played when ratio isn't locked, and when staccato sounds aren't playing
-    const playTickMarkBumpSoundProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
+    const playTickMarkBumpSoundProperty: Property<boolean> = new DerivedProperty( [ model.ratioFitnessProperty ],
       ( fitness: number ) => !model.ratio.lockedProperty.value && fitness === rapConstants.RATIO_FITNESS_RANGE.min );
 
     // by default, the keyboard step size should be half of one default tick mark width. See https://github.com/phetsims/ratio-and-proportion/issues/85

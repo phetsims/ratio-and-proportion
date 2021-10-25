@@ -17,6 +17,7 @@ import TickMarkView, { TickMarkViewType } from '../../common/view/TickMarkView.j
 import ratioAndProportion from '../../ratioAndProportion.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import Property from '../../../../axon/js/Property.js';
 
 
 class DiscoverScreenIcon extends ScreenIcon {
@@ -32,7 +33,7 @@ class DiscoverScreenIcon extends ScreenIcon {
     }, options );
 
     // @ts-ignore
-    const tickMarksHiddenProperty: EnumerationProperty<TickMarkViewType> = new EnumerationProperty( TickMarkView as Enumeration, TickMarkView.NONE );
+    const tickMarksHiddenProperty: Property<TickMarkViewType> = new EnumerationProperty( TickMarkView as Enumeration, TickMarkView.NONE );
 
     const ratioHandNodeOptions = { handColor: options.handColor };
 

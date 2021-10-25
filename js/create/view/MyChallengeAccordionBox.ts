@@ -27,7 +27,7 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import { TickMarkViewType } from '../../common/view/TickMarkView.js';
 
 const PICKER_SCALE = 1.5;
 const ICON_SCALE = 0.9;
@@ -48,7 +48,7 @@ class MyChallengeAccordionBox extends AccordionBox {
    * @param {Object} [options]
    */
   constructor( targetRatioProperty: Property<number>, ratioLockedProperty: Property<boolean>,
-               handColorProperty: Property<Color | string>, tickMarkViewProperty: EnumerationProperty,
+               handColorProperty: Property<Color | string>, tickMarkViewProperty: Property<TickMarkViewType>,
                ratioDescriber: RatioDescriber, options: AccordionBoxOptions ) {
 
     options = merge( {
