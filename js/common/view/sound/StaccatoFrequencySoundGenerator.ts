@@ -52,15 +52,13 @@ const staccatoSounds = [
   [ gSound, g001Sound, g002Sound ]
 ];
 
-type LinearFunctionType = ( x: number ) => number;
-
 class StaccatoFrequencySoundGenerator extends SoundGenerator {
 
 
   private inProportionProperty: Property<boolean>;
   private fitnessProperty: Property<number>;
   private staccatoSoundClips: SoundClip[][];
-  private timeLinearFunction: LinearFunctionType;
+  private timeLinearFunction: LinearFunction;
   private timeSinceLastPlay: number;
 
   /**
@@ -102,7 +100,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
       fitnessRange.max,
       500,
       120,
-      true ) as LinearFunctionType;
+      true );
 
     // @private - in ms, keep track of the amount of time that has passed since the last staccato sound played
     this.timeSinceLastPlay = 0;
@@ -120,7 +118,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     this.timeSinceLastPlay = newFitness > 0 ? this.timeSinceLastPlay + dt * 1000 : 1000000;
 
     const isInRatio = this.inProportionProperty.value;
-    if ( this.timeSinceLastPlay > this.timeLinearFunction( newFitness ) && !isInRatio && newFitness > 0 ) {
+    if ( this.timeSinceLastPlay > this.timeLinearFunction.evaluate( newFitness ) && !isInRatio && newFitness > 0 ) {
       const sounds = this.staccatoSoundClips[ Math.floor( newFitness * this.staccatoSoundClips.length ) ];
       sounds[ Math.floor( dotRandom.nextDouble() * sounds.length ) ].play();
       this.timeSinceLastPlay = 0;

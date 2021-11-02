@@ -64,10 +64,8 @@ const RATIO_HALF_SPACING = 10;
 // area on the right.
 const RATIO_SECTION_WIDTH = 2 / 3;
 
-type LinearFunctionType = ( x: number ) => number
-
-const uiScaleFunction = new LinearFunction( LAYOUT_BOUNDS.height, MAX_RATIO_HEIGHT, 1, 1.5, true ) as LinearFunctionType;
-const uiPositionFunction = new LinearFunction( 1, 1.5, LAYOUT_BOUNDS.height * 0.15, -LAYOUT_BOUNDS.height * 0.2, true ) as LinearFunctionType;
+const uiScaleFunction = new LinearFunction( LAYOUT_BOUNDS.height, MAX_RATIO_HEIGHT, 1, 1.5, true );
+const uiPositionFunction = new LinearFunction( 1, 1.5, LAYOUT_BOUNDS.height * 0.15, -LAYOUT_BOUNDS.height * 0.2, true );
 
 type RAPScreenViewDefinedOptions = {
 
@@ -409,10 +407,10 @@ class RAPScreenView extends ScreenView {
 
       const ratioWidth = this.antecedentRatioHalf.width + this.consequentRatioHalf.width + ( 2 * RATIO_HALF_SPACING ) + labelsNode.width;
 
-      const uiLayerScale = uiScaleFunction( newRatioHalfBounds.height );
+      const uiLayerScale = uiScaleFunction.evaluate( newRatioHalfBounds.height );
       this.topScalingUILayerNode.setScaleMagnitude( uiLayerScale );
       this.bottomScalingUILayerNode.setScaleMagnitude( uiLayerScale );
-      this.topScalingUILayerNode.top = uiPositionFunction( uiLayerScale );
+      this.topScalingUILayerNode.top = uiPositionFunction.evaluate( uiLayerScale );
 
       // do this again each time after scaling
       this.topScalingUILayerNode.right = this.bottomScalingUILayerNode.right = this.layoutBounds.maxX - rapConstants.SCREEN_VIEW_X_MARGIN;

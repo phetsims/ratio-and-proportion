@@ -65,8 +65,6 @@ const NUMBER_TO_WORD = [
 // an unclamped fitness of 0 should map to "somewhatCloseTo" region
 const ZERO_FITNESS_REGION_INDEX = 4;
 
-type LinearFunctionType = ( x: number ) => number;
-
 assert && assert( RATIO_FITNESS_STRINGS_LOWERCASE.length === RATIO_FITNESS_STRINGS_CAPITALIZED.length, 'should be the same length' );
 
 class RatioDescriber {
@@ -113,15 +111,15 @@ class RatioDescriber {
     // normalize based on the fitness that is not in proportion
     const normalizedMax = rapConstants.RATIO_FITNESS_RANGE.max - this.model.getInProportionThreshold();
 
-    const lessThanZeroMapping = <LinearFunctionType>( new LinearFunction( this.model.getMinFitness(), rapConstants.RATIO_FITNESS_RANGE.min, 0, ZERO_FITNESS_REGION_INDEX - 1, true ) );
-    const greaterThanZeroMapping = <LinearFunctionType>( new LinearFunction( rapConstants.RATIO_FITNESS_RANGE.min, normalizedMax,
-      ZERO_FITNESS_REGION_INDEX, lastIndex, true ) );
+    const lessThanZeroMapping = new LinearFunction( this.model.getMinFitness(), rapConstants.RATIO_FITNESS_RANGE.min, 0, ZERO_FITNESS_REGION_INDEX - 1, true );
+    const greaterThanZeroMapping = new LinearFunction( rapConstants.RATIO_FITNESS_RANGE.min, normalizedMax,
+      ZERO_FITNESS_REGION_INDEX, lastIndex, true );
 
     const unclampedFitness = this.unclampedFitnessProperty.value;
 
     const mappingFunction = unclampedFitness > 0 ? greaterThanZeroMapping : lessThanZeroMapping;
 
-    return ratioRegions[ Math.floor( mappingFunction( unclampedFitness ) ) ];
+    return ratioRegions[ Math.floor( mappingFunction.evaluate( unclampedFitness ) ) ];
   }
 
   /**
