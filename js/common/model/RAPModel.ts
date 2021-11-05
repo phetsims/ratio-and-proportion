@@ -42,10 +42,7 @@ class RAPModel {
   ratioFitnessProperty: DerivedProperty<number>;
   inProportionProperty: DerivedProperty<boolean>;
 
-  /**
-   * @param {Tandem} tandem
-   */
-  constructor( tandem: Tandem ) {
+  public constructor( tandem: Tandem ) {
 
     // @public - the current state of the ratio (value of terms, if its locked, etc)
     this.ratio = new RAPRatio( 0.2, 0.4, tandem.createTandem( 'ratio' ) );
@@ -147,13 +144,8 @@ unclampedFitness: ${unclampedFitness}
    * antecedent when the target ratio is 2.
    *
    * (see rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE).
-   * @param {number} antecedent
-   * @param {number} consequent
-   * @param {number} targetRatio
-   * @returns {number}
-   * @private
    */
-  calculateFitness( antecedent: number, consequent: number, targetRatio: number ): number {
+  private calculateFitness( antecedent: number, consequent: number, targetRatio: number ): number {
 
     // This fitness algorithm was designed and executed to target ratios between 0 and 1, when larger, the fitness looks
     // best if the reciprocal is calculated (yielding a similar relationship between the consequent and target ratio of X,
@@ -195,11 +187,8 @@ unclampedFitness: ${unclampedFitness}
 
   /**
    * Get the minimum fitness value (unclamped) for the provided target ratio, based on the range of the ratio terms.
-   * @public
-   * @param {number} ratio
-   * @returns {number}
    */
-  getMinFitness( ratio = this.targetRatioProperty.value ): number {
+  public getMinFitness( ratio = this.targetRatioProperty.value ): number {
     const minRatioFitness = Math.min( this.calculateFitness( TOTAL_RANGE.min, TOTAL_RANGE.max, ratio ),
       this.calculateFitness( TOTAL_RANGE.min, TOTAL_RANGE.min, ratio ) );
     const maxRatioFitness = Math.min( this.calculateFitness( TOTAL_RANGE.min, TOTAL_RANGE.max, ratio ),
@@ -210,20 +199,14 @@ unclampedFitness: ${unclampedFitness}
   /**
    * If either value is smaller than a threshold, then the fitness cannot be at its max, "in-proportion" state. This function
    * will return true when the model is in that state. When true, one or both value is too small to allow for a success state.
-   * @public
-   * @returns {boolean}
    */
-  valuesTooSmallForInProportion(): boolean {
+  public valuesTooSmallForInProportion(): boolean {
     const currentTuple = this.ratio.tupleProperty.value;
     return currentTuple.antecedent < rapConstants.NO_SUCCESS_VALUE_THRESHOLD ||
            currentTuple.consequent < rapConstants.NO_SUCCESS_VALUE_THRESHOLD;
   }
 
-  /**
-   * @public
-   * @returns {number}
-   */
-  getInProportionThreshold(): number {
+  public getInProportionThreshold(): number {
     let threshold = rapConstants.IN_PROPORTION_FITNESS_THRESHOLD;
     if ( this.ratio.movingInDirectionProperty.value ) {
       threshold = rapConstants.MOVING_IN_PROPORTION_FITNESS_THRESHOLD;
@@ -233,31 +216,24 @@ unclampedFitness: ${unclampedFitness}
 
   /**
    * This is the sim's definition of if the ratio is in the "success" metric, what we call "in proportion." This changes
-   * based on if moving in proportion (bimodal interaction), or not.
-   * @private
-   * @param {number} [fitness] - if provided, calculate if this fitness is in proportion
-   * @returns {boolean}
+   * based on if moving in proportion (bimodal interaction), or not. If fitness is provided, calculate if this fitness is in proportion
    */
-  inProportion( fitness = this.ratioFitnessProperty.value ): boolean {
+  public inProportion( fitness = this.ratioFitnessProperty.value ): boolean {
     return fitness > rapConstants.RATIO_FITNESS_RANGE.max - this.getInProportionThreshold();
   }
 
   /**
-   * @public
    * @override
    */
-  step(): void {
+  public step(): void {
     this.ratio.step();
   }
 
   /**
    * Given a ratio component (antecedent or consequent), determine what it should be to make the current ratio equal to
    * the target ratio.
-   * @param {RatioTerm} ratioTerm
-   * @returns {number}
-   * @public
    */
-  getIdealValueForTerm( ratioTerm: RatioTerm ): number {
+  public getIdealValueForTerm( ratioTerm: RatioTerm ): number {
     if ( ratioTerm === RatioTerm.ANTECEDENT ) {
       return this.targetRatioProperty.value * this.ratio.tupleProperty.value.consequent;
     }
@@ -271,19 +247,16 @@ unclampedFitness: ${unclampedFitness}
   /**
    * A special case in the model where the target ratio is not 1, but both ratio terms are even. This case is worth
    * its own function because it often produces weird bugs in the view's output, see https://github.com/phetsims/ratio-and-proportion/issues/297 and https://github.com/phetsims/ratio-and-proportion/issues/299
-   * @returns {boolean}
-   * @public
    */
-  ratioEvenButNotAtTarget(): boolean {
+  public ratioEvenButNotAtTarget(): boolean {
     return this.targetRatioProperty.value !== 1 &&
            this.ratio.tupleProperty.value.antecedent === this.ratio.tupleProperty.value.consequent;
   }
 
   /**
    * Resets the model.
-   * @public
    */
-  reset(): void {
+  public reset(): void {
     this.ratio.reset(); // do this first
 
     this.targetRatioProperty.reset();
