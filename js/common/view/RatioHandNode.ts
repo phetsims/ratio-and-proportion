@@ -69,7 +69,7 @@ class RatioHandNode extends Node {
       isRight: true, // right hand or left hand
       asIcon: false, // when true, no input will be attached
 
-      ariaOrientation: ( Orientation as any ).VERTICAL,
+      ariaOrientation: Orientation.VERTICAL,
       keyboardStep: keyboardStep,
       pageKeyboardStep: 1 / 5,
       shiftKeyboardStep: shiftKeyboardStep,
