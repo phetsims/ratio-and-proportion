@@ -107,21 +107,21 @@ class RAPRatio {
     this.lockRatioListenerEnabled = true;
 
     // Listener that will handle keeping both ratio tuple values in sync when the ratio is locked.
-    this.tupleProperty.link( ( tuple: RAPRatioTuple, oldTuple: RAPRatioTuple ) => {
+    this.tupleProperty.link( ( tuple: RAPRatioTuple, oldTuple: RAPRatioTuple | null ) => {
       if ( this.lockedProperty.value && this.lockRatioListenerEnabled ) {
         assert && assert( oldTuple, 'need an old value to compute locked ratio values' );
 
-        const antecedentChanged = tuple.antecedent !== oldTuple.antecedent;
-        const consequentChanged = tuple.consequent !== oldTuple.consequent;
-        const previousRatio = oldTuple.getRatio();
+        const antecedentChanged = tuple.antecedent !== oldTuple!.antecedent;
+        const consequentChanged = tuple.consequent !== oldTuple!.consequent;
+        const previousRatio = oldTuple!.getRatio();
 
         let newAntecedent = tuple.antecedent;
         let newConsequent = tuple.consequent;
 
-        if ( this.enabledRatioTermsRangeProperty.value.contains( oldTuple.antecedent ) &&
-             this.enabledRatioTermsRangeProperty.value.contains( oldTuple.consequent ) &&
+        if ( this.enabledRatioTermsRangeProperty.value.contains( oldTuple!.antecedent ) &&
+             this.enabledRatioTermsRangeProperty.value.contains( oldTuple!.consequent ) &&
              antecedentChanged && consequentChanged ) {
-          assert && assert( rapConstants.toFixed( tuple.getRatio() ) === rapConstants.toFixed( oldTuple.getRatio() ), // eslint-disable-line bad-sim-text
+          assert && assert( rapConstants.toFixed( tuple.getRatio() ) === rapConstants.toFixed( oldTuple!.getRatio() ), // eslint-disable-line bad-sim-text
             'if both values change while locked, the ratio should be maintained.' );
         }
 

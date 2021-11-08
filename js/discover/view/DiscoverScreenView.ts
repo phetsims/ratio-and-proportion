@@ -14,6 +14,7 @@ import DiscoverScreenSummaryNode from './DiscoverScreenSummaryNode.js';
 import RAPModel from '../../common/model/RAPModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Color from '../../../../scenery/js/util/Color.js';
 
 class DiscoverScreenView extends RAPScreenView {
 
@@ -26,7 +27,7 @@ class DiscoverScreenView extends RAPScreenView {
   constructor( model: RAPModel, tandem: Tandem ) {
 
     // For this screen, one Property controls the color of both hands.
-    const handColorProperty = new Property( 'black' );
+    const handColorProperty = new Property<Color | string>( 'black' );
 
     super( model, tandem, {
       leftHandColorProperty: handColorProperty,

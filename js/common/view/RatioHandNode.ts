@@ -216,9 +216,9 @@ class RatioHandNode extends Node {
       tickMarkViewProperty,
       1,
       new Property( options.handColor ),
-      new Property( CueDisplay.NONE ),
+      new Property<CueDisplay>( CueDisplay.NONE ),
       () => -1,
-      new Property( false ),
+      new Property<boolean>( false ),
       merge( {
         isRight: isRight,
         asIcon: true,
