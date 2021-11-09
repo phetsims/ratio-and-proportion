@@ -131,7 +131,7 @@ unclampedFitness: ${unclampedFitness}
     } );
 
     // snap to target ratio when the ratio is locked.
-    this.ratio.lockedProperty.link( ( locked: boolean ) => locked && this.ratio.setRatioToTarget( this.targetRatioProperty.value ) );
+    this.ratio.lockedProperty.link( locked => locked && this.ratio.setRatioToTarget( this.targetRatioProperty.value ) );
   }
 
   /**

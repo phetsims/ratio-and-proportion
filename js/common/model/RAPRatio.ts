@@ -107,7 +107,7 @@ class RAPRatio {
     this.lockRatioListenerEnabled = true;
 
     // Listener that will handle keeping both ratio tuple values in sync when the ratio is locked.
-    this.tupleProperty.link( ( tuple: RAPRatioTuple, oldTuple: RAPRatioTuple | null ) => {
+    this.tupleProperty.link( ( tuple, oldTuple ) => {
       if ( this.lockedProperty.value && this.lockRatioListenerEnabled ) {
         assert && assert( oldTuple, 'need an old value to compute locked ratio values' );
 
@@ -141,7 +141,7 @@ class RAPRatio {
       }
     } );
 
-    this.lockedProperty.link( ( ratioLocked: boolean ) => {
+    this.lockedProperty.link( ratioLocked => {
       this.enabledRatioTermsRangeProperty.value = new Range( ratioLocked ? LOCK_RATIO_RANGE_MIN : DEFAULT_TERM_VALUE_RANGE.min, DEFAULT_TERM_VALUE_RANGE.max );
     } );
 

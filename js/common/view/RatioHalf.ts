@@ -252,7 +252,7 @@ class RatioHalf extends Rectangle {
     // @public {Property.<number>} - Create a mapping directly to just this ratio term value. This is to support
     // AccessibleValueHandler, which powers the PDOM interaction off of {Property.<number>}.
     // @ts-ignore
-    const ratioTermSpecificProperty = new DynamicProperty( new Property( this.ratioTupleProperty ), {
+    const ratioTermSpecificProperty = new DynamicProperty<number>( new Property<Property<RAPRatioTuple>>( this.ratioTupleProperty ), {
       bidirectional: true,
       reentrant: true,
       valueType: 'number',
@@ -312,7 +312,7 @@ class RatioHalf extends Rectangle {
 
     // Only the RatioHalf DragListener allows for horizontal movement, so support that here. This adds the horizontal axis.
     // We expand on ratioTermSpecificProperty since we already have it, but we could also just use the ratioTupleProperty.
-    const positionProperty = new DynamicProperty( new Property( ratioTermSpecificProperty ), {
+    const positionProperty = new DynamicProperty<Vector2>( new Property<Property<number>>( ratioTermSpecificProperty ), {
       reentrant: true,
       bidirectional: true,
       valueType: Vector2,

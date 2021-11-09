@@ -35,7 +35,7 @@ class ChallengeComboBoxItem extends ComboBoxItem {
         new RichText( text ) ]
     } ), value, options );
 
-    valueProperty.link( ( newValue: number ) => {
+    valueProperty.link( newValue => {
       if ( newValue === value ) {
         colorProperty.value = color;
       }

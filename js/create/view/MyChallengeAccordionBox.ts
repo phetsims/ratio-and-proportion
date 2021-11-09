@@ -48,7 +48,7 @@ class MyChallengeAccordionBox extends AccordionBox {
    * @param {Object} [options]
    */
   constructor( targetRatioProperty: Property<number>, ratioLockedProperty: Property<boolean>,
-               handColorProperty: Property<Color | string>, tickMarkViewProperty: Property<TickMarkViewType>,
+               handColorProperty: Property<Color>, tickMarkViewProperty: Property<TickMarkViewType>,
                ratioDescriber: RatioDescriber, options: AccordionBoxOptions ) {
 
     options = merge( {
