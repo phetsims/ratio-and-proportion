@@ -87,7 +87,7 @@ class TickMarkRangeComboBoxNode extends Node {
     this.disabledComboBox.enabledProperty.value = false;
 
     // when not displaying the tick marks, show the "blank" line instead of the RichText.
-    tickMarkViewProperty.link( ( tickMarkView: TickMarkViewType ) => {
+    tickMarkViewProperty.link( tickMarkView => {
       this.children = tickMarkView === TickMarkView.NONE ? [ this.disabledComboBox ] : [ this.enabledComboBox ];
     } );
 

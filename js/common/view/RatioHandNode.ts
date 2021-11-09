@@ -110,7 +110,7 @@ class RatioHandNode extends Node {
     this.focusHighlight = new FocusHighlightFromNode( handContainer );
 
     // Only display the "cut-out target circles" when the tick marks are being shown
-    tickMarkViewProperty.link( ( tickMarkView: TickMarkViewType ) => {
+    tickMarkViewProperty.link( tickMarkView => {
       const displayCutOut = TickMarkView.displayHorizontal( tickMarkView );
       cutOutHandNode.visible = displayCutOut;
       filledInHandNode.visible = !displayCutOut;
@@ -158,7 +158,7 @@ class RatioHandNode extends Node {
     this.addChild( upCue );
     this.addChild( downCue );
 
-    cueDisplayProperty.link( ( cueDisplay: CueDisplay ) => {
+    cueDisplayProperty.link( cueDisplay => {
       cueArrowUp.visible = cueArrowDown.visible = cueDisplay === CueDisplay.ARROWS;
       cueArrowKeyUp.visible = cueArrowKeyDown.visible = cueDisplay === CueDisplay.UP_DOWN;
       cueWKeyUp.visible = cueSKeyDown.visible = cueDisplay === CueDisplay.W_S;

@@ -145,7 +145,7 @@ class RAPRatio {
       this.enabledRatioTermsRangeProperty.value = new Range( ratioLocked ? LOCK_RATIO_RANGE_MIN : DEFAULT_TERM_VALUE_RANGE.min, DEFAULT_TERM_VALUE_RANGE.max );
     } );
 
-    this.enabledRatioTermsRangeProperty.link( ( enabledRange: Range ) => {
+    this.enabledRatioTermsRangeProperty.link( enabledRange => {
       const currentTuple = this.tupleProperty.value;
       const newAntecedent = enabledRange.constrainValue( currentTuple.antecedent );
       const newConsequent = enabledRange.constrainValue( currentTuple.consequent );

@@ -99,7 +99,10 @@ type RatioHalfDefinedOptions = {
 
 // TODO: Why is lint wrong here? https://github.com/phetsims/ratio-and-proportion/issues/404
 // TODO: remove helpTextBehavior workaround when supported
-type RatioHalfOptions = RatioHalfDefinedOptions & RectangleOptions & { helpTextBehavior?: ( node: Node, options: NodeOptions, helpText: string | null ) => NodeOptions }; // eslint-disable-line no-undef
+type RatioHalfOptions =
+  RatioHalfDefinedOptions
+  & RectangleOptions
+  & { helpTextBehavior?: ( node: Node, options: NodeOptions, helpText: string | null ) => NodeOptions }; // eslint-disable-line no-undef
 type RatioHalfImplementationOptions = Required<RatioHalfDefinedOptions> & RectangleOptions; // eslint-disable-line no-undef
 
 class RatioHalf extends Rectangle {
@@ -387,7 +390,7 @@ class RatioHalf extends Rectangle {
     } );
 
     // When the range changes, update the dragBounds of the drag listener
-    filledOptions.enabledRatioTermsRangeProperty.link( ( enabledRange: Range ) => {
+    filledOptions.enabledRatioTermsRangeProperty.link( enabledRange => {
       const newBounds = getModelBoundsFromRange( enabledRange );
 
       // offset the bounds to account for the ratioHandNode's size, since the center of the ratioHandNode is controlled by the drag bounds.
