@@ -20,16 +20,12 @@ class DiscoverScreenView extends RAPScreenView {
 
   private comboBoxContainer: ChallengeRatioComboBoxNode;
 
-  /**
-   * @param {RAPModel} model
-   * @param {Tandem} tandem
-   */
-  constructor( model: RAPModel, tandem: Tandem ) {
+  constructor( model: RAPModel, backgroundColorProperty: Property<ColorDef>, tandem: Tandem ) {
 
     // For this screen, one Property controls the color of both hands.
     const handColorProperty = new Property<Color | string>( 'black' );
 
-    super( model, tandem, {
+    super( model, backgroundColorProperty, tandem, {
       leftHandColorProperty: handColorProperty,
       rightHandColorProperty: handColorProperty,
       bothHandsPDOMNodeOptions: {

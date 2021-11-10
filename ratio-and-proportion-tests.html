@@ -47,7 +47,8 @@
         "simFeatures": {
           "supportsSound": true,
           "supportsEnhancedSound": true,
-          "supportsInteractiveDescription": true
+          "supportsInteractiveDescription": true,
+          "supportsVoicing": true
         },
         "supportedBrands": [
           "phet",
@@ -58,7 +59,10 @@
         "typescript": true
       },
       "eslintConfig": {
-        "extends": "../chipper/eslint/sim_eslintrc.js"
+        "extends": "../chipper/eslint/sim_eslintrc.js",
+        "rules": {
+          "visibility-annotation": "off"
+        }
       }
     };
   window.phet.chipper.stringRepos =

@@ -24,7 +24,8 @@
     "simFeatures": {
       "supportsSound": true,
       "supportsEnhancedSound": true,
-      "supportsInteractiveDescription": true
+      "supportsInteractiveDescription": true,
+      "supportsVoicing": true
     },
     "supportedBrands": [
       "phet",

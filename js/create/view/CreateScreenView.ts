@@ -27,16 +27,12 @@ class CreateScreenView extends RAPScreenView {
   private tickMarkRangeComboBoxNode: TickMarkRangeComboBoxNode;
   private resetCreateScreenView: () => void;
 
-  /**
-   * @param {RAPModel} model
-   * @param {Tandem} tandem
-   */
-  constructor( model: RAPModel, tandem: Tandem ) {
+  constructor( model: RAPModel, backgroundColorProperty: Property<ColorDef>, tandem: Tandem ) {
 
     // For this screen, one Property controls the color of both hands.
     const handColorProperty = RAPColors.createScreenHandProperty;
 
-    super( model, tandem, {
+    super( model, backgroundColorProperty, tandem, {
       leftHandColorProperty: handColorProperty,
       rightHandColorProperty: handColorProperty,
       bothHandsPDOMNodeOptions: {

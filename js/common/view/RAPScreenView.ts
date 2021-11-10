@@ -26,7 +26,6 @@ import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import ParallelDOM from '../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -98,12 +97,7 @@ class RAPScreenView extends ScreenView {
   protected tickMarkViewRadioButtonGroup: TickMarkViewRadioButtonGroup;
   private layoutRAPScreeView: ( b: Bounds2 ) => void
 
-  /**
-   * @param {RAPModel} model
-   * @param {Tandem} tandem
-   * @param {Object} [options]
-   */
-  constructor( model: RAPModel, tandem: Tandem, options?: RAPScreenViewOptions ) {
+  constructor( model: RAPModel, backgroundColorProperty: Property<ColorDef>, tandem: Tandem, options?: RAPScreenViewOptions ) {
 
     options = merge( {
       tandem: tandem,
@@ -309,10 +303,6 @@ class RAPScreenView extends ScreenView {
     // these dimensions are just temporary, and will be recomputed below in the layout function
     const labelsNode = new RAPTickMarkLabelsNode( this.tickMarkViewProperty, this.tickMarkRangeProperty, 1000, tickMarksAndLabelsColorProperty );
 
-    const backgroundNode = Rectangle.bounds( this.layoutBounds, {
-      fill: 'black'
-    } );
-
     // adjust the background color based on the current ratio fitness
     Property.multilink( [
       model.ratioFitnessProperty,
@@ -332,7 +322,7 @@ class RAPScreenView extends ScreenView {
       }
 
       // @ts-ignore
-      backgroundNode.setFill( color );
+      backgroundColorProperty.value = color;
     } );
 
     // @protected - Keep a separate layer for "control-panel-esque"  UI on the right. This allows them to be scaled
@@ -367,7 +357,6 @@ class RAPScreenView extends ScreenView {
 
     // children
     this.children = [
-      backgroundNode,
       labelsNode,
 
       // UI
@@ -399,8 +388,6 @@ class RAPScreenView extends ScreenView {
 
       this.antecedentRatioHalf.layout( newRatioHalfBounds, heightScalar );
       this.consequentRatioHalf.layout( newRatioHalfBounds, heightScalar );
-      backgroundNode.rectBounds = this.visibleBoundsProperty.value;
-      backgroundNode.bottom = this.layoutBounds.bottom;
 
       // subtract the top and bottom rectangles from the tick marks height
       labelsNode.layout( newRatioHalfBounds.height - ( 2 * this.antecedentRatioHalf.framingRectangleHeight ) );
