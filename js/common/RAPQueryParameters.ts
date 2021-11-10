@@ -20,6 +20,11 @@ const RAPQueryParameters = QueryStringMachine.getAll( {
 
   tangible: {
     type: 'flag'
+  },
+
+  // Show description qualitative position regions for the hands.
+  showRegions: {
+    type: 'flag'
   }
 } );
 

@@ -51,6 +51,7 @@ import TickMarkViewRadioButtonGroup from './TickMarkViewRadioButtonGroup.js';
 import RAPModel from '../model/RAPModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import CueDisplay from './CueDisplay.js';
+import RAPPositionRegionsLayer from './RAPPositionRegionsLayer.js';
 
 // constants
 const LAYOUT_BOUNDS = ScreenView.DEFAULT_LAYOUT_BOUNDS;
@@ -355,6 +356,11 @@ class RAPScreenView extends ScreenView {
     this.topScalingUILayerNode.addChild( this.tickMarkViewRadioButtonGroup );
     this.bottomScalingUILayerNode.addChild( this.resetAllButton );
 
+    let positionRegionsNode: RAPPositionRegionsLayer | null = null;
+    if ( RAPQueryParameters.showRegions ) {
+      positionRegionsNode = new RAPPositionRegionsLayer();
+    }
+
     // children
     this.children = [
       labelsNode,
@@ -366,6 +372,7 @@ class RAPScreenView extends ScreenView {
       // Main ratio on top
       bothHandsPDOMNode
     ];
+    positionRegionsNode && this.addChild( positionRegionsNode );
 
     // accessible order (ratio first in nav order)
     // @ts-ignore
@@ -389,8 +396,10 @@ class RAPScreenView extends ScreenView {
       this.antecedentRatioHalf.layout( newRatioHalfBounds, heightScalar );
       this.consequentRatioHalf.layout( newRatioHalfBounds, heightScalar );
 
+      const ratioHalfDraggableArea = newRatioHalfBounds.height - ( 2 * this.antecedentRatioHalf.framingRectangleHeight );
+
       // subtract the top and bottom rectangles from the tick marks height
-      labelsNode.layout( newRatioHalfBounds.height - ( 2 * this.antecedentRatioHalf.framingRectangleHeight ) );
+      labelsNode.layout( ratioHalfDraggableArea );
 
       const ratioWidth = this.antecedentRatioHalf.width + this.consequentRatioHalf.width + ( 2 * RATIO_HALF_SPACING ) + labelsNode.width;
 
@@ -418,6 +427,13 @@ class RAPScreenView extends ScreenView {
 
       // offset the bottom so that the center of the text is right on the tick mark
       labelsNode.bottom = this.layoutBounds.bottom - this.antecedentRatioHalf.framingRectangleHeight + labelsNode.labelHeight / 2;
+
+      if ( positionRegionsNode ) {
+        const ratioHalvesWidth = this.antecedentRatioHalf.width + this.consequentRatioHalf.width + ( 2 * RATIO_HALF_SPACING ) + labelsNode.width;
+        positionRegionsNode.layout( ratioHalvesWidth, ratioHalfDraggableArea );
+        positionRegionsNode.left = this.antecedentRatioHalf.left;
+        positionRegionsNode.bottom = this.layoutBounds.bottom - this.antecedentRatioHalf.framingRectangleHeight + ( positionRegionsNode.labelsHeight / 2 );
+      }
 
       assert && assert( this.antecedentRatioHalf.width + this.consequentRatioHalf.width +
                         Math.max( this.topScalingUILayerNode.width, this.bottomScalingUILayerNode.width ) < LAYOUT_BOUNDS.width,
