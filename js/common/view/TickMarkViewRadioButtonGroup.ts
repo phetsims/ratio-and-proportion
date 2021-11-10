@@ -20,7 +20,7 @@ import Property from '../../../../axon/js/Property.js';
 // constants
 const ICON_SCALE = 0.45;
 
-class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup {
+class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkViewType> {
 
   /**
    * @param {Property.<TickMarkViewType>} tickMarkViewProperty
@@ -41,16 +41,22 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup {
 
     super( tickMarkViewProperty, [ {
         node: new Path( eyeSlashSolidShape, { scale: 0.05, fill: 'black' } ),
+
+        // @ts-ignore
         value: TickMarkView.NONE,
         labelContent: ratioAndProportionStrings.a11y.tickMark.showNo,
         tandemName: 'showNoRadioButton'
       }, {
         node: new TickMarksIconPath(),
+
+        // @ts-ignore
         value: TickMarkView.VISIBLE,
         labelContent: ratioAndProportionStrings.a11y.tickMark.show,
         tandemName: 'showRadioButton'
       }, {
         node: new NumberedTickMarksIconPath(),
+
+        // @ts-ignore
         value: TickMarkView.VISIBLE_WITH_UNITS,
         labelContent: ratioAndProportionStrings.a11y.tickMark.showNumbered,
         tandemName: 'showNumberedRadioButton'
