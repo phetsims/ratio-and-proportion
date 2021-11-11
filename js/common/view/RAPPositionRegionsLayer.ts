@@ -30,7 +30,7 @@ class RAPPositionRegionsLayer extends Node {
     this.labelsHeight = 1000;
 
     // These values are duplicated with HandPositionDescriber, do not change without consulting.
-    this.regions = [ 1, 0.9, 0.65, 0.5, 0.5, 0.35, 0.1, 0, 0 ];
+    this.regions = [ 1, 1, 0.9, 0.65, 0.5, 0.5, 0.35, 0.1, 0, 0 ];
   }
 
   public layout( width: number, height: number ): void {
