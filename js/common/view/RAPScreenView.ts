@@ -451,32 +451,11 @@ class RAPScreenView extends ScreenView {
    * @public
    */
   layout( viewBounds: Bounds2 ): void {
-    this.resetTransform();
+    this.matrix = ScreenView.getLayoutMatrix( this.layoutBounds, viewBounds, { verticalAlign: 'bottom' } );
+    this.visibleBoundsProperty.value = this.parentToLocalBounds( viewBounds );
 
-    const scale = this.getLayoutScale( viewBounds );
-    const width = viewBounds.width;
-    const height = viewBounds.height;
-    this.setScaleMagnitude( scale );
-
-    let dx = 0;
-    let dy = 0;
-
-    // Move to bottom vertically
-    if ( scale === width / this.layoutBounds.width ) {
-      dy = ( height / scale - this.layoutBounds.height );
-    }
-
-    // Center horizontally
-    else if ( scale === height / this.layoutBounds.height ) {
-      dx = ( width / scale - this.layoutBounds.width ) / 2;
-    }
-    this.translate( dx + viewBounds.left / scale, dy + viewBounds.top / scale );
-
-    // set visible bounds, which are different from layout bounds
-    this.visibleBoundsProperty.set( new Bounds2( -dx, -dy, width / scale - dx, height / scale - dy ) );
-
-    // new bounds for each ratio half
-    this.layoutRAPScreeView( new Bounds2( 0, 0, ONE_QUARTER_LAYOUT_WIDTH, Math.min( height / scale, MAX_RATIO_HEIGHT ) ) );
+    const ratioHeight = Math.min( this.visibleBoundsProperty.value.height, MAX_RATIO_HEIGHT );
+    this.layoutRAPScreeView( new Bounds2( 0, 0, ONE_QUARTER_LAYOUT_WIDTH, ratioHeight ) );
   }
 
   /**
