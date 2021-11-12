@@ -168,10 +168,10 @@
         "value": "Tick Marks hidden."
       },
       "tickMarksShown": {
-        "value": "Evenly-spaced horizontal lines added to Play Area."
+        "value": "Evenly-spaced horizontal lines added."
       },
       "numberedTickMarksShown": {
-        "value": "Evenly-spaced numbered lines added to Play Area."
+        "value": "Evenly-spaced numbered lines added."
       },
       "relative": {
         "around": {
