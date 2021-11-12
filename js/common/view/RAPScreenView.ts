@@ -26,7 +26,6 @@ import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import ParallelDOM from '../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -52,6 +51,7 @@ import TickMarkViewRadioButtonGroup from './TickMarkViewRadioButtonGroup.js';
 import RAPModel from '../model/RAPModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import CueDisplay from './CueDisplay.js';
+import RAPPositionRegionsLayer from './RAPPositionRegionsLayer.js';
 
 // constants
 const LAYOUT_BOUNDS = ScreenView.DEFAULT_LAYOUT_BOUNDS;
@@ -98,12 +98,7 @@ class RAPScreenView extends ScreenView {
   protected tickMarkViewRadioButtonGroup: TickMarkViewRadioButtonGroup;
   private layoutRAPScreeView: ( b: Bounds2 ) => void
 
-  /**
-   * @param {RAPModel} model
-   * @param {Tandem} tandem
-   * @param {Object} [options]
-   */
-  constructor( model: RAPModel, tandem: Tandem, options?: RAPScreenViewOptions ) {
+  constructor( model: RAPModel, backgroundColorProperty: Property<ColorDef>, tandem: Tandem, options?: RAPScreenViewOptions ) {
 
     options = merge( {
       tandem: tandem,
@@ -309,10 +304,6 @@ class RAPScreenView extends ScreenView {
     // these dimensions are just temporary, and will be recomputed below in the layout function
     const labelsNode = new RAPTickMarkLabelsNode( this.tickMarkViewProperty, this.tickMarkRangeProperty, 1000, tickMarksAndLabelsColorProperty );
 
-    const backgroundNode = Rectangle.bounds( this.layoutBounds, {
-      fill: 'black'
-    } );
-
     // adjust the background color based on the current ratio fitness
     Property.multilink( [
       model.ratioFitnessProperty,
@@ -332,7 +323,7 @@ class RAPScreenView extends ScreenView {
       }
 
       // @ts-ignore
-      backgroundNode.setFill( color );
+      backgroundColorProperty.value = color;
     } );
 
     // @protected - Keep a separate layer for "control-panel-esque"  UI on the right. This allows them to be scaled
@@ -365,9 +356,13 @@ class RAPScreenView extends ScreenView {
     this.topScalingUILayerNode.addChild( this.tickMarkViewRadioButtonGroup );
     this.bottomScalingUILayerNode.addChild( this.resetAllButton );
 
+    let positionRegionsNode: RAPPositionRegionsLayer | null = null;
+    if ( RAPQueryParameters.showRegions ) {
+      positionRegionsNode = new RAPPositionRegionsLayer();
+    }
+
     // children
     this.children = [
-      backgroundNode,
       labelsNode,
 
       // UI
@@ -377,6 +372,7 @@ class RAPScreenView extends ScreenView {
       // Main ratio on top
       bothHandsPDOMNode
     ];
+    positionRegionsNode && this.addChild( positionRegionsNode );
 
     // accessible order (ratio first in nav order)
     // @ts-ignore
@@ -399,11 +395,11 @@ class RAPScreenView extends ScreenView {
 
       this.antecedentRatioHalf.layout( newRatioHalfBounds, heightScalar );
       this.consequentRatioHalf.layout( newRatioHalfBounds, heightScalar );
-      backgroundNode.rectBounds = this.visibleBoundsProperty.value;
-      backgroundNode.bottom = this.layoutBounds.bottom;
+
+      const ratioHalfDraggableArea = newRatioHalfBounds.height - ( 2 * this.antecedentRatioHalf.framingRectangleHeight );
 
       // subtract the top and bottom rectangles from the tick marks height
-      labelsNode.layout( newRatioHalfBounds.height - ( 2 * this.antecedentRatioHalf.framingRectangleHeight ) );
+      labelsNode.layout( ratioHalfDraggableArea );
 
       const ratioWidth = this.antecedentRatioHalf.width + this.consequentRatioHalf.width + ( 2 * RATIO_HALF_SPACING ) + labelsNode.width;
 
@@ -432,6 +428,13 @@ class RAPScreenView extends ScreenView {
       // offset the bottom so that the center of the text is right on the tick mark
       labelsNode.bottom = this.layoutBounds.bottom - this.antecedentRatioHalf.framingRectangleHeight + labelsNode.labelHeight / 2;
 
+      if ( positionRegionsNode ) {
+        const ratioHalvesWidth = this.antecedentRatioHalf.width + this.consequentRatioHalf.width + ( 2 * RATIO_HALF_SPACING ) + labelsNode.width;
+        positionRegionsNode.layout( ratioHalvesWidth, ratioHalfDraggableArea );
+        positionRegionsNode.left = this.antecedentRatioHalf.left;
+        positionRegionsNode.bottom = this.layoutBounds.bottom - this.antecedentRatioHalf.framingRectangleHeight + ( positionRegionsNode.labelsHeight / 2 );
+      }
+
       assert && assert( this.antecedentRatioHalf.width + this.consequentRatioHalf.width +
                         Math.max( this.topScalingUILayerNode.width, this.bottomScalingUILayerNode.width ) < LAYOUT_BOUNDS.width,
         'everything should fit inside layout bounds' );
@@ -448,32 +451,11 @@ class RAPScreenView extends ScreenView {
    * @public
    */
   layout( viewBounds: Bounds2 ): void {
-    this.resetTransform();
+    this.matrix = ScreenView.getLayoutMatrix( this.layoutBounds, viewBounds, { verticalAlign: 'bottom' } );
+    this.visibleBoundsProperty.value = this.parentToLocalBounds( viewBounds );
 
-    const scale = this.getLayoutScale( viewBounds );
-    const width = viewBounds.width;
-    const height = viewBounds.height;
-    this.setScaleMagnitude( scale );
-
-    let dx = 0;
-    let dy = 0;
-
-    // Move to bottom vertically
-    if ( scale === width / this.layoutBounds.width ) {
-      dy = ( height / scale - this.layoutBounds.height );
-    }
-
-    // Center horizontally
-    else if ( scale === height / this.layoutBounds.height ) {
-      dx = ( width / scale - this.layoutBounds.width ) / 2;
-    }
-    this.translate( dx + viewBounds.left / scale, dy + viewBounds.top / scale );
-
-    // set visible bounds, which are different from layout bounds
-    this.visibleBoundsProperty.set( new Bounds2( -dx, -dy, width / scale - dx, height / scale - dy ) );
-
-    // new bounds for each ratio half
-    this.layoutRAPScreeView( new Bounds2( 0, 0, ONE_QUARTER_LAYOUT_WIDTH, Math.min( height / scale, MAX_RATIO_HEIGHT ) ) );
+    const ratioHeight = Math.min( this.visibleBoundsProperty.value.height, MAX_RATIO_HEIGHT );
+    this.layoutRAPScreeView( new Bounds2( 0, 0, ONE_QUARTER_LAYOUT_WIDTH, ratioHeight ) );
   }
 
   /**
@@ -499,6 +481,33 @@ class RAPScreenView extends ScreenView {
     this.markerInput && this.markerInput.step();
     this.inProportionSoundGenerator.step( dt );
     this.staccatoFrequencySoundGenerator.step( dt );
+  }
+
+  /**
+   * To support voicing.
+   * @override
+   * @public
+   */
+  public getVoicingOverviewContent(): string {
+    return 'This has not been implemented yet';
+  }
+
+  /**
+   * To support voicing.
+   * @override
+   * @public
+   */
+  public getVoicingDetailsContent(): string {
+    return 'This has not been implemented yet';
+  }
+
+  /**
+   * To support voicing.
+   * @override
+   * @public
+   */
+  public getVoicingHintContent(): string {
+    return 'This has not been implemented yet';
   }
 }
 

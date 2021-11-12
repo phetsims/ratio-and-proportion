@@ -21,8 +21,9 @@ class CreateScreen extends Screen {
    */
   constructor( tandem: Tandem ) {
 
+    const backgroundColorProperty = new Property( 'white' );
     const options = {
-      backgroundColorProperty: new Property( 'white' ),
+      backgroundColorProperty: backgroundColorProperty,
       tandem: tandem,
       homeScreenIcon: new CreateScreenIcon(),
       name: ratioAndProportionStrings.screen.create,
@@ -32,7 +33,7 @@ class CreateScreen extends Screen {
 
     super(
       () => new RAPModel( tandem.createTandem( 'model' ) ),
-      ( model: RAPModel ) => new CreateScreenView( model, tandem.createTandem( 'view' ) ),
+      ( model: RAPModel ) => new CreateScreenView( model, backgroundColorProperty, tandem.createTandem( 'view' ) ),
       options
     );
   }

@@ -75,6 +75,7 @@ class HandPositionsDescriber {
   private tickMarkDescriber: TickMarkDescriber;
   private previousDistanceRegion: null | string;
   private previousDistance: number;
+  public static QUALITATIVE_POSITIONS: string[];
 
   /**
    * @param {Property.<RAPRatioTuple>} ratioTupleProperty
@@ -94,13 +95,11 @@ class HandPositionsDescriber {
 
   /**
    * only ends with "of Play Area" if qualitative
-   * @public
-   * @param {number} position
-   * @param {TickMarkView} tickMarkView
-   * @param {boolean} useOfPlayArea - whether the position should end with "of Play Area", like "at bottom of Play Area"
-   * @returns {string}
+   * @param position
+   * @param tickMarkView
+   * @param useOfPlayArea - whether the position should end with "of Play Area", like "at bottom of Play Area"
    */
-  getHandPositionDescription( position: number, tickMarkView: TickMarkViewType, useOfPlayArea = true ): string {
+  public getHandPositionDescription( position: number, tickMarkView: TickMarkViewType, useOfPlayArea = true ): string {
     if ( TickMarkView.describeQualitative( tickMarkView ) ) {
       const qualitativeHandPosition = this.getQualitativePosition( position );
       return !useOfPlayArea ? qualitativeHandPosition : StringUtils.fillIn( ratioAndProportionStrings.a11y.ofPlayAreaPattern, {
@@ -112,13 +111,7 @@ class HandPositionsDescriber {
     }
   }
 
-  /**
-   * @private
-   * @param {number} handPosition
-   * @param {boolean} semiQuantitative=false
-   * @returns {string}
-   */
-  getQuantitativeHandPosition( handPosition: number, semiQuantitative = false ): string {
+  private getQuantitativeHandPosition( handPosition: number, semiQuantitative = false ): string {
     const tickMarkData = this.tickMarkDescriber.getRelativePositionAndTickMarkNumberForPosition( handPosition );
 
     // semi quantitative description uses ordinal numbers instead of full numbers.
@@ -135,12 +128,7 @@ class HandPositionsDescriber {
     } );
   }
 
-  /**
-   * @param {number} position - relative to the total possible position
-   * @returns {string} - the qualitative position
-   * @private
-   */
-  getQualitativePosition( position: number ): string {
+  private getQualitativePosition( position: number ): string {
     assert && assert( TOTAL_RANGE.contains( position ), 'position expected to be in position range' );
 
     const normalizedPosition = TOTAL_RANGE.getNormalizedValue( position );
@@ -180,10 +168,9 @@ class HandPositionsDescriber {
   }
 
   /**
-   * @private
-   * @returns {string}
+   * NOTE: These values are copied over in RAPPositionRegionsLayer, consult that Node before changing these values.
    */
-  getDistanceRegion( lowercase = false ): string {
+  public getDistanceRegion( lowercase = false ): string {
     const distance = this.ratioTupleProperty.value.getDistance();
 
     assert && assert( TOTAL_RANGE.getLength() === 1, 'these hard coded values depend on a range of 1' );
@@ -225,12 +212,7 @@ class HandPositionsDescriber {
     return ( lowercase ? DISTANCE_REGIONS_LOWERCASE : DISTANCE_REGIONS_CAPITALIZED )[ index ];
   }
 
-  /**
-   * @public
-   * @param {RatioTerm} ratioTerm - which ratio term is this for? Antecedent or consequent
-   * @returns {string}
-   */
-  getSingleHandDistance( ratioTerm: RatioTerm ): string {
+  public getSingleHandDistance( ratioTerm: RatioTerm ): string {
     const otherHand = ratioTerm === RatioTerm.ANTECEDENT ? rightHandLowerString : leftHandLowerString;
 
     const distanceRegion = this.getDistanceRegion();
@@ -258,13 +240,7 @@ class HandPositionsDescriber {
     } );
   }
 
-  /**
-   * @public
-   * @param {boolean} overrideWithDistanceProgress - if a repeated distance should be overridden with distance-progress (closer/farther)
-   * @param {boolean} capitalized
-   * @returns {string}
-   */
-  getBothHandsDistance( overrideWithDistanceProgress = false, capitalized = false ): string {
+  public getBothHandsDistance( overrideWithDistanceProgress = false, capitalized = false ): string {
     const distanceRegion = this.getDistanceRegion( true );
 
     if ( overrideWithDistanceProgress ) {
@@ -294,12 +270,7 @@ class HandPositionsDescriber {
     return StringUtils.fillIn( pattern, { distance: distanceRegion } );
   }
 
-  /**
-   * @private
-   * @param {Object} [options]
-   * @returns {string|null} - null if no change
-   */
-  getDistanceProgressString( options?: GetDistanceProgressStringOptions ): null | string {
+  private getDistanceProgressString( options?: GetDistanceProgressStringOptions ): null | string {
     const filledOptions = merge( {
       closerString: ratioAndProportionStrings.a11y.handPosition.closerTo,
       fartherString: ratioAndProportionStrings.a11y.handPosition.fartherFrom
@@ -318,6 +289,8 @@ class HandPositionsDescriber {
     return distanceProgressString;
   }
 }
+
+HandPositionsDescriber.QUALITATIVE_POSITIONS = QUALITATIVE_POSITIONS;
 
 ratioAndProportion.register( 'HandPositionsDescriber', HandPositionsDescriber );
 export default HandPositionsDescriber;

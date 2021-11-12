@@ -21,8 +21,9 @@ class DiscoverScreen extends Screen {
    */
   constructor( tandem: Tandem ) {
 
+    const backgroundColorProperty = new Property( 'white' );
     const options = {
-      backgroundColorProperty: new Property( 'white' ),
+      backgroundColorProperty: backgroundColorProperty,
       tandem: tandem,
       homeScreenIcon: new DiscoverScreenIcon(),
       name: ratioAndProportionStrings.screen.discover,
@@ -32,7 +33,7 @@ class DiscoverScreen extends Screen {
 
     super(
       () => new RAPModel( tandem.createTandem( 'model' ) ),
-      ( model: RAPModel ) => new DiscoverScreenView( model, tandem.createTandem( 'view' ) ),
+      ( model: RAPModel ) => new DiscoverScreenView( model, backgroundColorProperty, tandem.createTandem( 'view' ) ),
       options
     );
   }

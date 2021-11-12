@@ -22,7 +22,7 @@
   window.phet.chipper.packageObject =
     {
       "name": "ratio-and-proportion",
-      "version": "1.2.0-dev.0",
+      "version": "1.2.0-dev.1",
       "license": "GPL-3.0",
       "repository": {
         "type": "git",
@@ -46,7 +46,8 @@
         "simFeatures": {
           "supportsSound": true,
           "supportsEnhancedSound": true,
-          "supportsInteractiveDescription": true
+          "supportsInteractiveDescription": true,
+          "supportsVoicing": true
         },
         "supportedBrands": [
           "phet",
@@ -57,7 +58,10 @@
         "typescript": true
       },
       "eslintConfig": {
-        "extends": "../chipper/eslint/sim_eslintrc.js"
+        "extends": "../chipper/eslint/sim_eslintrc.js",
+        "rules": {
+          "visibility-annotation": "off"
+        }
       }
     };
   window.phet.chipper.stringRepos =
