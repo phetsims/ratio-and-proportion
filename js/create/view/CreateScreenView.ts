@@ -157,6 +157,15 @@ class CreateScreenView extends RAPScreenView {
     this.resetCreateScreenView();
     super.reset();
   }
+
+  /**
+   * To support voicing.
+   * @override
+   * @public
+   */
+  public getVoicingHintContent(): string {
+    return ratioAndProportionStrings.a11y.create.screenSummary.interactionHint;
+  }
 }
 
 ratioAndProportion.register( 'CreateScreenView', CreateScreenView );

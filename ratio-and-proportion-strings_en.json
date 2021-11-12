@@ -343,7 +343,7 @@
           "value": " There are options to add plain or numbered tick marks. The tick marks are evenly-spaced horizontal lines that divide up the vertical space. When ready, you can choose a different challenge to master."
         },
         "interactionHint": {
-          "value": "Move hands to find the Challenge Ratio in different places."
+          "value": "Move hands up and down to explore and discover different challenges."
         },
         "qualitativeStateOfSim": {
           "value": "Currently, hands are {{ratioFitness}} the {{currentChallenge}} ratio and {{distance}} each other:"

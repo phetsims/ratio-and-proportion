@@ -502,15 +502,6 @@ class RAPScreenView extends ScreenView {
   public getVoicingDetailsContent(): string {
     return 'This has not been implemented yet';
   }
-
-  /**
-   * To support voicing.
-   * @override
-   * @public
-   */
-  public getVoicingHintContent(): string {
-    return 'This has not been implemented yet';
-  }
 }
 
 ratioAndProportion.register( 'RAPScreenView', RAPScreenView );

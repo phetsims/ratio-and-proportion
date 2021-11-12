@@ -73,6 +73,15 @@ class DiscoverScreenView extends RAPScreenView {
     this.comboBoxContainer.hideListBox(); // hidden when layout changes, see https://github.com/phetsims/ratio-and-proportion/issues/324
     super.layout( bounds );
   }
+
+  /**
+   * To support voicing.
+   * @override
+   * @public
+   */
+  public getVoicingHintContent(): string {
+    return ratioAndProportionStrings.a11y.discover.screenSummary.interactionHint;
+  }
 }
 
 ratioAndProportion.register( 'DiscoverScreenView', DiscoverScreenView );
