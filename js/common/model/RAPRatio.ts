@@ -42,7 +42,7 @@ class RAPRatio {
   antecedentVelocityTracker: VelocityTracker;
   consequentVelocityTracker: VelocityTracker;
   movingInDirectionProperty: DerivedProperty<boolean>;
-  lockRatioListenerEnabled: boolean;
+  ratioLockListenerEnabled: boolean;
 
 
   /**
@@ -104,11 +104,11 @@ class RAPRatio {
     // @private - To avoid an infinite loop as setting the tupleProperty from inside its lock-ratio-support
     // listener. This is predominately needed because even same antecedent/consequent values get wrapped in a new
     // RAPRatioTuple instance.
-    this.lockRatioListenerEnabled = true;
+    this.ratioLockListenerEnabled = true;
 
     // Listener that will handle keeping both ratio tuple values in sync when the ratio is locked.
     this.tupleProperty.link( ( tuple, oldTuple ) => {
-      if ( this.lockedProperty.value && this.lockRatioListenerEnabled ) {
+      if ( this.lockedProperty.value && this.ratioLockListenerEnabled ) {
         assert && assert( oldTuple, 'need an old value to compute locked ratio values' );
 
         const antecedentChanged = tuple.antecedent !== oldTuple!.antecedent;
@@ -135,9 +135,9 @@ class RAPRatio {
         const newRatioTuple = this.clampRatioTupleValuesInRange( newAntecedent, newConsequent, previousRatio );
 
         // guard against reentrancy in this case.
-        this.lockRatioListenerEnabled = false;
+        this.ratioLockListenerEnabled = false;
         this.tupleProperty.value = newRatioTuple;
-        this.lockRatioListenerEnabled = true;
+        this.ratioLockListenerEnabled = true;
       }
     } );
 
@@ -207,9 +207,9 @@ class RAPRatio {
       'Cannot mutate here, as we rely on notifications below when setting the Property.' );
 
     // Make sure that the lock ratio listener won't try to mutate the new RAPRatioTuple
-    this.lockRatioListenerEnabled = false;
+    this.ratioLockListenerEnabled = false;
     this.tupleProperty.value = newRatioTuple;
-    this.lockRatioListenerEnabled = true;
+    this.ratioLockListenerEnabled = true;
   }
 
   /**
@@ -242,7 +242,7 @@ class RAPRatio {
     this.enabledRatioTermsRangeProperty.reset();
     this.antecedentVelocityTracker.reset();
     this.consequentVelocityTracker.reset();
-    this.lockRatioListenerEnabled = true;
+    this.ratioLockListenerEnabled = true;
   }
 }
 

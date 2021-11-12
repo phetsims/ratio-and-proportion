@@ -61,22 +61,22 @@ class CreateScreenView extends RAPScreenView {
 
     const ratioLockedUtterance = new ActivationUtterance();
 
-    const lockRatioCheckbox = new Checkbox( new RichText( ratioAndProportionStrings.lockRatio ), model.ratio.lockedProperty, {
-      accessibleName: ratioAndProportionStrings.lockRatio,
-      helpText: ratioAndProportionStrings.a11y.lockRatioHelpText,
+    const ratioLockCheckbox = new Checkbox( new RichText( ratioAndProportionStrings.ratioLock ), model.ratio.lockedProperty, {
+      accessibleName: ratioAndProportionStrings.ratioLock,
+      helpText: ratioAndProportionStrings.a11y.ratioLockHelpText,
       maxWidth: 250, // empirically determined
 
       // phet-io
-      tandem: tandem.createTandem( 'lockRatioCheckbox' )
+      tandem: tandem.createTandem( 'ratioLockCheckbox' )
     } );
-    lockRatioCheckbox.touchArea = lockRatioCheckbox.localBounds.dilatedXY( 8, 0.5 * lockRatioCheckbox.height );
-    lockRatioCheckbox.mouseArea = lockRatioCheckbox.localBounds.dilatedXY( 8, 0.5 * lockRatioCheckbox.height );
+    ratioLockCheckbox.touchArea = ratioLockCheckbox.localBounds.dilatedXY( 8, 0.5 * ratioLockCheckbox.height );
+    ratioLockCheckbox.mouseArea = ratioLockCheckbox.localBounds.dilatedXY( 8, 0.5 * ratioLockCheckbox.height );
 
     // TODO: this should not be a separate FireListener. Instead we should be able to use the checkbox somehow. https://github.com/phetsims/sun/issues/701
-    lockRatioCheckbox.addInputListener( new FireListener( {
+    ratioLockCheckbox.addInputListener( new FireListener( {
       attach: false, // Since this is the second PressListener to be added to the checkbox (so annoying)
       fire: () => {
-        ratioLockedUtterance.alert = model.ratio.lockedProperty.value ? ratioAndProportionStrings.a11y.lockRatioCheckboxContextResponse :
+        ratioLockedUtterance.alert = model.ratio.lockedProperty.value ? ratioAndProportionStrings.a11y.ratioLockCheckboxContextResponse :
                                      ratioAndProportionStrings.a11y.ratioNoLongerLocked;
 
         // @ts-ignore
@@ -92,10 +92,10 @@ class CreateScreenView extends RAPScreenView {
       model.inProportionProperty,
       model.ratioFitnessProperty
     ], ( inProportion: boolean ) => {
-      lockRatioCheckbox.enabledProperty.value = inProportion;
+      ratioLockCheckbox.enabledProperty.value = inProportion;
 
       // If the checkbox get's disabled, then unlock the ratio.
-      if ( !lockRatioCheckbox.enabledProperty.value ) {
+      if ( !ratioLockCheckbox.enabledProperty.value ) {
         model.ratio.lockedProperty.value = false;
       }
     } );
@@ -103,7 +103,7 @@ class CreateScreenView extends RAPScreenView {
     // children - remember to not blow away children set by parent
     this.topScalingUILayerNode.addChild( myChallengeAccordionBox );
     this.topScalingUILayerNode.addChild( this.tickMarkRangeComboBoxNode );
-    this.bottomScalingUILayerNode.addChild( lockRatioCheckbox );
+    this.bottomScalingUILayerNode.addChild( ratioLockCheckbox );
 
     // Should be on top. Don't scale it because that messes with the scaling that the list box goes through, and changes
     // the dimensions of the scalingUILayerNode to make it too big. Discovered in https://github.com/phetsims/ratio-and-proportion/issues/273
@@ -115,12 +115,12 @@ class CreateScreenView extends RAPScreenView {
       this.tickMarkRangeComboBoxNode,
       tickMarkRangeComboBoxParent,
       myChallengeAccordionBox,
-      lockRatioCheckbox
+      ratioLockCheckbox
     ] );
 
     // static layout
-    lockRatioCheckbox.right = this.resetAllButton.right;
-    lockRatioCheckbox.bottom = this.resetAllButton.top - 20;
+    ratioLockCheckbox.right = this.resetAllButton.right;
+    ratioLockCheckbox.bottom = this.resetAllButton.top - 20;
 
     // ui layer node layout (scales based on width). This only needs to be laid out once, as the container is scaled.
     this.tickMarkRangeComboBoxNode.right = myChallengeAccordionBox.right = tickMarkRangeComboBoxParent.right = this.tickMarkViewRadioButtonGroup.right;

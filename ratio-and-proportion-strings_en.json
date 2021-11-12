@@ -32,8 +32,8 @@
   "challenge3": {
     "value": "Challenge 3"
   },
-  "lockRatio": {
-    "value": "Lock Ratio"
+  "ratioLock": {
+    "value": "Ratio Lock"
   },
   "moveBothHandsSimultaneously": {
     "value": "Move Both Hands Simultaneously"
@@ -316,10 +316,10 @@
     "ofPlayAreaPattern": {
       "value": "{{position}} of Play Area"
     },
-    "lockRatioHelpText": {
+    "ratioLockHelpText": {
       "value": "Enabled when hands are at challenge ratio. Move hands as a single unit to maintain my challenge ratio."
     },
-    "lockRatioCheckboxContextResponse": {
+    "ratioLockCheckboxContextResponse": {
       "value": "Hands locked at challenge ratio. Move hands and observe."
     },
     "ratioNoLongerLocked": {
