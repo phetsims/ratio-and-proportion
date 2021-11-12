@@ -451,6 +451,8 @@ class RAPScreenView extends ScreenView {
    * @public
    */
   layout( viewBounds: Bounds2 ): void {
+
+    // @ts-ignore Discovered in https://github.com/phetsims/chipper/issues/1139
     this.matrix = ScreenView.getLayoutMatrix( this.layoutBounds, viewBounds, { verticalAlign: 'bottom' } );
     this.visibleBoundsProperty.value = this.parentToLocalBounds( viewBounds );
 

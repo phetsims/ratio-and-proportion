@@ -117,6 +117,8 @@ class TickMarkDescriber {
     if ( remainder === TOTAL_RANGE.min ) {
       if ( inZeroCase ) {
         relativePosition = ratioAndProportionStrings.a11y.tickMark.relative.at;
+
+        // @ts-ignore see https://github.com/phetsims/chipper/issues/1139
         tickMarkDisplayedNumber = ratioAndProportionStrings.a11y.tickMark.relative.zero;
         ordinalPosition = null;
       }
@@ -127,6 +129,8 @@ class TickMarkDescriber {
     else if ( remainder <= 0.2 ) {
       if ( inZeroCase ) {
         relativePosition = ratioAndProportionStrings.a11y.tickMark.relative.near;
+
+        // @ts-ignore see https://github.com/phetsims/chipper/issues/1139
         tickMarkDisplayedNumber = ratioAndProportionStrings.a11y.tickMark.relative.zero;
         ordinalPosition = null;
       }
@@ -172,6 +176,8 @@ class TickMarkDescriber {
     assert && assert( relativePosition );
     return {
       tickMarkPosition: tickMarkDisplayedNumber,
+
+      // @ts-ignore see https://github.com/phetsims/chipper/issues/1139
       relativePosition: relativePosition,
       ordinalPosition: ordinalPosition
     };
