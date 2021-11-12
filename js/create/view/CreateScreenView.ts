@@ -63,12 +63,18 @@ class CreateScreenView extends RAPScreenView {
 
     const ratioLockCheckbox = new Checkbox( new RichText( ratioAndProportionStrings.ratioLock ), model.ratio.lockedProperty, {
       accessibleName: ratioAndProportionStrings.ratioLock,
-      helpText: ratioAndProportionStrings.a11y.ratioLockHelpText,
       maxWidth: 250, // empirically determined
 
       // phet-io
       tandem: tandem.createTandem( 'ratioLockCheckbox' )
     } );
+
+    ratioLockCheckbox.enabledProperty.link( ( enabled: boolean ) => {
+
+      // @ts-ignore
+      ratioLockCheckbox.helpText = enabled ? ratioAndProportionStrings.a11y.ratioLockEnabledHelpText : ratioAndProportionStrings.a11y.ratioLockDisabledHelpText;
+    } );
+
     ratioLockCheckbox.touchArea = ratioLockCheckbox.localBounds.dilatedXY( 8, 0.5 * ratioLockCheckbox.height );
     ratioLockCheckbox.mouseArea = ratioLockCheckbox.localBounds.dilatedXY( 8, 0.5 * ratioLockCheckbox.height );
 

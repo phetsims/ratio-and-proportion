@@ -316,8 +316,11 @@
     "ofPlayAreaPattern": {
       "value": "{{position}} of Play Area"
     },
-    "ratioLockHelpText": {
-      "value": "Enabled when hands are at challenge ratio. Move hands as a single unit to maintain my challenge ratio."
+    "ratioLockEnabledHelpText": {
+      "value": "Move hands as a single unit with ratio locked."
+    },
+    "ratioLockDisabledHelpText": {
+      "value": "Enabled when hands are at challenge ratio."
     },
     "ratioLockCheckboxContextResponse": {
       "value": "Hands locked at challenge ratio. Move hands and observe."
