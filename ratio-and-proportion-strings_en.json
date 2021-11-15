@@ -333,7 +333,7 @@
     },
     "discover": {
       "homeScreenDescription": {
-        "value": "Explore this screen to discover set challenge ratios."
+        "value": "Explore and discover set challenge ratios."
       },
       "screenSummary": {
         "paragraph1": {
@@ -367,7 +367,7 @@
     },
     "create": {
       "homeScreenDescription": {
-        "value": "On this screen, set your own challenge ratios to explore."
+        "value": "Set your own challenge ratios to explore."
       },
       "screenSummary": {
         "paragraph1": {
