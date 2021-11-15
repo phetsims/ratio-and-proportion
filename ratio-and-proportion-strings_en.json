@@ -326,7 +326,7 @@
       "value": "Hands locked at challenge ratio. Move hands and observe."
     },
     "ratioNoLongerLocked": {
-      "value": "Ratio no longer locked."
+      "value": "Hands no longer locked."
     },
     "screenSummaryControlAreaParagraph": {
       "value": "The Control Area has a button to reset the sim."
