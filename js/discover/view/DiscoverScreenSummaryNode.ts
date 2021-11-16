@@ -55,7 +55,7 @@ class DiscoverScreenSummaryNode extends Node {
         } ),
         new Node( {
           tagName: 'p',
-          innerContent: ratioAndProportionStrings.a11y.screenSummaryControlAreaParagraph
+          innerContent: ratioAndProportionStrings.a11y.discover.screenSummary.paragraph3
         } ),
         stateOfSimNode,
         descriptionBullets,

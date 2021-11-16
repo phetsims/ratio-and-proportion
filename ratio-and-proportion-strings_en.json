@@ -337,10 +337,13 @@
       },
       "screenSummary": {
         "paragraph1": {
-          "value": "The Play Area is a tall space containing a Left Hand and a Right Hand that can be moved up and down. You can move the Left Hand and the Right Hand individually, or activate Both Hands to move both hands at the same time. As you move the hands up and down, you will get closer to or farther from the Challenge Ratio."
+          "value": "The Play Area is a tall space. It contains two interactive hands, a Left Hand and a Right Hand. You can move the Left Hand and Right Hand up and down individually, or activate Both Hands to move both hands at the same time. As you move the hands up and down, you will get closer to or farther from the challenge ratio, and closer or farther from a dark green screen."
         },
         "paragraph2": {
-          "value": " There are options to add plain or numbered tick marks. The tick marks are evenly-spaced horizontal lines that divide up the vertical space. When ready, you can choose a different challenge to master."
+          "value": "Tick mark options allow you to explore the vertical space with evenly-spaced horizontal lines."
+        },
+        "paragraph3": {
+          "value": "There are different challenges to explore, and the Control Area has a button to reset the sim."
         },
         "interactionHint": {
           "value": "Move hands up and down to explore and discover different challenges."

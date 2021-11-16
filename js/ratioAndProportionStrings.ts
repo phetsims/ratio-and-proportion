@@ -135,6 +135,7 @@ type StringsType = {
       'screenSummary': {
         'paragraph1': string,
         'paragraph2': string,
+        'paragraph3': string,
         'interactionHint': string,
         'qualitativeStateOfSim': string
       },
