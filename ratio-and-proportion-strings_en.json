@@ -313,9 +313,6 @@
     "rightHandBullet": {
       "value": "Right hand {{position}}"
     },
-    "ofPlayAreaPattern": {
-      "value": "{{position}} of Play Area"
-    },
     "ratioLockEnabledHelpText": {
       "value": "Move hands as a single unit with ratio locked."
     },

@@ -124,7 +124,6 @@ type StringsType = {
     },
     'leftHandBullet': string,
     'rightHandBullet': string,
-    'ofPlayAreaPattern': string,
     'ratioLockEnabledHelpText': string,
     'ratioLockDisabledHelpText': string,
     'ratioLockCheckboxContextResponse': string,

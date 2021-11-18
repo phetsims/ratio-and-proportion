@@ -46,8 +46,6 @@ class BackgroundColorHandler {
         );
       }
 
-      console.log( BackgroundColorHandler.getCurrentColorRegion( fitness, inProportion ) );
-
       // @ts-ignore
       backgroundColorProperty.value = color;
     } );
