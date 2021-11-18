@@ -349,7 +349,7 @@
           "value": "Move hands up and down to explore and discover different challenges."
         },
         "qualitativeStateOfSim": {
-          "value": "Currently, hands are {{ratioFitness}} the {{currentChallenge}} ratio and {{distance}} each other:"
+          "value": "Currently, the screen is {{color}}, hands are at the challenge {{currentChallenge}} ratio and {{distance}} each other:"
         }
       },
       "challengesHelpText": {
@@ -582,6 +582,23 @@
         "extremelyFarFrom": {
           "value": "extremely far from"
         }
+      }
+    },
+    "backgroundColor": {
+      "notGreen": {
+        "value": "not green"
+      },
+      "lightestGreen": {
+        "value": "lightest green"
+      },
+      "veryLightGreen": {
+        "value": "very light green"
+      },
+      "lightGreen": {
+        "value": "light green"
+      },
+      "darkestGreen": {
+        "value": "darkest green"
       }
     },
     "down": {

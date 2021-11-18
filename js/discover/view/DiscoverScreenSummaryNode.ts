@@ -12,24 +12,24 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import RAPRatioTuple from '../../common/model/RAPRatioTuple.js';
-import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
 import HandPositionsDescriber from '../../common/view/describers/HandPositionsDescriber.js';
 import { TickMarkViewType } from '../../common/view/TickMarkView.js';
+import BackgroundColorHandler from '../../common/view/BackgroundColorHandler.js';
 
 class DiscoverScreenSummaryNode extends Node {
 
   /**
-   * @param {Property.<number>} ratioFitnessProperty
-   * @param {Property.<RAPRatioTuple>} ratioTupleProperty
-   * @param {Property.<number>} targetRatioProperty
-   * @param {Property.<TickMarkView>} tickMarkViewProperty
-   * @param {RatioDescriber} ratioDescriber
-   * @param {HandPositionsDescriber} handPositionsDescriber
-   * @param {Map.<number,string>} ratioToChallengeNameMap - map from target ratio to name of challenge
+   * @param ratioFitnessProperty
+   * @param ratioTupleProperty
+   * @param targetRatioProperty
+   * @param tickMarkViewProperty
+   * @param inProportionProperty
+   * @param handPositionsDescriber
+   * @param ratioToChallengeNameMap - map from target ratio to name of challenge
    */
   constructor( ratioFitnessProperty: Property<number>, ratioTupleProperty: Property<RAPRatioTuple>,
                targetRatioProperty: Property<number>, tickMarkViewProperty: Property<TickMarkViewType>,
-               ratioDescriber: RatioDescriber, handPositionsDescriber: HandPositionsDescriber,
+               inProportionProperty: Property<boolean>, handPositionsDescriber: HandPositionsDescriber,
                ratioToChallengeNameMap: Map<number, { lowercase: string, capitalized: string }> ) {
 
     const stateOfSimNode = new Node( {
@@ -71,12 +71,13 @@ class DiscoverScreenSummaryNode extends Node {
       targetRatioProperty,
       tickMarkViewProperty,
       ratioTupleProperty,
-      ratioFitnessProperty
-    ], ( currentTargetRatio: number, tickMarkView: TickMarkViewType, currentTuple: RAPRatioTuple ) => {
+      ratioFitnessProperty,
+      inProportionProperty
+    ], ( currentTargetRatio: number, tickMarkView: TickMarkViewType, currentTuple: RAPRatioTuple, fitness: number, inProportion: boolean ) => {
 
       // @ts-ignore
       stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.discover.screenSummary.qualitativeStateOfSim, {
-        ratioFitness: ratioDescriber.getRatioFitness( false ), // lowercase
+        color: BackgroundColorHandler.getCurrentColorRegion( fitness, inProportion ),
         currentChallenge: ratioToChallengeNameMap.get( currentTargetRatio )!.lowercase,
         distance: handPositionsDescriber.getDistanceRegion( true )
       } );

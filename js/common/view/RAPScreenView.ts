@@ -52,6 +52,7 @@ import RAPModel from '../model/RAPModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import CueDisplay from './CueDisplay.js';
 import RAPPositionRegionsLayer from './RAPPositionRegionsLayer.js';
+import BackgroundColorHandler from './BackgroundColorHandler.js';
 
 // constants
 const LAYOUT_BOUNDS = ScreenView.DEFAULT_LAYOUT_BOUNDS;
@@ -84,7 +85,8 @@ class RAPScreenView extends ScreenView {
   protected tickMarkViewProperty: Property<TickMarkViewType>;
   protected tickMarkRangeProperty: NumberProperty;
   protected readonly ratioDescriber: RatioDescriber;
-  handPositionsDescriber: HandPositionsDescriber;
+  private backgroundColorHandler: BackgroundColorHandler;
+  public handPositionsDescriber: HandPositionsDescriber;
   private antecedentRatioHalf: RatioHalf;
   private consequentRatioHalf: RatioHalf;
   private markerInput: RAPMarkerInput | null;
@@ -127,6 +129,8 @@ class RAPScreenView extends ScreenView {
     this.tickMarkRangeProperty = new NumberProperty( 10, { tandem: tandem.createTandem( 'tickMarkRangeProperty' ) } );
 
     const tickMarkDescriber = new TickMarkDescriber( this.tickMarkRangeProperty, this.tickMarkViewProperty );
+
+    this.backgroundColorHandler = new BackgroundColorHandler( model, backgroundColorProperty );
 
     // @protected (read-only)
     this.ratioDescriber = new RatioDescriber( model );
@@ -303,28 +307,6 @@ class RAPScreenView extends ScreenView {
 
     // these dimensions are just temporary, and will be recomputed below in the layout function
     const labelsNode = new RAPTickMarkLabelsNode( this.tickMarkViewProperty, this.tickMarkRangeProperty, 1000, tickMarksAndLabelsColorProperty );
-
-    // adjust the background color based on the current ratio fitness
-    Property.multilink( [
-      model.ratioFitnessProperty,
-      model.inProportionProperty
-    ], ( fitness: number, inProportion: boolean ) => {
-      let color = null;
-      if ( inProportion ) {
-        color = RAPColors.backgroundInFitnessProperty.value;
-      }
-      else {
-        const interpolatedDistance = ( fitness - rapConstants.RATIO_FITNESS_RANGE.min ) / ( 1 - model.getInProportionThreshold() );
-        color = Color.interpolateRGBA(
-          RAPColors.backgroundOutOfFitnessProperty.value,
-          RAPColors.backgroundInterpolationToFitnessProperty.value,
-          Utils.clamp( interpolatedDistance, 0, 1 )
-        );
-      }
-
-      // @ts-ignore
-      backgroundColorProperty.value = color;
-    } );
 
     // @protected - Keep a separate layer for "control-panel-esque"  UI on the right. This allows them to be scaled
     // to maximize their size within the horizontal space in vertical aspect ratios, see https://github.com/phetsims/ratio-and-proportion/issues/79
