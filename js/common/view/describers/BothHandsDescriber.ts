@@ -95,8 +95,8 @@ class BothHandsDescriber {
     const tickMarkView = this.tickMarkViewProperty.value;
 
     const currentTuple = this.ratioTupleProperty.value;
-    const leftPosition = this.handPositionsDescriber.getHandPositionDescription( currentTuple.antecedent, tickMarkView, false );
-    const rightPosition = this.handPositionsDescriber.getHandPositionDescription( currentTuple.consequent, tickMarkView, false );
+    const leftPosition = this.handPositionsDescriber.getHandPositionDescription( currentTuple.antecedent, tickMarkView );
+    const rightPosition = this.handPositionsDescriber.getHandPositionDescription( currentTuple.consequent, tickMarkView );
 
     if ( leftPosition === rightPosition ) {
       return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.equalObjectResponseAlert, {

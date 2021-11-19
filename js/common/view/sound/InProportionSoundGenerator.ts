@@ -41,10 +41,10 @@ class InProportionSoundGenerator extends SoundClip {
   private jumpingOverShouldSound: boolean;
 
   /**
-   * @param {RAPModel} model
-   * @param {Property} enabledControlProperty - not supposed to be settable, just listened to. NOTE: this is not simply
+   * @param model
+   * @param enabledControlProperty - not supposed to be settable, just listened to. NOTE: this is not simply
    *                                            an on/off Property for the SoundGenerator, see below.
-   * @param {Object} [options]
+   * @param options
    */
   constructor( model: RAPModel, enabledControlProperty: Property<boolean>, options?: any ) {
 

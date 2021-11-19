@@ -124,7 +124,6 @@ type StringsType = {
     },
     'leftHandBullet': string,
     'rightHandBullet': string,
-    'ofPlayAreaPattern': string,
     'ratioLockEnabledHelpText': string,
     'ratioLockDisabledHelpText': string,
     'ratioLockCheckboxContextResponse': string,
@@ -228,6 +227,13 @@ type StringsType = {
         'veryFarFrom': string,
         'extremelyFarFrom': string
       }
+    },
+    'backgroundColor': {
+      'notGreen': string,
+      'lightestGreen': string,
+      'veryLightGreen': string,
+      'lightGreen': string,
+      'darkestGreen': string
     },
     'down': string,
     'up': string

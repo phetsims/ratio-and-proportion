@@ -503,7 +503,7 @@ class RatioHalf extends Rectangle {
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.distancePositionContextResponse, {
       distance: this.handPositionsDescriber.getSingleHandDistance( this.ratioTerm ),
       position: this.handPositionsDescriber.getHandPositionDescription( this.ratioTupleProperty.value.getForTerm( this.ratioTerm ),
-        this.tickMarkViewProperty.value, false )
+        this.tickMarkViewProperty.value )
     } );
   }
 

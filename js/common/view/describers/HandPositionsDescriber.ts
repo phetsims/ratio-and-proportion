@@ -97,18 +97,10 @@ class HandPositionsDescriber {
    * only ends with "of Play Area" if qualitative
    * @param position
    * @param tickMarkView
-   * @param useOfPlayArea - whether the position should end with "of Play Area", like "at bottom of Play Area"
    */
-  public getHandPositionDescription( position: number, tickMarkView: TickMarkViewType, useOfPlayArea = true ): string {
-    if ( TickMarkView.describeQualitative( tickMarkView ) ) {
-      const qualitativeHandPosition = this.getQualitativePosition( position );
-      return !useOfPlayArea ? qualitativeHandPosition : StringUtils.fillIn( ratioAndProportionStrings.a11y.ofPlayAreaPattern, {
-        position: qualitativeHandPosition
-      } );
-    }
-    else {
-      return this.getQuantitativeHandPosition( position, TickMarkView.describeSemiQualitative( tickMarkView ) );
-    }
+  public getHandPositionDescription( position: number, tickMarkView: TickMarkViewType ): string {
+    return TickMarkView.describeQualitative( tickMarkView ) ? HandPositionsDescriber.getQualitativePosition( position ) :
+           this.getQuantitativeHandPosition( position, TickMarkView.describeSemiQualitative( tickMarkView ) );
   }
 
   private getQuantitativeHandPosition( handPosition: number, semiQuantitative = false ): string {
@@ -128,7 +120,7 @@ class HandPositionsDescriber {
     } );
   }
 
-  private getQualitativePosition( position: number ): string {
+  private static getQualitativePosition( position: number ): string {
     assert && assert( TOTAL_RANGE.contains( position ), 'position expected to be in position range' );
 
     const normalizedPosition = TOTAL_RANGE.getNormalizedValue( position );
