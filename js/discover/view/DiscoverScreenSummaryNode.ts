@@ -15,21 +15,13 @@ import RAPRatioTuple from '../../common/model/RAPRatioTuple.js';
 import HandPositionsDescriber from '../../common/view/describers/HandPositionsDescriber.js';
 import { TickMarkViewType } from '../../common/view/TickMarkView.js';
 import BackgroundColorHandler from '../../common/view/BackgroundColorHandler.js';
+import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
 
 class DiscoverScreenSummaryNode extends Node {
 
-  /**
-   * @param ratioFitnessProperty
-   * @param ratioTupleProperty
-   * @param targetRatioProperty
-   * @param tickMarkViewProperty
-   * @param inProportionProperty
-   * @param handPositionsDescriber
-   * @param ratioToChallengeNameMap - map from target ratio to name of challenge
-   */
   constructor( ratioFitnessProperty: Property<number>, ratioTupleProperty: Property<RAPRatioTuple>,
                targetRatioProperty: Property<number>, tickMarkViewProperty: Property<TickMarkViewType>,
-               inProportionProperty: Property<boolean>, handPositionsDescriber: HandPositionsDescriber,
+               ratioDescriber: RatioDescriber, inProportionProperty: Property<boolean>, handPositionsDescriber: HandPositionsDescriber,
                ratioToChallengeNameMap: Map<number, { lowercase: string, capitalized: string }> ) {
 
     const stateOfSimNode = new Node( {
@@ -76,8 +68,9 @@ class DiscoverScreenSummaryNode extends Node {
     ], ( currentTargetRatio: number, tickMarkView: TickMarkViewType, currentTuple: RAPRatioTuple, fitness: number, inProportion: boolean ) => {
 
       // @ts-ignore
-      stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.discover.screenSummary.qualitativeStateOfSim, {
+      stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.screenSummaryQualitativeStateOfSim, {
         color: BackgroundColorHandler.getCurrentColorRegion( fitness, inProportion ),
+        ratioFitness: ratioDescriber.getRatioFitness( false ),
         currentChallenge: ratioToChallengeNameMap.get( currentTargetRatio )!.lowercase,
         distance: handPositionsDescriber.getDistanceRegion( true )
       } );

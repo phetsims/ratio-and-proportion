@@ -54,6 +54,7 @@ class DiscoverScreenView extends RAPScreenView {
       model.ratio.tupleProperty,
       model.targetRatioProperty,
       this.tickMarkViewProperty,
+      this.ratioDescriber,
       model.inProportionProperty,
       this.handPositionsDescriber,
       this.comboBoxContainer.ratioToChallengeNameMap

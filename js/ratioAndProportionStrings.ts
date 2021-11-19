@@ -129,14 +129,14 @@ type StringsType = {
     'ratioLockCheckboxContextResponse': string,
     'ratioNoLongerLocked': string,
     'screenSummaryControlAreaParagraph': string,
+    'screenSummaryQualitativeStateOfSim': string,
     'discover': {
       'homeScreenDescription': string,
       'screenSummary': {
         'paragraph1': string,
         'paragraph2': string,
         'paragraph3': string,
-        'interactionHint': string,
-        'qualitativeStateOfSim': string
+        'interactionHint': string
       },
       'challengesHelpText': string,
       'challenge1Lowercase': string,
@@ -149,9 +149,9 @@ type StringsType = {
       'screenSummary': {
         'paragraph1': string,
         'paragraph2': string,
-        'interactionHint': string,
-        'qualitativeStateOfSim': string
+        'interactionHint': string
       },
+      'challenge': string,
       'tickMarkRangeHelpText': string,
       'tickMarkRangeContextResponse': string,
       'myChallengeHelpText': string,

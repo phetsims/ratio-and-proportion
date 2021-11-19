@@ -54,6 +54,7 @@ class CreateScreenView extends RAPScreenView {
       model.ratio.tupleProperty,
       this.tickMarkViewProperty,
       this.ratioDescriber,
+      model.inProportionProperty,
       this.handPositionsDescriber,
       this.tickMarkRangeProperty,
       myChallengeAccordionBox

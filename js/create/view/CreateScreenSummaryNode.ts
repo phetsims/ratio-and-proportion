@@ -16,22 +16,18 @@ import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
 import HandPositionsDescriber from '../../common/view/describers/HandPositionsDescriber.js';
 import { TickMarkViewType } from '../../common/view/TickMarkView.js';
 import MyChallengeAccordionBox from './MyChallengeAccordionBox.js';
+import BackgroundColorHandler from '../../common/view/BackgroundColorHandler.js';
 
 class CreateScreenSummaryNode extends Node {
 
-  /**
-   * @param {Property.<number>} ratioFitnessProperty
-   * @param {Property.<RAPRatioTuple>} ratioTupleProperty
-   * @param {Property.<TickMarkView>} tickMarkViewProperty
-   * @param {RatioDescriber} ratioDescriber
-   * @param {HandPositionsDescriber} handPositionsDescriber
-   * @param {Property.<number>} tickMarkRangeProperty
-   * @param {MyChallengeAccordionBox} myChallengeAccordionBox
-   */
-  constructor( ratioFitnessProperty: Property<number>, ratioTupleProperty: Property<RAPRatioTuple>,
+  constructor( ratioFitnessProperty: Property<number>,
+               ratioTupleProperty: Property<RAPRatioTuple>,
                tickMarkViewProperty: Property<TickMarkViewType>,
-               ratioDescriber: RatioDescriber, handPositionsDescriber: HandPositionsDescriber,
-               tickMarkRangeProperty: Property<number>, myChallengeAccordionBox: MyChallengeAccordionBox ) {
+               ratioDescriber: RatioDescriber,
+               inProportionProperty: Property<boolean>,
+               handPositionsDescriber: HandPositionsDescriber,
+               tickMarkRangeProperty: Property<number>,
+               myChallengeAccordionBox: MyChallengeAccordionBox ) {
 
     const stateOfSimNode = new Node( { tagName: 'p' } );
     const leftHandBullet = new Node( { tagName: 'li' } );
@@ -79,13 +75,17 @@ class CreateScreenSummaryNode extends Node {
       myChallengeAccordionBox.targetAntecedentProperty,
       myChallengeAccordionBox.targetConsequentProperty,
       ratioTupleProperty,
-      tickMarkRangeProperty,
-      ratioFitnessProperty
-    ], ( tickMarkView: TickMarkViewType, targetAntecedent: number, targetConsequent: number, currentTuple: RAPRatioTuple ) => {
+      ratioFitnessProperty,
+      inProportionProperty,
+      tickMarkRangeProperty
+    ], ( tickMarkView: TickMarkViewType, targetAntecedent: number, targetConsequent: number,
+         currentTuple: RAPRatioTuple, fitness: number, inProportion: boolean ) => {
 
       // @ts-ignore
-      stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.screenSummary.qualitativeStateOfSim, {
-        ratioFitness: ratioDescriber.getRatioFitness( false ), // lowercase
+      stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.screenSummaryQualitativeStateOfSim, {
+        color: BackgroundColorHandler.getCurrentColorRegion( fitness, inProportion ),
+        ratioFitness: ratioDescriber.getRatioFitness( false ),
+        currentChallenge: ratioAndProportionStrings.a11y.create.challenge,
         distance: handPositionsDescriber.getDistanceRegion( true )
       } );
 
