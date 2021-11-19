@@ -371,7 +371,7 @@
       },
       "screenSummary": {
         "paragraph1": {
-          "value": "Here, you can create your own Challenge Ratio. The Play Area is a tall space containing a Left Hand and a Right Hand that can be moved up and down. You can move the Left Hand and the Right Hand individually, or activate Both Hands to move both hands at the same time. As you move the hands up and down, you will get closer to or farther from the Challenge Ratio, unless you lock the ratio."
+          "value": "Here, you can create your own Challenge Ratio. The Play Area is a tall space. It contains two interactive hands, a Left Hand and a Right Hand. You can move the Left Hand and the Right Hand up and down individually, or activate Both Hands to move both hands at the same time. As you move the hands up and down, you will get closer to or farther from the challenge ratio, unless you lock the ratio when screen is darkest green."
         },
         "paragraph2": {
           "value": "Tick mark options allow you to explore the vertical space with evenly-spaced horizontal lines, and you can increase the range of tick marks to explore larger numbers."
