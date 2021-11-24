@@ -35,8 +35,8 @@ type getIdealTermType = ( ratioTerm: RatioTerm ) => number;
 type BothHandsInteractionListenerOptions = {
   targetNode: Node;
   ratioTupleProperty: Property<RAPRatioTuple>;
-  antecedentInteractedWithProperty: BooleanProperty;
-  consequentInteractedWithProperty: BooleanProperty;
+  antecedentInteractedWithProperty: Property<boolean>;
+  consequentInteractedWithProperty: Property<boolean>;
   enabledRatioTermsRangeProperty: Property<Range>;
   tickMarkRangeProperty: Property<number>;
   keyboardStep: number;
@@ -52,8 +52,8 @@ type BothHandsInteractionListenerOptions = {
 class BothHandsInteractionListener {
 
   private targetNode: Node;
-  private antecedentInteractedWithProperty: BooleanProperty;
-  private consequentInteractedWithProperty: BooleanProperty;
+  private antecedentInteractedWithProperty: Property<boolean>;
+  private consequentInteractedWithProperty: Property<boolean>;
   private enabledRatioTermsRangeProperty: Property<Range>;
   private tickMarkRangeProperty: Property<number>;
   private ratioTupleProperty: Property<RAPRatioTuple>;

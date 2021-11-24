@@ -110,7 +110,7 @@ class RatioHalf extends Rectangle {
 
   public framingRectangleHeight: number;
   public readonly isBeingInteractedWithProperty: BooleanProperty;
-  private ratioLockedProperty: BooleanProperty;
+  private ratioLockedProperty: Property<boolean>;
   private bothHandsDescriber: BothHandsDescriber;
   private handPositionsDescriber: HandPositionsDescriber;
   private tickMarkViewProperty: Property<TickMarkViewType>;
