@@ -22,6 +22,7 @@ import required from '../../../../phet-core/js/required.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
+import { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -432,6 +433,7 @@ class RatioHalf extends Rectangle {
     };
     positionProperty.link( updatePointer );
 
+    // @ts-ignore TODO RectangleOptions defined in phet-types is fundamentally incompatible with Node's NodeOptions. Once Rectangle is TS'ed, we should use RectangleOptions
     this.mutate( providedOptions );
 
     assert && assert( !options.children, 'RatioHalf sets its own children.' );

@@ -25,7 +25,7 @@ import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import ParallelDOM from '../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -204,6 +204,8 @@ class RAPScreenView extends ScreenView {
 
       // Added to the antecedent for ease, but it applies to both RatioHalfs in the PDOM
       helpText: ratioAndProportionStrings.a11y.individualHandsHelpText,
+
+      // @ts-ignore TODO RectangleOptions defined in phet-types is fundamentally incompatible with Node's NodeOptions, thus messing in RatioHalf's options. Once Rectangle is TS'ed, we should use RectangleOptions
       helpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT,
 
       // phet-io

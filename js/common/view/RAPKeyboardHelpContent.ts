@@ -16,6 +16,7 @@ import NumberKeyNode from '../../../../scenery-phet/js/keyboard/NumberKeyNode.js
 import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 
 class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
 
