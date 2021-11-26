@@ -11,7 +11,7 @@ import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import Property from '../../../../axon/js/Property.js';
 import rapConstants from '../rapConstants.js';
 import RAPColors from './RAPColors.js';
-import Color from '../../../../scenery/js/util/Color.js';
+import { Color } from '../../../../scenery/js/imports.js';
 import Utils from '../../../../dot/js/Utils.js';
 import RAPModel from '../model/RAPModel.js';
 

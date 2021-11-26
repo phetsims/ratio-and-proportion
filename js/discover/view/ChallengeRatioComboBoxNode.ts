@@ -19,7 +19,7 @@ import ChallengeComboBoxItem from './ChallengeComboBoxItem.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
 import Property from '../../../../axon/js/Property.js';
-import Color from '../../../../scenery/js/util/Color.js';
+import { Color } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 
 // constants

@@ -6,12 +6,12 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import HBox from '../../../../scenery/js/nodes/HBox.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import RichText from '../../../../scenery/js/nodes/RichText.js';
+import { HBox } from '../../../../scenery/js/imports.js';
+import { Rectangle } from '../../../../scenery/js/imports.js';
+import { RichText } from '../../../../scenery/js/imports.js';
 import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import Color from '../../../../scenery/js/util/Color.js';
+import { Color } from '../../../../scenery/js/imports.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 

@@ -5,7 +5,7 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import RAPScreenView from '../../common/view/RAPScreenView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
@@ -14,7 +14,7 @@ import DiscoverScreenSummaryNode from './DiscoverScreenSummaryNode.js';
 import RAPModel from '../../common/model/RAPModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Color from '../../../../scenery/js/util/Color.js';
+import { Color } from '../../../../scenery/js/imports.js';
 
 class DiscoverScreenView extends RAPScreenView {
 
