@@ -334,5 +334,5 @@ class BothHandsInteractionListener {
 }
 
 ratioAndProportion.register( 'BothHandsInteractionListener', BothHandsInteractionListener );
-export { getIdealTermType };
+export type { getIdealTermType };
 export default BothHandsInteractionListener;

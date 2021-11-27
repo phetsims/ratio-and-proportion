@@ -48,5 +48,5 @@ type TickMarkViewType = {
 }
 
 ratioAndProportion.register( 'TickMarkView', TickMarkView );
-export { TickMarkViewType };
+export type { TickMarkViewType };
 export default TickMarkView;

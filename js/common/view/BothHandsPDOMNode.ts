@@ -337,5 +337,5 @@ class BothHandsPDOMNode extends Node {
 }
 
 ratioAndProportion.register( 'BothHandsPDOMNode', BothHandsPDOMNode );
-export { BothHandsPDOMNodeOptions };
+export type { BothHandsPDOMNodeOptions };
 export default BothHandsPDOMNode;

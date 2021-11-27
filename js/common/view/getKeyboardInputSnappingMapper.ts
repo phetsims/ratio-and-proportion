@@ -76,5 +76,5 @@ function getKeyboardInputSnappingMapper( getIdealValue: () => number, keyboardSt
 }
 
 ratioAndProportion.register( 'getKeyboardInputSnappingMapper', getKeyboardInputSnappingMapper );
-export { KeyboardInputMapper };
+export type { KeyboardInputMapper };
 export default getKeyboardInputSnappingMapper;
