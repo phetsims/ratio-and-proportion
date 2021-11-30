@@ -21,9 +21,8 @@ import merge from '../../../../phet-core/js/merge.js';
 import required from '../../../../phet-core/js/required.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import { DragListener } from '../../../../scenery/js/imports.js';
+import { DragListener, Rectangle } from '../../../../scenery/js/imports.js';
 import { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
@@ -33,7 +32,7 @@ import CueDisplay from './CueDisplay.js';
 import RatioHalfTickMarksNode from './RatioHalfTickMarksNode.js';
 import RatioHandNode from './RatioHandNode.js';
 import ViewSounds from './sound/ViewSounds.js';
-import TickMarkView, { TickMarkViewType } from './TickMarkView.js';
+import TickMarkView from './TickMarkView.js';
 import BothHandsDescriber from './describers/BothHandsDescriber.js';
 import HandPositionsDescriber from './describers/HandPositionsDescriber.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
@@ -58,7 +57,6 @@ const MAX_HAND_SCALE = 2.5;
 
 function ratioHalfAccessibleNameBehavior( node: RatioHalf, options: NodeOptions, accessibleName: string, callbacksForOtherNodes: { (): void }[] ) {
   callbacksForOtherNodes.push( () => {
-    // @ts-ignore
     node.ratioHandNode.accessibleName = accessibleName;
   } );
   return options;
@@ -75,7 +73,7 @@ type RatioHalfDefinedOptions = {
   displayBothHandsCueProperty: Property<boolean>;
   cueArrowsState: CueArrowsState;
   bounds: Bounds2;
-  tickMarkViewProperty: Property<TickMarkViewType>;
+  tickMarkViewProperty: Property<TickMarkView>;
   tickMarkRangeProperty: Property<number>;
   ratioDescriber: RatioDescriber;
   handPositionsDescriber: HandPositionsDescriber;
@@ -114,7 +112,7 @@ class RatioHalf extends Rectangle {
   private ratioLockedProperty: Property<boolean>;
   private bothHandsDescriber: BothHandsDescriber;
   private handPositionsDescriber: HandPositionsDescriber;
-  private tickMarkViewProperty: Property<TickMarkViewType>;
+  private tickMarkViewProperty: Property<TickMarkView>;
   private ratioTerm: RatioTerm;
   private ratioTupleProperty: Property<RAPRatioTuple>;
   ratioHandNode: RatioHandNode;
@@ -252,7 +250,6 @@ class RatioHalf extends Rectangle {
 
     // @public {Property.<number>} - Create a mapping directly to just this ratio term value. This is to support
     // AccessibleValueHandler, which powers the PDOM interaction off of {Property.<number>}.
-    // @ts-ignore
     const ratioTermSpecificProperty = new DynamicProperty<number>( new Property<Property<RAPRatioTuple>>( this.ratioTupleProperty ), {
       bidirectional: true,
       reentrant: true,

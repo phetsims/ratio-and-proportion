@@ -11,7 +11,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import { Text } from '../../../../scenery/js/imports.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import TickMarkView, { TickMarkViewType } from './TickMarkView.js';
+import TickMarkView from './TickMarkView.js';
 import { Color } from '../../../../scenery/js/imports.js';
 
 const LABEL_X = 0;
@@ -20,7 +20,7 @@ class RAPTickMarkLabelsNode extends Node {
 
   private totalHeight: number;
   private heightOfText: number | null;
-  private tickMarkViewProperty: Property<TickMarkViewType>;
+  private tickMarkViewProperty: Property<TickMarkView>;
   private tickMarkRangeProperty: Property<number>;
   private colorProperty: Property<Color | string>;
 
@@ -31,7 +31,7 @@ class RAPTickMarkLabelsNode extends Node {
    * @param {Property.<Color>} colorProperty
    * @param {Object} [options]
    */
-  constructor( tickMarkViewProperty: Property<TickMarkViewType>, tickMarkRangeProperty: Property<number>, height: number,
+  constructor( tickMarkViewProperty: Property<TickMarkView>, tickMarkRangeProperty: Property<number>, height: number,
                colorProperty: Property<Color | string>, options?: Omit<NodeOptions, 'children'> ) {
 
     super();
@@ -75,7 +75,7 @@ class RAPTickMarkLabelsNode extends Node {
   /**
    * @private
    */
-  update( tickMarkRange: number, tickMarkView: TickMarkViewType ): void {
+  update( tickMarkRange: number, tickMarkView: TickMarkView ): void {
 
     // subtract one to account for potential rounding errors. This helps guarantee that the last line is drawn.
     const horizontalSpacing = ( this.totalHeight - 1 ) / tickMarkRange;

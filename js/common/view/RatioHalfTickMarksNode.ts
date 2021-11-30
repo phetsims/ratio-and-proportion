@@ -11,12 +11,12 @@ import Property from '../../../../axon/js/Property.js';
 import GridNode from '../../../../griddle/js/GridNode.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import TickMarkView, { TickMarkViewType } from './TickMarkView.js';
+import TickMarkView from './TickMarkView.js';
 import { Color } from '../../../../scenery/js/imports.js';
 
 class RatioHalfTickMarksNode extends GridNode {
 
-  private tickMarkViewProperty: Property<TickMarkViewType>;
+  private tickMarkViewProperty: Property<TickMarkView>;
   private tickMarkRangeProperty: Property<number>;
 
   /**
@@ -27,7 +27,7 @@ class RatioHalfTickMarksNode extends GridNode {
    * @param {Property.<Color>} colorProperty
    * @param {Object} [options]
    */
-  constructor( tickMarkViewProperty: Property<TickMarkViewType>, tickMarkRangeProperty: Property<number>, width: number,
+  constructor( tickMarkViewProperty: Property<TickMarkView>, tickMarkRangeProperty: Property<number>, width: number,
                height: number, colorProperty: Property<Color>, options?: object ) {
     options = merge( {
 
@@ -60,7 +60,7 @@ class RatioHalfTickMarksNode extends GridNode {
   /**
    * @private
    */
-  update( tickMarkRange: number, tickMarkView: TickMarkViewType ): void {
+  update( tickMarkRange: number, tickMarkView: TickMarkView ): void {
 
     // subtract one to account for potential rounding errors. This helps guarantee that the last line is drawn.
     this.setLineSpacings( {

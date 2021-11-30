@@ -13,7 +13,7 @@ import ratioAndProportion from '../../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
 import RatioTerm from '../../model/RatioTerm.js';
 import rapConstants from '../../rapConstants.js';
-import TickMarkView, { TickMarkViewType } from '../TickMarkView.js';
+import TickMarkView from '../TickMarkView.js';
 import Property from '../../../../../axon/js/Property.js';
 import RAPRatioTuple from '../../model/RAPRatioTuple.js';
 import TickMarkDescriber from './TickMarkDescriber.js';
@@ -98,7 +98,7 @@ class HandPositionsDescriber {
    * @param position
    * @param tickMarkView
    */
-  public getHandPositionDescription( position: number, tickMarkView: TickMarkViewType ): string {
+  public getHandPositionDescription( position: number, tickMarkView: TickMarkView ): string {
     return TickMarkView.describeQualitative( tickMarkView ) ? HandPositionsDescriber.getQualitativePosition( position ) :
            this.getQuantitativeHandPosition( position, TickMarkView.describeSemiQualitative( tickMarkView ) );
   }

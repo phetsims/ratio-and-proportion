@@ -72,8 +72,7 @@ class CreateScreenView extends RAPScreenView {
 
     ratioLockCheckbox.enabledProperty.link( ( enabled: boolean ) => {
 
-      // @ts-ignore
-      ratioLockCheckbox.helpText = enabled ? ratioAndProportionStrings.a11y.ratioLockEnabledHelpText : ratioAndProportionStrings.a11y.ratioLockDisabledHelpText;
+            ratioLockCheckbox.helpText = enabled ? ratioAndProportionStrings.a11y.ratioLockEnabledHelpText : ratioAndProportionStrings.a11y.ratioLockDisabledHelpText;
     } );
 
     ratioLockCheckbox.touchArea = ratioLockCheckbox.localBounds.dilatedXY( 8, 0.5 * ratioLockCheckbox.height );
@@ -86,8 +85,7 @@ class CreateScreenView extends RAPScreenView {
         ratioLockedUtterance.alert = model.ratio.lockedProperty.value ? ratioAndProportionStrings.a11y.ratioLockCheckboxContextResponse :
                                      ratioAndProportionStrings.a11y.ratioNoLongerLocked;
 
-        // @ts-ignore
-        this.alertDescriptionUtterance( ratioLockedUtterance );
+                this.alertDescriptionUtterance( ratioLockedUtterance );
       },
 
       // phet-io
@@ -117,8 +115,7 @@ class CreateScreenView extends RAPScreenView {
     this.addChild( tickMarkRangeComboBoxParent );
 
     // pdom
-    // @ts-ignore
-    this.pdomPlayAreaNode.pdomOrder = ( this.pdomPlayAreaNode as any ).pdomOrder.concat( [
+        this.pdomPlayAreaNode.pdomOrder = ( this.pdomPlayAreaNode as any ).pdomOrder.concat( [
       this.tickMarkRangeComboBoxNode,
       tickMarkRangeComboBoxParent,
       myChallengeAccordionBox,

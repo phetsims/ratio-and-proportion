@@ -5,7 +5,7 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import { Color, Node } from '../../../../scenery/js/imports.js';
 import RAPScreenView from '../../common/view/RAPScreenView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
@@ -14,7 +14,6 @@ import DiscoverScreenSummaryNode from './DiscoverScreenSummaryNode.js';
 import RAPModel from '../../common/model/RAPModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { Color } from '../../../../scenery/js/imports.js';
 
 class DiscoverScreenView extends RAPScreenView {
 
@@ -45,8 +44,7 @@ class DiscoverScreenView extends RAPScreenView {
     // the dimensions of the scalingUILayerNode to make it too big. Discovered in https://github.com/phetsims/ratio-and-proportion/issues/273
     this.addChild( comboBoxListBoxParent );
 
-    // @ts-ignore
-    this.pdomPlayAreaNode.pdomOrder = this.pdomPlayAreaNode.pdomOrder.concat( [ this.comboBoxContainer, comboBoxListBoxParent ] );
+    this.pdomPlayAreaNode.pdomOrder = this.pdomPlayAreaNode.pdomOrder!.concat( [ this.comboBoxContainer, comboBoxListBoxParent ] );
 
     // set this after the supertype has initialized the view code needed to create the screen summary
     this.setScreenSummaryContent( new DiscoverScreenSummaryNode(

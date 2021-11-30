@@ -8,15 +8,11 @@
 
 import ScreenIcon from '../../../../joist/js/ScreenIcon.js';
 import merge from '../../../../phet-core/js/merge.js';
-import { HBox } from '../../../../scenery/js/imports.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
-import { VBox } from '../../../../scenery/js/imports.js';
+import { HBox, Rectangle, VBox } from '../../../../scenery/js/imports.js';
 import RAPColors from '../../common/view/RAPColors.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
-import TickMarkView, { TickMarkViewType } from '../../common/view/TickMarkView.js';
+import TickMarkView from '../../common/view/TickMarkView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import Property from '../../../../axon/js/Property.js';
 
 
@@ -32,8 +28,7 @@ class DiscoverScreenIcon extends ScreenIcon {
       handColor: RAPColors.discoverChallenge1Property.value
     }, options );
 
-    // @ts-ignore
-    const tickMarksHiddenProperty: Property<TickMarkViewType> = new EnumerationProperty( TickMarkView as Enumeration, TickMarkView.NONE );
+    const tickMarksHiddenProperty: Property<TickMarkView> = new Property<TickMarkView>( TickMarkView.NONE );
 
     const ratioHandNodeOptions = { handColor: options.handColor };
 

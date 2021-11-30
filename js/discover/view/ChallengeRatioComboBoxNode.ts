@@ -92,8 +92,7 @@ class ChallengeRatioComboBoxNode extends Node {
     const proximityToRatioUtterance = new Utterance();
     targetRatioProperty.lazyLink( () => {
       proximityToRatioUtterance.alert = ratioDescriber.getProximityToNewChallengeRatioSentence();
-      // @ts-ignore
-      this.alertDescriptionUtterance( proximityToRatioUtterance );
+            this.alertDescriptionUtterance( proximityToRatioUtterance );
     } );
 
     this.children = [
@@ -101,8 +100,7 @@ class ChallengeRatioComboBoxNode extends Node {
       this.comboBox
     ];
 
-    // @ts-ignore
-    this.pdomOrder = [ comboBoxHeading, this.comboBox ];
+        this.pdomOrder = [ comboBoxHeading, this.comboBox ];
   }
 
   /**

@@ -24,8 +24,8 @@ import BothHandsDescriber from './describers/BothHandsDescriber.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import Range from '../../../../dot/js/Range.js';
 import CueArrowsState from './CueArrowsState.js';
-import { TickMarkViewType } from './TickMarkView.js';
 import RatioDescriber from './describers/RatioDescriber.js';
+import TickMarkView from './TickMarkView.js';
 
 // constants
 const OBJECT_RESPONSE_DELAY = 500;
@@ -35,7 +35,7 @@ type BothHandsPDOMNodeDefinedOptions = {
   enabledRatioTermsRangeProperty: Property<Range>;
   cueArrowsState: CueArrowsState;
   keyboardStep: number;
-  tickMarkViewProperty: Property<TickMarkViewType>;
+  tickMarkViewProperty: Property<TickMarkView>;
   tickMarkRangeProperty: Property<number>;
   unclampedFitnessProperty: Property<number>;
   ratioDescriber: RatioDescriber;
@@ -49,8 +49,8 @@ type BothHandsPDOMNodeDefinedOptions = {
   interactiveNodeOptions?: NodeOptions;
 };
 
-type BothHandsPDOMNodeOptions = BothHandsPDOMNodeDefinedOptions & NodeOptions;
-type BothHandsPDOMNodeImplementationOptions = Required<BothHandsPDOMNodeDefinedOptions> & Pick<NodeOptions, 'tagName'>
+type BothHandsPDOMNodeOptions = BothHandsPDOMNodeDefinedOptions & Omit<NodeOptions, 'pdomOrder'>;
+type BothHandsPDOMNodeImplementationOptions = Required<BothHandsPDOMNodeDefinedOptions> & NodeOptions;
 
 class BothHandsPDOMNode extends Node {
 
@@ -67,55 +67,55 @@ class BothHandsPDOMNode extends Node {
   bothHandsInteractionListener: BothHandsInteractionListener;
 
   /**
-   * @param {Object} [options]
+   * @param {Object} [providedOptions]
    */
-  constructor( options: BothHandsPDOMNodeOptions ) {
+  constructor( providedOptions: BothHandsPDOMNodeOptions ) {
 
-    const filledOptions = merge( {
+    const options = merge( {
 
       // ---- REQUIRED -------------------------------------------------
 
       // {Property.<RAPRatioTuple>}
-      ratioTupleProperty: required( options.ratioTupleProperty ),
+      ratioTupleProperty: required( providedOptions.ratioTupleProperty ),
 
       // {Property.<Range>}
-      enabledRatioTermsRangeProperty: required( options.enabledRatioTermsRangeProperty ),
+      enabledRatioTermsRangeProperty: required( providedOptions.enabledRatioTermsRangeProperty ),
 
       // {CueArrowsState}
-      cueArrowsState: required( options.cueArrowsState ),
+      cueArrowsState: required( providedOptions.cueArrowsState ),
 
       // {number}
-      keyboardStep: required( options.keyboardStep ),
+      keyboardStep: required( providedOptions.keyboardStep ),
 
       // {EnumerationProperty.<TickMarkView>}
-      tickMarkViewProperty: required( options.tickMarkViewProperty ),
+      tickMarkViewProperty: required( providedOptions.tickMarkViewProperty ),
 
       // {Property.<number>}
-      tickMarkRangeProperty: required( options.tickMarkRangeProperty ),
+      tickMarkRangeProperty: required( providedOptions.tickMarkRangeProperty ),
 
       // {Property.<number>}
-      unclampedFitnessProperty: required( options.unclampedFitnessProperty ),
+      unclampedFitnessProperty: required( providedOptions.unclampedFitnessProperty ),
 
       // {RatioDescriber}
-      ratioDescriber: required( options.ratioDescriber ),
+      ratioDescriber: required( providedOptions.ratioDescriber ),
 
       // {BothHandsDescriber}
-      bothHandsDescriber: required( options.bothHandsDescriber ),
+      bothHandsDescriber: required( providedOptions.bothHandsDescriber ),
 
       // {BooleanProperty}
-      playTickMarkBumpSoundProperty: required( options.playTickMarkBumpSoundProperty ),
+      playTickMarkBumpSoundProperty: required( providedOptions.playTickMarkBumpSoundProperty ),
 
       // {BooleanProperty}
-      ratioLockedProperty: required( options.ratioLockedProperty ),
+      ratioLockedProperty: required( providedOptions.ratioLockedProperty ),
 
       // {Property.<number>}
-      targetRatioProperty: required( options.targetRatioProperty ),
+      targetRatioProperty: required( providedOptions.targetRatioProperty ),
 
       // {function(RatioTerm):number}
-      getIdealTerm: required( options.getIdealTerm ),
+      getIdealTerm: required( providedOptions.getIdealTerm ),
 
       // {Property.<boolean>} - is the model in proportion right now
-      inProportionProperty: required( options.inProportionProperty ),
+      inProportionProperty: required( providedOptions.inProportionProperty ),
 
 
       // ---- OPTIONAL -------------------------------------------------
@@ -135,35 +135,32 @@ class BothHandsPDOMNode extends Node {
         innerContent: ratioAndProportionStrings.a11y.bothHands.bothHands,
         ariaLabel: ratioAndProportionStrings.a11y.bothHands.bothHands
       }
-    }, options ) as BothHandsPDOMNodeImplementationOptions;
-
-    // @ts-ignore
-    assert && assert( !filledOptions.pdomOrder, 'BothHandsPDOMNode sets its own pdomOrder.' );
+    }, providedOptions ) as BothHandsPDOMNodeImplementationOptions;
 
     super();
 
-    if ( phet.joist.sim.supportsGestureDescription && filledOptions.gestureDescriptionHelpText ) {
-      filledOptions.interactiveNodeOptions.helpText = filledOptions.gestureDescriptionHelpText;
+    if ( phet.joist.sim.supportsGestureDescription && options.gestureDescriptionHelpText ) {
+      options.interactiveNodeOptions.helpText = options.gestureDescriptionHelpText;
     }
 
-    this.bothHandsDescriber = filledOptions.bothHandsDescriber;
+    this.bothHandsDescriber = options.bothHandsDescriber;
 
     // @private - To support proper cue arrow logic
     this.antecedentInteractedWithProperty = new BooleanProperty( false );
     this.consequentInteractedWithProperty = new BooleanProperty( false );
     this.bothHandsFocusedProperty = new BooleanProperty( false );
 
-    this.viewSounds = new ViewSounds( filledOptions.tickMarkRangeProperty, filledOptions.tickMarkViewProperty, filledOptions.playTickMarkBumpSoundProperty );
+    this.viewSounds = new ViewSounds( options.tickMarkRangeProperty, options.tickMarkViewProperty, options.playTickMarkBumpSoundProperty );
 
     Property.multilink( [
       this.antecedentInteractedWithProperty,
       this.consequentInteractedWithProperty
     ], ( antecedentInteractedWith: boolean, consequentInteractedWith: boolean ) => {
-      filledOptions.cueArrowsState.bothHands.interactedWithProperty.value = antecedentInteractedWith || consequentInteractedWith;
+      options.cueArrowsState.bothHands.interactedWithProperty.value = antecedentInteractedWith || consequentInteractedWith;
 
       // If both hands have been interacted with, then no need for individual cues either
       if ( antecedentInteractedWith && consequentInteractedWith ) {
-        filledOptions.cueArrowsState.interactedWithKeyboardProperty.value = true;
+        options.cueArrowsState.interactedWithKeyboardProperty.value = true;
       }
     } );
     Property.multilink( [
@@ -171,42 +168,39 @@ class BothHandsPDOMNode extends Node {
       this.consequentInteractedWithProperty,
       this.bothHandsFocusedProperty
     ], ( antecedentInteractedWith: boolean, consequentInteractedWith: boolean, bothHandsFocused: boolean ) => {
-      filledOptions.cueArrowsState.bothHands.antecedentCueDisplayedProperty.value = !antecedentInteractedWith && bothHandsFocused;
-      filledOptions.cueArrowsState.bothHands.consequentCueDisplayedProperty.value = !consequentInteractedWith && bothHandsFocused;
+      options.cueArrowsState.bothHands.antecedentCueDisplayedProperty.value = !antecedentInteractedWith && bothHandsFocused;
+      options.cueArrowsState.bothHands.consequentCueDisplayedProperty.value = !consequentInteractedWith && bothHandsFocused;
     } );
 
     const dynamicDescription = new Node( { tagName: 'p' } );
     this.addChild( dynamicDescription );
 
-    const interactiveNode = new Node( filledOptions.interactiveNodeOptions );
+    const interactiveNode = new Node( options.interactiveNodeOptions );
     this.addChild( interactiveNode );
 
     // Make sure that any children inside the both hands interaction (like individual hands) come before the both hands interaction in the PDOM.
-    // @ts-ignore
     this.pdomOrder = [ dynamicDescription, ...interactiveNode.children, null ];
 
-    // @ts-ignore
     interactiveNode.setPDOMAttribute( 'aria-roledescription', sceneryPhetStrings.a11y.grabDrag.movable );
 
     // @private
     this.bothHandsInteractionListener = new BothHandsInteractionListener( {
       targetNode: interactiveNode,
-      ratioTupleProperty: filledOptions.ratioTupleProperty,
+      ratioTupleProperty: options.ratioTupleProperty,
       antecedentInteractedWithProperty: this.antecedentInteractedWithProperty,
       consequentInteractedWithProperty: this.consequentInteractedWithProperty,
-      enabledRatioTermsRangeProperty: filledOptions.enabledRatioTermsRangeProperty,
-      tickMarkRangeProperty: filledOptions.tickMarkRangeProperty,
-      keyboardStep: filledOptions.keyboardStep,
+      enabledRatioTermsRangeProperty: options.enabledRatioTermsRangeProperty,
+      tickMarkRangeProperty: options.tickMarkRangeProperty,
+      keyboardStep: options.keyboardStep,
       boundarySoundClip: this.viewSounds.boundarySoundClip,
       tickMarkBumpSoundClip: this.viewSounds.tickMarkBumpSoundClip,
-      ratioLockedProperty: filledOptions.ratioLockedProperty,
-      targetRatioProperty: filledOptions.targetRatioProperty,
-      getIdealTerm: filledOptions.getIdealTerm,
-      inProportionProperty: filledOptions.inProportionProperty,
+      ratioLockedProperty: options.ratioLockedProperty,
+      targetRatioProperty: options.targetRatioProperty,
+      getIdealTerm: options.getIdealTerm,
+      inProportionProperty: options.inProportionProperty,
       onInput: ( knockedOutOfLock?: boolean ) => {
         if ( knockedOutOfLock ) {
 
-          // @ts-ignore
           this.alertDescriptionUtterance( this.ratioUnlockedFromBothHandsUtterance );
         }
 
@@ -267,13 +261,12 @@ class BothHandsPDOMNode extends Node {
     // Though most cases are covered by just listening to fitness, there are certain cases when Property values can change,
     // but the fitness doesn't. See https://github.com/phetsims/ratio-and-proportion/issues/222 as an example.
     Property.multilink( [
-      filledOptions.tickMarkViewProperty,
-      filledOptions.tickMarkRangeProperty,
-      filledOptions.ratioTupleProperty,
-      filledOptions.unclampedFitnessProperty
+      options.tickMarkViewProperty,
+      options.tickMarkRangeProperty,
+      options.ratioTupleProperty,
+      options.unclampedFitnessProperty
     ], () => {
 
-      // @ts-ignore
       dynamicDescription.innerContent = this.bothHandsDescriber.getBothHandsDynamicDescription();
 
       if ( this.bothHandsInteractionListener.isBeingInteractedWithProperty.value ) {
@@ -284,15 +277,13 @@ class BothHandsPDOMNode extends Node {
     // emit this utterance immediately, so that it comes before the object response above.
     this.bothHandsInteractionListener.jumpToZeroWhileLockedEmitter.addListener( () => {
 
-      // @ts-ignore
       this.alertDescriptionUtterance( ratioAndProportionStrings.a11y.bothHands.cannotJumpToZeroWhenLocked );
       this.contextResponseUtterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse();
 
-      // @ts-ignore
       this.alertDescriptionUtterance( this.contextResponseUtterance );
     } );
 
-    this.mutate( filledOptions );
+    this.mutate( options );
   }
 
   /**
@@ -316,7 +307,6 @@ class BothHandsPDOMNode extends Node {
     const utterance = onFocus ? this.objectResponseOnFocusUtterance : this.objectResponseUtterance;
     utterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse();
 
-    // @ts-ignore
     this.alertDescriptionUtterance( utterance );
   }
 
@@ -331,7 +321,6 @@ class BothHandsPDOMNode extends Node {
       this.contextResponseUtterance.alert = this.bothHandsDescriber.getBothHandsContextResponse();
     }
 
-    // @ts-ignore
     this.alertDescriptionUtterance( this.contextResponseUtterance );
   }
 }

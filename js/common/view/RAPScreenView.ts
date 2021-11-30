@@ -15,7 +15,6 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -24,9 +23,8 @@ import Utils from '../../../../dot/js/Utils.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { ParallelDOM } from '../../../../scenery/js/imports.js';
+import { Color, ParallelDOM } from '../../../../scenery/js/imports.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
-import { Color } from '../../../../scenery/js/imports.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
@@ -46,13 +44,15 @@ import RatioHalf from './RatioHalf.js';
 import InProportionSoundGenerator from './sound/InProportionSoundGenerator.js';
 import MovingInProportionSoundGenerator from './sound/MovingInProportionSoundGenerator.js';
 import StaccatoFrequencySoundGenerator from './sound/StaccatoFrequencySoundGenerator.js';
-import TickMarkView, { TickMarkViewType } from './TickMarkView.js';
+import TickMarkView from './TickMarkView.js';
 import TickMarkViewRadioButtonGroup from './TickMarkViewRadioButtonGroup.js';
 import RAPModel from '../model/RAPModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import CueDisplay from './CueDisplay.js';
 import RAPPositionRegionsLayer from './RAPPositionRegionsLayer.js';
 import BackgroundColorHandler from './BackgroundColorHandler.js';
+import EnumerationIO from '../../../../phet-core/js/EnumerationIO.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
 
 // constants
 const LAYOUT_BOUNDS = ScreenView.DEFAULT_LAYOUT_BOUNDS;
@@ -82,7 +82,7 @@ type RAPScreenViewImplementationOptions = Required<RAPScreenViewDefinedOptions> 
 
 class RAPScreenView extends ScreenView {
 
-  protected tickMarkViewProperty: Property<TickMarkViewType>;
+  protected tickMarkViewProperty: Property<TickMarkView>;
   protected tickMarkRangeProperty: NumberProperty;
   protected readonly ratioDescriber: RatioDescriber;
   private backgroundColorHandler: BackgroundColorHandler;
@@ -119,10 +119,11 @@ class RAPScreenView extends ScreenView {
     // for ease at usage sites
     const ratio = model.ratio;
 
-    // @ts-ignore
     // @protected
-    this.tickMarkViewProperty = new EnumerationProperty( TickMarkView, TickMarkView.NONE, {
-      tandem: tandem.createTandem( 'tickMarkViewProperty' )
+    this.tickMarkViewProperty = new Property<TickMarkView>( TickMarkView.NONE, {
+      tandem: tandem.createTandem( 'tickMarkViewProperty' ),
+      validValues: TickMarkView.VALUES,
+      phetioType: Property.PropertyIO( EnumerationIO( TickMarkView as unknown as Enumeration ) )
     } );
 
     // @protected - What is the unit value of the tick marks. Value reads as "1/x of the view height."
@@ -191,7 +192,6 @@ class RAPScreenView extends ScreenView {
       // Make this a closure so support creation order
       setJumpingOverProportionShouldTriggerSound: ( isJumping: boolean ) => this.inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( isJumping ),
 
-      // @ts-ignore
       getIdealValue: () => model.getIdealValueForTerm( RatioTerm.ANTECEDENT ),
       inProportionProperty: model.inProportionProperty,
 
@@ -236,7 +236,6 @@ class RAPScreenView extends ScreenView {
       // Make this a closure so support creation order
       setJumpingOverProportionShouldTriggerSound: ( isJumping: boolean ) => this.inProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound( isJumping ),
 
-      // @ts-ignore
       getIdealValue: () => model.getIdealValueForTerm( RatioTerm.CONSEQUENT ),
       inProportionProperty: model.inProportionProperty,
 
@@ -359,14 +358,12 @@ class RAPScreenView extends ScreenView {
     positionRegionsNode && this.addChild( positionRegionsNode );
 
     // accessible order (ratio first in nav order)
-    // @ts-ignore
     this.pdomPlayAreaNode.pdomOrder = [
       bothHandsPDOMNode,
       this.tickMarkViewRadioButtonGroup
     ];
 
     // accessible order
-    // @ts-ignore
     this.pdomControlAreaNode.pdomOrder = [
       this.resetAllButton
     ];

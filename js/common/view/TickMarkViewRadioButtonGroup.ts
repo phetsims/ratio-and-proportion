@@ -14,19 +14,19 @@ import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularR
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
-import TickMarkView, { TickMarkViewType } from './TickMarkView.js';
+import TickMarkView from './TickMarkView.js';
 import Property from '../../../../axon/js/Property.js';
 
 // constants
 const ICON_SCALE = 0.45;
 
-class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkViewType> {
+class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkView> {
 
   /**
-   * @param {Property.<TickMarkViewType>} tickMarkViewProperty
+   * @param {Property.<TickMarkView>} tickMarkViewProperty
    * @param {Object} [options]
    */
-  constructor( tickMarkViewProperty: Property<TickMarkViewType>, options?: any ) {
+  constructor( tickMarkViewProperty: Property<TickMarkView>, options?: any ) {
 
     options = merge( {
       orientation: 'horizontal',
@@ -41,22 +41,16 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkV
 
     super( tickMarkViewProperty, [ {
         node: new Path( eyeSlashSolidShape, { scale: 0.05, fill: 'black' } ),
-
-        // @ts-ignore
         value: TickMarkView.NONE,
         labelContent: ratioAndProportionStrings.a11y.tickMark.showNo,
         tandemName: 'showNoRadioButton'
       }, {
         node: new TickMarksIconPath(),
-
-        // @ts-ignore
         value: TickMarkView.VISIBLE,
         labelContent: ratioAndProportionStrings.a11y.tickMark.show,
         tandemName: 'showRadioButton'
       }, {
         node: new NumberedTickMarksIconPath(),
-
-        // @ts-ignore
         value: TickMarkView.VISIBLE_WITH_UNITS,
         labelContent: ratioAndProportionStrings.a11y.tickMark.showNumbered,
         tandemName: 'showNumberedRadioButton'
@@ -64,7 +58,7 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkV
       options );
 
     const tickMarkContextResponseUtterance = new ActivationUtterance();
-    tickMarkViewProperty.lazyLink( ( tickMarkView: TickMarkViewType ) => {
+    tickMarkViewProperty.lazyLink( ( tickMarkView: TickMarkView ) => {
 
       switch( tickMarkView ) {
         case TickMarkView.NONE:
@@ -81,7 +75,6 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkV
           assert && assert( false, 'unsupported tickMarkView' );
       }
 
-      // @ts-ignore
       this.alertDescriptionUtterance( tickMarkContextResponseUtterance );
     } );
   }

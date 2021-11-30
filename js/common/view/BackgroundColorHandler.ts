@@ -46,8 +46,7 @@ class BackgroundColorHandler {
         );
       }
 
-      // @ts-ignore
-      backgroundColorProperty.value = color;
+            backgroundColorProperty.value = color;
     } );
 
   }

@@ -6,17 +6,16 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../../axon/js/NumberProperty.js';
-import TickMarkView, { TickMarkViewType } from '../TickMarkView.js';
+import Property from '../../../../../axon/js/Property.js';
+import TickMarkView from '../TickMarkView.js';
 import TickMarkDescriber from './TickMarkDescriber.js';
 
 QUnit.module( 'TickMarkDescriber' );
 
 QUnit.test( 'getRelativePositionAndTickMarkNumberForPosition', assert => {
 
-  // @ts-ignore
-  const tickMarkViewProperty = new EnumerationProperty( TickMarkView as TickMarkViewType, TickMarkView.VISIBLE );
+  const tickMarkViewProperty = new Property<TickMarkView>( TickMarkView.VISIBLE );
   const tickMarkRangeProperty = new NumberProperty( 10 );
 
   const getMessage = ( position: number, supplemental: string ) => {
@@ -24,7 +23,7 @@ QUnit.test( 'getRelativePositionAndTickMarkNumberForPosition', assert => {
   };
   const tickMarkDescriber = new TickMarkDescriber( tickMarkRangeProperty, tickMarkViewProperty );
 
-  const testTickMarkOutput = ( position: number, expectedData: { ordinalPosition?: string, tickMarkPosition?: string|number, relativePosition: string } ) => {
+  const testTickMarkOutput = ( position: number, expectedData: { ordinalPosition?: string, tickMarkPosition?: string | number, relativePosition: string } ) => {
     const actualData = tickMarkDescriber.getRelativePositionAndTickMarkNumberForPosition( position );
     if ( expectedData.ordinalPosition ) {
       assert.ok( typeof actualData.ordinalPosition === 'string', getMessage( position, 'should be defined as a string' ) );

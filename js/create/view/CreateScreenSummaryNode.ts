@@ -14,15 +14,15 @@ import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import RAPRatioTuple from '../../common/model/RAPRatioTuple.js';
 import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
 import HandPositionsDescriber from '../../common/view/describers/HandPositionsDescriber.js';
-import { TickMarkViewType } from '../../common/view/TickMarkView.js';
 import MyChallengeAccordionBox from './MyChallengeAccordionBox.js';
 import BackgroundColorHandler from '../../common/view/BackgroundColorHandler.js';
+import TickMarkView from '../../common/view/TickMarkView.js';
 
 class CreateScreenSummaryNode extends Node {
 
   constructor( ratioFitnessProperty: Property<number>,
                ratioTupleProperty: Property<RAPRatioTuple>,
-               tickMarkViewProperty: Property<TickMarkViewType>,
+               tickMarkViewProperty: Property<TickMarkView>,
                ratioDescriber: RatioDescriber,
                inProportionProperty: Property<boolean>,
                handPositionsDescriber: HandPositionsDescriber,
@@ -78,29 +78,25 @@ class CreateScreenSummaryNode extends Node {
       ratioFitnessProperty,
       inProportionProperty,
       tickMarkRangeProperty
-    ], ( tickMarkView: TickMarkViewType, targetAntecedent: number, targetConsequent: number,
+    ], ( tickMarkView: TickMarkView, targetAntecedent: number, targetConsequent: number,
          currentTuple: RAPRatioTuple, fitness: number, inProportion: boolean ) => {
 
-      // @ts-ignore
-      stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.screenSummaryQualitativeStateOfSim, {
+            stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.screenSummaryQualitativeStateOfSim, {
         color: BackgroundColorHandler.getCurrentColorRegion( fitness, inProportion ),
         ratioFitness: ratioDescriber.getRatioFitness( false ),
         currentChallenge: ratioAndProportionStrings.a11y.create.challenge,
         distance: handPositionsDescriber.getDistanceRegion( true )
       } );
 
-      // @ts-ignore
-      leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
+            leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
         position: handPositionsDescriber.getHandPositionDescription( currentTuple.antecedent, tickMarkView )
       } );
 
-      // @ts-ignore
-      rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
+            rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
         position: handPositionsDescriber.getHandPositionDescription( currentTuple.consequent, tickMarkView )
       } );
 
-      // @ts-ignore
-      currentChallengeBullet.innerContent = ratioDescriber.getCurrentChallengeSentence( targetAntecedent, targetConsequent );
+            currentChallengeBullet.innerContent = ratioDescriber.getCurrentChallengeSentence( targetAntecedent, targetConsequent );
     } );
   }
 }

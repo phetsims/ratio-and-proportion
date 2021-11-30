@@ -11,19 +11,16 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import merge from '../../../../phet-core/js/merge.js';
 import required from '../../../../phet-core/js/required.js';
-import { globalKeyStateTracker } from '../../../../scenery/js/imports.js';
-import { KeyboardUtils } from '../../../../scenery/js/imports.js';
+import { globalKeyStateTracker, KeyboardUtils, Node, SceneryEvent } from '../../../../scenery/js/imports.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import RatioTerm from '../model/RatioTerm.js';
 import rapConstants from '../rapConstants.js';
 import getKeyboardInputSnappingMapper, { KeyboardInputMapper } from './getKeyboardInputSnappingMapper.js';
-import { Node } from '../../../../scenery/js/imports.js';
 import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import BoundarySoundClip from './sound/BoundarySoundClip.js';
 import TickMarkBumpSoundClip from './sound/TickMarkBumpSoundClip.js';
-import { SceneryEvent } from '../../../../scenery/js/imports.js';
 
 const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
@@ -213,7 +210,7 @@ class BothHandsInteractionListener {
       sceneryEvent.pointer.reserveForKeyboardDrag();
 
       assert && assert( sceneryEvent.domEvent, 'dom event expected' );
-      const domEvent = sceneryEvent.domEvent as Event;
+      const domEvent = sceneryEvent.domEvent as KeyboardEvent;
       const key = KeyboardUtils.getEventCode( domEvent );
 
       if ( key === KeyboardUtils.KEY_DOWN_ARROW ) {
@@ -237,14 +234,8 @@ class BothHandsInteractionListener {
         // for number keys 0-9, jump both values to that tick mark number. This value changes based on the tickMarkRangeProperty
         for ( let i = 0; i <= 9; i++ ) {
           if ( KeyboardUtils.getNumberFromCode( domEvent ) === i &&
-
-               // @ts-ignore
                !domEvent.getModifierState( 'Control' ) &&
-
-               // @ts-ignore
                !domEvent.getModifierState( 'Shift' ) &&
-
-               // @ts-ignore
                !domEvent.getModifierState( 'Alt' ) ) {
 
             this.isBeingInteractedWithProperty.value = true;

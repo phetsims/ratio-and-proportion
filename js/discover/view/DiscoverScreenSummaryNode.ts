@@ -13,14 +13,14 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import RAPRatioTuple from '../../common/model/RAPRatioTuple.js';
 import HandPositionsDescriber from '../../common/view/describers/HandPositionsDescriber.js';
-import { TickMarkViewType } from '../../common/view/TickMarkView.js';
+import TickMarkView from '../../common/view/TickMarkView.js';
 import BackgroundColorHandler from '../../common/view/BackgroundColorHandler.js';
 import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
 
 class DiscoverScreenSummaryNode extends Node {
 
   constructor( ratioFitnessProperty: Property<number>, ratioTupleProperty: Property<RAPRatioTuple>,
-               targetRatioProperty: Property<number>, tickMarkViewProperty: Property<TickMarkViewType>,
+               targetRatioProperty: Property<number>, tickMarkViewProperty: Property<TickMarkView>,
                ratioDescriber: RatioDescriber, inProportionProperty: Property<boolean>, handPositionsDescriber: HandPositionsDescriber,
                ratioToChallengeNameMap: Map<number, { lowercase: string, capitalized: string }> ) {
 
@@ -65,23 +65,20 @@ class DiscoverScreenSummaryNode extends Node {
       ratioTupleProperty,
       ratioFitnessProperty,
       inProportionProperty
-    ], ( currentTargetRatio: number, tickMarkView: TickMarkViewType, currentTuple: RAPRatioTuple, fitness: number, inProportion: boolean ) => {
+    ], ( currentTargetRatio: number, tickMarkView: TickMarkView, currentTuple: RAPRatioTuple, fitness: number, inProportion: boolean ) => {
 
-      // @ts-ignore
-      stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.screenSummaryQualitativeStateOfSim, {
+            stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.screenSummaryQualitativeStateOfSim, {
         color: BackgroundColorHandler.getCurrentColorRegion( fitness, inProportion ),
         ratioFitness: ratioDescriber.getRatioFitness( false ),
         currentChallenge: ratioToChallengeNameMap.get( currentTargetRatio )!.lowercase,
         distance: handPositionsDescriber.getDistanceRegion( true )
       } );
 
-      // @ts-ignore
-      leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
+            leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
         position: handPositionsDescriber.getHandPositionDescription( currentTuple.antecedent, tickMarkView )
       } );
 
-      // @ts-ignore
-      rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
+            rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
         position: handPositionsDescriber.getHandPositionDescription( currentTuple.consequent, tickMarkView )
       } );
     } );

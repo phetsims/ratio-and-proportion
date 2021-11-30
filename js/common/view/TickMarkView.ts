@@ -4,49 +4,47 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 
-// @ts-ignore
-const TickMarkView = Enumeration.byKeys( [ 'NONE', 'VISIBLE', 'VISIBLE_WITH_UNITS' ], {
-  beforeFreeze: ( TickMarkView: TickMarkViewType ) => {
+class TickMarkView {
+  static NONE = new TickMarkView( 'NONE' );
+  static VISIBLE = new TickMarkView( 'VISIBLE' );
+  static VISIBLE_WITH_UNITS = new TickMarkView( 'VISIBLE_WITH_UNITS' );
 
-    /**
-     * @param {TickMarkView} tickMarkView
-     * @returns {boolean} - whether or not the provided enum value should result in displayed horizontal tick marks
-     */
-    TickMarkView.displayHorizontal = ( tickMarkView: TickMarkViewType ) => {
-      return tickMarkView === TickMarkView.VISIBLE || tickMarkView === TickMarkView.VISIBLE_WITH_UNITS;
-    };
+  static VALUES = [ TickMarkView.NONE, TickMarkView.VISIBLE, TickMarkView.VISIBLE_WITH_UNITS ];
+  static KEYS = [ 'NONE', 'VISIBLE', 'VISIBLE_WITH_UNITS' ];
 
-    /**
-     * @param tickMarkView
-     * @returns {boolean} - whether or not the value indicates PDOM descriptions should be qualitative or quantitative
-     */
-    TickMarkView.describeQualitative = ( tickMarkView: TickMarkViewType ) => {
-      return tickMarkView === TickMarkView.NONE;
-    };
+  public name: string;
 
-    /**
-     * @param tickMarkView
-     * @returns {boolean} - whether or not the value indicates PDOM descriptions should be semi-quantitative
-     */
-    TickMarkView.describeSemiQualitative = ( tickMarkView: TickMarkViewType ) => {
-      return tickMarkView === TickMarkView.VISIBLE;
-    };
+  /**
+   * @param {TickMarkView} tickMarkView
+   * @returns {boolean} - whether or not the provided enum value should result in displayed horizontal tick marks
+   */
+  static displayHorizontal( tickMarkView: TickMarkView ): boolean {
+    return tickMarkView === TickMarkView.VISIBLE || tickMarkView === TickMarkView.VISIBLE_WITH_UNITS;
   }
-} ) as TickMarkViewType;
 
+  /**
+   * @param tickMarkView
+   * @returns {boolean} - whether or not the value indicates PDOM descriptions should be qualitative or quantitative
+   */
+  static describeQualitative( tickMarkView: TickMarkView ): boolean {
+    return tickMarkView === TickMarkView.NONE;
+  }
 
-type TickMarkViewType = {
-  NONE: Object;
-  VISIBLE: Object;
-  VISIBLE_WITH_UNITS: Object;
-  displayHorizontal: ( tmv: TickMarkViewType ) => boolean,
-  describeQualitative: ( tmv: TickMarkViewType ) => boolean,
-  describeSemiQualitative: ( tmv: TickMarkViewType ) => boolean,
+  /**
+   * @param tickMarkView
+   * @returns {boolean} - whether or not the value indicates PDOM descriptions should be semi-quantitative
+   */
+  static describeSemiQualitative( tickMarkView: TickMarkView ): boolean {
+    return tickMarkView === TickMarkView.VISIBLE;
+  }
+
+  // Emulate a sealed class
+  private constructor( name: string ) {
+    this.name = name;
+  }
 }
 
 ratioAndProportion.register( 'TickMarkView', TickMarkView );
-export type { TickMarkViewType };
 export default TickMarkView;

@@ -15,7 +15,7 @@ import RAPRatioTuple from '../../model/RAPRatioTuple.js';
 import Range from '../../../../../dot/js/Range.js';
 import RatioDescriber from './RatioDescriber.js';
 import HandPositionsDescriber from './HandPositionsDescriber.js';
-import { TickMarkViewType } from '../TickMarkView.js';
+import TickMarkView from '../TickMarkView.js';
 
 const ratioDistancePositionContextResponsePatternString = ratioAndProportionStrings.a11y.ratio.distancePositionContextResponse;
 
@@ -23,7 +23,7 @@ class BothHandsDescriber {
 
   private ratioTupleProperty: Property<RAPRatioTuple>;
   private enabledRatioTermsRangeProperty: Property<Range>;
-  private tickMarkViewProperty: Property<TickMarkViewType>;
+  private tickMarkViewProperty: Property<TickMarkView>;
   private ratioDescriber: RatioDescriber;
   private handPositionsDescriber: HandPositionsDescriber;
   private ratioLockedProperty: Property<boolean>;
@@ -39,7 +39,7 @@ class BothHandsDescriber {
    * @param {HandPositionsDescriber} handPositionsDescriber
    */
   constructor( ratioTupleProperty: Property<RAPRatioTuple>, enabledRatioTermsRangeProperty: Property<Range>,
-               ratioLockedProperty: Property<boolean>, tickMarkViewProperty: Property<TickMarkViewType>,
+               ratioLockedProperty: Property<boolean>, tickMarkViewProperty: Property<TickMarkView>,
                ratioDescriber: RatioDescriber, handPositionsDescriber: HandPositionsDescriber ) {
 
     // @private - from model

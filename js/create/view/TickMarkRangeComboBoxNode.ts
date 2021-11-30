@@ -20,7 +20,7 @@ import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
 import HSeparator from '../../../../sun/js/HSeparator.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
-import TickMarkView, { TickMarkViewType } from '../../common/view/TickMarkView.js';
+import TickMarkView from '../../common/view/TickMarkView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import Property from '../../../../axon/js/Property.js';
@@ -39,7 +39,7 @@ class TickMarkRangeComboBoxNode extends Node {
    * @param {Property.<TickMarkView>}tickMarkViewProperty
    */
   constructor( tickMarkRangeProperty: Property<number>, comboBoxParent: Node,
-               tickMarkViewProperty: Property<TickMarkViewType> ) {
+               tickMarkViewProperty: Property<TickMarkView> ) {
     super();
 
     const tickMarkRangeMap: Record<number, string> = {
@@ -97,8 +97,7 @@ class TickMarkRangeComboBoxNode extends Node {
       tickMarkRangeChangedUtterance.alert = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.tickMarkRangeContextResponse, {
         range: tickMarkRangeMap[ range ]
       } );
-      // @ts-ignore
-      this.alertDescriptionUtterance( tickMarkRangeChangedUtterance );
+            this.alertDescriptionUtterance( tickMarkRangeChangedUtterance );
     } );
   }
 

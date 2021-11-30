@@ -27,7 +27,7 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import { Color } from '../../../../scenery/js/imports.js';
 import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
-import { TickMarkViewType } from '../../common/view/TickMarkView.js';
+import TickMarkView from '../../common/view/TickMarkView.js';
 
 const PICKER_SCALE = 1.5;
 const ICON_SCALE = 0.9;
@@ -48,7 +48,7 @@ class MyChallengeAccordionBox extends AccordionBox {
    * @param {Object} [options]
    */
   constructor( targetRatioProperty: Property<number>, ratioLockedProperty: Property<boolean>,
-               handColorProperty: Property<Color>, tickMarkViewProperty: Property<TickMarkViewType>,
+               handColorProperty: Property<Color>, tickMarkViewProperty: Property<TickMarkView>,
                ratioDescriber: RatioDescriber, options: AccordionBoxOptions ) {
 
     options = merge( {
@@ -100,8 +100,7 @@ class MyChallengeAccordionBox extends AccordionBox {
     Property.multilink( [ targetAntecedentProperty, targetConsequentProperty ], () => {
 
       // if currently locked, then it is about to be unlocked
-      // @ts-ignore
-      ratioLockedProperty.value && this.alertDescriptionUtterance( ratioUnlockedFromMyChallenge );
+            ratioLockedProperty.value && this.alertDescriptionUtterance( ratioUnlockedFromMyChallenge );
     } );
 
     const antecedentNumberPicker = new NumberPicker( targetAntecedentProperty, rangeProperty, {
@@ -165,8 +164,7 @@ class MyChallengeAccordionBox extends AccordionBox {
       accordionBoxUtterance.alert = expanded ?
                                     ratioDescriber.getCurrentChallengeSentence( targetAntecedentProperty.value, targetConsequentProperty.value ) :
                                     ratioAndProportionStrings.a11y.ratio.currentChallengeHidden;
-      // @ts-ignore
-      this.alertDescriptionUtterance( accordionBoxUtterance );
+            this.alertDescriptionUtterance( accordionBoxUtterance );
     } );
 
     Property.multilink( [ targetAntecedentProperty, targetConsequentProperty ],

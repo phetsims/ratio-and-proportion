@@ -38,28 +38,17 @@ const RATIO_FITNESS_STRINGS_LOWERCASE = [
 ];
 
 const NUMBER_TO_WORD = [
-  // @ts-ignore
-  sceneryPhetStrings.zero,
-  // @ts-ignore
-  sceneryPhetStrings.one,
-  // @ts-ignore
-  sceneryPhetStrings.two,
-  // @ts-ignore
-  sceneryPhetStrings.three,
-  // @ts-ignore
-  sceneryPhetStrings.four,
-  // @ts-ignore
-  sceneryPhetStrings.five,
-  // @ts-ignore
-  sceneryPhetStrings.six,
-  // @ts-ignore
-  sceneryPhetStrings.seven,
-  // @ts-ignore
-  sceneryPhetStrings.eight,
-  // @ts-ignore
-  sceneryPhetStrings.nine,
-  // @ts-ignore
-  sceneryPhetStrings.ten
+    sceneryPhetStrings.zero,
+    sceneryPhetStrings.one,
+    sceneryPhetStrings.two,
+    sceneryPhetStrings.three,
+    sceneryPhetStrings.four,
+    sceneryPhetStrings.five,
+    sceneryPhetStrings.six,
+    sceneryPhetStrings.seven,
+    sceneryPhetStrings.eight,
+    sceneryPhetStrings.nine,
+    sceneryPhetStrings.ten
 ];
 
 // an unclamped fitness of 0 should map to "somewhatCloseTo" region
@@ -94,9 +83,6 @@ class RatioDescriber {
    * @returns {string}
    */
   getRatioFitness( capitalized = true ): string {
-
-    // @ts-ignore
-    assert && assert( ZERO_FITNESS_REGION_INDEX !== 0, 'should not be first index' );
 
     const lastIndex = RATIO_FITNESS_STRINGS_CAPITALIZED.length - 1;
     assert && assert( RATIO_FITNESS_STRINGS_LOWERCASE[ lastIndex ] === ratioAndProportionStrings.a11y.ratio.lowercase.at, 'There are assumptions made about the order of these regions, likely this should not change.' );

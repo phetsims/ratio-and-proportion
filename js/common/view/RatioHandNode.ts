@@ -16,7 +16,7 @@ import Orientation from '../../../../phet-core/js/Orientation.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import ArrowKeyNode from '../../../../scenery-phet/js/keyboard/ArrowKeyNode.js';
 import LetterKeyNode from '../../../../scenery-phet/js/keyboard/LetterKeyNode.js';
-import { FocusHighlightFromNode } from '../../../../scenery/js/imports.js';
+import { Color, FocusHighlightFromNode } from '../../../../scenery/js/imports.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Path, { PathOptions } from '../../../../scenery/js/nodes/Path.js';
 import AccessibleSlider from '../../../../sun/js/accessibility/AccessibleSlider.js';
@@ -26,8 +26,7 @@ import rapConstants from '../rapConstants.js';
 import CueDisplay from './CueDisplay.js';
 import getKeyboardInputSnappingMapper from './getKeyboardInputSnappingMapper.js';
 import RAPColors from './RAPColors.js';
-import TickMarkView, { TickMarkViewType } from './TickMarkView.js';
-import { Color } from '../../../../scenery/js/imports.js';
+import TickMarkView from './TickMarkView.js';
 
 type CreateIconOptions = {
 
@@ -51,7 +50,7 @@ class RatioHandNode extends Node {
    * @param {Object} [options]
    */
   constructor( valueProperty: Property<number>, enabledRatioTermsRangeProperty: Property<Range>,
-               tickMarkViewProperty: Property<TickMarkViewType>, keyboardStep: number,
+               tickMarkViewProperty: Property<TickMarkView>, keyboardStep: number,
                colorProperty: Property<Color | string>,
                cueDisplayProperty: Property<CueDisplay>, getIdealValue: () => number,
                inProportionProperty: Property<boolean>, options?: any ) {
@@ -200,7 +199,7 @@ class RatioHandNode extends Node {
    * @returns {Node}
    * @public
    */
-  static createIcon( isRight: boolean, tickMarkViewProperty: Property<TickMarkViewType>, options?: CreateIconOptions ): Node {
+  static createIcon( isRight: boolean, tickMarkViewProperty: Property<TickMarkView>, options?: CreateIconOptions ): Node {
     options = merge( {
       handColor: 'black',
       handNodeOptions: {
