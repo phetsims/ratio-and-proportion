@@ -431,7 +431,7 @@ class RatioHalf extends Rectangle {
     positionProperty.link( updatePointer );
 
     // @ts-ignore TODO RectangleOptions defined in phet-types is fundamentally incompatible with Node's NodeOptions. Once Rectangle is TS'ed, we should use RectangleOptions
-    this.mutate( providedOptions );
+    this.mutate( options );
 
     assert && assert( !options.children, 'RatioHalf sets its own children.' );
     this.children = [
