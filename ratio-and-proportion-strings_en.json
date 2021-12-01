@@ -125,6 +125,9 @@
     "individualHandsHelpText": {
       "value": "Move hands up and down individually to find the Challenge Ratio in different places."
     },
+    "individualHandsVoicingHelpText": {
+      "value": "Move hands to find challenge ratio."
+    },
     "bothHands": {
       "bothHands": {
         "value": "Both Hands"

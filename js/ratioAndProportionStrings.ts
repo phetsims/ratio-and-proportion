@@ -56,6 +56,7 @@ type StringsType = {
     'leftValue': string,
     'rightValue': string,
     'individualHandsHelpText': string,
+    'individualHandsVoicingHelpText': string,
     'bothHands': {
       'bothHands': string,
       'bothHandsHelpText': string,

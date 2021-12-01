@@ -16,7 +16,7 @@ import Orientation from '../../../../phet-core/js/Orientation.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import ArrowKeyNode from '../../../../scenery-phet/js/keyboard/ArrowKeyNode.js';
 import LetterKeyNode from '../../../../scenery-phet/js/keyboard/LetterKeyNode.js';
-import { Color, FocusHighlightFromNode } from '../../../../scenery/js/imports.js';
+import { Color, FocusHighlightFromNode, Voicing } from '../../../../scenery/js/imports.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Path, { PathOptions } from '../../../../scenery/js/nodes/Path.js';
 import AccessibleSlider from '../../../../sun/js/accessibility/AccessibleSlider.js';
@@ -27,6 +27,7 @@ import CueDisplay from './CueDisplay.js';
 import getKeyboardInputSnappingMapper from './getKeyboardInputSnappingMapper.js';
 import RAPColors from './RAPColors.js';
 import TickMarkView from './TickMarkView.js';
+import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
 type CreateIconOptions = {
 
@@ -49,11 +50,15 @@ class RatioHandNode extends Node {
    * @param {Property.<boolean>} inProportionProperty - if the model is in proportion
    * @param {Object} [options]
    */
-  constructor( valueProperty: Property<number>, enabledRatioTermsRangeProperty: Property<Range>,
-               tickMarkViewProperty: Property<TickMarkView>, keyboardStep: number,
+  constructor( valueProperty: Property<number>,
+               enabledRatioTermsRangeProperty: Property<Range>,
+               tickMarkViewProperty: Property<TickMarkView>,
+               keyboardStep: number,
                colorProperty: Property<Color | string>,
-               cueDisplayProperty: Property<CueDisplay>, getIdealValue: () => number,
-               inProportionProperty: Property<boolean>, options?: any ) {
+               cueDisplayProperty: Property<CueDisplay>,
+               getIdealValue: () => number,
+               inProportionProperty: Property<boolean>,
+               options?: any ) {
 
     const shiftKeyboardStep = rapConstants.toFixed( keyboardStep * rapConstants.SHIFT_KEY_MULTIPLIER ); // eslint-disable-line bad-sim-text
 
@@ -77,9 +82,23 @@ class RatioHandNode extends Node {
 
         // @ts-ignore
         return mapKeyboardInput( newValue, oldValue, this.shiftKeyDown, inProportionProperty.value );
-      }
+      },
+      voicingCreateObjectResponse: () => {},
+      voicingCreateContextResponse: () => {},
+      voicingHintResponse: ratioAndProportionStrings.a11y.individualHandsVoicingHelpText
     }, options );
     super();
+
+    // @ts-ignore
+    this.initializeVoicing( options );
+
+    valueProperty.link( () => {
+
+      // @ts-ignore
+      this.voicingObjectResponse = options.voicingCreateObjectResponse();
+      // @ts-ignore
+      this.voicingContextResponse = options.voicingCreateContextResponse();
+    } );
 
     // Always the same range, always enabled
     // @ts-ignore
@@ -285,6 +304,9 @@ c1.932-2.887,2.112-9.526,2.475-13.186c0.069-0.698,0.162-1.334,0.162-1.92v-16.21C
 }
 
 AccessibleSlider.mixInto( RatioHandNode );
+
+// TODO: once Voicing is in typescript we can remove this, https://github.com/phetsims/ratio-and-proportion/issues/404
+Voicing.compose( RatioHandNode as unknown as new () => RatioHandNode );
 
 ratioAndProportion.register( 'RatioHandNode', RatioHandNode );
 export default RatioHandNode;

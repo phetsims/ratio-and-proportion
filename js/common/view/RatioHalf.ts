@@ -204,7 +204,8 @@ class RatioHalf extends Rectangle {
 
       // pdom
       tagName: 'div',
-      accessibleNameBehavior: ratioHalfAccessibleNameBehavior
+      accessibleNameBehavior: ratioHalfAccessibleNameBehavior,
+      accessibleName: null
     }, providedOptions ) as RatioHalfImplementationOptions;
 
     super( 0, 0, options.bounds.width, options.bounds.height );
@@ -261,8 +262,14 @@ class RatioHalf extends Rectangle {
     } ) as Property<number>;
 
     // @private - The draggable element inside the Node framed with thick rectangles on the top and bottom.
-    this.ratioHandNode = new RatioHandNode( ratioTermSpecificProperty, options.enabledRatioTermsRangeProperty, options.tickMarkViewProperty,
-      options.keyboardStep, options.handColorProperty, cueDisplayStateProperty, options.getIdealValue, options.inProportionProperty, {
+    this.ratioHandNode = new RatioHandNode( ratioTermSpecificProperty,
+      options.enabledRatioTermsRangeProperty,
+      options.tickMarkViewProperty,
+      options.keyboardStep,
+      options.handColorProperty,
+      cueDisplayStateProperty,
+      options.getIdealValue,
+      options.inProportionProperty, {
         startDrag: () => {
           options.cueArrowsState.interactedWithKeyboardProperty.value = true;
           this.isBeingInteractedWithProperty.value = true;
@@ -279,8 +286,12 @@ class RatioHalf extends Rectangle {
 
         a11yCreateAriaValueText: () => options.ratioLockedProperty.value ? options.ratioDescriber.getProximityToChallengeRatio() :
                                        options.ratioDescriber.getProximityToChallengeRatio(),
+        voicingCreateObjectResponse: () => options.ratioLockedProperty.value ? options.ratioDescriber.getProximityToChallengeRatio() :
+                                           options.ratioDescriber.getProximityToChallengeRatio(),
         a11yCreateContextResponseAlert: () => this.getSingleHandContextResponse(),
-        a11yDependencies: options.a11yDependencies.concat( [ options.ratioLockedProperty ] )
+        voicingCreateContextResponse: () => this.getSingleHandContextResponse(),
+        a11yDependencies: options.a11yDependencies.concat( [ options.ratioLockedProperty ] ),
+        voicingNameResponse: options.accessibleName // accessible name is also the voicing name response
       } );
 
     // This can change anytime there is a layout update.
