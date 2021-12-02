@@ -6,11 +6,9 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import { Line } from '../../../../scenery/js/imports.js';
+import { Line, Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
 import HandPositionsDescriber from './describers/HandPositionsDescriber.js';
-import { Text } from '../../../../scenery/js/imports.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
 class RAPPositionRegionsLayer extends Node {

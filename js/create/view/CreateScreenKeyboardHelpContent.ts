@@ -12,7 +12,7 @@ import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
 import RAPKeyboardHelpContent from '../../common/view/RAPKeyboardHelpContent.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
-import { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
+import { NodeOptions } from '../../../../scenery/js/imports.js';
 
 class CreateScreenKeyboardHelpContent extends RAPKeyboardHelpContent {
   constructor() {

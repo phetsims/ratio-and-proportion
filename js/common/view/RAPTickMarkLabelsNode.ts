@@ -8,11 +8,9 @@
 
 import Property from '../../../../axon/js/Property.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
-import { Text } from '../../../../scenery/js/imports.js';
+import { Color, Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import TickMarkView from './TickMarkView.js';
-import { Color } from '../../../../scenery/js/imports.js';
 
 const LABEL_X = 0;
 

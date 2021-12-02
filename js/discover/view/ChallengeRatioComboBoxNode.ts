@@ -4,7 +4,6 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -19,7 +18,7 @@ import ChallengeComboBoxItem from './ChallengeComboBoxItem.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
 import Property from '../../../../axon/js/Property.js';
-import { Color } from '../../../../scenery/js/imports.js';
+import { Color, Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 
 // constants
@@ -92,7 +91,7 @@ class ChallengeRatioComboBoxNode extends Node {
     const proximityToRatioUtterance = new Utterance();
     targetRatioProperty.lazyLink( () => {
       proximityToRatioUtterance.alert = ratioDescriber.getProximityToNewChallengeRatioSentence();
-            this.alertDescriptionUtterance( proximityToRatioUtterance );
+      this.alertDescriptionUtterance( proximityToRatioUtterance );
     } );
 
     this.children = [
@@ -100,7 +99,7 @@ class ChallengeRatioComboBoxNode extends Node {
       this.comboBox
     ];
 
-        this.pdomOrder = [ comboBoxHeading, this.comboBox ];
+    this.pdomOrder = [ comboBoxHeading, this.comboBox ];
   }
 
   /**
