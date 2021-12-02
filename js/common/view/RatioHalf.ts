@@ -281,6 +281,11 @@ class RatioHalf extends Rectangle {
         },
         endDrag: () => {
           viewSounds.boundarySoundClip.onEndInteraction( options.ratioTupleProperty.value.getForTerm( this.ratioTerm ) );
+
+          // @ts-ignore
+          this.ratioHandNode.voicingSpeakFullResponse( {
+            nameResponse: null
+          } );
         },
         isRight: options.isRight,
 
@@ -357,6 +362,11 @@ class RatioHalf extends Rectangle {
 
         options.setJumpingOverProportionShouldTriggerSound( true );
         viewSounds.boundarySoundClip.onStartInteraction();
+
+        // @ts-ignore
+        this.ratioHandNode.voicingSpeakFullResponse( {
+          contextResponse: null
+        } );
       },
       drag: () => {
         this.isBeingInteractedWithProperty.value = true;
@@ -392,6 +402,11 @@ class RatioHalf extends Rectangle {
         // Support context response on interaction end from mouse/touch input.
         // @ts-ignore
         this.ratioHandNode.alertContextResponse();
+
+        // @ts-ignore
+        this.ratioHandNode.voicingSpeakFullResponse( {
+          nameResponse: null
+        } );
       },
 
       // phet-io
