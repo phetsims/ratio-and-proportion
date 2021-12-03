@@ -83,14 +83,15 @@ class RatioHandNode extends Node {
       },
       voicingCreateObjectResponse: () => {},
       voicingCreateContextResponse: () => {},
-      voicingHintResponse: ratioAndProportionStrings.a11y.individualHandsVoicingHelpText
+      voicingHintResponse: ratioAndProportionStrings.a11y.individualHandsVoicingHelpText,
+      a11yDependencies: []
     }, options );
     super();
 
     // @ts-ignore
     this.initializeVoicing( options );
 
-    valueProperty.link( () => {
+    Property.multilink( [ valueProperty ].concat( options.a11yDependencies ), () => {
 
       // @ts-ignore
       this.voicingObjectResponse = options.voicingCreateObjectResponse();
