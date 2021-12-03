@@ -260,6 +260,8 @@ class RatioHalf extends Rectangle {
                                       assert && assert( false, `unexpected ratioTerm ${this.ratioTerm}` )
     } ) as Property<number>;
 
+    let startPosition = ratioTermSpecificProperty.value;
+
     // @private - The draggable element inside the Node framed with thick rectangles on the top and bottom.
     this.ratioHandNode = new RatioHandNode( ratioTermSpecificProperty,
       options.enabledRatioTermsRangeProperty,
@@ -270,6 +272,7 @@ class RatioHalf extends Rectangle {
       options.getIdealValue,
       options.inProportionProperty, {
         startDrag: () => {
+          startPosition = ratioTermSpecificProperty.value;
           options.cueArrowsState.interactedWithKeyboardProperty.value = true;
           this.isBeingInteractedWithProperty.value = true;
           viewSounds.boundarySoundClip.onStartInteraction();
@@ -281,9 +284,11 @@ class RatioHalf extends Rectangle {
         endDrag: () => {
           viewSounds.boundarySoundClip.onEndInteraction( options.ratioTupleProperty.value.getForTerm( this.ratioTerm ) );
 
+          // Only provide context response when changes occur
           // @ts-ignore
-          this.ratioHandNode.voicingSpeakFullResponse( {
-            nameResponse: null
+          startPosition !== ratioTermSpecificProperty.value && this.ratioHandNode.voicingSpeakFullResponse( {
+            nameResponse: null,
+            hintResponse: null
           } );
         },
         isRight: options.isRight,
