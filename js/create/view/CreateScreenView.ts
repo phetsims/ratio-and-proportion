@@ -5,9 +5,8 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
-import { FireListener } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { RichText } from '../../../../scenery/js/imports.js';
+import { FireListener, HBox, Node, Text } from '../../../../scenery/js/imports.js';
+import LockNode from '../../../../scenery-phet/js/LockNode.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
@@ -20,6 +19,7 @@ import MyChallengeAccordionBox from './MyChallengeAccordionBox.js';
 import TickMarkRangeComboBoxNode from './TickMarkRangeComboBoxNode.js';
 import RAPModel from '../../common/model/RAPModel.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
 
 class CreateScreenView extends RAPScreenView {
@@ -62,7 +62,15 @@ class CreateScreenView extends RAPScreenView {
 
     const ratioLockedUtterance = new ActivationUtterance();
 
-    const ratioLockCheckbox = new Checkbox( new RichText( ratioAndProportionStrings.ratioLock ), model.ratio.lockedProperty, {
+    const ratioLockContent = new HBox( {
+      spacing: 8,
+      children: [
+        new Text( ratioAndProportionStrings.ratioLock, { font: new PhetFont( 20 ) } ),
+        new LockNode( model.ratio.lockedProperty, { scale: 0.5 } )
+      ]
+    } );
+
+    const ratioLockCheckbox = new Checkbox( ratioLockContent, model.ratio.lockedProperty, {
       accessibleName: ratioAndProportionStrings.ratioLock,
       maxWidth: 250, // empirically determined
 
@@ -72,7 +80,7 @@ class CreateScreenView extends RAPScreenView {
 
     ratioLockCheckbox.enabledProperty.link( ( enabled: boolean ) => {
 
-            ratioLockCheckbox.helpText = enabled ? ratioAndProportionStrings.a11y.ratioLockEnabledHelpText : ratioAndProportionStrings.a11y.ratioLockDisabledHelpText;
+      ratioLockCheckbox.helpText = enabled ? ratioAndProportionStrings.a11y.ratioLockEnabledHelpText : ratioAndProportionStrings.a11y.ratioLockDisabledHelpText;
     } );
 
     ratioLockCheckbox.touchArea = ratioLockCheckbox.localBounds.dilatedXY( 8, 0.5 * ratioLockCheckbox.height );
@@ -85,7 +93,7 @@ class CreateScreenView extends RAPScreenView {
         ratioLockedUtterance.alert = model.ratio.lockedProperty.value ? ratioAndProportionStrings.a11y.ratioLockCheckboxContextResponse :
                                      ratioAndProportionStrings.a11y.ratioNoLongerLocked;
 
-                this.alertDescriptionUtterance( ratioLockedUtterance );
+        this.alertDescriptionUtterance( ratioLockedUtterance );
       },
 
       // phet-io
@@ -115,7 +123,7 @@ class CreateScreenView extends RAPScreenView {
     this.addChild( tickMarkRangeComboBoxParent );
 
     // pdom
-        this.pdomPlayAreaNode.pdomOrder = ( this.pdomPlayAreaNode as any ).pdomOrder.concat( [
+    this.pdomPlayAreaNode.pdomOrder = ( this.pdomPlayAreaNode as any ).pdomOrder.concat( [
       this.tickMarkRangeComboBoxNode,
       tickMarkRangeComboBoxParent,
       myChallengeAccordionBox,
