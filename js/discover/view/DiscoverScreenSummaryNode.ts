@@ -16,12 +16,13 @@ import HandPositionsDescriber from '../../common/view/describers/HandPositionsDe
 import TickMarkView from '../../common/view/TickMarkView.js';
 import BackgroundColorHandler from '../../common/view/BackgroundColorHandler.js';
 import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 class DiscoverScreenSummaryNode extends Node {
 
-  constructor( ratioFitnessProperty: Property<number>, ratioTupleProperty: Property<RAPRatioTuple>,
+  constructor( ratioFitnessProperty: IReadOnlyProperty<number>, ratioTupleProperty: Property<RAPRatioTuple>,
                targetRatioProperty: Property<number>, tickMarkViewProperty: Property<TickMarkView>,
-               ratioDescriber: RatioDescriber, inProportionProperty: Property<boolean>, handPositionsDescriber: HandPositionsDescriber,
+               ratioDescriber: RatioDescriber, inProportionProperty: IReadOnlyProperty<boolean>, handPositionsDescriber: HandPositionsDescriber,
                ratioToChallengeNameMap: Map<number, { lowercase: string, capitalized: string }> ) {
 
     const stateOfSimNode = new Node( {

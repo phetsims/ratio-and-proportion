@@ -37,6 +37,7 @@ import HandPositionsDescriber from './describers/HandPositionsDescriber.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import CueArrowsState from './CueArrowsState.js';
 import RatioDescriber from './describers/RatioDescriber.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // constants
 const MIN_FRAMING_RECTANGLE_HEIGHT = 32;
@@ -86,12 +87,12 @@ type RatioHalfDefinedOptions = {
   playTickMarkBumpSoundProperty: Property<boolean>;
   setJumpingOverProportionShouldTriggerSound: ( shouldTriggerSound: boolean ) => void;
   getIdealValue: () => number;
-  inProportionProperty: Property<boolean>;
+  inProportionProperty: IReadOnlyProperty<boolean>;
   isRight?: boolean;
 
   // TODO: Why is lint wrong here? https://github.com/phetsims/ratio-and-proportion/issues/404
   handColorProperty?: Property<ColorDef>; // eslint-disable-line no-undef
-  a11yDependencies?: Property<any>[];
+  a11yDependencies?: IReadOnlyProperty<any>[];
   bothHandsCueDisplay?: CueDisplay;
 }
 
@@ -229,7 +230,7 @@ class RatioHalf extends Rectangle {
     const viewSounds = new ViewSounds( options.tickMarkRangeProperty, options.tickMarkViewProperty, options.playTickMarkBumpSoundProperty );
 
     // This follows the spec outlined in https://github.com/phetsims/ratio-and-proportion/issues/81
-    const cueDisplayStateProperty: DerivedProperty<CueDisplay> = new DerivedProperty( [
+    const cueDisplayStateProperty: IReadOnlyProperty<CueDisplay> = new DerivedProperty( [
         options.cueArrowsState.interactedWithKeyboardProperty,
         options.cueArrowsState.interactedWithMouseProperty,
         options.cueArrowsState.keyboardFocusedProperty,

@@ -21,6 +21,7 @@ import RAPRatio from './RAPRatio.js';
 import RatioTerm from './RatioTerm.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import RAPRatioTuple from './RAPRatioTuple.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // constant to help achieve feedback in 40% of the visual screen height (2 default tick marks). Calculated by taking the
 // fitness distance when the right hand is 2 tick marks from the target ratio. This number is based on a target ratio of
@@ -38,9 +39,9 @@ class RAPModel {
 
   ratio: RAPRatio;
   targetRatioProperty: NumberProperty;
-  unclampedFitnessProperty: DerivedProperty<number>;
-  ratioFitnessProperty: DerivedProperty<number>;
-  inProportionProperty: DerivedProperty<boolean>;
+  unclampedFitnessProperty: IReadOnlyProperty<number>;
+  ratioFitnessProperty: IReadOnlyProperty<number>;
+  inProportionProperty: IReadOnlyProperty<boolean>;
 
   public constructor( tandem: Tandem ) {
 
@@ -65,7 +66,7 @@ class RAPModel {
       this.ratio.tupleProperty,
       this.targetRatioProperty,
       this.ratio.movingInDirectionProperty
-    ], ( ratioTuple: RAPRatioTuple, ratio: number ) => {
+    ], ( ratioTuple: RAPRatioTuple, ratio: number, movingInDirection: boolean ) => {
 
       const antecedent = ratioTuple.antecedent;
       const consequent = ratioTuple.consequent;
@@ -117,7 +118,7 @@ unclampedFitness: ${unclampedFitness}
       } );
 
     // @public - whether or not the model is in its "in proportion" state.
-    this.inProportionProperty = new DerivedProperty( [
+    this.inProportionProperty = new DerivedProperty<boolean, [ number, boolean ]>( [
       this.unclampedFitnessProperty,
       this.ratio.movingInDirectionProperty
     ], this.inProportion.bind( this ), {

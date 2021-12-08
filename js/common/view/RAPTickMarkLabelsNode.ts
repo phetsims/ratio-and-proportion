@@ -6,6 +6,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Color, Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
@@ -20,7 +21,7 @@ class RAPTickMarkLabelsNode extends Node {
   private heightOfText: number | null;
   private tickMarkViewProperty: Property<TickMarkView>;
   private tickMarkRangeProperty: Property<number>;
-  private colorProperty: Property<Color | string>;
+  private colorProperty: IReadOnlyProperty<Color | string>;
 
   /**
    * @param {Property.<TickMarkView>} tickMarkViewProperty
@@ -30,7 +31,7 @@ class RAPTickMarkLabelsNode extends Node {
    * @param {Object} [options]
    */
   constructor( tickMarkViewProperty: Property<TickMarkView>, tickMarkRangeProperty: Property<number>, height: number,
-               colorProperty: Property<Color | string>, options?: Omit<NodeOptions, 'children'> ) {
+               colorProperty: IReadOnlyProperty<Color | string>, options?: Omit<NodeOptions, 'children'> ) {
 
     super();
 
@@ -47,7 +48,7 @@ class RAPTickMarkLabelsNode extends Node {
 
     this.mutate( options );
 
-    Property.multilink( [ tickMarkRangeProperty, tickMarkViewProperty ], this.update.bind( this ) );
+    Property.multilink<any[]>( [ tickMarkRangeProperty, tickMarkViewProperty ], this.update.bind( this ) );
   }
 
   /**

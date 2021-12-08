@@ -147,7 +147,7 @@ class RAPScreenView extends ScreenView {
     // A collection of properties that keep track of which cues should be displayed for both the antecedent and consequent hands.
     const cueArrowsState = new CueArrowsState();
 
-    const tickMarksAndLabelsColorProperty = new DerivedProperty<Color | string>( [ model.ratioFitnessProperty ],
+    const tickMarksAndLabelsColorProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
       ( fitness: number ) => Color.interpolateRGBA(
         RAPColors.tickMarksAndLabelsOutOfFitnessProperty.value,
         RAPColors.tickMarksAndLabelsInFitnessProperty.value, fitness

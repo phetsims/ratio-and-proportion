@@ -264,7 +264,7 @@ class BothHandsPDOMNode extends Node {
       options.tickMarkRangeProperty,
       options.ratioTupleProperty,
       options.unclampedFitnessProperty
-    ], () => {
+    ], ( ...args: any[] ) => {
 
       dynamicDescription.innerContent = this.bothHandsDescriber.getBothHandsDynamicDescription();
 

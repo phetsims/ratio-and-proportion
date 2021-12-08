@@ -45,7 +45,7 @@ class RatioHalfTickMarksNode extends GridNode {
     this.tickMarkViewProperty = tickMarkViewProperty;
     this.tickMarkRangeProperty = tickMarkRangeProperty;
 
-    Property.multilink( [ tickMarkRangeProperty, tickMarkViewProperty ], this.update.bind( this ) );
+    Property.multilink<any[]>( [ tickMarkRangeProperty, tickMarkViewProperty ], this.update.bind( this ) );
   }
 
   /**

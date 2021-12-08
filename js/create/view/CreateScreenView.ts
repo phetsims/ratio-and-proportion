@@ -101,7 +101,7 @@ class CreateScreenView extends RAPScreenView {
     } ) );
 
     // The "lock ratio" checkbox should not be enabled when the ratio is not in proportion.
-    Property.multilink( [
+    Property.multilink<[ boolean, number ]>( [
       model.inProportionProperty,
       model.ratioFitnessProperty
     ], ( inProportion: boolean ) => {

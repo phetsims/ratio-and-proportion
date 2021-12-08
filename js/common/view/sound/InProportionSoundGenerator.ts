@@ -16,6 +16,7 @@ import inProportionSound from '../../../../sounds/in-proportion/in-proportion_mp
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import RAPModel from '../../model/RAPModel.js';
 import Property from '../../../../../axon/js/Property.js';
+import IReadOnlyProperty from '../../../../../axon/js/IReadOnlyProperty.js';
 
 const SUCCESS_OUTPUT_LEVEL = 0.8;
 const SILENT_LEVEL = 0;
@@ -33,7 +34,7 @@ class InProportionSoundGenerator extends SoundClip {
 
   private model: RAPModel;
   private targetRatioProperty: Property<number>;
-  private fitnessProperty: Property<number>;
+  private fitnessProperty: IReadOnlyProperty<number>;
   private playedSuccessYetProperty: Property<boolean>;
   private timePlayedSoFarProperty: Property<number>;
   private previousRatioWasLargerThanTarget: boolean;
@@ -69,7 +70,7 @@ class InProportionSoundGenerator extends SoundClip {
     // of this sound is always played, even when the outside enabledControlProperty is set to false.
     this.timePlayedSoFarProperty = new NumberProperty( MANDATORY_PLAY_TIME );
 
-    const playedMandatoryPortionYetProperty: DerivedProperty<boolean> = new DerivedProperty( [ this.timePlayedSoFarProperty, this.playedSuccessYetProperty ],
+    const playedMandatoryPortionYetProperty: IReadOnlyProperty<boolean> = new DerivedProperty( [ this.timePlayedSoFarProperty, this.playedSuccessYetProperty ],
       ( timePlayed: number, playedSuccessYet: boolean ) => playedSuccessYet && timePlayed <= MANDATORY_PLAY_TIME );
 
     // In addition to any supplemental enabledControlProperty that the client wants to pass in, make sure to set up

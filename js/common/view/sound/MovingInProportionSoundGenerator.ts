@@ -14,6 +14,7 @@ import choirLoopSound from '../../../../sounds/moving-in-proportion/moving-in-pr
 import movingInProportionOrganLoopSound from '../../../../sounds/moving-in-proportion/moving-in-proportion-organ-loop_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import RAPModel from '../../model/RAPModel.js';
+import RAPRatioTuple from '../../model/RAPRatioTuple.js';
 
 class MovingInProportionSoundGenerator extends SoundGenerator {
 
@@ -52,7 +53,7 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
       model.inProportionProperty,
       model.ratio.tupleProperty,
       model.ratioFitnessProperty
-    ], ( movingInDirection: boolean, inProportion: boolean ) => {
+    ], ( movingInDirection: boolean, inProportion: boolean, tuple: RAPRatioTuple, ratioFitness: number ) => {
       if ( movingInDirection && // only when moving
            !model.valuesTooSmallForInProportion() && // no moving in proportion success if too small
            inProportion && // must be fit enough to play the moving in proportion success

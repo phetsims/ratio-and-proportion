@@ -18,6 +18,7 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import rapConstants from '../rapConstants.js';
 import RAPRatioTuple from './RAPRatioTuple.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // The threshold for velocity of a moving ratio value to indicate that it is "moving."
 const VELOCITY_THRESHOLD = 0.01;
@@ -41,7 +42,7 @@ class RAPRatio {
   lockedProperty: BooleanProperty;
   antecedentVelocityTracker: VelocityTracker;
   consequentVelocityTracker: VelocityTracker;
-  movingInDirectionProperty: DerivedProperty<boolean>;
+  movingInDirectionProperty: IReadOnlyProperty<boolean>;
   ratioLockListenerEnabled: boolean;
 
 

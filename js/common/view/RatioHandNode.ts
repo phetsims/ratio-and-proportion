@@ -26,6 +26,7 @@ import getKeyboardInputSnappingMapper from './getKeyboardInputSnappingMapper.js'
 import RAPColors from './RAPColors.js';
 import TickMarkView from './TickMarkView.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 type CreateIconOptions = {
 
@@ -53,9 +54,9 @@ class RatioHandNode extends Node {
                tickMarkViewProperty: Property<TickMarkView>,
                keyboardStep: number,
                colorProperty: Property<Color | string>,
-               cueDisplayProperty: Property<CueDisplay>,
+               cueDisplayProperty: IReadOnlyProperty<CueDisplay>,
                getIdealValue: () => number,
-               inProportionProperty: Property<boolean>,
+               inProportionProperty: IReadOnlyProperty<boolean>,
                options?: any ) {
 
     const shiftKeyboardStep = rapConstants.toFixed( keyboardStep * rapConstants.SHIFT_KEY_MULTIPLIER ); // eslint-disable-line bad-sim-text
@@ -91,7 +92,7 @@ class RatioHandNode extends Node {
     // @ts-ignore
     this.initializeVoicing( options );
 
-    Property.multilink( [ valueProperty ].concat( options.a11yDependencies ), () => {
+    Property.multilink<any[]>( [ valueProperty ].concat( options.a11yDependencies ), () => {
 
       // @ts-ignore
       this.voicingObjectResponse = options.voicingCreateObjectResponse();

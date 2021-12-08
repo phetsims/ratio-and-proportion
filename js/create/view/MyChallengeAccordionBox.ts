@@ -97,7 +97,7 @@ class MyChallengeAccordionBox extends AccordionBox {
     // unlocked, see https://github.com/phetsims/ratio-and-proportion/issues/227 for extensive investigation. NOTE:
     // This should be above the creation of the NumberPickers to make sure that this fires before the RAPModel.targetRatioProperty
     // changes.
-    Property.multilink( [ targetAntecedentProperty, targetConsequentProperty ], () => {
+    Property.multilink<any[]>( [ targetAntecedentProperty, targetConsequentProperty ], () => {
 
       // if currently locked, then it is about to be unlocked
             ratioLockedProperty.value && this.alertDescriptionUtterance( ratioUnlockedFromMyChallenge );

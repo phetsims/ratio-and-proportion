@@ -11,8 +11,8 @@ import sceneryPhetStrings from '../../../../../scenery-phet/js/sceneryPhetString
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
 import rapConstants from '../../rapConstants.js';
-import Property from '../../../../../axon/js/Property.js';
 import RAPModel from '../../model/RAPModel.js';
+import IReadOnlyProperty from '../../../../../axon/js/IReadOnlyProperty.js';
 
 // constants
 const RATIO_FITNESS_STRINGS_CAPITALIZED = [
@@ -58,8 +58,8 @@ assert && assert( RATIO_FITNESS_STRINGS_LOWERCASE.length === RATIO_FITNESS_STRIN
 
 class RatioDescriber {
 
-  private ratioFitnessProperty: Property<number>;
-  private unclampedFitnessProperty: Property<number>;
+  private ratioFitnessProperty: IReadOnlyProperty<number>;
+  private unclampedFitnessProperty: IReadOnlyProperty<number>;
   private model: RAPModel;
 
   /**

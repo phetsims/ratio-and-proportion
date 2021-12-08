@@ -17,14 +17,15 @@ import HandPositionsDescriber from '../../common/view/describers/HandPositionsDe
 import MyChallengeAccordionBox from './MyChallengeAccordionBox.js';
 import BackgroundColorHandler from '../../common/view/BackgroundColorHandler.js';
 import TickMarkView from '../../common/view/TickMarkView.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 class CreateScreenSummaryNode extends Node {
 
-  constructor( ratioFitnessProperty: Property<number>,
+  constructor( ratioFitnessProperty: IReadOnlyProperty<number>,
                ratioTupleProperty: Property<RAPRatioTuple>,
                tickMarkViewProperty: Property<TickMarkView>,
                ratioDescriber: RatioDescriber,
-               inProportionProperty: Property<boolean>,
+               inProportionProperty: IReadOnlyProperty<boolean>,
                handPositionsDescriber: HandPositionsDescriber,
                tickMarkRangeProperty: Property<number>,
                myChallengeAccordionBox: MyChallengeAccordionBox ) {
@@ -79,7 +80,7 @@ class CreateScreenSummaryNode extends Node {
       inProportionProperty,
       tickMarkRangeProperty
     ], ( tickMarkView: TickMarkView, targetAntecedent: number, targetConsequent: number,
-         currentTuple: RAPRatioTuple, fitness: number, inProportion: boolean ) => {
+         currentTuple: RAPRatioTuple, fitness: number, inProportion: boolean, tickMarkRange: number ) => {
 
             stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.screenSummaryQualitativeStateOfSim, {
         color: BackgroundColorHandler.getCurrentColorRegion( fitness, inProportion ),
