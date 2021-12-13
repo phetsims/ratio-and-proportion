@@ -90,7 +90,7 @@ class RatioHandNode extends Node {
     super();
 
     // @ts-ignore
-    this.initializeVoicing( options );
+    this.initializeVoicing();
 
     Property.multilink<any[]>( [ valueProperty ].concat( options.a11yDependencies ), () => {
 
@@ -306,6 +306,7 @@ c1.932-2.887,2.112-9.526,2.475-13.186c0.069-0.698,0.162-1.334,0.162-1.92v-16.21C
 AccessibleSlider.mixInto( RatioHandNode );
 
 // TODO: once Voicing is in typescript we can remove this, https://github.com/phetsims/ratio-and-proportion/issues/404
+// @ts-ignore
 Voicing.compose( RatioHandNode as unknown as new () => RatioHandNode );
 
 ratioAndProportion.register( 'RatioHandNode', RatioHandNode );
