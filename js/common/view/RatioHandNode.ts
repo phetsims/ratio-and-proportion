@@ -89,7 +89,7 @@ class RatioHandNode extends Node {
     }, options );
     super();
 
-    // @ts-ignore
+    // @ts-ignore, TODO, redundant with initializeAccessibleSlider https://github.com/phetsims/sun/issues/730
     this.initializeVoicing();
 
     Property.multilink<any[]>( [ valueProperty ].concat( options.a11yDependencies ), () => {
