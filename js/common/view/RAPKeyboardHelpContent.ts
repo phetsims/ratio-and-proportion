@@ -9,7 +9,7 @@
 import BasicActionsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
 import KeyboardHelpIconFactory from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
-import SliderKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/SliderKeyboardHelpSection.js';
+import SliderControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/SliderControlsKeyboardHelpSection.js';
 import TwoColumnKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/help/TwoColumnKeyboardHelpContent.js';
 import LetterKeyNode from '../../../../scenery-phet/js/keyboard/LetterKeyNode.js';
 import NumberKeyNode from '../../../../scenery-phet/js/keyboard/NumberKeyNode.js';
@@ -26,13 +26,13 @@ class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
    */
   constructor( challengeHelpSection: KeyboardHelpSection, options?: NodeOptions ) {
 
-    const moveLeftOrRightHandHelpSection = new SliderKeyboardHelpSection( {
+    const moveLeftOrRightHandHelpSection = new SliderControlsKeyboardHelpSection( {
       headingString: ratioAndProportionStrings.moveHandsIndividually,
       verbString: ratioAndProportionStrings.move,
       sliderString: ratioAndProportionStrings.leftOrRightHand,
       maximumString: ratioAndProportionStrings.top,
       minimumString: ratioAndProportionStrings.bottom,
-      arrowKeyIconDisplay: ( SliderKeyboardHelpSection.ArrowKeyIconDisplay as any ).UP_DOWN // on cue up/down arrows, not left/right also. TODO https://github.com/phetsims/ratio-and-proportion/issues/404
+      arrowKeyIconDisplay: ( SliderControlsKeyboardHelpSection.ArrowKeyIconDisplay as any ).UP_DOWN // on cue up/down arrows, not left/right also. TODO https://github.com/phetsims/ratio-and-proportion/issues/404
     } );
 
     const basicActionsHelpSection = new BasicActionsKeyboardHelpSection( {
