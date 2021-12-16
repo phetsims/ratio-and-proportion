@@ -6,7 +6,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import GeneralKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/GeneralKeyboardHelpSection.js';
+import BasicActionsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
 import KeyboardHelpIconFactory from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import SliderKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/SliderKeyboardHelpSection.js';
@@ -35,12 +35,12 @@ class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
       arrowKeyIconDisplay: ( SliderKeyboardHelpSection.ArrowKeyIconDisplay as any ).UP_DOWN // on cue up/down arrows, not left/right also. TODO https://github.com/phetsims/ratio-and-proportion/issues/404
     } );
 
-    const generalNavigationHelpSection = new GeneralKeyboardHelpSection( {
+    const basicActionsHelpSection = new BasicActionsKeyboardHelpSection( {
       withCheckboxContent: true
     } );
 
     const leftContent = [ moveLeftOrRightHandHelpSection, new BothHandsHelpSection() ];
-    const rightContent = [ challengeHelpSection, generalNavigationHelpSection ];
+    const rightContent = [ challengeHelpSection, basicActionsHelpSection ];
 
     super( leftContent, rightContent, options );
   }
