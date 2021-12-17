@@ -370,7 +370,8 @@ class RatioHalf extends Rectangle {
 
         // @ts-ignore
         this.ratioHandNode.voicingSpeakFullResponse( {
-          contextResponse: null
+          contextResponse: null,
+          hintResponse: null
         } );
       },
       drag: () => {
@@ -409,6 +410,7 @@ class RatioHalf extends Rectangle {
         this.ratioHandNode.alertContextResponse();
 
         // @ts-ignore
+        // TODO: but if value has not changed, then just do the hint. https://github.com/phetsims/ratio-and-proportion/issues/413
         this.ratioHandNode.voicingSpeakFullResponse( {
           nameResponse: null
         } );
