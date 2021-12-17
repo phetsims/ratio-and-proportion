@@ -16,7 +16,7 @@ KITE/Shape instances. To do this. . .
 
 ### Hand Icons
 
-The hands in the ratio are SCENERY/Paths taken from SVG drawing data in `filled-in-hand.ai` and `cutout-hand.ai`. The 
+The hands in the ratio are SCENERY/Paths taken from SVG drawing data in `filledInHand.ai` and `cutoutHand.ai`. The 
 `Path` instances are created in ratio-and-proportion/js/common/view/RatioHandNode.js.
 
 ### Tick Mark Icons

@@ -10,8 +10,8 @@ import Property from '../../../../../axon/js/Property.js';
 import merge from '../../../../../phet-core/js/merge.js';
 import CompositeSoundClip from '../../../../../tambo/js/sound-generators/CompositeSoundClip.js';
 import SoundGenerator from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
-import choirLoopSound from '../../../../sounds/moving-in-proportion/moving-in-proportion-choir-loop_mp3.js';
-import movingInProportionOrganLoopSound from '../../../../sounds/moving-in-proportion/moving-in-proportion-organ-loop_mp3.js';
+import movingInProportionChoirLoop_mp3 from '../../../../sounds/moving-in-proportion/movingInProportionChoirLoop_mp3.js';
+import movingInProportionOrganLoop_mp3 from '../../../../sounds/moving-in-proportion/movingInProportionOrganLoop_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import RAPModel from '../../model/RAPModel.js';
 import RAPRatioTuple from '../../model/RAPRatioTuple.js';
@@ -33,13 +33,13 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
 
     // @private {CompositeSoundClip}
     this.movingInProportionSoundClip = new CompositeSoundClip( [ {
-      sound: choirLoopSound,
+      sound: movingInProportionChoirLoop_mp3,
       options: {
         loop: true,
         trimSilence: true
       }
     }, {
-      sound: movingInProportionOrganLoopSound,
+      sound: movingInProportionOrganLoop_mp3,
       options: {
         loop: true,
         initialOutputLevel: 0.6,

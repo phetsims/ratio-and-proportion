@@ -13,43 +13,43 @@ import LinearFunction from '../../../../../dot/js/LinearFunction.js';
 import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
-import c001Sound from '../../../../sounds/staccato/staccato-c-001_mp3.js';
-import c002Sound from '../../../../sounds/staccato/staccato-c-002_mp3.js';
-import cSharp001Sound from '../../../../sounds/staccato/staccato-c-sharp-001_mp3.js';
-import cSharp002Sound from '../../../../sounds/staccato/staccato-c-sharp-002_mp3.js';
-import cSharpSound from '../../../../sounds/staccato/staccato-c-sharp_mp3.js';
-import cSound from '../../../../sounds/staccato/staccato-c_mp3.js';
-import d001Sound from '../../../../sounds/staccato/staccato-d-001_mp3.js';
-import d002Sound from '../../../../sounds/staccato/staccato-d-002_mp3.js';
-import dSharp001Sound from '../../../../sounds/staccato/staccato-d-sharp-001_mp3.js';
-import dSharp002Sound from '../../../../sounds/staccato/staccato-d-sharp-002_mp3.js';
-import dSharpSound from '../../../../sounds/staccato/staccato-d-sharp_mp3.js';
-import dSound from '../../../../sounds/staccato/staccato-d_mp3.js';
-import e001Sound from '../../../../sounds/staccato/staccato-e-001_mp3.js';
-import e002Sound from '../../../../sounds/staccato/staccato-e-002_mp3.js';
-import eSound from '../../../../sounds/staccato/staccato-e_mp3.js';
-import f001Sound from '../../../../sounds/staccato/staccato-f-001_mp3.js';
-import f002Sound from '../../../../sounds/staccato/staccato-f-002_mp3.js';
-import fSharp001Sound from '../../../../sounds/staccato/staccato-f-sharp-001_mp3.js';
-import fSharp002Sound from '../../../../sounds/staccato/staccato-f-sharp-002_mp3.js';
-import fSharpSound from '../../../../sounds/staccato/staccato-f-sharp_mp3.js';
-import fSound from '../../../../sounds/staccato/staccato-f_mp3.js';
-import g001Sound from '../../../../sounds/staccato/staccato-g-001_mp3.js';
-import g002Sound from '../../../../sounds/staccato/staccato-g-002_mp3.js';
-import gSound from '../../../../sounds/staccato/staccato-g_mp3.js';
+import staccatoC_mp3 from '../../../../sounds/staccato/staccatoC_mp3.js';
+import staccatoC001_mp3 from '../../../../sounds/staccato/staccatoC001_mp3.js';
+import staccatoC002_mp3 from '../../../../sounds/staccato/staccatoC002_mp3.js';
+import staccatoCSharp001_mp3 from '../../../../sounds/staccato/staccatoCSharp001_mp3.js';
+import staccatoCSharp002_mp3 from '../../../../sounds/staccato/staccatoCSharp002_mp3.js';
+import staccatoCSharp_mp3 from '../../../../sounds/staccato/staccatoCSharp_mp3.js';
+import staccatoD_mp3 from '../../../../sounds/staccato/staccatoD_mp3.js';
+import staccatoD001_mp3 from '../../../../sounds/staccato/staccatoD001_mp3.js';
+import staccatoD002_mp3 from '../../../../sounds/staccato/staccatoD002_mp3.js';
+import staccatoDSharp001_mp3 from '../../../../sounds/staccato/staccatoDSharp001_mp3.js';
+import staccatoDSharp002_mp3 from '../../../../sounds/staccato/staccatoDSharp002_mp3.js';
+import staccatoDSharp_mp3 from '../../../../sounds/staccato/staccatoDSharp_mp3.js';
+import staccatoE_mp3 from '../../../../sounds/staccato/staccatoE_mp3.js';
+import staccatoE001_mp3 from '../../../../sounds/staccato/staccatoE001_mp3.js';
+import staccatoE002_mp3 from '../../../../sounds/staccato/staccatoE002_mp3.js';
+import staccatoF_mp3 from '../../../../sounds/staccato/staccatoF_mp3.js';
+import staccatoF001_mp3 from '../../../../sounds/staccato/staccatoF001_mp3.js';
+import staccatoF002_mp3 from '../../../../sounds/staccato/staccatoF002_mp3.js';
+import staccatoFSharp001_mp3 from '../../../../sounds/staccato/staccatoFSharp001_mp3.js';
+import staccatoFSharp002_mp3 from '../../../../sounds/staccato/staccatoFSharp002_mp3.js';
+import staccatoFSharp_mp3 from '../../../../sounds/staccato/staccatoFSharp_mp3.js';
+import staccatoG_mp3 from '../../../../sounds/staccato/staccatoG_mp3.js';
+import staccatoG001_mp3 from '../../../../sounds/staccato/staccatoG001_mp3.js';
+import staccatoG002_mp3 from '../../../../sounds/staccato/staccatoG002_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import IReadOnlyProperty from '../../../../../axon/js/IReadOnlyProperty.js';
 
 // organize the sounds by variation and note
 const staccatoSounds = [
-  [ cSound, c001Sound, c002Sound ],
-  [ cSharpSound, cSharp001Sound, cSharp002Sound ],
-  [ dSound, d001Sound, d002Sound ],
-  [ dSharpSound, dSharp001Sound, dSharp002Sound ],
-  [ eSound, e001Sound, e002Sound ],
-  [ fSound, f001Sound, f002Sound ],
-  [ fSharpSound, fSharp001Sound, fSharp002Sound ],
-  [ gSound, g001Sound, g002Sound ]
+  [ staccatoC_mp3, staccatoC001_mp3, staccatoC002_mp3 ],
+  [ staccatoCSharp001_mp3, staccatoCSharp002_mp3, staccatoCSharp_mp3 ],
+  [ staccatoD_mp3, staccatoD001_mp3, staccatoD002_mp3 ],
+  [ staccatoDSharp001_mp3, staccatoDSharp002_mp3, staccatoDSharp_mp3 ],
+  [ staccatoE_mp3, staccatoE001_mp3, staccatoE002_mp3 ],
+  [ staccatoF_mp3, staccatoF001_mp3, staccatoF002_mp3 ],
+  [ staccatoFSharp001_mp3, staccatoFSharp002_mp3, staccatoFSharp_mp3 ],
+  [ staccatoG_mp3, staccatoG001_mp3, staccatoG002_mp3 ]
 ];
 
 class StaccatoFrequencySoundGenerator extends SoundGenerator {

@@ -12,8 +12,8 @@ import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundLevelEnum from '../../../../../tambo/js/SoundLevelEnum.js';
 import soundManager from '../../../../../tambo/js/soundManager.js';
-import grabSound from '../../../../../tambo/sounds/grab_mp3.js';
-import releaseSound from '../../../../../tambo/sounds/release_mp3.js';
+import grab_mp3 from '../../../../../tambo/sounds/grab_mp3.js';
+import release_mp3 from '../../../../../tambo/sounds/release_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import rapConstants from '../../rapConstants.js';
 import TickMarkView from '../TickMarkView.js';
@@ -49,8 +49,8 @@ class ViewSounds {
     }, options );
 
     // @public - available to control, but don't overwrite after construction
-    this.grabSoundClip = new SoundClip( grabSound, options.soundClipOptions );
-    this.releaseSoundClip = new SoundClip( releaseSound, options.soundClipOptions );
+    this.grabSoundClip = new SoundClip( grab_mp3, options.soundClipOptions );
+    this.releaseSoundClip = new SoundClip( release_mp3, options.soundClipOptions );
     this.boundarySoundClip = new BoundarySoundClip( TOTAL_RANGE, merge( {}, options.soundClipOptions, {
       initialOutputLevel: 0.3 // increased from feedback in https://github.com/phetsims/ratio-and-proportion/issues/246
     } ) );

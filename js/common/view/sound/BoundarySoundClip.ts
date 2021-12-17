@@ -11,7 +11,7 @@
  */
 
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
-import boundarySound from '../../../../../tambo/sounds/general-boundary-boop_mp3.js';
+import generalBoundaryBoop_mp3 from '../../../../../tambo/sounds/general-boundary-boop_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import Range from '../../../../../dot/js/Range.js';
 
@@ -27,7 +27,7 @@ class BoundarySoundClip extends SoundClip {
    * @param {Object} [options]
    */
   constructor( verticalRange: Range, options?: any ) {
-    super( boundarySound, options );
+    super( generalBoundaryBoop_mp3, options );
 
     // @private
     this.verticalRange = verticalRange;

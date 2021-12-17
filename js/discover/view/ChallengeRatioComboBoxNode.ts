@@ -7,9 +7,9 @@
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import challenge1SelectionSound from '../../../../tambo/sounds/selection-arpeggio-001_mp3.js';
-import challenge2SelectionSound from '../../../../tambo/sounds/selection-arpeggio-004_mp3.js';
-import challenge3SelectionSound from '../../../../tambo/sounds/selection-arpeggio-006_mp3.js';
+import selectionArpeggio001_mp3 from '../../../../tambo/sounds/selection-arpeggio-001_mp3.js';
+import selectionArpeggio004_mp3 from '../../../../tambo/sounds/selection-arpeggio-004_mp3.js';
+import selectionArpeggio006_mp3 from '../../../../tambo/sounds/selection-arpeggio-006_mp3.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import RAPColors from '../../common/view/RAPColors.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -49,9 +49,9 @@ class ChallengeRatioComboBoxNode extends Node {
 
     // sound generators
     const soundGenerators = [];
-    soundGenerators.push( new SoundClip( challenge1SelectionSound, SELECTION_SOUND_OPTIONS ) );
-    soundGenerators.push( new SoundClip( challenge2SelectionSound, SELECTION_SOUND_OPTIONS ) );
-    soundGenerators.push( new SoundClip( challenge3SelectionSound, SELECTION_SOUND_OPTIONS ) );
+    soundGenerators.push( new SoundClip( selectionArpeggio001_mp3, SELECTION_SOUND_OPTIONS ) );
+    soundGenerators.push( new SoundClip( selectionArpeggio004_mp3, SELECTION_SOUND_OPTIONS ) );
+    soundGenerators.push( new SoundClip( selectionArpeggio006_mp3, SELECTION_SOUND_OPTIONS ) );
     soundGenerators.forEach( sg => { soundManager.addSoundGenerator( sg ); } );
 
     // @public (read-only) Used to get the names of challenges based on the target ratio, NOTE: lowercase strings are only available in the PDOM (not yet i18n)

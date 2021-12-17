@@ -12,7 +12,7 @@ import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../../axon/js/NumberProperty.js';
 import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
-import inProportionSound from '../../../../sounds/in-proportion/in-proportion_mp3.js';
+import inProportion_mp3 from '../../../../sounds/in-proportion/inProportion_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import RAPModel from '../../model/RAPModel.js';
 import Property from '../../../../../axon/js/Property.js';
@@ -55,7 +55,7 @@ class InProportionSoundGenerator extends SoundClip {
 
     assert && assert( !options.enableControlProperties, 'use the parameter instead, and note doc for difference in implementation' );
 
-    super( inProportionSound, options );
+    super( inProportion_mp3, options );
 
     // @private
     this.model = model;
