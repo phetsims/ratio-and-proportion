@@ -14,10 +14,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import Fraction from '../../../../phetcommon/js/model/Fraction.js';
 import NumberPicker from '../../../../scenery-phet/js/NumberPicker.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { HBox } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { RichText } from '../../../../scenery/js/imports.js';
-import { VBox } from '../../../../scenery/js/imports.js';
+import { Color, HBox, Node, RichText, VBox } from '../../../../scenery/js/imports.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
@@ -25,7 +22,6 @@ import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
-import { Color } from '../../../../scenery/js/imports.js';
 import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
 import TickMarkView from '../../common/view/TickMarkView.js';
 
@@ -100,7 +96,7 @@ class MyChallengeAccordionBox extends AccordionBox {
     Property.multilink<any[]>( [ targetAntecedentProperty, targetConsequentProperty ], () => {
 
       // if currently locked, then it is about to be unlocked
-            ratioLockedProperty.value && this.alertDescriptionUtterance( ratioUnlockedFromMyChallenge );
+      ratioLockedProperty.value && this.alertDescriptionUtterance( ratioUnlockedFromMyChallenge );
     } );
 
     const antecedentNumberPicker = new NumberPicker( targetAntecedentProperty, rangeProperty, {
@@ -164,7 +160,7 @@ class MyChallengeAccordionBox extends AccordionBox {
       accordionBoxUtterance.alert = expanded ?
                                     ratioDescriber.getCurrentChallengeSentence( targetAntecedentProperty.value, targetConsequentProperty.value ) :
                                     ratioAndProportionStrings.a11y.ratio.currentChallengeHidden;
-            this.alertDescriptionUtterance( accordionBoxUtterance );
+      this.alertDescriptionUtterance( accordionBoxUtterance );
     } );
 
     Property.multilink( [ targetAntecedentProperty, targetConsequentProperty ],

@@ -46,7 +46,7 @@ class BackgroundColorHandler {
         );
       }
 
-            backgroundColorProperty.value = color;
+      backgroundColorProperty.value = color;
     } );
 
   }

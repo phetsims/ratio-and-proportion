@@ -14,6 +14,7 @@ enum CueDisplay {
   UP_DOWN,
   ARROWS
 }
+
 /* eslint-enable */
 
 export default CueDisplay;

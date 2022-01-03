@@ -13,8 +13,7 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { RichText } from '../../../../scenery/js/imports.js';
+import { Node, RichText } from '../../../../scenery/js/imports.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
 import HSeparator from '../../../../sun/js/HSeparator.js';
@@ -97,7 +96,7 @@ class TickMarkRangeComboBoxNode extends Node {
       tickMarkRangeChangedUtterance.alert = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.tickMarkRangeContextResponse, {
         range: tickMarkRangeMap[ range ]
       } );
-            this.alertDescriptionUtterance( tickMarkRangeChangedUtterance );
+      this.alertDescriptionUtterance( tickMarkRangeChangedUtterance );
     } );
   }
 

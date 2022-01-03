@@ -38,17 +38,17 @@ const RATIO_FITNESS_STRINGS_LOWERCASE = [
 ];
 
 const NUMBER_TO_WORD = [
-    sceneryPhetStrings.zero,
-    sceneryPhetStrings.one,
-    sceneryPhetStrings.two,
-    sceneryPhetStrings.three,
-    sceneryPhetStrings.four,
-    sceneryPhetStrings.five,
-    sceneryPhetStrings.six,
-    sceneryPhetStrings.seven,
-    sceneryPhetStrings.eight,
-    sceneryPhetStrings.nine,
-    sceneryPhetStrings.ten
+  sceneryPhetStrings.zero,
+  sceneryPhetStrings.one,
+  sceneryPhetStrings.two,
+  sceneryPhetStrings.three,
+  sceneryPhetStrings.four,
+  sceneryPhetStrings.five,
+  sceneryPhetStrings.six,
+  sceneryPhetStrings.seven,
+  sceneryPhetStrings.eight,
+  sceneryPhetStrings.nine,
+  sceneryPhetStrings.ten
 ];
 
 // an unclamped fitness of 0 should map to "somewhatCloseTo" region

@@ -68,18 +68,18 @@ class DiscoverScreenSummaryNode extends Node {
       inProportionProperty
     ], ( currentTargetRatio: number, tickMarkView: TickMarkView, currentTuple: RAPRatioTuple, fitness: number, inProportion: boolean ) => {
 
-            stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.screenSummaryQualitativeStateOfSim, {
+      stateOfSimNode.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.screenSummaryQualitativeStateOfSim, {
         color: BackgroundColorHandler.getCurrentColorRegion( fitness, inProportion ),
         ratioFitness: ratioDescriber.getRatioFitness( false ),
         currentChallenge: ratioToChallengeNameMap.get( currentTargetRatio )!.lowercase,
         distance: handPositionsDescriber.getDistanceRegion( true )
       } );
 
-            leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
+      leftHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
         position: handPositionsDescriber.getHandPositionDescription( currentTuple.antecedent, tickMarkView )
       } );
 
-            rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
+      rightHandBullet.innerContent = StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
         position: handPositionsDescriber.getHandPositionDescription( currentTuple.consequent, tickMarkView )
       } );
     } );

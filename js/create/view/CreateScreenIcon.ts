@@ -9,8 +9,7 @@
 import Range from '../../../../dot/js/Range.js';
 import ScreenIcon from '../../../../joist/js/ScreenIcon.js';
 import NumberPicker from '../../../../scenery-phet/js/NumberPicker.js';
-import { HBox } from '../../../../scenery/js/imports.js';
-import { VBox } from '../../../../scenery/js/imports.js';
+import { HBox, VBox } from '../../../../scenery/js/imports.js';
 import RAPColors from '../../common/view/RAPColors.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 

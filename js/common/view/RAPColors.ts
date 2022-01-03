@@ -6,8 +6,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import { Color } from '../../../../scenery/js/imports.js';
-import { ProfileColorProperty } from '../../../../scenery/js/imports.js';
+import { Color, ProfileColorProperty } from '../../../../scenery/js/imports.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 
 // Even though there is only one Profile, it is still nice to use this pattern for color organizing.
