@@ -28,16 +28,19 @@ class MyChallengeHelpSection extends KeyboardHelpSection {
   constructor( options?: NodeOptions ) {
 
     const setHandRatioValue = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.setHandRatioValue,
-      KeyboardHelpIconFactory.upDownArrowKeysRowIcon(),
-      ratioAndProportionStrings.a11y.keyboardHelp.setHandRatioValueDescription );
+      KeyboardHelpIconFactory.upDownArrowKeysRowIcon(), {
+        labelInnerContent: ratioAndProportionStrings.a11y.keyboardHelp.setHandRatioValueDescription
+      } );
 
     const jumpToMinimum = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.jumpToMinimum,
-      TextKeyNode.home(),
-      ratioAndProportionStrings.a11y.keyboardHelp.jumpToMinimumDescription );
+      TextKeyNode.home(), {
+        labelInnerContent: ratioAndProportionStrings.a11y.keyboardHelp.jumpToMinimumDescription
+      } );
 
     const jumpToMaximum = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.jumpToMaximum,
-      TextKeyNode.end(),
-      ratioAndProportionStrings.a11y.keyboardHelp.jumpToMaximumDescription );
+      TextKeyNode.end(), {
+        labelInnerContent: ratioAndProportionStrings.a11y.keyboardHelp.jumpToMaximumDescription
+      } );
 
     super( ratioAndProportionStrings.setMyRatioChallenge, [ setHandRatioValue, jumpToMinimum, jumpToMaximum ], options );
   }

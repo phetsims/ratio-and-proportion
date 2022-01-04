@@ -54,20 +54,24 @@ class BothHandsHelpSection extends KeyboardHelpSection {
   constructor( options?: NodeOptions ) {
 
     const moveLeftHand = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.moveLeftHand,
-      KeyboardHelpIconFactory.iconRow( [ new LetterKeyNode( 'W' ), new LetterKeyNode( 'S' ) ] ),
-      ratioAndProportionStrings.a11y.keyboardHelp.leftHandDescription );
+      KeyboardHelpIconFactory.iconRow( [ new LetterKeyNode( 'W' ), new LetterKeyNode( 'S' ) ] ), {
+        labelInnerContent: ratioAndProportionStrings.a11y.keyboardHelp.leftHandDescription
+      } );
 
     const moveRightHand = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.moveRightHand,
-      KeyboardHelpIconFactory.upDownArrowKeysRowIcon(),
-      ratioAndProportionStrings.a11y.keyboardHelp.rightHandDescription );
+      KeyboardHelpIconFactory.upDownArrowKeysRowIcon(), {
+        labelInnerContent: ratioAndProportionStrings.a11y.keyboardHelp.rightHandDescription
+      } );
 
     const moveInSmallerSteps = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.moveHandsInSmallerSteps,
-      TextKeyNode.shift(),
-      ratioAndProportionStrings.a11y.keyboardHelp.handsInSmallerStepsDescription );
+      TextKeyNode.shift(), {
+        labelInnerContent: ratioAndProportionStrings.a11y.keyboardHelp.handsInSmallerStepsDescription
+      } );
 
     const jumpBothHands = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.jumpBothHands,
-      KeyboardHelpIconFactory.iconToIcon( new NumberKeyNode( '0' ), new NumberKeyNode( '9' ) ),
-      ratioAndProportionStrings.a11y.keyboardHelp.jumpBothHandsDescription );
+      KeyboardHelpIconFactory.iconToIcon( new NumberKeyNode( '0' ), new NumberKeyNode( '9' ) ), {
+        labelInnerContent: ratioAndProportionStrings.a11y.keyboardHelp.jumpBothHandsDescription
+      } );
 
     super( ratioAndProportionStrings.moveBothHandsSimultaneously,
       [ moveLeftHand, moveRightHand, moveInSmallerSteps, jumpBothHands ], options );
