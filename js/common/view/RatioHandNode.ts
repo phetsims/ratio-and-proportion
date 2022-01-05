@@ -16,7 +16,7 @@ import Orientation from '../../../../phet-core/js/Orientation.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import ArrowKeyNode from '../../../../scenery-phet/js/keyboard/ArrowKeyNode.js';
 import LetterKeyNode from '../../../../scenery-phet/js/keyboard/LetterKeyNode.js';
-import { Color, FocusHighlightFromNode, Node, NodeOptions, Path, PathOptions, Voicing } from '../../../../scenery/js/imports.js';
+import { Color, FocusHighlightFromNode, Node, NodeOptions, Path, PathOptions } from '../../../../scenery/js/imports.js';
 import AccessibleSlider from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -87,22 +87,16 @@ class RatioHandNode extends Node {
       voicingHintResponse: ratioAndProportionStrings.a11y.individualHandsVoicingHelpText,
       a11yDependencies: []
     }, options );
+
     super();
-
-    // @ts-ignore, TODO, redundant with initializeAccessibleSlider https://github.com/phetsims/sun/issues/730
-    this.initializeVoicing();
-
-    Property.multilink<any[]>( [ valueProperty ].concat( options.a11yDependencies ), () => {
-
-      // @ts-ignore
-      this.voicingObjectResponse = options.voicingCreateObjectResponse();
-      // @ts-ignore
-      this.voicingContextResponse = options.voicingCreateContextResponse();
-    } );
 
     // Always the same range, always enabled
     // @ts-ignore
-    !options.asIcon && this.initializeAccessibleSlider( valueProperty, enabledRatioTermsRangeProperty, new BooleanProperty( true ), options );
+    this.initializeAccessibleSlider( valueProperty, enabledRatioTermsRangeProperty, new BooleanProperty( true ), options );
+
+    if ( options.asIcon ) {
+      this.pdomVisible = false;
+    }
 
     // @private
     const filledInHandNode = new FilledInHandPath( {
@@ -304,10 +298,6 @@ c1.932-2.887,2.112-9.526,2.475-13.186c0.069-0.698,0.162-1.334,0.162-1.92v-16.21C
 }
 
 AccessibleSlider.mixInto( RatioHandNode );
-
-// TODO: once Voicing is in typescript we can remove this, https://github.com/phetsims/ratio-and-proportion/issues/404
-// @ts-ignore
-Voicing.compose( RatioHandNode as unknown as new () => RatioHandNode );
 
 ratioAndProportion.register( 'RatioHandNode', RatioHandNode );
 export default RatioHandNode;

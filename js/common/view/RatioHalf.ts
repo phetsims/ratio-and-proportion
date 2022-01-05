@@ -38,6 +38,7 @@ import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import CueArrowsState from './CueArrowsState.js';
 import RatioDescriber from './describers/RatioDescriber.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import Utterance from '../../../../utterance-queue/js/Utterance.js';
 
 // constants
 const MIN_FRAMING_RECTANGLE_HEIGHT = 32;
@@ -261,7 +262,8 @@ class RatioHalf extends Rectangle {
                                       assert && assert( false, `unexpected ratioTerm ${this.ratioTerm}` )
     } ) as Property<number>;
 
-    let startPosition = ratioTermSpecificProperty.value;
+    const createObjectResponse = () => options.ratioLockedProperty.value ? options.ratioDescriber.getProximityToChallengeRatio() :
+                                       options.ratioDescriber.getProximityToChallengeRatio();
 
     // @private - The draggable element inside the Node framed with thick rectangles on the top and bottom.
     this.ratioHandNode = new RatioHandNode( ratioTermSpecificProperty,
@@ -273,7 +275,6 @@ class RatioHalf extends Rectangle {
       options.getIdealValue,
       options.inProportionProperty, {
         startDrag: () => {
-          startPosition = ratioTermSpecificProperty.value;
           options.cueArrowsState.interactedWithKeyboardProperty.value = true;
           this.isBeingInteractedWithProperty.value = true;
           viewSounds.boundarySoundClip.onStartInteraction();
@@ -284,20 +285,11 @@ class RatioHalf extends Rectangle {
         },
         endDrag: () => {
           viewSounds.boundarySoundClip.onEndInteraction( options.ratioTupleProperty.value.getForTerm( this.ratioTerm ) );
-
-          // Only provide context response when changes occur
-          // @ts-ignore
-          startPosition !== ratioTermSpecificProperty.value && this.ratioHandNode.voicingSpeakFullResponse( {
-            nameResponse: null,
-            hintResponse: null
-          } );
         },
         isRight: options.isRight,
 
-        a11yCreateAriaValueText: () => options.ratioLockedProperty.value ? options.ratioDescriber.getProximityToChallengeRatio() :
-                                       options.ratioDescriber.getProximityToChallengeRatio(),
-        voicingCreateObjectResponse: () => options.ratioLockedProperty.value ? options.ratioDescriber.getProximityToChallengeRatio() :
-                                           options.ratioDescriber.getProximityToChallengeRatio(),
+        a11yCreateAriaValueText: createObjectResponse,
+        voicingCreateObjectResponse: createObjectResponse,
         a11yCreateContextResponseAlert: () => this.getSingleHandContextResponse(),
         voicingCreateContextResponse: () => this.getSingleHandContextResponse(),
         a11yDependencies: options.a11yDependencies.concat( [ options.ratioLockedProperty ] ),
@@ -353,6 +345,14 @@ class RatioHalf extends Rectangle {
 
     // When set to a value, the horizontal position will not be changed throughout the whole drag. Set to null when not dragging.
     let startingX: null | number = null;
+    let startingY: number = -1;
+
+    const voicingUtteranceForDrag = new Utterance( {
+      alertMaximumDelay: 500,
+      announcerOptions: {
+        cancelSelf: false
+      }
+    } );
 
     // transform and dragBounds set in layout code below
     const dragListener = new DragListener( {
@@ -362,11 +362,17 @@ class RatioHalf extends Rectangle {
         if ( options.horizontalMovementAllowedProperty.value ) {
           startingX = positionProperty.value.x;
         }
+
+        startingY = positionProperty.value.y;
+
         viewSounds.grabSoundClip.play();
         options.cueArrowsState.interactedWithMouseProperty.value = true;
 
         options.setJumpingOverProportionShouldTriggerSound( true );
         viewSounds.boundarySoundClip.onStartInteraction();
+
+        // @ts-ignore
+        this.ratioHandNode.voicingObjectResponse = createObjectResponse();
 
         // @ts-ignore
         this.ratioHandNode.voicingSpeakFullResponse( {
@@ -385,6 +391,11 @@ class RatioHalf extends Rectangle {
         viewSounds.boundarySoundClip.onInteract( positionProperty.value.y, positionProperty.value.x,
           new Range( dragBoundsProperty.value.left, dragBoundsProperty.value.right ) );
         viewSounds.tickMarkBumpSoundClip.onInteract( positionProperty.value.y );
+
+        // @ts-ignore
+        this.ratioHandNode.voicingOnChangeResponse( {
+          utterance: voicingUtteranceForDrag
+      } );
       },
 
       end: () => {
@@ -409,11 +420,21 @@ class RatioHalf extends Rectangle {
         // @ts-ignore
         this.ratioHandNode.alertContextResponse();
 
-        // @ts-ignore
-        // TODO: but if value has not changed, then just do the hint. https://github.com/phetsims/ratio-and-proportion/issues/413
-        this.ratioHandNode.voicingSpeakFullResponse( {
-          nameResponse: null
-        } );
+        // Only voice a response if the value changed
+        if ( startingY !== positionProperty.value.y ) {
+
+          // TODO: should this have the object response too, or just the context repsonse?? https://github.com/phetsims/ratio-and-proportion/issues/413
+          // @ts-ignore
+          this.ratioHandNode.voicingOnEndResponse( {
+            onlyOnValueChange: false // don't use the AccessibleValueHandler's start, and instead handle it ourselves
+          } );
+        }
+        else {
+
+          // TODO: Hint response if there isn't any movement? https://github.com/phetsims/ratio-and-proportion/issues/413
+          // @ts-ignore
+          this.ratioHandNode.voicingSpeakHintResponse();
+        }
       },
 
       // phet-io
