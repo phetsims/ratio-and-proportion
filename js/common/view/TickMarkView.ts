@@ -4,17 +4,16 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import RichEnumeration from '../../../../phet-core/js/RichEnumeration.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 
-class TickMarkView {
-  static NONE = new TickMarkView( 'NONE' );
-  static VISIBLE = new TickMarkView( 'VISIBLE' );
-  static VISIBLE_WITH_UNITS = new TickMarkView( 'VISIBLE_WITH_UNITS' );
+class TickMarkView extends EnumerationValue {
+  static NONE = new TickMarkView();
+  static VISIBLE = new TickMarkView();
+  static VISIBLE_WITH_UNITS = new TickMarkView();
 
-  static VALUES = [ TickMarkView.NONE, TickMarkView.VISIBLE, TickMarkView.VISIBLE_WITH_UNITS ];
-  static KEYS = [ 'NONE', 'VISIBLE', 'VISIBLE_WITH_UNITS' ];
-
-  public name: string;
+  static enumeration = new RichEnumeration( TickMarkView );
 
   /**
    * @param {TickMarkView} tickMarkView
@@ -38,11 +37,6 @@ class TickMarkView {
    */
   static describeSemiQualitative( tickMarkView: TickMarkView ): boolean {
     return tickMarkView === TickMarkView.VISIBLE;
-  }
-
-  // Emulate a sealed class
-  private constructor( name: string ) {
-    this.name = name;
   }
 }
 

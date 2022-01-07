@@ -50,8 +50,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import CueDisplay from './CueDisplay.js';
 import RAPPositionRegionsLayer from './RAPPositionRegionsLayer.js';
 import BackgroundColorHandler from './BackgroundColorHandler.js';
-import EnumerationIO from '../../../../phet-core/js/EnumerationIO.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
 
 // constants
 const LAYOUT_BOUNDS = ScreenView.DEFAULT_LAYOUT_BOUNDS;
@@ -119,10 +118,8 @@ class RAPScreenView extends ScreenView {
     const ratio = model.ratio;
 
     // @protected
-    this.tickMarkViewProperty = new Property<TickMarkView>( TickMarkView.NONE, {
-      tandem: tandem.createTandem( 'tickMarkViewProperty' ),
-      validValues: TickMarkView.VALUES,
-      phetioType: Property.PropertyIO( EnumerationIO( TickMarkView as unknown as Enumeration ) )
+    this.tickMarkViewProperty = new RichEnumerationProperty( TickMarkView.NONE, {
+      tandem: tandem.createTandem( 'tickMarkViewProperty' )
     } );
 
     // @protected - What is the unit value of the tick marks. Value reads as "1/x of the view height."
