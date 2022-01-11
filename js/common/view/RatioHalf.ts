@@ -146,7 +146,7 @@ class RatioHalf extends Rectangle {
       // {Bounds2} - the initial bounds that the Node takes up
       bounds: required( providedOptions.bounds ),
 
-      // {EnumerationProperty.<TickMarkView>}
+      // {EnumerationDeprecatedProperty.<TickMarkView>}
       tickMarkViewProperty: required( providedOptions.tickMarkViewProperty ),
 
       // {Property.<number>}

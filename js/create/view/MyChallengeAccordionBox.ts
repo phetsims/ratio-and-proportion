@@ -39,7 +39,7 @@ class MyChallengeAccordionBox extends AccordionBox {
    * @param {Property.<number>} targetRatioProperty
    * @param {Property.<boolean>} ratioLockedProperty
    * @param {Property.<ColorDef>} handColorProperty
-   * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
+   * @param {EnumerationDeprecatedProperty.<TickMarkView>} tickMarkViewProperty
    * @param {RatioDescriber} ratioDescriber
    * @param {Object} [options]
    */

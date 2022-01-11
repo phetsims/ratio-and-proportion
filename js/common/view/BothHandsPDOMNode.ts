@@ -86,7 +86,7 @@ class BothHandsPDOMNode extends Node {
       // {number}
       keyboardStep: required( providedOptions.keyboardStep ),
 
-      // {EnumerationProperty.<TickMarkView>}
+      // {EnumerationDeprecatedProperty.<TickMarkView>}
       tickMarkViewProperty: required( providedOptions.tickMarkViewProperty ),
 
       // {Property.<number>}

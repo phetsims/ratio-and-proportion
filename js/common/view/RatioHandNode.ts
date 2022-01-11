@@ -41,10 +41,10 @@ class RatioHandNode extends Node {
   /**
    * @param {Property.<number>} valueProperty
    * @param {Property.<Range>} enabledRatioTermsRangeProperty
-   * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
+   * @param {EnumerationDeprecatedProperty.<TickMarkView>} tickMarkViewProperty
    * @param {number} keyboardStep
    * @param {Property.<ColorDef>} colorProperty - controls the color of the hand. This is for both the filled in and cut out hands.
-   * @param {EnumerationProperty.<CueDisplay>} cueDisplayProperty
+   * @param {EnumerationDeprecatedProperty.<CueDisplay>} cueDisplayProperty
    * @param {function():number} getIdealValue
    * @param {Property.<boolean>} inProportionProperty - if the model is in proportion
    * @param {Object} [options]
@@ -207,7 +207,7 @@ class RatioHandNode extends Node {
 
   /**
    * @param {boolean} isRight
-   * @param {EnumerationProperty.<TickMarkView>} tickMarkViewProperty
+   * @param {EnumerationDeprecatedProperty.<TickMarkView>} tickMarkViewProperty
    * @param {Object} [options]
    * @returns {Node}
    * @public
