@@ -1,4 +1,4 @@
-// Copyright 2020-2021, University of Colorado Boulder
+// Copyright 2020-2022, University of Colorado Boulder
 
 /**
  * PDOM view for interacting with both hands at the same time. This adds a custom interaction, as well as PDOM
