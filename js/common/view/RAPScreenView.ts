@@ -80,7 +80,7 @@ type RAPScreenViewImplementationOptions = Required<RAPScreenViewDefinedOptions> 
 
 class RAPScreenView extends ScreenView {
 
-  protected tickMarkViewProperty: Property<TickMarkView>;
+  protected tickMarkViewProperty: RichEnumerationProperty<TickMarkView>;
   protected tickMarkRangeProperty: NumberProperty;
   protected readonly ratioDescriber: RatioDescriber;
   private backgroundColorHandler: BackgroundColorHandler;

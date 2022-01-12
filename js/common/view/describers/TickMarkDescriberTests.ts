@@ -7,7 +7,7 @@
  */
 
 import NumberProperty from '../../../../../axon/js/NumberProperty.js';
-import Property from '../../../../../axon/js/Property.js';
+import RichEnumerationProperty from '../../../../../axon/js/RichEnumerationProperty.js';
 import TickMarkView from '../TickMarkView.js';
 import TickMarkDescriber from './TickMarkDescriber.js';
 
@@ -15,7 +15,7 @@ QUnit.module( 'TickMarkDescriber' );
 
 QUnit.test( 'getRelativePositionAndTickMarkNumberForPosition', assert => {
 
-  const tickMarkViewProperty = new Property<TickMarkView>( TickMarkView.VISIBLE );
+  const tickMarkViewProperty = new RichEnumerationProperty( TickMarkView.VISIBLE );
   const tickMarkRangeProperty = new NumberProperty( 10 );
 
   const getMessage = ( position: number, supplemental: string ) => {

@@ -13,21 +13,22 @@ import merge from '../../../../phet-core/js/merge.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import TickMarkView from './TickMarkView.js';
 import { Color } from '../../../../scenery/js/imports.js';
+import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
 
 class RatioHalfTickMarksNode extends GridNode {
 
-  private tickMarkViewProperty: Property<TickMarkView>;
+  private tickMarkViewProperty: RichEnumerationProperty<TickMarkView>;
   private tickMarkRangeProperty: Property<number>;
 
   /**
-   * @param {Property.<TickMarkView>} tickMarkViewProperty
-   * @param {Property.<number>} tickMarkRangeProperty
-   * @param {number} width
-   * @param {number} height
-   * @param {Property.<Color>} colorProperty
-   * @param {Object} [options]
+   * @param tickMarkViewProperty
+   * @param tickMarkRangeProperty
+   * @param width
+   * @param height
+   * @param colorProperty
+   * @param [options]
    */
-  constructor( tickMarkViewProperty: Property<TickMarkView>, tickMarkRangeProperty: Property<number>, width: number,
+  constructor( tickMarkViewProperty: RichEnumerationProperty<TickMarkView>, tickMarkRangeProperty: Property<number>, width: number,
                height: number, colorProperty: Property<Color>, options?: object ) {
     options = merge( {
 

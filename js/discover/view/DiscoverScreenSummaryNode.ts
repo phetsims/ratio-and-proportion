@@ -17,11 +17,12 @@ import TickMarkView from '../../common/view/TickMarkView.js';
 import BackgroundColorHandler from '../../common/view/BackgroundColorHandler.js';
 import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
 
 class DiscoverScreenSummaryNode extends Node {
 
   constructor( ratioFitnessProperty: IReadOnlyProperty<number>, ratioTupleProperty: Property<RAPRatioTuple>,
-               targetRatioProperty: Property<number>, tickMarkViewProperty: Property<TickMarkView>,
+               targetRatioProperty: Property<number>, tickMarkViewProperty: RichEnumerationProperty<TickMarkView>,
                ratioDescriber: RatioDescriber, inProportionProperty: IReadOnlyProperty<boolean>, handPositionsDescriber: HandPositionsDescriber,
                ratioToChallengeNameMap: Map<number, { lowercase: string, capitalized: string }> ) {
 

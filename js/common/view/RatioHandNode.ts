@@ -27,6 +27,7 @@ import RAPColors from './RAPColors.js';
 import TickMarkView from './TickMarkView.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
 
 type CreateIconOptions = {
 
@@ -39,19 +40,19 @@ class RatioHandNode extends Node {
   private resetRatioHandNode: () => void;
 
   /**
-   * @param {Property.<number>} valueProperty
-   * @param {Property.<Range>} enabledRatioTermsRangeProperty
-   * @param {EnumerationDeprecatedProperty.<TickMarkView>} tickMarkViewProperty
-   * @param {number} keyboardStep
-   * @param {Property.<ColorDef>} colorProperty - controls the color of the hand. This is for both the filled in and cut out hands.
-   * @param {EnumerationDeprecatedProperty.<CueDisplay>} cueDisplayProperty
-   * @param {function():number} getIdealValue
-   * @param {Property.<boolean>} inProportionProperty - if the model is in proportion
-   * @param {Object} [options]
+   * @param valueProperty
+   * @param enabledRatioTermsRangeProperty
+   * @param tickMarkViewProperty
+   * @param keyboardStep
+   * @param colorProperty - controls the color of the hand. This is for both the filled in and cut out hands.
+   * @param cueDisplayProperty
+   * @param getIdealValue
+   * @param inProportionProperty - if the model is in proportion
+   * @param [options]
    */
   constructor( valueProperty: Property<number>,
                enabledRatioTermsRangeProperty: Property<Range>,
-               tickMarkViewProperty: Property<TickMarkView>,
+               tickMarkViewProperty: RichEnumerationProperty<TickMarkView>,
                keyboardStep: number,
                colorProperty: Property<Color | string>,
                cueDisplayProperty: IReadOnlyProperty<CueDisplay>,
@@ -206,13 +207,11 @@ class RatioHandNode extends Node {
   }
 
   /**
-   * @param {boolean} isRight
-   * @param {EnumerationDeprecatedProperty.<TickMarkView>} tickMarkViewProperty
-   * @param {Object} [options]
-   * @returns {Node}
-   * @public
+   * @param isRight
+   * @param tickMarkViewProperty
+   * @param [options]
    */
-  static createIcon( isRight: boolean, tickMarkViewProperty: Property<TickMarkView>, options?: CreateIconOptions ): Node {
+  static createIcon( isRight: boolean, tickMarkViewProperty: RichEnumerationProperty<TickMarkView>, options?: CreateIconOptions ): Node {
     options = merge( {
       handColor: 'black',
       handNodeOptions: {
@@ -226,7 +225,7 @@ class RatioHandNode extends Node {
       tickMarkViewProperty,
       1,
       new Property( options.handColor ),
-      new Property<CueDisplay>( CueDisplay.NONE ),
+      new Property( CueDisplay.NONE ),
       () => -1,
       new Property<boolean>( false ),
       merge( {

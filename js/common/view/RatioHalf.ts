@@ -39,6 +39,7 @@ import CueArrowsState from './CueArrowsState.js';
 import RatioDescriber from './describers/RatioDescriber.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
+import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
 
 // constants
 const MIN_FRAMING_RECTANGLE_HEIGHT = 32;
@@ -74,7 +75,7 @@ type RatioHalfDefinedOptions = {
   displayBothHandsCueProperty: Property<boolean>;
   cueArrowsState: CueArrowsState;
   bounds: Bounds2;
-  tickMarkViewProperty: Property<TickMarkView>;
+  tickMarkViewProperty: RichEnumerationProperty<TickMarkView>;
   tickMarkRangeProperty: Property<number>;
   ratioDescriber: RatioDescriber;
   handPositionsDescriber: HandPositionsDescriber;
@@ -113,7 +114,7 @@ class RatioHalf extends Rectangle {
   private ratioLockedProperty: Property<boolean>;
   private bothHandsDescriber: BothHandsDescriber;
   private handPositionsDescriber: HandPositionsDescriber;
-  private tickMarkViewProperty: Property<TickMarkView>;
+  private tickMarkViewProperty: RichEnumerationProperty<TickMarkView>;
   private ratioTerm: RatioTerm;
   private ratioTupleProperty: Property<RAPRatioTuple>;
   ratioHandNode: RatioHandNode;
@@ -146,7 +147,7 @@ class RatioHalf extends Rectangle {
       // {Bounds2} - the initial bounds that the Node takes up
       bounds: required( providedOptions.bounds ),
 
-      // {EnumerationDeprecatedProperty.<TickMarkView>}
+      // {RichEnumerationProperty.<TickMarkView>}
       tickMarkViewProperty: required( providedOptions.tickMarkViewProperty ),
 
       // {Property.<number>}

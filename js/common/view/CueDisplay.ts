@@ -6,15 +6,16 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import RichEnumeration from '../../../../phet-core/js/RichEnumeration.js';
 
-/* eslint-disable */ // TODO: fix lint https://github.com/phetsims/ratio-and-proportion/issues/404
-enum CueDisplay {
-  NONE,
-  W_S,
-  UP_DOWN,
-  ARROWS
+class CueDisplay extends EnumerationValue {
+  static NONE = new CueDisplay();
+  static W_S = new CueDisplay();
+  static UP_DOWN = new CueDisplay();
+  static ARROWS = new CueDisplay();
+
+  static enumeration = new RichEnumeration( CueDisplay );
 }
-
-/* eslint-enable */
 
 export default CueDisplay;
