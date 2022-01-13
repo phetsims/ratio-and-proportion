@@ -50,7 +50,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import CueDisplay from './CueDisplay.js';
 import RAPPositionRegionsLayer from './RAPPositionRegionsLayer.js';
 import BackgroundColorHandler from './BackgroundColorHandler.js';
-import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 // constants
 const LAYOUT_BOUNDS = ScreenView.DEFAULT_LAYOUT_BOUNDS;
@@ -80,7 +80,7 @@ type RAPScreenViewImplementationOptions = Required<RAPScreenViewDefinedOptions> 
 
 class RAPScreenView extends ScreenView {
 
-  protected tickMarkViewProperty: RichEnumerationProperty<TickMarkView>;
+  protected tickMarkViewProperty: EnumerationProperty<TickMarkView>;
   protected tickMarkRangeProperty: NumberProperty;
   protected readonly ratioDescriber: RatioDescriber;
   private backgroundColorHandler: BackgroundColorHandler;
@@ -118,7 +118,7 @@ class RAPScreenView extends ScreenView {
     const ratio = model.ratio;
 
     // @protected
-    this.tickMarkViewProperty = new RichEnumerationProperty( TickMarkView.NONE, {
+    this.tickMarkViewProperty = new EnumerationProperty( TickMarkView.NONE, {
       tandem: tandem.createTandem( 'tickMarkViewProperty' )
     } );
 

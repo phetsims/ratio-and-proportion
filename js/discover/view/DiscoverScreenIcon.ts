@@ -13,7 +13,7 @@ import RAPColors from '../../common/view/RAPColors.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
 import TickMarkView from '../../common/view/TickMarkView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 
 class DiscoverScreenIcon extends ScreenIcon {
@@ -28,7 +28,7 @@ class DiscoverScreenIcon extends ScreenIcon {
       handColor: RAPColors.discoverChallenge1Property.value
     }, options );
 
-    const tickMarksHiddenProperty = new RichEnumerationProperty( TickMarkView.NONE );
+    const tickMarksHiddenProperty = new EnumerationProperty( TickMarkView.NONE );
 
     const ratioHandNodeOptions = { handColor: options.handColor };
 

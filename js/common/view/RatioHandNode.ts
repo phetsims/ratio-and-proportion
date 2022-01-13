@@ -27,7 +27,7 @@ import RAPColors from './RAPColors.js';
 import TickMarkView from './TickMarkView.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
-import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 type CreateIconOptions = {
 
@@ -52,7 +52,7 @@ class RatioHandNode extends Node {
    */
   constructor( valueProperty: Property<number>,
                enabledRatioTermsRangeProperty: Property<Range>,
-               tickMarkViewProperty: RichEnumerationProperty<TickMarkView>,
+               tickMarkViewProperty: EnumerationProperty<TickMarkView>,
                keyboardStep: number,
                colorProperty: Property<Color | string>,
                cueDisplayProperty: IReadOnlyProperty<CueDisplay>,
@@ -211,7 +211,7 @@ class RatioHandNode extends Node {
    * @param tickMarkViewProperty
    * @param [options]
    */
-  static createIcon( isRight: boolean, tickMarkViewProperty: RichEnumerationProperty<TickMarkView>, options?: CreateIconOptions ): Node {
+  static createIcon( isRight: boolean, tickMarkViewProperty: EnumerationProperty<TickMarkView>, options?: CreateIconOptions ): Node {
     options = merge( {
       handColor: 'black',
       handNodeOptions: {

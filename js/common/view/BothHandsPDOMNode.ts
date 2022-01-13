@@ -25,7 +25,7 @@ import Range from '../../../../dot/js/Range.js';
 import CueArrowsState from './CueArrowsState.js';
 import RatioDescriber from './describers/RatioDescriber.js';
 import TickMarkView from './TickMarkView.js';
-import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 // constants
 const OBJECT_RESPONSE_DELAY = 500;
@@ -35,7 +35,7 @@ type BothHandsPDOMNodeDefinedOptions = {
   enabledRatioTermsRangeProperty: Property<Range>;
   cueArrowsState: CueArrowsState;
   keyboardStep: number;
-  tickMarkViewProperty: RichEnumerationProperty<TickMarkView>;
+  tickMarkViewProperty: EnumerationProperty<TickMarkView>;
   tickMarkRangeProperty: Property<number>;
   unclampedFitnessProperty: Property<number>;
   ratioDescriber: RatioDescriber;
@@ -87,7 +87,7 @@ class BothHandsPDOMNode extends Node {
       // {number}
       keyboardStep: required( providedOptions.keyboardStep ),
 
-      // {RichEnumerationProperty<TickMarkView>}
+      // {EnumerationProperty<TickMarkView>}
       tickMarkViewProperty: required( providedOptions.tickMarkViewProperty ),
 
       // {Property.<number>}

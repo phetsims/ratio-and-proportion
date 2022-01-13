@@ -5,7 +5,7 @@
  */
 
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import RichEnumeration from '../../../../phet-core/js/RichEnumeration.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 
 class TickMarkView extends EnumerationValue {
@@ -13,7 +13,7 @@ class TickMarkView extends EnumerationValue {
   static VISIBLE = new TickMarkView();
   static VISIBLE_WITH_UNITS = new TickMarkView();
 
-  static enumeration = new RichEnumeration( TickMarkView );
+  static enumeration = new Enumeration( TickMarkView );
 
   /**
    * @param {TickMarkView} tickMarkView

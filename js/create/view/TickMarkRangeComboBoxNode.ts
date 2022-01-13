@@ -23,7 +23,7 @@ import TickMarkView from '../../common/view/TickMarkView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import Property from '../../../../axon/js/Property.js';
-import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 const TICK_MARK_RANGE_FONT = new PhetFont( 16 );
 const RANGE_TEXT_OPTIONS = { font: TICK_MARK_RANGE_FONT };
@@ -39,7 +39,7 @@ class TickMarkRangeComboBoxNode extends Node {
    * @param tickMarkViewProperty
    */
   constructor( tickMarkRangeProperty: Property<number>, comboBoxParent: Node,
-               tickMarkViewProperty: RichEnumerationProperty<TickMarkView> ) {
+               tickMarkViewProperty: EnumerationProperty<TickMarkView> ) {
     super();
 
     const tickMarkRangeMap: Record<number, string> = {

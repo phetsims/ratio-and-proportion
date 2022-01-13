@@ -14,7 +14,7 @@ import ActivationUtterance from '../../../../utterance-queue/js/ActivationUttera
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import TickMarkView from './TickMarkView.js';
-import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 // constants
 const ICON_SCALE = 0.45;
@@ -25,7 +25,7 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkV
    * @param tickMarkViewProperty
    * @param [options]
    */
-  constructor( tickMarkViewProperty: RichEnumerationProperty<TickMarkView>, options?: any ) {
+  constructor( tickMarkViewProperty: EnumerationProperty<TickMarkView>, options?: any ) {
 
     options = merge( {
       orientation: 'horizontal',

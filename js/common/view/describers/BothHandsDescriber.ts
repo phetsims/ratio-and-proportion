@@ -16,7 +16,7 @@ import Range from '../../../../../dot/js/Range.js';
 import RatioDescriber from './RatioDescriber.js';
 import HandPositionsDescriber from './HandPositionsDescriber.js';
 import TickMarkView from '../TickMarkView.js';
-import RichEnumerationProperty from '../../../../../axon/js/RichEnumerationProperty.js';
+import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
 
 const ratioDistancePositionContextResponsePatternString = ratioAndProportionStrings.a11y.ratio.distancePositionContextResponse;
 
@@ -24,7 +24,7 @@ class BothHandsDescriber {
 
   private ratioTupleProperty: Property<RAPRatioTuple>;
   private enabledRatioTermsRangeProperty: Property<Range>;
-  private tickMarkViewProperty: RichEnumerationProperty<TickMarkView>;
+  private tickMarkViewProperty: EnumerationProperty<TickMarkView>;
   private ratioDescriber: RatioDescriber;
   private handPositionsDescriber: HandPositionsDescriber;
   private ratioLockedProperty: Property<boolean>;
@@ -40,7 +40,7 @@ class BothHandsDescriber {
    * @param handPositionsDescriber
    */
   constructor( ratioTupleProperty: Property<RAPRatioTuple>, enabledRatioTermsRangeProperty: Property<Range>,
-               ratioLockedProperty: Property<boolean>, tickMarkViewProperty: RichEnumerationProperty<TickMarkView>,
+               ratioLockedProperty: Property<boolean>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
                ratioDescriber: RatioDescriber, handPositionsDescriber: HandPositionsDescriber ) {
 
     // @private - from model

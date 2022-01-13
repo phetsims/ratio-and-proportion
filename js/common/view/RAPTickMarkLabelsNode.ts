@@ -8,7 +8,7 @@
 
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Color, Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -20,7 +20,7 @@ class RAPTickMarkLabelsNode extends Node {
 
   private totalHeight: number;
   private heightOfText: number | null;
-  private tickMarkViewProperty: RichEnumerationProperty<TickMarkView>;
+  private tickMarkViewProperty: EnumerationProperty<TickMarkView>;
   private tickMarkRangeProperty: Property<number>;
   private colorProperty: IReadOnlyProperty<Color | string>;
 
@@ -31,7 +31,7 @@ class RAPTickMarkLabelsNode extends Node {
    * @param colorProperty
    * @param [options]
    */
-  constructor( tickMarkViewProperty: RichEnumerationProperty<TickMarkView>, tickMarkRangeProperty: Property<number>, height: number,
+  constructor( tickMarkViewProperty: EnumerationProperty<TickMarkView>, tickMarkRangeProperty: Property<number>, height: number,
                colorProperty: IReadOnlyProperty<Color | string>, options?: Omit<NodeOptions, 'children'> ) {
 
     super();

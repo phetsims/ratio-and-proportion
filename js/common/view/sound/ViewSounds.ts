@@ -20,7 +20,7 @@ import TickMarkView from '../TickMarkView.js';
 import BoundarySoundClip from './BoundarySoundClip.js';
 import TickMarkBumpSoundClip from './TickMarkBumpSoundClip.js';
 import Property from '../../../../../axon/js/Property.js';
-import RichEnumerationProperty from '../../../../../axon/js/RichEnumerationProperty.js';
+import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
 
 const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
@@ -37,7 +37,7 @@ class ViewSounds {
    * @param playTickMarkBumpSoundProperty
    * @param [options]
    */
-  constructor( tickMarkRangeProperty: Property<number>, tickMarkViewProperty: RichEnumerationProperty<TickMarkView>,
+  constructor( tickMarkRangeProperty: Property<number>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
                playTickMarkBumpSoundProperty: Property<boolean>, options?: any ) {
 
     options = merge( {

@@ -12,7 +12,7 @@ import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
 import rapConstants from '../../rapConstants.js';
 import TickMarkView from '../TickMarkView.js';
 import Property from '../../../../../axon/js/Property.js';
-import RichEnumerationProperty from '../../../../../axon/js/RichEnumerationProperty.js';
+import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
 
 // constants
 const ORDINAL_TICK_MARKS = [
@@ -63,13 +63,13 @@ const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 class TickMarkDescriber {
 
   private tickMarkRangeProperty: Property<number>;
-  private tickMarkViewProperty: RichEnumerationProperty<TickMarkView>;
+  private tickMarkViewProperty: EnumerationProperty<TickMarkView>;
 
   /**
    * @param tickMarkRangeProperty
    * @param tickMarkViewProperty
    */
-  constructor( tickMarkRangeProperty: Property<number>, tickMarkViewProperty: RichEnumerationProperty<TickMarkView> ) {
+  constructor( tickMarkRangeProperty: Property<number>, tickMarkViewProperty: EnumerationProperty<TickMarkView> ) {
 
     // @private
     this.tickMarkRangeProperty = tickMarkRangeProperty;

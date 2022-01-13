@@ -18,13 +18,13 @@ import MyChallengeAccordionBox from './MyChallengeAccordionBox.js';
 import BackgroundColorHandler from '../../common/view/BackgroundColorHandler.js';
 import TickMarkView from '../../common/view/TickMarkView.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
-import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 class CreateScreenSummaryNode extends Node {
 
   constructor( ratioFitnessProperty: IReadOnlyProperty<number>,
                ratioTupleProperty: Property<RAPRatioTuple>,
-               tickMarkViewProperty: RichEnumerationProperty<TickMarkView>,
+               tickMarkViewProperty: EnumerationProperty<TickMarkView>,
                ratioDescriber: RatioDescriber,
                inProportionProperty: IReadOnlyProperty<boolean>,
                handPositionsDescriber: HandPositionsDescriber,

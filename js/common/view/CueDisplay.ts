@@ -7,7 +7,7 @@
  */
 
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import RichEnumeration from '../../../../phet-core/js/RichEnumeration.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
 
 class CueDisplay extends EnumerationValue {
   static NONE = new CueDisplay();
@@ -15,7 +15,7 @@ class CueDisplay extends EnumerationValue {
   static UP_DOWN = new CueDisplay();
   static ARROWS = new CueDisplay();
 
-  static enumeration = new RichEnumeration( CueDisplay );
+  static enumeration = new Enumeration( CueDisplay );
 }
 
 export default CueDisplay;
