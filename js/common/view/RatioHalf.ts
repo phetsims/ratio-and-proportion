@@ -291,7 +291,9 @@ class RatioHalf extends Rectangle {
 
         a11yCreateAriaValueText: createObjectResponse,
         voicingCreateObjectResponse: createObjectResponse,
-        a11yCreateContextResponseAlert: () => this.getSingleHandContextResponse(),
+
+        // TODO: comment back in once https://github.com/phetsims/ratio-and-proportion/issues/416 is fixed
+        // a11yCreateContextResponseAlert: () => this.getSingleHandContextResponse(),
         voicingCreateContextResponse: () => this.getSingleHandContextResponse(),
         a11yDependencies: options.a11yDependencies.concat( [ options.ratioLockedProperty ] ),
         voicingNameResponse: options.accessibleName // accessible name is also the voicing name response
