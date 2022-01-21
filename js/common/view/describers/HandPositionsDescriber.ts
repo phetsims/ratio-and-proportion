@@ -316,6 +316,13 @@ class HandPositionsDescriber {
 
     return distanceProgressString;
   }
+
+  reset(): void {
+    this.previousDistanceRegionSingle = null;
+    this.previousDistanceRegionBoth = null;
+
+    this.previousDistance = this.ratioTupleProperty.value.getDistance();
+  }
 }
 
 HandPositionsDescriber.QUALITATIVE_POSITIONS = QUALITATIVE_POSITIONS;

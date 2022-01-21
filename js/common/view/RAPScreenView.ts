@@ -322,6 +322,8 @@ class RAPScreenView extends ScreenView {
         cueArrowsState.reset();
         bothHandsPDOMNode.reset();
         bothHandsDescriber.reset();
+        this.handPositionsDescriber.reset();
+        voicingHandPositionsDescriber.reset();
         this.markerInput && this.markerInput.reset();
         this.reset();
       },
