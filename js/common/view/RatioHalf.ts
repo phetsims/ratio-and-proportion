@@ -78,6 +78,7 @@ type RatioHalfSelfOptions = {
   tickMarkRangeProperty: Property<number>;
   ratioDescriber: RatioDescriber;
   handPositionsDescriber: HandPositionsDescriber;
+  voicingHandPositionsDescriber: HandPositionsDescriber;
   bothHandsDescriber: BothHandsDescriber;
 
   // TODO: Why is lint wrong here? https://github.com/phetsims/ratio-and-proportion/issues/404
@@ -115,6 +116,7 @@ class RatioHalf extends Rectangle {
   private ratioLockedProperty: Property<boolean>;
   private bothHandsDescriber: BothHandsDescriber;
   private handPositionsDescriber: HandPositionsDescriber;
+  private voicingHandPositionsDescriber: HandPositionsDescriber;
   private tickMarkViewProperty: EnumerationProperty<TickMarkView>;
   private ratioTerm: RatioTerm;
   private ratioTupleProperty: Property<RAPRatioTuple>;
@@ -166,6 +168,7 @@ class RatioHalf extends Rectangle {
     this.ratioLockedProperty = options.ratioLockedProperty;
     this.bothHandsDescriber = options.bothHandsDescriber;
     this.handPositionsDescriber = options.handPositionsDescriber;
+    this.voicingHandPositionsDescriber = options.voicingHandPositionsDescriber;
     this.tickMarkViewProperty = options.tickMarkViewProperty;
     this.ratioTerm = options.ratioTerm;
     this.ratioTupleProperty = options.ratioTupleProperty;
@@ -233,9 +236,8 @@ class RatioHalf extends Rectangle {
         a11yCreateAriaValueText: createObjectResponse,
         voicingCreateObjectResponse: createObjectResponse,
 
-        // TODO: comment back in once https://github.com/phetsims/ratio-and-proportion/issues/416 is fixed
-        // a11yCreateContextResponseAlert: () => this.getSingleHandContextResponse(),
-        voicingCreateContextResponse: () => this.getSingleHandContextResponse(),
+        a11yCreateContextResponseAlert: () => this.getSingleHandContextResponse( this.handPositionsDescriber ),
+        voicingCreateContextResponse: () => this.getSingleHandContextResponse( this.voicingHandPositionsDescriber ),
         a11yDependencies: options.a11yDependencies.concat( [ options.ratioLockedProperty ] ),
         voicingNameResponse: options.accessibleName // accessible name is also the voicing name response
       } );
@@ -492,11 +494,11 @@ class RatioHalf extends Rectangle {
 
   /**
    * Generate and send an alert to the UtteranceQueue that describes the movement of this object and the subsequent change
-   * in ratio. This is the context response for the individual ratio half hand (slider) interaction.
+   * in ratio. This is the context response for the individual ratio half hand (slider) interaction. Returning
+   * null means no alert will occur.
    * @public
-   * @returns {null|string} - null means no alert will occur
    */
-  getSingleHandContextResponse(): null | string {
+  getSingleHandContextResponse( handPositionsDescriber: HandPositionsDescriber ): null | string {
 
     // When locked, give a description of both-hands, instead of just a single one.
     if ( this.ratioLockedProperty.value ) {
@@ -504,8 +506,8 @@ class RatioHalf extends Rectangle {
     }
 
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.distancePositionContextResponse, {
-      distance: this.handPositionsDescriber.getSingleHandDistance( this.ratioTerm ),
-      position: this.handPositionsDescriber.getHandPositionDescription( this.ratioTupleProperty.value.getForTerm( this.ratioTerm ),
+      distance: handPositionsDescriber.getSingleHandDistance( this.ratioTerm ),
+      position: handPositionsDescriber.getHandPositionDescription( this.ratioTupleProperty.value.getForTerm( this.ratioTerm ),
         this.tickMarkViewProperty.value )
     } );
   }

@@ -130,6 +130,7 @@ class RAPScreenView extends ScreenView {
     // @protected (read-only)
     this.ratioDescriber = new RatioDescriber( model );
     this.handPositionsDescriber = new HandPositionsDescriber( ratio.tupleProperty, tickMarkDescriber );
+    const voicingHandPositionsDescriber = new HandPositionsDescriber( ratio.tupleProperty, tickMarkDescriber );
     const bothHandsDescriber = new BothHandsDescriber(
       ratio.tupleProperty,
       ratio.enabledRatioTermsRangeProperty,
@@ -176,6 +177,7 @@ class RAPScreenView extends ScreenView {
       tickMarkRangeProperty: this.tickMarkRangeProperty,
       ratioDescriber: this.ratioDescriber,
       handPositionsDescriber: this.handPositionsDescriber,
+      voicingHandPositionsDescriber: voicingHandPositionsDescriber,
       bothHandsDescriber: bothHandsDescriber,
       colorProperty: tickMarksAndLabelsColorProperty,
       keyboardStep: keyboardStep,
@@ -220,6 +222,7 @@ class RAPScreenView extends ScreenView {
       tickMarkRangeProperty: this.tickMarkRangeProperty,
       ratioDescriber: this.ratioDescriber,
       handPositionsDescriber: this.handPositionsDescriber,
+      voicingHandPositionsDescriber: voicingHandPositionsDescriber,
       bothHandsDescriber: bothHandsDescriber,
       colorProperty: tickMarksAndLabelsColorProperty,
       keyboardStep: keyboardStep,

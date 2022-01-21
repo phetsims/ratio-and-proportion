@@ -73,7 +73,8 @@ class HandPositionsDescriber {
 
   private ratioTupleProperty: Property<RAPRatioTuple>;
   private tickMarkDescriber: TickMarkDescriber;
-  private previousDistanceRegion: null | string;
+  private previousDistanceRegionSingle: null | string;
+  private previousDistanceRegionBoth: null | string;
   private previousDistance: number;
   public static QUALITATIVE_POSITIONS: string[];
 
@@ -89,8 +90,16 @@ class HandPositionsDescriber {
 
     // @private - keep track of previous distance regions to track repetition, and alter description accordingly. This
     // is used for any modality getting a distance region in a context response.
-    this.previousDistanceRegion = null;
+    this.previousDistanceRegionSingle = null;
+    this.previousDistanceRegionBoth = null;
+
     this.previousDistance = ratioTupleProperty.value.getDistance();
+
+    ratioTupleProperty.lazyLink( ( newValue, oldValue ) => {
+      if ( oldValue ) {
+        this.previousDistance = oldValue.getDistance();
+      }
+    } );
   }
 
   /**
@@ -162,8 +171,7 @@ class HandPositionsDescriber {
   /**
    * NOTE: These values are copied over in RAPPositionRegionsLayer, consult that Node before changing these values.
    */
-  public getDistanceRegion( lowercase = false ): string {
-    const distance = this.ratioTupleProperty.value.getDistance();
+  public getDistanceRegion( lowercase: boolean, distance: number = this.ratioTupleProperty.value.getDistance() ): string {
 
     assert && assert( TOTAL_RANGE.getLength() === 1, 'these hard coded values depend on a range of 1' );
 
@@ -227,9 +235,9 @@ class HandPositionsDescriber {
   public getSingleHandDistance( ratioTerm: RatioTerm ): string {
     const otherHand = ratioTerm === RatioTerm.ANTECEDENT ? rightHandLowerString : leftHandLowerString;
 
-    const distanceRegion = this.getDistanceRegion();
+    const distanceRegion = this.getDistanceRegion( false );
 
-    if ( distanceRegion === this.previousDistanceRegion ) {
+    if ( distanceRegion === this.previousDistanceRegionSingle ) {
       const distanceProgressPhrase = this.getDistanceProgressString();
       if ( distanceProgressPhrase ) {
 
@@ -239,9 +247,12 @@ class HandPositionsDescriber {
         } );
 
         // Count closer/farther as a previous so that we don't ever get two of them at the same time
+        this.previousDistanceRegionSingle = distanceProgressPhrase;
         return distanceProgressDescription;
       }
     }
+
+    this.previousDistanceRegionSingle = distanceRegion;
 
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDistanceProgressClause, {
       otherHand: otherHand,
@@ -253,7 +264,7 @@ class HandPositionsDescriber {
     const distanceRegion = this.getDistanceRegion( true );
 
     if ( overrideWithDistanceProgress ) {
-      if ( distanceRegion === this.previousDistanceRegion ) {
+      if ( distanceRegion === this.previousDistanceRegionBoth ) {
         assert && assert( capitalized, 'overriding with distance-progress not supported for capitalized strings' );
 
         const distanceProgressPhrase = this.getDistanceProgressString( {
@@ -266,11 +277,11 @@ class HandPositionsDescriber {
           } );
 
           // Count closer/farther as a previous so that we don't ever get two of them at the same time
-          this.previousDistanceRegion = distanceProgressDescription;
+          this.previousDistanceRegionBoth = distanceProgressDescription;
           return distanceProgressDescription;
         }
       }
-      this.previousDistanceRegion = distanceRegion;
+      this.previousDistanceRegionBoth = distanceRegion;
     }
 
     const pattern = capitalized ? ratioAndProportionStrings.a11y.bothHands.handsDistancePatternCapitalized :
@@ -294,7 +305,6 @@ class HandPositionsDescriber {
       distanceProgressString = filledOptions.fartherString;
     }
 
-    this.previousDistance = currentDistance;
     return distanceProgressString;
   }
 }
