@@ -204,6 +204,26 @@ class HandPositionsDescriber {
     return ( lowercase ? DISTANCE_REGIONS_LOWERCASE : DISTANCE_REGIONS_CAPITALIZED )[ index ];
   }
 
+  public getSingleHandDistanceRegionSentence( ratioTerm: RatioTerm ): string {
+    const otherHand = ratioTerm === RatioTerm.ANTECEDENT ? rightHandLowerString : leftHandLowerString;
+
+    const distanceRegion = this.getDistanceRegion( false );
+
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDistanceProgressClause, {
+      otherHand: otherHand,
+      distanceOrDistanceProgress: distanceRegion
+    } );
+  }
+
+  public getSingleHandDistanceProgressSentence( ratioTerm: RatioTerm ): string {
+    const otherHand = ratioTerm === RatioTerm.ANTECEDENT ? rightHandLowerString : leftHandLowerString;
+
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDistanceProgressClause, {
+      otherHand: otherHand,
+      distanceOrDistanceProgress: this.getDistanceProgressString()
+    } );
+  }
+
   public getSingleHandDistance( ratioTerm: RatioTerm ): string {
     const otherHand = ratioTerm === RatioTerm.ANTECEDENT ? rightHandLowerString : leftHandLowerString;
 
@@ -219,12 +239,9 @@ class HandPositionsDescriber {
         } );
 
         // Count closer/farther as a previous so that we don't ever get two of them at the same time
-        this.previousDistanceRegion = distanceProgressDescription;
         return distanceProgressDescription;
       }
     }
-
-    this.previousDistanceRegion = distanceRegion;
 
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDistanceProgressClause, {
       otherHand: otherHand,

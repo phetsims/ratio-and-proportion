@@ -292,10 +292,7 @@ class RatioHalf extends Rectangle {
     let startingY: number = -1;
 
     const voicingUtteranceForDrag = new Utterance( {
-      alertMaximumDelay: 500,
-      announcerOptions: {
-        cancelSelf: false
-      }
+      alertMaximumDelay: 500 // same as ISLCObjectNode
     } );
 
     // transform and dragBounds set in layout code below
@@ -320,8 +317,7 @@ class RatioHalf extends Rectangle {
 
         // @ts-ignore
         this.ratioHandNode.voicingSpeakFullResponse( {
-          contextResponse: null,
-          hintResponse: null
+          contextResponse: null
         } );
       },
       drag: () => {
@@ -337,8 +333,15 @@ class RatioHalf extends Rectangle {
         viewSounds.tickMarkBumpSoundClip.onInteract( positionProperty.value.y );
 
         // @ts-ignore
-        this.ratioHandNode.voicingOnChangeResponse( {
-          utterance: voicingUtteranceForDrag
+        this.ratioHandNode.voicingObjectResponse = createObjectResponse();
+
+        // @ts-ignore
+        this.ratioHandNode.voicingSpeakResponse( {
+          utterance: voicingUtteranceForDrag,
+          contextResponse: this.handPositionsDescriber.getSingleHandDistanceProgressSentence( this.ratioTerm ),
+
+          // @ts-ignore
+          objectResponse: this.ratioHandNode.voicingObjectResponse
         } );
       },
 
@@ -367,17 +370,20 @@ class RatioHalf extends Rectangle {
         // Only voice a response if the value changed
         if ( startingY !== positionProperty.value.y ) {
 
-          // TODO: should this have the object response too, or just the context repsonse?? https://github.com/phetsims/ratio-and-proportion/issues/413
           // @ts-ignore
-          this.ratioHandNode.voicingOnEndResponse( {
-            onlyOnValueChange: false // don't use the AccessibleValueHandler's start, and instead handle it ourselves
+          this.ratioHandNode.voicingObjectResponse = createObjectResponse();
+
+          // @ts-ignore
+          this.ratioHandNode.voicingSpeakResponse( {
+            utterance: voicingUtteranceForDrag,
+            contextResponse: this.handPositionsDescriber.getSingleHandDistanceRegionSentence( this.ratioTerm ),
+
+            // @ts-ignore
+            objectResponse: this.ratioHandNode.voicingObjectResponse
           } );
         }
         else {
-
-          // TODO: Hint response if there isn't any movement? https://github.com/phetsims/ratio-and-proportion/issues/413
-          // @ts-ignore
-          this.ratioHandNode.voicingSpeakHintResponse();
+          // No voicing if there hasn't been any movement
         }
       },
 
