@@ -9,8 +9,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import merge from '../../../../phet-core/js/merge.js';
-import required from '../../../../phet-core/js/required.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import sceneryPhetStrings from '../../../../scenery-phet/js/sceneryPhetStrings.js';
 import { Node, NodeOptions, ParallelDOM } from '../../../../scenery/js/imports.js';
 import AriaLiveAnnouncer from '../../../../utterance-queue/js/AriaLiveAnnouncer.js';
@@ -30,7 +29,7 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 // constants
 const OBJECT_RESPONSE_DELAY = 500;
 
-type BothHandsPDOMNodeDefinedOptions = {
+type BothHandsPDOMNodeSelfOptions = {
   ratioTupleProperty: Property<RAPRatioTuple>;
   enabledRatioTermsRangeProperty: Property<Range>;
   cueArrowsState: CueArrowsState;
@@ -44,13 +43,12 @@ type BothHandsPDOMNodeDefinedOptions = {
   ratioLockedProperty: Property<boolean>;
   targetRatioProperty: Property<number>;
   getIdealTerm: getIdealTermType;
-  inProportionProperty: Property<boolean>;
-  gestureDescriptionHelpText?: string;
+  inProportionProperty: Property<boolean>; // is the model in proportion right now
+  gestureDescriptionHelpText?: string | null;
   interactiveNodeOptions?: NodeOptions;
 };
 
-type BothHandsPDOMNodeOptions = BothHandsPDOMNodeDefinedOptions & Omit<NodeOptions, 'pdomOrder'>;
-type BothHandsPDOMNodeImplementationOptions = Required<BothHandsPDOMNodeDefinedOptions> & NodeOptions;
+type BothHandsPDOMNodeOptions = BothHandsPDOMNodeSelfOptions & Omit<NodeOptions, 'pdomOrder'>;
 
 class BothHandsPDOMNode extends Node {
 
@@ -71,54 +69,7 @@ class BothHandsPDOMNode extends Node {
    */
   constructor( providedOptions: BothHandsPDOMNodeOptions ) {
 
-    const options = merge( {
-
-      // ---- REQUIRED -------------------------------------------------
-
-      // {Property.<RAPRatioTuple>}
-      ratioTupleProperty: required( providedOptions.ratioTupleProperty ),
-
-      // {Property.<Range>}
-      enabledRatioTermsRangeProperty: required( providedOptions.enabledRatioTermsRangeProperty ),
-
-      // {CueArrowsState}
-      cueArrowsState: required( providedOptions.cueArrowsState ),
-
-      // {number}
-      keyboardStep: required( providedOptions.keyboardStep ),
-
-      // {EnumerationProperty<TickMarkView>}
-      tickMarkViewProperty: required( providedOptions.tickMarkViewProperty ),
-
-      // {Property.<number>}
-      tickMarkRangeProperty: required( providedOptions.tickMarkRangeProperty ),
-
-      // {Property.<number>}
-      unclampedFitnessProperty: required( providedOptions.unclampedFitnessProperty ),
-
-      // {RatioDescriber}
-      ratioDescriber: required( providedOptions.ratioDescriber ),
-
-      // {BothHandsDescriber}
-      bothHandsDescriber: required( providedOptions.bothHandsDescriber ),
-
-      // {BooleanProperty}
-      playTickMarkBumpSoundProperty: required( providedOptions.playTickMarkBumpSoundProperty ),
-
-      // {BooleanProperty}
-      ratioLockedProperty: required( providedOptions.ratioLockedProperty ),
-
-      // {Property.<number>}
-      targetRatioProperty: required( providedOptions.targetRatioProperty ),
-
-      // {function(RatioTerm):number}
-      getIdealTerm: required( providedOptions.getIdealTerm ),
-
-      // {Property.<boolean>} - is the model in proportion right now
-      inProportionProperty: required( providedOptions.inProportionProperty ),
-
-
-      // ---- OPTIONAL -------------------------------------------------
+    const options = optionize<BothHandsPDOMNodeOptions, BothHandsPDOMNodeSelfOptions, Omit<NodeOptions, 'pdomOrder'>>( {
 
       // {string|null} help text to be displayed on devices supporting gesture description
       // (see `Sim.supportsGestureDescription`). When null, this will be the same as the default helpText.
@@ -135,7 +86,7 @@ class BothHandsPDOMNode extends Node {
         innerContent: ratioAndProportionStrings.a11y.bothHands.bothHands,
         ariaLabel: ratioAndProportionStrings.a11y.bothHands.bothHands
       }
-    }, providedOptions ) as BothHandsPDOMNodeImplementationOptions;
+    }, providedOptions );
 
     super();
 

@@ -22,8 +22,9 @@ import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Utils from '../../../../dot/js/Utils.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { Color, Node, NodeOptions, ParallelDOM } from '../../../../scenery/js/imports.js';
+import { Color, Node, ParallelDOM } from '../../../../scenery/js/imports.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
@@ -66,17 +67,14 @@ const RATIO_SECTION_WIDTH = 2 / 3;
 const uiScaleFunction = new LinearFunction( LAYOUT_BOUNDS.height, MAX_RATIO_HEIGHT, 1, 1.5, true );
 const uiPositionFunction = new LinearFunction( 1, 1.5, LAYOUT_BOUNDS.height * 0.15, -LAYOUT_BOUNDS.height * 0.2, true );
 
-type RAPScreenViewDefinedOptions = {
+type RAPScreenViewSelfOptions = {
 
-  // TODO: why is lint not cooperating? https://github.com/phetsims/ratio-and-proportion/issues/404
-  leftHandColorProperty?: Property<ColorDef>; // eslint-disable-line no-undef
-  rightHandColorProperty?: Property<ColorDef>; // eslint-disable-line no-undef
+  leftHandColorProperty?: Property<ColorDef>;
+  rightHandColorProperty?: Property<ColorDef>;
   bothHandsPDOMNodeOptions?: Partial<BothHandsPDOMNodeOptions>; // Because all the required pieces are added by this type
 }
 
-// TODO: Should be ScreenViewOptions instead of NodeOptions, https://github.com/phetsims/ratio-and-proportion/issues/404
-type RAPScreenViewOptions = RAPScreenViewDefinedOptions & NodeOptions;
-type RAPScreenViewImplementationOptions = Required<RAPScreenViewDefinedOptions> & NodeOptions;
+type RAPScreenViewOptions = RAPScreenViewSelfOptions & ScreenViewOptions;
 
 class RAPScreenView extends ScreenView {
 
@@ -100,7 +98,7 @@ class RAPScreenView extends ScreenView {
 
   constructor( model: RAPModel, backgroundColorProperty: Property<ColorDef>, tandem: Tandem, options?: RAPScreenViewOptions ) {
 
-    options = merge( {
+    options = optionize<RAPScreenViewOptions, RAPScreenViewSelfOptions, ScreenViewOptions>( {
       tandem: tandem,
       layoutBounds: LAYOUT_BOUNDS,
 
@@ -109,8 +107,8 @@ class RAPScreenView extends ScreenView {
       rightHandColorProperty: new Property( 'black' ),
 
       // Passed through to BothHandsPDOMNode
-      bothHandsPDOMNodeOptions: null
-    }, options ) as RAPScreenViewImplementationOptions;
+      bothHandsPDOMNodeOptions: {}
+    }, options );
 
     super( options );
 
@@ -244,6 +242,7 @@ class RAPScreenView extends ScreenView {
       tandem: tandem.createTandem( 'consequentRatioHalf' )
     } );
 
+    // TODO: how to handle this merge? It seems like PHET_CORE/merge is the best case for this, we are &ing the two arguments into BothHandsPDOMNode, https://github.com/phetsims/chipper/issues/1128
     const bothHandsPDOMNode = new BothHandsPDOMNode( merge( {
         ratioTupleProperty: ratio.tupleProperty,
         enabledRatioTermsRangeProperty: ratio.enabledRatioTermsRangeProperty,
@@ -263,7 +262,7 @@ class RAPScreenView extends ScreenView {
         interactiveNodeOptions: {
           children: [ this.antecedentRatioHalf, this.consequentRatioHalf ]
         }
-      }, options.bothHandsPDOMNodeOptions ) as BothHandsPDOMNodeOptions
+      }, options.bothHandsPDOMNodeOptions )
     );
 
     this.markerInput = null;

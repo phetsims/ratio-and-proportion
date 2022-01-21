@@ -17,8 +17,7 @@ import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import merge from '../../../../phet-core/js/merge.js';
-import required from '../../../../phet-core/js/required.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import { DragListener, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
@@ -68,13 +67,13 @@ const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 type LayoutFunction = ( bounds: Bounds2, heightScalar: number ) => void;
 
-type RatioHalfDefinedOptions = {
+type RatioHalfSelfOptions = {
   ratioTerm: RatioTerm;
   ratioTupleProperty: Property<RAPRatioTuple>;
-  enabledRatioTermsRangeProperty: Property<Range>;
+  enabledRatioTermsRangeProperty: Property<Range>; // the current range that the hand can move
   displayBothHandsCueProperty: Property<boolean>;
-  cueArrowsState: CueArrowsState;
-  bounds: Bounds2;
+  cueArrowsState: CueArrowsState; // interaction state to determine the interaction cue to display
+  bounds: Bounds2; // the initial bounds that the Node takes up
   tickMarkViewProperty: EnumerationProperty<TickMarkView>;
   tickMarkRangeProperty: Property<number>;
   ratioDescriber: RatioDescriber;
@@ -87,8 +86,14 @@ type RatioHalfDefinedOptions = {
   horizontalMovementAllowedProperty: Property<boolean>;
   ratioLockedProperty: Property<boolean>;
   playTickMarkBumpSoundProperty: Property<boolean>;
+
+  // see InProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound()
   setJumpingOverProportionShouldTriggerSound: ( shouldTriggerSound: boolean ) => void;
+
+  // a function that gets the value of this RatioHalf term that would achieve the targetRatio
   getIdealValue: () => number;
+
+  // is the model in proportion right now
   inProportionProperty: IReadOnlyProperty<boolean>;
   isRight?: boolean;
 
@@ -98,13 +103,9 @@ type RatioHalfDefinedOptions = {
   bothHandsCueDisplay?: CueDisplay;
 }
 
-// TODO: Why is lint wrong here? https://github.com/phetsims/ratio-and-proportion/issues/404
 // TODO: remove helpTextBehavior workaround when supported
-type RatioHalfOptions =
-  RatioHalfDefinedOptions
-  & RectangleOptions
-  & { helpTextBehavior?: ( node: Node, options: NodeOptions, helpText: string | null ) => NodeOptions }; // eslint-disable-line no-undef
-type RatioHalfImplementationOptions = Required<RatioHalfDefinedOptions> & RectangleOptions; // eslint-disable-line no-undef
+type RatioHalfOptions = RatioHalfSelfOptions & RectangleOptions;
+type RatioHalfImplementationOptions = Required<RatioHalfSelfOptions> & RectangleOptions;
 
 class RatioHalf extends Rectangle {
 
@@ -126,67 +127,7 @@ class RatioHalf extends Rectangle {
    */
   constructor( providedOptions: RatioHalfOptions ) {
 
-    const options = merge( {
-      // ---- REQUIRED -------------------------------------------------
-
-      // {RatioTerm}
-      ratioTerm: required( providedOptions.ratioTerm ),
-
-      // {Property.<RAPRatioTuple>}
-      ratioTupleProperty: required( providedOptions.ratioTupleProperty ),
-
-      // {Property.<Range>} - the current range that the hand can move
-      enabledRatioTermsRangeProperty: required( providedOptions.enabledRatioTermsRangeProperty ),
-
-      // {BooleanProperty}
-      displayBothHandsCueProperty: required( providedOptions.displayBothHandsCueProperty ),
-
-      // {CueArrowsState} - interaction state to determine the interaction cue to display
-      cueArrowsState: required( providedOptions.cueArrowsState ),
-
-      // {Bounds2} - the initial bounds that the Node takes up
-      bounds: required( providedOptions.bounds ),
-
-      // {EnumerationProperty.<TickMarkView>}
-      tickMarkViewProperty: required( providedOptions.tickMarkViewProperty ),
-
-      // {Property.<number>}
-      tickMarkRangeProperty: required( providedOptions.tickMarkRangeProperty ),
-
-      // {RatioDescriber}
-      ratioDescriber: required( providedOptions.ratioDescriber ),
-
-      // {HandPositionsDescriber}
-      handPositionsDescriber: required( providedOptions.handPositionsDescriber ),
-
-      // {BothHandsDescriber}
-      bothHandsDescriber: required( providedOptions.bothHandsDescriber ),
-
-      // {Property.<Color>}
-      colorProperty: required( providedOptions.colorProperty ),
-
-      // {number}
-      keyboardStep: required( providedOptions.keyboardStep ),
-
-      // {BooleanProperty}
-      horizontalMovementAllowedProperty: required( providedOptions.horizontalMovementAllowedProperty ),
-
-      // {BooleanProperty}
-      ratioLockedProperty: required( providedOptions.ratioLockedProperty ),
-
-      // {BooleanProperty}
-      playTickMarkBumpSoundProperty: required( providedOptions.playTickMarkBumpSoundProperty ),
-
-      // {function(boolean)} - see InProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound()
-      setJumpingOverProportionShouldTriggerSound: required( providedOptions.setJumpingOverProportionShouldTriggerSound ),
-
-      // {function():number} - a function that gets the value of this RatioHalf term that would achieve the targetRatio
-      getIdealValue: required( providedOptions.getIdealValue ),
-
-      // {Property.<boolean>} - is the model in proportion right now
-      inProportionProperty: required( providedOptions.inProportionProperty ),
-
-      // ---- OPTIONAL -------------------------------------------------
+    const options = optionize<RatioHalfOptions, RatioHalfSelfOptions, RectangleOptions>( {
 
       // {boolean} right ratio or the left ratio
       isRight: true,
@@ -398,7 +339,7 @@ class RatioHalf extends Rectangle {
         // @ts-ignore
         this.ratioHandNode.voicingOnChangeResponse( {
           utterance: voicingUtteranceForDrag
-      } );
+        } );
       },
 
       end: () => {
@@ -445,7 +386,7 @@ class RatioHalf extends Rectangle {
     } );
 
     // When the range changes, update the dragBounds of the drag listener
-    options.enabledRatioTermsRangeProperty.link( enabledRange => {
+    options.enabledRatioTermsRangeProperty.link( ( enabledRange: Range ) => {
       const newBounds = getModelBoundsFromRange( enabledRange );
 
       // offset the bounds to account for the ratioHandNode's size, since the center of the ratioHandNode is controlled by the drag bounds.
