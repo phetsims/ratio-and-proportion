@@ -17,6 +17,7 @@ import TickMarkView from '../TickMarkView.js';
 import Property from '../../../../../axon/js/Property.js';
 import RAPRatioTuple from '../../model/RAPRatioTuple.js';
 import TickMarkDescriber from './TickMarkDescriber.js';
+import IReadOnlyProperty from '../../../../../axon/js/IReadOnlyProperty.js';
 
 // constants
 const leftHandLowerString = ratioAndProportionStrings.a11y.leftHandLower;
@@ -73,6 +74,7 @@ class HandPositionsDescriber {
 
   private ratioTupleProperty: Property<RAPRatioTuple>;
   private tickMarkDescriber: TickMarkDescriber;
+  private inProportionProperty: IReadOnlyProperty<boolean>;
   private previousDistanceRegionSingle: null | string;
   private previousDistanceRegionBoth: null | string;
   private previousDistance: number;
@@ -82,11 +84,12 @@ class HandPositionsDescriber {
    * @param {Property.<RAPRatioTuple>} ratioTupleProperty
    * @param {TickMarkDescriber} tickMarkDescriber
    */
-  constructor( ratioTupleProperty: Property<RAPRatioTuple>, tickMarkDescriber: TickMarkDescriber ) {
+  constructor( ratioTupleProperty: Property<RAPRatioTuple>, tickMarkDescriber: TickMarkDescriber, inProportionProperty: IReadOnlyProperty<boolean> ) {
 
     // @private - from model
     this.ratioTupleProperty = ratioTupleProperty;
     this.tickMarkDescriber = tickMarkDescriber;
+    this.inProportionProperty = inProportionProperty;
 
     // @private - keep track of previous distance regions to track repetition, and alter description accordingly. This
     // is used for any modality getting a distance region in a context response.
@@ -291,6 +294,12 @@ class HandPositionsDescriber {
   }
 
   private getDistanceProgressString( options?: GetDistanceProgressStringOptions ): null | string {
+
+    // No distance progress if in proportion
+    if ( this.inProportionProperty.value ) {
+      return null;
+    }
+
     const filledOptions = merge( {
       closerString: ratioAndProportionStrings.a11y.handPosition.closerTo,
       fartherString: ratioAndProportionStrings.a11y.handPosition.fartherFrom

@@ -129,8 +129,8 @@ class RAPScreenView extends ScreenView {
 
     // @protected (read-only)
     this.ratioDescriber = new RatioDescriber( model );
-    this.handPositionsDescriber = new HandPositionsDescriber( ratio.tupleProperty, tickMarkDescriber );
-    const voicingHandPositionsDescriber = new HandPositionsDescriber( ratio.tupleProperty, tickMarkDescriber );
+    this.handPositionsDescriber = new HandPositionsDescriber( ratio.tupleProperty, tickMarkDescriber, model.inProportionProperty );
+    const voicingHandPositionsDescriber = new HandPositionsDescriber( ratio.tupleProperty, tickMarkDescriber, model.inProportionProperty );
     const bothHandsDescriber = new BothHandsDescriber(
       ratio.tupleProperty,
       ratio.enabledRatioTermsRangeProperty,
