@@ -49,7 +49,7 @@ const ORDINAL_TICK_MARKS = [
 ];
 
 type TickMarkDescriptionData = {
-  tickMarkPosition: number | 'zero', // TODO: is it zero though? https://github.com/phetsims/ratio-and-proportion/issues/404
+  tickMarkPosition: number | 'zero',
   relativePosition: string,
   ordinalPosition: string | null
 }

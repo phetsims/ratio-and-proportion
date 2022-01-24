@@ -186,8 +186,7 @@ class BothHandsPDOMNode extends Node {
 
         // This "object response" is meant to act more like aria-valuetext than a traditional, polite alert. We want
         // this to cut off any other alert. This fixes alert-build-up described in https://github.com/phetsims/ratio-and-proportion/issues/214
-        // TODO: https://github.com/phetsims/ratio-and-proportion/issues/404
-        ariaLivePriority: ( AriaLiveAnnouncer.AriaLive as any ).ASSERTIVE
+        ariaLivePriority: AriaLiveAnnouncer.AriaLive.ASSERTIVE
       }
     } );
 

@@ -32,8 +32,7 @@ import optionize from '../../../../phet-core/js/optionize.js';
 
 type CreateIconOptions = {
 
-// TODO: remove lint disable when ColorDef type is in common code, https://github.com/phetsims/ratio-and-proportion/issues/404
-  handColor?: ColorDef, // eslint-disable-line no-undef
+  handColor?: ColorDef,
   handNodeOptions?: NodeOptions
 };
 

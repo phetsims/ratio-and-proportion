@@ -6,12 +6,16 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-/* eslint-disable */ // TODO fix lint, https://github.com/phetsims/ratio-and-proportion/issues/404
-enum RatioTerm {
-  ANTECEDENT,
-  CONSEQUENT
-}
 
-/* eslint-enable */
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
+
+
+class RatioTerm extends EnumerationValue {
+  static ANTECEDENT = new RatioTerm();
+  static CONSEQUENT = new RatioTerm();
+
+  static enumeration = new Enumeration( RatioTerm );
+}
 
 export default RatioTerm;

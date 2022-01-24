@@ -80,8 +80,7 @@ type RatioHalfSelfOptions = {
   voicingHandPositionsDescriber: HandPositionsDescriber;
   bothHandsDescriber: BothHandsDescriber;
 
-  // TODO: Why is lint wrong here? https://github.com/phetsims/ratio-and-proportion/issues/404
-  colorProperty: Property<ColorDef>; // eslint-disable-line no-undef
+  colorProperty: Property<ColorDef>;
   keyboardStep: number;
   horizontalMovementAllowedProperty: Property<boolean>;
   ratioLockedProperty: Property<boolean>;
@@ -97,8 +96,7 @@ type RatioHalfSelfOptions = {
   inProportionProperty: IReadOnlyProperty<boolean>;
   isRight?: boolean;
 
-  // TODO: Why is lint wrong here? https://github.com/phetsims/ratio-and-proportion/issues/404
-  handColorProperty?: Property<ColorDef>; // eslint-disable-line no-undef
+  handColorProperty?: Property<ColorDef>;
   a11yDependencies?: IReadOnlyProperty<any>[];
   bothHandsCueDisplay?: CueDisplay;
 }

@@ -32,7 +32,7 @@ class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
       sliderString: ratioAndProportionStrings.leftOrRightHand,
       maximumString: ratioAndProportionStrings.top,
       minimumString: ratioAndProportionStrings.bottom,
-      arrowKeyIconDisplay: ( SliderControlsKeyboardHelpSection.ArrowKeyIconDisplay as any ).UP_DOWN // on cue up/down arrows, not left/right also. TODO https://github.com/phetsims/ratio-and-proportion/issues/404
+      arrowKeyIconDisplay: SliderControlsKeyboardHelpSection.ArrowKeyIconDisplay.UP_DOWN // on cue up/down arrows, not left/right also.
     } );
 
     const basicActionsHelpSection = new BasicActionsKeyboardHelpSection( {
