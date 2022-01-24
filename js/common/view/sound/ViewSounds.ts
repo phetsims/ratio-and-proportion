@@ -40,6 +40,7 @@ class ViewSounds {
   constructor( tickMarkRangeProperty: Property<number>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
                playTickMarkBumpSoundProperty: Property<boolean>, options?: any ) {
 
+    // TODO: convert to optionize once SoundClip is typescript https://github.com/phetsims/ratio-and-proportion/issues/404
     options = merge( {
       addSoundOptions: {
         categoryName: 'user-interface'

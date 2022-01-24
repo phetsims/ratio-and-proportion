@@ -9,28 +9,26 @@
 
 import Property from '../../../../axon/js/Property.js';
 import GridNode from '../../../../griddle/js/GridNode.js';
-import merge from '../../../../phet-core/js/merge.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import TickMarkView from './TickMarkView.js';
-import { Color } from '../../../../scenery/js/imports.js';
+import { Color, PathOptions } from '../../../../scenery/js/imports.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+
+type RatioHalfTickMarksNodeSelfOptions = {
+  minorHorizontalLineSpacing?: number | null,
+  minorLineOptions?: PathOptions
+}
+type RatioHalfTickMarksNodeOptions = RatioHalfTickMarksNodeSelfOptions & PathOptions;
 
 class RatioHalfTickMarksNode extends GridNode {
 
   private tickMarkViewProperty: EnumerationProperty<TickMarkView>;
   private tickMarkRangeProperty: Property<number>;
 
-  /**
-   * @param tickMarkViewProperty
-   * @param tickMarkRangeProperty
-   * @param width
-   * @param height
-   * @param colorProperty
-   * @param [options]
-   */
   constructor( tickMarkViewProperty: EnumerationProperty<TickMarkView>, tickMarkRangeProperty: Property<number>, width: number,
-               height: number, colorProperty: Property<Color>, options?: object ) {
-    options = merge( {
+               height: number, colorProperty: Property<Color>, providedOptions?: RatioHalfTickMarksNodeSelfOptions ) {
+    const options = optionize<RatioHalfTickMarksNodeOptions, RatioHalfTickMarksNodeSelfOptions>( {
 
       // initial line spacings
       minorHorizontalLineSpacing: 10,
@@ -38,7 +36,7 @@ class RatioHalfTickMarksNode extends GridNode {
         stroke: colorProperty,
         lineWidth: 2
       }
-    }, options );
+    }, providedOptions );
 
     super( width, height, options );
 

@@ -25,6 +25,8 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
    * @param {Object} [options]
    */
   constructor( model: RAPModel, options?: any ) {
+
+    // TODO: convert to optionize once SoundGenerator is typescript https://github.com/phetsims/ratio-and-proportion/issues/404
     options = merge( {
       initialOutputLevel: 0.13
     }, options );

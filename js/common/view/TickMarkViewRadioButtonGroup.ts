@@ -15,6 +15,7 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import TickMarkView from './TickMarkView.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 // constants
 const ICON_SCALE = 0.45;
@@ -27,6 +28,7 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkV
    */
   constructor( tickMarkViewProperty: EnumerationProperty<TickMarkView>, options?: any ) {
 
+    // TODO: convert to optionize once RectangularRadioButtonGroup is typescript https://github.com/phetsims/ratio-and-proportion/issues/404
     options = merge( {
       orientation: 'horizontal',
       baseColor: 'white',
@@ -81,16 +83,12 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkV
 
 class NumberedTickMarksIconPath extends Path {
 
-  /**
-   * // TODO: remove lint disable when ColorDef type is in common code, https://github.com/phetsims/ratio-and-proportion/issues/404
-   * @param {Object} [options]
-   */
-  constructor( options?: PathOptions ) { // eslint-disable-line no-undef
+  constructor( providedOptions?: PathOptions ) {
 
-    options = merge( {
+    const options = optionize<PathOptions>( {
       fill: 'black',
       scale: ICON_SCALE
-    }, options );
+    }, providedOptions );
 
     const shape = 'm60.25 69.833h34v5h-34zm-54.5 0h34v5h-34zm54.5-22.334h34v5h-34zm-54.5 0h34v5h-34zm54.5-22.198h34v5h-34zm-54.5 ' +
                   '0h34v5h-34zm46.985 54.939h-3.019v-11.376c-1.103 1.031-2.402 1.794-3.899 2.288v-2.739c0.788-0.258 1.644-0.747 ' +
@@ -116,23 +114,18 @@ class NumberedTickMarksIconPath extends Path {
 
 class TickMarksIconPath extends Path {
 
-  /**
-   * // TODO: remove lint disable when ColorDef type is in common code, https://github.com/phetsims/ratio-and-proportion/issues/404
-   * @param {Object} [options]
-   */
-  constructor( options?: PathOptions ) { // eslint-disable-line no-undef
+  constructor( providedOptions?: PathOptions ) {
 
-    options = merge( {
+    const options = optionize<PathOptions>( {
       fill: 'black',
       scale: ICON_SCALE
-    }, options );
+    }, providedOptions );
 
     const shape = 'm5.25 25.166v5h89v-5zm0 22.334v5h89v-5zm0.5 22.332v5h89v-5z';
 
     super( shape, options );
   }
 }
-
 
 ratioAndProportion.register( 'TickMarkViewRadioButtonGroup', TickMarkViewRadioButtonGroup );
 export default TickMarkViewRadioButtonGroup;

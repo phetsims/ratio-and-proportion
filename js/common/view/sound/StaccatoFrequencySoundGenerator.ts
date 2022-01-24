@@ -68,6 +68,8 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
    * @param {Object} [options]
    */
   constructor( fitnessProperty: IReadOnlyProperty<number>, fitnessRange: Range, inProportionProperty: IReadOnlyProperty<boolean>, options: object ) {
+
+    // TODO: convert to optionize once SoundGenerator is typescript https://github.com/phetsims/ratio-and-proportion/issues/404
     options = merge( {
       initialOutputLevel: 0.25
     }, options );

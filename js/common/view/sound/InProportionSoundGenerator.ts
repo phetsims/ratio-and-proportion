@@ -49,6 +49,7 @@ class InProportionSoundGenerator extends SoundClip {
    */
   constructor( model: RAPModel, enabledControlProperty: Property<boolean>, options?: any ) {
 
+    // TODO: convert to optionize once SoundClip is typescript https://github.com/phetsims/ratio-and-proportion/issues/404
     options = merge( {
       initialOutputLevel: 0.5
     }, options );

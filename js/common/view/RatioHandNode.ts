@@ -28,6 +28,7 @@ import TickMarkView from './TickMarkView.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 type CreateIconOptions = {
 
@@ -66,6 +67,7 @@ class RatioHandNode extends Node {
     // the keyboard step size allows.
     const mapKeyboardInput = getKeyboardInputSnappingMapper( getIdealValue, keyboardStep, shiftKeyboardStep );
 
+    // TODO: convert to optionize once accessibleValueHandler is typescript https://github.com/phetsims/ratio-and-proportion/issues/404
     options = merge( {
       cursor: 'pointer',
       isRight: true, // right hand or left hand
@@ -212,6 +214,8 @@ class RatioHandNode extends Node {
    * @param [options]
    */
   static createIcon( isRight: boolean, tickMarkViewProperty: EnumerationProperty<TickMarkView>, options?: CreateIconOptions ): Node {
+
+    // TODO: convert to optionize once accessibleValueHandler is typescript https://github.com/phetsims/ratio-and-proportion/issues/404
     options = merge( {
       handColor: 'black',
       handNodeOptions: {
@@ -242,16 +246,12 @@ class RatioHandNode extends Node {
 
 class FilledInHandPath extends Path {
 
-  /**
-   * // TODO: remove lint disable when ColorDef type is in common code, https://github.com/phetsims/ratio-and-proportion/issues/404
-   * @param {Object} [options]
-   */
-  constructor( options?: PathOptions ) { // eslint-disable-line no-undef
+  constructor( providedOptions?: PathOptions ) {
 
-    options = merge( {
+    const options = optionize<PathOptions>( {
       stroke: 'black',
       lineWidth: 2
-    }, options );
+    }, providedOptions );
 
     const shape = `M27.654,1.738c-0.716-0.716-1.572-1.075-2.57-1.075c-1,0-1.856,0.359-2.572,1.075c-0.717,0.717-1.074,1.573-1.074,2.571
 v21.354h-1.041V8.477c0-0.998-0.359-1.856-1.075-2.572c-0.717-0.715-1.573-1.073-2.571-1.073c-0.999,0-1.856,0.358-2.572,1.073
@@ -269,16 +269,12 @@ c-0.716,0.717-1.074,1.574-1.074,2.572v17.188h-1.041V4.31C28.729,3.311,28.371,2.4
 
 class CutOutHandPath extends Path {
 
-  /**
-   * // TODO: remove lint disable when ColorDef type is in common code, https://github.com/phetsims/ratio-and-proportion/issues/404
-   * @param {Object} [options]
-   */
-  constructor( options?: PathOptions ) { // eslint-disable-line no-undef
+  constructor( providedOptions?: PathOptions ) {
 
-    options = merge( {
+    const options = optionize<PathOptions>( {
       stroke: 'black',
       lineWidth: 2
-    }, options );
+    }, providedOptions );
 
     const shape = `M44.323,14.238c-0.717-0.717-1.574-1.073-2.572-1.073s-1.855,0.357-2.571,1.073c-0.717,0.716-1.075,1.574-1.075,2.572v3.138
 c-0.31-0.476-0.661-0.921-1.042-1.34V8.477c0-0.998-0.356-1.856-1.073-2.573c-0.717-0.715-1.574-1.073-2.572-1.073

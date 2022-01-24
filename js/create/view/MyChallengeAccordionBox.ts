@@ -48,6 +48,7 @@ class MyChallengeAccordionBox extends AccordionBox {
                handColorProperty: Property<Color>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
                ratioDescriber: RatioDescriber, options: AccordionBoxOptions ) {
 
+    // TODO: convert to optionize once AccoridionBox is typescript https://github.com/phetsims/ratio-and-proportion/issues/404
     options = merge( {
       titleNode: new RichText( ratioAndProportionStrings.myChallenge, {
         font: new PhetFont( 20 ),

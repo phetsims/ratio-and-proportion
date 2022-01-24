@@ -23,6 +23,7 @@ class DiscoverScreenIcon extends ScreenIcon {
    */
   constructor( options?: any ) {
 
+    // TODO: convert to optionize once ScreenIcon is typescript https://github.com/phetsims/ratio-and-proportion/issues/404
     options = merge( {
       fill: 'white',
       handColor: RAPColors.discoverChallenge1Property.value
