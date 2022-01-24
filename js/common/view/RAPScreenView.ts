@@ -201,7 +201,6 @@ class RAPScreenView extends ScreenView {
       // Added to the antecedent for ease, but it applies to both RatioHalfs in the PDOM
       helpText: ratioAndProportionStrings.a11y.individualHandsHelpText,
 
-      // @ts-ignore TODO RectangleOptions defined in phet-types is fundamentally incompatible with Node's NodeOptions, thus messing in RatioHalf's options. Once Rectangle is TS'ed, we should use RectangleOptions
       helpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT,
 
       // phet-io
@@ -433,7 +432,6 @@ class RAPScreenView extends ScreenView {
    */
   layout( viewBounds: Bounds2 ): void {
 
-    // @ts-ignore Discovered in https://github.com/phetsims/chipper/issues/1139
     this.matrix = ScreenView.getLayoutMatrix( this.layoutBounds, viewBounds, { verticalAlign: 'bottom' } );
     this.visibleBoundsProperty.value = this.parentToLocalBounds( viewBounds );
 

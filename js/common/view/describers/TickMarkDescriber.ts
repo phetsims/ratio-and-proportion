@@ -48,6 +48,8 @@ const ORDINAL_TICK_MARKS = [
   ratioAndProportionStrings.a11y.tickMark.ordinal.twentyNinth
 ];
 
+const zeroString: 'zero' = ratioAndProportionStrings.a11y.tickMark.relative.zero as 'zero';
+
 type TickMarkDescriptionData = {
   tickMarkPosition: number | 'zero',
   relativePosition: string,
@@ -105,7 +107,7 @@ class TickMarkDescriber {
     const roundedUp = Math.ceil( expandedValue );
     const roundedDown = Math.floor( expandedValue );
     const tickMarkNumber = remainder > ROUND_DOWN_THRESHOLD ? roundedUp : roundedDown;
-    let tickMarkDisplayedNumber = tickMarkNumber; // could be `tickMarkNumber + .5` depending on the tick mark view
+    let tickMarkDisplayedNumber: number | 'zero' = tickMarkNumber; // could be `tickMarkNumber + .5` depending on the tick mark view
     let relativePosition = null;
 
     const inZeroCase = tickMarkNumber === 0;
@@ -119,8 +121,7 @@ class TickMarkDescriber {
       if ( inZeroCase ) {
         relativePosition = ratioAndProportionStrings.a11y.tickMark.relative.at;
 
-        // @ts-ignore see https://github.com/phetsims/chipper/issues/1139
-        tickMarkDisplayedNumber = ratioAndProportionStrings.a11y.tickMark.relative.zero;
+        tickMarkDisplayedNumber = zeroString;
         ordinalPosition = null;
       }
       else {
@@ -131,8 +132,7 @@ class TickMarkDescriber {
       if ( inZeroCase ) {
         relativePosition = ratioAndProportionStrings.a11y.tickMark.relative.near;
 
-        // @ts-ignore see https://github.com/phetsims/chipper/issues/1139
-        tickMarkDisplayedNumber = ratioAndProportionStrings.a11y.tickMark.relative.zero;
+        tickMarkDisplayedNumber = zeroString;
         ordinalPosition = null;
       }
       else {
@@ -178,8 +178,7 @@ class TickMarkDescriber {
     return {
       tickMarkPosition: tickMarkDisplayedNumber,
 
-      // @ts-ignore see https://github.com/phetsims/chipper/issues/1139
-      relativePosition: relativePosition,
+      relativePosition: relativePosition!,
       ordinalPosition: ordinalPosition
     };
   }
