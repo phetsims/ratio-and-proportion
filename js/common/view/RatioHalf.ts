@@ -18,12 +18,10 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import { DragListener, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import RatioTerm from '../model/RatioTerm.js';
 import rapConstants from '../rapConstants.js';
 import CueDisplay from './CueDisplay.js';
@@ -32,13 +30,14 @@ import RatioHandNode from './RatioHandNode.js';
 import ViewSounds from './sound/ViewSounds.js';
 import TickMarkView from './TickMarkView.js';
 import BothHandsDescriber from './describers/BothHandsDescriber.js';
-import HandPositionsDescriber from './describers/HandPositionsDescriber.js';
+import HandPositionsDescriber, { SingleHandContextResponseOptions } from './describers/HandPositionsDescriber.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import CueArrowsState from './CueArrowsState.js';
 import RatioDescriber from './describers/RatioDescriber.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import DistanceResponseType from './describers/DistanceResponseType.js';
 
 // constants
 const MIN_FRAMING_RECTANGLE_HEIGHT = 32;
@@ -340,7 +339,9 @@ class RatioHalf extends Rectangle {
         // @ts-ignore
         this.ratioHandNode.voicingSpeakResponse( {
           utterance: voicingUtteranceForDrag,
-          contextResponse: this.handPositionsDescriber.getSingleHandDistanceProgressSentence( this.ratioTerm ),
+          contextResponse: this.getSingleHandContextResponse( this.voicingHandPositionsDescriber, {
+            distanceResponseType: DistanceResponseType.DISTANCE_PROGRESS
+          } ),
 
           // @ts-ignore
           objectResponse: this.ratioHandNode.voicingObjectResponse
@@ -378,7 +379,9 @@ class RatioHalf extends Rectangle {
           // @ts-ignore
           this.ratioHandNode.voicingSpeakResponse( {
             utterance: voicingUtteranceForDrag,
-            contextResponse: this.handPositionsDescriber.getSingleHandDistanceRegionSentence( this.ratioTerm ),
+            contextResponse: this.getSingleHandContextResponse( this.voicingHandPositionsDescriber, {
+              distanceResponseType: DistanceResponseType.DISTANCE_REGION
+            } ),
 
             // @ts-ignore
             objectResponse: this.ratioHandNode.voicingObjectResponse
@@ -497,19 +500,17 @@ class RatioHalf extends Rectangle {
    * in ratio. This is the context response for the individual ratio half hand (slider) interaction. Returning
    * null means no alert will occur.
    * @public
+   * @param handPositionsDescriber
+   * @param options - passed directly to HandPositionsDescriber.getSingleHandContextResponse
    */
-  getSingleHandContextResponse( handPositionsDescriber: HandPositionsDescriber ): null | string {
+  getSingleHandContextResponse( handPositionsDescriber: HandPositionsDescriber, options?: SingleHandContextResponseOptions ): string {
 
     // When locked, give a description of both-hands, instead of just a single one.
     if ( this.ratioLockedProperty.value ) {
       return this.bothHandsDescriber.getBothHandsContextResponse();
     }
 
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.distancePositionContextResponse, {
-      distance: handPositionsDescriber.getSingleHandDistance( this.ratioTerm ),
-      position: handPositionsDescriber.getHandPositionDescription( this.ratioTupleProperty.value.getForTerm( this.ratioTerm ),
-        this.tickMarkViewProperty.value )
-    } );
+    return handPositionsDescriber.getSingleHandContextResponse( this.ratioTerm, this.tickMarkViewProperty.value, options );
   }
 
   /**

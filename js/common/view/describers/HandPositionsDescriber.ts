@@ -18,6 +18,8 @@ import Property from '../../../../../axon/js/Property.js';
 import RAPRatioTuple from '../../model/RAPRatioTuple.js';
 import TickMarkDescriber from './TickMarkDescriber.js';
 import IReadOnlyProperty from '../../../../../axon/js/IReadOnlyProperty.js';
+import DistanceResponseType from './DistanceResponseType.js';
+import optionize from '../../../../../phet-core/js/optionize.js';
 
 // constants
 const leftHandLowerString = ratioAndProportionStrings.a11y.leftHandLower;
@@ -68,7 +70,11 @@ const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 type GetDistanceProgressStringOptions = {
   closerString?: string;
   fartherString?: string
-}
+};
+
+type SingleHandContextResponseOptions = {
+  distanceResponseType?: DistanceResponseType
+};
 
 class HandPositionsDescriber {
 
@@ -80,10 +86,6 @@ class HandPositionsDescriber {
   private previousDistance: number;
   public static QUALITATIVE_POSITIONS: string[];
 
-  /**
-   * @param {Property.<RAPRatioTuple>} ratioTupleProperty
-   * @param {TickMarkDescriber} tickMarkDescriber
-   */
   constructor( ratioTupleProperty: Property<RAPRatioTuple>, tickMarkDescriber: TickMarkDescriber, inProportionProperty: IReadOnlyProperty<boolean> ) {
 
     // @private - from model
@@ -215,6 +217,38 @@ class HandPositionsDescriber {
     return ( lowercase ? DISTANCE_REGIONS_LOWERCASE : DISTANCE_REGIONS_CAPITALIZED )[ index ];
   }
 
+  public getSingleHandContextResponse( ratioTerm: RatioTerm, tickMarkView: TickMarkView, providedOptions?: SingleHandContextResponseOptions ): string {
+
+    const options = optionize<SingleHandContextResponseOptions, SingleHandContextResponseOptions>( {
+
+      // By default, let the describer decide if we should have distance progress or region
+      distanceResponseType: DistanceResponseType.COMBO
+    }, providedOptions );
+
+    let distanceResponse = null;
+    switch( options.distanceResponseType ) {
+      case DistanceResponseType.COMBO:
+        distanceResponse = this.getSingleHandComboDistance( ratioTerm );
+        break;
+      case DistanceResponseType.DISTANCE_PROGRESS:
+        distanceResponse = this.getSingleHandDistanceProgressSentence( ratioTerm );
+        break;
+      case DistanceResponseType.DISTANCE_REGION:
+        distanceResponse = this.getSingleHandDistanceRegionSentence( ratioTerm );
+        break;
+      default:
+        assert && assert( false, 'This is not how enums work' );
+    }
+
+    assert && assert( distanceResponse, 'Should be filled in by now' );
+
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.distancePositionContextResponse, {
+      distance: distanceResponse,
+      position: this.getHandPositionDescription( this.ratioTupleProperty.value.getForTerm( ratioTerm ),
+        tickMarkView )
+    } );
+  }
+
   public getSingleHandDistanceRegionSentence( ratioTerm: RatioTerm ): string {
     const otherHand = ratioTerm === RatioTerm.ANTECEDENT ? rightHandLowerString : leftHandLowerString;
 
@@ -235,7 +269,9 @@ class HandPositionsDescriber {
     } );
   }
 
-  public getSingleHandDistance( ratioTerm: RatioTerm ): string {
+  // This "combo" approach will conditionally provide distance-progress to make sure repetition is not heard within
+  // distance regions.
+  public getSingleHandComboDistance( ratioTerm: RatioTerm ): string {
     const otherHand = ratioTerm === RatioTerm.ANTECEDENT ? rightHandLowerString : leftHandLowerString;
 
     const distanceRegion = this.getDistanceRegion( false );
@@ -329,3 +365,4 @@ HandPositionsDescriber.QUALITATIVE_POSITIONS = QUALITATIVE_POSITIONS;
 
 ratioAndProportion.register( 'HandPositionsDescriber', HandPositionsDescriber );
 export default HandPositionsDescriber;
+export type { SingleHandContextResponseOptions };
