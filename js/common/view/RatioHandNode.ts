@@ -16,7 +16,7 @@ import Orientation from '../../../../phet-core/js/Orientation.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import ArrowKeyNode from '../../../../scenery-phet/js/keyboard/ArrowKeyNode.js';
 import LetterKeyNode from '../../../../scenery-phet/js/keyboard/LetterKeyNode.js';
-import { Color, FocusHighlightFromNode, Node, NodeOptions, Path, PathOptions } from '../../../../scenery/js/imports.js';
+import { Color, FocusHighlightFromNode, Node, NodeOptions, Path, PathOptions, Voicing } from '../../../../scenery/js/imports.js';
 import AccessibleSlider from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -36,7 +36,8 @@ type CreateIconOptions = {
   handNodeOptions?: NodeOptions
 };
 
-class RatioHandNode extends Node {
+// TODO: remove once AccessibleValueHandler has Voicing back in it, https://github.com/phetsims/scenery/issues/1340
+class RatioHandNode extends Voicing( Node ) {
   private resetRatioHandNode: () => void;
 
   /**
