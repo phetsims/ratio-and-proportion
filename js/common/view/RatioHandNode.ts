@@ -16,7 +16,7 @@ import Orientation from '../../../../phet-core/js/Orientation.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import ArrowKeyNode from '../../../../scenery-phet/js/keyboard/ArrowKeyNode.js';
 import LetterKeyNode from '../../../../scenery-phet/js/keyboard/LetterKeyNode.js';
-import { Color, FocusHighlightFromNode, Node, NodeOptions, Path, PathOptions, Voicing } from '../../../../scenery/js/imports.js';
+import { Color, FocusHighlightFromNode, Node, NodeOptions, Path, PathOptions } from '../../../../scenery/js/imports.js';
 import AccessibleSlider from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -36,8 +36,8 @@ type CreateIconOptions = {
   handNodeOptions?: NodeOptions
 };
 
-// TODO: remove once AccessibleValueHandler has Voicing back in it, https://github.com/phetsims/scenery/issues/1340
-class RatioHandNode extends Voicing( Node ) {
+// TODO: "as any" solves a Base constructors must all have the same return type, see https://stackoverflow.com/questions/45605058/base-constructors-must-all-have-the-same-return-type https://github.com/phetsims/scenery/issues/1340
+class RatioHandNode extends AccessibleSlider( Node as any ) {
   private resetRatioHandNode: () => void;
 
   /**
@@ -91,14 +91,12 @@ class RatioHandNode extends Voicing( Node ) {
       a11yDependencies: []
     }, options );
 
-    super();
+    super( valueProperty, enabledRatioTermsRangeProperty, new BooleanProperty( true ), options );
 
-    // Always the same range, always enabled
-    // @ts-ignore
-    this.initializeAccessibleSlider( valueProperty, enabledRatioTermsRangeProperty, new BooleanProperty( true ), options );
+    const thisNode = this as unknown as Node;
 
     if ( options.asIcon ) {
-      this.pdomVisible = false;
+      thisNode.pdomVisible = false;
     }
 
     // @private
@@ -113,14 +111,14 @@ class RatioHandNode extends Voicing( Node ) {
     const handContainer = new Node( {
       children: [ filledInHandNode, cutOutHandNode ]
     } );
-    this.addChild( handContainer );
+    thisNode.addChild( handContainer );
 
     // empirical multipliers to center hand on palm. Don't change these without altering the layout for the cue arrows too.
     handContainer.right = handContainer.width * 0.365;
     handContainer.bottom = handContainer.height * 0.54;
 
     assert && assert( !options.focusHighlight, 'RatioHandNode sets its own focusHighlight' );
-    this.focusHighlight = new FocusHighlightFromNode( handContainer );
+    thisNode.focusHighlight = new FocusHighlightFromNode( handContainer );
 
     // Only display the "cut-out target circles" when the tick marks are being shown
     tickMarkViewProperty.link( tickMarkView => {
@@ -168,8 +166,8 @@ class RatioHandNode extends Voicing( Node ) {
       children: [ cueArrowDown, cueArrowKeyDown, cueSKeyDown ]
     } );
 
-    this.addChild( upCue );
-    this.addChild( downCue );
+    thisNode.addChild( upCue );
+    thisNode.addChild( downCue );
 
     cueDisplayProperty.link( cueDisplay => {
       cueArrowUp.visible = cueArrowDown.visible = cueDisplay === CueDisplay.ARROWS;
@@ -177,20 +175,18 @@ class RatioHandNode extends Voicing( Node ) {
       cueWKeyUp.visible = cueSKeyDown.visible = cueDisplay === CueDisplay.W_S;
     } );
 
-    this.mutate( options );
-
     // Flip the hand if it isn't a right hand. Do this after the circle/hand relative positioning
-    this.scale( rightHandFlipScale );
+    thisNode.scale( rightHandFlipScale );
 
     // This .1 is to offset the centering of the white circle, it is empirically determined.
-    upCue.centerX = downCue.centerX = this.centerX + ( options.isRight ? 1 : -1 ) * this.width * 0.1;
+    upCue.centerX = downCue.centerX = thisNode.centerX + ( options.isRight ? 1 : -1 ) * thisNode.width * 0.1;
 
     const areaBounds = handContainer.bounds.dilatedXY( handContainer.width * 0.2, handContainer.height * 0.2 );
-    this.touchArea = areaBounds;
-    this.mouseArea = areaBounds;
+    thisNode.touchArea = areaBounds;
+    thisNode.mouseArea = areaBounds;
 
     // reset remainder when unfocused
-    this.addInputListener( {
+    thisNode.addInputListener( {
       blur: () => mapKeyboardInput.reset(),
       down: () => mapKeyboardInput.reset()
     } );
@@ -239,7 +235,7 @@ class RatioHandNode extends Voicing( Node ) {
       }, options.handNodeOptions ) );
 
     return new Node( {
-      children: [ ratioHandNode ]
+      children: [ ratioHandNode as unknown as Node ]
     } );
   }
 }
@@ -291,8 +287,6 @@ c1.932-2.887,2.112-9.526,2.475-13.186c0.069-0.698,0.162-1.334,0.162-1.92v-16.21C
     super( shape, options );
   }
 }
-
-AccessibleSlider.mixInto( RatioHandNode );
 
 ratioAndProportion.register( 'RatioHandNode', RatioHandNode );
 export default RatioHandNode;

@@ -120,7 +120,7 @@ class MyChallengeAccordionBox extends AccordionBox {
         RatioHandNode.createIcon( false, tickMarkViewProperty, {
           handColor: handColorProperty.value, handNodeOptions: { scale: ICON_SCALE }
         } ),
-        new Node( { children: [ antecedentNumberPicker ] } ) ]
+        new Node( { children: [ antecedentNumberPicker as unknown as Node ] } ) ]
     } );
 
     const consequentNumberPicker = new NumberPicker( targetConsequentProperty, rangeProperty, {
@@ -140,7 +140,7 @@ class MyChallengeAccordionBox extends AccordionBox {
         RatioHandNode.createIcon( true, tickMarkViewProperty, {
           handColor: handColorProperty.value, handNodeOptions: { scale: ICON_SCALE }
         } ),
-        new Node( { children: [ consequentNumberPicker ] } ) ]
+        new Node( { children: [ consequentNumberPicker as unknown as Node ] } ) ]
     } );
 
     const myChallengeContent = new HBox( {

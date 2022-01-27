@@ -19,7 +19,7 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import { DragListener, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
+import { DragListener, Node, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioTerm from '../model/RatioTerm.js';
@@ -444,7 +444,7 @@ class RatioHalf extends Rectangle {
       topRect,
       bottomRect,
       tickMarksNode,
-      this.ratioHandNode
+      ( this.ratioHandNode as unknown as Node )
     ];
 
     // @private
