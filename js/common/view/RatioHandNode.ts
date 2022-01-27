@@ -36,8 +36,7 @@ type CreateIconOptions = {
   handNodeOptions?: NodeOptions
 };
 
-// TODO: "as any" solves a Base constructors must all have the same return type, see https://stackoverflow.com/questions/45605058/base-constructors-must-all-have-the-same-return-type https://github.com/phetsims/scenery/issues/1340
-class RatioHandNode extends AccessibleSlider( Node as any ) {
+class RatioHandNode extends AccessibleSlider( Node ) {
   private resetRatioHandNode: () => void;
 
   /**
@@ -93,10 +92,8 @@ class RatioHandNode extends AccessibleSlider( Node as any ) {
 
     super( valueProperty, enabledRatioTermsRangeProperty, new BooleanProperty( true ), options );
 
-    const thisNode = this as unknown as Node;
-
     if ( options.asIcon ) {
-      thisNode.pdomVisible = false;
+      this.pdomVisible = false;
     }
 
     // @private
@@ -111,14 +108,14 @@ class RatioHandNode extends AccessibleSlider( Node as any ) {
     const handContainer = new Node( {
       children: [ filledInHandNode, cutOutHandNode ]
     } );
-    thisNode.addChild( handContainer );
+    this.addChild( handContainer );
 
     // empirical multipliers to center hand on palm. Don't change these without altering the layout for the cue arrows too.
     handContainer.right = handContainer.width * 0.365;
     handContainer.bottom = handContainer.height * 0.54;
 
     assert && assert( !options.focusHighlight, 'RatioHandNode sets its own focusHighlight' );
-    thisNode.focusHighlight = new FocusHighlightFromNode( handContainer );
+    this.focusHighlight = new FocusHighlightFromNode( handContainer );
 
     // Only display the "cut-out target circles" when the tick marks are being shown
     tickMarkViewProperty.link( tickMarkView => {
@@ -166,8 +163,8 @@ class RatioHandNode extends AccessibleSlider( Node as any ) {
       children: [ cueArrowDown, cueArrowKeyDown, cueSKeyDown ]
     } );
 
-    thisNode.addChild( upCue );
-    thisNode.addChild( downCue );
+    this.addChild( upCue );
+    this.addChild( downCue );
 
     cueDisplayProperty.link( cueDisplay => {
       cueArrowUp.visible = cueArrowDown.visible = cueDisplay === CueDisplay.ARROWS;
@@ -176,17 +173,17 @@ class RatioHandNode extends AccessibleSlider( Node as any ) {
     } );
 
     // Flip the hand if it isn't a right hand. Do this after the circle/hand relative positioning
-    thisNode.scale( rightHandFlipScale );
+    this.scale( rightHandFlipScale );
 
     // This .1 is to offset the centering of the white circle, it is empirically determined.
-    upCue.centerX = downCue.centerX = thisNode.centerX + ( options.isRight ? 1 : -1 ) * thisNode.width * 0.1;
+    upCue.centerX = downCue.centerX = this.centerX + ( options.isRight ? 1 : -1 ) * this.width * 0.1;
 
     const areaBounds = handContainer.bounds.dilatedXY( handContainer.width * 0.2, handContainer.height * 0.2 );
-    thisNode.touchArea = areaBounds;
-    thisNode.mouseArea = areaBounds;
+    this.touchArea = areaBounds;
+    this.mouseArea = areaBounds;
 
     // reset remainder when unfocused
-    thisNode.addInputListener( {
+    this.addInputListener( {
       blur: () => mapKeyboardInput.reset(),
       down: () => mapKeyboardInput.reset()
     } );
@@ -235,7 +232,7 @@ class RatioHandNode extends AccessibleSlider( Node as any ) {
       }, options.handNodeOptions ) );
 
     return new Node( {
-      children: [ ratioHandNode as unknown as Node ]
+      children: [ ratioHandNode ]
     } );
   }
 }
