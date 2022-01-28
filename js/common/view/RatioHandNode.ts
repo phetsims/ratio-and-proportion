@@ -7,7 +7,6 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -87,10 +86,14 @@ class RatioHandNode extends AccessibleSlider( Node ) {
       voicingCreateObjectResponse: () => {},
       voicingCreateContextResponse: () => {},
       voicingHintResponse: ratioAndProportionStrings.a11y.individualHandsVoicingHelpText,
-      a11yDependencies: []
+      a11yDependencies: [],
+
+      // AccessibleSlider
+      valueProperty: valueProperty,
+      enabledRangeProperty: enabledRatioTermsRangeProperty
     }, options );
 
-    super( valueProperty, enabledRatioTermsRangeProperty, new BooleanProperty( true ), options );
+    super( options );
 
     if ( options.asIcon ) {
       this.pdomVisible = false;
