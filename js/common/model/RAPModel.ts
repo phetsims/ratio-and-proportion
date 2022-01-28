@@ -231,7 +231,7 @@ unclampedFitness: ${unclampedFitness}
   }
 
   /**
-   * Given a ratio component (antecedent or consequent), determine what it should be to make the current ratio equal to
+   * Given a ratioTerm, determine how the provided RatioTerm should change to, to make the current ratio equal to
    * the target ratio.
    */
   public getIdealValueForTerm( ratioTerm: RatioTerm ): number {
@@ -241,7 +241,7 @@ unclampedFitness: ${unclampedFitness}
     if ( ratioTerm === RatioTerm.CONSEQUENT ) {
       return this.ratio.tupleProperty.value.antecedent / this.targetRatioProperty.value;
     }
-    assert && assert( false, 'Invalidat ratioTerm' );
+    assert && assert( false, 'Invalid ratioTerm' );
     return -1;
   }
 
