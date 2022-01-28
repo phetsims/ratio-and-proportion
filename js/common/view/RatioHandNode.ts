@@ -35,7 +35,7 @@ type CreateIconOptions = {
   handNodeOptions?: NodeOptions
 };
 
-class RatioHandNode extends AccessibleSlider( Node ) {
+class RatioHandNode extends AccessibleSlider( Node, 0 ) {
   private resetRatioHandNode: () => void;
 
   /**
