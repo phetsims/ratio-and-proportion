@@ -51,8 +51,7 @@ class RAPModel {
     // @public - The desired ratio of the antecedent as compared to the consequent. As in 1:2. Initialized to default ratio
     // so that we always start in-proportion.
     this.targetRatioProperty = new NumberProperty( this.ratio.currentRatio, {
-      tandem: tandem.createTandem( 'targetRatioProperty' ),
-      phetioStudioControl: false
+      tandem: tandem.createTandem( 'targetRatioProperty' )
     } );
 
     // @public {DerivedProperty.<number>}
