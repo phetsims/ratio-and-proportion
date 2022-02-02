@@ -101,12 +101,9 @@ type RatioHalfSelfOptions = {
   bothHandsCueDisplay?: CueDisplay;
 }
 
-// TODO: remove helpTextBehavior workaround when supported
 type RatioHalfOptions = RatioHalfSelfOptions & RectangleOptions;
-type RatioHalfImplementationOptions = Required<RatioHalfSelfOptions> & RectangleOptions;
 
 class RatioHalf extends Rectangle {
-
 
   public framingRectangleHeight: number;
   public readonly isBeingInteractedWithProperty: BooleanProperty;
@@ -148,7 +145,7 @@ class RatioHalf extends Rectangle {
       tagName: 'div',
       accessibleNameBehavior: ratioHalfAccessibleNameBehavior,
       accessibleName: null
-    }, providedOptions ) as RatioHalfImplementationOptions;
+    }, providedOptions );
 
     super( 0, 0, options.bounds.width, options.bounds.height );
 
