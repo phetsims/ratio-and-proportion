@@ -7,7 +7,7 @@
  */
 
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
-import generalSoftClick_mp3 from '../../../../../tambo/sounds/general-soft-click_mp3.js';
+import generalSoftClick_mp3 from '../../../../../tambo/sounds/generalSoftClick_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import Range from '../../../../../dot/js/Range.js';
 import Property from '../../../../../axon/js/Property.js';
