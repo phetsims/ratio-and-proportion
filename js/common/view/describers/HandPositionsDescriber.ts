@@ -7,7 +7,6 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import merge from '../../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
@@ -68,8 +67,9 @@ assert && assert( DISTANCE_REGIONS_CAPITALIZED.length === DISTANCE_REGIONS_LOWER
 const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 type GetDistanceProgressStringOptions = {
+  nullWhenInProportion?: boolean;
   closerString?: string;
-  fartherString?: string
+  fartherString?: string;
 };
 
 type SingleHandContextResponseOptions = {
@@ -262,10 +262,17 @@ class HandPositionsDescriber {
 
   public getSingleHandDistanceProgressSentence( ratioTerm: RatioTerm ): string {
     const otherHand = ratioTerm === RatioTerm.ANTECEDENT ? rightHandLowerString : leftHandLowerString;
+    const distanceProgress = this.getDistanceProgressString( {
+
+      // when asking exclusively for distanceProgress, make sure we always get distance progress, and never get `null` ever
+      nullWhenInProportion: false
+    } );
+
+    assert && assert( typeof distanceProgress === 'string' );
 
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDistanceProgressClause, {
       otherHand: otherHand,
-      distanceOrDistanceProgress: this.getDistanceProgressString()
+      distanceOrDistanceProgress: distanceProgress
     } );
   }
 
@@ -329,25 +336,31 @@ class HandPositionsDescriber {
     return StringUtils.fillIn( pattern, { distance: distanceRegion } );
   }
 
-  private getDistanceProgressString( options?: GetDistanceProgressStringOptions ): null | string {
+  private getDistanceProgressString( providedOptions?: GetDistanceProgressStringOptions ): null | string {
+
+
+    const options = optionize<GetDistanceProgressStringOptions, GetDistanceProgressStringOptions>( {
+      closerString: ratioAndProportionStrings.a11y.handPosition.closerTo,
+      fartherString: ratioAndProportionStrings.a11y.handPosition.fartherFrom,
+
+      // When false, this function will still provide distance progress even when in proportion, otherwise, return null
+      // when in proportion
+      nullWhenInProportion: true
+    }, providedOptions );
+
 
     // No distance progress if in proportion
-    if ( this.inProportionProperty.value ) {
+    if ( options.nullWhenInProportion && this.inProportionProperty.value ) {
       return null;
     }
-
-    const filledOptions = merge( {
-      closerString: ratioAndProportionStrings.a11y.handPosition.closerTo,
-      fartherString: ratioAndProportionStrings.a11y.handPosition.fartherFrom
-    }, options ) as Required<GetDistanceProgressStringOptions>;
 
     const currentDistance = this.ratioTupleProperty.value.getDistance();
     let distanceProgressString = null;
     if ( currentDistance < this.previousDistance ) {
-      distanceProgressString = filledOptions.closerString;
+      distanceProgressString = options.closerString;
     }
     else if ( currentDistance > this.previousDistance ) {
-      distanceProgressString = filledOptions.fartherString;
+      distanceProgressString = options.fartherString;
     }
 
     return distanceProgressString;
