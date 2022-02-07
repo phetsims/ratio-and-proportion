@@ -26,6 +26,7 @@ class CreateScreenView extends RAPScreenView {
 
   private tickMarkRangeComboBoxNode: TickMarkRangeComboBoxNode;
   private resetCreateScreenView: () => void;
+  private createScreenSummaryNode: CreateScreenSummaryNode;
 
   constructor( model: RAPModel, backgroundColorProperty: Property<ColorDef>, tandem: Tandem ) {
 
@@ -49,7 +50,7 @@ class CreateScreenView extends RAPScreenView {
     this.tickMarkRangeComboBoxNode = new TickMarkRangeComboBoxNode( this.tickMarkRangeProperty, tickMarkRangeComboBoxParent, this.tickMarkViewProperty );
 
     // set this after the supertype has initialized the view code needed to create the screen summary
-    this.setScreenSummaryContent( new CreateScreenSummaryNode(
+    this.createScreenSummaryNode = new CreateScreenSummaryNode(
       model.ratioFitnessProperty,
       model.ratio.tupleProperty,
       this.tickMarkViewProperty,
@@ -58,7 +59,8 @@ class CreateScreenView extends RAPScreenView {
       this.handPositionsDescriber,
       this.tickMarkRangeProperty,
       myChallengeAccordionBox
-    ) );
+    );
+    this.setScreenSummaryContent( this.createScreenSummaryNode );
 
     const ratioLockedUtterance = new ActivationUtterance();
 
@@ -171,6 +173,15 @@ class CreateScreenView extends RAPScreenView {
    */
   public getVoicingOverviewContent(): string {
     return ratioAndProportionStrings.a11y.create.overviewSentence;
+  }
+
+  /**
+   * To support voicing.
+   * @override
+   * @public
+   */
+  public getVoicingDetailsContent(): string {
+    return this.createScreenSummaryNode.getDetailsButtonState();
   }
 
   /**

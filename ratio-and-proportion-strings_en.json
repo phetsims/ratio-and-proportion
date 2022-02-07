@@ -334,6 +334,12 @@
     "screenSummaryQualitativeStateOfSim": {
       "value": "Currently, the screen is {{color}}, hands are {{ratioFitness}} the {{currentChallenge}} ratio and {{distance}} each other:"
     },
+    "detailsButtonPattern": {
+      "value": "{{stateOfSim}} {{leftHand}} {{rightHand}}"
+    },
+    "detailsButtonWithCurrentChallengePattern": {
+      "value": "{{stateOfSim}} {{leftHand}} {{rightHand}} {{currentChallenge}}"
+    },
     "discover": {
       "homeScreenDescription": {
         "value": "Explore and discover set challenge ratios."

@@ -18,6 +18,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 class DiscoverScreenView extends RAPScreenView {
 
   private comboBoxContainer: ChallengeRatioComboBoxNode;
+  private discoverScreenSummaryNode: DiscoverScreenSummaryNode;
 
   constructor( model: RAPModel, backgroundColorProperty: Property<ColorDef>, tandem: Tandem ) {
 
@@ -47,7 +48,7 @@ class DiscoverScreenView extends RAPScreenView {
     this.pdomPlayAreaNode.pdomOrder = this.pdomPlayAreaNode.pdomOrder!.concat( [ this.comboBoxContainer, comboBoxListBoxParent ] );
 
     // set this after the supertype has initialized the view code needed to create the screen summary
-    this.setScreenSummaryContent( new DiscoverScreenSummaryNode(
+    this.discoverScreenSummaryNode = new DiscoverScreenSummaryNode(
       model.ratioFitnessProperty,
       model.ratio.tupleProperty,
       model.targetRatioProperty,
@@ -56,7 +57,8 @@ class DiscoverScreenView extends RAPScreenView {
       model.inProportionProperty,
       this.handPositionsDescriber,
       this.comboBoxContainer.ratioToChallengeNameMap
-    ) );
+    );
+    this.setScreenSummaryContent( this.discoverScreenSummaryNode );
 
     // layout
     this.comboBoxContainer.right = this.tickMarkViewRadioButtonGroup.right;
@@ -80,6 +82,15 @@ class DiscoverScreenView extends RAPScreenView {
    */
   public getVoicingOverviewContent(): string {
     return ratioAndProportionStrings.a11y.discover.overviewSentence;
+  }
+
+  /**
+   * To support voicing.
+   * @override
+   * @public
+   */
+  public getVoicingDetailsContent(): string {
+    return this.discoverScreenSummaryNode.getDetailsButtonState();
   }
 
   /**
