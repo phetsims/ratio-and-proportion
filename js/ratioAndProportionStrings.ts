@@ -139,6 +139,7 @@ type StringsType = {
         'paragraph3': string,
         'interactionHint': string
       },
+      'overviewSentence': string,
       'challengesHelpText': string,
       'challenge1Lowercase': string,
       'challenge2Lowercase': string,
@@ -152,6 +153,7 @@ type StringsType = {
         'paragraph2': string,
         'interactionHint': string
       },
+      'overviewSentence': string,
       'challenge': string,
       'tickMarkRangeHelpText': string,
       'tickMarkRangeContextResponse': string,

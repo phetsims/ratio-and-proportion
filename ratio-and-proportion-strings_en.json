@@ -352,6 +352,9 @@
           "value": "Move hands up and down to explore and discover different challenges."
         }
       },
+      "overviewSentence": {
+        "value": "The Discover Screen changes as you play with it.\nA tall space contains two interactive hands, a Left Hand and a Right Hand. You can move the Left Hand and the Right Hand up and down individually, or activate Both Hands to move both hands at the same time. As you move the hands up and down, you will get closer to or farther from the challenge ratio, and closer or farther from a dark green screen.\nTick mark options allow you to explore the vertical space with evenly-spaced horizontal lines. \nThere are different challenges to explore, and a button to reset the sim."
+      },
       "challengesHelpText": {
         "value": "Choose a challenge, then move hands to explore it."
       },
@@ -382,6 +385,9 @@
         "interactionHint": {
           "value": "Explore current challenge, or look for My Challenge to create your own."
         }
+      },
+      "overviewSentence": {
+        "value": "The Create Screen changes as you play with it.\nHere, you can create your own Challenge Ratio. A tall space contains two interactive hands, a Left Hand and a Right Hand. You can move the Left Hand and the Right Hand up and down individually, or activate Both Hands to move both hands at the same time. As you move the hands up and down, you will get closer to or farther from the Challenge Ratio, unless you lock the ratio when screen is darkest green.\nTick mark options allow you to explore the vertical space with evenly-spaced horizontal lines, and you can increase the tick mark range to explore larger numbers. \nFinally, there is a button to reset the sim."
       },
       "challenge": {
         "value": "challenge"

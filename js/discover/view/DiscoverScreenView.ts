@@ -78,6 +78,15 @@ class DiscoverScreenView extends RAPScreenView {
    * @override
    * @public
    */
+  public getVoicingOverviewContent(): string {
+    return ratioAndProportionStrings.a11y.discover.overviewSentence;
+  }
+
+  /**
+   * To support voicing.
+   * @override
+   * @public
+   */
   public getVoicingHintContent(): string {
     return ratioAndProportionStrings.a11y.discover.screenSummary.interactionHint;
   }

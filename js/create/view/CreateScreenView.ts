@@ -169,6 +169,15 @@ class CreateScreenView extends RAPScreenView {
    * @override
    * @public
    */
+  public getVoicingOverviewContent(): string {
+    return ratioAndProportionStrings.a11y.create.overviewSentence;
+  }
+
+  /**
+   * To support voicing.
+   * @override
+   * @public
+   */
   public getVoicingHintContent(): string {
     return ratioAndProportionStrings.a11y.create.screenSummary.interactionHint;
   }
