@@ -1,6 +1,7 @@
 // Copyright 2020-2022, University of Colorado Boulder
 
 /**
+ * This composes a ComboBox to provide a separate PDOM Node as a heading
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
@@ -36,13 +37,11 @@ class ChallengeRatioComboBoxNode extends Node {
    * @param {RatioDescriber} ratioDescriber
    * @param {Property.<Color>} colorProperty
    * @param {Node} comboBoxListParent
-   * @param {Tandem} comboBoxTandem - to pass directly to the comboBox
+   * @param {Tandem} comboBoxTandem - Passed directly to comboBox; keep out of options to prevent instrumenting this intermediate Node.
    * @param {Object} [options]
    */
   constructor( targetRatioProperty: NumberProperty, ratioDescriber: RatioDescriber, colorProperty: Property<Color | string>,
-               comboBoxListParent: Node, comboBoxTandem: Tandem, options?: NodeOptions ) {
-
-    assert && options && assert( !options.children, 'ChallengeRatioComboBoxNode sets its own children.' );
+               comboBoxListParent: Node, comboBoxTandem: Tandem, options?: Omit<NodeOptions, 'children'> ) {
 
     super( options );
 
@@ -82,6 +81,7 @@ class ChallengeRatioComboBoxNode extends Node {
       } )
     ], targetRatioProperty, comboBoxListParent, {
       helpText: ratioAndProportionStrings.a11y.discover.challengesHelpText,
+      voicingHintResponse: ratioAndProportionStrings.a11y.discover.challengesHelpText,
       maxWidth: 300, // empirically determined
 
       // phet-io
