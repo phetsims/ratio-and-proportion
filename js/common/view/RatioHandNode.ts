@@ -85,6 +85,7 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
       },
       voicingHintResponse: ratioAndProportionStrings.a11y.individualHandsVoicingHelpText,
       a11yDependencies: [],
+      provideVoicing: true, // voicing support in AccessibleValueHandler
 
       // AccessibleSlider
       valueProperty: valueProperty,

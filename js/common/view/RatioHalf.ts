@@ -228,10 +228,10 @@ class RatioHalf extends Rectangle {
         isRight: options.isRight,
 
         a11yCreateAriaValueText: createObjectResponse,
-        voicingCreateObjectResponse: createObjectResponse,
+        voicingObjectResponse: createObjectResponse,
 
         a11yCreateContextResponseAlert: () => this.getSingleHandContextResponse( this.handPositionsDescriber ),
-        voicingCreateContextResponse: () => this.getSingleHandContextResponse( this.voicingHandPositionsDescriber ),
+        voicingContextResponse: () => this.getSingleHandContextResponse( this.voicingHandPositionsDescriber ),
         a11yDependencies: options.a11yDependencies.concat( [ options.ratioLockedProperty ] ),
         voicingNameResponse: options.accessibleName // accessible name is also the voicing name response
       } );
@@ -309,9 +309,6 @@ class RatioHalf extends Rectangle {
         viewSounds.boundarySoundClip.onStartInteraction();
 
         // @ts-ignore
-        this.ratioHandNode.voicingObjectResponse = createObjectResponse();
-
-        // @ts-ignore
         this.ratioHandNode.voicingSpeakFullResponse( {
           contextResponse: null
         } );
@@ -328,18 +325,13 @@ class RatioHalf extends Rectangle {
           new Range( dragBoundsProperty.value.left, dragBoundsProperty.value.right ) );
         viewSounds.tickMarkBumpSoundClip.onInteract( positionProperty.value.y );
 
-        // @ts-ignore
-        this.ratioHandNode.voicingObjectResponse = createObjectResponse();
-
-        // @ts-ignore
-        this.ratioHandNode.voicingSpeakResponse( {
+        this.ratioHandNode.voicingSpeakFullResponse( {
           utterance: voicingUtteranceForDrag,
+          nameResponse: null,
           contextResponse: this.getSingleHandContextResponse( this.voicingHandPositionsDescriber, {
             distanceResponseType: DistanceResponseType.DISTANCE_PROGRESS
           } ),
-
-          // @ts-ignore
-          objectResponse: this.ratioHandNode.voicingObjectResponse
+          hintResponse: null
         } );
       },
 
@@ -362,24 +354,18 @@ class RatioHalf extends Rectangle {
         viewSounds.boundarySoundClip.onEndInteraction( positionProperty.value.y );
 
         // Support context response on interaction end from mouse/touch input.
-        // @ts-ignore
         this.ratioHandNode.alertContextResponse();
 
         // Only voice a response if the value changed
         if ( startingY !== positionProperty.value.y ) {
 
-          // @ts-ignore
-          this.ratioHandNode.voicingObjectResponse = createObjectResponse();
-
-          // @ts-ignore
-          this.ratioHandNode.voicingSpeakResponse( {
+          this.ratioHandNode.voicingSpeakFullResponse( {
             utterance: voicingUtteranceForDrag,
+            nameResponse: null,
             contextResponse: this.getSingleHandContextResponse( this.voicingHandPositionsDescriber, {
               distanceResponseType: DistanceResponseType.DISTANCE_REGION
             } ),
-
-            // @ts-ignore
-            objectResponse: this.ratioHandNode.voicingObjectResponse
+            hintResponse: null
           } );
         }
         else {
