@@ -68,7 +68,6 @@ const uiScaleFunction = new LinearFunction( LAYOUT_BOUNDS.height, MAX_RATIO_HEIG
 const uiPositionFunction = new LinearFunction( 1, 1.5, LAYOUT_BOUNDS.height * 0.15, -LAYOUT_BOUNDS.height * 0.2, true );
 
 type RAPScreenViewSelfOptions = {
-
   leftHandColorProperty?: Property<ColorDef>;
   rightHandColorProperty?: Property<ColorDef>;
   bothHandsPDOMNodeOptions?: Partial<BothHandsPDOMNodeOptions>; // Because all the required pieces are added by this type
@@ -94,7 +93,7 @@ class RAPScreenView extends ScreenView {
   protected bottomScalingUILayerNode: Node;
   protected resetAllButton: ResetAllButton;
   protected tickMarkViewRadioButtonGroup: TickMarkViewRadioButtonGroup;
-  private layoutRAPScreeView: ( b: Bounds2 ) => void
+  private layoutRAPScreeView: ( b: Bounds2 ) => void;
 
   constructor( model: RAPModel, backgroundColorProperty: Property<ColorDef>, tandem: Tandem, options?: RAPScreenViewOptions ) {
 
