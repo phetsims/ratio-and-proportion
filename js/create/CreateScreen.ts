@@ -14,7 +14,7 @@ import CreateScreenKeyboardHelpContent from './view/CreateScreenKeyboardHelpCont
 import CreateScreenView from './view/CreateScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 
-class CreateScreen extends Screen {
+class CreateScreen extends Screen<RAPModel, CreateScreenView> {
 
   /**
    * @param {Tandem} tandem
@@ -33,7 +33,7 @@ class CreateScreen extends Screen {
 
     super(
       () => new RAPModel( tandem.createTandem( 'model' ) ),
-      ( model: RAPModel ) => new CreateScreenView( model, backgroundColorProperty, tandem.createTandem( 'view' ) ),
+      model => new CreateScreenView( model, backgroundColorProperty, tandem.createTandem( 'view' ) ),
       options
     );
   }

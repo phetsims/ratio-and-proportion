@@ -14,7 +14,7 @@ import DiscoverScreenKeyboardHelpContent from './view/DiscoverScreenKeyboardHelp
 import DiscoverScreenView from './view/DiscoverScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 
-class DiscoverScreen extends Screen {
+class DiscoverScreen extends Screen<RAPModel, DiscoverScreenView> {
 
   /**
    * @param {Tandem} tandem
@@ -33,7 +33,7 @@ class DiscoverScreen extends Screen {
 
     super(
       () => new RAPModel( tandem.createTandem( 'model' ) ),
-      ( model: RAPModel ) => new DiscoverScreenView( model, backgroundColorProperty, tandem.createTandem( 'view' ) ),
+      model => new DiscoverScreenView( model, backgroundColorProperty, tandem.createTandem( 'view' ) ),
       options
     );
   }
