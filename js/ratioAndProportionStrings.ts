@@ -160,7 +160,8 @@ type StringsType = {
       'tickMarkRangeHelpText': string,
       'tickMarkRangeContextResponse': string,
       'myChallengeHelpText': string,
-      'bothHandsGestureDescriptionHelpText': string
+      'bothHandsGestureDescriptionHelpText': string,
+      'rangeLabelPattern': string
     },
     'handPosition': {
       'atTop': string,

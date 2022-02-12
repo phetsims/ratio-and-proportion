@@ -81,7 +81,8 @@ class ChallengeRatioComboBoxNode extends Node {
       } )
     ], targetRatioProperty, comboBoxListParent, {
       helpText: ratioAndProportionStrings.a11y.discover.challengesHelpText,
-      voicingHintResponse: ratioAndProportionStrings.a11y.discover.challengesHelpText,
+      comboBoxVoicingHintResponse: ratioAndProportionStrings.a11y.discover.challengesHelpText,
+      comboBoxVoicingContextResponse: () => ratioDescriber.getProximityToNewChallengeRatioSentence(),
       maxWidth: 300, // empirically determined
 
       // phet-io

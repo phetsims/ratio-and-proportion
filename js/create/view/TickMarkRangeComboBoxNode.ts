@@ -22,8 +22,8 @@ import ActivationUtterance from '../../../../utterance-queue/js/ActivationUttera
 import TickMarkView from '../../common/view/TickMarkView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
-import Property from '../../../../axon/js/Property.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import IProperty from '../../../../axon/js/IProperty.js';
 
 const TICK_MARK_RANGE_FONT = new PhetFont( 16 );
 const RANGE_TEXT_OPTIONS = { font: TICK_MARK_RANGE_FONT };
@@ -32,30 +32,33 @@ class TickMarkRangeComboBoxNode extends Node {
 
   private enabledComboBox: ComboBox;
   private disabledComboBox: ComboBox;
+  private tickMarkRangeMap: Record<number, string>;
+  private tickMarkRangeProperty: IProperty<number>
 
   /**
    * @param tickMarkRangeProperty
    * @param comboBoxParent
    * @param tickMarkViewProperty
    */
-  constructor( tickMarkRangeProperty: Property<number>, comboBoxParent: Node,
+  constructor( tickMarkRangeProperty: IProperty<number>, comboBoxParent: Node,
                tickMarkViewProperty: EnumerationProperty<TickMarkView> ) {
     super();
 
-    const tickMarkRangeMap: Record<number, string> = {
+    this.tickMarkRangeMap = {
       10: ratioAndProportionStrings.zeroToTen,
       20: ratioAndProportionStrings.zeroToTwenty,
       30: ratioAndProportionStrings.zeroToThirty
     };
+    this.tickMarkRangeProperty = tickMarkRangeProperty;
 
     const items = [
-      new ComboBoxItem( new RichText( tickMarkRangeMap[ 10 ], RANGE_TEXT_OPTIONS ), 10, {
+      new ComboBoxItem( new RichText( this.tickMarkRangeMap[ 10 ], RANGE_TEXT_OPTIONS ), 10, {
         a11yLabel: ratioAndProportionStrings.zeroToTen
       } ),
-      new ComboBoxItem( new RichText( tickMarkRangeMap[ 20 ], RANGE_TEXT_OPTIONS ), 20, {
+      new ComboBoxItem( new RichText( this.tickMarkRangeMap[ 20 ], RANGE_TEXT_OPTIONS ), 20, {
         a11yLabel: ratioAndProportionStrings.zeroToTwenty
       } ),
-      new ComboBoxItem( new RichText( tickMarkRangeMap[ 30 ], RANGE_TEXT_OPTIONS ), 30, {
+      new ComboBoxItem( new RichText( this.tickMarkRangeMap[ 30 ], RANGE_TEXT_OPTIONS ), 30, {
         a11yLabel: ratioAndProportionStrings.zeroToThirty
       } )
     ];
@@ -67,6 +70,10 @@ class TickMarkRangeComboBoxNode extends Node {
       helpText: ratioAndProportionStrings.a11y.create.tickMarkRangeHelpText,
       accessibleName: ratioAndProportionStrings.range,
       maxWidth: 300, // empirically determined
+
+      comboBoxVoicingNameResponsePattern: ratioAndProportionStrings.a11y.create.rangeLabelPattern,
+      comboBoxVoicingContextResponse: () => this.getContextResponse(),
+      comboBoxVoicingHintResponse: ratioAndProportionStrings.a11y.create.tickMarkRangeHelpText,
 
       // phet-io
       tandem: Tandem.OPT_OUT
@@ -94,10 +101,14 @@ class TickMarkRangeComboBoxNode extends Node {
     const tickMarkRangeChangedUtterance = new ActivationUtterance();
 
     tickMarkRangeProperty.lazyLink( ( range: number ) => {
-      tickMarkRangeChangedUtterance.alert = StringUtils.fillIn( ratioAndProportionStrings.a11y.create.tickMarkRangeContextResponse, {
-        range: tickMarkRangeMap[ range ]
-      } );
+      tickMarkRangeChangedUtterance.alert = this.getContextResponse();
       this.alertDescriptionUtterance( tickMarkRangeChangedUtterance );
+    } );
+  }
+
+  private getContextResponse(): string {
+    return StringUtils.fillIn( ratioAndProportionStrings.a11y.create.tickMarkRangeContextResponse, {
+      range: this.tickMarkRangeMap[ this.tickMarkRangeProperty.value ]
     } );
   }
 
