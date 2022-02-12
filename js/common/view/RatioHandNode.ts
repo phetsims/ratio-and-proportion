@@ -28,6 +28,7 @@ import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import Utterance from '../../../../utterance-queue/js/Utterance.js';
 
 type CreateIconOptions = {
 
@@ -71,6 +72,7 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
       isRight: true, // right hand or left hand
       asIcon: false, // when true, no input will be attached
 
+      // AccessibleValueHandler
       ariaOrientation: Orientation.VERTICAL,
       keyboardStep: keyboardStep,
       pageKeyboardStep: 1 / 5,
@@ -83,9 +85,14 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
         // @ts-ignore
         return mapKeyboardInput( newValue, oldValue, this.shiftKeyDown, inProportionProperty.value );
       },
-      voicingHintResponse: ratioAndProportionStrings.a11y.individualHandsVoicingHelpText,
       a11yDependencies: [],
       provideVoicing: true, // voicing support in AccessibleValueHandler
+
+      // Voicing
+      voicingHintResponse: ratioAndProportionStrings.a11y.individualHandsVoicingHelpText,
+      voicingUtterance: new Utterance( {
+        alertMaximumDelay: 500 // same as ISLCObjectNode
+      } ),
 
       // AccessibleSlider
       valueProperty: valueProperty,

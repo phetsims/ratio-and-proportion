@@ -35,7 +35,6 @@ import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import CueArrowsState from './CueArrowsState.js';
 import RatioDescriber from './describers/RatioDescriber.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
-import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import DistanceResponseType from './describers/DistanceResponseType.js';
 
@@ -287,10 +286,6 @@ class RatioHalf extends Rectangle {
     let startingX: null | number = null;
     let startingY: number = -1;
 
-    const voicingUtteranceForDrag = new Utterance( {
-      alertMaximumDelay: 500 // same as ISLCObjectNode
-    } );
-
     // transform and dragBounds set in layout code below
     const dragListener = new DragListener( {
       positionProperty: positionProperty,
@@ -326,7 +321,6 @@ class RatioHalf extends Rectangle {
         viewSounds.tickMarkBumpSoundClip.onInteract( positionProperty.value.y );
 
         this.ratioHandNode.voicingSpeakFullResponse( {
-          utterance: voicingUtteranceForDrag,
           nameResponse: null,
           contextResponse: this.getSingleHandContextResponse( this.voicingHandPositionsDescriber, {
             distanceResponseType: DistanceResponseType.DISTANCE_PROGRESS
@@ -360,7 +354,6 @@ class RatioHalf extends Rectangle {
         if ( startingY !== positionProperty.value.y ) {
 
           this.ratioHandNode.voicingSpeakFullResponse( {
-            utterance: voicingUtteranceForDrag,
             nameResponse: null,
             contextResponse: this.getSingleHandContextResponse( this.voicingHandPositionsDescriber, {
               distanceResponseType: DistanceResponseType.DISTANCE_REGION
