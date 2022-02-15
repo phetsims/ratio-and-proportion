@@ -39,6 +39,7 @@ type StringsType = {
   'top': string,
   'bottom': string,
   'challengeRatio': string,
+  'chooseAChallengeRatio': string,
   'a11y': {
     'keyboardHelp': {
       'leftHandDescription': string,

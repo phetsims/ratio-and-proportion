@@ -80,6 +80,9 @@
   "challengeRatio": {
     "value": "Challenge Ratio"
   },
+  "chooseAChallengeRatio": {
+    "value": "Choose a Challenge Ratio"
+  },
   "a11y": {
     "keyboardHelp": {
       "leftHandDescription": {
