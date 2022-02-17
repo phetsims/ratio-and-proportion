@@ -6,14 +6,14 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import MenuKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/MenuKeyboardHelpSection.js';
+import ComboBoxKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/ComboBoxKeyboardHelpSection.js';
 import RAPKeyboardHelpContent from '../../common/view/RAPKeyboardHelpContent.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
 class DiscoverScreenKeyboardHelpContent extends RAPKeyboardHelpContent {
   constructor() {
-    super( new MenuKeyboardHelpSection( {
+    super( new ComboBoxKeyboardHelpSection( {
       headingString: ratioAndProportionStrings.chooseAChallengeRatio
     } ) );
   }
