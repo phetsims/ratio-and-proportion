@@ -7,7 +7,7 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import { ParallelDOM, Path, PathOptions, voicingUtteranceQueue } from '../../../../scenery/js/imports.js';
+import { ParallelDOM, Path, PathOptions } from '../../../../scenery/js/imports.js';
 import eyeSlashSolidShape from '../../../../sherpa/js/fontawesome-5/eyeSlashSolidShape.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
@@ -16,7 +16,6 @@ import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import TickMarkView from './TickMarkView.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
 
 // constants
 const ICON_SCALE = 0.45;
@@ -81,19 +80,11 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkV
     super( tickMarkViewProperty, radioButtonItemData, options );
 
     const tickMarkContextResponseUtterance = new ActivationUtterance();
-    const voicingResponsePacket = new ResponsePacket();
-    const tickMarkVoicingContextResponseUtterance = new ActivationUtterance( {
-      alert: voicingResponsePacket
-    } );
     tickMarkViewProperty.lazyLink( tickMarkView => {
       // TODO: likely we need this to run on user input, not the model Property, https://github.com/phetsims/ratio-and-proportion/issues/363
 
       const currentRadioButtonItem = _.find( radioButtonItemData, item => item.value === tickMarkView )!;
       assert && assert( currentRadioButtonItem, 'radio button item expected' );
-
-      voicingResponsePacket.nameResponse = currentRadioButtonItem.labelContent;
-      voicingResponsePacket.contextResponse = currentRadioButtonItem.voicingContextResponse;
-      voicingUtteranceQueue.addToBack( tickMarkVoicingContextResponseUtterance );
 
       // interactive description alert
       tickMarkContextResponseUtterance.alert = currentRadioButtonItem.interactiveDescriptionContextResponse;
