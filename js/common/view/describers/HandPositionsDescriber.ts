@@ -356,6 +356,9 @@ class HandPositionsDescriber {
     else if ( currentDistance > this.previousDistance ) {
       distanceProgressString = options.fartherString;
     }
+    else {
+      return null; // somehow positions are equal, same case as in proportion
+    }
 
     return distanceProgressString;
   }
