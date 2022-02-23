@@ -67,7 +67,6 @@ assert && assert( DISTANCE_REGIONS_CAPITALIZED.length === DISTANCE_REGIONS_LOWER
 const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 type GetDistanceProgressStringOptions = {
-  nullWhenInProportion?: boolean;
   closerString?: string;
   fartherString?: string;
 };
@@ -260,15 +259,14 @@ class HandPositionsDescriber {
     } );
   }
 
+  // NOTE: if in-proportion, this will still return the distance region
   public getSingleHandDistanceProgressSentence( ratioTerm: RatioTerm ): string {
     const otherHand = ratioTerm === RatioTerm.ANTECEDENT ? rightHandLowerString : leftHandLowerString;
-    const distanceProgress = this.getDistanceProgressString( {
+    let distanceProgress = this.getDistanceProgressString();
 
-      // when asking exclusively for distanceProgress, make sure we always get distance progress, and never get `null` ever
-      nullWhenInProportion: false
-    } );
-
-    assert && assert( typeof distanceProgress === 'string' );
+    if ( distanceProgress === null ) {
+      distanceProgress = this.getDistanceRegion( false );
+    }
 
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDistanceProgressClause, {
       otherHand: otherHand,
@@ -341,16 +339,12 @@ class HandPositionsDescriber {
 
     const options = optionize<GetDistanceProgressStringOptions, GetDistanceProgressStringOptions>( {
       closerString: ratioAndProportionStrings.a11y.handPosition.closerTo,
-      fartherString: ratioAndProportionStrings.a11y.handPosition.fartherFrom,
-
-      // When false, this function will still provide distance progress even when in proportion, otherwise, return null
-      // when in proportion
-      nullWhenInProportion: true
+      fartherString: ratioAndProportionStrings.a11y.handPosition.fartherFrom
     }, providedOptions );
 
 
     // No distance progress if in proportion
-    if ( options.nullWhenInProportion && this.inProportionProperty.value ) {
+    if ( this.inProportionProperty.value ) {
       return null;
     }
 
