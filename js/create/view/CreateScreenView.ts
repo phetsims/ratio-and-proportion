@@ -5,11 +5,10 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
-import { FireListener, HBox, Node, Text } from '../../../../scenery/js/imports.js';
+import { HBox, Node, Text } from '../../../../scenery/js/imports.js';
 import LockNode from '../../../../scenery-phet/js/LockNode.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
 import RAPColors from '../../common/view/RAPColors.js';
 import RAPScreenView from '../../common/view/RAPScreenView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
