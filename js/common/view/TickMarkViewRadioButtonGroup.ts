@@ -97,7 +97,7 @@ class NumberedTickMarksIconPath extends Path {
 
   constructor( providedOptions?: PathOptions ) {
 
-    const options = optionize<PathOptions>( {
+    const options = optionize<PathOptions, {}>( {
       fill: 'black',
       scale: ICON_SCALE
     }, providedOptions );
@@ -128,7 +128,7 @@ class TickMarksIconPath extends Path {
 
   constructor( providedOptions?: PathOptions ) {
 
-    const options = optionize<PathOptions>( {
+    const options = optionize<PathOptions, {}>( {
       fill: 'black',
       scale: ICON_SCALE
     }, providedOptions );

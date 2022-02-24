@@ -250,7 +250,7 @@ class FilledInHandPath extends Path {
 
   constructor( providedOptions?: PathOptions ) {
 
-    const options = optionize<PathOptions>( {
+    const options = optionize<PathOptions,{}>( {
       stroke: 'black',
       lineWidth: 2
     }, providedOptions );
@@ -273,7 +273,7 @@ class CutOutHandPath extends Path {
 
   constructor( providedOptions?: PathOptions ) {
 
-    const options = optionize<PathOptions>( {
+    const options = optionize<PathOptions,{}>( {
       stroke: 'black',
       lineWidth: 2
     }, providedOptions );
