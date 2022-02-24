@@ -62,8 +62,6 @@ class CreateScreenView extends RAPScreenView {
     );
     this.setScreenSummaryContent( this.createScreenSummaryNode );
 
-    const ratioLockedUtterance = new ActivationUtterance();
-
     const ratioLockContent = new HBox( {
       spacing: 8,
       children: [
@@ -74,7 +72,11 @@ class CreateScreenView extends RAPScreenView {
 
     const ratioLockCheckbox = new Checkbox( ratioLockContent, model.ratio.lockedProperty, {
       accessibleName: ratioAndProportionStrings.ratioLock,
+      voicingNameResponse: ratioAndProportionStrings.ratioLock,
       maxWidth: 250, // empirically determined
+
+      checkedContextResponse: ratioAndProportionStrings.a11y.ratioLockCheckboxContextResponse,
+      uncheckedContextResponse: ratioAndProportionStrings.a11y.ratioNoLongerLocked,
 
       // phet-io
       tandem: tandem.createTandem( 'ratioLockCheckbox' )
@@ -83,24 +85,11 @@ class CreateScreenView extends RAPScreenView {
     ratioLockCheckbox.enabledProperty.link( ( enabled: boolean ) => {
 
       ratioLockCheckbox.helpText = enabled ? ratioAndProportionStrings.a11y.ratioLockEnabledHelpText : ratioAndProportionStrings.a11y.ratioLockDisabledHelpText;
+      ratioLockCheckbox.voicingHintResponse = enabled ? ratioAndProportionStrings.a11y.ratioLockEnabledHelpText : ratioAndProportionStrings.a11y.ratioLockDisabledHelpText;
     } );
 
     ratioLockCheckbox.touchArea = ratioLockCheckbox.localBounds.dilatedXY( 8, 0.5 * ratioLockCheckbox.height );
     ratioLockCheckbox.mouseArea = ratioLockCheckbox.localBounds.dilatedXY( 8, 0.5 * ratioLockCheckbox.height );
-
-    // TODO: this should not be a separate FireListener. Instead we should be able to use the checkbox somehow. https://github.com/phetsims/sun/issues/701
-    ratioLockCheckbox.addInputListener( new FireListener( {
-      attach: false, // Since this is the second PressListener to be added to the checkbox (so annoying)
-      fire: () => {
-        ratioLockedUtterance.alert = model.ratio.lockedProperty.value ? ratioAndProportionStrings.a11y.ratioLockCheckboxContextResponse :
-                                     ratioAndProportionStrings.a11y.ratioNoLongerLocked;
-
-        this.alertDescriptionUtterance( ratioLockedUtterance );
-      },
-
-      // phet-io
-      tandem: Tandem.OPT_OUT
-    } ) );
 
     // The "lock ratio" checkbox should not be enabled when the ratio is not in proportion.
     Property.multilink<[ boolean, number ]>( [
