@@ -37,10 +37,7 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkV
 
       // pdom
       labelContent: ratioAndProportionStrings.a11y.tickMark.heading,
-      helpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT,
-
-      // TODO: remove once it has been tested for https://github.com/phetsims/sun/issues/699
-      voicingHintResponse: 'This is a hint test'
+      helpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT
     }, options );
 
     const radioButtonItemData = [ {
