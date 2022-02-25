@@ -170,6 +170,7 @@ type StringsType = {
       'inUpperRegion': string,
       'inUpperMiddleRegion': string,
       'atMiddle': string,
+      'aroundMiddle': string,
       'inLowerMiddleRegion': string,
       'inLowerRegion': string,
       'nearBottom': string,

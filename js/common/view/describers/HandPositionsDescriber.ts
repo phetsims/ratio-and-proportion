@@ -29,7 +29,9 @@ const QUALITATIVE_POSITIONS = [
   ratioAndProportionStrings.a11y.handPosition.nearTop,
   ratioAndProportionStrings.a11y.handPosition.inUpperRegion,
   ratioAndProportionStrings.a11y.handPosition.inUpperMiddleRegion,
+  ratioAndProportionStrings.a11y.handPosition.aroundMiddle,
   ratioAndProportionStrings.a11y.handPosition.atMiddle,
+  ratioAndProportionStrings.a11y.handPosition.aroundMiddle,
   ratioAndProportionStrings.a11y.handPosition.inLowerMiddleRegion,
   ratioAndProportionStrings.a11y.handPosition.inLowerRegion,
   ratioAndProportionStrings.a11y.handPosition.nearBottom,
@@ -148,23 +150,29 @@ class HandPositionsDescriber {
     else if ( normalizedPosition > 0.65 ) {
       index = 2;
     }
-    else if ( normalizedPosition > 0.5 ) {
+    else if ( normalizedPosition > 0.505 ) {
       index = 3;
     }
-    else if ( normalizedPosition === 0.5 ) {
+    else if ( normalizedPosition > 0.5 ) {
       index = 4;
     }
-    else if ( normalizedPosition >= 0.35 ) {
+    else if ( normalizedPosition === 0.5 ) {
       index = 5;
     }
-    else if ( normalizedPosition > 0.1 ) {
+    else if ( normalizedPosition >= 0.495 ) {
       index = 6;
     }
-    else if ( normalizedPosition > TOTAL_RANGE.min ) {
+    else if ( normalizedPosition >= 0.35 ) {
       index = 7;
     }
-    else if ( normalizedPosition === TOTAL_RANGE.min ) {
+    else if ( normalizedPosition > 0.1 ) {
       index = 8;
+    }
+    else if ( normalizedPosition > TOTAL_RANGE.min ) {
+      index = 9;
+    }
+    else if ( normalizedPosition === TOTAL_RANGE.min ) {
+      index = 10;
     }
 
     assert && assert( index !== null, 'should have been in one of these regions' );
