@@ -22,10 +22,6 @@ const ICON_SCALE = 0.45;
 
 class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkView> {
 
-  /**
-   * @param tickMarkViewProperty
-   * @param [options]
-   */
   constructor( tickMarkViewProperty: EnumerationProperty<TickMarkView>, options?: any ) {
 
     // TODO: convert to optionize once RectangularRadioButtonGroup is typescript https://github.com/phetsims/ratio-and-proportion/issues/404

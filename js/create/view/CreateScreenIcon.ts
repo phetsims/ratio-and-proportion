@@ -16,9 +16,6 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 
 class CreateScreenIcon extends ScreenIcon {
 
-  /**
-   * @param {Object} [options]
-   */
   constructor( options?: any ) {
 
     const numberPickerColor = RAPColors.createScreenHandProperty;

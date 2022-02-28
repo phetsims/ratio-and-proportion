@@ -14,6 +14,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import rapConstants from '../rapConstants.js';
 
+// a function that returns the snap/conserved value
 type KeyboardInputMapper = {
   ( newValue: number, oldVaue: number, useShiftKeyStep: boolean, alreadyInProportion: boolean ): number,
   reset: () => void
@@ -21,12 +22,11 @@ type KeyboardInputMapper = {
 
 
 /**
- * @param {function():number} getIdealValue - get the ideal target value
- * @param {number} keyboardStep
- * @param {number} shiftKeyboardStep
- * @returns {KeyboardInputMapper} - returns a function that returns the snap/conserved value
+ * @param getIdealValue - get the ideal target value
+ * @param keyboardStep
+ * @param shiftKeyboardStep
  */
-function getKeyboardInputSnappingMapper( getIdealValue: () => number, keyboardStep: number, shiftKeyboardStep: number ) {
+function getKeyboardInputSnappingMapper( getIdealValue: () => number, keyboardStep: number, shiftKeyboardStep: number ): KeyboardInputMapper {
 
   // keep track of the remainder for next input post-process
   let remainder = 0;
@@ -69,7 +69,6 @@ function getKeyboardInputSnappingMapper( getIdealValue: () => number, keyboardSt
     return newValue;
   };
 
-  // @public
   snappingFunction.reset = () => { remainder = 0; };
 
   return snappingFunction;

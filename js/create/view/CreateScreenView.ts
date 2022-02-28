@@ -25,6 +25,8 @@ class CreateScreenView extends RAPScreenView {
 
   private tickMarkRangeComboBoxNode: TickMarkRangeComboBoxNode;
   private resetCreateScreenView: () => void;
+
+  // set this after the supertype has initialized the view code needed to create the screen summary
   private createScreenSummaryNode: CreateScreenSummaryNode;
 
   constructor( model: RAPModel, backgroundColorProperty: Property<ColorDef>, tandem: Tandem ) {
@@ -45,10 +47,8 @@ class CreateScreenView extends RAPScreenView {
 
     const tickMarkRangeComboBoxParent = new Node();
 
-    // @private
     this.tickMarkRangeComboBoxNode = new TickMarkRangeComboBoxNode( this.tickMarkRangeProperty, tickMarkRangeComboBoxParent, this.tickMarkViewProperty );
 
-    // set this after the supertype has initialized the view code needed to create the screen summary
     this.createScreenSummaryNode = new CreateScreenSummaryNode(
       model.ratioFitnessProperty,
       model.ratio.tupleProperty,
@@ -129,55 +129,30 @@ class CreateScreenView extends RAPScreenView {
     this.tickMarkRangeComboBoxNode.top = tickMarkRangeComboBoxParent.top = this.tickMarkViewRadioButtonGroup.bottom + 10;
     myChallengeAccordionBox.top = this.tickMarkRangeComboBoxNode.bottom + 30;
 
-    // @private
     this.resetCreateScreenView = () => {
       myChallengeAccordionBox.reset();
     };
   }
 
-  /**
-   * @override
-   * @public
-   * @param {Bounds2} bounds
-   */
-  layout( bounds: Bounds2 ): void {
+  override layout( bounds: Bounds2 ): void {
     this.tickMarkRangeComboBoxNode.hideListBox(); // hidden when layout changes, see https://github.com/phetsims/ratio-and-proportion/issues/324
     super.layout( bounds );
   }
 
-  /**
-   * @public
-   * @override
-   */
-  reset(): void {
+  override reset(): void {
     this.resetCreateScreenView();
     super.reset();
   }
 
-  /**
-   * To support voicing.
-   * @override
-   * @public
-   */
-  public getVoicingOverviewContent(): string {
+  override getVoicingOverviewContent(): string {
     return ratioAndProportionStrings.a11y.create.overviewSentence;
   }
 
-  /**
-   * To support voicing.
-   * @override
-   * @public
-   */
-  public getVoicingDetailsContent(): string {
+  override getVoicingDetailsContent(): string {
     return this.createScreenSummaryNode.getDetailsButtonState();
   }
 
-  /**
-   * To support voicing.
-   * @override
-   * @public
-   */
-  public getVoicingHintContent(): string {
+  override getVoicingHintContent(): string {
     return ratioAndProportionStrings.a11y.create.screenSummary.interactionHint;
   }
 }

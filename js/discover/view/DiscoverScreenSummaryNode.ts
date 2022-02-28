@@ -90,9 +90,7 @@ class DiscoverScreenSummaryNode extends Node {
     ], ( currentTargetRatio: number, tickMarkView: TickMarkView, currentTuple: RAPRatioTuple, fitness: number, inProportion: boolean ) => {
 
       stateOfSimNode.innerContent = this.getStateOfSim();
-
       leftHandBullet.innerContent = this.getLeftHandState();
-
       rightHandBullet.innerContent = this.getRightHandState();
     } );
   }

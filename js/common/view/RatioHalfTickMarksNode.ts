@@ -40,26 +40,19 @@ class RatioHalfTickMarksNode extends GridNode {
 
     super( width, height, options );
 
-    // @private
     this.tickMarkViewProperty = tickMarkViewProperty;
     this.tickMarkRangeProperty = tickMarkRangeProperty;
 
     Property.multilink<any[]>( [ tickMarkRangeProperty, tickMarkViewProperty ], this.update.bind( this ) );
   }
 
-  /**
-   * @public
-   */
   layout( width: number, height: number ): void {
     this.setGridWidth( width );
     this.setGridHeight( height );
     this.update( this.tickMarkRangeProperty.value, this.tickMarkViewProperty.value );
   }
 
-  /**
-   * @private
-   */
-  update( tickMarkRange: number, tickMarkView: TickMarkView ): void {
+  private update( tickMarkRange: number, tickMarkView: TickMarkView ): void {
 
     // subtract one to account for potential rounding errors. This helps guarantee that the last line is drawn.
     this.setLineSpacings( {

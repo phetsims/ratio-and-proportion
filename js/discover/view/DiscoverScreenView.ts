@@ -35,7 +35,6 @@ class DiscoverScreenView extends RAPScreenView {
 
     const comboBoxListBoxParent = new Node();
 
-    // @private
     this.comboBoxContainer = new ChallengeRatioComboBoxNode( model.targetRatioProperty, this.ratioDescriber,
       handColorProperty, comboBoxListBoxParent, tandem.createTandem( 'myChallengeComboBox' ) );
 
@@ -65,40 +64,20 @@ class DiscoverScreenView extends RAPScreenView {
     this.comboBoxContainer.top = this.tickMarkViewRadioButtonGroup.bottom + 20;
   }
 
-  /**
-   * @override
-   * @public
-   * @param {Bounds2} bounds
-   */
-  layout( bounds: Bounds2 ): void {
+  override layout( bounds: Bounds2 ): void {
     this.comboBoxContainer.hideListBox(); // hidden when layout changes, see https://github.com/phetsims/ratio-and-proportion/issues/324
     super.layout( bounds );
   }
 
-  /**
-   * To support voicing.
-   * @override
-   * @public
-   */
-  public getVoicingOverviewContent(): string {
+  override getVoicingOverviewContent(): string {
     return ratioAndProportionStrings.a11y.discover.overviewSentence;
   }
 
-  /**
-   * To support voicing.
-   * @override
-   * @public
-   */
-  public getVoicingDetailsContent(): string {
+  override getVoicingDetailsContent(): string {
     return this.discoverScreenSummaryNode.getDetailsButtonState();
   }
 
-  /**
-   * To support voicing.
-   * @override
-   * @public
-   */
-  public getVoicingHintContent(): string {
+  override getVoicingHintContent(): string {
     return ratioAndProportionStrings.a11y.discover.screenSummary.interactionHint;
   }
 }

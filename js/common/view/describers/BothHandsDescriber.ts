@@ -28,38 +28,25 @@ class BothHandsDescriber {
   private ratioDescriber: RatioDescriber;
   private handPositionsDescriber: HandPositionsDescriber;
   private ratioLockedProperty: Property<boolean>;
+
+  // keep track of previous values at edge to make sure we only give edge alerts after we have already arrived, see https://github.com/phetsims/ratio-and-proportion/issues/247
   private previousAntecedentAtExtremity: boolean;
   private previousConsequentAtExtremity: boolean;
 
-  /**
-   * @param ratioTupleProperty
-   * @param enabledRatioTermsRangeProperty
-   * @param ratioLockedProperty
-   * @param tickMarkViewProperty
-   * @param ratioDescriber
-   * @param handPositionsDescriber
-   */
   constructor( ratioTupleProperty: Property<RAPRatioTuple>, enabledRatioTermsRangeProperty: Property<Range>,
                ratioLockedProperty: Property<boolean>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
                ratioDescriber: RatioDescriber, handPositionsDescriber: HandPositionsDescriber ) {
 
-    // @private - from model
     this.ratioTupleProperty = ratioTupleProperty;
     this.enabledRatioTermsRangeProperty = enabledRatioTermsRangeProperty;
     this.tickMarkViewProperty = tickMarkViewProperty;
     this.ratioDescriber = ratioDescriber;
     this.handPositionsDescriber = handPositionsDescriber;
     this.ratioLockedProperty = ratioLockedProperty;
-
-    // @private - keep track of previous values at edge to make sure we only give edge alerts after we have already arrived, see https://github.com/phetsims/ratio-and-proportion/issues/247
     this.previousAntecedentAtExtremity = false;
     this.previousConsequentAtExtremity = false;
   }
 
-  /**
-   * @public
-   * @returns {string}
-   */
   getBothHandsContextResponse(): string {
 
     // only applicable if the ratio is locked
@@ -76,8 +63,6 @@ class BothHandsDescriber {
 
   /**
    * Similar to getBothHandsContextResponse, but without extra logic for edges and distance-progress.
-   * @public
-   * @returns {string}
    */
   getBothHandsDynamicDescription(): string {
     return StringUtils.fillIn( ratioDistancePositionContextResponsePatternString, {
@@ -89,8 +74,6 @@ class BothHandsDescriber {
   /**
    * When each hand in different region, "left hand . . . , right hand . . ." otherwise "both hands . . ."
    * Used for both hands interaction, and with individual hands when the ratio is locked
-   * @public
-   * @returns {string}
    */
   getBothHandsPosition(): string {
     const tickMarkView = this.tickMarkViewProperty.value;
@@ -112,20 +95,15 @@ class BothHandsDescriber {
     }
   }
 
-  /**
-   * @public
-   * @returns {string}
-   */
   getBothHandsObjectResponse(): string {
     return this.ratioDescriber.getProximityToChallengeRatio();
   }
 
   /**
    * Get the edge response when ratio is locked.
-   * @private
-   * @returns {string|null} - null if not in the edge case or the ratio is not locked
+   * @returns - null if not in the edge case or the ratio is not locked
    */
-  getRatioLockedEdgeCaseContextResponse(): null | string {
+  private getRatioLockedEdgeCaseContextResponse(): null | string {
 
     if ( !this.ratioLockedProperty.value ) {
       return null;
@@ -194,9 +172,6 @@ class BothHandsDescriber {
     return null;
   }
 
-  /**
-   * @public
-   */
   reset(): void {
     this.previousAntecedentAtExtremity = false;
     this.previousConsequentAtExtremity = false;

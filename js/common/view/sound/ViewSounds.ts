@@ -31,12 +31,6 @@ class ViewSounds {
   readonly boundarySoundClip: BoundarySoundClip;
   readonly tickMarkBumpSoundClip: TickMarkBumpSoundClip;
 
-  /**
-   * @param tickMarkRangeProperty
-   * @param tickMarkViewProperty
-   * @param playTickMarkBumpSoundProperty
-   * @param [options]
-   */
   constructor( tickMarkRangeProperty: Property<number>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
                playTickMarkBumpSoundProperty: Property<boolean>, options?: any ) {
 
@@ -50,7 +44,6 @@ class ViewSounds {
       }
     }, options );
 
-    // @public - available to control, but don't overwrite after construction
     this.grabSoundClip = new SoundClip( grab_mp3, options.soundClipOptions );
     this.releaseSoundClip = new SoundClip( release_mp3, options.soundClipOptions );
     this.boundarySoundClip = new BoundarySoundClip( TOTAL_RANGE, merge( {}, options.soundClipOptions, {
@@ -72,9 +65,6 @@ class ViewSounds {
     }, options.addSoundOptions ) );
   }
 
-  /**
-   * @public
-   */
   reset(): void {
     this.boundarySoundClip.reset();
     this.tickMarkBumpSoundClip.reset();

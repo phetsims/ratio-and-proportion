@@ -24,25 +24,13 @@ class RAPTickMarkLabelsNode extends Node {
   private tickMarkRangeProperty: Property<number>;
   private colorProperty: IReadOnlyProperty<Color | string>;
 
-  /**
-   * @param tickMarkViewProperty
-   * @param tickMarkRangeProperty
-   * @param height
-   * @param colorProperty
-   * @param [options]
-   */
   constructor( tickMarkViewProperty: EnumerationProperty<TickMarkView>, tickMarkRangeProperty: Property<number>, height: number,
                colorProperty: IReadOnlyProperty<Color | string>, options?: Omit<NodeOptions, 'children'> ) {
 
     super();
 
-    // @private
     this.totalHeight = height;
-
-    // @private {number|null}
     this.heightOfText = null;
-
-    // @private
     this.tickMarkViewProperty = tickMarkViewProperty;
     this.tickMarkRangeProperty = tickMarkRangeProperty;
     this.colorProperty = colorProperty;
@@ -54,8 +42,6 @@ class RAPTickMarkLabelsNode extends Node {
 
   /**
    * Get the height of a single label Text.
-   * @public
-   * @returns {number}
    *
    */
   get labelHeight(): number {
@@ -63,34 +49,26 @@ class RAPTickMarkLabelsNode extends Node {
     return this.heightOfText!;
   }
 
-  /**
-   * @public
-   */
   layout( height: number ): void {
 
     this.totalHeight = height;
     this.update( this.tickMarkRangeProperty.value, this.tickMarkViewProperty.value );
   }
 
-  /**
-   * @private
-   */
-  update( tickMarkRange: number, tickMarkView: TickMarkView ): void {
+  private update( tickMarkRange: number, tickMarkView: TickMarkView ): void {
 
     // subtract one to account for potential rounding errors. This helps guarantee that the last line is drawn.
     const horizontalSpacing = ( this.totalHeight - 1 ) / tickMarkRange;
 
     this.visible = tickMarkView === TickMarkView.VISIBLE_WITH_UNITS;
 
-    this.updateUnitLabels( tickMarkView === TickMarkView.VISIBLE_WITH_UNITS, horizontalSpacing );
+    this.updateUnitLabels( horizontalSpacing );
   }
 
   /**
-   * @private
-   * @param {boolean} showTickMarkUnits
-   * @param {number} horizontalSpacing
+   * Note: will clear all children
    */
-  updateUnitLabels( showTickMarkUnits: boolean, horizontalSpacing: number ): void {
+  private updateUnitLabels( horizontalSpacing: number ): void {
     this.children = [];
 
     assert && assert( typeof horizontalSpacing === 'number', 'Unit Labels only supported for horizontal lines' );

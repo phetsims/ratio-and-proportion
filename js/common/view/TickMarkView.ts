@@ -16,24 +16,21 @@ class TickMarkView extends EnumerationValue {
   static enumeration = new Enumeration( TickMarkView );
 
   /**
-   * @param {TickMarkView} tickMarkView
-   * @returns {boolean} - whether or not the provided enum value should result in displayed horizontal tick marks
+   * Returns whether or not the provided enum value should result in displayed horizontal tick marks
    */
   static displayHorizontal( tickMarkView: TickMarkView ): boolean {
     return tickMarkView === TickMarkView.VISIBLE || tickMarkView === TickMarkView.VISIBLE_WITH_UNITS;
   }
 
   /**
-   * @param tickMarkView
-   * @returns {boolean} - whether or not the value indicates PDOM descriptions should be qualitative or quantitative
+   * Returns whether or not the value indicates PDOM descriptions should be qualitative or quantitative
    */
   static describeQualitative( tickMarkView: TickMarkView ): boolean {
     return tickMarkView === TickMarkView.NONE;
   }
 
   /**
-   * @param tickMarkView
-   * @returns {boolean} - whether or not the value indicates PDOM descriptions should be semi-quantitative
+   * Returns whether or not the value indicates PDOM descriptions should be semi-quantitative
    */
   static describeSemiQualitative( tickMarkView: TickMarkView ): boolean {
     return tickMarkView === TickMarkView.VISIBLE;

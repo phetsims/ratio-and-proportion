@@ -14,15 +14,6 @@ import Property from '../../../../axon/js/Property.js';
 
 class ChallengeComboBoxItem extends ComboBoxItem {
 
-  /**
-   * @param {string} text
-   * @param {ColorDef} color
-   * @param {number} value
-   * @param {NumberProperty} valueProperty
-   * @param {Property.<ColorDef>} colorProperty - when the valueProperty is set to this item's value, change this color
-   * to match this item's color too.
-   * @param {Object} [options]
-   */
   constructor( text: string, color: Color | string, value: number, valueProperty: NumberProperty,
                colorProperty: Property<Color | string>, options?: any ) {
     super( new HBox( {

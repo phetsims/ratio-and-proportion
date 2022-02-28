@@ -38,31 +38,35 @@ const LOCK_RATIO_RANGE_MIN = rapConstants.NO_SUCCESS_VALUE_THRESHOLD + Number.EP
 class RAPRatio {
 
   enabledRatioTermsRangeProperty: Property<Range>;
+
+  // Central Property that holds the value of the ratio. Using a tuple that holds
+  // both the antecedent and consequent values as a single data structure is vital for changing both hands at once, and
+  // in supporting the "locked ratio" state. Otherwise there are complicated reentrant cases where changing the
+  // antecedent cascades to the consequent to snap it back into ratio. Thus the creation of RAPRatioTuple.
   tupleProperty: Property<RAPRatioTuple>;
+
+  // when true, moving one ratio value will maintain the current ratio by updating the other value Property
   lockedProperty: BooleanProperty;
-  antecedentVelocityTracker: VelocityTracker;
-  consequentVelocityTracker: VelocityTracker;
+  private antecedentVelocityTracker: VelocityTracker;
+  private consequentVelocityTracker: VelocityTracker;
+
+  // if the ratio is in the "moving in direction" state: whether or not the two hands are moving fast
+  // enough together in the same direction. This indicates, among other things a bimodal interaction.
   movingInDirectionProperty: IReadOnlyProperty<boolean>;
-  ratioLockListenerEnabled: boolean;
 
+  // To avoid an infinite loop as setting the tupleProperty from inside its lock-ratio-support
+  // listener. This is predominately needed because even same antecedent/consequent values get wrapped in a new
+  // RAPRatioTuple instance.
+  private ratioLockListenerEnabled: boolean;
 
-  /**
-   * @param {number} initialAntecedent
-   * @param {number} initialConsequent
-   * @param {Tandem} tandem
-   */
   constructor( initialAntecedent: number, initialConsequent: number, tandem: Tandem ) {
 
-    // @public (read-only) {Property.<Range>}
+    // TODO: public readonly, https://github.com/phetsims/ratio-and-proportion/issues/404
     this.enabledRatioTermsRangeProperty = new Property( DEFAULT_TERM_VALUE_RANGE, {
       tandem: tandem.createTandem( 'enabledRatioTermsRangeProperty' ),
       phetioType: Property.PropertyIO( Range.RangeIO )
     } );
 
-    // @public {Property.<RAPRatioTuple>} - Central Property that holds the value of the ratio. Using a tuple that holds
-    // both the antecedent and consequent values as a single data structure is vital for changing both hands at once, and
-    // in supporting the "locked ratio" state. Otherwise there are complicated reentrant cases where changing the
-    // antecedent cascades to the consequent to snap it back into ratio. Thus the creation of RAPRatioTuple.
     this.tupleProperty = new Property( new RAPRatioTuple( initialAntecedent, initialConsequent ), {
       valueType: RAPRatioTuple,
       useDeepEquality: true,
@@ -73,15 +77,11 @@ class RAPRatio {
       phetioType: Property.PropertyIO( RAPRatioTuple.RAPRatioTupleIO )
     } );
 
-    // @public - when true, moving one ratio value will maintain the current ratio by updating the other value Property
     this.lockedProperty = new BooleanProperty( false, { tandem: tandem.createTandem( 'lockedProperty' ) } );
 
-    // @private
     this.antecedentVelocityTracker = new VelocityTracker( this.lockedProperty );
     this.consequentVelocityTracker = new VelocityTracker( this.lockedProperty );
 
-    // @public - if the ratio is in the "moving in direction" state: whether or not the two hands are moving fast
-    // enough together in the same direction. This indicates, among other things a bimodal interaction.
     this.movingInDirectionProperty = new DerivedProperty( [
       this.antecedentVelocityTracker.currentVelocityProperty,
       this.consequentVelocityTracker.currentVelocityProperty,
@@ -102,9 +102,6 @@ class RAPRatio {
       phetioType: DerivedProperty.DerivedPropertyIO( BooleanIO )
     } );
 
-    // @private - To avoid an infinite loop as setting the tupleProperty from inside its lock-ratio-support
-    // listener. This is predominately needed because even same antecedent/consequent values get wrapped in a new
-    // RAPRatioTuple instance.
     this.ratioLockListenerEnabled = true;
 
     // Listener that will handle keeping both ratio tuple values in sync when the ratio is locked.
@@ -157,15 +154,10 @@ class RAPRatio {
   }
 
   /**
-   * While keeping the same ratio, make sure that both ratio terms are within the provided range
-   * @private
-   * @param {number} antecedent
-   * @param {number} consequent
-   * @param {number} ratio - to base clamping on
-   * @param {Range} [range]
-   * @returns {RAPRatioTuple} - a new RAPRatioTuple, not mutated
+   * While keeping the same ratio, make sure that both ratio terms are within the provided range. Returns a new
+   * RAPRatioTuple, not mutated.
    */
-  clampRatioTupleValuesInRange( antecedent: number, consequent: number, ratio: number, range: Range = this.enabledRatioTermsRangeProperty.value ): RAPRatioTuple {
+  private clampRatioTupleValuesInRange( antecedent: number, consequent: number, ratio: number, range: Range = this.enabledRatioTermsRangeProperty.value ): RAPRatioTuple {
 
     // Handle if the antecedent is out of range
     if ( !range.contains( antecedent ) ) {
@@ -184,10 +176,6 @@ class RAPRatio {
     return new RAPRatioTuple( antecedent, consequent );
   }
 
-  /**
-   * @param {number} targetRatio
-   * @public
-   */
   setRatioToTarget( targetRatio: number ): void {
     const currentRatioTuple = this.tupleProperty.value;
 
@@ -213,26 +201,16 @@ class RAPRatio {
     this.ratioLockListenerEnabled = true;
   }
 
-  /**
-   * @public
-   * @returns {number}
-   */
   get currentRatio(): number {
     return this.tupleProperty.value.getRatio();
   }
 
-  /**
-   * @public
-   */
   step(): void {
     const currentTuple = this.tupleProperty.value;
     this.antecedentVelocityTracker.step( currentTuple.antecedent );
     this.consequentVelocityTracker.step( currentTuple.consequent );
   }
 
-  /**
-   * @public
-   */
   reset(): void {
 
     // it is easiest if this is reset first
@@ -250,42 +228,34 @@ class RAPRatio {
 // Private class to keep details about tracking the velocity of each ratio term encapsulated.
 class VelocityTracker {
 
-  ratioLockedProperty: Property<boolean>;
-  previousValues: number[];
-  earliestTime: number;
+  private ratioLockedProperty: Property<boolean>;
+
+  // keep track of previous values to calculate the change, only unique values are appended to this
+  private previousValues: number[];
+  private earliestTime: number;
+
+  // The change in ratio values since last capture. The frequency (or granularity) of this value
+  // is determined by STEP_FRAME_GRANULARITY.
   currentVelocityProperty: NumberProperty;
-  stepCountTracker: number;
+
+  // Used for keeping track of how often dVelocity is checked.
+  private stepCountTracker: number;
 
   constructor( ratioLockedProperty: Property<boolean> ) {
 
-    // @private
     this.ratioLockedProperty = ratioLockedProperty;
-
-    // @private - keep track of previous values to calculate the change, only unique values are appended to this
     this.previousValues = [];
     this.earliestTime = 0;
-
-    // @private - The change in ratio values since last capture. The frequency (or granularity) of this value
-    // is determined by STEP_FRAME_GRANULARITY.
     this.currentVelocityProperty = new NumberProperty( 0 );
-
-    // @private - Used for keeping track of how often dVelocity is checked.
     this.stepCountTracker = 0;
   }
 
-  /**
-   * @public
-   */
   reset(): void {
     this.currentVelocityProperty.reset();
     this.stepCountTracker = 0;
     this.previousValues.length = 0;
   }
 
-  /**
-   * @public
-   * @param {number} currentValue
-   */
   step( currentValue: number ): void {
     this.stepCountTracker++;
 

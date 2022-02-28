@@ -20,6 +20,9 @@ class BoundarySoundClip extends SoundClip {
   private verticalRange: Range;
   private lastYPosition: number | null;
   private lastXPosition: number | null;
+
+  // keep track of if the sound has been played yet this interaction to see if it should be played at the end of
+  // the interaction.
   private playedThisInteraction: boolean;
 
   /**
@@ -29,23 +32,18 @@ class BoundarySoundClip extends SoundClip {
   constructor( verticalRange: Range, options?: any ) {
     super( generalBoundaryBoop_mp3, options );
 
-    // @private
     this.verticalRange = verticalRange;
     this.lastYPosition = null;
     this.lastXPosition = null;
-
-    // @private - keep track of if the sound has been played yet this interaction to see if it should be played at the end of
-    // the interaction.
     this.playedThisInteraction = false;
   }
 
   /**
    * Call this when an interaction occurs that could potentially cause a boundary sound to play. Horizontal parameters
    * are optional to support some vertical-only component interactions.
-   * @public
-   * @param {number} verticalPosition
-   * @param {number} [horizontalPosition]
-   * @param {Range} [horizontalRange] - the horizontal range can change based on view scaling
+   * @param verticalPosition
+   * @param [horizontalPosition]
+   * @param [horizontalRange] - the horizontal range can change based on view scaling
    */
   onInteract( verticalPosition: number, horizontalPosition?: number, horizontalRange?: Range ): void {
 
@@ -66,9 +64,6 @@ class BoundarySoundClip extends SoundClip {
     }
   }
 
-  /**
-   * @public
-   */
   onStartInteraction(): void {
     this.playedThisInteraction = false;
   }
@@ -77,8 +72,6 @@ class BoundarySoundClip extends SoundClip {
    * Play a boundary sound on end interaction. This will not play again if the sound already played during this interaction.
    * This case is to support keyboard interaction in which you are at the max, try to increase the value, but don't
    * change the value. This will still result in this sound feedback for the boundary sound.
-   * @public
-   * @param {number} verticalPosition
    */
   onEndInteraction( verticalPosition: number ): void {
     if ( !this.playedThisInteraction &&
@@ -87,18 +80,11 @@ class BoundarySoundClip extends SoundClip {
     }
   }
 
-  /**
-   * @override
-   * @public
-   */
-  play(): void {
+  override play(): void {
     this.playedThisInteraction = true;
     super.play();
   }
 
-  /**
-   * @public
-   */
   reset(): void {
     this.stop( 0 );
     this.playedThisInteraction = false;

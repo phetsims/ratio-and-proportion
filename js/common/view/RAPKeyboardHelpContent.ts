@@ -21,8 +21,8 @@ import { NodeOptions } from '../../../../scenery/js/imports.js';
 class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
 
   /**
-   * @param {KeyboardHelpSection} challengeHelpSection - keyboard help section for determining how to change the target ratio
-   * @param {Object} [options]
+   * @param challengeHelpSection - keyboard help section for determining how to change the target ratio
+   * @param [options] - TODO: use TwoColumnKeyboardHelpContentOptions when available, https://github.com/phetsims/ratio-and-proportion/issues/404
    */
   constructor( challengeHelpSection: KeyboardHelpSection, options?: NodeOptions ) {
 
@@ -48,9 +48,7 @@ class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
 
 class BothHandsHelpSection extends KeyboardHelpSection {
 
-  /**
-   * @param {Object} [options]
-   */
+  // TODO: use KeyboardHelpSection when available, https://github.com/phetsims/ratio-and-proportion/issues/404
   constructor( options?: NodeOptions ) {
 
     const moveLeftHand = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.moveLeftHand,

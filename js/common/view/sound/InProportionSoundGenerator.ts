@@ -35,10 +35,25 @@ class InProportionSoundGenerator extends SoundClip {
   private model: RAPModel;
   private targetRatioProperty: Property<number>;
   private fitnessProperty: IReadOnlyProperty<number>;
+
+  // keep track of if the success sound has already played. This will be set back to false when the fitness
+  // goes back out of range for the success sound.
   private playedSuccessYetProperty: Property<boolean>;
+
+  // keep track of how long the sound has already played for. This is used to make sure that the beginning
+  // of this sound is always played, even when the outside enabledControlProperty is set to false.
   private timePlayedSoFarProperty: Property<number>;
+
+  // True when, in the previous step, the current ratio (calculated from currentRatio) is larger than the target ratio.
   private previousRatioWasLargerThanTarget: boolean;
+
+  // true when, in the previous step, either term of the ratio was too small to indicate success.
   private previousRatioWasTooSmallForSuccess: boolean;
+
+  // in certain cases ratio hand positions can move so quickly "through" the in-proportion range that an
+  // actual "in proportion" value is never set. When this boolean is true, then this SoundGenerator will note when
+  // this "jump over in proportion" occurs, and still play the sound. This is useful for mouse interaction, but not
+  // so much for keyboard interaction. See https://github.com/phetsims/ratio-and-proportion/issues/162
   private jumpingOverShouldSound: boolean;
 
   /**
@@ -58,17 +73,11 @@ class InProportionSoundGenerator extends SoundClip {
 
     super( inProportion_mp3, options );
 
-    // @private
     this.model = model;
     this.targetRatioProperty = model.targetRatioProperty;
     this.fitnessProperty = model.ratioFitnessProperty;
 
-    // @private - keep track of if the success sound has already played. This will be set back to false when the fitness
-    // goes back out of range for the success sound.
     this.playedSuccessYetProperty = new BooleanProperty( model.inProportionProperty.value );
-
-    // @private - keep track of how long the sound has already played for. This is used to make sure that the beginning
-    // of this sound is always played, even when the outside enabledControlProperty is set to false.
     this.timePlayedSoFarProperty = new NumberProperty( MANDATORY_PLAY_TIME );
 
     const playedMandatoryPortionYetProperty: IReadOnlyProperty<boolean> = new DerivedProperty( [ this.timePlayedSoFarProperty, this.playedSuccessYetProperty ],
@@ -86,46 +95,28 @@ class InProportionSoundGenerator extends SoundClip {
       inProportion && this.step( 0 );
     } );
 
-    // @private {boolean} - True when, in the previous step, the current ratio (calculated from currentRatio) is larger than
-    // the target ratio.
     this.previousRatioWasLargerThanTarget = this.calculateCurrentRatioLargerThanTarget();
-
-    // @private {boolean} - true when, in the previous step, either term of the ratio was too small to indicate success.
     this.previousRatioWasTooSmallForSuccess = this.model.valuesTooSmallForInProportion();
-
-    // @private - in certain cases ratio hand positions can move so quickly "through" the in-proportion range that an
-    // actual "in proportion" value is never set. When this boolean is true, then this SoundGenerator will note when
-    // this "jump over in proportion" occurs, and still play the sound. This is useful for mouse interaction, but not
-    // so much for keyboard interaction. See https://github.com/phetsims/ratio-and-proportion/issues/162
     this.jumpingOverShouldSound = false;
   }
 
-  /**
-   * @private
-   * @returns {boolean}
-   */
-  calculateCurrentRatioLargerThanTarget(): boolean {
+  private calculateCurrentRatioLargerThanTarget(): boolean {
     return this.model.ratio.currentRatio > this.model.targetRatioProperty.value;
   }
 
   /**
    * When true, the InProportionSoundGenerator will play when the ratio "jumps" over in proportion in two consecutive
    * values of the current ratio.
-   * @public
-   * @param {boolean} jumpingOverShouldSound
    */
   setJumpingOverProportionShouldTriggerSound( jumpingOverShouldSound: boolean ): void {
     this.jumpingOverShouldSound = jumpingOverShouldSound;
   }
 
   /**
-   * True when the ratio jumped over being in proportion, but it should still sound that it was in proportion.
-   *
-   * This can only occur when current and previous ratio terms were not in the "too small for success" region.
-   * @private
-   * @returns {boolean}
+   * True when the ratio jumped over being in proportion, but it should still sound that it was in proportion. This can
+   * only occur when current and previous ratio terms were not in the "too small for success" region.
    */
-  jumpedOverInProportionAndShouldSound(): boolean {
+  private jumpedOverInProportionAndShouldSound(): boolean {
     return this.jumpingOverShouldSound &&
            !this.model.valuesTooSmallForInProportion() && !this.previousRatioWasTooSmallForSuccess &&
            this.calculateCurrentRatioLargerThanTarget() !== this.previousRatioWasLargerThanTarget;
@@ -133,8 +124,6 @@ class InProportionSoundGenerator extends SoundClip {
 
   /**
    * Step this sound generator, used for fading out the sound in the absence change.
-   * @param {number} dt
-   * @public
    */
   step( dt: number ): void {
     const newFitness = this.fitnessProperty.value;
@@ -178,7 +167,6 @@ class InProportionSoundGenerator extends SoundClip {
 
   /**
    * stop any in-progress sound generation
-   * @public
    */
   reset(): void {
     this.stop( 0 );

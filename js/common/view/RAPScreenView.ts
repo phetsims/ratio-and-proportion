@@ -78,22 +78,35 @@ type RAPScreenViewOptions = RAPScreenViewSelfOptions & ScreenViewOptions;
 class RAPScreenView extends ScreenView {
 
   protected tickMarkViewProperty: EnumerationProperty<TickMarkView>;
+
+  // What is the unit value of the tick marks. Value reads as "1/x of the view height."
   protected tickMarkRangeProperty: NumberProperty;
   protected readonly ratioDescriber: RatioDescriber;
   private backgroundColorHandler: BackgroundColorHandler;
-  public handPositionsDescriber: HandPositionsDescriber;
+  handPositionsDescriber: HandPositionsDescriber;
   private antecedentRatioHalf: RatioHalf;
   private consequentRatioHalf: RatioHalf;
   private markerInput: RAPMarkerInput | null;
+
+  // SoundGenerators that sonify different aspects of the model
   private inProportionSoundGenerator: InProportionSoundGenerator;
   private movingInProportionSoundGenerator: MovingInProportionSoundGenerator;
   private staccatoFrequencySoundGenerator: StaccatoFrequencySoundGenerator;
 
+  // Keep a separate layer for "control-panel-esque"  UI on the right. This allows them to be scaled
+  // to maximize their size within the horizontal space in vertical aspect ratios, see https://github.com/phetsims/ratio-and-proportion/issues/79
+  // These are two separate containers so that scaling them can take away space in between them while keeping each
+  // positioned based on the corners of the layout.
   protected topScalingUILayerNode: Node;
   protected bottomScalingUILayerNode: Node;
+
+  // used only for subtype layout
   protected resetAllButton: ResetAllButton;
+
+  // subtype is responsible for layout
   protected tickMarkViewRadioButtonGroup: TickMarkViewRadioButtonGroup;
-  private layoutRAPScreeView: ( b: Bounds2 ) => void;
+
+  private layoutRAPScreeView: ( currentScreenViewCoordinates: Bounds2 ) => void;
 
   constructor( model: RAPModel, backgroundColorProperty: Property<ColorDef>, tandem: Tandem, options?: RAPScreenViewOptions ) {
 
@@ -114,19 +127,16 @@ class RAPScreenView extends ScreenView {
     // for ease at usage sites
     const ratio = model.ratio;
 
-    // @protected
     this.tickMarkViewProperty = new EnumerationProperty( TickMarkView.NONE, {
       tandem: tandem.createTandem( 'tickMarkViewProperty' )
     } );
 
-    // @protected - What is the unit value of the tick marks. Value reads as "1/x of the view height."
     this.tickMarkRangeProperty = new NumberProperty( 10, { tandem: tandem.createTandem( 'tickMarkRangeProperty' ) } );
 
     const tickMarkDescriber = new TickMarkDescriber( this.tickMarkRangeProperty, this.tickMarkViewProperty );
 
     this.backgroundColorHandler = new BackgroundColorHandler( model, backgroundColorProperty );
 
-    // @protected (read-only)
     this.ratioDescriber = new RatioDescriber( model );
     this.handPositionsDescriber = new HandPositionsDescriber( ratio.tupleProperty, tickMarkDescriber, model.inProportionProperty );
     const voicingHandPositionsDescriber = new HandPositionsDescriber( ratio.tupleProperty, tickMarkDescriber, model.inProportionProperty );
@@ -161,11 +171,8 @@ class RAPScreenView extends ScreenView {
     // description on each ratioHalf should be updated whenever these change
     const a11yDependencies = [ model.unclampedFitnessProperty, this.tickMarkViewProperty, this.tickMarkRangeProperty, model.targetRatioProperty ];
 
-
-    // @private {RatioHalf}
     this.antecedentRatioHalf = new RatioHalf( {
 
-      // config
       ratioTerm: RatioTerm.ANTECEDENT,
       ratioTupleProperty: ratio.tupleProperty,
       enabledRatioTermsRangeProperty: model.ratio.enabledRatioTermsRangeProperty,
@@ -190,7 +197,6 @@ class RAPScreenView extends ScreenView {
       getIdealValue: () => model.getIdealValueForTerm( RatioTerm.ANTECEDENT ),
       inProportionProperty: model.inProportionProperty,
 
-      // optional
       handColorProperty: options.leftHandColorProperty,
       accessibleName: ratioAndProportionStrings.a11y.leftHand,
       a11yDependencies: a11yDependencies,
@@ -209,7 +215,6 @@ class RAPScreenView extends ScreenView {
     // @private {RatioHalf}
     this.consequentRatioHalf = new RatioHalf( {
 
-      // required
       ratioTerm: RatioTerm.CONSEQUENT,
       ratioTupleProperty: ratio.tupleProperty,
       enabledRatioTermsRangeProperty: model.ratio.enabledRatioTermsRangeProperty,
@@ -234,7 +239,6 @@ class RAPScreenView extends ScreenView {
       getIdealValue: () => model.getIdealValueForTerm( RatioTerm.CONSEQUENT ),
       inProportionProperty: model.inProportionProperty,
 
-      // optional
       handColorProperty: options.rightHandColorProperty,
       accessibleName: ratioAndProportionStrings.a11y.rightHand,
       a11yDependencies: a11yDependencies,
@@ -270,7 +274,6 @@ class RAPScreenView extends ScreenView {
 
     if ( RAPQueryParameters.tangible ) {
 
-      // @private
       this.markerInput = new RAPMarkerInput( ratio.tupleProperty );
 
       this.markerInput.isBeingInteractedWithProperty.lazyLink( ( interactedWithMarkers: boolean ) => {
@@ -287,8 +290,6 @@ class RAPScreenView extends ScreenView {
       this.markerInput ? this.markerInput.isBeingInteractedWithProperty : new BooleanProperty( false )
     ] );
 
-
-    // @private - SoundGenerators that sonify different aspects of the model
     this.inProportionSoundGenerator = new InProportionSoundGenerator( model, soundGeneratorEnabledProperty );
     this.movingInProportionSoundGenerator = new MovingInProportionSoundGenerator( model, {
       enableControlProperties: [ soundGeneratorEnabledProperty ]
@@ -305,14 +306,9 @@ class RAPScreenView extends ScreenView {
     // these dimensions are just temporary, and will be recomputed below in the layout function
     const labelsNode = new RAPTickMarkLabelsNode( this.tickMarkViewProperty, this.tickMarkRangeProperty, 1000, tickMarksAndLabelsColorProperty );
 
-    // @protected - Keep a separate layer for "control-panel-esque"  UI on the right. This allows them to be scaled
-    // to maximize their size within the horizontal space in vertical aspect ratios, see https://github.com/phetsims/ratio-and-proportion/issues/79
-    // These are two separate containers so that scaling them can take away space in between them while keeping each
-    // positioned based on the corners of the layout.
     this.topScalingUILayerNode = new Node();
     this.bottomScalingUILayerNode = new Node();
 
-    // @protected - used only for subtype layout
     this.resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
@@ -328,7 +324,6 @@ class RAPScreenView extends ScreenView {
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
 
-    // @protected - subtype is responsible for layout
     this.tickMarkViewRadioButtonGroup = new TickMarkViewRadioButtonGroup( this.tickMarkViewProperty, {
       tandem: tandem.createTandem( 'tickMarkViewRadioButtonGroup' )
     } );
@@ -342,7 +337,6 @@ class RAPScreenView extends ScreenView {
       positionRegionsNode = new RAPPositionRegionsLayer();
     }
 
-    // children
     this.children = [
       labelsNode,
 
@@ -366,7 +360,6 @@ class RAPScreenView extends ScreenView {
       this.resetAllButton
     ];
 
-    // @private - dynamic layout based on the current ScreenView coordinates
     this.layoutRAPScreeView = newRatioHalfBounds => {
 
       // between 0 and 1, 0 is the min height, 1 is the max height
@@ -424,12 +417,8 @@ class RAPScreenView extends ScreenView {
   /**
    * Layout Nodes part of ethe screen viw. To accomplish, much of this was copied from ScreenView.layout, with
    * minor tweaks for this specific case. Also note Projectile Motion uses almost the exact same algorithm.
-   *
-   * @param {Bounds2} viewBounds
-   * @override
-   * @public
    */
-  layout( viewBounds: Bounds2 ): void {
+  override layout( viewBounds: Bounds2 ): void {
 
     this.matrix = ScreenView.getLayoutMatrix( this.layoutBounds, viewBounds, { verticalAlign: 'bottom' } );
     this.visibleBoundsProperty.value = this.parentToLocalBounds( viewBounds );
@@ -438,9 +427,6 @@ class RAPScreenView extends ScreenView {
     this.layoutRAPScreeView( new Bounds2( 0, 0, ONE_QUARTER_LAYOUT_WIDTH, ratioHeight ) );
   }
 
-  /**
-   * @public
-   */
   reset(): void {
     this.tickMarkRangeProperty.reset();
     this.tickMarkViewProperty.reset();
@@ -451,34 +437,11 @@ class RAPScreenView extends ScreenView {
     this.movingInProportionSoundGenerator.reset();
   }
 
-  /**
-   * @override
-   * @public
-   * @param {number} dt
-   */
   step( dt: number ): void {
 
     this.markerInput && this.markerInput.step();
     this.inProportionSoundGenerator.step( dt );
     this.staccatoFrequencySoundGenerator.step( dt );
-  }
-
-  /**
-   * To support voicing.
-   * @override
-   * @public
-   */
-  public getVoicingOverviewContent(): string {
-    return 'This has not been implemented yet';
-  }
-
-  /**
-   * To support voicing.
-   * @override
-   * @public
-   */
-  public getVoicingDetailsContent(): string {
-    return 'This has not been implemented yet';
   }
 }
 

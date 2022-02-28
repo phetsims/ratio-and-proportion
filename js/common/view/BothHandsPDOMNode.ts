@@ -44,6 +44,9 @@ type BothHandsPDOMNodeSelfOptions = {
   targetRatioProperty: Property<number>;
   getIdealTerm: getIdealTermType;
   inProportionProperty: Property<boolean>; // is the model in proportion right now
+
+  // help text to be displayed on devices supporting gesture description
+  // (see `Sim.supportsGestureDescription`). When null, this will be the same as the default helpText.
   gestureDescriptionHelpText?: string | null;
   interactiveNodeOptions?: NodeOptions;
 };
@@ -53,26 +56,28 @@ type BothHandsPDOMNodeOptions = BothHandsPDOMNodeSelfOptions & Omit<NodeOptions,
 class BothHandsPDOMNode extends Node {
 
   private bothHandsDescriber: BothHandsDescriber;
+
+  // To support proper cue arrow logic
   private antecedentInteractedWithProperty: Property<boolean>;
   private consequentInteractedWithProperty: Property<boolean>;
   private bothHandsFocusedProperty: Property<boolean>;
-  private viewSounds: ViewSounds;
-  objectResponseUtterance: Utterance;
-  objectResponseOnFocusUtterance: Utterance;
-  contextResponseUtterance: Utterance;
-  ratioUnlockedFromBothHandsUtterance: Utterance;
-  isBeingInteractedWithProperty: Property<boolean>;
-  bothHandsInteractionListener: BothHandsInteractionListener;
 
-  /**
-   * @param {Object} [providedOptions]
-   */
+  private viewSounds: ViewSounds;
+  private objectResponseUtterance: Utterance;
+
+  // just to fire on focus, make this polite for https://github.com/phetsims/ratio-and-proportion/issues/347
+  private objectResponseOnFocusUtterance: Utterance;
+  private contextResponseUtterance: Utterance;
+  private ratioUnlockedFromBothHandsUtterance: Utterance;
+
+  // TODO: wish I know how to mark it as a @public (read-only) (but set internal to this file).https://github.com/phetsims/ratio-and-proportion/issues/404
+  isBeingInteractedWithProperty: Property<boolean>;
+  private bothHandsInteractionListener: BothHandsInteractionListener;
+
   constructor( providedOptions: BothHandsPDOMNodeOptions ) {
 
     const options = optionize<BothHandsPDOMNodeOptions, BothHandsPDOMNodeSelfOptions, Omit<NodeOptions, 'pdomOrder'>>( {
 
-      // {string|null} help text to be displayed on devices supporting gesture description
-      // (see `Sim.supportsGestureDescription`). When null, this will be the same as the default helpText.
       gestureDescriptionHelpText: null,
 
       // pdom
@@ -96,7 +101,6 @@ class BothHandsPDOMNode extends Node {
 
     this.bothHandsDescriber = options.bothHandsDescriber;
 
-    // @private - To support proper cue arrow logic
     this.antecedentInteractedWithProperty = new BooleanProperty( false );
     this.consequentInteractedWithProperty = new BooleanProperty( false );
     this.bothHandsFocusedProperty = new BooleanProperty( false );
@@ -134,7 +138,6 @@ class BothHandsPDOMNode extends Node {
 
     interactiveNode.setPDOMAttribute( 'aria-roledescription', sceneryPhetStrings.a11y.grabDrag.movable );
 
-    // @private
     this.bothHandsInteractionListener = new BothHandsInteractionListener( {
       targetNode: interactiveNode,
       ratioTupleProperty: options.ratioTupleProperty,
@@ -179,7 +182,6 @@ class BothHandsPDOMNode extends Node {
       }
     } );
 
-    // @private
     this.objectResponseUtterance = new Utterance( {
       alertStableDelay: OBJECT_RESPONSE_DELAY,
       announcerOptions: {
@@ -190,12 +192,10 @@ class BothHandsPDOMNode extends Node {
       }
     } );
 
-    // @private - just to fire on focus, make this polite for https://github.com/phetsims/ratio-and-proportion/issues/347
     this.objectResponseOnFocusUtterance = new Utterance( {
       alertStableDelay: 50
     } );
 
-    // @private
     this.contextResponseUtterance = new Utterance( { alertStableDelay: 2000 } );
     this.ratioUnlockedFromBothHandsUtterance = new Utterance( {
       alert: ratioAndProportionStrings.a11y.ratioNoLongerLocked,
@@ -205,7 +205,6 @@ class BothHandsPDOMNode extends Node {
       alertStableDelay: OBJECT_RESPONSE_DELAY + 10
     } );
 
-    // @public (read-only) - expose this from the listener for general consumption
     this.isBeingInteractedWithProperty = this.bothHandsInteractionListener.isBeingInteractedWithProperty;
 
     // Though most cases are covered by just listening to fitness, there are certain cases when Property values can change,
@@ -236,9 +235,6 @@ class BothHandsPDOMNode extends Node {
     this.mutate( options );
   }
 
-  /**
-   * @public
-   */
   reset(): void {
     this.antecedentInteractedWithProperty.reset();
     this.consequentInteractedWithProperty.reset();
@@ -250,20 +246,14 @@ class BothHandsPDOMNode extends Node {
     this.viewSounds.reset();
   }
 
-  /**
-   * @private
-   */
-  alertBothHandsObjectResponse( onFocus = false ): void {
+  private alertBothHandsObjectResponse( onFocus = false ): void {
     const utterance = onFocus ? this.objectResponseOnFocusUtterance : this.objectResponseUtterance;
     utterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse();
 
     this.alertDescriptionUtterance( utterance );
   }
 
-  /**
-   * @private
-   */
-  alertBothHandsContextResponse( knockedOutOfLock?: boolean ): void {
+  private alertBothHandsContextResponse( knockedOutOfLock?: boolean ): void {
     if ( knockedOutOfLock ) {
       this.contextResponseUtterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse();
     }

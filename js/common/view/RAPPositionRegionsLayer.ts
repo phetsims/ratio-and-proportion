@@ -15,7 +15,7 @@ class RAPPositionRegionsLayer extends Node {
 
   private totalWidth: number;
   private totalHeight: number;
-  public labelsHeight: number;
+  labelsHeight: number;
   private regions: number[];
 
   constructor( options?: NodeOptions ) {
@@ -32,7 +32,7 @@ class RAPPositionRegionsLayer extends Node {
     assert && assert( HandPositionsDescriber.QUALITATIVE_POSITIONS.length = this.regions.length - 1, 'most likely these two are out of sync' );
   }
 
-  public layout( width: number, height: number ): void {
+  layout( width: number, height: number ): void {
 
     this.totalHeight = height;
     this.totalWidth = width;

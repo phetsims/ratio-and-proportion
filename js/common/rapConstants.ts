@@ -20,11 +20,25 @@ class RAPConstants extends PhetioObject {
   SCREEN_VIEW_X_MARGIN: number;
   SCREEN_VIEW_Y_MARGIN: number;
   RATIO_FITNESS_RANGE: Range;
+
+  // distance (in fitness) from max fitness that still indicates a successful proportion
   IN_PROPORTION_FITNESS_THRESHOLD: number;
+
+  // distance (in fitness) from max fitness that still indicates a successful proportion when both hands moving in the
+  // same direction. See RAPRatio.movingInDirectionProperty
   MOVING_IN_PROPORTION_FITNESS_THRESHOLD: number;
+
+  // The value to multiple the keyboard step size by to get the shift + keydown step size
   SHIFT_KEY_MULTIPLIER: number;
+
+  // The range that each ratio component (antecedent/consequent) value can be
   TOTAL_RATIO_TERM_VALUE_RANGE: Range;
+
+  // Consistent way to fix numbers. This should only be used in the view for comparison and display, not in the model, see https://github.com/phetsims/ratio-and-proportion/issues/243
   toFixed: ( x: number ) => number;
+
+  // The value in which when either the antecedent or consequent is less than this, the ratio cannot be "in proportion".
+  // Add .001 to support two keyboard nav motions above 0 (counting the min range being >0).
   NO_SUCCESS_VALUE_THRESHOLD: number;
 
   constructor() {
@@ -49,39 +63,14 @@ class RAPConstants extends PhetioObject {
       }
     );
 
-    // @public
     this.SCREEN_VIEW_X_MARGIN = 15;
-
-    // @public
     this.SCREEN_VIEW_Y_MARGIN = 15;
-
-    // @public
     this.RATIO_FITNESS_RANGE = new Range( 0, 1 );
-
-    // distance (in fitness) from max fitness that still indicates a successful proportion
-    // @public
     this.IN_PROPORTION_FITNESS_THRESHOLD = 0.025;
-
-    // distance (in fitness) from max fitness that still indicates a successful proportion when both hands moving in the
-    // same direction. See RAPRatio.movingInDirectionProperty
-    // @public
     this.MOVING_IN_PROPORTION_FITNESS_THRESHOLD = 0.3;
-
-    // The value to multiple the keyboard step size by to get the shift + keydown step size
-    // @public
     this.SHIFT_KEY_MULTIPLIER = 1 / 5;
-
-    // The range that the each ratio component (antecedent/consequent) value can be
-    // @public
     this.TOTAL_RATIO_TERM_VALUE_RANGE = new Range( 0, 1 );
-
-    // Consistent way to fix numbers. This should only be used in the view for comparison and display, not in the model, see https://github.com/phetsims/ratio-and-proportion/issues/243
-    // @public
     this.toFixed = x => Utils.toFixedNumber( x, 6 );
-
-    // The value in which when either the antecedent or consequent is less than this, the ratio cannot be "in proportion".
-    // Add .001 to support two keyboard nav motions above 0 (counting the min range being >0).
-    // @public
     this.NO_SUCCESS_VALUE_THRESHOLD = 0.01;
   }
 

@@ -34,25 +34,15 @@ class RAPMarkerInput extends MarkerInput {
   constructor( ratioTupleProperty: Property<RAPRatioTuple> ) {
     super();
 
-    // @public (read-only)
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
-
-    // @private
     this.ratioTupleProperty = ratioTupleProperty;
   }
 
-  /**
-   * @public
-   */
   reset(): void {
     this.isBeingInteractedWithProperty.reset();
   }
 
-  /**
-   * @public
-   */
   step(): void {
-
 
     phet.log && phet.log( [
       RATIO_MARKER_LEFT, this.Beholder.getMarker( RATIO_MARKER_LEFT ).present, '\n',

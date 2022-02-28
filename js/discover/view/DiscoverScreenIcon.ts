@@ -18,9 +18,6 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 class DiscoverScreenIcon extends ScreenIcon {
 
-  /**
-   * @param {Object} [options]
-   */
   constructor( options?: any ) {
 
     // TODO: convert to optionize once ScreenIcon is typescript https://github.com/phetsims/ratio-and-proportion/issues/404

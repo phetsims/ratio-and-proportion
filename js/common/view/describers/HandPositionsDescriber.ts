@@ -20,7 +20,6 @@ import IReadOnlyProperty from '../../../../../axon/js/IReadOnlyProperty.js';
 import DistanceResponseType from './DistanceResponseType.js';
 import optionize from '../../../../../phet-core/js/optionize.js';
 
-// constants
 const leftHandLowerString = ratioAndProportionStrings.a11y.leftHandLower;
 const rightHandLowerString = ratioAndProportionStrings.a11y.rightHandLower;
 
@@ -82,20 +81,21 @@ class HandPositionsDescriber {
   private ratioTupleProperty: Property<RAPRatioTuple>;
   private tickMarkDescriber: TickMarkDescriber;
   private inProportionProperty: IReadOnlyProperty<boolean>;
+
+  // keep track of previous distance regions to track repetition, and alter description accordingly. This
+  // is used for any modality getting a distance region in a context response.
   private previousDistanceRegionSingle: null | string;
   private previousDistanceRegionBoth: null | string;
+
   private previousDistance: number;
-  public static QUALITATIVE_POSITIONS: string[];
+  static QUALITATIVE_POSITIONS: string[];
 
   constructor( ratioTupleProperty: Property<RAPRatioTuple>, tickMarkDescriber: TickMarkDescriber, inProportionProperty: IReadOnlyProperty<boolean> ) {
 
-    // @private - from model
     this.ratioTupleProperty = ratioTupleProperty;
     this.tickMarkDescriber = tickMarkDescriber;
     this.inProportionProperty = inProportionProperty;
 
-    // @private - keep track of previous distance regions to track repetition, and alter description accordingly. This
-    // is used for any modality getting a distance region in a context response.
     this.previousDistanceRegionSingle = null;
     this.previousDistanceRegionBoth = null;
 
@@ -110,10 +110,8 @@ class HandPositionsDescriber {
 
   /**
    * only ends with "of Play Area" if qualitative
-   * @param position
-   * @param tickMarkView
    */
-  public getHandPositionDescription( position: number, tickMarkView: TickMarkView ): string {
+  getHandPositionDescription( position: number, tickMarkView: TickMarkView ): string {
     return TickMarkView.describeQualitative( tickMarkView ) ? HandPositionsDescriber.getQualitativePosition( position ) :
            this.getQuantitativeHandPosition( position, TickMarkView.describeSemiQualitative( tickMarkView ) );
   }
@@ -183,7 +181,7 @@ class HandPositionsDescriber {
   /**
    * NOTE: These values are copied over in RAPPositionRegionsLayer, consult that Node before changing these values.
    */
-  public getDistanceRegion( lowercase: boolean, distance: number = this.ratioTupleProperty.value.getDistance() ): string {
+  getDistanceRegion( lowercase: boolean, distance: number = this.ratioTupleProperty.value.getDistance() ): string {
 
     assert && assert( TOTAL_RANGE.getLength() === 1, 'these hard coded values depend on a range of 1' );
 
@@ -224,7 +222,7 @@ class HandPositionsDescriber {
     return ( lowercase ? DISTANCE_REGIONS_LOWERCASE : DISTANCE_REGIONS_CAPITALIZED )[ index ];
   }
 
-  public getSingleHandContextResponse( ratioTerm: RatioTerm, tickMarkView: TickMarkView, providedOptions?: SingleHandContextResponseOptions ): string {
+  getSingleHandContextResponse( ratioTerm: RatioTerm, tickMarkView: TickMarkView, providedOptions?: SingleHandContextResponseOptions ): string {
 
     const options = optionize<SingleHandContextResponseOptions, SingleHandContextResponseOptions>( {
 
@@ -256,7 +254,7 @@ class HandPositionsDescriber {
     } );
   }
 
-  public getSingleHandDistanceRegionSentence( ratioTerm: RatioTerm ): string {
+  getSingleHandDistanceRegionSentence( ratioTerm: RatioTerm ): string {
     const otherHand = ratioTerm === RatioTerm.ANTECEDENT ? rightHandLowerString : leftHandLowerString;
 
     const distanceRegion = this.getDistanceRegion( false );
@@ -267,8 +265,10 @@ class HandPositionsDescriber {
     } );
   }
 
-  // NOTE: if in-proportion, this will still return the distance region
-  public getSingleHandDistanceProgressSentence( ratioTerm: RatioTerm ): string {
+  /**
+   * NOTE: if in-proportion, this will still return the distance region
+   */
+  getSingleHandDistanceProgressSentence( ratioTerm: RatioTerm ): string {
     const otherHand = ratioTerm === RatioTerm.ANTECEDENT ? rightHandLowerString : leftHandLowerString;
     let distanceProgress = this.getDistanceProgressString();
 
@@ -282,9 +282,11 @@ class HandPositionsDescriber {
     } );
   }
 
-  // This "combo" approach will conditionally provide distance-progress to make sure repetition is not heard within
-  // distance regions.
-  public getSingleHandComboDistance( ratioTerm: RatioTerm ): string {
+  /**
+   * This "combo" approach will conditionally provide distance-progress to make sure repetition is not heard within
+   * distance regions.
+   */
+  getSingleHandComboDistance( ratioTerm: RatioTerm ): string {
     const otherHand = ratioTerm === RatioTerm.ANTECEDENT ? rightHandLowerString : leftHandLowerString;
 
     const distanceRegion = this.getDistanceRegion( false );
@@ -312,7 +314,7 @@ class HandPositionsDescriber {
     } );
   }
 
-  public getBothHandsDistance( overrideWithDistanceProgress = false, capitalized = false ): string {
+  getBothHandsDistance( overrideWithDistanceProgress = false, capitalized = false ): string {
     const distanceRegion = this.getDistanceRegion( true );
 
     if ( overrideWithDistanceProgress ) {

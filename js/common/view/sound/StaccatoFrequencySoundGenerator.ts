@@ -58,15 +58,13 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
   private inProportionProperty: IReadOnlyProperty<boolean>;
   private fitnessProperty: IReadOnlyProperty<number>;
   private staccatoSoundClips: SoundClip[][];
+
+  // the minimum amount of gap between two sounds, which increases based on the fitness
   private timeLinearFunction: LinearFunction;
+
+  // in ms, keep track of the amount of time that has passed since the last staccato sound played
   private timeSinceLastPlay: number;
 
-  /**
-   * @param {Property.<number>} fitnessProperty
-   * @param {Range} fitnessRange
-   * @param {Property.<boolean>} inProportionProperty - true when the model ratio is in proportion
-   * @param {Object} [options]
-   */
   constructor( fitnessProperty: IReadOnlyProperty<number>, fitnessRange: Range, inProportionProperty: IReadOnlyProperty<boolean>, options: object ) {
 
     // TODO: convert to optionize once SoundGenerator is typescript https://github.com/phetsims/ratio-and-proportion/issues/404
@@ -76,11 +74,8 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
 
     super( options );
 
-    // @private
     this.inProportionProperty = inProportionProperty;
     this.fitnessProperty = fitnessProperty;
-
-    // @private {SoundClip[][]}
     this.staccatoSoundClips = [];
 
     // create a SoundClip for each sound
@@ -96,7 +91,6 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
       this.staccatoSoundClips.push( soundClipsForVariation );
     }
 
-    // @private - the minimum amount of gap between two sounds, which increases based on the fitness
     this.timeLinearFunction = new LinearFunction(
       fitnessRange.min,
       fitnessRange.max,
@@ -104,14 +98,11 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
       120,
       true );
 
-    // @private - in ms, keep track of the amount of time that has passed since the last staccato sound played
     this.timeSinceLastPlay = 0;
   }
 
   /**
    * Step this sound generator, used for fading out the sound in the absence change.
-   * @param {number} dt
-   * @public
    */
   step( dt: number ): void {
     const newFitness = this.fitnessProperty.value;
@@ -129,7 +120,6 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
 
   /**
    * stop any in-progress sound generation
-   * @public
    */
   reset(): void {
     this.timeSinceLastPlay = 0;

@@ -20,10 +20,6 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
 
   private movingInProportionSoundClip: CompositeSoundClip;
 
-  /**
-   * @param {RAPModel} model
-   * @param {Object} [options]
-   */
   constructor( model: RAPModel, options?: any ) {
 
     // TODO: convert to optionize once SoundGenerator is typescript https://github.com/phetsims/ratio-and-proportion/issues/404
@@ -33,7 +29,6 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
 
     super( options );
 
-    // @private {CompositeSoundClip}
     this.movingInProportionSoundClip = new CompositeSoundClip( [ {
       sound: movingInProportionChoirLoop_mp3,
       options: {
@@ -72,7 +67,6 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
 
   /**
    * stop any in-progress sound generation
-   * @public
    */
   reset(): void {
     this.movingInProportionSoundClip.stop();

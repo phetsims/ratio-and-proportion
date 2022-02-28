@@ -20,32 +20,28 @@ class TickMarkBumpSoundClip extends SoundClip {
   private tickMarkRangeProperty: Property<number>;
   private positionRange: Range;
   private timeOfLastClick: number;
+
+  // by keeping track of the last value, we can test if we passed a tick mark. This is updated with the
+  // granularity of how often an interaction occurs, see this.onInteract().
   private lastValue: null | number;
 
   /**
-   * @param {Property<number>} tickMarkRangeProperty - serves as the divisor of the position range to yield position
+   * @param tickMarkRangeProperty - serves as the divisor of the position range to yield position
    * where bump sounds should occur.
-   * @param {Range} positionRange - the total range in position
-   * @param {Object} [options]
+   * @param positionRange - the total range in position
+   * @param [options]
    */
   constructor( tickMarkRangeProperty: Property<number>, positionRange: Range, options?: any ) {
     super( generalSoftClick_mp3, options );
 
-    // @private
     this.tickMarkRangeProperty = tickMarkRangeProperty;
     this.positionRange = positionRange;
     this.timeOfLastClick = 0;
-
-    // @private - by keeping track of the last value, we can test if we passed a tick mark. This is updated with the
-    // granularity of how often an interaction occurs, see this.onInteract().
     this.lastValue = null;
   }
 
   /**
    * Call this when an interaction occurs that could potentially cause a tick mark sound to play.
-   *
-   * @public
-   * @param {number} currentValue
    */
   onInteract( currentValue: number ): void {
 
@@ -72,9 +68,6 @@ class TickMarkBumpSoundClip extends SoundClip {
     this.lastValue = currentValue;
   }
 
-  /**
-   * @public
-   */
   reset(): void {
     this.stop( 0 );
     this.timeOfLastClick = 0;

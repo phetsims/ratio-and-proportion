@@ -35,11 +35,6 @@ class TickMarkRangeComboBoxNode extends Node {
   private tickMarkRangeMap: Record<number, string>;
   private tickMarkRangeProperty: IProperty<number>
 
-  /**
-   * @param tickMarkRangeProperty
-   * @param comboBoxParent
-   * @param tickMarkViewProperty
-   */
   constructor( tickMarkRangeProperty: IProperty<number>, comboBoxParent: Node,
                tickMarkViewProperty: EnumerationProperty<TickMarkView> ) {
     super();
@@ -79,12 +74,10 @@ class TickMarkRangeComboBoxNode extends Node {
       tandem: Tandem.OPT_OUT
     };
 
-    // @private
     this.enabledComboBox = new ComboBox( items, tickMarkRangeProperty, comboBoxParent, comboBoxOptions );
 
     const value = true;
 
-    // @private
     this.disabledComboBox = new ComboBox( [
       new ComboBoxItem( new HSeparator( widestItem, { centerY: -5 } ), value, { a11yLabel: ratioAndProportionStrings.a11y.tickMark.tickMarksHidden } ),
       items[ 0 ] // add this one to get the proper height of the text.
@@ -112,9 +105,6 @@ class TickMarkRangeComboBoxNode extends Node {
     } );
   }
 
-  /**
-   * @public
-   */
   hideListBox(): void {
     this.enabledComboBox.hideListBox();
     this.disabledComboBox.hideListBox();

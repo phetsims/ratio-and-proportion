@@ -39,17 +39,6 @@ type CreateIconOptions = {
 class RatioHandNode extends AccessibleSlider( Node, 0 ) {
   private resetRatioHandNode: () => void;
 
-  /**
-   * @param valueProperty
-   * @param enabledRatioTermsRangeProperty
-   * @param tickMarkViewProperty
-   * @param keyboardStep
-   * @param colorProperty - controls the color of the hand. This is for both the filled in and cut out hands.
-   * @param cueDisplayProperty
-   * @param getIdealValue
-   * @param inProportionProperty - if the model is in proportion
-   * @param [options]
-   */
   constructor( valueProperty: Property<number>,
                enabledRatioTermsRangeProperty: Property<Range>,
                tickMarkViewProperty: EnumerationProperty<TickMarkView>,
@@ -105,7 +94,6 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
       this.pdomVisible = false;
     }
 
-    // @private
     const filledInHandNode = new FilledInHandPath( {
       fill: colorProperty
     } );
@@ -197,24 +185,17 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
       down: () => mapKeyboardInput.reset()
     } );
 
-    // @private
     this.resetRatioHandNode = () => mapKeyboardInput.reset();
   }
 
   /**
    * Call to reset input characteristics for alternative input. See
    * https://github.com/phetsims/ratio-and-proportion/issues/175#issuecomment-729292704
-   * @public
    */
   reset(): void {
     this.resetRatioHandNode();
   }
 
-  /**
-   * @param isRight
-   * @param tickMarkViewProperty
-   * @param [options]
-   */
   static createIcon( isRight: boolean, tickMarkViewProperty: EnumerationProperty<TickMarkView>, options?: CreateIconOptions ): Node {
 
     // TODO: convert to optionize once accessibleValueHandler is typescript https://github.com/phetsims/ratio-and-proportion/issues/404

@@ -14,7 +14,6 @@ import rapConstants from '../../rapConstants.js';
 import RAPModel from '../../model/RAPModel.js';
 import IReadOnlyProperty from '../../../../../axon/js/IReadOnlyProperty.js';
 
-// constants
 const RATIO_FITNESS_STRINGS_CAPITALIZED = [
   ratioAndProportionStrings.a11y.ratio.capitalized.extremelyFarFrom,
   ratioAndProportionStrings.a11y.ratio.capitalized.veryFarFrom,
@@ -62,12 +61,8 @@ class RatioDescriber {
   private unclampedFitnessProperty: IReadOnlyProperty<number>;
   private model: RAPModel;
 
-  /**
-   * @param {RAPModel} model
-   */
   constructor( model: RAPModel ) {
 
-    // @private - from model
     this.ratioFitnessProperty = model.ratioFitnessProperty;
     this.unclampedFitnessProperty = model.unclampedFitnessProperty;
     this.model = model;
@@ -77,11 +72,6 @@ class RatioDescriber {
     } );
   }
 
-  /**
-   * @public
-   * @param {boolean} capitalized
-   * @returns {string}
-   */
   getRatioFitness( capitalized = true ): string {
 
     const lastIndex = RATIO_FITNESS_STRINGS_CAPITALIZED.length - 1;
@@ -108,32 +98,18 @@ class RatioDescriber {
     return ratioRegions[ Math.floor( mappingFunction.evaluate( unclampedFitness ) ) ];
   }
 
-  /**
-   * @public
-   * @returns {string}
-   */
   getProximityToChallengeRatio(): string {
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.proximityToRatioObjectResponse, {
       proximityToRatio: this.getRatioFitness( false )
     } );
   }
 
-  /**
-   * @public
-   * @returns {string}
-   */
   getProximityToNewChallengeRatioSentence(): string {
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.proximityToNewRatioPattern, {
       proximity: this.getRatioFitness( false )
     } );
   }
 
-  /**
-   * @public
-   * @param {number} antecedent
-   * @param {number} consequent
-   * @returns {string}
-   */
   getCurrentChallengeSentence( antecedent: number, consequent: number ): string {
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.currentChallenge, {
       targetAntecedent: antecedent,
@@ -141,12 +117,6 @@ class RatioDescriber {
     } );
   }
 
-  /**
-   * @public
-   * @param {number} antecedent
-   * @param {number} consequent
-   * @returns {string}
-   */
   getTargetRatioChangeAlert( antecedent: number, consequent: number ): string {
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.targetRatioChangedContextResponse, {
       proximityToRatio: this.getProximityToNewChallengeRatioSentence(),
@@ -154,11 +124,6 @@ class RatioDescriber {
     } );
   }
 
-  /**
-   * @public
-   * @param {number} number
-   * @returns {string}
-   */
   getWordFromNumber( number: number ): string {
     assert && assert( Number.isInteger( number ) );
     assert && assert( NUMBER_TO_WORD.length > number );

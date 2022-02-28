@@ -29,22 +29,22 @@ const SELECTION_SOUND_OPTIONS = {
 
 class ChallengeRatioComboBoxNode extends Node {
 
+  // Used to get the names of challenges based on the target ratio, NOTE: lowercase strings are only available in the PDOM (not yet i18n)
   readonly ratioToChallengeNameMap: Map<number, { capitalized: string, lowercase: string }>;
   private comboBox: ComboBox;
 
   /**
-   * @param {NumberProperty} targetRatioProperty
-   * @param {RatioDescriber} ratioDescriber
-   * @param {Property.<Color>} colorProperty
-   * @param {Node} comboBoxListParent
-   * @param {Tandem} comboBoxTandem - Passed directly to comboBox; keep out of options to prevent instrumenting this intermediate Node.
-   * @param {Object} [options]
+   * @param targetRatioProperty
+   * @param ratioDescriber
+   * @param colorProperty
+   * @param comboBoxListParent
+   * @param comboBoxTandem - Passed directly to comboBox; keep out of options to prevent instrumenting this intermediate Node.
+   * @param [options]
    */
   constructor( targetRatioProperty: NumberProperty, ratioDescriber: RatioDescriber, colorProperty: Property<Color | string>,
                comboBoxListParent: Node, comboBoxTandem: Tandem, options?: Omit<NodeOptions, 'children'> ) {
 
     super( options );
-
 
     // sound generators
     const soundGenerators = [];
@@ -53,7 +53,6 @@ class ChallengeRatioComboBoxNode extends Node {
     soundGenerators.push( new SoundClip( selectionArpeggio006_mp3, SELECTION_SOUND_OPTIONS ) );
     soundGenerators.forEach( sg => { soundManager.addSoundGenerator( sg ); } );
 
-    // @public (read-only) Used to get the names of challenges based on the target ratio, NOTE: lowercase strings are only available in the PDOM (not yet i18n)
     this.ratioToChallengeNameMap = new Map();
     this.ratioToChallengeNameMap.set( 1 / 2, { capitalized: ratioAndProportionStrings.challenge1, lowercase: ratioAndProportionStrings.a11y.discover.challenge1Lowercase } );
     this.ratioToChallengeNameMap.set( 1 / 3, { capitalized: ratioAndProportionStrings.challenge2, lowercase: ratioAndProportionStrings.a11y.discover.challenge2Lowercase } );
@@ -103,9 +102,6 @@ class ChallengeRatioComboBoxNode extends Node {
     this.pdomOrder = [ comboBoxHeading, this.comboBox ];
   }
 
-  /**
-   * @public
-   */
   hideListBox(): void {
     this.comboBox.hideListBox();
   }

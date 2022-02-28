@@ -48,7 +48,7 @@ class MyChallengeAccordionBox extends AccordionBox {
                handColorProperty: Property<Color>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
                ratioDescriber: RatioDescriber, options: AccordionBoxOptions ) {
 
-    // TODO: convert to optionize once AccoridionBox is typescript https://github.com/phetsims/ratio-and-proportion/issues/404
+    // TODO: convert to optionize once AccordionBox is typescript https://github.com/phetsims/ratio-and-proportion/issues/404
     options = merge( {
       titleNode: new RichText( ratioAndProportionStrings.myChallenge, {
         font: new PhetFont( 20 ),
@@ -84,7 +84,6 @@ class MyChallengeAccordionBox extends AccordionBox {
     const targetAntecedentProperty = new NumberProperty( initialRatioFraction.numerator );
     const targetConsequentProperty = new NumberProperty( initialRatioFraction.denominator );
 
-    // @private
     const ratioUnlockedFromMyChallenge = new Utterance( {
       alert: ratioAndProportionStrings.a11y.ratioNoLongerLocked
     } );
@@ -151,7 +150,6 @@ class MyChallengeAccordionBox extends AccordionBox {
     } );
     super( myChallengeContent, options );
 
-    // @public
     this.targetAntecedentProperty = targetAntecedentProperty;
     this.targetConsequentProperty = targetConsequentProperty;
 
@@ -170,7 +168,6 @@ class MyChallengeAccordionBox extends AccordionBox {
         targetRatioProperty.value = targetAntecedent / targetConsequent;
       } );
 
-    // @private
     this.resetMyChallengeAccordionBox = () => {
       this.expandedProperty.value = DEFAULT_EXPANDED;
 
@@ -181,11 +178,7 @@ class MyChallengeAccordionBox extends AccordionBox {
     };
   }
 
-  /**
-   * @public
-   * @override
-   */
-  reset(): void {
+  override reset(): void {
     super.reset();
     this.resetMyChallengeAccordionBox();
   }

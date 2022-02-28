@@ -14,7 +14,6 @@ import TickMarkView from '../TickMarkView.js';
 import Property from '../../../../../axon/js/Property.js';
 import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
 
-// constants
 const ORDINAL_TICK_MARKS = [
   null,
   ratioAndProportionStrings.a11y.tickMark.ordinal.first,
@@ -67,13 +66,7 @@ class TickMarkDescriber {
   private tickMarkRangeProperty: Property<number>;
   private tickMarkViewProperty: EnumerationProperty<TickMarkView>;
 
-  /**
-   * @param tickMarkRangeProperty
-   * @param tickMarkViewProperty
-   */
   constructor( tickMarkRangeProperty: Property<number>, tickMarkViewProperty: EnumerationProperty<TickMarkView> ) {
-
-    // @private
     this.tickMarkRangeProperty = tickMarkRangeProperty;
     this.tickMarkViewProperty = tickMarkViewProperty;
   }
@@ -82,9 +75,6 @@ class TickMarkDescriber {
    * Implemented like https://github.com/phetsims/ratio-and-proportion/issues/198#issuecomment-710029471 and https://github.com/phetsims/ratio-and-proportion/issues/198#issuecomment-728344102
    * This is a complicated function for a complicated design specification. Logic can split depending on tick mark view
    * with certain edge cases (like for "zero" case).
-   * @public
-   * @param {number} handPosition
-   * @returns {TickMarkDescriptionData}
    */
   getRelativePositionAndTickMarkNumberForPosition( handPosition: number ): TickMarkDescriptionData {
     assert && assert( TOTAL_RANGE.contains( handPosition ) );

@@ -9,8 +9,6 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
-import merge from '../../../../phet-core/js/merge.js';
-import required from '../../../../phet-core/js/required.js';
 import { globalKeyStateTracker, KeyboardUtils, Node, SceneryEvent } from '../../../../scenery/js/imports.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
@@ -21,6 +19,7 @@ import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import BoundarySoundClip from './sound/BoundarySoundClip.js';
 import TickMarkBumpSoundClip from './sound/TickMarkBumpSoundClip.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
@@ -30,6 +29,8 @@ const onInputDefault = () => {};
 type getIdealTermType = ( ratioTerm: RatioTerm ) => number;
 
 type BothHandsInteractionListenerOptions = {
+
+  // Node to add listeners to
   targetNode: Node;
   ratioTupleProperty: Property<RAPRatioTuple>;
   antecedentInteractedWithProperty: Property<boolean>;
@@ -43,6 +44,8 @@ type BothHandsInteractionListenerOptions = {
   targetRatioProperty: Property<number>;
   inProportionProperty: Property<boolean>;
   getIdealTerm: getIdealTermType;
+
+  // Called whenever an interaction occurs that this listener responds to, even if not change occurs to the ratio.
   onInput?: OnInputType;
 };
 
@@ -64,101 +67,51 @@ class BothHandsInteractionListener {
   private onInput: OnInputType;
   private antecedentMapKeyboardInput: KeyboardInputMapper;
   private consequentMapKeyboardInput: KeyboardInputMapper;
+
+  // true whenever the user is interacting with this listener
   isBeingInteractedWithProperty: Property<boolean>;
+
+  // called when this input occurs when the ratio is locked with a target of N:N. Jumping to zero is not allowed for
+  // this case, see, https://github.com/phetsims/ratio-and-proportion/issues/227#issuecomment-758036456
   jumpToZeroWhileLockedEmitter: Emitter<[]>;
+
+  // The custom jumping logic uses special logic to determine if jumping caused a boundary to be hit. That occurs in
+  // keydown, but we want the sound only to play once on keyup. Use this as a marker to signify that the boundary
+  // sound should be played.
   private playBoundarySoundOnKeyup: boolean;
 
-  /**
-   * @param {Object} config
-   */
-  constructor( config: BothHandsInteractionListenerOptions ) {
+  constructor( providedOptions: BothHandsInteractionListenerOptions ) {
 
-    const filledConfig = merge( {
+    const options = optionize<BothHandsInteractionListenerOptions>( {
 
-      // ---- REQUIRED -------------------------------------------------
-
-      // {Node} - Node to add listeners to
-      targetNode: required( config.targetNode ),
-
-      // {Property.<RAPRatioTuple>}
-      ratioTupleProperty: required( config.ratioTupleProperty ),
-
-      // {Property.<boolean>}
-      antecedentInteractedWithProperty: required( config.antecedentInteractedWithProperty ),
-
-      // {Property.<boolean>}
-      consequentInteractedWithProperty: required( config.consequentInteractedWithProperty ),
-
-      // {Property.<Range>}
-      enabledRatioTermsRangeProperty: required( config.enabledRatioTermsRangeProperty ),
-
-      // {Property.<number>}
-      tickMarkRangeProperty: required( config.tickMarkRangeProperty ),
-
-      // {number}
-      keyboardStep: required( config.keyboardStep ),
-
-      // {BoundarySoundClip}
-      boundarySoundClip: required( config.boundarySoundClip ),
-
-      // {TickMarkBumpSoundClip}
-      tickMarkBumpSoundClip: required( config.tickMarkBumpSoundClip ),
-
-      // {Property.<boolean>}
-      ratioLockedProperty: required( config.ratioLockedProperty ),
-
-      // {Property.<number>}
-      targetRatioProperty: required( config.targetRatioProperty ),
-
-      // {function(RatioTerm):number}
-      getIdealTerm: required( config.getIdealTerm ),
-
-      // {Property.<boolean>} - is the model in proportion right now
-      inProportionProperty: required( config.inProportionProperty ),
-
-      // ---- OPTIONAL -------------------------------------------------
-
-      // Called whenever an interaction occurs that this listener responds to, even if not change occurs to the ratio.
       onInput: onInputDefault
-    }, config ) as Required<BothHandsInteractionListenerOptions>;
+    }, providedOptions ) as Required<BothHandsInteractionListenerOptions>;
 
-    // @private
-    this.targetNode = filledConfig.targetNode;
-    this.ratioTupleProperty = filledConfig.ratioTupleProperty;
-    this.antecedentInteractedWithProperty = filledConfig.antecedentInteractedWithProperty;
-    this.consequentInteractedWithProperty = filledConfig.consequentInteractedWithProperty;
-    this.enabledRatioTermsRangeProperty = filledConfig.enabledRatioTermsRangeProperty;
-    this.tickMarkRangeProperty = filledConfig.tickMarkRangeProperty;
-    this.keyboardStep = filledConfig.keyboardStep;
+    this.targetNode = options.targetNode;
+    this.ratioTupleProperty = options.ratioTupleProperty;
+    this.antecedentInteractedWithProperty = options.antecedentInteractedWithProperty;
+    this.consequentInteractedWithProperty = options.consequentInteractedWithProperty;
+    this.enabledRatioTermsRangeProperty = options.enabledRatioTermsRangeProperty;
+    this.tickMarkRangeProperty = options.tickMarkRangeProperty;
+    this.keyboardStep = options.keyboardStep;
     this.shiftKeyboardStep = this.keyboardStep * rapConstants.SHIFT_KEY_MULTIPLIER;
-    this.boundarySoundClip = filledConfig.boundarySoundClip;
-    this.tickMarkBumpSoundClip = filledConfig.tickMarkBumpSoundClip;
-    this.ratioLockedProperty = filledConfig.ratioLockedProperty;
-    this.targetRatioProperty = filledConfig.targetRatioProperty;
-    this.inProportionProperty = filledConfig.inProportionProperty;
-    this.onInput = filledConfig.onInput;
+    this.boundarySoundClip = options.boundarySoundClip;
+    this.tickMarkBumpSoundClip = options.tickMarkBumpSoundClip;
+    this.ratioLockedProperty = options.ratioLockedProperty;
+    this.targetRatioProperty = options.targetRatioProperty;
+    this.inProportionProperty = options.inProportionProperty;
+    this.onInput = options.onInput;
 
-    // @private
     this.antecedentMapKeyboardInput = getKeyboardInputSnappingMapper(
-      () => filledConfig.getIdealTerm( RatioTerm.ANTECEDENT ), filledConfig.keyboardStep, this.shiftKeyboardStep );
+      () => options.getIdealTerm( RatioTerm.ANTECEDENT ), options.keyboardStep, this.shiftKeyboardStep );
     this.consequentMapKeyboardInput = getKeyboardInputSnappingMapper(
-      () => filledConfig.getIdealTerm( RatioTerm.CONSEQUENT ), filledConfig.keyboardStep, this.shiftKeyboardStep );
+      () => options.getIdealTerm( RatioTerm.CONSEQUENT ), options.keyboardStep, this.shiftKeyboardStep );
 
-    // @private - true whenever the user is interacting with this listener
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
-
-    // @public - called when this input occurs when the ratio is locked with a target of N:N. Jumping to zero is not allowed for this case, see, https://github.com/phetsims/ratio-and-proportion/issues/227#issuecomment-758036456
     this.jumpToZeroWhileLockedEmitter = new Emitter();
-
-    // The custom jumping logic uses special logic to determine if jumping caused a boundary to be hit. That occurs in
-    // keydown, but we want the sound only to play once on keyup. Use this as a marker to signify that the boundary
-    // sound should be played.
     this.playBoundarySoundOnKeyup = false;
   }
 
-  /**
-   * @public
-   */
   reset(): void {
     this.antecedentMapKeyboardInput.reset();
     this.consequentMapKeyboardInput.reset();
@@ -166,12 +119,11 @@ class BothHandsInteractionListener {
 
   /**
    * Consistently handle changing the ratio from increment/decrement
-   * @param {'antecedent'|'consequent'} tupleField - what field of the RAPRatioTuple are we changing
-   * @param {function(number,number,boolean):number} inputMapper - see getKeyboardInputSnappingMapper
-   * @param {boolean} increment - if the value is being incremented, as opposed to decremented.
-   * @private
+   * @param tupleField - what field of the RAPRatioTuple are we changing
+   * @param inputMapper - see getKeyboardInputSnappingMapper
+   * @param increment - if the value is being incremented, as opposed to decremented.
    */
-  onValueIncrementDecrement( tupleField: 'antecedent' | 'consequent', inputMapper: KeyboardInputMapper, increment: boolean ): void {
+  private onValueIncrementDecrement( tupleField: 'antecedent' | 'consequent', inputMapper: KeyboardInputMapper, increment: boolean ): void {
     this.isBeingInteractedWithProperty.value = true;
     const currentValueFromTuple = this.ratioTupleProperty.value[ tupleField ];
 
@@ -190,17 +142,10 @@ class BothHandsInteractionListener {
     this.onInput();
   }
 
-  /**
-   * @public
-   */
   blur(): void {
     this.isBeingInteractedWithProperty.value = false;
   }
 
-  /**
-   * @public
-   * @param {SceneryEvent} sceneryEvent
-   */
   keydown( sceneryEvent: SceneryEvent ): void {
 
     if ( sceneryEvent.target === this.targetNode ) {
@@ -287,11 +232,6 @@ class BothHandsInteractionListener {
     }
   }
 
-
-  /**
-   * @public
-   * @param {SceneryEvent} sceneryEvent
-   */
   keyup( sceneryEvent: SceneryEvent ): void {
 
     if ( sceneryEvent.target === this.targetNode ) {
@@ -313,9 +253,7 @@ class BothHandsInteractionListener {
   }
 
   /**
-   * @public
    * Handle boundary sound output based on an input for this interaction
-   * @param {number} newValue
    */
   handleBoundarySoundOnInput( newValue: number ): void {
     this.boundarySoundClip.onStartInteraction();

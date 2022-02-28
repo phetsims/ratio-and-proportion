@@ -13,8 +13,13 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 // Even though there is only one Profile, it is still nice to use this pattern for color organizing.
 class CueArrowsState {
 
+  // if either hand has been moved with a mouse or touch or marker input
   interactedWithMouseProperty: BooleanProperty;
+
+  // if either hand has been moved with a keyboard
   interactedWithKeyboardProperty: BooleanProperty;
+
+  // if either hand currently has keyboard focus
   keyboardFocusedProperty: BooleanProperty;
   bothHands: {
     antecedentCueDisplayedProperty: BooleanProperty;
@@ -24,16 +29,10 @@ class CueArrowsState {
 
   constructor() {
 
-    // @public - if either hand has been moved with a mouse or touch or marker input
     this.interactedWithMouseProperty = new BooleanProperty( false );
-
-    // @public - if either hand has been moved with a keyboard
     this.interactedWithKeyboardProperty = new BooleanProperty( false );
-
-    // @public - if either hand currently has keyboard focus
     this.keyboardFocusedProperty = new BooleanProperty( false );
 
-    // @public
     this.bothHands = {
 
       // whether or not to show the both hands cue for this ratio term.
@@ -48,9 +47,6 @@ class CueArrowsState {
     };
   }
 
-  /**
-   * @public
-   */
   reset(): void {
     this.interactedWithMouseProperty.reset();
     this.interactedWithKeyboardProperty.reset();

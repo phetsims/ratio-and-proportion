@@ -93,9 +93,14 @@ type RatioHalfSelfOptions = {
 
   // is the model in proportion right now
   inProportionProperty: IReadOnlyProperty<boolean>;
+
+  // right ratio or the left ratio
   isRight?: boolean;
 
+  // control the color of the hand
   handColorProperty?: Property<ColorDef>;
+
+  // AccessibleValueHandler via RatioHandNode
   a11yDependencies?: IReadOnlyProperty<any>[];
   bothHandsCueDisplay?: CueDisplay;
 }
@@ -104,8 +109,14 @@ type RatioHalfOptions = RatioHalfSelfOptions & RectangleOptions;
 
 class RatioHalf extends Rectangle {
 
-  public framingRectangleHeight: number;
-  public readonly isBeingInteractedWithProperty: BooleanProperty;
+  // the height of the framing rectangles, updated in layout function
+  // TODO: should be @public (read-only) if possible (but set internally) https://github.com/phetsims/ratio-and-proportion/issues/404
+  framingRectangleHeight: number;
+
+  // TODO: should be @public (read-only) if possible https://github.com/phetsims/ratio-and-proportion/issues/404
+  // this behaves a bit differently depending on modality. For mouse/touch, any time you are
+  // dragging this will be considered interaction, for keyboard, you must press a key before the interaction starts.
+  readonly isBeingInteractedWithProperty: BooleanProperty;
   private ratioLockedProperty: Property<boolean>;
   private bothHandsDescriber: BothHandsDescriber;
   private handPositionsDescriber: HandPositionsDescriber;
@@ -113,27 +124,19 @@ class RatioHalf extends Rectangle {
   private tickMarkViewProperty: EnumerationProperty<TickMarkView>;
   private ratioTerm: RatioTerm;
   private ratioTupleProperty: Property<RAPRatioTuple>;
+
+  // The draggable element inside the Node framed with thick rectangles on the top and bottom.
+  // TODO: should be "private to the file" if possible https://github.com/phetsims/ratio-and-proportion/issues/404
   ratioHandNode: RatioHandNode;
   private layoutRatioHalf: LayoutFunction;
   private resetRatioHalf: () => void;
 
-  /**
-   * @param {Object} [providedOptions]
-   */
   constructor( providedOptions: RatioHalfOptions ) {
 
     const options = optionize<RatioHalfOptions, RatioHalfSelfOptions, RectangleOptions>( {
-
-      // {boolean} right ratio or the left ratio
       isRight: true,
-
-      // {Property.<ColorDef>} control the color of the hand
       handColorProperty: new Property( 'black' ),
-
-      // {Array.<Property>} AccessibleValueHandler via RatioHandNode
       a11yDependencies: [],
-
-      // {CueDisplay}
       bothHandsCueDisplay: CueDisplay.UP_DOWN,
 
       // phet-io
@@ -148,16 +151,11 @@ class RatioHalf extends Rectangle {
 
     super( 0, 0, options.bounds.width, options.bounds.height );
 
-    // @public (read-only) - the height of the framing rectangles, updated in layout function
     this.framingRectangleHeight = MIN_FRAMING_RECTANGLE_HEIGHT;
-
-    // @public (read-only) - this behaves a bit differently depending on modality. For mouse/touch, any time you are
-    // dragging this will be considered interaction, for keyboard, you must press a key before the interaction starts.
     this.isBeingInteractedWithProperty = new BooleanProperty( false, {
       tandem: options.tandem.createTandem( 'isBeingInteractedWithProperty' )
     } );
 
-    // @private
     this.ratioLockedProperty = options.ratioLockedProperty;
     this.bothHandsDescriber = options.bothHandsDescriber;
     this.handPositionsDescriber = options.handPositionsDescriber;
@@ -188,7 +186,7 @@ class RatioHalf extends Rectangle {
       } );
 
 
-    // @public {Property.<number>} - Create a mapping directly to just this ratio term value. This is to support
+    // Create a mapping directly to just this ratio term value. This is to support
     // AccessibleValueHandler, which powers the PDOM interaction off of {Property.<number>}.
     const ratioTermSpecificProperty = new DynamicProperty<number>( new Property<Property<RAPRatioTuple>>( this.ratioTupleProperty ), {
       bidirectional: true,
@@ -203,7 +201,6 @@ class RatioHalf extends Rectangle {
     const createObjectResponse = () => options.ratioLockedProperty.value ? options.ratioDescriber.getProximityToChallengeRatio() :
                                        options.ratioDescriber.getProximityToChallengeRatio();
 
-    // @private - The draggable element inside the Node framed with thick rectangles on the top and bottom.
     this.ratioHandNode = new RatioHandNode( ratioTermSpecificProperty,
       options.enabledRatioTermsRangeProperty,
       options.tickMarkViewProperty,
@@ -303,7 +300,6 @@ class RatioHalf extends Rectangle {
         options.setJumpingOverProportionShouldTriggerSound( true );
         viewSounds.boundarySoundClip.onStartInteraction();
 
-        // @ts-ignore
         this.ratioHandNode.voicingSpeakFullResponse( {
           contextResponse: null
         } );
@@ -423,7 +419,6 @@ class RatioHalf extends Rectangle {
       ( this.ratioHandNode )
     ];
 
-    // @private
     this.layoutRatioHalf = ( newBounds, heightScalar ) => {
       this.rectWidth = newBounds.width;
       this.rectHeight = newBounds.height;
@@ -459,7 +454,6 @@ class RatioHalf extends Rectangle {
       tickMarksNode.left = 0;
     };
 
-    // @private
     this.resetRatioHalf = () => {
       this.ratioHandNode.reset();
       viewSounds.reset();
@@ -472,9 +466,6 @@ class RatioHalf extends Rectangle {
    * Generate and send an alert to the UtteranceQueue that describes the movement of this object and the subsequent change
    * in ratio. This is the context response for the individual ratio half hand (slider) interaction. Returning
    * null means no alert will occur.
-   * @public
-   * @param handPositionsDescriber
-   * @param options - passed directly to HandPositionsDescriber.getSingleHandContextResponse
    */
   getSingleHandContextResponse( handPositionsDescriber: HandPositionsDescriber, options?: SingleHandContextResponseOptions ): string {
 
@@ -490,8 +481,6 @@ class RatioHalf extends Rectangle {
    * The bottom of the Rectangle that contains the RatioHandNode is not the complete bounds of the Node. With that in
    * mind, offset the bottom by the height that extends beyond the Rectangle. For example, the cue arrows of the RatioHandNode can extend beyond the
    * "ratio half box" (the draggable area).
-   * @public
-   * @param {number} desiredBottom
    */
   setBottomOfRatioHalf( desiredBottom: number ): void {
 
@@ -500,18 +489,14 @@ class RatioHalf extends Rectangle {
   }
 
   /**
-   * @public
-   * @param {Bounds2} bounds - the bounds of this RatioHalf, effects dimensions, dragBounds, and width of guiding rectangles
-   * @param {number} heightScalar - normalized between 0 and 1. When 1, it the ratio half will be the tallest it gets, at 0, the shortest
+   * @param bounds - the bounds of this RatioHalf, effects dimensions, dragBounds, and width of guiding rectangles
+   * @param heightScalar - normalized between 0 and 1. When 1, it the ratio half will be the tallest it gets, at 0, the shortest
    */
   layout( bounds: Bounds2, heightScalar: number ): void {
     assert && assert( heightScalar >= 0 && heightScalar <= 1, 'scalar should be between 0 and 1' );
     this.layoutRatioHalf( bounds, heightScalar );
   }
 
-  /**
-   * @public
-   */
   reset(): void {
     this.resetRatioHalf();
   }

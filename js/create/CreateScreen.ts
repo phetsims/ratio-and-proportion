@@ -16,9 +16,6 @@ import Tandem from '../../../tandem/js/Tandem.js';
 
 class CreateScreen extends Screen<RAPModel, CreateScreenView> {
 
-  /**
-   * @param {Tandem} tandem
-   */
   constructor( tandem: Tandem ) {
 
     const backgroundColorProperty = new Property( 'white' );
