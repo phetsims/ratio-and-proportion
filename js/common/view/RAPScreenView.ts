@@ -20,7 +20,7 @@ import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Utils from '../../../../dot/js/Utils.js';
-import ScreenView from '../../../../joist/js/ScreenView.js';
+import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
@@ -67,13 +67,13 @@ const RATIO_SECTION_WIDTH = 2 / 3;
 const uiScaleFunction = new LinearFunction( LAYOUT_BOUNDS.height, MAX_RATIO_HEIGHT, 1, 1.5, true );
 const uiPositionFunction = new LinearFunction( 1, 1.5, LAYOUT_BOUNDS.height * 0.15, -LAYOUT_BOUNDS.height * 0.2, true );
 
-type RAPScreenViewSelfOptions = {
+type SelfOptions = {
   leftHandColorProperty?: Property<ColorDef>;
   rightHandColorProperty?: Property<ColorDef>;
   bothHandsPDOMNodeOptions?: Partial<BothHandsPDOMNodeOptions>; // Because all the required pieces are added by this type
 }
 
-type RAPScreenViewOptions = RAPScreenViewSelfOptions & ScreenViewOptions;
+type RAPScreenViewOptions = SelfOptions & ScreenViewOptions;
 
 class RAPScreenView extends ScreenView {
 
@@ -110,7 +110,7 @@ class RAPScreenView extends ScreenView {
 
   constructor( model: RAPModel, backgroundColorProperty: Property<ColorDef>, tandem: Tandem, options?: RAPScreenViewOptions ) {
 
-    options = optionize<RAPScreenViewOptions, RAPScreenViewSelfOptions, ScreenViewOptions>( {
+    options = optionize<RAPScreenViewOptions, SelfOptions, ScreenViewOptions>( {
       tandem: tandem,
       layoutBounds: LAYOUT_BOUNDS,
 

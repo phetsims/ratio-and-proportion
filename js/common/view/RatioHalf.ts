@@ -65,7 +65,7 @@ const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 type LayoutFunction = ( bounds: Bounds2, heightScalar: number ) => void;
 
-type RatioHalfSelfOptions = {
+type SelfOptions = {
   ratioTerm: RatioTerm;
   ratioTupleProperty: Property<RAPRatioTuple>;
   enabledRatioTermsRangeProperty: Property<Range>; // the current range that the hand can move
@@ -105,7 +105,7 @@ type RatioHalfSelfOptions = {
   bothHandsCueDisplay?: CueDisplay;
 }
 
-type RatioHalfOptions = RatioHalfSelfOptions & RectangleOptions;
+type RatioHalfOptions = SelfOptions & RectangleOptions;
 
 class RatioHalf extends Rectangle {
 
@@ -133,7 +133,7 @@ class RatioHalf extends Rectangle {
 
   constructor( providedOptions: RatioHalfOptions ) {
 
-    const options = optionize<RatioHalfOptions, RatioHalfSelfOptions, RectangleOptions>( {
+    const options = optionize<RatioHalfOptions, SelfOptions, RectangleOptions>( {
       isRight: true,
       handColorProperty: new Property( 'black' ),
       a11yDependencies: [],

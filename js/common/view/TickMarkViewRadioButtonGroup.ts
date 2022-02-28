@@ -77,8 +77,6 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkV
 
     const tickMarkContextResponseUtterance = new ActivationUtterance();
     tickMarkViewProperty.lazyLink( tickMarkView => {
-      // TODO: likely we need this to run on user input, not the model Property, https://github.com/phetsims/ratio-and-proportion/issues/363
-
       const currentRadioButtonItem = _.find( radioButtonItemData, item => item.value === tickMarkView )!;
       assert && assert( currentRadioButtonItem, 'radio button item expected' );
 

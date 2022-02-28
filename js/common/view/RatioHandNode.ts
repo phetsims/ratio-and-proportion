@@ -16,7 +16,7 @@ import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import ArrowKeyNode from '../../../../scenery-phet/js/keyboard/ArrowKeyNode.js';
 import LetterKeyNode from '../../../../scenery-phet/js/keyboard/LetterKeyNode.js';
 import { Color, FocusHighlightFromNode, Node, NodeOptions, Path, PathOptions } from '../../../../scenery/js/imports.js';
-import AccessibleSlider from '../../../../sun/js/accessibility/AccessibleSlider.js';
+import AccessibleSlider, { AccessibleSliderOptions } from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import rapConstants from '../rapConstants.js';
@@ -30,10 +30,18 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 
+
+type SelfOptions = {
+  isRight?: boolean;
+  asIcon?: boolean;
+}
+
+type RatioHandNodeOptions = SelfOptions & NodeOptions & Partial<AccessibleSliderOptions>;
+
 type CreateIconOptions = {
 
   handColor?: ColorDef,
-  handNodeOptions?: NodeOptions
+  handNodeOptions?: Partial<RatioHandNodeOptions>
 };
 
 class RatioHandNode extends AccessibleSlider( Node, 0 ) {
@@ -47,7 +55,7 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
                cueDisplayProperty: IReadOnlyProperty<CueDisplay>,
                getIdealValue: () => number,
                inProportionProperty: IReadOnlyProperty<boolean>,
-               options?: any ) {
+               options?: RatioHandNodeOptions ) {
 
     const shiftKeyboardStep = rapConstants.toFixed( keyboardStep * rapConstants.SHIFT_KEY_MULTIPLIER ); // eslint-disable-line bad-sim-text
 
@@ -55,8 +63,7 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
     // the keyboard step size allows.
     const mapKeyboardInput = getKeyboardInputSnappingMapper( getIdealValue, keyboardStep, shiftKeyboardStep );
 
-    // TODO: convert to optionize once accessibleValueHandler is typescript https://github.com/phetsims/ratio-and-proportion/issues/404
-    options = merge( {
+    options = optionize<RatioHandNodeOptions, SelfOptions, RatioHandNodeOptions>( {
       cursor: 'pointer',
       isRight: true, // right hand or left hand
       asIcon: false, // when true, no input will be attached
@@ -70,8 +77,6 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
       // Because this interaction uses the keyboard, snap to the keyboard step to handle the case where the hands were
       // previously moved via mouse/touch. See https://github.com/phetsims/ratio-and-proportion/issues/156
       a11yMapValue: ( newValue: number, oldValue: number ) => {
-
-        // @ts-ignore
         return mapKeyboardInput( newValue, oldValue, this.shiftKeyDown, inProportionProperty.value );
       },
       a11yDependencies: [],
@@ -196,15 +201,17 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
     this.resetRatioHandNode();
   }
 
-  static createIcon( isRight: boolean, tickMarkViewProperty: EnumerationProperty<TickMarkView>, options?: CreateIconOptions ): Node {
+  static createIcon( isRight: boolean, tickMarkViewProperty: EnumerationProperty<TickMarkView>, providedOptions?: CreateIconOptions ): Node {
 
-    // TODO: convert to optionize once accessibleValueHandler is typescript https://github.com/phetsims/ratio-and-proportion/issues/404
-    options = merge( {
+    const options = optionize<CreateIconOptions>( {
       handColor: 'black',
       handNodeOptions: {
-        tandem: Tandem.OPT_OUT
+        tandem: Tandem.OPT_OUT,
+        isRight: isRight,
+        asIcon: true,
+        pickable: false
       }
-    }, options ) as Required<CreateIconOptions>;
+    }, providedOptions );
 
     const ratioHandNode = new RatioHandNode(
       new Property( 0 ),
@@ -215,11 +222,7 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
       new Property( CueDisplay.NONE ),
       () => -1,
       new Property<boolean>( false ),
-      merge( {
-        isRight: isRight,
-        asIcon: true,
-        pickable: false
-      }, options.handNodeOptions ) );
+      options.handNodeOptions );
 
     return new Node( {
       children: [ ratioHandNode ]

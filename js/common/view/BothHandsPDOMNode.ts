@@ -29,7 +29,7 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 // constants
 const OBJECT_RESPONSE_DELAY = 500;
 
-type BothHandsPDOMNodeSelfOptions = {
+type SelfOptions = {
   ratioTupleProperty: Property<RAPRatioTuple>;
   enabledRatioTermsRangeProperty: Property<Range>;
   cueArrowsState: CueArrowsState;
@@ -51,7 +51,7 @@ type BothHandsPDOMNodeSelfOptions = {
   interactiveNodeOptions?: NodeOptions;
 };
 
-type BothHandsPDOMNodeOptions = BothHandsPDOMNodeSelfOptions & Omit<NodeOptions, 'pdomOrder'>;
+type BothHandsPDOMNodeOptions = SelfOptions & Omit<NodeOptions, 'pdomOrder'>;
 
 class BothHandsPDOMNode extends Node {
 
@@ -76,7 +76,7 @@ class BothHandsPDOMNode extends Node {
 
   constructor( providedOptions: BothHandsPDOMNodeOptions ) {
 
-    const options = optionize<BothHandsPDOMNodeOptions, BothHandsPDOMNodeSelfOptions, Omit<NodeOptions, 'pdomOrder'>>( {
+    const options = optionize<BothHandsPDOMNodeOptions, SelfOptions, Omit<NodeOptions, 'pdomOrder'>>( {
 
       gestureDescriptionHelpText: null,
 

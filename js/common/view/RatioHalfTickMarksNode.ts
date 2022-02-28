@@ -15,11 +15,11 @@ import { Color, PathOptions } from '../../../../scenery/js/imports.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 
-type RatioHalfTickMarksNodeSelfOptions = {
+type SelfOptions = {
   minorHorizontalLineSpacing?: number | null,
   minorLineOptions?: PathOptions
 }
-type RatioHalfTickMarksNodeOptions = RatioHalfTickMarksNodeSelfOptions & PathOptions;
+type RatioHalfTickMarksNodeOptions = SelfOptions & PathOptions;
 
 class RatioHalfTickMarksNode extends GridNode {
 
@@ -27,8 +27,8 @@ class RatioHalfTickMarksNode extends GridNode {
   private tickMarkRangeProperty: Property<number>;
 
   constructor( tickMarkViewProperty: EnumerationProperty<TickMarkView>, tickMarkRangeProperty: Property<number>, width: number,
-               height: number, colorProperty: Property<Color>, providedOptions?: RatioHalfTickMarksNodeSelfOptions ) {
-    const options = optionize<RatioHalfTickMarksNodeOptions, RatioHalfTickMarksNodeSelfOptions>( {
+               height: number, colorProperty: Property<Color>, providedOptions?: SelfOptions ) {
+    const options = optionize<RatioHalfTickMarksNodeOptions, SelfOptions>( {
 
       // initial line spacings
       minorHorizontalLineSpacing: 10,
