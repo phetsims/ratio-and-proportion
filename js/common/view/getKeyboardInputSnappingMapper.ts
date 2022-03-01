@@ -1,4 +1,4 @@
-// Copyright 2020-2021, University of Colorado Boulder
+// Copyright 2020-2022, University of Colorado Boulder
 
 /**
  * Handle keyboard input in a consistent way across all usages of keyboard input to the ratio. This function creates and returns a
