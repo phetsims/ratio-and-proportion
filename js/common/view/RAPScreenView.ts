@@ -333,7 +333,7 @@ class RAPScreenView extends ScreenView {
     this.bottomScalingUILayerNode.addChild( this.resetAllButton );
 
     let positionRegionsNode: RAPPositionRegionsLayer | null = null;
-    if ( RAPQueryParameters.showRegions ) {
+    if ( RAPQueryParameters.showPositionRegions ) {
       positionRegionsNode = new RAPPositionRegionsLayer();
     }
 

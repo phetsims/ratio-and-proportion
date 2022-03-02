@@ -23,7 +23,7 @@ const RAPQueryParameters = QueryStringMachine.getAll( {
   },
 
   // Show description qualitative position regions for the hands.
-  showRegions: {
+  showPositionRegions: {
     type: 'flag'
   }
 } );
