@@ -165,29 +165,3 @@ QUnit.test( 'test case of 1/2 "ish"', assert => {
   ratioTupleProperty.value = ratioTupleProperty.value.withAntecedent( newValue );
   assert.ok( ratioTupleProperty.value.antecedent === 0.22, 'step up from ideal past next even step' );
 } );
-
-QUnit.test( 'test case of snapping on the 1/2 tick mark (not snapping to in proportion', assert => {
-  // Buggy case from https://github.com/phetsims/ratio-and-proportion/issues/354#issuecomment-796067400
-
-  const model = new RAPModel( Tandem.OPT_OUT );
-  const ratioTupleProperty = model.ratio.tupleProperty;
-
-  const getIdealValue = () => model.getIdealValueForTerm( RatioTerm.ANTECEDENT );
-  const snapConserveFunction = getKeyboardInputSnappingMapper( getIdealValue, keyboardStep, keyboardStep * rapConstants.SHIFT_KEY_MULTIPLIER );
-  model.targetRatioProperty.value = 1 / 2;
-  ratioTupleProperty.value = new RAPRatioTuple( 0.25, 0.5 );
-
-  let newValue = null;
-
-  newValue = snapConserveFunction( 0.3, ratioTupleProperty.value.antecedent, false, model.inProportionProperty.value );
-  ratioTupleProperty.value = ratioTupleProperty.value.withAntecedent( newValue );
-  assert.ok( ratioTupleProperty.value.antecedent === 0.3, 'normal step' );
-
-  newValue = snapConserveFunction( 0.31, ratioTupleProperty.value.antecedent, true, model.inProportionProperty.value );
-  ratioTupleProperty.value = ratioTupleProperty.value.withAntecedent( newValue );
-  assert.ok( ratioTupleProperty.value.antecedent === 0.31, 'normal shift step up' );
-
-  newValue = snapConserveFunction( 0.26, ratioTupleProperty.value.antecedent, false, model.inProportionProperty.value );
-  ratioTupleProperty.value = ratioTupleProperty.value.withAntecedent( newValue );
-  // assert.ok( ratioTupleProperty.value.antecedent === 0.26, 'full step down' ); // FAILING RIGHT NOW, TODO: see https://github.com/phetsims/ratio-and-proportion/issues/421
-} );
