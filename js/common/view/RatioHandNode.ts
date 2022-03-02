@@ -80,7 +80,6 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
         return mapKeyboardInput( newValue, oldValue, this.shiftKeyDown, inProportionProperty.value );
       },
       a11yDependencies: [],
-      provideVoicing: true, // voicing support in AccessibleValueHandler
 
       // Voicing
       voicingHintResponse: ratioAndProportionStrings.a11y.individualHandsVoicingHelpText,
