@@ -13,7 +13,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Fraction from '../../../../phetcommon/js/model/Fraction.js';
 import NumberPicker from '../../../../scenery-phet/js/NumberPicker.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Color, HBox, Node, RichText, VBox } from '../../../../scenery/js/imports.js';
+import { Color, HBox, Node, ReadingBlock, RichText, VBox } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
@@ -63,6 +63,13 @@ class MyChallengeAccordionBox extends AccordionBox {
 
     const expandedProperty = new BooleanProperty( DEFAULT_EXPANDED );
 
+    const voicingObjectResponse = () => {
+      return expandedProperty.value ? StringUtils.fillIn( ratioAndProportionStrings.a11y.create.antecedentToConsequentPattern, {
+        targetAntecedent: targetAntecedentProperty.value,
+        targetConsequent: targetConsequentProperty.value
+      } ) : ratioAndProportionStrings.a11y.create.hidden;
+    };
+
     const options = optionize<AccordionBoxOptions, {}, AccordionBoxOptions, 'tandem'>( {
       titleNode: new RichText( ratioAndProportionStrings.myChallenge, {
         font: new PhetFont( 20 ),
@@ -88,12 +95,7 @@ class MyChallengeAccordionBox extends AccordionBox {
 
       // voicing
       voicingNameResponse: ratioAndProportionStrings.myChallenge,
-      voicingObjectResponse: () => {
-        return expandedProperty.value ? StringUtils.fillIn( ratioAndProportionStrings.a11y.create.antecedentToConsequentPattern, {
-          targetAntecedent: targetAntecedentProperty.value,
-          targetConsequent: targetConsequentProperty.value
-        } ) : ratioAndProportionStrings.a11y.create.hidden;
-      },
+      voicingObjectResponse: voicingObjectResponse,
       voicingHintResponse: () => expandedProperty.value ?
                                  ratioAndProportionStrings.a11y.create.myChallengeVoicingExpandedHelpText :
                                  ratioAndProportionStrings.a11y.create.myChallengeVoicingCollapsedHelpText,
@@ -176,7 +178,15 @@ class MyChallengeAccordionBox extends AccordionBox {
       descriptionContent: ratioAndProportionStrings.a11y.create.myChallengeHelpText, // help text for the content
       children: [ leftRatioSelector, rightRatioSelector ]
     } );
-    super( myChallengeContent, options );
+
+    // At this time, mixed in Nodes can't take mixin options passed via object literal.
+    const readingBlockOptions = {
+      children: [ myChallengeContent ],
+      readingBlockHintResponse: ratioAndProportionStrings.a11y.create.numberPickerHintText,
+      readingBlockContent: voicingObjectResponse
+    };
+
+    super( new ReadingBlockNode( readingBlockOptions ), options );
 
     this.targetAntecedentProperty = targetAntecedentProperty;
     this.targetConsequentProperty = targetConsequentProperty;
@@ -209,6 +219,8 @@ class MyChallengeAccordionBox extends AccordionBox {
     this.resetMyChallengeAccordionBox();
   }
 }
+
+class ReadingBlockNode extends ReadingBlock( Node, 0 ) {}
 
 ratioAndProportion.register( 'MyChallengeAccordionBox', MyChallengeAccordionBox );
 export default MyChallengeAccordionBox;
