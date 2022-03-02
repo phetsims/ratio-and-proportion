@@ -10,12 +10,10 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import merge from '../../../../phet-core/js/merge.js';
 import Fraction from '../../../../phetcommon/js/model/Fraction.js';
 import NumberPicker from '../../../../scenery-phet/js/NumberPicker.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Color, HBox, Node, RichText, VBox } from '../../../../scenery/js/imports.js';
-import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
@@ -25,6 +23,9 @@ import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
 import TickMarkView from '../../common/view/TickMarkView.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import AccordionBox, { AccordionBoxOptions } from '../../../../sun/js/AccordionBox.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import { RequiredTandem } from '../../../../tandem/js/PhetioObject.js';
 
 const PICKER_SCALE = 1.5;
 const ICON_SCALE = 0.9;
@@ -42,14 +43,13 @@ class MyChallengeAccordionBox extends AccordionBox {
    * @param handColorProperty
    * @param tickMarkViewProperty
    * @param ratioDescriber
-   * @param [options]
+   * @param providedOptions
    */
   constructor( targetRatioProperty: Property<number>, ratioLockedProperty: Property<boolean>,
                handColorProperty: Property<Color>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
-               ratioDescriber: RatioDescriber, options: AccordionBoxOptions ) {
+               ratioDescriber: RatioDescriber, providedOptions: AccordionBoxOptions & RequiredTandem ) {
 
-    // TODO: convert to optionize once AccordionBox is typescript https://github.com/phetsims/ratio-and-proportion/issues/404
-    options = merge( {
+    const options = optionize<AccordionBoxOptions, {}, AccordionBoxOptions, 'tandem'>( {
       titleNode: new RichText( ratioAndProportionStrings.myChallenge, {
         font: new PhetFont( 20 ),
         maxWidth: 250 // empirically determined
@@ -73,7 +73,7 @@ class MyChallengeAccordionBox extends AccordionBox {
 
       // phet-io
       tandem: Tandem.REQUIRED
-    }, options ) as Required<AccordionBoxOptions>;
+    }, providedOptions );
 
     // Allow us to get the reduced fraction as the initial value of the custom "My Challenge"
     const initialRatioFraction = Fraction.fromDecimal( targetRatioProperty.value );
