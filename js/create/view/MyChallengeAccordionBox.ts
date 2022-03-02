@@ -127,6 +127,10 @@ class MyChallengeAccordionBox extends AccordionBox {
       a11yCreateAriaValueText: ratioDescriber.getWordFromNumber,
       a11yCreateContextResponseAlert: () => ratioDescriber.getTargetRatioChangeAlert( targetAntecedentProperty.value, targetConsequentProperty.value ),
 
+      // voicing
+      voicingNameResponse: ratioAndProportionStrings.a11y.leftValue,
+      voicingHintResponse: ratioAndProportionStrings.a11y.create.numberPickerHintText,
+
       // phet-io
       tandem: options.tandem.createTandem( 'antecedentNumberPicker' )
     } );
@@ -148,6 +152,12 @@ class MyChallengeAccordionBox extends AccordionBox {
       a11yDependencies: [ targetAntecedentProperty ],
       a11yCreateAriaValueText: ratioDescriber.getWordFromNumber,
       a11yCreateContextResponseAlert: () => ratioDescriber.getTargetRatioChangeAlert( targetAntecedentProperty.value, targetConsequentProperty.value ),
+
+      // voicing
+      voicingNameResponse: ratioAndProportionStrings.a11y.rightValue,
+      voicingHintResponse: ratioAndProportionStrings.a11y.create.numberPickerHintText,
+
+      // phet-io
       tandem: options.tandem.createTandem( 'consequentNumberPicker' )
     } );
     const rightRatioSelector = new VBox( {

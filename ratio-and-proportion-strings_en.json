@@ -422,6 +422,9 @@
       "hidden": {
         "value": "hidden"
       },
+      "numberPickerHintText": {
+        "value": "Change challenge for hands, and move hands to explore."
+      },
       "bothHandsGestureDescriptionHelpText": {
         "value": "Explore challenge ratio with individual Left and Right hands, or try with ratio locked. The custom Both Hands interaction is not yet possible with screen reader software on a mobile device."
       },

@@ -165,6 +165,7 @@ type StringsType = {
       'myChallengeVoicingCollapsedHelpText': string,
       'antecedentToConsequentPattern': string,
       'hidden': string,
+      'numberPickerHintText': string,
       'bothHandsGestureDescriptionHelpText': string,
       'rangeLabelPattern': string
     },
