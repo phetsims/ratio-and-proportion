@@ -16,7 +16,7 @@ class RAPPositionRegionsLayer extends Node {
   private totalWidth: number;
   private totalHeight: number;
   labelsHeight: number;
-  private regions: number[];
+  private regionValues: number[];
 
   constructor( options?: NodeOptions ) {
 
@@ -27,9 +27,8 @@ class RAPPositionRegionsLayer extends Node {
     this.totalHeight = 1000;
     this.labelsHeight = 1000;
 
-    // These values are duplicated with HandPositionDescriber, do not change without consulting.
-    this.regions = [ 1, 1, 0.9, 0.65, 0.505, 0.5, 0.5, 0.495, 0.35, 0.1, 0, 0 ];
-    assert && assert( HandPositionsDescriber.QUALITATIVE_POSITIONS.length = this.regions.length - 1, 'most likely these two are out of sync' );
+    // Values are normalized, we are working from highest to lowest, so start with "1" so the top region has space.
+    this.regionValues = [ 1 ].concat( HandPositionsDescriber.POSITION_REGIONS_DATA.map( data => data.lowerBound ) );
   }
 
   layout( width: number, height: number ): void {
@@ -42,14 +41,14 @@ class RAPPositionRegionsLayer extends Node {
   private update(): void {
     this.children = [];
 
-    for ( let i = 0; i < this.regions.length; i++ ) {
-      const region = this.regions[ i ];
-      const nextRegion = this.regions[ i + 1 ];
-      const height = this.totalHeight - ( region * this.totalHeight );
+    for ( let i = 0; i < this.regionValues.length; i++ ) {
+      const regionValue = this.regionValues[ i ];
+      const nextRegionValue: number = this.regionValues[ i + 1 ];
+      const height = this.totalHeight - ( regionValue * this.totalHeight );
       this.addChild( new Line( 0, height, this.totalWidth, height, { stroke: 'red' } ) );
-      if ( nextRegion !== undefined ) {
-        const centerOfRange = ( ( this.totalHeight - ( nextRegion * this.totalHeight ) ) - height ) / 2;
-        const text = new Text( HandPositionsDescriber.QUALITATIVE_POSITIONS[ i ], {
+      if ( nextRegionValue !== undefined ) {
+        const centerOfRange = ( ( this.totalHeight - ( nextRegionValue * this.totalHeight ) ) - height ) / 2;
+        const text = new Text( HandPositionsDescriber.POSITION_REGIONS_DATA[ i ].region, {
           centerY: height + centerOfRange,
           centerX: this.totalWidth / 2,
           stroke: 'black',

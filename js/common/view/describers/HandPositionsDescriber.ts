@@ -23,20 +23,6 @@ import optionize from '../../../../../phet-core/js/optionize.js';
 const leftHandLowerString = ratioAndProportionStrings.a11y.leftHandLower;
 const rightHandLowerString = ratioAndProportionStrings.a11y.rightHandLower;
 
-const QUALITATIVE_POSITIONS = [
-  ratioAndProportionStrings.a11y.handPosition.atTop,
-  ratioAndProportionStrings.a11y.handPosition.nearTop,
-  ratioAndProportionStrings.a11y.handPosition.inUpperRegion,
-  ratioAndProportionStrings.a11y.handPosition.inUpperMiddleRegion,
-  ratioAndProportionStrings.a11y.handPosition.aroundMiddle,
-  ratioAndProportionStrings.a11y.handPosition.atMiddle,
-  ratioAndProportionStrings.a11y.handPosition.aroundMiddle,
-  ratioAndProportionStrings.a11y.handPosition.inLowerMiddleRegion,
-  ratioAndProportionStrings.a11y.handPosition.inLowerRegion,
-  ratioAndProportionStrings.a11y.handPosition.nearBottom,
-  ratioAndProportionStrings.a11y.handPosition.atBottom
-];
-
 const DISTANCE_REGIONS_CAPITALIZED = [
   ratioAndProportionStrings.a11y.handPosition.distance.capitalized.farthestFrom,
   ratioAndProportionStrings.a11y.handPosition.distance.capitalized.extremelyFarFrom,
@@ -67,6 +53,52 @@ assert && assert( DISTANCE_REGIONS_CAPITALIZED.length === DISTANCE_REGIONS_LOWER
 
 const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
+// Empirically determined to fix edge case described in https://github.com/phetsims/ratio-and-proportion/issues/437
+const aroundMiddleRegionWidth = 0.0025;
+
+class PositionRegionsData {
+  lowerBound: number;
+  private inRegionPredicate: ( inputValue: number, lowerBound: number ) => boolean;
+  region: string;
+
+  constructor( lowerBound: number, inRegionPredicate: PositionRegionsData['inRegionPredicate'], region: string ) {
+    this.lowerBound = lowerBound;
+    this.inRegionPredicate = inRegionPredicate;
+    this.region = region;
+  }
+
+  positionInRegion( position: number ): boolean {
+    return this.inRegionPredicate( position, this.lowerBound );
+  }
+}
+
+// Order matters! The first predicate must be run before the second for each to work correctly at identifying their
+// own region. This is because each PositionRegionsData works based solely on a lowerBound.
+const POSITION_REGIONS_DATA: PositionRegionsData[] = [
+  new PositionRegionsData( 1, ( position, lowerBound ) => position === lowerBound,
+    ratioAndProportionStrings.a11y.handPosition.atTop ),
+  new PositionRegionsData( 0.9, ( position, lowerBound ) => position >= lowerBound,
+    ratioAndProportionStrings.a11y.handPosition.nearTop ),
+  new PositionRegionsData( 0.65, ( position, lowerBound ) => position > lowerBound,
+    ratioAndProportionStrings.a11y.handPosition.inUpperRegion ),
+  new PositionRegionsData( 0.5 + aroundMiddleRegionWidth, ( position, lowerBound ) => position > lowerBound,
+    ratioAndProportionStrings.a11y.handPosition.inUpperMiddleRegion ),
+  new PositionRegionsData( 0.5, ( position, lowerBound ) => position > lowerBound,
+    ratioAndProportionStrings.a11y.handPosition.aroundMiddle ),
+  new PositionRegionsData( 0.5, ( position, lowerBound ) => position === lowerBound,
+    ratioAndProportionStrings.a11y.handPosition.atMiddle ),
+  new PositionRegionsData( 0.5 - aroundMiddleRegionWidth, ( position, lowerBound ) => position >= lowerBound,
+    ratioAndProportionStrings.a11y.handPosition.aroundMiddle ),
+  new PositionRegionsData( 0.35, ( position, lowerBound ) => position >= lowerBound,
+    ratioAndProportionStrings.a11y.handPosition.inLowerMiddleRegion ),
+  new PositionRegionsData( 0.1, ( position, lowerBound ) => position > lowerBound,
+    ratioAndProportionStrings.a11y.handPosition.inLowerRegion ),
+  new PositionRegionsData( 0, ( position, lowerBound ) => position > lowerBound,
+    ratioAndProportionStrings.a11y.handPosition.nearBottom ),
+  new PositionRegionsData( 0, ( position, lowerBound ) => position === lowerBound,
+    ratioAndProportionStrings.a11y.handPosition.atBottom )
+];
+
 type GetDistanceProgressStringOptions = {
   closerString?: string;
   fartherString?: string;
@@ -88,7 +120,7 @@ class HandPositionsDescriber {
   private previousDistanceRegionBoth: null | string;
 
   private previousDistance: number;
-  static QUALITATIVE_POSITIONS: string[];
+  static POSITION_REGIONS_DATA: PositionRegionsData[];
 
   constructor( ratioTupleProperty: Property<RAPRatioTuple>, tickMarkDescriber: TickMarkDescriber, inProportionProperty: IReadOnlyProperty<boolean> ) {
 
@@ -138,44 +170,20 @@ class HandPositionsDescriber {
 
     const normalizedPosition = TOTAL_RANGE.getNormalizedValue( position );
 
-    let index = null;
-    if ( normalizedPosition === TOTAL_RANGE.max ) {
-      index = 0;
-    }
-    else if ( normalizedPosition >= 0.9 ) {
-      index = 1;
-    }
-    else if ( normalizedPosition > 0.65 ) {
-      index = 2;
-    }
-    else if ( normalizedPosition > 0.505 ) {
-      index = 3;
-    }
-    else if ( normalizedPosition > 0.5 ) {
-      index = 4;
-    }
-    else if ( normalizedPosition === 0.5 ) {
-      index = 5;
-    }
-    else if ( normalizedPosition >= 0.495 ) {
-      index = 6;
-    }
-    else if ( normalizedPosition >= 0.35 ) {
-      index = 7;
-    }
-    else if ( normalizedPosition > 0.1 ) {
-      index = 8;
-    }
-    else if ( normalizedPosition > TOTAL_RANGE.min ) {
-      index = 9;
-    }
-    else if ( normalizedPosition === TOTAL_RANGE.min ) {
-      index = 10;
+    let region = null;
+
+    for ( let i = 0; i < POSITION_REGIONS_DATA.length; i++ ) {
+      const positionRegionDatum = POSITION_REGIONS_DATA[ i ];
+
+      if ( positionRegionDatum.positionInRegion( normalizedPosition ) ) { // eslint-disable-line no-eval
+        region = positionRegionDatum.region;
+        break;
+      }
     }
 
-    assert && assert( index !== null, 'should have been in one of these regions' );
+    assert && assert( region !== null, 'should have been in one of these regions' );
 
-    return QUALITATIVE_POSITIONS[ index as number ];
+    return region!;
   }
 
   /**
@@ -381,7 +389,7 @@ class HandPositionsDescriber {
   }
 }
 
-HandPositionsDescriber.QUALITATIVE_POSITIONS = QUALITATIVE_POSITIONS;
+HandPositionsDescriber.POSITION_REGIONS_DATA = POSITION_REGIONS_DATA;
 
 ratioAndProportion.register( 'HandPositionsDescriber', HandPositionsDescriber );
 export default HandPositionsDescriber;
