@@ -26,6 +26,8 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import AccordionBox, { AccordionBoxOptions } from '../../../../sun/js/AccordionBox.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import { RequiredTandem } from '../../../../tandem/js/PhetioObject.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 
 const PICKER_SCALE = 1.5;
 const ICON_SCALE = 0.9;
@@ -49,6 +51,18 @@ class MyChallengeAccordionBox extends AccordionBox {
                handColorProperty: Property<Color>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
                ratioDescriber: RatioDescriber, providedOptions: AccordionBoxOptions & RequiredTandem ) {
 
+
+    // Allow us to get the reduced fraction as the initial value of the custom "My Challenge"
+    const initialRatioFraction = Fraction.fromDecimal( targetRatioProperty.value );
+    const rangeProperty = new Property( new Range( 1, 10 ) );
+    assert && assert( rangeProperty.value.contains( initialRatioFraction.numerator ), 'unsupported numerator' );
+    assert && assert( rangeProperty.value.contains( initialRatioFraction.denominator ), 'unsupported denominator' );
+
+    const targetAntecedentProperty = new NumberProperty( initialRatioFraction.numerator );
+    const targetConsequentProperty = new NumberProperty( initialRatioFraction.denominator );
+
+    const expandedProperty = new BooleanProperty( DEFAULT_EXPANDED );
+
     const options = optionize<AccordionBoxOptions, {}, AccordionBoxOptions, 'tandem'>( {
       titleNode: new RichText( ratioAndProportionStrings.myChallenge, {
         font: new PhetFont( 20 ),
@@ -70,19 +84,23 @@ class MyChallengeAccordionBox extends AccordionBox {
         mouseAreaXDilation: 5,
         mouseAreaYDilation: 5
       },
+      expandedProperty: expandedProperty,
+
+      // voicing
+      voicingNameResponse: ratioAndProportionStrings.myChallenge,
+      voicingObjectResponse: () => {
+        return expandedProperty.value ? StringUtils.fillIn( ratioAndProportionStrings.a11y.create.antecedentToConsequentPattern, {
+          targetAntecedent: targetAntecedentProperty.value,
+          targetConsequent: targetConsequentProperty.value
+        } ) : ratioAndProportionStrings.a11y.create.hidden;
+      },
+      voicingHintResponse: () => expandedProperty.value ?
+                                 ratioAndProportionStrings.a11y.create.myChallengeVoicingExpandedHelpText :
+                                 ratioAndProportionStrings.a11y.create.myChallengeVoicingCollapsedHelpText,
 
       // phet-io
       tandem: Tandem.REQUIRED
     }, providedOptions );
-
-    // Allow us to get the reduced fraction as the initial value of the custom "My Challenge"
-    const initialRatioFraction = Fraction.fromDecimal( targetRatioProperty.value );
-    const rangeProperty = new Property( new Range( 1, 10 ) );
-    assert && assert( rangeProperty.value.contains( initialRatioFraction.numerator ), 'unsupported numerator' );
-    assert && assert( rangeProperty.value.contains( initialRatioFraction.denominator ), 'unsupported denominator' );
-
-    const targetAntecedentProperty = new NumberProperty( initialRatioFraction.numerator );
-    const targetConsequentProperty = new NumberProperty( initialRatioFraction.denominator );
 
     const ratioUnlockedFromMyChallenge = new Utterance( {
       alert: ratioAndProportionStrings.a11y.ratioNoLongerLocked
@@ -152,8 +170,6 @@ class MyChallengeAccordionBox extends AccordionBox {
 
     this.targetAntecedentProperty = targetAntecedentProperty;
     this.targetConsequentProperty = targetConsequentProperty;
-
-    this.expandedProperty.value = DEFAULT_EXPANDED;
 
     const accordionBoxUtterance = new ActivationUtterance();
     this.expandedProperty.lazyLink( ( expanded: boolean ) => {

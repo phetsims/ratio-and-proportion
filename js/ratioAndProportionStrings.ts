@@ -161,6 +161,10 @@ type StringsType = {
       'tickMarkRangeHelpText': string,
       'tickMarkRangeContextResponse': string,
       'myChallengeHelpText': string,
+      'myChallengeVoicingExpandedHelpText': string,
+      'myChallengeVoicingCollapsedHelpText': string,
+      'antecedentToConsequentPattern': string,
+      'hidden': string,
       'bothHandsGestureDescriptionHelpText': string,
       'rangeLabelPattern': string
     },

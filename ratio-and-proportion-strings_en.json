@@ -410,6 +410,18 @@
       "myChallengeHelpText": {
         "value": "Set left and right values to create your challenge, then move hands to explore it."
       },
+      "myChallengeVoicingExpandedHelpText": {
+        "value": "Set left and right values to create your challenge."
+      },
+      "myChallengeVoicingCollapsedHelpText": {
+        "value": "Expand to set your challenge."
+      },
+      "antecedentToConsequentPattern": {
+        "value": "{{targetAntecedent}} to {{targetConsequent}}"
+      },
+      "hidden": {
+        "value": "hidden"
+      },
       "bothHandsGestureDescriptionHelpText": {
         "value": "Explore challenge ratio with individual Left and Right hands, or try with ratio locked. The custom Both Hands interaction is not yet possible with screen reader software on a mobile device."
       },
