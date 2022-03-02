@@ -120,6 +120,8 @@ class MyChallengeAccordionBox extends AccordionBox {
       ratioLockedProperty.value && this.alertDescriptionUtterance( ratioUnlockedFromMyChallenge );
     } );
 
+    const createContextResponse = () => ratioDescriber.getTargetRatioChangeAlert( targetAntecedentProperty.value, targetConsequentProperty.value );
+
     const antecedentNumberPicker = new NumberPicker( targetAntecedentProperty, rangeProperty, {
       scale: PICKER_SCALE,
       color: handColorProperty.value,
@@ -127,10 +129,11 @@ class MyChallengeAccordionBox extends AccordionBox {
       accessibleName: ratioAndProportionStrings.a11y.leftValue,
       a11yDependencies: [ targetConsequentProperty ],
       a11yCreateAriaValueText: ratioDescriber.getWordFromNumber,
-      a11yCreateContextResponseAlert: () => ratioDescriber.getTargetRatioChangeAlert( targetAntecedentProperty.value, targetConsequentProperty.value ),
+      a11yCreateContextResponseAlert: createContextResponse,
 
       // voicing
       voicingNameResponse: ratioAndProportionStrings.a11y.leftValue,
+      voicingContextResponse: createContextResponse,
       voicingHintResponse: ratioAndProportionStrings.a11y.create.numberPickerHintText,
 
       // phet-io
@@ -153,10 +156,11 @@ class MyChallengeAccordionBox extends AccordionBox {
       accessibleName: ratioAndProportionStrings.a11y.rightValue,
       a11yDependencies: [ targetAntecedentProperty ],
       a11yCreateAriaValueText: ratioDescriber.getWordFromNumber,
-      a11yCreateContextResponseAlert: () => ratioDescriber.getTargetRatioChangeAlert( targetAntecedentProperty.value, targetConsequentProperty.value ),
+      a11yCreateContextResponseAlert: createContextResponse,
 
       // voicing
       voicingNameResponse: ratioAndProportionStrings.a11y.rightValue,
+      voicingContextResponse: createContextResponse,
       voicingHintResponse: ratioAndProportionStrings.a11y.create.numberPickerHintText,
 
       // phet-io
