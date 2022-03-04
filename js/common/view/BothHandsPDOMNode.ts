@@ -11,7 +11,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import sceneryPhetStrings from '../../../../scenery-phet/js/sceneryPhetStrings.js';
-import { Node, NodeOptions, ParallelDOM } from '../../../../scenery/js/imports.js';
+import { Node, NodeOptions, ParallelDOM, Voicing, VoicingOptions } from '../../../../scenery/js/imports.js';
 import AriaLiveAnnouncer from '../../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -25,6 +25,7 @@ import CueArrowsState from './CueArrowsState.js';
 import RatioDescriber from './describers/RatioDescriber.js';
 import TickMarkView from './TickMarkView.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import { Shape } from '../../../../kite/js/imports.js';
 
 // constants
 const OBJECT_RESPONSE_DELAY = 500;
@@ -48,7 +49,7 @@ type SelfOptions = {
   // help text to be displayed on devices supporting gesture description
   // (see `Sim.supportsGestureDescription`). When null, this will be the same as the default helpText.
   gestureDescriptionHelpText?: string | null;
-  interactiveNodeOptions?: NodeOptions;
+  interactiveNodeOptions?: VoicingOptions;
 };
 
 type BothHandsPDOMNodeOptions = SelfOptions & Omit<NodeOptions, 'pdomOrder'>;
@@ -89,6 +90,10 @@ class BothHandsPDOMNode extends Node {
         focusable: true,
         tagName: 'div',
         innerContent: ratioAndProportionStrings.a11y.bothHands.bothHands,
+        voicingNameResponse: ratioAndProportionStrings.a11y.bothHands.bothHands,
+        voicingObjectResponse: () => this.bothHandsDescriber.getBothHandsObjectResponse(),
+        voicingContextResponse: () => this.bothHandsDescriber.getBothHandsContextResponse(),
+        interactiveHighlight: new Shape(), // TODO: this is just a workaround, see https://github.com/phetsims/scenery/issues/1372
         ariaLabel: ratioAndProportionStrings.a11y.bothHands.bothHands
       }
     }, providedOptions );
@@ -130,7 +135,7 @@ class BothHandsPDOMNode extends Node {
     const dynamicDescription = new Node( { tagName: 'p' } );
     this.addChild( dynamicDescription );
 
-    const interactiveNode = new Node( options.interactiveNodeOptions );
+    const interactiveNode = new VoicingNode( options.interactiveNodeOptions );
     this.addChild( interactiveNode );
 
     // Make sure that any children inside the both hands interaction (like individual hands) come before the both hands interaction in the PDOM.
@@ -156,9 +161,16 @@ class BothHandsPDOMNode extends Node {
         if ( knockedOutOfLock ) {
 
           this.alertDescriptionUtterance( this.ratioUnlockedFromBothHandsUtterance );
+          interactiveNode.voicingSpeakResponse( {
+            contextResponse: ratioAndProportionStrings.a11y.ratioNoLongerLocked
+          } );
         }
 
         this.alertBothHandsContextResponse( knockedOutOfLock );
+        interactiveNode.voicingSpeakFullResponse( {
+          nameResponse: null,
+          hintResponse: null
+        } );
       }
     } );
 
@@ -264,6 +276,8 @@ class BothHandsPDOMNode extends Node {
     this.alertDescriptionUtterance( this.contextResponseUtterance );
   }
 }
+
+class VoicingNode extends Voicing( Node, 0 ) {}
 
 ratioAndProportion.register( 'BothHandsPDOMNode', BothHandsPDOMNode );
 export type { BothHandsPDOMNodeOptions };
