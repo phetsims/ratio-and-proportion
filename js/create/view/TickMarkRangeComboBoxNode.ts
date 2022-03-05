@@ -23,19 +23,19 @@ import TickMarkView from '../../common/view/TickMarkView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import IProperty from '../../../../axon/js/IProperty.js';
+import Property from '../../../../axon/js/Property.js';
 
 const TICK_MARK_RANGE_FONT = new PhetFont( 16 );
 const RANGE_TEXT_OPTIONS = { font: TICK_MARK_RANGE_FONT };
 
 class TickMarkRangeComboBoxNode extends Node {
 
-  private enabledComboBox: ComboBox;
-  private disabledComboBox: ComboBox;
+  private enabledComboBox: ComboBox<number>;
+  private disabledComboBox: ComboBox<true | number>;
   private tickMarkRangeMap: Record<number, string>;
-  private tickMarkRangeProperty: IProperty<number>
+  private tickMarkRangeProperty: Property<number>
 
-  constructor( tickMarkRangeProperty: IProperty<number>, comboBoxParent: Node,
+  constructor( tickMarkRangeProperty: Property<number>, comboBoxParent: Node,
                tickMarkViewProperty: EnumerationProperty<TickMarkView> ) {
     super();
 
@@ -78,10 +78,11 @@ class TickMarkRangeComboBoxNode extends Node {
 
     const value = true;
 
-    this.disabledComboBox = new ComboBox( [
+    // NOTE: The values are [ 10, true ]... so it's typed interestingly.
+    this.disabledComboBox = new ComboBox<true | number>( [
       new ComboBoxItem( new HSeparator( widestItem, { centerY: -5 } ), value, { a11yLabel: ratioAndProportionStrings.a11y.tickMark.tickMarksHidden } ),
       items[ 0 ] // add this one to get the proper height of the text.
-    ], new BooleanProperty( value ), new Node(), comboBoxOptions );
+    ], new BooleanProperty( value ) as Property<true | number>, new Node(), comboBoxOptions );
 
     // always disabled
     this.disabledComboBox.enabledProperty.value = false;

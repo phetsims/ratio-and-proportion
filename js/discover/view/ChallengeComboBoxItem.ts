@@ -12,7 +12,7 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 
-class ChallengeComboBoxItem extends ComboBoxItem {
+class ChallengeComboBoxItem extends ComboBoxItem<number> {
 
   constructor( text: string, color: Color | string, value: number, valueProperty: NumberProperty,
                colorProperty: Property<Color | string>, options?: any ) {
