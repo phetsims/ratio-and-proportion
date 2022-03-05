@@ -85,6 +85,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
       for ( let j = 0; j < variationSounds.length; j++ ) {
         const variationSound = variationSounds[ j ];
         const soundClip = new SoundClip( variationSound );
+        // @ts-ignore TODO: typing for AudioParam
         soundClip.connect( this.soundSourceDestination );
         soundClipsForVariation.push( soundClip );
       }

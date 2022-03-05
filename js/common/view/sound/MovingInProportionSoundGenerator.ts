@@ -43,6 +43,7 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
         trimSilence: true
       }
     } ] );
+    // @ts-ignore TODO: typing for AudioParam
     this.movingInProportionSoundClip.connect( this.soundSourceDestination );
 
     Property.multilink( [
