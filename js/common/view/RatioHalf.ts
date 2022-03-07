@@ -188,14 +188,14 @@ class RatioHalf extends Rectangle {
 
     // Create a mapping directly to just this ratio term value. This is to support
     // AccessibleValueHandler, which powers the PDOM interaction off of {Property.<number>}.
-    const ratioTermSpecificProperty = new DynamicProperty<number>( new Property<Property<RAPRatioTuple>>( this.ratioTupleProperty ), {
+    const ratioTermSpecificProperty = new DynamicProperty( new Property<Property<RAPRatioTuple>>( this.ratioTupleProperty ), {
       bidirectional: true,
       reentrant: true,
       valueType: 'number',
       map: ( ratioTuple: RAPRatioTuple ) => ratioTuple.getForTerm( this.ratioTerm ),
       inverseMap: ( term: number ) => this.ratioTerm === RatioTerm.ANTECEDENT ? this.ratioTupleProperty.value.withAntecedent( term ) :
                                       this.ratioTerm === RatioTerm.CONSEQUENT ? this.ratioTupleProperty.value.withConsequent( term ) :
-                                      assert && assert( false, `unexpected ratioTerm ${this.ratioTerm}` )
+                                      ( assert && assert( false, `unexpected ratioTerm ${this.ratioTerm}` ) ) as unknown as RAPRatioTuple
     } ) as Property<number>;
 
     const createObjectResponse = () => options.ratioLockedProperty.value ? options.ratioDescriber.getProximityToChallengeRatio() :
@@ -259,7 +259,7 @@ class RatioHalf extends Rectangle {
 
     // Only the RatioHalf DragListener allows for horizontal movement, so support that here. This adds the horizontal axis.
     // We expand on ratioTermSpecificProperty since we already have it, but we could also just use the ratioTupleProperty.
-    const positionProperty = new DynamicProperty<Vector2>( new Property<Property<number>>( ratioTermSpecificProperty ), {
+    const positionProperty: DynamicProperty<Vector2, number, Property<number>> = new DynamicProperty( new Property<Property<number>>( ratioTermSpecificProperty ), {
       reentrant: true,
       bidirectional: true,
       valueType: Vector2,
