@@ -41,7 +41,7 @@ class ChallengeRatioComboBoxNode extends Node {
    * @param comboBoxTandem - Passed directly to comboBox; keep out of options to prevent instrumenting this intermediate Node.
    * @param [options]
    */
-  constructor( targetRatioProperty: NumberProperty, ratioDescriber: RatioDescriber, colorProperty: Property<Color | string>,
+  constructor( targetRatioProperty: NumberProperty, ratioDescriber: RatioDescriber, colorProperty: Property<Color>,
                comboBoxListParent: Node, comboBoxTandem: Tandem, options?: Omit<NodeOptions, 'children'> ) {
 
     super( options );

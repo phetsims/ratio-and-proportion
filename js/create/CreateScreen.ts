@@ -13,12 +13,13 @@ import CreateScreenIcon from './view/CreateScreenIcon.js';
 import CreateScreenKeyboardHelpContent from './view/CreateScreenKeyboardHelpContent.js';
 import CreateScreenView from './view/CreateScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import { Color } from '../../../scenery/js/imports.js';
 
 class CreateScreen extends Screen<RAPModel, CreateScreenView> {
 
   constructor( tandem: Tandem ) {
 
-    const backgroundColorProperty = new Property( 'white' );
+    const backgroundColorProperty = new Property( Color.WHITE );
     const options = {
       backgroundColorProperty: backgroundColorProperty,
       tandem: tandem,

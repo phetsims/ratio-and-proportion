@@ -13,12 +13,13 @@ import DiscoverScreenIcon from './view/DiscoverScreenIcon.js';
 import DiscoverScreenKeyboardHelpContent from './view/DiscoverScreenKeyboardHelpContent.js';
 import DiscoverScreenView from './view/DiscoverScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import { Color } from '../../../scenery/js/imports.js';
 
 class DiscoverScreen extends Screen<RAPModel, DiscoverScreenView> {
 
   constructor( tandem: Tandem ) {
 
-    const backgroundColorProperty = new Property( 'white' );
+    const backgroundColorProperty = new Property( Color.WHITE );
     const options = {
       backgroundColorProperty: backgroundColorProperty,
       tandem: tandem,

@@ -26,7 +26,7 @@ const BACKGROUND_COLOR_STRINGS = [
 
 class BackgroundColorHandler {
 
-  constructor( model: RAPModel, backgroundColorProperty: Property<ColorDef> ) {
+  constructor( model: RAPModel, backgroundColorProperty: Property<Color> ) {
 
     // adjust the background color based on the current ratio fitness
     Property.multilink( [

@@ -5,7 +5,7 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
-import { HBox, Node, Text } from '../../../../scenery/js/imports.js';
+import { Color, HBox, Node, Text } from '../../../../scenery/js/imports.js';
 import LockNode from '../../../../scenery-phet/js/LockNode.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -29,7 +29,7 @@ class CreateScreenView extends RAPScreenView {
   // set this after the supertype has initialized the view code needed to create the screen summary
   private createScreenSummaryNode: CreateScreenSummaryNode;
 
-  constructor( model: RAPModel, backgroundColorProperty: Property<ColorDef>, tandem: Tandem ) {
+  constructor( model: RAPModel, backgroundColorProperty: Property<Color>, tandem: Tandem ) {
 
     // For this screen, one Property controls the color of both hands.
     const handColorProperty = RAPColors.createScreenHandProperty;

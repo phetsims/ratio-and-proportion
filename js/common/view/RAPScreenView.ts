@@ -52,6 +52,7 @@ import CueDisplay from './CueDisplay.js';
 import RAPPositionRegionsLayer from './RAPPositionRegionsLayer.js';
 import BackgroundColorHandler from './BackgroundColorHandler.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // constants
 const LAYOUT_BOUNDS = ScreenView.DEFAULT_LAYOUT_BOUNDS;
@@ -68,8 +69,8 @@ const uiScaleFunction = new LinearFunction( LAYOUT_BOUNDS.height, MAX_RATIO_HEIG
 const uiPositionFunction = new LinearFunction( 1, 1.5, LAYOUT_BOUNDS.height * 0.15, -LAYOUT_BOUNDS.height * 0.2, true );
 
 type SelfOptions = {
-  leftHandColorProperty?: Property<ColorDef>;
-  rightHandColorProperty?: Property<ColorDef>;
+  leftHandColorProperty?: IReadOnlyProperty<Color>;
+  rightHandColorProperty?: IReadOnlyProperty<Color>;
   bothHandsPDOMNodeOptions?: Partial<BothHandsPDOMNodeOptions>; // Because all the required pieces are added by this type
 }
 
@@ -108,19 +109,19 @@ class RAPScreenView extends ScreenView {
 
   private layoutRAPScreeView: ( currentScreenViewCoordinates: Bounds2 ) => void;
 
-  constructor( model: RAPModel, backgroundColorProperty: Property<ColorDef>, tandem: Tandem, options?: RAPScreenViewOptions ) {
+  constructor( model: RAPModel, backgroundColorProperty: Property<Color>, tandem: Tandem, providedOptions?: RAPScreenViewOptions ) {
 
-    options = optionize<RAPScreenViewOptions, SelfOptions, ScreenViewOptions>( {
+    const options = optionize<RAPScreenViewOptions, SelfOptions, ScreenViewOptions>( {
       tandem: tandem,
       layoutBounds: LAYOUT_BOUNDS,
 
       // Properties that control the color of each hand
-      leftHandColorProperty: new Property( 'black' ),
-      rightHandColorProperty: new Property( 'black' ),
+      leftHandColorProperty: new Property( Color.BLACK ),
+      rightHandColorProperty: new Property( Color.BLACK ),
 
       // Passed through to BothHandsPDOMNode
       bothHandsPDOMNodeOptions: {}
-    }, options );
+    }, providedOptions );
 
     super( options );
 

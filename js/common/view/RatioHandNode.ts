@@ -15,7 +15,7 @@ import Orientation from '../../../../phet-core/js/Orientation.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import ArrowKeyNode from '../../../../scenery-phet/js/keyboard/ArrowKeyNode.js';
 import LetterKeyNode from '../../../../scenery-phet/js/keyboard/LetterKeyNode.js';
-import { Color, FocusHighlightFromNode, Node, NodeOptions, Path, PathOptions } from '../../../../scenery/js/imports.js';
+import { Color, FocusHighlightFromNode, IPaint, Node, NodeOptions, Path, PathOptions } from '../../../../scenery/js/imports.js';
 import AccessibleSlider, { AccessibleSliderOptions } from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -40,7 +40,7 @@ type RatioHandNodeOptions = SelfOptions & NodeOptions & Partial<AccessibleSlider
 
 type CreateIconOptions = {
 
-  handColor?: ColorDef,
+  handColor?: Color,
   handNodeOptions?: Partial<RatioHandNodeOptions>
 };
 
@@ -51,7 +51,7 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
                enabledRatioTermsRangeProperty: Property<Range>,
                tickMarkViewProperty: EnumerationProperty<TickMarkView>,
                keyboardStep: number,
-               colorProperty: Property<Color | string>,
+               colorProperty: IPaint,
                cueDisplayProperty: IReadOnlyProperty<CueDisplay>,
                getIdealValue: () => number,
                inProportionProperty: IReadOnlyProperty<boolean>,
@@ -203,7 +203,7 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
   static createIcon( isRight: boolean, tickMarkViewProperty: EnumerationProperty<TickMarkView>, providedOptions?: CreateIconOptions ): Node {
 
     const options = optionize<CreateIconOptions>( {
-      handColor: 'black',
+      handColor: Color.BLACK,
       handNodeOptions: {
         tandem: Tandem.OPT_OUT,
         isRight: isRight,

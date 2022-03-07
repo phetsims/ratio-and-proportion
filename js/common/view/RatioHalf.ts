@@ -19,7 +19,7 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import { DragListener, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
+import { DragListener, IPaint, Node, NodeOptions, Rectangle, RectangleOptions } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioTerm from '../model/RatioTerm.js';
@@ -37,6 +37,7 @@ import RatioDescriber from './describers/RatioDescriber.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import DistanceResponseType from './describers/DistanceResponseType.js';
+import IntentionalAny from '../../../../phet-core/js/IntentionalAny.js';
 
 // constants
 const MIN_FRAMING_RECTANGLE_HEIGHT = 32;
@@ -54,9 +55,11 @@ const getModelBoundsFromRange = ( range: Range ) => new Bounds2( -1 * X_MODEL_DR
 const MIN_HAND_SCALE = 1.2;
 const MAX_HAND_SCALE = 2.5;
 
-function ratioHalfAccessibleNameBehavior( node: RatioHalf, options: NodeOptions, accessibleName: string, callbacksForOtherNodes: { (): void }[] ) {
+function ratioHalfAccessibleNameBehavior( node: Node, options: NodeOptions, accessibleName: string, callbacksForOtherNodes: { (): void }[] ) {
+  assert && assert( node instanceof RatioHalf );
+
   callbacksForOtherNodes.push( () => {
-    node.ratioHandNode.accessibleName = accessibleName;
+    ( node as RatioHalf ).ratioHandNode.accessibleName = accessibleName;
   } );
   return options;
 }
@@ -79,7 +82,7 @@ type SelfOptions = {
   voicingHandPositionsDescriber: HandPositionsDescriber;
   bothHandsDescriber: BothHandsDescriber;
 
-  colorProperty: Property<ColorDef>;
+  colorProperty: IPaint;
   keyboardStep: number;
   horizontalMovementAllowedProperty: Property<boolean>;
   ratioLockedProperty: Property<boolean>;
@@ -98,10 +101,10 @@ type SelfOptions = {
   isRight?: boolean;
 
   // control the color of the hand
-  handColorProperty?: Property<ColorDef>;
+  handColorProperty?: IPaint;
 
   // AccessibleValueHandler via RatioHandNode
-  a11yDependencies?: IReadOnlyProperty<any>[];
+  a11yDependencies?: IReadOnlyProperty<IntentionalAny>[];
   bothHandsCueDisplay?: CueDisplay;
 }
 
@@ -133,7 +136,7 @@ class RatioHalf extends Rectangle {
 
   constructor( providedOptions: RatioHalfOptions ) {
 
-    const options = optionize<RatioHalfOptions, SelfOptions, RectangleOptions>( {
+    const options = optionize<RatioHalfOptions, SelfOptions, RectangleOptions, 'tandem'>( {
       isRight: true,
       handColorProperty: new Property( 'black' ),
       a11yDependencies: [],

@@ -11,7 +11,7 @@ import Property from '../../../../axon/js/Property.js';
 import GridNode from '../../../../griddle/js/GridNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import TickMarkView from './TickMarkView.js';
-import { Color, PathOptions } from '../../../../scenery/js/imports.js';
+import { IPaint, PathOptions } from '../../../../scenery/js/imports.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 
@@ -27,7 +27,7 @@ class RatioHalfTickMarksNode extends GridNode {
   private tickMarkRangeProperty: Property<number>;
 
   constructor( tickMarkViewProperty: EnumerationProperty<TickMarkView>, tickMarkRangeProperty: Property<number>, width: number,
-               height: number, colorProperty: Property<Color>, providedOptions?: SelfOptions ) {
+               height: number, colorProperty: IPaint, providedOptions?: SelfOptions ) {
     const options = optionize<RatioHalfTickMarksNodeOptions, SelfOptions>( {
 
       // initial line spacings
