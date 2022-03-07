@@ -25,13 +25,15 @@ import TickMarkView from '../../common/view/TickMarkView.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import AccordionBox, { AccordionBoxOptions } from '../../../../sun/js/AccordionBox.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import { RequiredTandem } from '../../../../tandem/js/PhetioObject.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import { PickRequired } from '../../../../phet-core/js/types/PickRequired.js';
 
 const PICKER_SCALE = 1.5;
 const ICON_SCALE = 0.9;
 const DEFAULT_EXPANDED = false;
+
+type MyChallengeAccordionBoxOptions = AccordionBoxOptions & PickRequired<AccordionBoxOptions, 'tandem'>;
 
 class MyChallengeAccordionBox extends AccordionBox {
 
@@ -49,7 +51,7 @@ class MyChallengeAccordionBox extends AccordionBox {
    */
   constructor( targetRatioProperty: Property<number>, ratioLockedProperty: Property<boolean>,
                handColorProperty: Property<Color>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
-               ratioDescriber: RatioDescriber, providedOptions: AccordionBoxOptions & RequiredTandem ) {
+               ratioDescriber: RatioDescriber, providedOptions: MyChallengeAccordionBoxOptions ) {
 
 
     // Allow us to get the reduced fraction as the initial value of the custom "My Challenge"
@@ -70,7 +72,7 @@ class MyChallengeAccordionBox extends AccordionBox {
       } ) : ratioAndProportionStrings.a11y.create.hidden;
     };
 
-    const options = optionize<AccordionBoxOptions, {}, AccordionBoxOptions, 'tandem'>( {
+    const options = optionize<MyChallengeAccordionBoxOptions, {}, AccordionBoxOptions, 'tandem'>( {
       titleNode: new RichText( ratioAndProportionStrings.myChallenge, {
         font: new PhetFont( 20 ),
         maxWidth: 250 // empirically determined
