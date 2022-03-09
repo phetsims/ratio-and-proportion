@@ -37,7 +37,7 @@ import RatioDescriber from './describers/RatioDescriber.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import DistanceResponseType from './describers/DistanceResponseType.js';
-import IntentionalAny from '../../../../phet-core/js/IntentionalAny.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 
 // constants
 const MIN_FRAMING_RECTANGLE_HEIGHT = 32;
