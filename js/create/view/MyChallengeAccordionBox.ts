@@ -27,7 +27,7 @@ import AccordionBox, { AccordionBoxOptions } from '../../../../sun/js/AccordionB
 import optionize from '../../../../phet-core/js/optionize.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import { PickRequired } from '../../../../phet-core/js/types/PickRequired.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 const PICKER_SCALE = 1.5;
 const ICON_SCALE = 0.9;
