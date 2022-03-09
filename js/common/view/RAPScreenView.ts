@@ -53,6 +53,7 @@ import RAPPositionRegionsLayer from './RAPPositionRegionsLayer.js';
 import BackgroundColorHandler from './BackgroundColorHandler.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import RAPMediaPipe from './RAPMediaPipe.js';
 
 // constants
 const LAYOUT_BOUNDS = ScreenView.DEFAULT_LAYOUT_BOUNDS;
@@ -108,6 +109,7 @@ class RAPScreenView extends ScreenView {
   protected tickMarkViewRadioButtonGroup: TickMarkViewRadioButtonGroup;
 
   private layoutRAPScreeView: ( currentScreenViewCoordinates: Bounds2 ) => void;
+  private mediaPipe: RAPMediaPipe | null;
 
   constructor( model: RAPModel, backgroundColorProperty: Property<Color>, tandem: Tandem, providedOptions?: RAPScreenViewOptions ) {
 
@@ -271,6 +273,17 @@ class RAPScreenView extends ScreenView {
       }, options.bothHandsPDOMNodeOptions )
     );
 
+    this.mediaPipe = null;
+    if ( RAPQueryParameters.mediaPipe ) {
+      this.mediaPipe = new RAPMediaPipe( model.ratio.tupleProperty );
+
+      this.mediaPipe.isBeingInteractedWithProperty.lazyLink( ( interactedWithMarkers: boolean ) => {
+        if ( interactedWithMarkers ) {
+          cueArrowsState.interactedWithMouseProperty.value = true;
+        }
+      } );
+    }
+
     this.markerInput = null;
 
     if ( RAPQueryParameters.tangible ) {
@@ -288,7 +301,8 @@ class RAPScreenView extends ScreenView {
       this.antecedentRatioHalf.isBeingInteractedWithProperty,
       this.consequentRatioHalf.isBeingInteractedWithProperty,
       bothHandsPDOMNode.isBeingInteractedWithProperty,
-      this.markerInput ? this.markerInput.isBeingInteractedWithProperty : new BooleanProperty( false )
+      this.markerInput ? this.markerInput.isBeingInteractedWithProperty : new BooleanProperty( false ),
+      this.mediaPipe ? this.mediaPipe.isBeingInteractedWithProperty : new BooleanProperty( false )
     ] );
 
     this.inProportionSoundGenerator = new InProportionSoundGenerator( model, soundGeneratorEnabledProperty );
@@ -320,6 +334,7 @@ class RAPScreenView extends ScreenView {
         this.handPositionsDescriber.reset();
         voicingHandPositionsDescriber.reset();
         this.markerInput && this.markerInput.reset();
+        this.mediaPipe && this.mediaPipe.reset();
         this.reset();
       },
       tandem: tandem.createTandem( 'resetAllButton' )
@@ -440,6 +455,7 @@ class RAPScreenView extends ScreenView {
 
   step( dt: number ): void {
 
+    this.mediaPipe && this.mediaPipe.step();
     this.markerInput && this.markerInput.step();
     this.inProportionSoundGenerator.step( dt );
     this.staccatoFrequencySoundGenerator.step( dt );

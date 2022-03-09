@@ -13,6 +13,11 @@ import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector3 from '../../../../dot/js/Vector3.js';
 import Utils from '../../../../dot/js/Utils.js';
+import RAPQueryParameters from '../RAPQueryParameters.js';
+
+if ( RAPQueryParameters.mediaPipe ) {
+  MediaPipe.initialize();
+}
 
 class RAPMediaPipe extends MediaPipe {
 

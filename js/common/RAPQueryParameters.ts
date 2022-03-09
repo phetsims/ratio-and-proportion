@@ -18,12 +18,17 @@ const RAPQueryParameters = QueryStringMachine.getAll( {
     defaultValue: 600
   },
 
-  tangible: {
+  markerInput: {
     type: 'flag'
   },
 
   // Show description qualitative position regions for the hands.
   showPositionRegions: {
+    type: 'flag'
+  },
+
+  // run with mediaPipe hand tracking embedded in the sim.
+  mediaPipe: {
     type: 'flag'
   }
 } );
