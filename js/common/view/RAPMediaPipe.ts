@@ -19,6 +19,9 @@ if ( RAPQueryParameters.mediaPipe ) {
   MediaPipe.initialize();
 }
 
+// Hand-tracking points that we use to calculate the position of the ratio in the sim,  See https://google.github.io/mediapipe/solutions/hands.html#hand-landmark-model
+const HAND_POINTS = [ 5, 9, 13 ];
+
 class RAPMediaPipe extends MediaPipe {
 
   readonly isBeingInteractedWithProperty: BooleanProperty;
@@ -44,8 +47,7 @@ class RAPMediaPipe extends MediaPipe {
         const finalPosition = new Vector3( 0, 0, 0 );
 
         // These are along the center of a hand, about where we have calibrated the hand icon in RAP, see https://google.github.io/mediapipe/solutions/hands.html#hand-landmark-model
-        const handPoints = [ 3, 5, 9, 13, 17 ];
-        handPoints.forEach( index => {
+        HAND_POINTS.forEach( index => {
           const point = thing[ index ];
           assert && assert( typeof point.x === 'number' );
           assert && assert( typeof point.y === 'number' );
@@ -54,7 +56,7 @@ class RAPMediaPipe extends MediaPipe {
           finalPosition.add( position );
         } );
 
-        return finalPosition.divideScalar( handPoints.length );
+        return finalPosition.divideScalar( HAND_POINTS.length );
       } );
 
       handPositions.sort();
