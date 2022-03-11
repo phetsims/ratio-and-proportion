@@ -12,7 +12,6 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
@@ -38,6 +37,7 @@ import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import DistanceResponseType from './describers/DistanceResponseType.js';
 import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
+import MappedProperty from '../../../../axon/js/MappedProperty.js';
 
 // constants
 const MIN_FRAMING_RECTANGLE_HEIGHT = 32;
@@ -191,7 +191,7 @@ class RatioHalf extends Rectangle {
 
     // Create a mapping directly to just this ratio term value. This is to support
     // AccessibleValueHandler, which powers the PDOM interaction off of {Property.<number>}.
-    const ratioTermSpecificProperty = new DynamicProperty( new Property<Property<RAPRatioTuple>>( this.ratioTupleProperty ), {
+    const ratioTermSpecificProperty = new MappedProperty( this.ratioTupleProperty, {
       bidirectional: true,
       reentrant: true,
       valueType: 'number',
@@ -262,7 +262,7 @@ class RatioHalf extends Rectangle {
 
     // Only the RatioHalf DragListener allows for horizontal movement, so support that here. This adds the horizontal axis.
     // We expand on ratioTermSpecificProperty since we already have it, but we could also just use the ratioTupleProperty.
-    const positionProperty: DynamicProperty<Vector2, number, Property<number>> = new DynamicProperty( new Property<Property<number>>( ratioTermSpecificProperty ), {
+    const positionProperty: MappedProperty<Vector2, number> = new MappedProperty( ratioTermSpecificProperty, {
       reentrant: true,
       bidirectional: true,
       valueType: Vector2,
