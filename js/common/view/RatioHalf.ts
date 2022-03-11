@@ -284,7 +284,7 @@ class RatioHalf extends Rectangle {
 
     // When set to a value, the horizontal position will not be changed throughout the whole drag. Set to null when not dragging.
     let startingX: null | number = null;
-    let startingY: number = -1;
+    let startingY = -1;
 
     // transform and dragBounds set in layout code below
     const dragListener = new DragListener( {
