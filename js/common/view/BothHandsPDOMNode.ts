@@ -25,7 +25,6 @@ import CueArrowsState from './CueArrowsState.js';
 import RatioDescriber from './describers/RatioDescriber.js';
 import TickMarkView from './TickMarkView.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import { Shape } from '../../../../kite/js/imports.js';
 
 // constants
 const OBJECT_RESPONSE_DELAY = 500;
@@ -93,7 +92,7 @@ class BothHandsPDOMNode extends Node {
         voicingNameResponse: ratioAndProportionStrings.a11y.bothHands.bothHands,
         voicingObjectResponse: () => this.bothHandsDescriber.getBothHandsObjectResponse(),
         voicingContextResponse: () => this.bothHandsDescriber.getBothHandsContextResponse(),
-        interactiveHighlight: new Shape(), // TODO: this is just a workaround, see https://github.com/phetsims/scenery/issues/1372
+        interactiveHighlight: 'invisible',
         ariaLabel: ratioAndProportionStrings.a11y.bothHands.bothHands
       }
     }, providedOptions );
