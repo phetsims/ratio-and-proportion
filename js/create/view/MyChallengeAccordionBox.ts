@@ -33,7 +33,7 @@ const PICKER_SCALE = 1.5;
 const ICON_SCALE = 0.9;
 const DEFAULT_EXPANDED = false;
 
-type MyChallengeAccordionBoxOptions = AccordionBoxOptions & PickRequired<AccordionBoxOptions, 'tandem'>;
+type MyChallengeAccordionBoxOptions = Omit<AccordionBoxOptions, 'pdomOrder'> & PickRequired<AccordionBoxOptions, 'tandem'>;
 
 class MyChallengeAccordionBox extends AccordionBox {
 
@@ -192,7 +192,12 @@ class MyChallengeAccordionBox extends AccordionBox {
       readingBlockContent: voicingObjectResponse
     };
 
-    super( new ReadingBlockNode( readingBlockOptions ), options );
+    const readingBlockNode = new ReadingBlockNode( readingBlockOptions );
+
+    super( readingBlockNode, options );
+
+    // ReadingBlock should come after the NumberPickers, https://github.com/phetsims/ratio-and-proportion/issues/440
+    this.pdomOrder = [ myChallengeContent, readingBlockNode ];
 
     this.targetAntecedentProperty = targetAntecedentProperty;
     this.targetConsequentProperty = targetConsequentProperty;
