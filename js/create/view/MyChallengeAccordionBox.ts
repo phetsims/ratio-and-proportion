@@ -136,7 +136,6 @@ class MyChallengeAccordionBox extends AccordionBox {
       // voicing
       voicingNameResponse: ratioAndProportionStrings.a11y.leftValue,
       voicingContextResponse: createContextResponse,
-      voicingHintResponse: ratioAndProportionStrings.a11y.create.numberPickerHintText,
 
       // phet-io
       tandem: options.tandem.createTandem( 'antecedentNumberPicker' )
@@ -163,7 +162,6 @@ class MyChallengeAccordionBox extends AccordionBox {
       // voicing
       voicingNameResponse: ratioAndProportionStrings.a11y.rightValue,
       voicingContextResponse: createContextResponse,
-      voicingHintResponse: ratioAndProportionStrings.a11y.create.numberPickerHintText,
 
       // phet-io
       tandem: options.tandem.createTandem( 'consequentNumberPicker' )
@@ -188,7 +186,7 @@ class MyChallengeAccordionBox extends AccordionBox {
     // At this time, mixed in Nodes can't take mixin options passed via object literal.
     const readingBlockOptions = {
       children: [ myChallengeContent ],
-      readingBlockHintResponse: ratioAndProportionStrings.a11y.create.numberPickerHintText,
+      readingBlockHintResponse: ratioAndProportionStrings.a11y.create.myChallengeReadingBlockHintText,
       readingBlockContent: voicingObjectResponse
     };
 
