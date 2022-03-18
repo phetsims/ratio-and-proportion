@@ -192,10 +192,11 @@ class MyChallengeAccordionBox extends AccordionBox {
 
     const readingBlockNode = new ReadingBlockNode( readingBlockOptions );
 
-    super( readingBlockNode, options );
-
-    // ReadingBlock should come after the NumberPickers, https://github.com/phetsims/ratio-and-proportion/issues/440
-    this.pdomOrder = [ myChallengeContent, readingBlockNode ];
+    // We need an extra node here in order to set PDOMOrder because AccordiongBox set's PDOM order for it's content
+    super( new Node( {
+      children: [ readingBlockNode ],
+      pdomOrder: [ myChallengeContent, readingBlockNode ]
+    } ), options );
 
     this.targetAntecedentProperty = targetAntecedentProperty;
     this.targetConsequentProperty = targetConsequentProperty;
