@@ -13,7 +13,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Fraction from '../../../../phetcommon/js/model/Fraction.js';
 import NumberPicker from '../../../../scenery-phet/js/NumberPicker.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Color, HBox, Node, ReadingBlock, RichText, VBox } from '../../../../scenery/js/imports.js';
+import { Color, HBox, Node, ReadingBlock, ReadingBlockOptions, RichText, VBox } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
@@ -183,11 +183,12 @@ class MyChallengeAccordionBox extends AccordionBox {
       children: [ leftRatioSelector, rightRatioSelector ]
     } );
 
-    // At this time, mixed in Nodes can't take mixin options passed via object literal.
-    const readingBlockOptions = {
+    // At this time, mixed in Nodes can't take mixin options passed via object literal, it assumes that the Object
+    // type is NodeOptions.
+    const readingBlockOptions: ReadingBlockOptions = {
       children: [ myChallengeContent ],
       readingBlockHintResponse: ratioAndProportionStrings.a11y.create.myChallengeReadingBlockHintText,
-      readingBlockContent: createAccordionBoxContextResponse
+      readingBlockNameResponse: createAccordionBoxContextResponse
     };
 
     const readingBlockNode = new ReadingBlockNode( readingBlockOptions );
