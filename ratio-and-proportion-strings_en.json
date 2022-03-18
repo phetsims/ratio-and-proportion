@@ -413,12 +413,6 @@
       "myChallengeHintText": {
         "value": "Expand to set your challenge."
       },
-      "antecedentToConsequentPattern": {
-        "value": "{{targetAntecedent}} to {{targetConsequent}}"
-      },
-      "hidden": {
-        "value": "hidden"
-      },
       "myChallengeReadingBlockHintText": {
         "value": "Change challenge, and move hands."
       },

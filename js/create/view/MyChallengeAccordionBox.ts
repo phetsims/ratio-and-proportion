@@ -27,6 +27,7 @@ import AccordionBox, { AccordionBoxOptions } from '../../../../sun/js/AccordionB
 import optionize from '../../../../phet-core/js/optionize.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import ResponsePatternCollection from '../../../../utterance-queue/js/ResponsePatternCollection.js';
 
 const PICKER_SCALE = 1.5;
 const ICON_SCALE = 0.9;
@@ -188,7 +189,10 @@ class MyChallengeAccordionBox extends AccordionBox {
     const readingBlockOptions: ReadingBlockOptions = {
       children: [ myChallengeContent ],
       readingBlockHintResponse: ratioAndProportionStrings.a11y.create.myChallengeReadingBlockHintText,
-      readingBlockNameResponse: createAccordionBoxContextResponse
+      readingBlockNameResponse: createAccordionBoxContextResponse,
+      readingBlockResponsePatternCollection: new ResponsePatternCollection( {
+        nameHint: '{{NAME}} {{HINT}}'
+      } )
     };
 
     const readingBlockNode = new ReadingBlockNode( readingBlockOptions );

@@ -162,8 +162,6 @@ type StringsType = {
       'tickMarkRangeContextResponse': string,
       'myChallengeHelpText': string,
       'myChallengeHintText': string,
-      'antecedentToConsequentPattern': string,
-      'hidden': string,
       'myChallengeReadingBlockHintText': string,
       'bothHandsGestureDescriptionHelpText': string,
       'rangeLabelPattern': string
