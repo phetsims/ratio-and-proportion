@@ -26,7 +26,6 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import AccordionBox, { AccordionBoxOptions } from '../../../../sun/js/AccordionBox.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 const PICKER_SCALE = 1.5;
@@ -65,11 +64,10 @@ class MyChallengeAccordionBox extends AccordionBox {
 
     const expandedProperty = new BooleanProperty( DEFAULT_EXPANDED );
 
-    const voicingObjectResponse = () => {
-      return expandedProperty.value ? StringUtils.fillIn( ratioAndProportionStrings.a11y.create.antecedentToConsequentPattern, {
-        targetAntecedent: targetAntecedentProperty.value,
-        targetConsequent: targetConsequentProperty.value
-      } ) : ratioAndProportionStrings.a11y.create.hidden;
+    const createAccordionBoxContextResponse = () => {
+      return expandedProperty.value ?
+             ratioDescriber.getCurrentChallengeSentence( targetAntecedentProperty.value, targetConsequentProperty.value ) :
+             ratioAndProportionStrings.a11y.ratio.currentChallengeHidden;
     };
 
     const options = optionize<MyChallengeAccordionBoxOptions, {}, AccordionBoxOptions, 'tandem'>( {
@@ -97,10 +95,10 @@ class MyChallengeAccordionBox extends AccordionBox {
 
       // voicing
       voicingNameResponse: ratioAndProportionStrings.myChallenge,
-      voicingObjectResponse: voicingObjectResponse,
-      voicingHintResponse: () => expandedProperty.value ?
-                                 ratioAndProportionStrings.a11y.create.myChallengeVoicingExpandedHelpText :
-                                 ratioAndProportionStrings.a11y.create.myChallengeVoicingCollapsedHelpText,
+      voicingContextResponse: createAccordionBoxContextResponse,
+
+      // Only deliver the hint if not expanded
+      voicingHintResponse: () => expandedProperty.value ? null : ratioAndProportionStrings.a11y.create.myChallengeHintText,
 
       // phet-io
       tandem: Tandem.REQUIRED
@@ -122,7 +120,7 @@ class MyChallengeAccordionBox extends AccordionBox {
       ratioLockedProperty.value && this.alertDescriptionUtterance( ratioUnlockedFromMyChallenge );
     } );
 
-    const createContextResponse = () => ratioDescriber.getTargetRatioChangeAlert( targetAntecedentProperty.value, targetConsequentProperty.value );
+    const createNumberPickerContextResponse = () => ratioDescriber.getTargetRatioChangeAlert( targetAntecedentProperty.value, targetConsequentProperty.value );
 
     const antecedentNumberPicker = new NumberPicker( targetAntecedentProperty, rangeProperty, {
       scale: PICKER_SCALE,
@@ -131,11 +129,12 @@ class MyChallengeAccordionBox extends AccordionBox {
       accessibleName: ratioAndProportionStrings.a11y.leftValue,
       a11yDependencies: [ targetConsequentProperty ],
       a11yCreateAriaValueText: ratioDescriber.getWordFromNumber,
-      a11yCreateContextResponseAlert: createContextResponse,
+      a11yCreateContextResponseAlert: createNumberPickerContextResponse,
 
       // voicing
       voicingNameResponse: ratioAndProportionStrings.a11y.leftValue,
-      voicingContextResponse: createContextResponse,
+      voicingObjectResponse: () => ratioDescriber.getWordFromNumber( targetAntecedentProperty.value ),
+      voicingContextResponse: createNumberPickerContextResponse,
 
       // phet-io
       tandem: options.tandem.createTandem( 'antecedentNumberPicker' )
@@ -157,11 +156,12 @@ class MyChallengeAccordionBox extends AccordionBox {
       accessibleName: ratioAndProportionStrings.a11y.rightValue,
       a11yDependencies: [ targetAntecedentProperty ],
       a11yCreateAriaValueText: ratioDescriber.getWordFromNumber,
-      a11yCreateContextResponseAlert: createContextResponse,
+      a11yCreateContextResponseAlert: createNumberPickerContextResponse,
 
       // voicing
       voicingNameResponse: ratioAndProportionStrings.a11y.rightValue,
-      voicingContextResponse: createContextResponse,
+      voicingObjectResponse: () => ratioDescriber.getWordFromNumber( targetConsequentProperty.value ),
+      voicingContextResponse: createNumberPickerContextResponse,
 
       // phet-io
       tandem: options.tandem.createTandem( 'consequentNumberPicker' )
@@ -187,7 +187,7 @@ class MyChallengeAccordionBox extends AccordionBox {
     const readingBlockOptions = {
       children: [ myChallengeContent ],
       readingBlockHintResponse: ratioAndProportionStrings.a11y.create.myChallengeReadingBlockHintText,
-      readingBlockContent: voicingObjectResponse
+      readingBlockContent: createAccordionBoxContextResponse
     };
 
     const readingBlockNode = new ReadingBlockNode( readingBlockOptions );
@@ -203,9 +203,7 @@ class MyChallengeAccordionBox extends AccordionBox {
 
     const accordionBoxUtterance = new ActivationUtterance();
     this.expandedProperty.lazyLink( ( expanded: boolean ) => {
-      accordionBoxUtterance.alert = expanded ?
-                                    ratioDescriber.getCurrentChallengeSentence( targetAntecedentProperty.value, targetConsequentProperty.value ) :
-                                    ratioAndProportionStrings.a11y.ratio.currentChallengeHidden;
+      accordionBoxUtterance.alert = createAccordionBoxContextResponse();
       this.alertDescriptionUtterance( accordionBoxUtterance );
     } );
 

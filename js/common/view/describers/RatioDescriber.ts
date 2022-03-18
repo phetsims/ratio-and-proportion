@@ -112,8 +112,10 @@ class RatioDescriber {
 
   getCurrentChallengeSentence( antecedent: number, consequent: number ): string {
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.currentChallenge, {
-      targetAntecedent: antecedent,
-      targetConsequent: consequent
+
+      // for consistency with all values, see https://github.com/phetsims/ratio-and-proportion/issues/283
+      targetAntecedent: this.getWordFromNumber( antecedent ),
+      targetConsequent: this.getWordFromNumber( consequent )
     } );
   }
 
