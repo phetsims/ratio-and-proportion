@@ -134,6 +134,9 @@ class RatioHalf extends Rectangle {
   private layoutRatioHalf: LayoutFunction;
   private resetRatioHalf: () => void;
 
+  // Access this to use view sounds related to this RatioHalf.
+  viewSounds: ViewSounds;
+
   constructor( providedOptions: RatioHalfOptions ) {
 
     const options = optionize<RatioHalfOptions, SelfOptions, RectangleOptions, 'tandem'>( {
@@ -167,7 +170,7 @@ class RatioHalf extends Rectangle {
     this.ratioTerm = options.ratioTerm;
     this.ratioTupleProperty = options.ratioTupleProperty;
 
-    const viewSounds = new ViewSounds( options.tickMarkRangeProperty, options.tickMarkViewProperty, options.playTickMarkBumpSoundProperty );
+    this.viewSounds = new ViewSounds( options.tickMarkRangeProperty, options.tickMarkViewProperty, options.playTickMarkBumpSoundProperty );
 
     // This follows the spec outlined in https://github.com/phetsims/ratio-and-proportion/issues/81
     const cueDisplayStateProperty: IReadOnlyProperty<CueDisplay> = new DerivedProperty( [
@@ -215,14 +218,14 @@ class RatioHalf extends Rectangle {
         startDrag: () => {
           options.cueArrowsState.interactedWithKeyboardProperty.value = true;
           this.isBeingInteractedWithProperty.value = true;
-          viewSounds.boundarySoundClip.onStartInteraction();
+          this.viewSounds.boundarySoundClip.onStartInteraction();
         },
         drag: () => {
-          viewSounds.boundarySoundClip.onInteract( options.ratioTupleProperty.value.getForTerm( this.ratioTerm ) );
-          viewSounds.tickMarkBumpSoundClip.onInteract( options.ratioTupleProperty.value.getForTerm( this.ratioTerm ) );
+          this.viewSounds.boundarySoundClip.onInteract( options.ratioTupleProperty.value.getForTerm( this.ratioTerm ) );
+          this.viewSounds.tickMarkBumpSoundClip.onInteract( options.ratioTupleProperty.value.getForTerm( this.ratioTerm ) );
         },
         endDrag: () => {
-          viewSounds.boundarySoundClip.onEndInteraction( options.ratioTupleProperty.value.getForTerm( this.ratioTerm ) );
+          this.viewSounds.boundarySoundClip.onEndInteraction( options.ratioTupleProperty.value.getForTerm( this.ratioTerm ) );
         },
         isRight: options.isRight,
 
@@ -297,11 +300,11 @@ class RatioHalf extends Rectangle {
 
         startingY = positionProperty.value.y;
 
-        viewSounds.grabSoundClip.play();
+        this.viewSounds.grabSoundClip.play();
         options.cueArrowsState.interactedWithMouseProperty.value = true;
 
         options.setJumpingOverProportionShouldTriggerSound( true );
-        viewSounds.boundarySoundClip.onStartInteraction();
+        this.viewSounds.boundarySoundClip.onStartInteraction();
 
         this.ratioHandNode.voicingSpeakFullResponse( {
           contextResponse: null
@@ -315,9 +318,9 @@ class RatioHalf extends Rectangle {
           positionProperty.notifyListenersStatic();
         }
 
-        viewSounds.boundarySoundClip.onInteract( positionProperty.value.y, positionProperty.value.x,
+        this.viewSounds.boundarySoundClip.onInteract( positionProperty.value.y, positionProperty.value.x,
           new Range( dragBoundsProperty.value.left, dragBoundsProperty.value.right ) );
-        viewSounds.tickMarkBumpSoundClip.onInteract( positionProperty.value.y );
+        this.viewSounds.tickMarkBumpSoundClip.onInteract( positionProperty.value.y );
 
         this.ratioHandNode.voicingSpeakFullResponse( {
           nameResponse: null,
@@ -341,10 +344,10 @@ class RatioHalf extends Rectangle {
         }
 
         startingX = null;
-        viewSounds.releaseSoundClip.play();
+        this.viewSounds.releaseSoundClip.play();
         this.isBeingInteractedWithProperty.value = false;
         options.setJumpingOverProportionShouldTriggerSound( false );
-        viewSounds.boundarySoundClip.onEndInteraction( positionProperty.value.y );
+        this.viewSounds.boundarySoundClip.onEndInteraction( positionProperty.value.y );
 
         // Support context response on interaction end from mouse/touch input.
         this.ratioHandNode.alertContextResponse();
@@ -385,11 +388,11 @@ class RatioHalf extends Rectangle {
     this.ratioHandNode.addInputListener( {
       focus: () => {
         options.cueArrowsState.keyboardFocusedProperty.value = true;
-        viewSounds.grabSoundClip.play();
+        this.viewSounds.grabSoundClip.play();
       },
       blur: () => {
         options.cueArrowsState.keyboardFocusedProperty.value = false;
-        viewSounds.releaseSoundClip.play();
+        this.viewSounds.releaseSoundClip.play();
         this.isBeingInteractedWithProperty.value = false;
       },
       down: () => {
@@ -459,7 +462,7 @@ class RatioHalf extends Rectangle {
 
     this.resetRatioHalf = () => {
       this.ratioHandNode.reset();
-      viewSounds.reset();
+      this.viewSounds.reset();
       positionProperty.value.setX( INITIAL_X_VALUE );
       positionProperty.notifyListenersStatic();
     };

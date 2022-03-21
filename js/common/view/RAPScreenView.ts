@@ -275,7 +275,9 @@ class RAPScreenView extends ScreenView {
 
     this.mediaPipe = null;
     if ( RAPQueryParameters.mediaPipe ) {
-      this.mediaPipe = new RAPMediaPipe( model.ratio.tupleProperty );
+      this.mediaPipe = new RAPMediaPipe( model.ratio.tupleProperty,
+        this.antecedentRatioHalf.viewSounds,
+        this.consequentRatioHalf.viewSounds );
 
       this.mediaPipe.isBeingInteractedWithProperty.lazyLink( ( interactedWithMarkers: boolean ) => {
         if ( interactedWithMarkers ) {

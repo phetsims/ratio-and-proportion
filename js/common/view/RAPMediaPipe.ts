@@ -14,6 +14,7 @@ import Property from '../../../../axon/js/Property.js';
 import Vector3 from '../../../../dot/js/Vector3.js';
 import RAPQueryParameters from '../RAPQueryParameters.js';
 import rapConstants from '../rapConstants.js';
+import ViewSounds from './sound/ViewSounds.js';
 
 if ( RAPQueryParameters.mediaPipe ) {
   MediaPipe.initialize();
@@ -28,25 +29,46 @@ class RAPMediaPipe extends MediaPipe {
 
   readonly isBeingInteractedWithProperty: BooleanProperty;
   private ratioTupleProperty: Property<RAPRatioTuple>;
-  leftHandPositions: Vector3[];
-  rightHandPositions: Vector3[];
+  antecedentHandPositions: Vector3[];
+  consequentHandPositions: Vector3[];
+  antecedentViewSounds: ViewSounds;
+  consequentViewSounds: ViewSounds;
 
-  constructor( ratioTupleProperty: Property<RAPRatioTuple> ) {
+  constructor( ratioTupleProperty: Property<RAPRatioTuple>, antecedentViewSounds: ViewSounds, consequentViewSounds: ViewSounds ) {
     super();
+
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
     this.ratioTupleProperty = ratioTupleProperty;
-    this.leftHandPositions = [];
-    this.rightHandPositions = [];
+    this.antecedentViewSounds = antecedentViewSounds;
+    this.consequentViewSounds = consequentViewSounds;
+    this.antecedentHandPositions = [];
+    this.consequentHandPositions = [];
+
+    this.isBeingInteractedWithProperty.lazyLink( interactedWith => {
+      if ( interactedWith ) {
+        this.antecedentViewSounds.boundarySoundClip.onStartInteraction();
+        this.consequentViewSounds.boundarySoundClip.onStartInteraction();
+
+        // It is arbitrary here whether to use sounds from antecedent or consequent.
+        this.antecedentViewSounds.grabSoundClip.play();
+      }
+      else {
+        this.antecedentViewSounds.boundarySoundClip.onEndInteraction( this.ratioTupleProperty.value.antecedent );
+        this.consequentViewSounds.boundarySoundClip.onEndInteraction( this.ratioTupleProperty.value.consequent );
+
+        this.antecedentViewSounds.releaseSoundClip.play();
+      }
+    } );
   }
 
   tupleFromSmoothing( leftHandPosition: Vector3, rightHandPosition: Vector3 ): RAPRatioTuple {
     return new RAPRatioTuple(
-      this.getSmoothedPosition( leftHandPosition, this.leftHandPositions ).y,
-      this.getSmoothedPosition( rightHandPosition, this.rightHandPositions ).y
+      this.getSmoothedPosition( leftHandPosition, this.antecedentHandPositions ).y,
+      this.getSmoothedPosition( rightHandPosition, this.consequentHandPositions ).y
     ).constrainFields( rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE );
   }
 
-  getSmoothedPosition( position: Vector3, historicalPositions: Vector3[] ) {
+  getSmoothedPosition( position: Vector3, historicalPositions: Vector3[] ): Vector3 {
     historicalPositions.push( position );
     while ( historicalPositions.length > NUMBER_TO_SMOOTH ) {
       historicalPositions.shift();
@@ -82,11 +104,20 @@ class RAPMediaPipe extends MediaPipe {
       } );
 
       handPositions.sort();
-      this.ratioTupleProperty.value = this.tupleFromSmoothing( handPositions[ 0 ], handPositions[ 1 ] );
+      const newValue = this.tupleFromSmoothing( handPositions[ 0 ], handPositions[ 1 ] );
+      this.ratioTupleProperty.value = newValue;
+      this.onInteract( newValue );
     }
     else {
       this.isBeingInteractedWithProperty.value = false;
     }
+  }
+
+  onInteract( newValue: RAPRatioTuple ): void {
+    this.antecedentViewSounds.boundarySoundClip.onInteract( newValue.antecedent );
+    this.consequentViewSounds.boundarySoundClip.onInteract( newValue.consequent );
+    this.antecedentViewSounds.tickMarkBumpSoundClip.onInteract( newValue.antecedent );
+    this.consequentViewSounds.tickMarkBumpSoundClip.onInteract( newValue.consequent );
   }
 }
 
