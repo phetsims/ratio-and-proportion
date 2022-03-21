@@ -12,12 +12,14 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector3 from '../../../../dot/js/Vector3.js';
-import Utils from '../../../../dot/js/Utils.js';
 import RAPQueryParameters from '../RAPQueryParameters.js';
+import rapConstants from '../rapConstants.js';
 
 if ( RAPQueryParameters.mediaPipe ) {
   MediaPipe.initialize();
 }
+
+const NUMBER_TO_SMOOTH = 10;
 
 // Hand-tracking points that we use to calculate the position of the ratio in the sim,  See https://google.github.io/mediapipe/solutions/hands.html#hand-landmark-model
 const HAND_POINTS = [ 5, 9, 13 ];
@@ -26,12 +28,32 @@ class RAPMediaPipe extends MediaPipe {
 
   readonly isBeingInteractedWithProperty: BooleanProperty;
   private ratioTupleProperty: Property<RAPRatioTuple>;
+  leftHandPositions: Vector3[];
+  rightHandPositions: Vector3[];
 
   constructor( ratioTupleProperty: Property<RAPRatioTuple> ) {
     super();
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
     this.ratioTupleProperty = ratioTupleProperty;
+    this.leftHandPositions = [];
+    this.rightHandPositions = [];
   }
+
+  tupleFromSmoothing( leftHandPosition: Vector3, rightHandPosition: Vector3 ): RAPRatioTuple {
+    return new RAPRatioTuple(
+      this.getSmoothedPosition( leftHandPosition, this.leftHandPositions ).y,
+      this.getSmoothedPosition( rightHandPosition, this.rightHandPositions ).y
+    ).constrainFields( rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE );
+  }
+
+  getSmoothedPosition( position: Vector3, historicalPositions: Vector3[] ) {
+    historicalPositions.push( position );
+    while ( historicalPositions.length > NUMBER_TO_SMOOTH ) {
+      historicalPositions.shift();
+    }
+    return Vector3.average( historicalPositions );
+  }
+
 
   reset(): void {
     this.isBeingInteractedWithProperty.reset();
@@ -60,8 +82,7 @@ class RAPMediaPipe extends MediaPipe {
       } );
 
       handPositions.sort();
-      this.ratioTupleProperty.value = new RAPRatioTuple( Utils.clamp( handPositions[ 0 ].y, 0, 1 ), Utils.clamp( handPositions[ 1 ].y, 0, 1 ) );
-      console.log( handPositions.toString() );
+      this.ratioTupleProperty.value = this.tupleFromSmoothing( handPositions[ 0 ], handPositions[ 1 ] );
     }
     else {
       this.isBeingInteractedWithProperty.value = false;
