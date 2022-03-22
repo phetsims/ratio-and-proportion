@@ -15,6 +15,9 @@ import Vector3 from '../../../../dot/js/Vector3.js';
 import RAPQueryParameters from '../RAPQueryParameters.js';
 import rapConstants from '../rapConstants.js';
 import ViewSounds from './sound/ViewSounds.js';
+import { RichText, VBox } from '../../../../scenery/js/imports.js';
+import Checkbox from '../../../../sun/js/Checkbox.js';
+import mediaPipeOptions from './mediaPipeOptions.js';
 
 if ( RAPQueryParameters.mediaPipe ) {
   MediaPipe.initialize();
@@ -96,7 +99,9 @@ class RAPMediaPipe extends MediaPipe {
           assert && assert( typeof point.x === 'number' );
           assert && assert( typeof point.y === 'number' );
           assert && assert( typeof point.z === 'number' );
-          const position = new Vector3( 1 - point.x, 1 - point.y, 1 - point.z );
+          const yPosition = mediaPipeOptions.yAxisFlippedProperty.value ? point.y : 1 - point.y;
+          const xPosition = mediaPipeOptions.xAxisFlippedProperty.value ? point.x : 1 - point.x;
+          const position = new Vector3( xPosition, yPosition, 1 - point.z );
           finalPosition.add( position );
         } );
 
@@ -118,6 +123,18 @@ class RAPMediaPipe extends MediaPipe {
     this.consequentViewSounds.boundarySoundClip.onInteract( newValue.consequent );
     this.antecedentViewSounds.tickMarkBumpSoundClip.onInteract( newValue.antecedent );
     this.consequentViewSounds.tickMarkBumpSoundClip.onInteract( newValue.consequent );
+  }
+
+  static getMediaPipeOptionsNode() {
+    return new VBox( {
+      spacing: 10,
+      align: 'left',
+      children: [
+        new RichText( 'MediaPipe Options:' ),
+        new Checkbox( new RichText( 'x-axis flipped' ), mediaPipeOptions.xAxisFlippedProperty ),
+        new Checkbox( new RichText( 'y-axis flipped' ), mediaPipeOptions.yAxisFlippedProperty )
+      ]
+    } );
   }
 }
 

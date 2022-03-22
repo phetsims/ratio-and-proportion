@@ -13,6 +13,8 @@ import Tandem from '../../tandem/js/Tandem.js';
 import CreateScreen from './create/CreateScreen.js';
 import DiscoverScreen from './discover/DiscoverScreen.js';
 import ratioAndProportionStrings from './ratioAndProportionStrings.js';
+import RAPMediaPipe from './common/view/RAPMediaPipe.js';
+import RAPQueryParameters from './common/RAPQueryParameters.js';
 
 const ratioAndProportionTitleString = ratioAndProportionStrings[ 'ratio-and-proportion' ].title;
 
@@ -25,7 +27,11 @@ const simOptions = {
     soundDesign: 'Ashton Morris'
   },
   hasKeyboardHelpContent: true,
-  preferencesConfiguration: new PreferencesConfiguration()
+  preferencesConfiguration: new PreferencesConfiguration( {
+    generalOptions: {
+      simControls: RAPQueryParameters.mediaPipe ? RAPMediaPipe.getMediaPipeOptionsNode() : null
+    }
+  } )
 };
 
 // launch the sim - beware that scenery Image nodes created outside of simLauncher.launch() will have zero bounds
