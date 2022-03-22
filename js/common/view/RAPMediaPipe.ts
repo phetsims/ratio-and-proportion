@@ -18,6 +18,7 @@ import ViewSounds from './sound/ViewSounds.js';
 import { RichText, VBox } from '../../../../scenery/js/imports.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import mediaPipeOptions from './mediaPipeOptions.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 if ( RAPQueryParameters.mediaPipe ) {
   MediaPipe.initialize();
@@ -28,6 +29,10 @@ const NUMBER_TO_SMOOTH = 10;
 // Hand-tracking points that we use to calculate the position of the ratio in the sim,  See https://google.github.io/mediapipe/solutions/hands.html#hand-landmark-model
 const HAND_POINTS = [ 5, 9, 13 ];
 
+type RAPMediaPipeOptions = {
+  onInput: () => void;
+};
+
 class RAPMediaPipe extends MediaPipe {
 
   readonly isBeingInteractedWithProperty: BooleanProperty;
@@ -36,12 +41,17 @@ class RAPMediaPipe extends MediaPipe {
   consequentHandPositions: Vector3[];
   antecedentViewSounds: ViewSounds;
   consequentViewSounds: ViewSounds;
+  onInput: () => void;
 
-  constructor( ratioTupleProperty: Property<RAPRatioTuple>, antecedentViewSounds: ViewSounds, consequentViewSounds: ViewSounds ) {
+  constructor( ratioTupleProperty: Property<RAPRatioTuple>, antecedentViewSounds: ViewSounds, consequentViewSounds: ViewSounds, providedOptions: RAPMediaPipeOptions ) {
+    const options = optionize<RAPMediaPipeOptions>( {
+      onInput: _.noop
+    }, providedOptions );
     super();
 
     this.isBeingInteractedWithProperty = new BooleanProperty( false );
     this.ratioTupleProperty = ratioTupleProperty;
+    this.onInput = options.onInput;
     this.antecedentViewSounds = antecedentViewSounds;
     this.consequentViewSounds = consequentViewSounds;
     this.antecedentHandPositions = [];
@@ -119,6 +129,7 @@ class RAPMediaPipe extends MediaPipe {
   }
 
   onInteract( newValue: RAPRatioTuple ): void {
+    this.onInput();
     this.antecedentViewSounds.boundarySoundClip.onInteract( newValue.antecedent );
     this.consequentViewSounds.boundarySoundClip.onInteract( newValue.consequent );
     this.antecedentViewSounds.tickMarkBumpSoundClip.onInteract( newValue.antecedent );

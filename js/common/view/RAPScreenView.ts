@@ -24,7 +24,7 @@ import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.j
 import merge from '../../../../phet-core/js/merge.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { Color, Node, ParallelDOM } from '../../../../scenery/js/imports.js';
+import { Color, Node, ParallelDOM, voicingUtteranceQueue } from '../../../../scenery/js/imports.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
@@ -54,6 +54,8 @@ import BackgroundColorHandler from './BackgroundColorHandler.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import RAPMediaPipe from './RAPMediaPipe.js';
+import Utterance from '../../../../utterance-queue/js/Utterance.js';
+import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
 
 // constants
 const LAYOUT_BOUNDS = ScreenView.DEFAULT_LAYOUT_BOUNDS;
@@ -275,9 +277,31 @@ class RAPScreenView extends ScreenView {
 
     this.mediaPipe = null;
     if ( RAPQueryParameters.mediaPipe ) {
+
+      // TODO: isn't it better to tie this to a Node? https://github.com/phetsims/ratio-and-proportion/issues/454
+      const mediaPipeVoicingUtterance = new Utterance( {
+        alert: new ResponsePacket( {
+          objectResponse: () => bothHandsDescriber.getBothHandsObjectResponse(),
+          contextResponse: () => bothHandsDescriber.getBothHandsContextResponse()
+        } ),
+
+        // This number should be small, so that the most recent alert in the queue will immediately play once the announcer
+        // is done with the previous response
+        alertMaximumDelay: 50,
+        announcerOptions: {
+
+          // Every alert should be completed, otherwise there is no "hook" to get a full response without being
+          // interrupted by the next alert (upon next Property change).
+          cancelSelf: false
+        }
+      } );
       this.mediaPipe = new RAPMediaPipe( model.ratio.tupleProperty,
         this.antecedentRatioHalf.viewSounds,
-        this.consequentRatioHalf.viewSounds );
+        this.consequentRatioHalf.viewSounds, {
+          onInput: () => {
+            voicingUtteranceQueue.addToBack( mediaPipeVoicingUtterance );
+          }
+        } );
 
       this.mediaPipe.isBeingInteractedWithProperty.lazyLink( ( interactedWithMarkers: boolean ) => {
         if ( interactedWithMarkers ) {
