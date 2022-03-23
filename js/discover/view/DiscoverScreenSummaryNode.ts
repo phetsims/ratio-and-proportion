@@ -20,7 +20,7 @@ import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
-type RatioToChallengeNameMap = Map<number, { lowercase: string, capitalized: string }>;
+type RatioToChallengeNameMap = Map<number, { lowercase: string; capitalized: string }>;
 
 class DiscoverScreenSummaryNode extends Node {
   private ratioDescriber: RatioDescriber;

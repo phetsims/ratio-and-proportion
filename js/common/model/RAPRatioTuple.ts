@@ -13,8 +13,8 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioTerm from './RatioTerm.js';
 
 type RAPRatioTupleState = {
-  antecedent: number,
-  consequent: number
+  antecedent: number;
+  consequent: number;
 };
 
 class RAPRatioTuple {

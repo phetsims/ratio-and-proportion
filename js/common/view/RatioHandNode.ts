@@ -40,8 +40,8 @@ type RatioHandNodeOptions = SelfOptions & NodeOptions & Partial<AccessibleSlider
 
 type CreateIconOptions = {
 
-  handColor?: Color,
-  handNodeOptions?: Partial<RatioHandNodeOptions>
+  handColor?: Color;
+  handNodeOptions?: Partial<RatioHandNodeOptions>;
 };
 
 class RatioHandNode extends AccessibleSlider( Node, 0 ) {

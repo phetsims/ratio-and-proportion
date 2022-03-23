@@ -16,8 +16,8 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 
 type SelfOptions = {
-  minorHorizontalLineSpacing?: number | null,
-  minorLineOptions?: PathOptions
+  minorHorizontalLineSpacing?: number | null;
+  minorLineOptions?: PathOptions;
 }
 type RatioHalfTickMarksNodeOptions = SelfOptions & PathOptions;
 

@@ -16,8 +16,8 @@ import rapConstants from '../rapConstants.js';
 
 // a function that returns the snap/conserved value
 type KeyboardInputMapper = {
-  ( newValue: number, oldVaue: number, useShiftKeyStep: boolean, alreadyInProportion: boolean ): number,
-  reset: () => void
+  ( newValue: number, oldVaue: number, useShiftKeyStep: boolean, alreadyInProportion: boolean ): number;
+  reset: () => void;
 }
 
 

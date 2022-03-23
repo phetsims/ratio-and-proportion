@@ -50,9 +50,9 @@ const ORDINAL_TICK_MARKS = [
 const zeroString: 'zero' = ratioAndProportionStrings.a11y.tickMark.relative.zero as 'zero';
 
 type TickMarkDescriptionData = {
-  tickMarkPosition: number | 'zero',
-  relativePosition: string,
-  ordinalPosition: string | null
+  tickMarkPosition: number | 'zero';
+  relativePosition: string;
+  ordinalPosition: string | null;
 }
 
 

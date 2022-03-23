@@ -23,7 +23,7 @@ QUnit.test( 'getRelativePositionAndTickMarkNumberForPosition', assert => {
   };
   const tickMarkDescriber = new TickMarkDescriber( tickMarkRangeProperty, tickMarkViewProperty );
 
-  const testTickMarkOutput = ( position: number, expectedData: { ordinalPosition?: string, tickMarkPosition?: string | number, relativePosition: string } ) => {
+  const testTickMarkOutput = ( position: number, expectedData: { ordinalPosition?: string; tickMarkPosition?: string | number; relativePosition: string } ) => {
     const actualData = tickMarkDescriber.getRelativePositionAndTickMarkNumberForPosition( position );
     if ( expectedData.ordinalPosition ) {
       assert.ok( typeof actualData.ordinalPosition === 'string', getMessage( position, 'should be defined as a string' ) );

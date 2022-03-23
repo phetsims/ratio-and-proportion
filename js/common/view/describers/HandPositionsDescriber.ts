@@ -105,7 +105,7 @@ type GetDistanceProgressStringOptions = {
 };
 
 type SingleHandContextResponseOptions = {
-  distanceResponseType?: DistanceResponseType
+  distanceResponseType?: DistanceResponseType;
 };
 
 class HandPositionsDescriber {
