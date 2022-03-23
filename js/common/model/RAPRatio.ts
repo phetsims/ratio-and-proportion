@@ -37,35 +37,38 @@ const LOCK_RATIO_RANGE_MIN = rapConstants.NO_SUCCESS_VALUE_THRESHOLD + Number.EP
 
 class RAPRatio {
 
-  enabledRatioTermsRangeProperty: Property<Range>;
+  // Keep two references so that this can be public readonly, AND changed internally.
+  readonly enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>;
+  private readonly _enabledRatioTermsRangeProperty: Property<Range>;
 
   // Central Property that holds the value of the ratio. Using a tuple that holds
   // both the antecedent and consequent values as a single data structure is vital for changing both hands at once, and
   // in supporting the "locked ratio" state. Otherwise there are complicated reentrant cases where changing the
   // antecedent cascades to the consequent to snap it back into ratio. Thus the creation of RAPRatioTuple.
-  tupleProperty: Property<RAPRatioTuple>;
+  readonly tupleProperty: Property<RAPRatioTuple>;
 
   // when true, moving one ratio value will maintain the current ratio by updating the other value Property
-  lockedProperty: BooleanProperty;
-  private antecedentVelocityTracker: VelocityTracker;
-  private consequentVelocityTracker: VelocityTracker;
+  readonly lockedProperty: BooleanProperty;
+  private readonly antecedentVelocityTracker: VelocityTracker;
+  private readonly consequentVelocityTracker: VelocityTracker;
 
   // if the ratio is in the "moving in direction" state: whether or not the two hands are moving fast
   // enough together in the same direction. This indicates, among other things a bimodal interaction.
-  movingInDirectionProperty: IReadOnlyProperty<boolean>;
+  readonly movingInDirectionProperty: IReadOnlyProperty<boolean>;
 
   // To avoid an infinite loop as setting the tupleProperty from inside its lock-ratio-support
   // listener. This is predominately needed because even same antecedent/consequent values get wrapped in a new
   // RAPRatioTuple instance.
   private ratioLockListenerEnabled: boolean;
 
+
   constructor( initialAntecedent: number, initialConsequent: number, tandem: Tandem ) {
 
-    // TODO: public readonly, https://github.com/phetsims/ratio-and-proportion/issues/404
-    this.enabledRatioTermsRangeProperty = new Property( DEFAULT_TERM_VALUE_RANGE, {
+    this._enabledRatioTermsRangeProperty = new Property( DEFAULT_TERM_VALUE_RANGE, {
       tandem: tandem.createTandem( 'enabledRatioTermsRangeProperty' ),
       phetioType: Property.PropertyIO( Range.RangeIO )
     } );
+    this.enabledRatioTermsRangeProperty = this._enabledRatioTermsRangeProperty;
 
     this.tupleProperty = new Property( new RAPRatioTuple( initialAntecedent, initialConsequent ), {
       valueType: RAPRatioTuple,
@@ -140,7 +143,7 @@ class RAPRatio {
     } );
 
     this.lockedProperty.link( ratioLocked => {
-      this.enabledRatioTermsRangeProperty.value = new Range( ratioLocked ? LOCK_RATIO_RANGE_MIN : DEFAULT_TERM_VALUE_RANGE.min, DEFAULT_TERM_VALUE_RANGE.max );
+      this._enabledRatioTermsRangeProperty.value = new Range( ratioLocked ? LOCK_RATIO_RANGE_MIN : DEFAULT_TERM_VALUE_RANGE.min, DEFAULT_TERM_VALUE_RANGE.max );
     } );
 
     this.enabledRatioTermsRangeProperty.link( enabledRange => {
@@ -218,7 +221,7 @@ class RAPRatio {
 
     this.tupleProperty.reset();
 
-    this.enabledRatioTermsRangeProperty.reset();
+    this._enabledRatioTermsRangeProperty.reset();
     this.antecedentVelocityTracker.reset();
     this.consequentVelocityTracker.reset();
     this.ratioLockListenerEnabled = true;

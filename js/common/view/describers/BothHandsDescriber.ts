@@ -17,13 +17,14 @@ import RatioDescriber from './RatioDescriber.js';
 import HandPositionsDescriber from './HandPositionsDescriber.js';
 import TickMarkView from '../TickMarkView.js';
 import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
+import IReadOnlyProperty from '../../../../../axon/js/IReadOnlyProperty.js';
 
 const ratioDistancePositionContextResponsePatternString = ratioAndProportionStrings.a11y.ratio.distancePositionContextResponse;
 
 class BothHandsDescriber {
 
   private ratioTupleProperty: Property<RAPRatioTuple>;
-  private enabledRatioTermsRangeProperty: Property<Range>;
+  private enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>;
   private tickMarkViewProperty: EnumerationProperty<TickMarkView>;
   private ratioDescriber: RatioDescriber;
   private handPositionsDescriber: HandPositionsDescriber;
@@ -33,7 +34,7 @@ class BothHandsDescriber {
   private previousAntecedentAtExtremity: boolean;
   private previousConsequentAtExtremity: boolean;
 
-  constructor( ratioTupleProperty: Property<RAPRatioTuple>, enabledRatioTermsRangeProperty: Property<Range>,
+  constructor( ratioTupleProperty: Property<RAPRatioTuple>, enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>,
                ratioLockedProperty: Property<boolean>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
                ratioDescriber: RatioDescriber, handPositionsDescriber: HandPositionsDescriber ) {
 

@@ -58,21 +58,21 @@ class BothHandsPDOMNode extends Node {
   private bothHandsDescriber: BothHandsDescriber;
 
   // To support proper cue arrow logic
-  private antecedentInteractedWithProperty: Property<boolean>;
-  private consequentInteractedWithProperty: Property<boolean>;
-  private bothHandsFocusedProperty: Property<boolean>;
+  private readonly antecedentInteractedWithProperty: Property<boolean>;
+  private readonly consequentInteractedWithProperty: Property<boolean>;
+  private readonly bothHandsFocusedProperty: Property<boolean>;
 
-  private viewSounds: ViewSounds;
-  private objectResponseUtterance: Utterance;
+  private readonly viewSounds: ViewSounds;
+  private readonly objectResponseUtterance: Utterance;
 
   // just to fire on focus, make this polite for https://github.com/phetsims/ratio-and-proportion/issues/347
-  private objectResponseOnFocusUtterance: Utterance;
-  private contextResponseUtterance: Utterance;
-  private ratioUnlockedFromBothHandsUtterance: Utterance;
+  private readonly objectResponseOnFocusUtterance: Utterance;
+  private readonly contextResponseUtterance: Utterance;
+  private readonly ratioUnlockedFromBothHandsUtterance: Utterance;
 
   // TODO: wish I know how to mark it as a @public (read-only) (but set internal to this file).https://github.com/phetsims/ratio-and-proportion/issues/404
   isBeingInteractedWithProperty: Property<boolean>;
-  private bothHandsInteractionListener: BothHandsInteractionListener;
+  private readonly bothHandsInteractionListener: BothHandsInteractionListener;
 
   constructor( providedOptions: BothHandsPDOMNodeOptions ) {
 

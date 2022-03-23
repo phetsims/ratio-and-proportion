@@ -55,15 +55,6 @@ const getModelBoundsFromRange = ( range: Range ) => new Bounds2( -1 * X_MODEL_DR
 const MIN_HAND_SCALE = 1.2;
 const MAX_HAND_SCALE = 2.5;
 
-function ratioHalfAccessibleNameBehavior( node: Node, options: NodeOptions, accessibleName: string, callbacksForOtherNodes: { (): void }[] ) {
-  assert && assert( node instanceof RatioHalf );
-
-  callbacksForOtherNodes.push( () => {
-    ( node as RatioHalf ).ratioHandNode.accessibleName = accessibleName;
-  } );
-  return options;
-}
-
 const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 type LayoutFunction = ( bounds: Bounds2, heightScalar: number ) => void;
@@ -71,7 +62,7 @@ type LayoutFunction = ( bounds: Bounds2, heightScalar: number ) => void;
 type SelfOptions = {
   ratioTerm: RatioTerm;
   ratioTupleProperty: Property<RAPRatioTuple>;
-  enabledRatioTermsRangeProperty: Property<Range>; // the current range that the hand can move
+  enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>; // the current range that the hand can move
   displayBothHandsCueProperty: Property<boolean>;
   cueArrowsState: CueArrowsState; // interaction state to determine the interaction cue to display
   bounds: Bounds2; // the initial bounds that the Node takes up
@@ -113,24 +104,24 @@ type RatioHalfOptions = SelfOptions & RectangleOptions;
 class RatioHalf extends Rectangle {
 
   // the height of the framing rectangles, updated in layout function
-  // TODO: should be @public (read-only) if possible (but set internally) https://github.com/phetsims/ratio-and-proportion/issues/404
-  framingRectangleHeight: number;
+  _framingRectangleHeight: number;
 
-  // TODO: should be @public (read-only) if possible https://github.com/phetsims/ratio-and-proportion/issues/404
-  // this behaves a bit differently depending on modality. For mouse/touch, any time you are
+  // This behaves a bit differently depending on modality. For mouse/touch, any time you are
   // dragging this will be considered interaction, for keyboard, you must press a key before the interaction starts.
-  readonly isBeingInteractedWithProperty: BooleanProperty;
-  private ratioLockedProperty: Property<boolean>;
-  private bothHandsDescriber: BothHandsDescriber;
-  private handPositionsDescriber: HandPositionsDescriber;
-  private voicingHandPositionsDescriber: HandPositionsDescriber;
-  private tickMarkViewProperty: EnumerationProperty<TickMarkView>;
-  private ratioTerm: RatioTerm;
-  private ratioTupleProperty: Property<RAPRatioTuple>;
+  // Note both members to keep a public readonly interface.
+  readonly isBeingInteractedWithProperty: IReadOnlyProperty<boolean>;
+  private readonly _isBeingInteractedWithProperty: BooleanProperty;
+
+  private readonly ratioLockedProperty: Property<boolean>;
+  private readonly bothHandsDescriber: BothHandsDescriber;
+  private readonly handPositionsDescriber: HandPositionsDescriber;
+  private readonly voicingHandPositionsDescriber: HandPositionsDescriber;
+  private readonly tickMarkViewProperty: EnumerationProperty<TickMarkView>;
+  private readonly ratioTerm: RatioTerm;
+  private readonly ratioTupleProperty: Property<RAPRatioTuple>;
 
   // The draggable element inside the Node framed with thick rectangles on the top and bottom.
-  // TODO: should be "private to the file" if possible https://github.com/phetsims/ratio-and-proportion/issues/404
-  ratioHandNode: RatioHandNode;
+  private ratioHandNode: RatioHandNode;
   private layoutRatioHalf: LayoutFunction;
   private resetRatioHalf: () => void;
 
@@ -151,16 +142,19 @@ class RatioHalf extends Rectangle {
 
       // pdom
       tagName: 'div',
-      accessibleNameBehavior: ratioHalfAccessibleNameBehavior,
+      accessibleNameBehavior: RatioHalf.RATIO_HALF_ACCESSIBLE_NAME_BEHAVIOR,
       accessibleName: null
     }, providedOptions );
 
     super( 0, 0, options.bounds.width, options.bounds.height );
 
-    this.framingRectangleHeight = MIN_FRAMING_RECTANGLE_HEIGHT;
-    this.isBeingInteractedWithProperty = new BooleanProperty( false, {
+    this._framingRectangleHeight = MIN_FRAMING_RECTANGLE_HEIGHT;
+
+    // Tandem is a different name to keep a `public readonly` interface without depending on getters and setters.
+    this._isBeingInteractedWithProperty = new BooleanProperty( false, {
       tandem: options.tandem.createTandem( 'isBeingInteractedWithProperty' )
     } );
+    this.isBeingInteractedWithProperty = this._isBeingInteractedWithProperty;
 
     this.ratioLockedProperty = options.ratioLockedProperty;
     this.bothHandsDescriber = options.bothHandsDescriber;
@@ -217,7 +211,7 @@ class RatioHalf extends Rectangle {
       options.inProportionProperty, {
         startDrag: () => {
           options.cueArrowsState.interactedWithKeyboardProperty.value = true;
-          this.isBeingInteractedWithProperty.value = true;
+          this._isBeingInteractedWithProperty.value = true;
           this.viewSounds.boundarySoundClip.onStartInteraction();
         },
         drag: () => {
@@ -311,7 +305,7 @@ class RatioHalf extends Rectangle {
         } );
       },
       drag: () => {
-        this.isBeingInteractedWithProperty.value = true;
+        this._isBeingInteractedWithProperty.value = true;
 
         if ( typeof startingX === 'number' ) {
           positionProperty.value.setX( startingX );
@@ -345,7 +339,7 @@ class RatioHalf extends Rectangle {
 
         startingX = null;
         this.viewSounds.releaseSoundClip.play();
-        this.isBeingInteractedWithProperty.value = false;
+        this._isBeingInteractedWithProperty.value = false;
         options.setJumpingOverProportionShouldTriggerSound( false );
         this.viewSounds.boundarySoundClip.onEndInteraction( positionProperty.value.y );
 
@@ -377,7 +371,7 @@ class RatioHalf extends Rectangle {
       const newBounds = getModelBoundsFromRange( enabledRange );
 
       // offset the bounds to account for the ratioHandNode's size, since the center of the ratioHandNode is controlled by the drag bounds.
-      const modelHalfPointerPointer = modelViewTransform.viewToModelDeltaXY( this.ratioHandNode.width / 2, -this.framingRectangleHeight );
+      const modelHalfPointerPointer = modelViewTransform.viewToModelDeltaXY( this.ratioHandNode.width / 2, -this._framingRectangleHeight );
 
       // constrain x dimension inside the RatioHalf so that this.ratioHandNode doesn't go beyond the width. Height is constrained
       // via the modelViewTransform.
@@ -393,7 +387,7 @@ class RatioHalf extends Rectangle {
       blur: () => {
         options.cueArrowsState.keyboardFocusedProperty.value = false;
         this.viewSounds.releaseSoundClip.play();
-        this.isBeingInteractedWithProperty.value = false;
+        this._isBeingInteractedWithProperty.value = false;
       },
       down: () => {
 
@@ -403,11 +397,11 @@ class RatioHalf extends Rectangle {
     } );
 
     // "Framing" rectangles on the top and bottom of the drag area of the ratio half
-    const topRect = new Rectangle( 0, 0, 10, this.framingRectangleHeight, { fill: options.colorProperty } );
-    const bottomRect = new Rectangle( 0, 0, 10, this.framingRectangleHeight, { fill: options.colorProperty } );
+    const topRect = new Rectangle( 0, 0, 10, this._framingRectangleHeight, { fill: options.colorProperty } );
+    const bottomRect = new Rectangle( 0, 0, 10, this._framingRectangleHeight, { fill: options.colorProperty } );
 
     const tickMarksNode = new RatioHalfTickMarksNode( options.tickMarkViewProperty, options.tickMarkRangeProperty,
-      options.bounds.width, options.bounds.height - 2 * this.framingRectangleHeight,
+      options.bounds.width, options.bounds.height - 2 * this._framingRectangleHeight,
       options.colorProperty );
 
     const updatePointer = ( position: Vector2 ) => {
@@ -429,7 +423,7 @@ class RatioHalf extends Rectangle {
       this.rectWidth = newBounds.width;
       this.rectHeight = newBounds.height;
 
-      this.framingRectangleHeight = topRect.rectHeight = bottomRect.rectHeight = heightScalar * MIN_FRAMING_RECTANGLE_HEIGHT + ( MAX_FRAMING_RECTANGLE_HEIGHT - MIN_FRAMING_RECTANGLE_HEIGHT );
+      this._framingRectangleHeight = topRect.rectHeight = bottomRect.rectHeight = heightScalar * MIN_FRAMING_RECTANGLE_HEIGHT + ( MAX_FRAMING_RECTANGLE_HEIGHT - MIN_FRAMING_RECTANGLE_HEIGHT );
 
       // Scale depending on how tall the ratio half is. This is to support narrow and tall layouts where the hand needs
       // to be scaled up more to support touch interaction, see https://github.com/phetsims/ratio-and-proportion/issues/217.
@@ -443,7 +437,7 @@ class RatioHalf extends Rectangle {
       topRect.top = 0;
       bottomRect.bottom = newBounds.height;
 
-      const boundsNoFramingRects = newBounds.erodedY( this.framingRectangleHeight );
+      const boundsNoFramingRects = newBounds.erodedY( this._framingRectangleHeight );
 
       // Don't count the space the framing rectangles take up as part of the draggableArea.
       modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
@@ -466,6 +460,11 @@ class RatioHalf extends Rectangle {
       positionProperty.value.setX( INITIAL_X_VALUE );
       positionProperty.notifyListenersStatic();
     };
+  }
+
+  // Provide a getter but not a setter to denote "public readonly"
+  get framingRectangleHeight(): number {
+    return this._framingRectangleHeight;
   }
 
   /**
@@ -505,6 +504,14 @@ class RatioHalf extends Rectangle {
 
   reset(): void {
     this.resetRatioHalf();
+  }
+
+  private static RATIO_HALF_ACCESSIBLE_NAME_BEHAVIOR( node: Node, options: NodeOptions, accessibleName: string, callbacksForOtherNodes: { (): void }[] ) {
+
+    callbacksForOtherNodes.push( () => {
+      ( node as RatioHalf ).ratioHandNode.accessibleName = accessibleName;
+    } );
+    return options;
   }
 }
 

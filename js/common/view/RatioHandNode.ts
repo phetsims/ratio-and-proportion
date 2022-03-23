@@ -48,7 +48,7 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
   private resetRatioHandNode: () => void;
 
   constructor( valueProperty: Property<number>,
-               enabledRatioTermsRangeProperty: Property<Range>,
+               enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>,
                tickMarkViewProperty: EnumerationProperty<TickMarkView>,
                keyboardStep: number,
                colorProperty: IPaint,

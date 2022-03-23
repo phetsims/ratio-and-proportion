@@ -6,26 +6,24 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import merge from '../../../../phet-core/js/merge.js';
 import { ParallelDOM, Path, PathOptions } from '../../../../scenery/js/imports.js';
 import eyeSlashSolidShape from '../../../../sherpa/js/fontawesome-5/eyeSlashSolidShape.js';
-import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import TickMarkView from './TickMarkView.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 
 // constants
 const ICON_SCALE = 0.45;
 
 class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkView> {
 
-  constructor( tickMarkViewProperty: EnumerationProperty<TickMarkView>, options?: any ) {
+  constructor( tickMarkViewProperty: EnumerationProperty<TickMarkView>, providedOptions?: RectangularRadioButtonGroupOptions ) {
 
-    // TODO: convert to optionize once RectangularRadioButtonGroup is typescript https://github.com/phetsims/ratio-and-proportion/issues/404
-    options = merge( {
+    const options = optionize<RectangularRadioButtonGroupOptions, {}>( {
       orientation: 'horizontal',
       baseColor: 'white',
       buttonContentYMargin: 14,
@@ -34,7 +32,7 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkV
       // pdom
       labelContent: ratioAndProportionStrings.a11y.tickMark.heading,
       helpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT
-    }, options );
+    }, providedOptions );
 
     const radioButtonItemData = [ {
       node: new Path( eyeSlashSolidShape, { scale: 0.05, fill: 'black' } ),
