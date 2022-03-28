@@ -71,7 +71,6 @@ type SelfOptions = {
   ratioDescriber: RatioDescriber;
   handPositionsDescriber: HandPositionsDescriber;
   voicingHandPositionsDescriber: HandPositionsDescriber;
-  bothHandsDescriber: BothHandsDescriber;
 
   colorProperty: IPaint;
   keyboardStep: number;
@@ -112,7 +111,6 @@ class RatioHalf extends Rectangle {
   private readonly _isBeingInteractedWithProperty: BooleanProperty;
 
   private readonly ratio: RAPRatio;
-  private readonly bothHandsDescriber: BothHandsDescriber;
   private readonly handPositionsDescriber: HandPositionsDescriber;
   private readonly voicingHandPositionsDescriber: HandPositionsDescriber;
   private readonly tickMarkViewProperty: EnumerationProperty<TickMarkView>;
@@ -155,11 +153,29 @@ class RatioHalf extends Rectangle {
     this.isBeingInteractedWithProperty = this._isBeingInteractedWithProperty;
 
     this.ratio = options.ratio;
-    this.bothHandsDescriber = options.bothHandsDescriber;
     this.handPositionsDescriber = options.handPositionsDescriber;
     this.voicingHandPositionsDescriber = options.voicingHandPositionsDescriber;
     this.tickMarkViewProperty = options.tickMarkViewProperty;
     this.ratioTerm = options.ratioTerm;
+
+    // BothHandsDescriber keeps state that depends on how often you ask for content, so keep a different reference for
+    // each communication modality.
+    const descriptionBothHandsDescriber = new BothHandsDescriber(
+      this.ratio.tupleProperty,
+      this.ratio.enabledRatioTermsRangeProperty,
+      this.ratio.lockedProperty,
+      this.tickMarkViewProperty,
+      options.ratioDescriber,
+      this.handPositionsDescriber
+    );
+    const voicingBothHandsDescriber = new BothHandsDescriber(
+      this.ratio.tupleProperty,
+      this.ratio.enabledRatioTermsRangeProperty,
+      this.ratio.lockedProperty,
+      this.tickMarkViewProperty,
+      options.ratioDescriber,
+      this.handPositionsDescriber
+    );
 
     this.viewSounds = new ViewSounds( options.tickMarkRangeProperty, options.tickMarkViewProperty, options.playTickMarkBumpSoundProperty );
 
@@ -223,8 +239,8 @@ class RatioHalf extends Rectangle {
         a11yCreateAriaValueText: createObjectResponse,
         voicingObjectResponse: createObjectResponse,
 
-        a11yCreateContextResponseAlert: () => this.getSingleHandContextResponse( this.handPositionsDescriber ),
-        voicingContextResponse: () => this.getSingleHandContextResponse( this.voicingHandPositionsDescriber ),
+        a11yCreateContextResponseAlert: () => this.getSingleHandContextResponse( this.handPositionsDescriber, descriptionBothHandsDescriber ),
+        voicingContextResponse: () => this.getSingleHandContextResponse( this.voicingHandPositionsDescriber, voicingBothHandsDescriber ),
         a11yDependencies: options.a11yDependencies.concat( [ this.ratio.lockedProperty ] ),
         voicingNameResponse: options.accessibleName // accessible name is also the voicing name response
       } );
@@ -315,7 +331,7 @@ class RatioHalf extends Rectangle {
 
         this.ratioHandNode.voicingSpeakFullResponse( {
           nameResponse: null,
-          contextResponse: this.getSingleHandContextResponse( this.voicingHandPositionsDescriber, {
+          contextResponse: this.getSingleHandContextResponse( this.voicingHandPositionsDescriber, voicingBothHandsDescriber, {
             distanceResponseType: DistanceResponseType.DISTANCE_PROGRESS
           } ),
           hintResponse: null
@@ -348,7 +364,7 @@ class RatioHalf extends Rectangle {
 
           this.ratioHandNode.voicingSpeakFullResponse( {
             nameResponse: null,
-            contextResponse: this.getSingleHandContextResponse( this.voicingHandPositionsDescriber, {
+            contextResponse: this.getSingleHandContextResponse( this.voicingHandPositionsDescriber, voicingBothHandsDescriber, {
               distanceResponseType: DistanceResponseType.DISTANCE_REGION
             } ),
             hintResponse: null
@@ -469,11 +485,13 @@ class RatioHalf extends Rectangle {
    * in ratio. This is the context response for the individual ratio half hand (slider) interaction. Returning
    * null means no alert will occur.
    */
-  getSingleHandContextResponse( handPositionsDescriber: HandPositionsDescriber, options?: SingleHandContextResponseOptions ): string {
+  getSingleHandContextResponse( handPositionsDescriber: HandPositionsDescriber,
+                                bothHandsDescriber: BothHandsDescriber,
+                                options?: SingleHandContextResponseOptions ): string {
 
     // When locked, give a description of both-hands, instead of just a single one.
     if ( this.ratio.lockedProperty.value ) {
-      return this.bothHandsDescriber.getBothHandsContextResponse();
+      return bothHandsDescriber.getBothHandsContextResponse();
     }
 
     return handPositionsDescriber.getSingleHandContextResponse( this.ratioTerm, this.tickMarkViewProperty.value, options );
