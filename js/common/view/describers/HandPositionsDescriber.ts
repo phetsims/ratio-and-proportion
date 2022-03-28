@@ -301,7 +301,11 @@ class HandPositionsDescriber {
 
     if ( distanceRegion === this.previousDistanceRegionSingle ) {
       const distanceProgressPhrase = this.getDistanceProgressString();
-      if ( distanceProgressPhrase ) {
+      const currentValue = this.ratioTupleProperty.value.getForTerm( ratioTerm );
+      const handAtMinMax = TOTAL_RANGE.min === currentValue || TOTAL_RANGE.max === currentValue;
+
+      // No distanceProgressPhrase means they are equal, don't give closer/farther at range extremities.
+      if ( distanceProgressPhrase && !handAtMinMax ) {
 
         const distanceProgressDescription = StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDistanceProgressClause, {
           otherHand: otherHand,
