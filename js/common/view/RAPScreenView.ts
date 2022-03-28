@@ -178,9 +178,8 @@ class RAPScreenView extends ScreenView {
 
     this.antecedentRatioHalf = new RatioHalf( {
 
+      ratio: ratio,
       ratioTerm: RatioTerm.ANTECEDENT,
-      ratioTupleProperty: ratio.tupleProperty,
-      enabledRatioTermsRangeProperty: model.ratio.enabledRatioTermsRangeProperty,
       displayBothHandsCueProperty: cueArrowsState.bothHands.antecedentCueDisplayedProperty,
       cueArrowsState: cueArrowsState,
       bounds: defaultRatioHalfBounds,
@@ -193,7 +192,6 @@ class RAPScreenView extends ScreenView {
       colorProperty: tickMarksAndLabelsColorProperty,
       keyboardStep: keyboardStep,
       horizontalMovementAllowedProperty: model.ratio.lockedProperty,
-      ratioLockedProperty: model.ratio.lockedProperty, // not a bug
       playTickMarkBumpSoundProperty: playTickMarkBumpSoundProperty,
 
       // Make this a closure so support creation order
@@ -220,9 +218,8 @@ class RAPScreenView extends ScreenView {
     // @private {RatioHalf}
     this.consequentRatioHalf = new RatioHalf( {
 
+      ratio: ratio,
       ratioTerm: RatioTerm.CONSEQUENT,
-      ratioTupleProperty: ratio.tupleProperty,
-      enabledRatioTermsRangeProperty: model.ratio.enabledRatioTermsRangeProperty,
       displayBothHandsCueProperty: cueArrowsState.bothHands.consequentCueDisplayedProperty,
       cueArrowsState: cueArrowsState,
       bounds: defaultRatioHalfBounds,
@@ -235,7 +232,6 @@ class RAPScreenView extends ScreenView {
       colorProperty: tickMarksAndLabelsColorProperty,
       keyboardStep: keyboardStep,
       horizontalMovementAllowedProperty: model.ratio.lockedProperty,
-      ratioLockedProperty: model.ratio.lockedProperty, // not a bug
       playTickMarkBumpSoundProperty: playTickMarkBumpSoundProperty,
 
       // Make this a closure so support creation order

@@ -38,6 +38,7 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import DistanceResponseType from './describers/DistanceResponseType.js';
 import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import MappedProperty from '../../../../axon/js/MappedProperty.js';
+import RAPRatio from '../model/RAPRatio.js';
 
 // constants
 const MIN_FRAMING_RECTANGLE_HEIGHT = 32;
@@ -61,8 +62,7 @@ type LayoutFunction = ( bounds: Bounds2, heightScalar: number ) => void;
 
 type SelfOptions = {
   ratioTerm: RatioTerm;
-  ratioTupleProperty: Property<RAPRatioTuple>;
-  enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>; // the current range that the hand can move
+  ratio: RAPRatio;
   displayBothHandsCueProperty: Property<boolean>;
   cueArrowsState: CueArrowsState; // interaction state to determine the interaction cue to display
   bounds: Bounds2; // the initial bounds that the Node takes up
@@ -76,7 +76,6 @@ type SelfOptions = {
   colorProperty: IPaint;
   keyboardStep: number;
   horizontalMovementAllowedProperty: Property<boolean>;
-  ratioLockedProperty: Property<boolean>;
   playTickMarkBumpSoundProperty: Property<boolean>;
 
   // see InProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound()
@@ -112,13 +111,12 @@ class RatioHalf extends Rectangle {
   readonly isBeingInteractedWithProperty: IReadOnlyProperty<boolean>;
   private readonly _isBeingInteractedWithProperty: BooleanProperty;
 
-  private readonly ratioLockedProperty: Property<boolean>;
+  private readonly ratio: RAPRatio;
   private readonly bothHandsDescriber: BothHandsDescriber;
   private readonly handPositionsDescriber: HandPositionsDescriber;
   private readonly voicingHandPositionsDescriber: HandPositionsDescriber;
   private readonly tickMarkViewProperty: EnumerationProperty<TickMarkView>;
   private readonly ratioTerm: RatioTerm;
-  private readonly ratioTupleProperty: Property<RAPRatioTuple>;
 
   // The draggable element inside the Node framed with thick rectangles on the top and bottom.
   private ratioHandNode: RatioHandNode;
@@ -156,13 +154,12 @@ class RatioHalf extends Rectangle {
     } );
     this.isBeingInteractedWithProperty = this._isBeingInteractedWithProperty;
 
-    this.ratioLockedProperty = options.ratioLockedProperty;
+    this.ratio = options.ratio;
     this.bothHandsDescriber = options.bothHandsDescriber;
     this.handPositionsDescriber = options.handPositionsDescriber;
     this.voicingHandPositionsDescriber = options.voicingHandPositionsDescriber;
     this.tickMarkViewProperty = options.tickMarkViewProperty;
     this.ratioTerm = options.ratioTerm;
-    this.ratioTupleProperty = options.ratioTupleProperty;
 
     this.viewSounds = new ViewSounds( options.tickMarkRangeProperty, options.tickMarkViewProperty, options.playTickMarkBumpSoundProperty );
 
@@ -188,21 +185,21 @@ class RatioHalf extends Rectangle {
 
     // Create a mapping directly to just this ratio term value. This is to support
     // AccessibleValueHandler, which powers the PDOM interaction off of {Property.<number>}.
-    const ratioTermSpecificProperty = new MappedProperty( this.ratioTupleProperty, {
+    const ratioTermSpecificProperty = new MappedProperty( this.ratio.tupleProperty, {
       bidirectional: true,
       reentrant: true,
       valueType: 'number',
       map: ( ratioTuple: RAPRatioTuple ) => ratioTuple.getForTerm( this.ratioTerm ),
-      inverseMap: ( term: number ) => this.ratioTerm === RatioTerm.ANTECEDENT ? this.ratioTupleProperty.value.withAntecedent( term ) :
-                                      this.ratioTerm === RatioTerm.CONSEQUENT ? this.ratioTupleProperty.value.withConsequent( term ) :
+      inverseMap: ( term: number ) => this.ratioTerm === RatioTerm.ANTECEDENT ? this.ratio.tupleProperty.value.withAntecedent( term ) :
+                                      this.ratioTerm === RatioTerm.CONSEQUENT ? this.ratio.tupleProperty.value.withConsequent( term ) :
                                       ( assert && assert( false, `unexpected ratioTerm ${this.ratioTerm}` ) ) as unknown as RAPRatioTuple
     } ) as Property<number>;
 
-    const createObjectResponse = () => options.ratioLockedProperty.value ? options.ratioDescriber.getProximityToChallengeRatio() :
+    const createObjectResponse = () => this.ratio.lockedProperty.value ? options.ratioDescriber.getProximityToChallengeRatio() :
                                        options.ratioDescriber.getProximityToChallengeRatio();
 
     this.ratioHandNode = new RatioHandNode( ratioTermSpecificProperty,
-      options.enabledRatioTermsRangeProperty,
+      this.ratio.enabledRatioTermsRangeProperty,
       options.tickMarkViewProperty,
       options.keyboardStep,
       options.handColorProperty,
@@ -215,11 +212,11 @@ class RatioHalf extends Rectangle {
           this.viewSounds.boundarySoundClip.onStartInteraction();
         },
         drag: () => {
-          this.viewSounds.boundarySoundClip.onInteract( options.ratioTupleProperty.value.getForTerm( this.ratioTerm ) );
-          this.viewSounds.tickMarkBumpSoundClip.onInteract( options.ratioTupleProperty.value.getForTerm( this.ratioTerm ) );
+          this.viewSounds.boundarySoundClip.onInteract( this.ratio.tupleProperty.value.getForTerm( this.ratioTerm ) );
+          this.viewSounds.tickMarkBumpSoundClip.onInteract( this.ratio.tupleProperty.value.getForTerm( this.ratioTerm ) );
         },
         endDrag: () => {
-          this.viewSounds.boundarySoundClip.onEndInteraction( options.ratioTupleProperty.value.getForTerm( this.ratioTerm ) );
+          this.viewSounds.boundarySoundClip.onEndInteraction( this.ratio.tupleProperty.value.getForTerm( this.ratioTerm ) );
         },
         isRight: options.isRight,
 
@@ -228,7 +225,7 @@ class RatioHalf extends Rectangle {
 
         a11yCreateContextResponseAlert: () => this.getSingleHandContextResponse( this.handPositionsDescriber ),
         voicingContextResponse: () => this.getSingleHandContextResponse( this.voicingHandPositionsDescriber ),
-        a11yDependencies: options.a11yDependencies.concat( [ options.ratioLockedProperty ] ),
+        a11yDependencies: options.a11yDependencies.concat( [ this.ratio.lockedProperty ] ),
         voicingNameResponse: options.accessibleName // accessible name is also the voicing name response
       } );
 
@@ -258,7 +255,7 @@ class RatioHalf extends Rectangle {
     let mappingInitialValue = true;
 
     // Only the RatioHalf DragListener allows for horizontal movement, so support that here. This adds the horizontal axis.
-    // We expand on ratioTermSpecificProperty since we already have it, but we could also just use the ratioTupleProperty.
+    // We expand on ratioTermSpecificProperty since we already have it, but we could also just use the ratio.tupleProperty.
     const positionProperty: MappedProperty<Vector2, number> = new MappedProperty( ratioTermSpecificProperty, {
       reentrant: true,
       bidirectional: true,
@@ -367,7 +364,7 @@ class RatioHalf extends Rectangle {
     } );
 
     // When the range changes, update the dragBounds of the drag listener
-    options.enabledRatioTermsRangeProperty.link( ( enabledRange: Range ) => {
+    this.ratio.enabledRatioTermsRangeProperty.link( ( enabledRange: Range ) => {
       const newBounds = getModelBoundsFromRange( enabledRange );
 
       // offset the bounds to account for the ratioHandNode's size, since the center of the ratioHandNode is controlled by the drag bounds.
@@ -475,7 +472,7 @@ class RatioHalf extends Rectangle {
   getSingleHandContextResponse( handPositionsDescriber: HandPositionsDescriber, options?: SingleHandContextResponseOptions ): string {
 
     // When locked, give a description of both-hands, instead of just a single one.
-    if ( this.ratioLockedProperty.value ) {
+    if ( this.ratio.lockedProperty.value ) {
       return this.bothHandsDescriber.getBothHandsContextResponse();
     }
 
