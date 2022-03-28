@@ -7,9 +7,9 @@
  */
 
 import Property from '../../../../../axon/js/Property.js';
-import merge from '../../../../../phet-core/js/merge.js';
+import optionize from '../../../../../phet-core/js/optionize.js';
 import CompositeSoundClip from '../../../../../tambo/js/sound-generators/CompositeSoundClip.js';
-import SoundGenerator from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
+import SoundGenerator, { SoundGeneratorOptions } from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
 import movingInProportionChoirLoop_mp3 from '../../../../sounds/moving-in-proportion/movingInProportionChoirLoop_mp3.js';
 import movingInProportionOrganLoop_mp3 from '../../../../sounds/moving-in-proportion/movingInProportionOrganLoop_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
@@ -20,12 +20,11 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
 
   private movingInProportionSoundClip: CompositeSoundClip;
 
-  constructor( model: RAPModel, options?: any ) {
+  constructor( model: RAPModel, providedOptions?: SoundGeneratorOptions ) {
 
-    // TODO: convert to optionize once SoundGenerator is typescript https://github.com/phetsims/ratio-and-proportion/issues/404
-    options = merge( {
+    const options = optionize<SoundGeneratorOptions, {}>( {
       initialOutputLevel: 0.13
-    }, options );
+    }, providedOptions );
 
     super( options );
 

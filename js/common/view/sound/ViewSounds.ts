@@ -9,7 +9,7 @@
 
 import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
 import merge from '../../../../../phet-core/js/merge.js';
-import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
+import SoundClip, { SoundClipOptions } from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundLevelEnum from '../../../../../tambo/js/SoundLevelEnum.js';
 import soundManager from '../../../../../tambo/js/soundManager.js';
 import grab_mp3 from '../../../../../tambo/sounds/grab_mp3.js';
@@ -21,8 +21,18 @@ import BoundarySoundClip from './BoundarySoundClip.js';
 import TickMarkBumpSoundClip from './TickMarkBumpSoundClip.js';
 import Property from '../../../../../axon/js/Property.js';
 import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
+import optionize from '../../../../../phet-core/js/optionize.js';
 
 const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
+
+type SelfOptions = {
+
+  // TODO: convert to optionize once SoundManager.addSoundGenerator is typescript https://github.com/phetsims/ratio-and-proportion/issues/404
+  addSoundOptions?: any;
+  soundClipOptions?: SoundClipOptions;
+}
+
+type ViewSoundsOptions = SelfOptions & {};
 
 class ViewSounds {
 
@@ -32,17 +42,16 @@ class ViewSounds {
   readonly tickMarkBumpSoundClip: TickMarkBumpSoundClip;
 
   constructor( tickMarkRangeProperty: Property<number>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
-               playTickMarkBumpSoundProperty: Property<boolean>, options?: any ) {
+               playTickMarkBumpSoundProperty: Property<boolean>, providedOptions?: ViewSoundsOptions ) {
 
-    // TODO: convert to optionize once SoundClip is typescript https://github.com/phetsims/ratio-and-proportion/issues/404
-    options = merge( {
+    const options = optionize<ViewSoundsOptions>( {
       addSoundOptions: {
         categoryName: 'user-interface'
       },
       soundClipOptions: {
         initialOutputLevel: 0.15
       }
-    }, options );
+    }, providedOptions );
 
     this.grabSoundClip = new SoundClip( grab_mp3, options.soundClipOptions );
     this.releaseSoundClip = new SoundClip( release_mp3, options.soundClipOptions );

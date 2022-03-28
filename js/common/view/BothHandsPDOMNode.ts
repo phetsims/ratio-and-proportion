@@ -25,6 +25,7 @@ import CueArrowsState from './CueArrowsState.js';
 import RatioDescriber from './describers/RatioDescriber.js';
 import TickMarkView from './TickMarkView.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // constants
 const OBJECT_RESPONSE_DELAY = 500;
@@ -70,8 +71,10 @@ class BothHandsPDOMNode extends Node {
   private readonly contextResponseUtterance: Utterance;
   private readonly ratioUnlockedFromBothHandsUtterance: Utterance;
 
-  // TODO: wish I know how to mark it as a @public (read-only) (but set internal to this file).https://github.com/phetsims/ratio-and-proportion/issues/404
-  isBeingInteractedWithProperty: Property<boolean>;
+  // Two references to the same Property allows for a public, readonly interface, while still editable in this file.
+  readonly isBeingInteractedWithProperty: IReadOnlyProperty<boolean>;
+  private readonly _isBeingInteractedWithProperty: Property<boolean>;
+
   private readonly bothHandsInteractionListener: BothHandsInteractionListener;
 
   constructor( providedOptions: BothHandsPDOMNodeOptions ) {
@@ -216,7 +219,8 @@ class BothHandsPDOMNode extends Node {
       alertStableDelay: OBJECT_RESPONSE_DELAY + 10
     } );
 
-    this.isBeingInteractedWithProperty = this.bothHandsInteractionListener.isBeingInteractedWithProperty;
+    this._isBeingInteractedWithProperty = this.bothHandsInteractionListener.isBeingInteractedWithProperty;
+    this.isBeingInteractedWithProperty = this._isBeingInteractedWithProperty;
 
     // Though most cases are covered by just listening to fitness, there are certain cases when Property values can change,
     // but the fitness doesn't. See https://github.com/phetsims/ratio-and-proportion/issues/222 as an example.

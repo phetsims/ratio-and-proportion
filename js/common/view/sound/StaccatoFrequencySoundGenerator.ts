@@ -10,9 +10,8 @@
 import dotRandom from '../../../../../dot/js/dotRandom.js';
 import Range from '../../../../../dot/js/Range.js';
 import LinearFunction from '../../../../../dot/js/LinearFunction.js';
-import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
-import SoundGenerator from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
+import SoundGenerator, { SoundGeneratorOptions } from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
 import staccatoC_mp3 from '../../../../sounds/staccato/staccatoC_mp3.js';
 import staccatoC001_mp3 from '../../../../sounds/staccato/staccatoC001_mp3.js';
 import staccatoC002_mp3 from '../../../../sounds/staccato/staccatoC002_mp3.js';
@@ -39,6 +38,7 @@ import staccatoG001_mp3 from '../../../../sounds/staccato/staccatoG001_mp3.js';
 import staccatoG002_mp3 from '../../../../sounds/staccato/staccatoG002_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import IReadOnlyProperty from '../../../../../axon/js/IReadOnlyProperty.js';
+import optionize from '../../../../../phet-core/js/optionize.js';
 
 // organize the sounds by variation and note
 const staccatoSounds = [
@@ -65,12 +65,11 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
   // in ms, keep track of the amount of time that has passed since the last staccato sound played
   private timeSinceLastPlay: number;
 
-  constructor( fitnessProperty: IReadOnlyProperty<number>, fitnessRange: Range, inProportionProperty: IReadOnlyProperty<boolean>, options: object ) {
+  constructor( fitnessProperty: IReadOnlyProperty<number>, fitnessRange: Range, inProportionProperty: IReadOnlyProperty<boolean>, providedOptions: SoundGeneratorOptions ) {
 
-    // TODO: convert to optionize once SoundGenerator is typescript https://github.com/phetsims/ratio-and-proportion/issues/404
-    options = merge( {
+    const options = optionize<SoundGeneratorOptions, {}>( {
       initialOutputLevel: 0.25
-    }, options );
+    }, providedOptions );
 
     super( options );
 

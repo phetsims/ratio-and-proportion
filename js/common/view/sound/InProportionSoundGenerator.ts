@@ -10,13 +10,13 @@
 import BooleanProperty from '../../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../../axon/js/NumberProperty.js';
-import merge from '../../../../../phet-core/js/merge.js';
-import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
+import SoundClip, { SoundClipOptions } from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import inProportion_mp3 from '../../../../sounds/in-proportion/inProportion_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import RAPModel from '../../model/RAPModel.js';
 import Property from '../../../../../axon/js/Property.js';
 import IReadOnlyProperty from '../../../../../axon/js/IReadOnlyProperty.js';
+import optionize from '../../../../../phet-core/js/optionize.js';
 
 const SUCCESS_OUTPUT_LEVEL = 0.8;
 const SILENT_LEVEL = 0;
@@ -60,14 +60,13 @@ class InProportionSoundGenerator extends SoundClip {
    * @param model
    * @param enabledControlProperty - not supposed to be settable, just listened to. NOTE: this is not simply
    *                                            an on/off Property for the SoundGenerator, see below.
-   * @param options
+   * @param providedOptions
    */
-  constructor( model: RAPModel, enabledControlProperty: Property<boolean>, options?: any ) {
+  constructor( model: RAPModel, enabledControlProperty: Property<boolean>, providedOptions?: SoundClipOptions ) {
 
-    // TODO: convert to optionize once SoundClip is typescript https://github.com/phetsims/ratio-and-proportion/issues/404
-    options = merge( {
+    const options = optionize<SoundClipOptions, {}>( {
       initialOutputLevel: 0.5
-    }, options );
+    }, providedOptions );
 
     assert && assert( !options.enableControlProperties, 'use the parameter instead, and note doc for difference in implementation' );
 
