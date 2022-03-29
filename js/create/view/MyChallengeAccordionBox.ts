@@ -60,10 +60,16 @@ class MyChallengeAccordionBox extends AccordionBox {
     assert && assert( rangeProperty.value.contains( initialRatioFraction.numerator ), 'unsupported numerator' );
     assert && assert( rangeProperty.value.contains( initialRatioFraction.denominator ), 'unsupported denominator' );
 
-    const targetAntecedentProperty = new NumberProperty( initialRatioFraction.numerator );
-    const targetConsequentProperty = new NumberProperty( initialRatioFraction.denominator );
+    const targetAntecedentProperty = new NumberProperty( initialRatioFraction.numerator, {
+      tandem: providedOptions.tandem.createTandem( 'targetAntecedentProperty' )
+    } );
+    const targetConsequentProperty = new NumberProperty( initialRatioFraction.denominator, {
+      tandem: providedOptions.tandem.createTandem( 'targetConsequentProperty' )
+    } );
 
-    const expandedProperty = new BooleanProperty( DEFAULT_EXPANDED );
+    const expandedProperty = new BooleanProperty( DEFAULT_EXPANDED, {
+      tandem: providedOptions.tandem.createTandem( 'expandedProperty' )
+    } );
 
     const createAccordionBoxContextResponse = () => {
       return expandedProperty.value ?
