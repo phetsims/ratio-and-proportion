@@ -28,21 +28,23 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
 
     super( options );
 
-    this.movingInProportionSoundClip = new CompositeSoundClip( [ {
-      sound: movingInProportionChoirLoop_mp3,
-      options: {
-        loop: true,
-        trimSilence: true
+    this.movingInProportionSoundClip = new CompositeSoundClip( [
+      {
+        sound: movingInProportionChoirLoop_mp3,
+        options: {
+          loop: true,
+          trimSilence: true
+        }
+      },
+      {
+        sound: movingInProportionOrganLoop_mp3,
+        options: {
+          loop: true,
+          initialOutputLevel: 0.6,
+          trimSilence: true
+        }
       }
-    }, {
-      sound: movingInProportionOrganLoop_mp3,
-      options: {
-        loop: true,
-        initialOutputLevel: 0.6,
-        trimSilence: true
-      }
-    } ] );
-    // @ts-ignore TODO: typing for AudioParam
+    ] );
     this.movingInProportionSoundClip.connect( this.soundSourceDestination );
 
     Property.multilink( [
