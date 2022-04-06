@@ -40,6 +40,7 @@ import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import MappedProperty from '../../../../axon/js/MappedProperty.js';
 import RAPRatio from '../model/RAPRatio.js';
 import TickMarkDescriber from './describers/TickMarkDescriber.js';
+import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
 // constants
 const MIN_FRAMING_RECTANGLE_HEIGHT = 32;
@@ -124,7 +125,7 @@ class RatioHalf extends Rectangle {
 
   constructor( providedOptions: RatioHalfOptions ) {
 
-    const options = optionize<RatioHalfOptions, SelfOptions, RectangleOptions, 'tandem'>( {
+    const options = optionize<RatioHalfOptions, SelfOptions, RectangleOptions, 'tandem' | 'accessibleName'>( {
       isRight: true,
       handColorProperty: new Property( 'black' ),
       a11yDependencies: [],
@@ -243,9 +244,13 @@ class RatioHalf extends Rectangle {
 
         a11yCreateContextResponseAlert: () => this.getSingleHandContextResponse( this.descriptionHandPositionsDescriber, descriptionBothHandsDescriber ),
         voicingContextResponse: () => this.getSingleHandContextResponse( this.voicingHandPositionsDescriber, voicingBothHandsDescriber ),
-        a11yDependencies: options.a11yDependencies.concat( [ this.ratio.lockedProperty ] ),
-        voicingNameResponse: options.accessibleName // accessible name is also the voicing name response
+        a11yDependencies: options.a11yDependencies.concat( [ this.ratio.lockedProperty ] )
       } );
+
+    // accessible name is also the voicing name response, unless locked
+    this.ratio.lockedProperty.link( ( locked: boolean ) => {
+      this.ratioHandNode.voicingNameResponse = locked ? ratioAndProportionStrings.a11y.bothHands.bothHands : options.accessibleName;
+    } );
 
     // This can change anytime there is a layout update.
     let modelViewTransform = ModelViewTransform2.createRectangleInvertedYMapping(
