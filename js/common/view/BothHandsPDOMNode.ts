@@ -40,7 +40,6 @@ type SelfOptions = {
   tickMarkRangeProperty: Property<number>;
   unclampedFitnessProperty: Property<number>;
   ratioDescriber: RatioDescriber;
-  tickMarkDescriber: TickMarkDescriber;
   playTickMarkBumpSoundProperty: Property<boolean>;
   ratioLockedProperty: Property<boolean>;
   targetRatioProperty: Property<number>;
@@ -109,6 +108,8 @@ class BothHandsPDOMNode extends Node {
       options.interactiveNodeOptions.helpText = options.gestureDescriptionHelpText;
     }
 
+    const tickMarkDescriber = new TickMarkDescriber( options.tickMarkRangeProperty, options.tickMarkViewProperty );
+
     this.descriptionBothHandsDescriber = new BothHandsDescriber(
       options.ratioTupleProperty,
       options.enabledRatioTermsRangeProperty,
@@ -116,7 +117,7 @@ class BothHandsPDOMNode extends Node {
       options.tickMarkViewProperty,
       options.inProportionProperty,
       options.ratioDescriber,
-      options.tickMarkDescriber
+      tickMarkDescriber
     );
 
     this.voicingBothHandsDescriber = new BothHandsDescriber(
@@ -126,7 +127,7 @@ class BothHandsPDOMNode extends Node {
       options.tickMarkViewProperty,
       options.inProportionProperty,
       options.ratioDescriber,
-      options.tickMarkDescriber
+      tickMarkDescriber
     );
 
     this.antecedentInteractedWithProperty = new BooleanProperty( false );

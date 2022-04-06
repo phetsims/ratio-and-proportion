@@ -70,9 +70,6 @@ type SelfOptions = {
   tickMarkViewProperty: EnumerationProperty<TickMarkView>;
   tickMarkRangeProperty: Property<number>;
   ratioDescriber: RatioDescriber;
-  handPositionsDescriber: HandPositionsDescriber;
-  voicingHandPositionsDescriber: HandPositionsDescriber;
-
   colorProperty: IPaint;
   keyboardStep: number;
   horizontalMovementAllowedProperty: Property<boolean>;
@@ -112,7 +109,7 @@ class RatioHalf extends Rectangle {
   private readonly _isBeingInteractedWithProperty: BooleanProperty;
 
   private readonly ratio: RAPRatio;
-  private readonly handPositionsDescriber: HandPositionsDescriber;
+  protected readonly descriptionHandPositionsDescriber: HandPositionsDescriber;
   private readonly voicingHandPositionsDescriber: HandPositionsDescriber;
   private readonly tickMarkViewProperty: EnumerationProperty<TickMarkView>;
   private readonly ratioTerm: RatioTerm;
@@ -154,8 +151,10 @@ class RatioHalf extends Rectangle {
     this.isBeingInteractedWithProperty = this._isBeingInteractedWithProperty;
 
     this.ratio = options.ratio;
-    this.handPositionsDescriber = options.handPositionsDescriber;
-    this.voicingHandPositionsDescriber = options.voicingHandPositionsDescriber;
+
+    const tickMarkDescriber = new TickMarkDescriber( options.tickMarkRangeProperty, options.tickMarkViewProperty );
+    this.descriptionHandPositionsDescriber = new HandPositionsDescriber( this.ratio.tupleProperty, tickMarkDescriber, options.inProportionProperty );
+    this.voicingHandPositionsDescriber = new HandPositionsDescriber( this.ratio.tupleProperty, tickMarkDescriber, options.inProportionProperty );
     this.tickMarkViewProperty = options.tickMarkViewProperty;
     this.ratioTerm = options.ratioTerm;
 
@@ -242,7 +241,7 @@ class RatioHalf extends Rectangle {
         a11yCreateAriaValueText: createObjectResponse,
         voicingObjectResponse: createObjectResponse,
 
-        a11yCreateContextResponseAlert: () => this.getSingleHandContextResponse( this.handPositionsDescriber, descriptionBothHandsDescriber ),
+        a11yCreateContextResponseAlert: () => this.getSingleHandContextResponse( this.descriptionHandPositionsDescriber, descriptionBothHandsDescriber ),
         voicingContextResponse: () => this.getSingleHandContextResponse( this.voicingHandPositionsDescriber, voicingBothHandsDescriber ),
         a11yDependencies: options.a11yDependencies.concat( [ this.ratio.lockedProperty ] ),
         voicingNameResponse: options.accessibleName // accessible name is also the voicing name response

@@ -87,7 +87,6 @@ class RAPScreenView extends ScreenView {
   protected tickMarkRangeProperty: NumberProperty;
   protected readonly ratioDescriber: RatioDescriber;
   private backgroundColorHandler: BackgroundColorHandler;
-  handPositionsDescriber: HandPositionsDescriber;
   private antecedentRatioHalf: RatioHalf;
   private consequentRatioHalf: RatioHalf;
   private markerInput: RAPMarkerInput | null;
@@ -138,13 +137,10 @@ class RAPScreenView extends ScreenView {
 
     this.tickMarkRangeProperty = new NumberProperty( 10, { tandem: tandem.createTandem( 'tickMarkRangeProperty' ) } );
 
-    const tickMarkDescriber = new TickMarkDescriber( this.tickMarkRangeProperty, this.tickMarkViewProperty );
 
     this.backgroundColorHandler = new BackgroundColorHandler( model, backgroundColorProperty );
 
     this.ratioDescriber = new RatioDescriber( model );
-    this.handPositionsDescriber = new HandPositionsDescriber( ratio.tupleProperty, tickMarkDescriber, model.inProportionProperty );
-    const voicingHandPositionsDescriber = new HandPositionsDescriber( ratio.tupleProperty, tickMarkDescriber, model.inProportionProperty );
 
     // A collection of properties that keep track of which cues should be displayed for both the antecedent and consequent hands.
     const cueArrowsState = new CueArrowsState();
@@ -178,8 +174,6 @@ class RAPScreenView extends ScreenView {
       tickMarkViewProperty: this.tickMarkViewProperty,
       tickMarkRangeProperty: this.tickMarkRangeProperty,
       ratioDescriber: this.ratioDescriber,
-      handPositionsDescriber: this.handPositionsDescriber,
-      voicingHandPositionsDescriber: voicingHandPositionsDescriber,
       colorProperty: tickMarksAndLabelsColorProperty,
       keyboardStep: keyboardStep,
       horizontalMovementAllowedProperty: model.ratio.lockedProperty,
@@ -217,8 +211,6 @@ class RAPScreenView extends ScreenView {
       tickMarkViewProperty: this.tickMarkViewProperty,
       tickMarkRangeProperty: this.tickMarkRangeProperty,
       ratioDescriber: this.ratioDescriber,
-      handPositionsDescriber: this.handPositionsDescriber,
-      voicingHandPositionsDescriber: voicingHandPositionsDescriber,
       colorProperty: tickMarksAndLabelsColorProperty,
       keyboardStep: keyboardStep,
       horizontalMovementAllowedProperty: model.ratio.lockedProperty,
@@ -248,7 +240,6 @@ class RAPScreenView extends ScreenView {
         tickMarkRangeProperty: this.tickMarkRangeProperty,
         unclampedFitnessProperty: model.unclampedFitnessProperty,
         ratioDescriber: this.ratioDescriber,
-        tickMarkDescriber: tickMarkDescriber,
         playTickMarkBumpSoundProperty: playTickMarkBumpSoundProperty,
         ratioLockedProperty: model.ratio.lockedProperty,
         targetRatioProperty: model.targetRatioProperty,
@@ -270,7 +261,7 @@ class RAPScreenView extends ScreenView {
         this.tickMarkViewProperty,
         model.inProportionProperty,
         this.ratioDescriber,
-        tickMarkDescriber
+        new TickMarkDescriber( this.tickMarkRangeProperty, this.tickMarkViewProperty )
       );
 
       // TODO: isn't it better to tie this to a Node? https://github.com/phetsims/ratio-and-proportion/issues/454
@@ -351,8 +342,6 @@ class RAPScreenView extends ScreenView {
         model.reset();
         cueArrowsState.reset();
         bothHandsPDOMNode.reset();
-        this.handPositionsDescriber.reset();
-        voicingHandPositionsDescriber.reset();
         this.markerInput && this.markerInput.reset();
         this.mediaPipe && this.mediaPipe.reset();
         this.reset();

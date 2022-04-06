@@ -19,6 +19,8 @@ import TickMarkRangeComboBoxNode from './TickMarkRangeComboBoxNode.js';
 import RAPModel from '../../common/model/RAPModel.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import HandPositionsDescriber from '../../common/view/describers/HandPositionsDescriber.js';
+import TickMarkDescriber from '../../common/view/describers/TickMarkDescriber.js';
 
 
 class CreateScreenView extends RAPScreenView {
@@ -49,13 +51,15 @@ class CreateScreenView extends RAPScreenView {
 
     this.tickMarkRangeComboBoxNode = new TickMarkRangeComboBoxNode( this.tickMarkRangeProperty, tickMarkRangeComboBoxParent, this.tickMarkViewProperty );
 
+    const handPositionsDescriber = new HandPositionsDescriber( model.ratio.tupleProperty, new TickMarkDescriber( this.tickMarkRangeProperty, this.tickMarkViewProperty ), model.inProportionProperty );
+
     this.createScreenSummaryNode = new CreateScreenSummaryNode(
       model.ratioFitnessProperty,
       model.ratio.tupleProperty,
       this.tickMarkViewProperty,
       this.ratioDescriber,
       model.inProportionProperty,
-      this.handPositionsDescriber,
+      handPositionsDescriber,
       this.tickMarkRangeProperty,
       myChallengeAccordionBox
     );
@@ -130,6 +134,8 @@ class CreateScreenView extends RAPScreenView {
     myChallengeAccordionBox.top = this.tickMarkRangeComboBoxNode.bottom + 30;
 
     this.resetCreateScreenView = () => {
+      handPositionsDescriber.reset();
+
       myChallengeAccordionBox.reset();
     };
   }

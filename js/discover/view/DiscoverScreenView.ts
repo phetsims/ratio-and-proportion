@@ -14,11 +14,14 @@ import DiscoverScreenSummaryNode from './DiscoverScreenSummaryNode.js';
 import RAPModel from '../../common/model/RAPModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import HandPositionsDescriber from '../../common/view/describers/HandPositionsDescriber.js';
+import TickMarkDescriber from '../../common/view/describers/TickMarkDescriber.js';
 
 class DiscoverScreenView extends RAPScreenView {
 
   private comboBoxContainer: ChallengeRatioComboBoxNode;
   private discoverScreenSummaryNode: DiscoverScreenSummaryNode;
+  resetDiscoverScreenView: () => void;
 
   constructor( model: RAPModel, backgroundColorProperty: Property<Color>, tandem: Tandem ) {
 
@@ -45,6 +48,7 @@ class DiscoverScreenView extends RAPScreenView {
     this.addChild( comboBoxListBoxParent );
 
     this.pdomPlayAreaNode.pdomOrder = this.pdomPlayAreaNode.pdomOrder!.concat( [ this.comboBoxContainer, comboBoxListBoxParent ] );
+    const handPositionsDescriber = new HandPositionsDescriber( model.ratio.tupleProperty, new TickMarkDescriber( this.tickMarkRangeProperty, this.tickMarkViewProperty ), model.inProportionProperty );
 
     // set this after the supertype has initialized the view code needed to create the screen summary
     this.discoverScreenSummaryNode = new DiscoverScreenSummaryNode(
@@ -54,7 +58,7 @@ class DiscoverScreenView extends RAPScreenView {
       this.tickMarkViewProperty,
       this.ratioDescriber,
       model.inProportionProperty,
-      this.handPositionsDescriber,
+      handPositionsDescriber,
       this.comboBoxContainer.ratioToChallengeNameMap
     );
     this.setScreenSummaryContent( this.discoverScreenSummaryNode );
@@ -62,6 +66,15 @@ class DiscoverScreenView extends RAPScreenView {
     // layout
     this.comboBoxContainer.right = this.tickMarkViewRadioButtonGroup.right;
     this.comboBoxContainer.top = this.tickMarkViewRadioButtonGroup.bottom + 20;
+
+    this.resetDiscoverScreenView = () => {
+      handPositionsDescriber.reset();
+    };
+  }
+
+  override reset(): void {
+    this.resetDiscoverScreenView();
+    super.reset();
   }
 
   override layout( bounds: Bounds2 ): void {
