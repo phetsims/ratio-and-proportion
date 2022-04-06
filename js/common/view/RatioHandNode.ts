@@ -198,7 +198,7 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
    * Call to reset input characteristics for alternative input. See
    * https://github.com/phetsims/ratio-and-proportion/issues/175#issuecomment-729292704
    */
-  reset(): void {
+  override reset(): void {
     this.resetRatioHandNode();
   }
 
