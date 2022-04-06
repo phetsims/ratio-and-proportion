@@ -145,14 +145,6 @@ class RAPScreenView extends ScreenView {
     this.ratioDescriber = new RatioDescriber( model );
     this.handPositionsDescriber = new HandPositionsDescriber( ratio.tupleProperty, tickMarkDescriber, model.inProportionProperty );
     const voicingHandPositionsDescriber = new HandPositionsDescriber( ratio.tupleProperty, tickMarkDescriber, model.inProportionProperty );
-    const bothHandsDescriber = new BothHandsDescriber(
-      ratio.tupleProperty,
-      ratio.enabledRatioTermsRangeProperty,
-      ratio.lockedProperty,
-      this.tickMarkViewProperty,
-      this.ratioDescriber,
-      this.handPositionsDescriber
-    );
 
     // A collection of properties that keep track of which cues should be displayed for both the antecedent and consequent hands.
     const cueArrowsState = new CueArrowsState();
@@ -256,7 +248,7 @@ class RAPScreenView extends ScreenView {
         tickMarkRangeProperty: this.tickMarkRangeProperty,
         unclampedFitnessProperty: model.unclampedFitnessProperty,
         ratioDescriber: this.ratioDescriber,
-        bothHandsDescriber: bothHandsDescriber,
+        tickMarkDescriber: tickMarkDescriber,
         playTickMarkBumpSoundProperty: playTickMarkBumpSoundProperty,
         ratioLockedProperty: model.ratio.lockedProperty,
         targetRatioProperty: model.targetRatioProperty,
@@ -271,12 +263,21 @@ class RAPScreenView extends ScreenView {
 
     this.mediaPipe = null;
     if ( RAPQueryParameters.mediaPipe ) {
+      const mediaPipeBothHandsDescriber = new BothHandsDescriber(
+        ratio.tupleProperty,
+        ratio.enabledRatioTermsRangeProperty,
+        ratio.lockedProperty,
+        this.tickMarkViewProperty,
+        model.inProportionProperty,
+        this.ratioDescriber,
+        tickMarkDescriber
+      );
 
       // TODO: isn't it better to tie this to a Node? https://github.com/phetsims/ratio-and-proportion/issues/454
       const mediaPipeVoicingUtterance = new Utterance( {
         alert: new ResponsePacket( {
-          objectResponse: () => bothHandsDescriber.getBothHandsObjectResponse(),
-          contextResponse: () => bothHandsDescriber.getBothHandsContextResponse()
+          objectResponse: () => mediaPipeBothHandsDescriber.getBothHandsObjectResponse(),
+          contextResponse: () => mediaPipeBothHandsDescriber.getBothHandsContextResponse()
         } ),
 
         // This number should be small, so that the most recent alert in the queue will immediately play once the announcer
@@ -350,7 +351,6 @@ class RAPScreenView extends ScreenView {
         model.reset();
         cueArrowsState.reset();
         bothHandsPDOMNode.reset();
-        bothHandsDescriber.reset();
         this.handPositionsDescriber.reset();
         voicingHandPositionsDescriber.reset();
         this.markerInput && this.markerInput.reset();

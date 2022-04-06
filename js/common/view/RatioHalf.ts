@@ -39,6 +39,7 @@ import DistanceResponseType from './describers/DistanceResponseType.js';
 import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import MappedProperty from '../../../../axon/js/MappedProperty.js';
 import RAPRatio from '../model/RAPRatio.js';
+import TickMarkDescriber from './describers/TickMarkDescriber.js';
 
 // constants
 const MIN_FRAMING_RECTANGLE_HEIGHT = 32;
@@ -165,16 +166,18 @@ class RatioHalf extends Rectangle {
       this.ratio.enabledRatioTermsRangeProperty,
       this.ratio.lockedProperty,
       this.tickMarkViewProperty,
+      options.inProportionProperty,
       options.ratioDescriber,
-      this.handPositionsDescriber
+      new TickMarkDescriber( options.tickMarkRangeProperty, options.tickMarkViewProperty )
     );
     const voicingBothHandsDescriber = new BothHandsDescriber(
       this.ratio.tupleProperty,
       this.ratio.enabledRatioTermsRangeProperty,
       this.ratio.lockedProperty,
       this.tickMarkViewProperty,
+      options.inProportionProperty,
       options.ratioDescriber,
-      this.handPositionsDescriber
+      new TickMarkDescriber( options.tickMarkRangeProperty, options.tickMarkViewProperty )
     );
 
     this.viewSounds = new ViewSounds( options.tickMarkRangeProperty, options.tickMarkViewProperty, options.playTickMarkBumpSoundProperty );
@@ -468,6 +471,8 @@ class RatioHalf extends Rectangle {
     };
 
     this.resetRatioHalf = () => {
+      descriptionBothHandsDescriber.reset();
+      voicingBothHandsDescriber.reset();
       this.ratioHandNode.reset();
       this.viewSounds.reset();
       positionProperty.value.setX( INITIAL_X_VALUE );

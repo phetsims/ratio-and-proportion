@@ -18,6 +18,7 @@ import HandPositionsDescriber from './HandPositionsDescriber.js';
 import TickMarkView from '../TickMarkView.js';
 import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
 import IReadOnlyProperty from '../../../../../axon/js/IReadOnlyProperty.js';
+import TickMarkDescriber from './TickMarkDescriber.js';
 
 const ratioDistancePositionContextResponsePatternString = ratioAndProportionStrings.a11y.ratio.distancePositionContextResponse;
 
@@ -36,13 +37,14 @@ class BothHandsDescriber {
 
   constructor( ratioTupleProperty: Property<RAPRatioTuple>, enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>,
                ratioLockedProperty: Property<boolean>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
-               ratioDescriber: RatioDescriber, handPositionsDescriber: HandPositionsDescriber ) {
+               inProportionProperty: IReadOnlyProperty<boolean>,
+               ratioDescriber: RatioDescriber, tickMarkDescriber: TickMarkDescriber ) {
 
     this.ratioTupleProperty = ratioTupleProperty;
     this.enabledRatioTermsRangeProperty = enabledRatioTermsRangeProperty;
     this.tickMarkViewProperty = tickMarkViewProperty;
     this.ratioDescriber = ratioDescriber;
-    this.handPositionsDescriber = handPositionsDescriber;
+    this.handPositionsDescriber = new HandPositionsDescriber( ratioTupleProperty, tickMarkDescriber, inProportionProperty );
     this.ratioLockedProperty = ratioLockedProperty;
     this.previousAntecedentAtExtremity = false;
     this.previousConsequentAtExtremity = false;

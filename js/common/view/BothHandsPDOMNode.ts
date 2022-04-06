@@ -26,6 +26,7 @@ import RatioDescriber from './describers/RatioDescriber.js';
 import TickMarkView from './TickMarkView.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TickMarkDescriber from './describers/TickMarkDescriber.js';
 
 // constants
 const OBJECT_RESPONSE_DELAY = 500;
@@ -39,7 +40,7 @@ type SelfOptions = {
   tickMarkRangeProperty: Property<number>;
   unclampedFitnessProperty: Property<number>;
   ratioDescriber: RatioDescriber;
-  bothHandsDescriber: BothHandsDescriber;
+  tickMarkDescriber: TickMarkDescriber;
   playTickMarkBumpSoundProperty: Property<boolean>;
   ratioLockedProperty: Property<boolean>;
   targetRatioProperty: Property<number>;
@@ -56,7 +57,9 @@ type BothHandsPDOMNodeOptions = SelfOptions & Omit<NodeOptions, 'pdomOrder'>;
 
 class BothHandsPDOMNode extends Node {
 
-  private bothHandsDescriber: BothHandsDescriber;
+  // BothHandsDescriber holds state information that changes based on requests for content, so have a separate type per modality, see https://github.com/phetsims/ratio-and-proportion/issues/416
+  private descriptionBothHandsDescriber: BothHandsDescriber;
+  private voicingBothHandsDescriber: BothHandsDescriber;
 
   // To support proper cue arrow logic
   private readonly antecedentInteractedWithProperty: Property<boolean>;
@@ -93,8 +96,8 @@ class BothHandsPDOMNode extends Node {
         tagName: 'div',
         innerContent: ratioAndProportionStrings.a11y.bothHands.bothHands,
         voicingNameResponse: ratioAndProportionStrings.a11y.bothHands.bothHands,
-        voicingObjectResponse: () => this.bothHandsDescriber.getBothHandsObjectResponse(),
-        voicingContextResponse: () => this.bothHandsDescriber.getBothHandsContextResponse(),
+        voicingObjectResponse: () => this.voicingBothHandsDescriber.getBothHandsObjectResponse(),
+        voicingContextResponse: () => this.voicingBothHandsDescriber.getBothHandsContextResponse(),
         interactiveHighlight: 'invisible',
         ariaLabel: ratioAndProportionStrings.a11y.bothHands.bothHands
       }
@@ -106,7 +109,25 @@ class BothHandsPDOMNode extends Node {
       options.interactiveNodeOptions.helpText = options.gestureDescriptionHelpText;
     }
 
-    this.bothHandsDescriber = options.bothHandsDescriber;
+    this.descriptionBothHandsDescriber = new BothHandsDescriber(
+      options.ratioTupleProperty,
+      options.enabledRatioTermsRangeProperty,
+      options.ratioLockedProperty,
+      options.tickMarkViewProperty,
+      options.inProportionProperty,
+      options.ratioDescriber,
+      options.tickMarkDescriber
+    );
+
+    this.voicingBothHandsDescriber = new BothHandsDescriber(
+      options.ratioTupleProperty,
+      options.enabledRatioTermsRangeProperty,
+      options.ratioLockedProperty,
+      options.tickMarkViewProperty,
+      options.inProportionProperty,
+      options.ratioDescriber,
+      options.tickMarkDescriber
+    );
 
     this.antecedentInteractedWithProperty = new BooleanProperty( false );
     this.consequentInteractedWithProperty = new BooleanProperty( false );
@@ -231,7 +252,7 @@ class BothHandsPDOMNode extends Node {
       options.unclampedFitnessProperty
     ], ( ...args: any[] ) => {
 
-      dynamicDescription.innerContent = this.bothHandsDescriber.getBothHandsDynamicDescription();
+      dynamicDescription.innerContent = this.descriptionBothHandsDescriber.getBothHandsDynamicDescription();
 
       if ( this.bothHandsInteractionListener.isBeingInteractedWithProperty.value ) {
         this.alertBothHandsObjectResponse();
@@ -242,7 +263,7 @@ class BothHandsPDOMNode extends Node {
     this.bothHandsInteractionListener.jumpToZeroWhileLockedEmitter.addListener( () => {
 
       this.alertDescriptionUtterance( ratioAndProportionStrings.a11y.bothHands.cannotJumpToZeroWhenLocked );
-      this.contextResponseUtterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse();
+      this.contextResponseUtterance.alert = this.descriptionBothHandsDescriber.getBothHandsObjectResponse();
 
       this.alertDescriptionUtterance( this.contextResponseUtterance );
     } );
@@ -251,6 +272,8 @@ class BothHandsPDOMNode extends Node {
   }
 
   reset(): void {
+    this.descriptionBothHandsDescriber.reset();
+    this.voicingBothHandsDescriber.reset();
     this.antecedentInteractedWithProperty.reset();
     this.consequentInteractedWithProperty.reset();
     this.bothHandsFocusedProperty.reset();
@@ -263,17 +286,17 @@ class BothHandsPDOMNode extends Node {
 
   private alertBothHandsObjectResponse( onFocus = false ): void {
     const utterance = onFocus ? this.objectResponseOnFocusUtterance : this.objectResponseUtterance;
-    utterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse();
+    utterance.alert = this.descriptionBothHandsDescriber.getBothHandsObjectResponse();
 
     this.alertDescriptionUtterance( utterance );
   }
 
   private alertBothHandsContextResponse( knockedOutOfLock?: boolean ): void {
     if ( knockedOutOfLock ) {
-      this.contextResponseUtterance.alert = this.bothHandsDescriber.getBothHandsObjectResponse();
+      this.contextResponseUtterance.alert = this.descriptionBothHandsDescriber.getBothHandsObjectResponse();
     }
     else {
-      this.contextResponseUtterance.alert = this.bothHandsDescriber.getBothHandsContextResponse();
+      this.contextResponseUtterance.alert = this.descriptionBothHandsDescriber.getBothHandsContextResponse();
     }
 
     this.alertDescriptionUtterance( this.contextResponseUtterance );
