@@ -34,7 +34,6 @@ import RAPQueryParameters from '../RAPQueryParameters.js';
 import BothHandsPDOMNode, { BothHandsPDOMNodeOptions } from './BothHandsPDOMNode.js';
 import CueArrowsState from './CueArrowsState.js';
 import BothHandsDescriber from './describers/BothHandsDescriber.js';
-import HandPositionsDescriber from './describers/HandPositionsDescriber.js';
 import RatioDescriber from './describers/RatioDescriber.js';
 import TickMarkDescriber from './describers/TickMarkDescriber.js';
 import RAPColors from './RAPColors.js';
