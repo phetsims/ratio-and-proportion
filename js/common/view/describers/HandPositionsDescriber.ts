@@ -4,6 +4,13 @@
  * Description for the positions of each hand, as well as their positional relationship like the distance between each
  * hand, and if they have gotten closer to or farther from each other ("distance progress").
  *
+ * In general, responses are split into implementaiton based on the DistanceResponseType. Whether it be distance
+ * region (qualitative regions), distance progress (closer/farther), or a combo algorithm to default to distance region,
+ * but you distance progress to prevent repeating the same region many times.
+ *
+ * `getSingleHandContextResponse` and `getBothHandsDistance` use a similar algorithm to accomplish these variations, but
+ * could not be factored out completely due to natural language requirements.
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
@@ -100,6 +107,9 @@ const POSITION_REGIONS_DATA: PositionRegionsData[] = [
 ];
 
 type GetDistanceProgressStringOptions = {
+
+  // set to false if it is desired to get distanceProgress even when in proportion
+  inProportionOverridesDistanceProgress?: boolean;
   closerString?: string;
   fartherString?: string;
 };
@@ -282,7 +292,6 @@ class HandPositionsDescriber {
    * distance regions.
    */
   getSingleHandComboDistance( ratioTerm: RatioTerm ): string {
-    const otherHand = ratioTerm === RatioTerm.ANTECEDENT ? rightHandLowerString : leftHandLowerString;
 
     const distanceRegion = this.getDistanceRegion( false );
 
@@ -305,29 +314,44 @@ class HandPositionsDescriber {
     return distanceRegion;
   }
 
-  getBothHandsDistance( overrideWithDistanceProgress = false, capitalized = false ): string {
-    const distanceRegion = this.getDistanceRegion( true );
+  // TODO: capitalized is currently always used, but it would be nice to improve the implementation for voicing context responses, https://github.com/phetsims/ratio-and-proportion/issues/461
+  getBothHandsDistance( capitalized: boolean, providedOptions?: HandContextResponseOptions ): string {
+    const options = optionize<HandContextResponseOptions>( {
 
-    if ( overrideWithDistanceProgress ) {
-      if ( distanceRegion === this.previousDistanceRegionBoth ) {
-        assert && assert( capitalized, 'overriding with distance-progress not supported for capitalized strings' );
+      // By default, let the describer decide if we should have distance progress or region
+      distanceResponseType: DistanceResponseType.COMBO
+    }, providedOptions );
 
-        const distanceProgressPhrase = this.getDistanceProgressString( {
-          closerString: ratioAndProportionStrings.a11y.handPosition.closerTogether,
-          fartherString: ratioAndProportionStrings.a11y.handPosition.fartherApart
-        } );
-        if ( distanceProgressPhrase ) {
-          const distanceProgressDescription = StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.handsDistanceProgressPattern, {
-            distanceProgress: distanceProgressPhrase
-          } );
-
-          // Count closer/farther as a previous so that we don't ever get two of them at the same time
-          this.previousDistanceRegionBoth = distanceProgressDescription;
-          return distanceProgressDescription;
-        }
-      }
-      this.previousDistanceRegionBoth = distanceRegion;
+    switch( options.distanceResponseType ) {
+      case DistanceResponseType.COMBO:
+        return this.getBothHandsComboDistance( capitalized );
+      case DistanceResponseType.DISTANCE_PROGRESS:
+        return this.getBothHandsDistanceProgress( capitalized );
+      case DistanceResponseType.DISTANCE_REGION:
+        return this.getBothHandsDistanceRegion( capitalized );
+      default:
+        assert && assert( false, 'This is not how enums work' );
     }
+    assert && assert( false, 'We should always have a distance case above' );
+    return 'A serious logic error occurred';
+  }
+
+  getBothHandsDistanceProgress( capitalized: boolean ): string {
+    const distanceProgressPhrase = this.getDistanceProgressString( {
+      inProportionOverridesDistanceProgress: false,
+      closerString: ratioAndProportionStrings.a11y.handPosition.closerTogether,
+      fartherString: ratioAndProportionStrings.a11y.handPosition.fartherApart
+    } );
+    if ( distanceProgressPhrase ) {
+      return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.handsDistanceProgressPattern, {
+        distanceProgress: distanceProgressPhrase
+      } );
+    }
+    return this.getBothHandsDistanceRegion( capitalized );
+  }
+
+  getBothHandsDistanceRegion( capitalized: boolean ): string {
+    const distanceRegion = this.getDistanceRegion( true );
 
     const pattern = capitalized ? ratioAndProportionStrings.a11y.bothHands.handsDistancePatternCapitalized :
                     ratioAndProportionStrings.a11y.bothHands.handsDistancePattern;
@@ -335,16 +359,41 @@ class HandPositionsDescriber {
     return StringUtils.fillIn( pattern, { distance: distanceRegion } );
   }
 
+  getBothHandsComboDistance( capitalized = false ): string {
+    const distanceRegion = this.getDistanceRegion( true );
+
+    if ( distanceRegion === this.previousDistanceRegionBoth ) {
+      assert && assert( capitalized, 'overriding with distance-progress not supported for capitalized strings' );
+
+      const distanceProgressPhrase = this.getDistanceProgressString( {
+        inProportionOverridesDistanceProgress: false,
+        closerString: ratioAndProportionStrings.a11y.handPosition.closerTogether,
+        fartherString: ratioAndProportionStrings.a11y.handPosition.fartherApart
+      } );
+      if ( distanceProgressPhrase ) {
+        const distanceProgressDescription = StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.handsDistanceProgressPattern, {
+          distanceProgress: distanceProgressPhrase
+        } );
+
+        // Count closer/farther as a previous so that we don't ever get two of them at the same time
+        this.previousDistanceRegionBoth = distanceProgressDescription;
+        return distanceProgressDescription;
+      }
+    }
+    this.previousDistanceRegionBoth = distanceRegion;
+    return this.getBothHandsDistanceRegion( capitalized );
+  }
+
   private getDistanceProgressString( providedOptions?: GetDistanceProgressStringOptions ): null | string {
 
     const options = optionize<GetDistanceProgressStringOptions, GetDistanceProgressStringOptions>( {
+      inProportionOverridesDistanceProgress: true,
       closerString: ratioAndProportionStrings.a11y.handPosition.closerTo,
       fartherString: ratioAndProportionStrings.a11y.handPosition.fartherFrom
     }, providedOptions );
 
-
     // No distance progress if in proportion TODO: this shouldn't occur for both hands in description, not clear if the same in voicing. https://github.com/phetsims/ratio-and-proportion/issues/459
-    if ( this.inProportionProperty.value ) {
+    if ( options.inProportionOverridesDistanceProgress && this.inProportionProperty.value ) {
       return null;
     }
 

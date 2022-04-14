@@ -14,11 +14,12 @@ import Property from '../../../../../axon/js/Property.js';
 import RAPRatioTuple from '../../model/RAPRatioTuple.js';
 import Range from '../../../../../dot/js/Range.js';
 import RatioDescriber from './RatioDescriber.js';
-import HandPositionsDescriber from './HandPositionsDescriber.js';
+import HandPositionsDescriber, { HandContextResponseOptions } from './HandPositionsDescriber.js';
 import TickMarkView from '../TickMarkView.js';
 import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
 import IReadOnlyProperty from '../../../../../axon/js/IReadOnlyProperty.js';
 import TickMarkDescriber from './TickMarkDescriber.js';
+import DistanceResponseType from './DistanceResponseType.js';
 
 const ratioDistancePositionContextResponsePatternString = ratioAndProportionStrings.a11y.ratio.distancePositionContextResponse;
 
@@ -50,7 +51,7 @@ class BothHandsDescriber {
     this.previousConsequentAtExtremity = false;
   }
 
-  getBothHandsContextResponse(): string {
+  getBothHandsContextResponse( options?: HandContextResponseOptions ): string {
 
     // only applicable if the ratio is locked
     const ratioLockedEdgeResponse = this.getRatioLockedEdgeCaseContextResponse();
@@ -59,7 +60,7 @@ class BothHandsDescriber {
     }
 
     return StringUtils.fillIn( ratioDistancePositionContextResponsePatternString, {
-      distance: this.handPositionsDescriber.getBothHandsDistance( true, true ),
+      distance: this.handPositionsDescriber.getBothHandsDistance( true, options ),
       position: this.getBothHandsPosition()
     } );
   }
@@ -69,7 +70,9 @@ class BothHandsDescriber {
    */
   getBothHandsDynamicDescription(): string {
     return StringUtils.fillIn( ratioDistancePositionContextResponsePatternString, {
-      distance: this.handPositionsDescriber.getBothHandsDistance( false, true ),
+      distance: this.handPositionsDescriber.getBothHandsDistance( true, {
+        distanceResponseType: DistanceResponseType.DISTANCE_REGION
+      } ),
       position: this.getBothHandsPosition()
     } );
   }

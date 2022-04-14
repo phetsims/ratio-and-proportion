@@ -29,7 +29,7 @@ import RatioHandNode from './RatioHandNode.js';
 import ViewSounds from './sound/ViewSounds.js';
 import TickMarkView from './TickMarkView.js';
 import BothHandsDescriber from './describers/BothHandsDescriber.js';
-import HandPositionsDescriber, { SingleHandContextResponseOptions } from './describers/HandPositionsDescriber.js';
+import HandPositionsDescriber, { HandContextResponseOptions } from './describers/HandPositionsDescriber.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import CueArrowsState from './CueArrowsState.js';
 import RatioDescriber from './describers/RatioDescriber.js';
@@ -496,11 +496,11 @@ class RatioHalf extends Rectangle {
    */
   getSingleHandContextResponse( handPositionsDescriber: HandPositionsDescriber,
                                 bothHandsDescriber: BothHandsDescriber,
-                                options?: SingleHandContextResponseOptions ): string {
+                                options?: HandContextResponseOptions ): string {
 
     // When locked, give a description of both-hands, instead of just a single one.
     if ( this.ratio.lockedProperty.value ) {
-      return bothHandsDescriber.getBothHandsContextResponse();
+      return bothHandsDescriber.getBothHandsContextResponse( options );
     }
 
     return handPositionsDescriber.getSingleHandContextResponse( this.ratioTerm, this.tickMarkViewProperty.value, options );
