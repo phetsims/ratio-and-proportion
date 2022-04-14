@@ -104,7 +104,7 @@ type GetDistanceProgressStringOptions = {
   fartherString?: string;
 };
 
-type SingleHandContextResponseOptions = {
+export type HandContextResponseOptions = {
   distanceResponseType?: DistanceResponseType;
 };
 
@@ -230,30 +230,36 @@ class HandPositionsDescriber {
     return ( lowercase ? DISTANCE_REGIONS_LOWERCASE : DISTANCE_REGIONS_CAPITALIZED )[ index ];
   }
 
-  getSingleHandContextResponse( ratioTerm: RatioTerm, tickMarkView: TickMarkView, providedOptions?: SingleHandContextResponseOptions ): string {
+  getSingleHandContextResponse( ratioTerm: RatioTerm, tickMarkView: TickMarkView, providedOptions?: HandContextResponseOptions ): string {
 
-    const options = optionize<SingleHandContextResponseOptions, SingleHandContextResponseOptions>( {
+    const options = optionize<HandContextResponseOptions, HandContextResponseOptions>( {
 
       // By default, let the describer decide if we should have distance progress or region
       distanceResponseType: DistanceResponseType.COMBO
     }, providedOptions );
 
-    let distanceResponse = null;
+    let distanceClause = null;
     switch( options.distanceResponseType ) {
       case DistanceResponseType.COMBO:
-        distanceResponse = this.getSingleHandComboDistance( ratioTerm );
+        distanceClause = this.getSingleHandComboDistance( ratioTerm );
         break;
       case DistanceResponseType.DISTANCE_PROGRESS:
-        distanceResponse = this.getSingleHandDistanceProgressSentence( ratioTerm );
+        distanceClause = this.getDistanceProgressClause();
         break;
       case DistanceResponseType.DISTANCE_REGION:
-        distanceResponse = this.getSingleHandDistanceRegionSentence( ratioTerm );
+        distanceClause = this.getDistanceRegion( false );
         break;
       default:
         assert && assert( false, 'This is not how enums work' );
     }
 
-    assert && assert( distanceResponse, 'Should be filled in by now' );
+    assert && assert( distanceClause, 'Should be filled in by now' );
+    const otherHand = ratioTerm === RatioTerm.ANTECEDENT ? rightHandLowerString : leftHandLowerString;
+
+    const distanceResponse = StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDistanceProgressClause, {
+      otherHand: otherHand,
+      distanceOrDistanceProgress: distanceClause
+    } );
 
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.distancePositionContextResponse, {
       distance: distanceResponse,
@@ -262,32 +268,13 @@ class HandPositionsDescriber {
     } );
   }
 
-  getSingleHandDistanceRegionSentence( ratioTerm: RatioTerm ): string {
-    const otherHand = ratioTerm === RatioTerm.ANTECEDENT ? rightHandLowerString : leftHandLowerString;
-
-    const distanceRegion = this.getDistanceRegion( false );
-
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDistanceProgressClause, {
-      otherHand: otherHand,
-      distanceOrDistanceProgress: distanceRegion
-    } );
-  }
-
   /**
    * NOTE: if in-proportion, this will still return the distance region
    */
-  getSingleHandDistanceProgressSentence( ratioTerm: RatioTerm ): string {
-    const otherHand = ratioTerm === RatioTerm.ANTECEDENT ? rightHandLowerString : leftHandLowerString;
-    let distanceProgress = this.getDistanceProgressString();
+  private getDistanceProgressClause(): string {
 
-    if ( distanceProgress === null ) {
-      distanceProgress = this.getDistanceRegion( false );
-    }
-
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDistanceProgressClause, {
-      otherHand: otherHand,
-      distanceOrDistanceProgress: distanceProgress
-    } );
+    // Fall back to distance region if there is no distance progress to deliver
+    return this.getDistanceProgressString() || this.getDistanceRegion( false );
   }
 
   /**
@@ -307,23 +294,15 @@ class HandPositionsDescriber {
       // No distanceProgressPhrase means they are equal, don't give closer/farther at range extremities.
       if ( distanceProgressPhrase && !handAtMinMax ) {
 
-        const distanceProgressDescription = StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDistanceProgressClause, {
-          otherHand: otherHand,
-          distanceOrDistanceProgress: distanceProgressPhrase
-        } );
-
         // Count closer/farther as a previous so that we don't ever get two of them at the same time
         this.previousDistanceRegionSingle = distanceProgressPhrase;
-        return distanceProgressDescription;
+        return distanceProgressPhrase;
       }
     }
 
     this.previousDistanceRegionSingle = distanceRegion;
 
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.handPosition.distanceOrDistanceProgressClause, {
-      otherHand: otherHand,
-      distanceOrDistanceProgress: distanceRegion
-    } );
+    return distanceRegion;
   }
 
   getBothHandsDistance( overrideWithDistanceProgress = false, capitalized = false ): string {
@@ -358,14 +337,13 @@ class HandPositionsDescriber {
 
   private getDistanceProgressString( providedOptions?: GetDistanceProgressStringOptions ): null | string {
 
-
     const options = optionize<GetDistanceProgressStringOptions, GetDistanceProgressStringOptions>( {
       closerString: ratioAndProportionStrings.a11y.handPosition.closerTo,
       fartherString: ratioAndProportionStrings.a11y.handPosition.fartherFrom
     }, providedOptions );
 
 
-    // No distance progress if in proportion
+    // No distance progress if in proportion TODO: this shouldn't occur for both hands in description, not clear if the same in voicing. https://github.com/phetsims/ratio-and-proportion/issues/459
     if ( this.inProportionProperty.value ) {
       return null;
     }
@@ -397,4 +375,3 @@ HandPositionsDescriber.POSITION_REGIONS_DATA = POSITION_REGIONS_DATA;
 
 ratioAndProportion.register( 'HandPositionsDescriber', HandPositionsDescriber );
 export default HandPositionsDescriber;
-export type { SingleHandContextResponseOptions };
