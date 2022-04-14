@@ -24,7 +24,7 @@ import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.j
 import merge from '../../../../phet-core/js/merge.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { Color, Node, ParallelDOM, voicingUtteranceQueue } from '../../../../scenery/js/imports.js';
+import { Color, Node, ParallelDOM, Voicing, voicingUtteranceQueue } from '../../../../scenery/js/imports.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
@@ -285,6 +285,9 @@ class RAPScreenView extends ScreenView {
             voicingUtteranceQueue.addToBack( mediaPipeVoicingUtterance );
           }
         } );
+
+      // So that this Utterance does not announce unless the ScreenView is visible and voicingVisible.
+      Voicing.registerUtteranceToNode( mediaPipeVoicingUtterance, this );
 
       this.mediaPipe.isBeingInteractedWithProperty.lazyLink( ( interactedWithMarkers: boolean ) => {
         if ( interactedWithMarkers ) {
