@@ -28,12 +28,13 @@ class DiscoverScreenView extends RAPScreenView {
     // For this screen, one Property controls the color of both hands.
     const handColorProperty = new Property<Color>( Color.BLACK );
 
-    super( model, backgroundColorProperty, tandem, {
+    super( model, backgroundColorProperty, {
       leftHandColorProperty: handColorProperty,
       rightHandColorProperty: handColorProperty,
       bothHandsPDOMNodeOptions: {
         gestureDescriptionHelpText: ratioAndProportionStrings.a11y.discover.bothHandsGestureDescriptionHelpText
-      }
+      },
+      tandem: tandem
     } );
 
     const comboBoxListBoxParent = new Node();

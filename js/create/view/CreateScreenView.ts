@@ -36,12 +36,13 @@ class CreateScreenView extends RAPScreenView {
     // For this screen, one Property controls the color of both hands.
     const handColorProperty = RAPColors.createScreenHandProperty;
 
-    super( model, backgroundColorProperty, tandem, {
+    super( model, backgroundColorProperty, {
       leftHandColorProperty: handColorProperty,
       rightHandColorProperty: handColorProperty,
       bothHandsPDOMNodeOptions: {
         gestureDescriptionHelpText: ratioAndProportionStrings.a11y.create.bothHandsGestureDescriptionHelpText
-      }
+      },
+      tandem: tandem
     } );
 
     const myChallengeAccordionBox = new MyChallengeAccordionBox( model.targetRatioProperty, model.ratio.lockedProperty, handColorProperty,

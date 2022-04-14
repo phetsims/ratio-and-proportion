@@ -46,7 +46,6 @@ import StaccatoFrequencySoundGenerator from './sound/StaccatoFrequencySoundGener
 import TickMarkView from './TickMarkView.js';
 import TickMarkViewRadioButtonGroup from './TickMarkViewRadioButtonGroup.js';
 import RAPModel from '../model/RAPModel.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import CueDisplay from './CueDisplay.js';
 import RAPPositionRegionsLayer from './RAPPositionRegionsLayer.js';
 import BackgroundColorHandler from './BackgroundColorHandler.js';
@@ -111,10 +110,9 @@ class RAPScreenView extends ScreenView {
   private layoutRAPScreeView: ( currentScreenViewCoordinates: Bounds2 ) => void;
   private mediaPipe: RAPMediaPipe | null;
 
-  constructor( model: RAPModel, backgroundColorProperty: Property<Color>, tandem: Tandem, providedOptions?: RAPScreenViewOptions ) {
+  constructor( model: RAPModel, backgroundColorProperty: Property<Color>, providedOptions?: RAPScreenViewOptions ) {
 
     const options = optionize<RAPScreenViewOptions, SelfOptions, ScreenViewOptions>( {
-      tandem: tandem,
       layoutBounds: LAYOUT_BOUNDS,
 
       // Properties that control the color of each hand
@@ -131,10 +129,10 @@ class RAPScreenView extends ScreenView {
     const ratio = model.ratio;
 
     this.tickMarkViewProperty = new EnumerationProperty( TickMarkView.NONE, {
-      tandem: tandem.createTandem( 'tickMarkViewProperty' )
+      tandem: options.tandem.createTandem( 'tickMarkViewProperty' )
     } );
 
-    this.tickMarkRangeProperty = new NumberProperty( 10, { tandem: tandem.createTandem( 'tickMarkRangeProperty' ) } );
+    this.tickMarkRangeProperty = new NumberProperty( 10, { tandem: options.tandem.createTandem( 'tickMarkRangeProperty' ) } );
 
 
     this.backgroundColorHandler = new BackgroundColorHandler( model, backgroundColorProperty );
@@ -196,7 +194,7 @@ class RAPScreenView extends ScreenView {
       helpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT,
 
       // phet-io
-      tandem: tandem.createTandem( 'antecedentRatioHalf' )
+      tandem: options.tandem.createTandem( 'antecedentRatioHalf' )
     } );
 
     // @private {RatioHalf}
@@ -226,7 +224,7 @@ class RAPScreenView extends ScreenView {
       a11yDependencies: a11yDependencies,
 
       // phet-io
-      tandem: tandem.createTandem( 'consequentRatioHalf' )
+      tandem: options.tandem.createTandem( 'consequentRatioHalf' )
     } );
 
     // TODO: how to handle this merge? It seems like PHET_CORE/merge is the best case for this, we are &ing the two arguments into BothHandsPDOMNode, https://github.com/phetsims/chipper/issues/1128
@@ -345,11 +343,11 @@ class RAPScreenView extends ScreenView {
         this.mediaPipe && this.mediaPipe.reset();
         this.reset();
       },
-      tandem: tandem.createTandem( 'resetAllButton' )
+      tandem: options.tandem.createTandem( 'resetAllButton' )
     } );
 
     this.tickMarkViewRadioButtonGroup = new TickMarkViewRadioButtonGroup( this.tickMarkViewProperty, {
-      tandem: tandem.createTandem( 'tickMarkViewRadioButtonGroup' )
+      tandem: options.tandem.createTandem( 'tickMarkViewRadioButtonGroup' )
     } );
 
     // add this Node to the layer that is scaled up to support vertical aspect ratios
