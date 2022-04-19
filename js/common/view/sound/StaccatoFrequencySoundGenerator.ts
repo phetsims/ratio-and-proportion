@@ -67,7 +67,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
 
   constructor( fitnessProperty: IReadOnlyProperty<number>, fitnessRange: Range, inProportionProperty: IReadOnlyProperty<boolean>, providedOptions: SoundGeneratorOptions ) {
 
-    const options = optionize<SoundGeneratorOptions, {}>( {
+    const options = optionize<SoundGeneratorOptions, {}>()( {
       initialOutputLevel: 0.25
     }, providedOptions );
 

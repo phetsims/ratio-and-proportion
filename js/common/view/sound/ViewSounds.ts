@@ -44,7 +44,7 @@ class ViewSounds {
   constructor( tickMarkRangeProperty: Property<number>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
                playTickMarkBumpSoundProperty: Property<boolean>, providedOptions?: ViewSoundsOptions ) {
 
-    const options = optionize<ViewSoundsOptions>( {
+    const options = optionize<ViewSoundsOptions>()( {
       addSoundOptions: {
         categoryName: 'user-interface'
       },

@@ -82,7 +82,7 @@ class BothHandsInteractionListener {
 
   constructor( providedOptions: BothHandsInteractionListenerOptions ) {
 
-    const options = optionize<BothHandsInteractionListenerOptions>( {
+    const options = optionize<BothHandsInteractionListenerOptions>()( {
 
       onInput: onInputDefault
     }, providedOptions ) as Required<BothHandsInteractionListenerOptions>;

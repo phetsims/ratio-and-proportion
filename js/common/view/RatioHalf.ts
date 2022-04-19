@@ -125,7 +125,7 @@ class RatioHalf extends Rectangle {
 
   constructor( providedOptions: RatioHalfOptions ) {
 
-    const options = optionize<RatioHalfOptions, SelfOptions, RectangleOptions, 'tandem' | 'accessibleName'>( {
+    const options = optionize<RatioHalfOptions, SelfOptions, RectangleOptions>()( {
       isRight: true,
       handColorProperty: new Property( 'black' ),
       a11yDependencies: [],

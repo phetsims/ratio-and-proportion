@@ -112,7 +112,7 @@ class RAPScreenView extends ScreenView {
 
   constructor( model: RAPModel, backgroundColorProperty: Property<Color>, providedOptions?: RAPScreenViewOptions ) {
 
-    const options = optionize<RAPScreenViewOptions, SelfOptions, ScreenViewOptions>( {
+    const options = optionize<RAPScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
       layoutBounds: LAYOUT_BOUNDS,
 
       // Properties that control the color of each hand

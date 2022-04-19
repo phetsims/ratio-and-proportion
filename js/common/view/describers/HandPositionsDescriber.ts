@@ -242,7 +242,7 @@ class HandPositionsDescriber {
 
   getSingleHandContextResponse( ratioTerm: RatioTerm, tickMarkView: TickMarkView, providedOptions?: HandContextResponseOptions ): string {
 
-    const options = optionize<HandContextResponseOptions, HandContextResponseOptions>( {
+    const options = optionize<HandContextResponseOptions, HandContextResponseOptions>()( {
 
       // By default, let the describer decide if we should have distance progress or region
       distanceResponseType: DistanceResponseType.COMBO
@@ -316,7 +316,7 @@ class HandPositionsDescriber {
 
   // TODO: capitalized is currently always used, but it would be nice to improve the implementation for voicing context responses, https://github.com/phetsims/ratio-and-proportion/issues/461
   getBothHandsDistance( capitalized: boolean, providedOptions?: HandContextResponseOptions ): string {
-    const options = optionize<HandContextResponseOptions>( {
+    const options = optionize<HandContextResponseOptions>()( {
 
       // By default, let the describer decide if we should have distance progress or region
       distanceResponseType: DistanceResponseType.COMBO
@@ -386,7 +386,7 @@ class HandPositionsDescriber {
 
   private getDistanceProgressString( providedOptions?: GetDistanceProgressStringOptions ): null | string {
 
-    const options = optionize<GetDistanceProgressStringOptions, GetDistanceProgressStringOptions>( {
+    const options = optionize<GetDistanceProgressStringOptions, GetDistanceProgressStringOptions>()( {
       inProportionOverridesDistanceProgress: true,
       closerString: ratioAndProportionStrings.a11y.handPosition.closerTo,
       fartherString: ratioAndProportionStrings.a11y.handPosition.fartherFrom

@@ -81,7 +81,7 @@ class BothHandsPDOMNode extends Node {
 
   constructor( providedOptions: BothHandsPDOMNodeOptions ) {
 
-    const options = optionize<BothHandsPDOMNodeOptions, SelfOptions, Omit<NodeOptions, 'pdomOrder'>>( {
+    const options = optionize<BothHandsPDOMNodeOptions, SelfOptions, Omit<NodeOptions, 'pdomOrder'>>()( {
 
       gestureDescriptionHelpText: null,
 

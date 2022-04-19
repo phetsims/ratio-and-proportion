@@ -28,7 +28,7 @@ class RatioHalfTickMarksNode extends GridNode {
 
   constructor( tickMarkViewProperty: EnumerationProperty<TickMarkView>, tickMarkRangeProperty: Property<number>, width: number,
                height: number, colorProperty: IPaint, providedOptions?: SelfOptions ) {
-    const options = optionize<RatioHalfTickMarksNodeOptions, SelfOptions>( {
+    const options = optionize<RatioHalfTickMarksNodeOptions, SelfOptions>()( {
 
       // initial line spacings
       minorHorizontalLineSpacing: 10,

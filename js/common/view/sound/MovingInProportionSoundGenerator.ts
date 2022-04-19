@@ -22,7 +22,7 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
 
   constructor( model: RAPModel, providedOptions?: SoundGeneratorOptions ) {
 
-    const options = optionize<SoundGeneratorOptions, {}>( {
+    const options = optionize<SoundGeneratorOptions, {}>()( {
       initialOutputLevel: 0.13
     }, providedOptions );
 

@@ -77,7 +77,7 @@ class MyChallengeAccordionBox extends AccordionBox {
              ratioAndProportionStrings.a11y.ratio.currentChallengeHidden;
     };
 
-    const options = optionize<MyChallengeAccordionBoxOptions, {}, AccordionBoxOptions, 'tandem'>( {
+    const options = optionize<MyChallengeAccordionBoxOptions, {}, AccordionBoxOptions>()( {
       titleNode: new RichText( ratioAndProportionStrings.myChallenge, {
         font: new PhetFont( 20 ),
         maxWidth: 250 // empirically determined

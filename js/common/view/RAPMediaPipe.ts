@@ -44,7 +44,7 @@ class RAPMediaPipe extends MediaPipe {
   onInput: () => void;
 
   constructor( ratioTupleProperty: Property<RAPRatioTuple>, antecedentViewSounds: ViewSounds, consequentViewSounds: ViewSounds, providedOptions: RAPMediaPipeOptions ) {
-    const options = optionize<RAPMediaPipeOptions>( {
+    const options = optionize<RAPMediaPipeOptions>()( {
       onInput: _.noop
     }, providedOptions );
     super();

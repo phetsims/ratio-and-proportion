@@ -63,7 +63,7 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
     // the keyboard step size allows.
     const mapKeyboardInput = getKeyboardInputSnappingMapper( getIdealValue, keyboardStep, shiftKeyboardStep );
 
-    options = optionize<RatioHandNodeOptions, SelfOptions, RatioHandNodeOptions>( {
+    options = optionize<RatioHandNodeOptions, SelfOptions, RatioHandNodeOptions>()( {
       cursor: 'pointer',
       isRight: true, // right hand or left hand
       asIcon: false, // when true, no input will be attached
@@ -204,7 +204,7 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
 
   static createIcon( isRight: boolean, tickMarkViewProperty: EnumerationProperty<TickMarkView>, providedOptions?: CreateIconOptions ): Node {
 
-    const options = optionize<CreateIconOptions>( {
+    const options = optionize<CreateIconOptions>()( {
       handColor: Color.BLACK,
       handNodeOptions: {
         tandem: Tandem.OPT_OUT,
@@ -235,7 +235,7 @@ class FilledInHandPath extends Path {
 
   constructor( providedOptions?: PathOptions ) {
 
-    const options = optionize<PathOptions, {}>( {
+    const options = optionize<PathOptions, {}>()( {
       stroke: 'black',
       lineWidth: 2
     }, providedOptions );
@@ -258,7 +258,7 @@ class CutOutHandPath extends Path {
 
   constructor( providedOptions?: PathOptions ) {
 
-    const options = optionize<PathOptions, {}>( {
+    const options = optionize<PathOptions, {}>()( {
       stroke: 'black',
       lineWidth: 2
     }, providedOptions );
