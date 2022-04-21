@@ -462,7 +462,7 @@ class RAPScreenView extends ScreenView {
     this.movingInProportionSoundGenerator.reset();
   }
 
-  step( dt: number ): void {
+  override step( dt: number ): void {
 
     this.mediaPipe && this.mediaPipe.step();
     this.markerInput && this.markerInput.step();

@@ -6,7 +6,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import Sim from '../../joist/js/Sim.js';
+import Sim, { SimOptions } from '../../joist/js/Sim.js';
 import PreferencesConfiguration from '../../joist/js/preferences/PreferencesConfiguration.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -18,7 +18,7 @@ import RAPQueryParameters from './common/RAPQueryParameters.js';
 
 const ratioAndProportionTitleString = ratioAndProportionStrings[ 'ratio-and-proportion' ].title;
 
-const simOptions = {
+const simOptions: SimOptions = {
   credits: {
     softwareDevelopment: 'John Blanco, Michael Kauzmann',
     team: 'Brett Fiedler, Amanda McGarry, Emily B. Moore, Matthew Moore, Taliesin Smith',
