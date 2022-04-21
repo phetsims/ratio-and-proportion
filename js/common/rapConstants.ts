@@ -74,7 +74,6 @@ class RAPConstants extends PhetioObject {
     this.NO_SUCCESS_VALUE_THRESHOLD = 0.01;
   }
 
-  // @public
   toStateObject() {
     return {
       SCREEN_VIEW_X_MARGIN: this.SCREEN_VIEW_X_MARGIN,
