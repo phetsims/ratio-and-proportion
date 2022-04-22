@@ -44,6 +44,10 @@ class RAPRatioTuple {
     return new RAPRatioTuple( this.antecedent, consequent );
   }
 
+  withValueForTerm( value: number, ratioTerm: RatioTerm ): RAPRatioTuple {
+    return this.copy().setForTerm( value, ratioTerm );
+  }
+
   plusAntecedent( antecedentDelta: number ): RAPRatioTuple {
     return new RAPRatioTuple( this.antecedent + antecedentDelta, this.consequent );
   }
@@ -85,6 +89,20 @@ class RAPRatioTuple {
         assert && assert( false, `unexpected ratioTerm ${ratioTerm}` );
         return -1;
     }
+  }
+
+  setForTerm( value: number, ratioTerm: RatioTerm ): this {
+    switch( ratioTerm ) {
+      case RatioTerm.ANTECEDENT:
+        this.antecedent = value;
+        break;
+      case RatioTerm.CONSEQUENT:
+        this.consequent = value;
+        break;
+      default:
+        assert && assert( false, `unexpected ratioTerm ${ratioTerm}` );
+    }
+    return this;
   }
 
   copy(): RAPRatioTuple {

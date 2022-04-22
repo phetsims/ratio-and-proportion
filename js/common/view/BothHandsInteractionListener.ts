@@ -119,13 +119,13 @@ class BothHandsInteractionListener {
 
   /**
    * Consistently handle changing the ratio from increment/decrement
-   * @param tupleField - what field of the RAPRatioTuple are we changing
+   * @param ratioTerm - what field of the RAPRatioTuple are we changing
    * @param inputMapper - see getKeyboardInputSnappingMapper
    * @param increment - if the value is being incremented, as opposed to decremented.
    */
-  private onValueIncrementDecrement( tupleField: 'antecedent' | 'consequent', inputMapper: KeyboardInputMapper, increment: boolean ): void {
+  private onValueIncrementDecrement( ratioTerm: RatioTerm, inputMapper: KeyboardInputMapper, increment: boolean ): void {
     this.isBeingInteractedWithProperty.value = true;
-    const currentValueFromTuple = this.ratioTupleProperty.value[ tupleField ];
+    const currentValueFromTuple = this.ratioTupleProperty.value.getForTerm( ratioTerm );
 
     const changeAmount = globalKeyStateTracker.shiftKeyDown ? this.shiftKeyboardStep : this.keyboardStep;
     const valueDelta = changeAmount * ( increment ? 1 : -1 );
@@ -133,11 +133,11 @@ class BothHandsInteractionListener {
     // Because this interaction uses the keyboard, snap to the keyboard step to handle the case where the hands were
     // previously moved via mouse/touch. See https://github.com/phetsims/ratio-and-proportion/issues/156
     const newValue = inputMapper( currentValueFromTuple + valueDelta, currentValueFromTuple, globalKeyStateTracker.shiftKeyDown, this.inProportionProperty.value );
-    const newRatioTuple = tupleField === 'antecedent' ? this.ratioTupleProperty.value.withAntecedent( newValue ) : this.ratioTupleProperty.value.withConsequent( newValue );
+    const newRatioTuple = this.ratioTupleProperty.value.withValueForTerm( newValue, ratioTerm );
 
     this.ratioTupleProperty.value = newRatioTuple.constrainFields( this.enabledRatioTermsRangeProperty.value );
 
-    this.tickMarkBumpSoundClip.onInteract( this.ratioTupleProperty.value[ tupleField ] );
+    this.tickMarkBumpSoundClip.onInteract( this.ratioTupleProperty.value.getForTerm( ratioTerm ) );
 
     this.onInput();
   }
@@ -160,19 +160,19 @@ class BothHandsInteractionListener {
 
       if ( key === KeyboardUtils.KEY_DOWN_ARROW ) {
         this.consequentInteractedWithProperty.value = true;
-        this.onValueIncrementDecrement( 'consequent', this.consequentMapKeyboardInput, false );
+        this.onValueIncrementDecrement( RatioTerm.CONSEQUENT, this.consequentMapKeyboardInput, false );
       }
       else if ( key === KeyboardUtils.KEY_UP_ARROW ) {
-        this.onValueIncrementDecrement( 'consequent', this.consequentMapKeyboardInput, true );
+        this.onValueIncrementDecrement( RatioTerm.CONSEQUENT, this.consequentMapKeyboardInput, true );
         this.consequentInteractedWithProperty.value = true;
       }
       else if ( key === KeyboardUtils.KEY_W ) {
         this.antecedentInteractedWithProperty.value = true;
-        this.onValueIncrementDecrement( 'antecedent', this.antecedentMapKeyboardInput, true );
+        this.onValueIncrementDecrement( RatioTerm.ANTECEDENT, this.antecedentMapKeyboardInput, true );
       }
       else if ( key === KeyboardUtils.KEY_S ) {
         this.antecedentInteractedWithProperty.value = true;
-        this.onValueIncrementDecrement( 'antecedent', this.antecedentMapKeyboardInput, false );
+        this.onValueIncrementDecrement( RatioTerm.ANTECEDENT, this.antecedentMapKeyboardInput, false );
       }
       else {
 
