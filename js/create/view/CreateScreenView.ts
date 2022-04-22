@@ -55,7 +55,7 @@ class CreateScreenView extends RAPScreenView {
 
     const handPositionsDescriber = new HandPositionsDescriber( model.ratio.tupleProperty,
       new TickMarkDescriber( this.tickMarkRangeProperty, this.tickMarkViewProperty ),
-      model.inProportionProperty, model.ratio.enabledRatioTermsRangeProperty );
+      model.inProportionProperty, model.ratio.enabledRatioTermsRangeProperty, model.ratio.lockedProperty );
 
     this.createScreenSummaryNode = new CreateScreenSummaryNode(
       model.ratioFitnessProperty,

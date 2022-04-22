@@ -42,13 +42,14 @@ class BothHandsDescriber {
     this.enabledRatioTermsRangeProperty = enabledRatioTermsRangeProperty;
     this.tickMarkViewProperty = tickMarkViewProperty;
     this.ratioDescriber = ratioDescriber;
-    this.handPositionsDescriber = new HandPositionsDescriber( ratioTupleProperty, tickMarkDescriber, inProportionProperty, enabledRatioTermsRangeProperty );
     this.ratioLockedProperty = ratioLockedProperty;
+    this.handPositionsDescriber = new HandPositionsDescriber( ratioTupleProperty, tickMarkDescriber,
+      inProportionProperty, enabledRatioTermsRangeProperty, this.ratioLockedProperty );
   }
 
-  getBothHandsContextResponse( options?: HandContextResponseOptions ): string {
-
-    const ratioLockedEdgeResponse = this.handPositionsDescriber.getGoBeyondContextResponse( this.ratioTupleProperty.value, RatioInputModality.BOTH_HANDS );
+  getBothHandsContextResponse( recentlyMovedRatioTerm: RatioInputModality, options: HandContextResponseOptions = {} ): string {
+    const ratioLockedEdgeResponse = this.handPositionsDescriber.getGoBeyondContextResponse(
+      this.ratioTupleProperty.value, recentlyMovedRatioTerm );
     if ( ratioLockedEdgeResponse ) {
       return ratioLockedEdgeResponse;
     }

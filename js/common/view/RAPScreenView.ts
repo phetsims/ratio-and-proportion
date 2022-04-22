@@ -54,6 +54,7 @@ import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import RAPMediaPipe from './RAPMediaPipe.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
+import RatioInputModality from './describers/RatioInputModality.js';
 
 // constants
 const LAYOUT_BOUNDS = ScreenView.DEFAULT_LAYOUT_BOUNDS;
@@ -265,7 +266,7 @@ class RAPScreenView extends ScreenView {
       const mediaPipeVoicingUtterance = new Utterance( {
         alert: new ResponsePacket( {
           objectResponse: () => mediaPipeBothHandsDescriber.getBothHandsObjectResponse(),
-          contextResponse: () => mediaPipeBothHandsDescriber.getBothHandsContextResponse()
+          contextResponse: () => mediaPipeBothHandsDescriber.getBothHandsContextResponse( RatioInputModality.BOTH_HANDS )
         } ),
 
         // This number should be small, so that the most recent alert in the queue will immediately play once the announcer

@@ -51,7 +51,7 @@ class DiscoverScreenView extends RAPScreenView {
     this.pdomPlayAreaNode.pdomOrder = this.pdomPlayAreaNode.pdomOrder!.concat( [ this.comboBoxContainer, comboBoxListBoxParent ] );
     const handPositionsDescriber = new HandPositionsDescriber( model.ratio.tupleProperty,
       new TickMarkDescriber( this.tickMarkRangeProperty, this.tickMarkViewProperty ), model.inProportionProperty,
-      model.ratio.enabledRatioTermsRangeProperty );
+      model.ratio.enabledRatioTermsRangeProperty, model.ratio.lockedProperty );
 
     // set this after the supertype has initialized the view code needed to create the screen summary
     this.discoverScreenSummaryNode = new DiscoverScreenSummaryNode(

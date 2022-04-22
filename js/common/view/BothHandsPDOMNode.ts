@@ -27,6 +27,7 @@ import TickMarkView from './TickMarkView.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import TickMarkDescriber from './describers/TickMarkDescriber.js';
+import RatioInputModality from './describers/RatioInputModality.js';
 
 // constants
 const OBJECT_RESPONSE_DELAY = 500;
@@ -96,7 +97,6 @@ class BothHandsPDOMNode extends Node {
         innerContent: ratioAndProportionStrings.a11y.bothHands.bothHands,
         voicingNameResponse: ratioAndProportionStrings.a11y.bothHands.bothHands,
         voicingObjectResponse: () => this.voicingBothHandsDescriber.getBothHandsObjectResponse(),
-        voicingContextResponse: () => this.voicingBothHandsDescriber.getBothHandsContextResponse(),
         interactiveHighlight: 'invisible',
         ariaLabel: ratioAndProportionStrings.a11y.bothHands.bothHands
       }
@@ -181,7 +181,7 @@ class BothHandsPDOMNode extends Node {
       targetRatioProperty: options.targetRatioProperty,
       getIdealTerm: options.getIdealTerm,
       inProportionProperty: options.inProportionProperty,
-      onInput: ( knockedOutOfLock?: boolean ) => {
+      onInput: ( ratioInputModality, knockedOutOfLock? ) => {
         if ( knockedOutOfLock ) {
 
           this.alertDescriptionUtterance( this.ratioUnlockedFromBothHandsUtterance );
@@ -190,10 +190,15 @@ class BothHandsPDOMNode extends Node {
           } );
         }
 
-        this.alertBothHandsContextResponse( knockedOutOfLock );
+        this.alertBothHandsDescriptionContextResponse( ratioInputModality, knockedOutOfLock );
+
+        // Voicing object/context response
         interactiveNode.voicingSpeakFullResponse( {
           nameResponse: null,
-          hintResponse: null
+          hintResponse: null,
+
+          // ratioInputModality is needed for the context response so we can't set that through voicingContextResponse
+          contextResponse: this.voicingBothHandsDescriber.getBothHandsContextResponse( ratioInputModality )
         } );
       }
     } );
@@ -292,12 +297,13 @@ class BothHandsPDOMNode extends Node {
     this.alertDescriptionUtterance( utterance );
   }
 
-  private alertBothHandsContextResponse( knockedOutOfLock?: boolean ): void {
+  // Just for description, not voicing
+  private alertBothHandsDescriptionContextResponse( ratioInputModality: RatioInputModality, knockedOutOfLock?: boolean ): void {
     if ( knockedOutOfLock ) {
       this.contextResponseUtterance.alert = this.descriptionBothHandsDescriber.getBothHandsObjectResponse();
     }
     else {
-      this.contextResponseUtterance.alert = this.descriptionBothHandsDescriber.getBothHandsContextResponse();
+      this.contextResponseUtterance.alert = this.descriptionBothHandsDescriber.getBothHandsContextResponse( ratioInputModality );
     }
 
     this.alertDescriptionUtterance( this.contextResponseUtterance );

@@ -20,10 +20,11 @@ import Range from '../../../../dot/js/Range.js';
 import BoundarySoundClip from './sound/BoundarySoundClip.js';
 import TickMarkBumpSoundClip from './sound/TickMarkBumpSoundClip.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import RatioInputModality from './describers/RatioInputModality.js';
 
 const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
-type OnInputType = ( knockOutOfLock?: boolean ) => void;
+type OnInputType = ( ratioInputModality: RatioInputModality, knockOutOfLock?: boolean ) => void;
 const onInputDefault = () => {};
 
 type getIdealTermType = ( ratioTerm: RatioTerm ) => number;
@@ -139,7 +140,7 @@ class BothHandsInteractionListener {
 
     this.tickMarkBumpSoundClip.onInteract( this.ratioTupleProperty.value.getForTerm( ratioTerm ) );
 
-    this.onInput();
+    this.onInput( ratioTerm );
   }
 
   blur(): void {
@@ -223,7 +224,7 @@ class BothHandsInteractionListener {
             this.consequentInteractedWithProperty.value = true;
 
             // Extra arg here because this input can "knock" the ratio out of locked mode, see https://github.com/phetsims/ratio-and-proportion/issues/227
-            this.onInput( wasLocked && !this.ratioLockedProperty.value );
+            this.onInput( RatioInputModality.BOTH_HANDS, wasLocked && !this.ratioLockedProperty.value );
 
             break;
           }

@@ -154,8 +154,13 @@ class RatioHalf extends Rectangle {
     this.ratio = options.ratio;
 
     const tickMarkDescriber = new TickMarkDescriber( options.tickMarkRangeProperty, options.tickMarkViewProperty );
-    this.descriptionHandPositionsDescriber = new HandPositionsDescriber( this.ratio.tupleProperty, tickMarkDescriber, options.inProportionProperty, this.ratio.enabledRatioTermsRangeProperty );
-    this.voicingHandPositionsDescriber = new HandPositionsDescriber( this.ratio.tupleProperty, tickMarkDescriber, options.inProportionProperty, this.ratio.enabledRatioTermsRangeProperty );
+
+    this.descriptionHandPositionsDescriber = new HandPositionsDescriber( this.ratio.tupleProperty, tickMarkDescriber,
+      options.inProportionProperty, this.ratio.enabledRatioTermsRangeProperty, this.ratio.lockedProperty );
+
+    this.voicingHandPositionsDescriber = new HandPositionsDescriber( this.ratio.tupleProperty, tickMarkDescriber,
+      options.inProportionProperty, this.ratio.enabledRatioTermsRangeProperty, this.ratio.lockedProperty );
+
     this.tickMarkViewProperty = options.tickMarkViewProperty;
     this.ratioTerm = options.ratioTerm;
 
@@ -502,7 +507,7 @@ class RatioHalf extends Rectangle {
 
     // When locked, give a description of both-hands, instead of just a single one.
     if ( this.ratio.lockedProperty.value ) {
-      return bothHandsDescriber.getBothHandsContextResponse( options );
+      return bothHandsDescriber.getBothHandsContextResponse( this.ratioTerm, options );
     }
 
     return handPositionsDescriber.getSingleHandContextResponse( this.ratioTerm, this.tickMarkViewProperty.value, options );

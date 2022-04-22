@@ -125,6 +125,7 @@ class HandPositionsDescriber {
   private ratioTupleProperty: Property<RAPRatioTuple>;
   private tickMarkDescriber: TickMarkDescriber;
   private inProportionProperty: IReadOnlyProperty<boolean>;
+  private ratioLockedProperty: IReadOnlyProperty<boolean>;
 
   // keep track of previous distance regions to track repetition, and alter description accordingly. This
   // is used for any modality getting a distance region in a context response.
@@ -137,9 +138,11 @@ class HandPositionsDescriber {
   enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>;
 
   constructor( ratioTupleProperty: Property<RAPRatioTuple>, tickMarkDescriber: TickMarkDescriber,
-               inProportionProperty: IReadOnlyProperty<boolean>, enabledRatioTermsRangeProperty: IReadOnlyProperty<Range> ) {
+               inProportionProperty: IReadOnlyProperty<boolean>, enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>,
+               ratioLockedProperty: IReadOnlyProperty<boolean> ) {
 
     this.ratioTupleProperty = ratioTupleProperty;
+    this.ratioLockedProperty = ratioLockedProperty;
     this.tickMarkDescriber = tickMarkDescriber;
     this.inProportionProperty = inProportionProperty;
     this.enabledRatioTermsRangeProperty = enabledRatioTermsRangeProperty;
@@ -256,7 +259,7 @@ class HandPositionsDescriber {
       distanceResponseType: DistanceResponseType.COMBO
     }, providedOptions );
 
-    const ratioLockedEdgeResponse = this.getGoBeyondContextResponse( this.ratioTupleProperty.value, RatioInputModality.ANTECEDENT );
+    const ratioLockedEdgeResponse = this.getGoBeyondContextResponse( this.ratioTupleProperty.value, ratioTerm );
     if ( ratioLockedEdgeResponse ) {
       return ratioLockedEdgeResponse;
     }
@@ -425,7 +428,20 @@ class HandPositionsDescriber {
     return distanceProgressString;
   }
 
-  getGoBeyondContextResponse( currentTuple: RAPRatioTuple, inputModality: RatioInputModality ): string | null {
+  /**
+   * Create a response trigger when at an edge, and you try to move beyond it. This takes into consideration, what the
+   * previous ratio value was, the current value, and what modality was most recently used. If just moving the antecedent
+   * or consequent, then the response is simpler about what hand moved, but we need to hand the "both hands moved at the
+   * same time" case as well.
+   *
+   * @param currentTuple
+   * @param mostRecentlyMoved - By specifying the RatioTerm last moved, handle the case where both terms are at the edge
+   * but only the changed one should reflect in the response. "Moved" is a misnomer because if at edge and trying to
+   * "go beyond", the position won't change value.
+   *
+   * @returns - null if there is no go-beyond-edge response
+   */
+  getGoBeyondContextResponse( currentTuple: RAPRatioTuple, mostRecentlyMoved: RatioInputModality ): string | null {
 
     const enabledRange = this.enabledRatioTermsRangeProperty.value;
 
@@ -434,37 +450,58 @@ class HandPositionsDescriber {
     const previousConsequentAtMin = this.previousEdgeCheckTuple.consequent === enabledRange.min;
     const previousConsequentAtMax = this.previousEdgeCheckTuple.consequent === enabledRange.max;
 
-    // No previous value was at an extremity.
-    if ( !( previousAntecedentAtMin || previousAntecedentAtMax || previousConsequentAtMin || previousConsequentAtMax ) ) {
+    // If moved both terms, and either were previously at an extremity
+    const movedEitherFromBothHandsAndPreviousAtEdge = mostRecentlyMoved === RatioInputModality.BOTH_HANDS && (
+      previousAntecedentAtMin || previousAntecedentAtMax || previousConsequentAtMin || previousConsequentAtMax );
+
+    // If moved the antecedent, and it was previously at an extremity.
+    const movedAntecedentAndPreviousAtEdge = mostRecentlyMoved === RatioInputModality.ANTECEDENT &&
+                                             ( previousAntecedentAtMin || previousAntecedentAtMax );
+
+    // If moved the consequen, and it was previously at an extremity.
+    const movedConsequentAndPreviousAtEdge = mostRecentlyMoved === RatioInputModality.CONSEQUENT &&
+                                             ( previousConsequentAtMin || previousConsequentAtMax );
+
+    // No previous value was at an extremity when moving that modality.
+    if ( !( movedEitherFromBothHandsAndPreviousAtEdge || movedAntecedentAndPreviousAtEdge ||
+            movedConsequentAndPreviousAtEdge ) ) {
       this.previousEdgeCheckTuple = currentTuple;
       return null;
     }
 
-    let handAtExtremity = null; // what hand?
+    let handAtEdge = null; // what hand?
     let extremityPosition = null; // where are we now?
     let direction = null; // where to go from here?
 
-    if ( previousAntecedentAtMin && this.ratioTupleProperty.value.antecedent === enabledRange.min ) {
-      handAtExtremity = ratioAndProportionStrings.a11y.leftHand;
+    // If we should look at the term as a possible "go beyond edge" case.
+    const antecedentPossibleBeyond = movedAntecedentAndPreviousAtEdge || movedEitherFromBothHandsAndPreviousAtEdge;
+    const consequentPossibleBeyond = movedConsequentAndPreviousAtEdge || movedEitherFromBothHandsAndPreviousAtEdge;
+
+    if ( antecedentPossibleBeyond && previousAntecedentAtMin &&
+         this.ratioTupleProperty.value.antecedent === enabledRange.min ) {
+      handAtEdge = ratioAndProportionStrings.a11y.leftHand;
       extremityPosition = enabledRange.min === rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE.min ?
                           ratioAndProportionStrings.a11y.handPosition.atBottom :
                           ratioAndProportionStrings.a11y.handPosition.nearBottom;
       direction = ratioAndProportionStrings.a11y.up;
     }
-    else if ( previousAntecedentAtMax && this.ratioTupleProperty.value.antecedent === enabledRange.max ) {
-      handAtExtremity = ratioAndProportionStrings.a11y.leftHand;
+    else if ( antecedentPossibleBeyond && previousAntecedentAtMax &&
+              this.ratioTupleProperty.value.antecedent === enabledRange.max ) {
+      handAtEdge = ratioAndProportionStrings.a11y.leftHand;
       extremityPosition = ratioAndProportionStrings.a11y.handPosition.atTop;
       direction = ratioAndProportionStrings.a11y.down;
     }
-    else if ( previousConsequentAtMin && this.ratioTupleProperty.value.consequent === enabledRange.min ) {
-      handAtExtremity = ratioAndProportionStrings.a11y.rightHand;
+    else if ( consequentPossibleBeyond && previousConsequentAtMin
+              && this.ratioTupleProperty.value.consequent === enabledRange.min ) {
+      handAtEdge = ratioAndProportionStrings.a11y.rightHand;
       extremityPosition = enabledRange.min === rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE.min ?
                           ratioAndProportionStrings.a11y.handPosition.atBottom :
                           ratioAndProportionStrings.a11y.handPosition.nearBottom;
       direction = ratioAndProportionStrings.a11y.up;
     }
-    else if ( previousConsequentAtMax && this.ratioTupleProperty.value.consequent === enabledRange.max ) {
-      handAtExtremity = ratioAndProportionStrings.a11y.rightHand;
+    else if ( consequentPossibleBeyond && previousConsequentAtMax
+              && this.ratioTupleProperty.value.consequent === enabledRange.max ) {
+      handAtEdge = ratioAndProportionStrings.a11y.rightHand;
       extremityPosition = ratioAndProportionStrings.a11y.handPosition.atTop;
       direction = ratioAndProportionStrings.a11y.down;
     }
@@ -472,16 +509,19 @@ class HandPositionsDescriber {
     this.previousEdgeCheckTuple = currentTuple;
 
     // Detect if we are at the edge of the range
-    if ( handAtExtremity && extremityPosition && direction ) {
+    if ( handAtEdge && extremityPosition && direction ) {
+
+      // if hands move together, then the response will reflect both hands in the same direction
+      const handsMoveTogether = this.ratioLockedProperty.value;
 
       // Basically the difference between "Move hands" and "Move hand"
-      const pattern = inputModality === RatioInputModality.BOTH_HANDS ?
+      const pattern = handsMoveTogether ?
                       ratioAndProportionStrings.a11y.ratio.bothHandsGoBeyondEdgeContextResponse :
                       ratioAndProportionStrings.a11y.ratio.singleHandGoBeyondEdgeContextResponse;
 
       return StringUtils.fillIn( pattern, {
         position: extremityPosition,
-        hand: handAtExtremity,
+        hand: handAtEdge,
         direction: direction
       } );
     }
