@@ -337,14 +337,11 @@ class HandPositionsDescriber {
 
   // TODO: capitalized is currently always used, but it would be nice to improve the implementation for voicing context responses, https://github.com/phetsims/ratio-and-proportion/issues/461
   getBothHandsDistance( capitalized: boolean, providedOptions?: HandContextResponseOptions ): string {
-    const options = optionize<HandContextResponseOptions>()( {
-      supportGoBeyondEdgeResponses: true,
+    const options = optionize<HandContextResponseOptions, Omit<HandContextResponseOptions, 'supportGoBeyondEdgeResponses'>>()( {
 
       // By default, let the describer decide if we should have distance progress or region
       distanceResponseType: DistanceResponseType.COMBO
     }, providedOptions );
-
-    // TODO: manage edge response here for both hands instead of in the BothHandsDescriber: https://github.com/phetsims/ratio-and-proportion/issues/457
 
     switch( options.distanceResponseType ) {
       case DistanceResponseType.COMBO:
