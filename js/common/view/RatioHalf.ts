@@ -327,7 +327,7 @@ class RatioHalf extends Rectangle {
         this.viewSounds.boundarySoundClip.onStartInteraction();
 
         this.ratioHandNode.voicingSpeakFullResponse( {
-          contextResponse: null
+          contextResponse: null // If we ever have a context response, make sure we don't have go-beyond edge responses.
         } );
       },
       drag: () => {
@@ -347,6 +347,7 @@ class RatioHalf extends Rectangle {
           this.ratioHandNode.voicingSpeakFullResponse( {
             nameResponse: null,
             contextResponse: this.getSingleHandContextResponse( this.voicingHandPositionsDescriber, voicingBothHandsDescriber, {
+              supportGoBeyondEdgeResponses: false, // no go-beyond-edge responses for mouse/touch
               distanceResponseType: DistanceResponseType.DISTANCE_PROGRESS
             } ),
             hintResponse: null
@@ -382,6 +383,7 @@ class RatioHalf extends Rectangle {
           this.ratioHandNode.voicingSpeakFullResponse( {
             nameResponse: null,
             contextResponse: this.getSingleHandContextResponse( this.voicingHandPositionsDescriber, voicingBothHandsDescriber, {
+              supportGoBeyondEdgeResponses: false, // no go-beyond-edge responses for mouse/touch
               distanceResponseType: DistanceResponseType.DISTANCE_REGION
             } ),
             hintResponse: null

@@ -117,6 +117,7 @@ type GetDistanceProgressStringOptions = {
 };
 
 export type HandContextResponseOptions = {
+  supportGoBeyondEdgeResponses?: boolean;
   distanceResponseType?: DistanceResponseType;
 };
 
@@ -253,15 +254,19 @@ class HandPositionsDescriber {
 
   getSingleHandContextResponse( ratioTerm: RatioTerm, tickMarkView: TickMarkView, providedOptions?: HandContextResponseOptions ): string {
 
-    const options = optionize<HandContextResponseOptions, HandContextResponseOptions>()( {
+    const options = optionize<HandContextResponseOptions>()( {
+
+      supportGoBeyondEdgeResponses: true,
 
       // By default, let the describer decide if we should have distance progress or region
       distanceResponseType: DistanceResponseType.COMBO
     }, providedOptions );
 
-    const ratioLockedEdgeResponse = this.getGoBeyondContextResponse( this.ratioTupleProperty.value, ratioTerm );
-    if ( ratioLockedEdgeResponse ) {
-      return ratioLockedEdgeResponse;
+    if ( options.supportGoBeyondEdgeResponses ) {
+      const ratioLockedEdgeResponse = this.getGoBeyondContextResponse( this.ratioTupleProperty.value, ratioTerm );
+      if ( ratioLockedEdgeResponse ) {
+        return ratioLockedEdgeResponse;
+      }
     }
 
     let distanceClause = null;
@@ -333,10 +338,13 @@ class HandPositionsDescriber {
   // TODO: capitalized is currently always used, but it would be nice to improve the implementation for voicing context responses, https://github.com/phetsims/ratio-and-proportion/issues/461
   getBothHandsDistance( capitalized: boolean, providedOptions?: HandContextResponseOptions ): string {
     const options = optionize<HandContextResponseOptions>()( {
+      supportGoBeyondEdgeResponses: true,
 
       // By default, let the describer decide if we should have distance progress or region
       distanceResponseType: DistanceResponseType.COMBO
     }, providedOptions );
+
+    // TODO: manage edge response here for both hands instead of in the BothHandsDescriber: https://github.com/phetsims/ratio-and-proportion/issues/457
 
     switch( options.distanceResponseType ) {
       case DistanceResponseType.COMBO:
