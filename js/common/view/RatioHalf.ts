@@ -307,6 +307,7 @@ class RatioHalf extends Rectangle {
     // When set to a value, the horizontal position will not be changed throughout the whole drag. Set to null when not dragging.
     let startingX: null | number = null;
     let startingY = -1;
+    let previousYOnLastVoicing = -1;
 
     // transform and dragBounds set in layout code below
     const dragListener = new DragListener( {
@@ -341,13 +342,17 @@ class RatioHalf extends Rectangle {
           new Range( dragBoundsProperty.value.left, dragBoundsProperty.value.right ) );
         this.viewSounds.tickMarkBumpSoundClip.onInteract( positionProperty.value.y );
 
-        this.ratioHandNode.voicingSpeakFullResponse( {
-          nameResponse: null,
-          contextResponse: this.getSingleHandContextResponse( this.voicingHandPositionsDescriber, voicingBothHandsDescriber, {
-            distanceResponseType: DistanceResponseType.DISTANCE_PROGRESS
-          } ),
-          hintResponse: null
-        } );
+        // Only new responses if the y position is different.
+        if ( positionProperty.value.y !== previousYOnLastVoicing ) {
+          this.ratioHandNode.voicingSpeakFullResponse( {
+            nameResponse: null,
+            contextResponse: this.getSingleHandContextResponse( this.voicingHandPositionsDescriber, voicingBothHandsDescriber, {
+              distanceResponseType: DistanceResponseType.DISTANCE_PROGRESS
+            } ),
+            hintResponse: null
+          } );
+          previousYOnLastVoicing = positionProperty.value.y;
+        }
       },
 
       end: () => {
