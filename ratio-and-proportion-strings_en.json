@@ -540,8 +540,11 @@
       "distancePositionContextResponse": {
         "value": "{{distance}}, {{position}}."
       },
-      "ratioLockedEdgeContextResponse": {
+      "bothHandsGoBeyondEdgeContextResponse": {
         "value": "{{hand}}, {{position}}. Move hands {{direction}} to explore more."
+      },
+      "singleHandGoBeyondEdgeContextResponse": {
+        "value": "{{hand}}, {{position}}. Move hand {{direction}} to explore more."
       },
       "proximityToNewRatioPattern": {
         "value": "Hands, {{proximity}} new challenge ratio."

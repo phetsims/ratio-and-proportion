@@ -256,6 +256,11 @@ class HandPositionsDescriber {
       distanceResponseType: DistanceResponseType.COMBO
     }, providedOptions );
 
+    const ratioLockedEdgeResponse = this.getGoBeyondContextResponse( this.ratioTupleProperty.value, RatioInputModality.ANTECEDENT );
+    if ( ratioLockedEdgeResponse ) {
+      return ratioLockedEdgeResponse;
+    }
+
     let distanceClause = null;
     switch( options.distanceResponseType ) {
       case DistanceResponseType.COMBO:
@@ -424,57 +429,61 @@ class HandPositionsDescriber {
 
     const enabledRange = this.enabledRatioTermsRangeProperty.value;
 
-    // Right now this is just copied from the old BothHandsDescriber.getRatioLockedEdgeCaseContextResponse()
-    if ( inputModality === RatioInputModality.BOTH_HANDS ) {
+    const previousAntecedentAtMin = this.previousEdgeCheckTuple.antecedent === enabledRange.min;
+    const previousAntecedentAtMax = this.previousEdgeCheckTuple.antecedent === enabledRange.max;
+    const previousConsequentAtMin = this.previousEdgeCheckTuple.consequent === enabledRange.min;
+    const previousConsequentAtMax = this.previousEdgeCheckTuple.consequent === enabledRange.max;
 
-      const previousAntecedentAtMin = this.previousEdgeCheckTuple.antecedent === enabledRange.min;
-      const previousAntecedentAtMax = this.previousEdgeCheckTuple.antecedent === enabledRange.max;
-      const previousConsequentAtMin = this.previousEdgeCheckTuple.consequent === enabledRange.min;
-      const previousConsequentAtMax = this.previousEdgeCheckTuple.consequent === enabledRange.max;
-
-      let handAtExtremity = null; // what hand?
-      let extremityPosition = null; // where are we now?
-      let direction = null; // where to go from here?
-
-      if ( this.ratioTupleProperty.value.antecedent === enabledRange.min ) {
-        if ( previousAntecedentAtMin ) {
-          handAtExtremity = ratioAndProportionStrings.a11y.leftHand;
-          extremityPosition = ratioAndProportionStrings.a11y.handPosition.nearBottom;
-          direction = ratioAndProportionStrings.a11y.up;
-        }
-      }
-      else if ( this.ratioTupleProperty.value.antecedent === enabledRange.max ) {
-        if ( previousAntecedentAtMax ) {
-          handAtExtremity = ratioAndProportionStrings.a11y.leftHand;
-          extremityPosition = ratioAndProportionStrings.a11y.handPosition.atTop;
-          direction = ratioAndProportionStrings.a11y.down;
-        }
-      }
-      else if ( this.ratioTupleProperty.value.consequent === enabledRange.min ) {
-        if ( previousConsequentAtMin ) {
-          handAtExtremity = ratioAndProportionStrings.a11y.rightHand;
-          extremityPosition = ratioAndProportionStrings.a11y.handPosition.nearBottom;
-          direction = ratioAndProportionStrings.a11y.up;
-        }
-      }
-      else if ( this.ratioTupleProperty.value.consequent === enabledRange.max ) {
-        if ( previousConsequentAtMax ) {
-          handAtExtremity = ratioAndProportionStrings.a11y.rightHand;
-          extremityPosition = ratioAndProportionStrings.a11y.handPosition.atTop;
-          direction = ratioAndProportionStrings.a11y.down;
-        }
-      }
-
+    // No previous value was at an extremity.
+    if ( !( previousAntecedentAtMin || previousAntecedentAtMax || previousConsequentAtMin || previousConsequentAtMax ) ) {
       this.previousEdgeCheckTuple = currentTuple;
+      return null;
+    }
 
-      // Detect if we are at the edge of the range
-      if ( handAtExtremity && extremityPosition && direction ) {
-        return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.ratioLockedEdgeContextResponse, {
-          position: extremityPosition,
-          hand: handAtExtremity,
-          direction: direction
-        } );
-      }
+    let handAtExtremity = null; // what hand?
+    let extremityPosition = null; // where are we now?
+    let direction = null; // where to go from here?
+
+    if ( previousAntecedentAtMin && this.ratioTupleProperty.value.antecedent === enabledRange.min ) {
+      handAtExtremity = ratioAndProportionStrings.a11y.leftHand;
+      extremityPosition = enabledRange.min === rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE.min ?
+                          ratioAndProportionStrings.a11y.handPosition.atBottom :
+                          ratioAndProportionStrings.a11y.handPosition.nearBottom;
+      direction = ratioAndProportionStrings.a11y.up;
+    }
+    else if ( previousAntecedentAtMax && this.ratioTupleProperty.value.antecedent === enabledRange.max ) {
+      handAtExtremity = ratioAndProportionStrings.a11y.leftHand;
+      extremityPosition = ratioAndProportionStrings.a11y.handPosition.atTop;
+      direction = ratioAndProportionStrings.a11y.down;
+    }
+    else if ( previousConsequentAtMin && this.ratioTupleProperty.value.consequent === enabledRange.min ) {
+      handAtExtremity = ratioAndProportionStrings.a11y.rightHand;
+      extremityPosition = enabledRange.min === rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE.min ?
+                          ratioAndProportionStrings.a11y.handPosition.atBottom :
+                          ratioAndProportionStrings.a11y.handPosition.nearBottom;
+      direction = ratioAndProportionStrings.a11y.up;
+    }
+    else if ( previousConsequentAtMax && this.ratioTupleProperty.value.consequent === enabledRange.max ) {
+      handAtExtremity = ratioAndProportionStrings.a11y.rightHand;
+      extremityPosition = ratioAndProportionStrings.a11y.handPosition.atTop;
+      direction = ratioAndProportionStrings.a11y.down;
+    }
+
+    this.previousEdgeCheckTuple = currentTuple;
+
+    // Detect if we are at the edge of the range
+    if ( handAtExtremity && extremityPosition && direction ) {
+
+      // Basically the difference between "Move hands" and "Move hand"
+      const pattern = inputModality === RatioInputModality.BOTH_HANDS ?
+                      ratioAndProportionStrings.a11y.ratio.bothHandsGoBeyondEdgeContextResponse :
+                      ratioAndProportionStrings.a11y.ratio.singleHandGoBeyondEdgeContextResponse;
+
+      return StringUtils.fillIn( pattern, {
+        position: extremityPosition,
+        hand: handAtExtremity,
+        direction: direction
+      } );
     }
 
     return null;

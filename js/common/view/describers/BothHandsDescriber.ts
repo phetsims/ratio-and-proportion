@@ -48,13 +48,9 @@ class BothHandsDescriber {
 
   getBothHandsContextResponse( options?: HandContextResponseOptions ): string {
 
-    // Edge responses are currently only supported when the ratio is locked.
-    if ( this.ratioLockedProperty.value ) {
-
-      const ratioLockedEdgeResponse = this.handPositionsDescriber.getGoBeyondContextResponse( this.ratioTupleProperty.value, RatioInputModality.BOTH_HANDS );
-      if ( ratioLockedEdgeResponse ) {
-        return ratioLockedEdgeResponse;
-      }
+    const ratioLockedEdgeResponse = this.handPositionsDescriber.getGoBeyondContextResponse( this.ratioTupleProperty.value, RatioInputModality.BOTH_HANDS );
+    if ( ratioLockedEdgeResponse ) {
+      return ratioLockedEdgeResponse;
     }
 
     return StringUtils.fillIn( ratioDistancePositionContextResponsePatternString, {

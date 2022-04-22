@@ -211,7 +211,8 @@ type StringsType = {
     },
     'ratio': {
       'distancePositionContextResponse': string,
-      'ratioLockedEdgeContextResponse': string,
+      'bothHandsGoBeyondEdgeContextResponse': string,
+      'singleHandGoBeyondEdgeContextResponse': string,
       'proximityToNewRatioPattern': string,
       'proximityToRatioObjectResponse': string,
       'targetRatioChangedContextResponse': string,
