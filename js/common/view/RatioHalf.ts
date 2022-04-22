@@ -18,7 +18,7 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import { DragListener, IPaint, Node, NodeOptions, Rectangle, RectangleOptions } from '../../../../scenery/js/imports.js';
+import { DragListener, IPaint, Node, NodeOptions, Rectangle, RectangleOptions, SpeakingOptions } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioTerm from '../model/RatioTerm.js';
@@ -319,6 +319,7 @@ class RatioHalf extends Rectangle {
         }
 
         startingY = positionProperty.value.y;
+        previousYOnLastVoicing = positionProperty.value.y;
 
         this.viewSounds.grabSoundClip.play();
         options.cueArrowsState.interactedWithMouseProperty.value = true;
@@ -326,9 +327,15 @@ class RatioHalf extends Rectangle {
         options.setJumpingOverProportionShouldTriggerSound( true );
         this.viewSounds.boundarySoundClip.onStartInteraction();
 
-        this.ratioHandNode.voicingSpeakFullResponse( {
+        const fullResponse: SpeakingOptions = {
           contextResponse: null // If we ever have a context response, make sure we don't have go-beyond edge responses.
-        } );
+        };
+
+        const edgeHint = this.voicingHandPositionsDescriber.getGoBeyondContextResponse( this.ratio.tupleProperty.value, this.ratioTerm );
+        if ( edgeHint ) {
+          fullResponse.hintResponse = edgeHint;
+        }
+        this.ratioHandNode.voicingSpeakFullResponse( fullResponse );
       },
       drag: () => {
         this._isBeingInteractedWithProperty.value = true;
@@ -392,6 +399,9 @@ class RatioHalf extends Rectangle {
         else {
           // No voicing if there hasn't been any movement
         }
+
+        // Fire this once here so that on drag, if at edge, it will act like a go-beyond response on the first attempt
+        this.voicingHandPositionsDescriber.getGoBeyondContextResponse( this.ratio.tupleProperty.value, this.ratioTerm );
       },
 
       // phet-io
