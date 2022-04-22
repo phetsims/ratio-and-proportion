@@ -154,8 +154,8 @@ class RatioHalf extends Rectangle {
     this.ratio = options.ratio;
 
     const tickMarkDescriber = new TickMarkDescriber( options.tickMarkRangeProperty, options.tickMarkViewProperty );
-    this.descriptionHandPositionsDescriber = new HandPositionsDescriber( this.ratio.tupleProperty, tickMarkDescriber, options.inProportionProperty );
-    this.voicingHandPositionsDescriber = new HandPositionsDescriber( this.ratio.tupleProperty, tickMarkDescriber, options.inProportionProperty );
+    this.descriptionHandPositionsDescriber = new HandPositionsDescriber( this.ratio.tupleProperty, tickMarkDescriber, options.inProportionProperty, this.ratio.enabledRatioTermsRangeProperty );
+    this.voicingHandPositionsDescriber = new HandPositionsDescriber( this.ratio.tupleProperty, tickMarkDescriber, options.inProportionProperty, this.ratio.enabledRatioTermsRangeProperty );
     this.tickMarkViewProperty = options.tickMarkViewProperty;
     this.ratioTerm = options.ratioTerm;
 
@@ -475,6 +475,8 @@ class RatioHalf extends Rectangle {
     };
 
     this.resetRatioHalf = () => {
+      this.descriptionHandPositionsDescriber.reset();
+      this.voicingHandPositionsDescriber.reset();
       descriptionBothHandsDescriber.reset();
       voicingBothHandsDescriber.reset();
       this.ratioHandNode.reset();

@@ -14,6 +14,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import Range from '../../../../../dot/js/Range.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
@@ -26,6 +27,7 @@ import TickMarkDescriber from './TickMarkDescriber.js';
 import IReadOnlyProperty from '../../../../../axon/js/IReadOnlyProperty.js';
 import DistanceResponseType from './DistanceResponseType.js';
 import optionize from '../../../../../phet-core/js/optionize.js';
+import RatioInputModality from './RatioInputModality.js';
 
 const leftHandLowerString = ratioAndProportionStrings.a11y.leftHandLower;
 const rightHandLowerString = ratioAndProportionStrings.a11y.rightHandLower;
@@ -131,17 +133,23 @@ class HandPositionsDescriber {
 
   private previousDistance: number;
   static POSITION_REGIONS_DATA: PositionRegionsData[];
+  private previousEdgeCheckTuple: RAPRatioTuple;
+  enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>;
 
-  constructor( ratioTupleProperty: Property<RAPRatioTuple>, tickMarkDescriber: TickMarkDescriber, inProportionProperty: IReadOnlyProperty<boolean> ) {
+  constructor( ratioTupleProperty: Property<RAPRatioTuple>, tickMarkDescriber: TickMarkDescriber,
+               inProportionProperty: IReadOnlyProperty<boolean>, enabledRatioTermsRangeProperty: IReadOnlyProperty<Range> ) {
 
     this.ratioTupleProperty = ratioTupleProperty;
     this.tickMarkDescriber = tickMarkDescriber;
     this.inProportionProperty = inProportionProperty;
+    this.enabledRatioTermsRangeProperty = enabledRatioTermsRangeProperty;
 
     this.previousDistanceRegionSingle = null;
     this.previousDistanceRegionBoth = null;
 
     this.previousDistance = ratioTupleProperty.value.getDistance();
+
+    this.previousEdgeCheckTuple = ratioTupleProperty.value;
 
     ratioTupleProperty.lazyLink( ( newValue, oldValue ) => {
       if ( oldValue ) {
@@ -412,11 +420,72 @@ class HandPositionsDescriber {
     return distanceProgressString;
   }
 
+  getGoBeyondContextResponse( currentTuple: RAPRatioTuple, inputModality: RatioInputModality ): string | null {
+
+    const enabledRange = this.enabledRatioTermsRangeProperty.value;
+
+    // Right now this is just copied from the old BothHandsDescriber.getRatioLockedEdgeCaseContextResponse()
+    if ( inputModality === RatioInputModality.BOTH_HANDS ) {
+
+      const previousAntecedentAtMin = this.previousEdgeCheckTuple.antecedent === enabledRange.min;
+      const previousAntecedentAtMax = this.previousEdgeCheckTuple.antecedent === enabledRange.max;
+      const previousConsequentAtMin = this.previousEdgeCheckTuple.consequent === enabledRange.min;
+      const previousConsequentAtMax = this.previousEdgeCheckTuple.consequent === enabledRange.max;
+
+      let handAtExtremity = null; // what hand?
+      let extremityPosition = null; // where are we now?
+      let direction = null; // where to go from here?
+
+      if ( this.ratioTupleProperty.value.antecedent === enabledRange.min ) {
+        if ( previousAntecedentAtMin ) {
+          handAtExtremity = ratioAndProportionStrings.a11y.leftHand;
+          extremityPosition = ratioAndProportionStrings.a11y.handPosition.nearBottom;
+          direction = ratioAndProportionStrings.a11y.up;
+        }
+      }
+      else if ( this.ratioTupleProperty.value.antecedent === enabledRange.max ) {
+        if ( previousAntecedentAtMax ) {
+          handAtExtremity = ratioAndProportionStrings.a11y.leftHand;
+          extremityPosition = ratioAndProportionStrings.a11y.handPosition.atTop;
+          direction = ratioAndProportionStrings.a11y.down;
+        }
+      }
+      else if ( this.ratioTupleProperty.value.consequent === enabledRange.min ) {
+        if ( previousConsequentAtMin ) {
+          handAtExtremity = ratioAndProportionStrings.a11y.rightHand;
+          extremityPosition = ratioAndProportionStrings.a11y.handPosition.nearBottom;
+          direction = ratioAndProportionStrings.a11y.up;
+        }
+      }
+      else if ( this.ratioTupleProperty.value.consequent === enabledRange.max ) {
+        if ( previousConsequentAtMax ) {
+          handAtExtremity = ratioAndProportionStrings.a11y.rightHand;
+          extremityPosition = ratioAndProportionStrings.a11y.handPosition.atTop;
+          direction = ratioAndProportionStrings.a11y.down;
+        }
+      }
+
+      this.previousEdgeCheckTuple = currentTuple;
+
+      // Detect if we are at the edge of the range
+      if ( handAtExtremity && extremityPosition && direction ) {
+        return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.ratioLockedEdgeContextResponse, {
+          position: extremityPosition,
+          hand: handAtExtremity,
+          direction: direction
+        } );
+      }
+    }
+
+    return null;
+  }
+
   reset(): void {
     this.previousDistanceRegionSingle = null;
     this.previousDistanceRegionBoth = null;
 
     this.previousDistance = this.ratioTupleProperty.value.getDistance();
+    this.previousEdgeCheckTuple = this.ratioTupleProperty.value;
   }
 }
 

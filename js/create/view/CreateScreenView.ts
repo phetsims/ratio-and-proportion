@@ -50,9 +50,12 @@ class CreateScreenView extends RAPScreenView {
 
     const tickMarkRangeComboBoxParent = new Node();
 
-    this.tickMarkRangeComboBoxNode = new TickMarkRangeComboBoxNode( this.tickMarkRangeProperty, tickMarkRangeComboBoxParent, this.tickMarkViewProperty );
+    this.tickMarkRangeComboBoxNode = new TickMarkRangeComboBoxNode( this.tickMarkRangeProperty,
+      tickMarkRangeComboBoxParent, this.tickMarkViewProperty );
 
-    const handPositionsDescriber = new HandPositionsDescriber( model.ratio.tupleProperty, new TickMarkDescriber( this.tickMarkRangeProperty, this.tickMarkViewProperty ), model.inProportionProperty );
+    const handPositionsDescriber = new HandPositionsDescriber( model.ratio.tupleProperty,
+      new TickMarkDescriber( this.tickMarkRangeProperty, this.tickMarkViewProperty ),
+      model.inProportionProperty, model.ratio.enabledRatioTermsRangeProperty );
 
     this.createScreenSummaryNode = new CreateScreenSummaryNode(
       model.ratioFitnessProperty,
