@@ -62,7 +62,7 @@ class InProportionSoundGenerator extends SoundClip {
    *                                            an on/off Property for the SoundGenerator, see below.
    * @param providedOptions
    */
-  constructor( model: RAPModel, enabledControlProperty: Property<boolean>, providedOptions?: SoundClipOptions ) {
+  constructor( model: RAPModel, enabledControlProperty: IReadOnlyProperty<boolean>, providedOptions?: SoundClipOptions ) {
 
     const options = optionize<SoundClipOptions, {}>()( {
       initialOutputLevel: 0.5
