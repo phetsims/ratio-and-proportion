@@ -28,6 +28,7 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import TickMarkDescriber from './describers/TickMarkDescriber.js';
 import RatioInputModality from './describers/RatioInputModality.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 
 // constants
 const OBJECT_RESPONSE_DELAY = 500;
@@ -182,24 +183,31 @@ class BothHandsPDOMNode extends Node {
       getIdealTerm: options.getIdealTerm,
       inProportionProperty: options.inProportionProperty,
       onInput: ( ratioInputModality, knockedOutOfLock? ) => {
+
+        ///////////
+        // Description
         if ( knockedOutOfLock ) {
-
           this.alertDescriptionUtterance( this.ratioUnlockedFromBothHandsUtterance );
-          interactiveNode.voicingSpeakResponse( {
-            contextResponse: ratioAndProportionStrings.a11y.ratioNoLongerLocked
-          } );
         }
-
         this.alertBothHandsDescriptionContextResponse( ratioInputModality, knockedOutOfLock );
+        //////////
 
-        // Voicing object/context response
-        interactiveNode.voicingSpeakFullResponse( {
+        //////////
+        // Voicing
+        const originalVoicingContextResponse = this.voicingBothHandsDescriber.getBothHandsContextResponse( ratioInputModality );
+        const voicingContextResponse = knockedOutOfLock ? StringUtils.fillIn( ratioAndProportionStrings.a11y.ratioNoLongerLockedPattern, {
+          noLongerLocked: ratioAndProportionStrings.a11y.ratioNoLongerLocked,
+          originalContextResponse: originalVoicingContextResponse
+        } ) : originalVoicingContextResponse;
+        interactiveNode.voicingSpeakFullResponse( { // just object and context response
           nameResponse: null,
           hintResponse: null,
 
           // ratioInputModality is needed for the context response so we can't set that through voicingContextResponse
-          contextResponse: this.voicingBothHandsDescriber.getBothHandsContextResponse( ratioInputModality )
+          contextResponse: voicingContextResponse
         } );
+        ///////////
+
       }
     } );
 

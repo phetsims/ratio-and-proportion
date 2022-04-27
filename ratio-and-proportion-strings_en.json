@@ -331,6 +331,9 @@
     "ratioNoLongerLocked": {
       "value": "Hands no longer locked."
     },
+    "ratioNoLongerLockedPattern":{
+      "value": "{{noLongerLocked}} {{originalContextResponse}}"
+    },
     "screenSummaryControlAreaParagraph": {
       "value": "The Control Area has a button to reset the sim."
     },

@@ -130,6 +130,7 @@ type StringsType = {
     'ratioLockDisabledHelpText': string,
     'ratioLockCheckboxContextResponse': string,
     'ratioNoLongerLocked': string,
+    'ratioNoLongerLockedPattern': string,
     'screenSummaryControlAreaParagraph': string,
     'screenSummaryQualitativeStateOfSim': string,
     'detailsButtonPattern': string,

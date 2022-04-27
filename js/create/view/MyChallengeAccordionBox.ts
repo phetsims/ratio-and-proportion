@@ -13,7 +13,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Fraction from '../../../../phetcommon/js/model/Fraction.js';
 import NumberPicker from '../../../../scenery-phet/js/NumberPicker.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Color, HBox, Node, ReadingBlock, ReadingBlockOptions, RichText, VBox } from '../../../../scenery/js/imports.js';
+import { Color, HBox, Node, ReadingBlock, ReadingBlockOptions, RichText, VBox, Voicing } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
@@ -28,6 +28,8 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import ResponsePatternCollection from '../../../../utterance-queue/js/ResponsePatternCollection.js';
+import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
+import stepTimer from '../../../../axon/js/stepTimer.js';
 
 const PICKER_SCALE = 1.5;
 const ICON_SCALE = 0.9;
@@ -112,19 +114,13 @@ class MyChallengeAccordionBox extends AccordionBox {
     }, providedOptions );
 
     const ratioUnlockedFromMyChallenge = new Utterance( {
-      alert: ratioAndProportionStrings.a11y.ratioNoLongerLocked
-    } );
-
-    // When either of these change, then the model is about to unlock the ratio, so alert that. This relies on listener
-    // order to work, but I can't seem to discover another way to make sure that the ratio unlocked description get's
-    // before the main NumberPicker context response in a place where we have information about if the ratio was just
-    // unlocked, see https://github.com/phetsims/ratio-and-proportion/issues/227 for extensive investigation. NOTE:
-    // This should be above the creation of the NumberPickers to make sure that this fires before the RAPModel.targetRatioProperty
-    // changes.
-    Property.multilink<[ number, number ]>( [ targetAntecedentProperty, targetConsequentProperty ], () => {
-
-      // if currently locked, then it is about to be unlocked
-      ratioLockedProperty.value && this.alertDescriptionUtterance( ratioUnlockedFromMyChallenge );
+      alert: new ResponsePacket( {
+        contextResponse: ratioAndProportionStrings.a11y.ratioNoLongerLocked
+      } ),
+      announcerOptions: {
+        cancelOther: false,
+        cancelSelf: false
+      }
     } );
 
     const createNumberPickerContextResponse = () => ratioDescriber.getTargetRatioChangeAlert( targetAntecedentProperty.value, targetConsequentProperty.value );
@@ -155,6 +151,8 @@ class MyChallengeAccordionBox extends AccordionBox {
         } ),
         new Node( { children: [ antecedentNumberPicker ] } ) ]
     } );
+
+    Voicing.registerUtteranceToVoicingNode( ratioUnlockedFromMyChallenge, antecedentNumberPicker );
 
     const consequentNumberPicker = new NumberPicker( targetConsequentProperty, rangeProperty, {
       scale: PICKER_SCALE,
@@ -220,7 +218,23 @@ class MyChallengeAccordionBox extends AccordionBox {
 
     Property.multilink( [ targetAntecedentProperty, targetConsequentProperty ],
       ( targetAntecedent: number, targetConsequent: number ) => {
+
+        const wasLocked = ratioLockedProperty.value;
+
         targetRatioProperty.value = targetAntecedent / targetConsequent;
+
+        // if currently locked, then it is about to be unlocked
+        if ( wasLocked && !ratioLockedProperty.value ) {
+          this.alertDescriptionUtterance( ratioUnlockedFromMyChallenge );
+
+          // It would be ideal if this didn't need a timer, but the context response that occurs from changing the target
+          // ratio will interrupt this unless we add it after it has already gone through
+          stepTimer.setTimeout( () => {
+            Voicing.alertUtterance( ratioUnlockedFromMyChallenge );
+
+            // long enough to get other context response into announcer, shorter than the context response speaking time.
+          }, 300 );
+        }
       } );
 
     this.resetMyChallengeAccordionBox = () => {
