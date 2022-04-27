@@ -270,20 +270,16 @@ class RAPScreenView extends ScreenView {
         } ),
 
         // This number should be small, so that the most recent alert in the queue will immediately play once the announcer
-        // is done with the previous response
-        alertMaximumDelay: 50,
-        announcerOptions: {
-
-          // Every alert should be completed, otherwise there is no "hook" to get a full response without being
-          // interrupted by the next alert (upon next Property change).
-          cancelSelf: false
-        }
+        // is done with the previous response and there isn't a more recent response that came in after it.
+        alertMaximumDelay: 50
       } );
       this.mediaPipe = new RAPMediaPipe( model.ratio.tupleProperty,
         this.antecedentRatioHalf.viewSounds,
         this.consequentRatioHalf.viewSounds, {
           onInput: () => {
-            Voicing.alertUtterance( mediaPipeVoicingUtterance );
+            if ( this.mediaPipe!.voicingEnabledProperty.value ) {
+              Voicing.alertUtterance( mediaPipeVoicingUtterance );
+            }
           },
           isBeingInteractedWithProperty: model.mediaPipeInteractedWithProperty
         } );

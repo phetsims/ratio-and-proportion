@@ -19,6 +19,7 @@ import { RichText, VBox } from '../../../../scenery/js/imports.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import mediaPipeOptions from './mediaPipeOptions.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 if ( RAPQueryParameters.mediaPipe ) {
   MediaPipe.initialize();
@@ -28,6 +29,15 @@ const NUMBER_TO_SMOOTH = 10;
 
 // Hand-tracking points that we use to calculate the position of the ratio in the sim,  See https://google.github.io/mediapipe/solutions/hands.html#hand-landmark-model
 const HAND_POINTS = [ 5, 9, 13 ];
+
+const THUMB_TIP = 4;
+const INDEX_TIP = 8;
+
+const MARKERS_TOUCHING_THRESHOLD = 0.04;
+
+// Scratch vectors to avoid taking too much memory
+const firstMarkerTouchingVector = new Vector2( 0, 0 );
+const secondMarkerTouchingVector = new Vector2( 0, 0 );
 
 type RAPMediaPipeOptions = {
   onInput?: () => void;
@@ -42,6 +52,10 @@ class RAPMediaPipe extends MediaPipe {
   consequentHandPositions: Vector3[];
   antecedentViewSounds: ViewSounds;
   consequentViewSounds: ViewSounds;
+
+  // Use a gesture to determine if voicing for the hands should be enabled
+  voicingEnabledProperty = new BooleanProperty( false );
+
   onInput: () => void;
 
   constructor( ratioTupleProperty: Property<RAPRatioTuple>, antecedentViewSounds: ViewSounds, consequentViewSounds: ViewSounds, providedOptions: RAPMediaPipeOptions ) {
@@ -101,13 +115,14 @@ class RAPMediaPipe extends MediaPipe {
     const results = MediaPipe.results;
 
     if ( results && results.multiHandLandmarks.length === 2 ) {
+
       this.isBeingInteractedWithProperty.value = true;
-      const handPositions: Vector3[] = results.multiHandLandmarks.map( ( thing: HandPoint[] ) => {
+      const handPositions: Vector3[] = results.multiHandLandmarks.map( ( handMarkerPositions: HandPoint[] ) => {
         const finalPosition = new Vector3( 0, 0, 0 );
 
         // These are along the center of a hand, about where we have calibrated the hand icon in RAP, see https://google.github.io/mediapipe/solutions/hands.html#hand-landmark-model
         HAND_POINTS.forEach( index => {
-          const point = thing[ index ];
+          const point = handMarkerPositions[ index ];
           assert && assert( typeof point.x === 'number' );
           assert && assert( typeof point.y === 'number' );
           assert && assert( typeof point.z === 'number' );
@@ -123,11 +138,26 @@ class RAPMediaPipe extends MediaPipe {
       handPositions.sort();
       const newValue = this.tupleFromSmoothing( handPositions[ 0 ], handPositions[ 1 ] );
       this.ratioTupleProperty.value = newValue;
+
+      // Voicing is disabled with the gesture of an "OK" hand gesture from both hands.
+      this.voicingEnabledProperty.value = !( this.markersTouching( THUMB_TIP, INDEX_TIP, results.multiHandLandmarks[ 0 ] ) &&
+                                             this.markersTouching( THUMB_TIP, INDEX_TIP, results.multiHandLandmarks[ 1 ] ) );
+
       this.onInteract( newValue );
     }
     else {
       this.isBeingInteractedWithProperty.value = false;
     }
+  }
+
+  markersTouching( point1: number, point2: number, handMarkerPositions: HandPoint[] ): boolean {
+    const position1 = handMarkerPositions[ point1 ];
+    const position2 = handMarkerPositions[ point2 ];
+
+    firstMarkerTouchingVector.setXY( position1.x, position1.y );
+    secondMarkerTouchingVector.setXY( position2.x, position2.y );
+
+    return firstMarkerTouchingVector.distance( secondMarkerTouchingVector ) < MARKERS_TOUCHING_THRESHOLD;
   }
 
   onInteract( newValue: RAPRatioTuple ): void {
