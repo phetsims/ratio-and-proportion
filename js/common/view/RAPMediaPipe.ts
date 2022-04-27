@@ -30,12 +30,13 @@ const NUMBER_TO_SMOOTH = 10;
 const HAND_POINTS = [ 5, 9, 13 ];
 
 type RAPMediaPipeOptions = {
-  onInput: () => void;
+  onInput?: () => void;
+  isBeingInteractedWithProperty?: Property<boolean>;
 };
 
 class RAPMediaPipe extends MediaPipe {
 
-  readonly isBeingInteractedWithProperty: BooleanProperty;
+  readonly isBeingInteractedWithProperty: Property<boolean>;
   private ratioTupleProperty: Property<RAPRatioTuple>;
   antecedentHandPositions: Vector3[];
   consequentHandPositions: Vector3[];
@@ -45,11 +46,12 @@ class RAPMediaPipe extends MediaPipe {
 
   constructor( ratioTupleProperty: Property<RAPRatioTuple>, antecedentViewSounds: ViewSounds, consequentViewSounds: ViewSounds, providedOptions: RAPMediaPipeOptions ) {
     const options = optionize<RAPMediaPipeOptions>()( {
+      isBeingInteractedWithProperty: new BooleanProperty( false ),
       onInput: _.noop
     }, providedOptions );
     super();
 
-    this.isBeingInteractedWithProperty = new BooleanProperty( false );
+    this.isBeingInteractedWithProperty = options.isBeingInteractedWithProperty;
     this.ratioTupleProperty = ratioTupleProperty;
     this.onInput = options.onInput;
     this.antecedentViewSounds = antecedentViewSounds;

@@ -23,6 +23,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import RAPRatioTuple from './RAPRatioTuple.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
+import Property from '../../../../axon/js/Property.js';
 // constant to help achieve feedback in 40% of the visual screen height (2 default tick marks). Calculated by taking the
 // fitness distance when the right hand is 2 tick marks from the target ratio. This number is based on a target ratio of
 // .5, so it is normalized here. When used, it should be multiplied by the current target ratio.
@@ -62,6 +63,9 @@ class RAPModel {
 
   //  whether the model is in its "in-proportion" state.
   inProportionProperty: IReadOnlyProperty<boolean>;
+
+  // If the model is being interacted with MediaPipe as an input. This will alter the characteristics of the ratio.
+  mediaPipeInteractedWithProperty = new Property( false );
 
   constructor( tandem: Tandem ) {
 
@@ -209,11 +213,9 @@ unclampedFitness: ${unclampedFitness}
   }
 
   getInProportionThreshold(): number {
-    let threshold = rapConstants.IN_PROPORTION_FITNESS_THRESHOLD;
-    if ( this.ratio.movingInDirectionProperty.value ) {
-      threshold = rapConstants.MOVING_IN_PROPORTION_FITNESS_THRESHOLD;
-    }
-    return threshold;
+    return this.ratio.movingInDirectionProperty.value ? rapConstants.MOVING_IN_PROPORTION_FITNESS_THRESHOLD :
+           this.mediaPipeInteractedWithProperty.value ? rapConstants.MEDIA_PIPE_IN_PROPORTION_FITNESS_THRESHOLD :
+           rapConstants.IN_PROPORTION_FITNESS_THRESHOLD;
   }
 
   /**
@@ -259,6 +261,7 @@ unclampedFitness: ${unclampedFitness}
     this.ratio.reset(); // do this first
 
     this.targetRatioProperty.reset();
+    this.mediaPipeInteractedWithProperty.reset();
   }
 }
 

@@ -284,7 +284,8 @@ class RAPScreenView extends ScreenView {
         this.consequentRatioHalf.viewSounds, {
           onInput: () => {
             Voicing.alertUtterance( mediaPipeVoicingUtterance );
-          }
+          },
+          isBeingInteractedWithProperty: model.mediaPipeInteractedWithProperty
         } );
 
       // So that this Utterance does not announce unless the ScreenView is visible and voicingVisible.
