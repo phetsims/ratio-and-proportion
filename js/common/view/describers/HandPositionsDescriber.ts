@@ -448,6 +448,10 @@ class HandPositionsDescriber {
    */
   getGoBeyondContextResponse( currentTuple: RAPRatioTuple, mostRecentlyMoved: RatioInputModality ): string | null {
 
+    // If ratio is locked, then respond as BOTH_HANDS (meaning moving either hand will trigger the edge response for
+    // the hand at the edge).
+    mostRecentlyMoved = this.ratioLockedProperty.value ? RatioInputModality.BOTH_HANDS : mostRecentlyMoved;
+
     const enabledRange = this.enabledRatioTermsRangeProperty.value;
 
     const previousAntecedentAtMin = this.previousEdgeCheckTuple.antecedent === enabledRange.min;
