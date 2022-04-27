@@ -355,7 +355,6 @@ class RatioHalf extends Rectangle {
         this.viewSounds.tickMarkBumpSoundClip.onInteract( positionProperty.value.y );
 
         // Only new responses if the y position is different.
-        // TODO: this is not correct for some reason, we are still getting into this when at edge and dragging beyond. https://github.com/phetsims/ratio-and-proportion/issues/457
         if ( positionProperty.value.y !== previousYOnLastVoicing ) {
           this.ratioHandNode.voicingSpeakFullResponse( {
             nameResponse: null,
