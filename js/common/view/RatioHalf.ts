@@ -307,6 +307,7 @@ class RatioHalf extends Rectangle {
     // When set to a value, the horizontal position will not be changed throughout the whole drag. Set to null when not dragging.
     let startingX: null | number = null;
     let startingY = -1;
+    let positionChanged = false;
     let previousYOnLastVoicing = -1;
 
     // transform and dragBounds set in layout code below
@@ -319,6 +320,7 @@ class RatioHalf extends Rectangle {
         }
 
         startingY = positionProperty.value.y;
+        positionChanged = false;
         previousYOnLastVoicing = positionProperty.value.y;
 
         this.viewSounds.grabSoundClip.play();
@@ -343,6 +345,9 @@ class RatioHalf extends Rectangle {
         if ( typeof startingX === 'number' ) {
           positionProperty.value.setX( startingX );
           positionProperty.notifyListenersStatic();
+        }
+        if ( startingY !== positionProperty.value.y ) {
+          positionChanged = true;
         }
 
         this.viewSounds.boundarySoundClip.onInteract( positionProperty.value.y, positionProperty.value.x,
@@ -386,8 +391,7 @@ class RatioHalf extends Rectangle {
         this.ratioHandNode.alertContextResponse();
 
         // Only voice a response if the value changed
-        // TODO: support leaving the start value and coming back to it, and still getting this endDrag voicing response. https://github.com/phetsims/ratio-and-proportion/issues/457
-        if ( startingY !== positionProperty.value.y ) {
+        if ( positionChanged ) {
 
           this.ratioHandNode.voicingSpeakFullResponse( {
             nameResponse: null,
