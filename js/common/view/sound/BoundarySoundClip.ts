@@ -10,7 +10,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
+import SoundClip, { SoundClipOptions } from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import generalBoundaryBoop_mp3 from '../../../../../tambo/sounds/generalBoundaryBoop_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import Range from '../../../../../dot/js/Range.js';
@@ -29,7 +29,7 @@ class BoundarySoundClip extends SoundClip {
    * @param {Range} verticalRange - the total range that the vertical position can take
    * @param {Object} [options]
    */
-  constructor( verticalRange: Range, options?: any ) {
+  constructor( verticalRange: Range, options?: SoundClipOptions ) {
     super( generalBoundaryBoop_mp3, options );
 
     this.verticalRange = verticalRange;

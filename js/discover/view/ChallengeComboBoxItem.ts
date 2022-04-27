@@ -7,7 +7,7 @@
  */
 
 import { Color, HBox, Rectangle, RichText } from '../../../../scenery/js/imports.js';
-import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
+import ComboBoxItem, { ComboBoxItemOptions } from '../../../../sun/js/ComboBoxItem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
@@ -15,7 +15,7 @@ import Property from '../../../../axon/js/Property.js';
 class ChallengeComboBoxItem extends ComboBoxItem<number> {
 
   constructor( text: string, color: Color, value: number, valueProperty: NumberProperty,
-               colorProperty: Property<Color>, options?: any ) {
+               colorProperty: Property<Color>, options?: ComboBoxItemOptions ) {
     super( new HBox( {
       spacing: 8,
       children: [

@@ -6,25 +6,27 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import ScreenIcon from '../../../../joist/js/ScreenIcon.js';
-import merge from '../../../../phet-core/js/merge.js';
-import { HBox, Rectangle, VBox } from '../../../../scenery/js/imports.js';
+import ScreenIcon, { ScreenIconOptions } from '../../../../joist/js/ScreenIcon.js';
+import { Color, HBox, Rectangle, VBox } from '../../../../scenery/js/imports.js';
 import RAPColors from '../../common/view/RAPColors.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
 import TickMarkView from '../../common/view/TickMarkView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
+type SelfOptions = {
+  handColor?: Color;
+}
 
 class DiscoverScreenIcon extends ScreenIcon {
 
-  constructor( options?: any ) {
+  constructor( providedOptions?: ScreenIconOptions ) {
 
-    // TODO: convert to optionize once ScreenIcon is typescript https://github.com/phetsims/ratio-and-proportion/issues/404
-    options = merge( {
+    const options = optionize<ScreenIconOptions, SelfOptions, ScreenIconOptions>()( {
       fill: 'white',
       handColor: RAPColors.discoverChallenge1Property.value
-    }, options );
+    }, providedOptions );
 
     const tickMarksHiddenProperty = new EnumerationProperty( TickMarkView.NONE );
 

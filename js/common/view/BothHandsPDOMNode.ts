@@ -39,7 +39,7 @@ type SelfOptions = {
   keyboardStep: number;
   tickMarkViewProperty: EnumerationProperty<TickMarkView>;
   tickMarkRangeProperty: Property<number>;
-  unclampedFitnessProperty: Property<number>;
+  unclampedFitnessProperty: IReadOnlyProperty<number>;
   ratioDescriber: RatioDescriber;
   playTickMarkBumpSoundProperty: Property<boolean>;
   ratioLockedProperty: Property<boolean>;
@@ -251,12 +251,12 @@ class BothHandsPDOMNode extends Node {
 
     // Though most cases are covered by just listening to fitness, there are certain cases when Property values can change,
     // but the fitness doesn't. See https://github.com/phetsims/ratio-and-proportion/issues/222 as an example.
-    Property.multilink( [
+    Property.multilink<[ TickMarkView, number, RAPRatioTuple, number ]>( [
       options.tickMarkViewProperty,
       options.tickMarkRangeProperty,
       options.ratioTupleProperty,
       options.unclampedFitnessProperty
-    ], ( ...args: any[] ) => {
+    ], () => {
 
       dynamicDescription.innerContent = this.descriptionBothHandsDescriber.getBothHandsDynamicDescription();
 

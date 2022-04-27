@@ -11,7 +11,7 @@ import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
 import merge from '../../../../../phet-core/js/merge.js';
 import SoundClip, { SoundClipOptions } from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundLevelEnum from '../../../../../tambo/js/SoundLevelEnum.js';
-import soundManager from '../../../../../tambo/js/soundManager.js';
+import soundManager, { SoundGeneratorAddOptions } from '../../../../../tambo/js/soundManager.js';
 import grab_mp3 from '../../../../../tambo/sounds/grab_mp3.js';
 import release_mp3 from '../../../../../tambo/sounds/release_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
@@ -27,8 +27,7 @@ const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 type SelfOptions = {
 
-  // TODO: convert to optionize once SoundManager.addSoundGenerator is typescript https://github.com/phetsims/ratio-and-proportion/issues/404
-  addSoundOptions?: any;
+  addSoundOptions?: SoundGeneratorAddOptions;
   soundClipOptions?: SoundClipOptions;
 }
 

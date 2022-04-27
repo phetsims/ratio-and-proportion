@@ -37,7 +37,7 @@ class RAPTickMarkLabelsNode extends Node {
 
     this.mutate( options );
 
-    Property.multilink<any[]>( [ tickMarkRangeProperty, tickMarkViewProperty ], this.update.bind( this ) );
+    Property.multilink<[ number, TickMarkView ]>( [ tickMarkRangeProperty, tickMarkViewProperty ], this.update.bind( this ) );
   }
 
   /**

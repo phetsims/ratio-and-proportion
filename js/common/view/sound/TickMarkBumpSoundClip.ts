@@ -6,7 +6,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
+import SoundClip, { SoundClipOptions } from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import generalSoftClick_mp3 from '../../../../../tambo/sounds/generalSoftClick_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import Range from '../../../../../dot/js/Range.js';
@@ -31,7 +31,7 @@ class TickMarkBumpSoundClip extends SoundClip {
    * @param positionRange - the total range in position
    * @param [options]
    */
-  constructor( tickMarkRangeProperty: Property<number>, positionRange: Range, options?: any ) {
+  constructor( tickMarkRangeProperty: Property<number>, positionRange: Range, options?: SoundClipOptions ) {
     super( generalSoftClick_mp3, options );
 
     this.tickMarkRangeProperty = tickMarkRangeProperty;
