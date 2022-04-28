@@ -50,7 +50,6 @@ class RAPConstants extends PhetioObject {
         phetioType: new IOType( 'RAPConstantsIO', {
           isValidValue: _.stubTrue,
           toStateObject: ( object: RAPConstants ) => object.toStateObject(),
-          superType: IOType.ObjectIO,
           stateSchema: {
             SCREEN_VIEW_X_MARGIN: NumberIO,
             SCREEN_VIEW_Y_MARGIN: NumberIO,
