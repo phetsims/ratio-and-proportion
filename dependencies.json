@@ -1,5 +1,5 @@
 {
-  "comment": "# ratio-and-proportion 1.2.0-dev.13 Wed Apr 27 2022 13:16:30 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# ratio-and-proportion 1.2.0-dev.14 Thu Apr 28 2022 10:32:06 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "c3031da7fe7daf5c741b85c644eb0b6f3c1c6a89",
     "branch": "master"
@@ -13,7 +13,7 @@
     "branch": "master"
   },
   "chipper": {
-    "sha": "8d7eb470f3602a9f8458a9d5a1d3152c3c1274bd",
+    "sha": "49dd2889780e4fd1336fcc0543ba5eb53de30e8f",
     "branch": "master"
   },
   "dot": {
@@ -37,7 +37,7 @@
     "branch": "master"
   },
   "phet-core": {
-    "sha": "a8fe87671b9f125d9da7f8e47086a8c0704ed73f",
+    "sha": "73efacbf79eb7515c654406872a33c8cdd736cbd",
     "branch": "master"
   },
   "phet-io": {
@@ -69,11 +69,11 @@
     "branch": "master"
   },
   "ratio-and-proportion": {
-    "sha": "9f76f7be375f2f4874fb0f0ecba7e4373d7e365a",
+    "sha": "11d969f6ef846070b60cbcdc02d7181d60371c22",
     "branch": "master"
   },
   "scenery": {
-    "sha": "149f21d1d8672a30df1b82a28ba7b86c6763bd88",
+    "sha": "877f30e55bfe4e059f76baeeef2e934256f60abe",
     "branch": "master"
   },
   "scenery-phet": {
@@ -81,7 +81,7 @@
     "branch": "master"
   },
   "sherpa": {
-    "sha": "5f2d7be13690cd68f321e1510ac0554f53e32d72",
+    "sha": "2973aafed5cb29262520c6312d91192696a32703",
     "branch": "master"
   },
   "studio": {
@@ -93,7 +93,7 @@
     "branch": "master"
   },
   "tambo": {
-    "sha": "e438086e716e303e02c92a326cba0dda5956273e",
+    "sha": "c1ac68e48197f4febfae2fc195a70656db8619fc",
     "branch": "master"
   },
   "tandem": {
