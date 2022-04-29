@@ -559,7 +559,7 @@ class RatioHalf extends Rectangle {
     this.resetRatioHalf();
   }
 
-  private static RATIO_HALF_ACCESSIBLE_NAME_BEHAVIOR( node: Node, options: NodeOptions, accessibleName: string, callbacksForOtherNodes: { (): void }[] ) {
+  private static RATIO_HALF_ACCESSIBLE_NAME_BEHAVIOR( node: Node, options: NodeOptions, accessibleName: string, callbacksForOtherNodes: { (): void }[] ): NodeOptions {
 
     callbacksForOtherNodes.push( () => {
       ( node as RatioHalf ).ratioHandNode.accessibleName = accessibleName;

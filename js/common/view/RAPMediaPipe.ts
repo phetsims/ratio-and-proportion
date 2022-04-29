@@ -168,7 +168,7 @@ class RAPMediaPipe extends MediaPipe {
     this.consequentViewSounds.tickMarkBumpSoundClip.onInteract( newValue.consequent );
   }
 
-  static getMediaPipeOptionsNode() {
+  static getMediaPipeOptionsNode(): VBox {
     return new VBox( {
       spacing: 10,
       align: 'left',

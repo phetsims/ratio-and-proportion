@@ -51,7 +51,7 @@ class BackgroundColorHandler {
 
   }
 
-  static getCurrentColorRegion( fitness: number, inProportion: boolean ) {
+  static getCurrentColorRegion( fitness: number, inProportion: boolean ): string {
     if ( fitness === rapConstants.RATIO_FITNESS_RANGE.min ) {
       return BACKGROUND_COLOR_STRINGS[ 0 ];
     }
