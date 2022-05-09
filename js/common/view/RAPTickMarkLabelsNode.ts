@@ -71,8 +71,6 @@ class RAPTickMarkLabelsNode extends Node {
   private updateUnitLabels( horizontalSpacing: number ): void {
     this.children = [];
 
-    assert && assert( typeof horizontalSpacing === 'number', 'Unit Labels only supported for horizontal lines' );
-
     let i = 0;
 
     for ( let y = 0; y <= this.totalHeight; y += horizontalSpacing ) {
