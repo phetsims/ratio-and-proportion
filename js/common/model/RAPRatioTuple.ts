@@ -109,7 +109,7 @@ class RAPRatioTuple {
     return new RAPRatioTuple( this.antecedent, this.consequent );
   }
 
-  toStateObject( rapRatioTuple: RAPRatioTuple ): RAPRatioTupleState {
+  toStateObject(): RAPRatioTupleState {
     return {
       antecedent: this.antecedent,
       consequent: this.consequent

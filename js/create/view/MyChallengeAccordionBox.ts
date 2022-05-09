@@ -211,7 +211,7 @@ class MyChallengeAccordionBox extends AccordionBox {
     this.targetConsequentProperty = targetConsequentProperty;
 
     const accordionBoxUtterance = new ActivationUtterance();
-    this.expandedProperty.lazyLink( ( expanded: boolean ) => {
+    this.expandedProperty.lazyLink( () => {
       accordionBoxUtterance.alert = createAccordionBoxContextResponse();
       this.alertDescriptionUtterance( accordionBoxUtterance );
     } );

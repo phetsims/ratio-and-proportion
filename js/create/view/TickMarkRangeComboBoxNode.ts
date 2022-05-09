@@ -94,7 +94,7 @@ class TickMarkRangeComboBoxNode extends Node {
 
     const tickMarkRangeChangedUtterance = new ActivationUtterance();
 
-    tickMarkRangeProperty.lazyLink( ( range: number ) => {
+    tickMarkRangeProperty.lazyLink( () => {
       tickMarkRangeChangedUtterance.alert = this.getContextResponse();
       this.alertDescriptionUtterance( tickMarkRangeChangedUtterance );
     } );
