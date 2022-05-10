@@ -36,7 +36,7 @@ const RAPQueryParameters = QueryStringMachine.getAll( {
   // This should be removed before publication; it is only needed for research in summer, 2022. See https://github.com/phetsims/ratio-and-proportion/issues/465
   mpInProportionThreshold: {
     type: 'number',
-    defaultValue: 0.03
+    defaultValue: 0.3
   }
 } );
 
