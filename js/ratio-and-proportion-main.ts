@@ -10,6 +10,8 @@ import Sim, { SimOptions } from '../../joist/js/Sim.js';
 import PreferencesConfiguration from '../../joist/js/preferences/PreferencesConfiguration.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import ClapperboardButton from '../../scenery-phet/js/ClapperboardButton.js';
+import { Node } from '../../scenery/js/imports.js';
 import CreateScreen from './create/CreateScreen.js';
 import DiscoverScreen from './discover/DiscoverScreen.js';
 import ratioAndProportionStrings from './ratioAndProportionStrings.js';
@@ -29,7 +31,12 @@ const simOptions: SimOptions = {
   hasKeyboardHelpContent: true,
   preferencesConfiguration: new PreferencesConfiguration( {
     generalOptions: {
-      simControls: RAPQueryParameters.mediaPipe ? RAPMediaPipe.getMediaPipeOptionsNode() : null
+      simControls: new Node( {
+        children: [
+          new ClapperboardButton(),
+          RAPQueryParameters.mediaPipe ? RAPMediaPipe.getMediaPipeOptionsNode() : new Node()
+        ]
+      } )
     }
   } )
 };
