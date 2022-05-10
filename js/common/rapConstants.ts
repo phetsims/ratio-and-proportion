@@ -14,6 +14,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import IOType from '../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import ratioAndProportion from '../ratioAndProportion.js';
+import RAPQueryParameters from './RAPQueryParameters.js';
 
 class RAPConstants extends PhetioObject {
 
@@ -29,7 +30,7 @@ class RAPConstants extends PhetioObject {
   MOVING_IN_PROPORTION_FITNESS_THRESHOLD = 0.3;
 
   // distance (in fitness) from max fitness that still indicates a successful proportion when interacting via MediaPipe.
-  MEDIA_PIPE_IN_PROPORTION_FITNESS_THRESHOLD = 0.3;
+  MEDIA_PIPE_IN_PROPORTION_FITNESS_THRESHOLD = RAPQueryParameters.mpInProportionThreshold;
 
   // The value to multiple the keyboard step size by to get the shift + keydown step size
   SHIFT_KEY_MULTIPLIER = 1 / 5;
