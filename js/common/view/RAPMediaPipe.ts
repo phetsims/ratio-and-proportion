@@ -20,6 +20,7 @@ import Checkbox from '../../../../sun/js/Checkbox.js';
 import mediaPipeOptions from './mediaPipeOptions.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 if ( RAPQueryParameters.mediaPipe ) {
   MediaPipe.initialize();
@@ -112,7 +113,7 @@ class RAPMediaPipe extends MediaPipe {
 
   step(): void {
 
-    const results = MediaPipe.results;
+    const results = MediaPipe.resultsProperty.value;
 
     if ( results && results.multiHandLandmarks.length === 2 ) {
 
@@ -174,8 +175,8 @@ class RAPMediaPipe extends MediaPipe {
       align: 'left',
       children: [
         new RichText( 'MediaPipe Options:' ),
-        new Checkbox( new RichText( 'x-axis flipped' ), mediaPipeOptions.xAxisFlippedProperty ),
-        new Checkbox( new RichText( 'y-axis flipped' ), mediaPipeOptions.yAxisFlippedProperty )
+        new Checkbox( new RichText( 'x-axis flipped' ), mediaPipeOptions.xAxisFlippedProperty, { tandem: Tandem.OPT_OUT } ),
+        new Checkbox( new RichText( 'y-axis flipped' ), mediaPipeOptions.yAxisFlippedProperty, { tandem: Tandem.OPT_OUT } )
       ]
     } );
   }
