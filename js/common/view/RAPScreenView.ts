@@ -37,7 +37,6 @@ import BothHandsDescriber from './describers/BothHandsDescriber.js';
 import RatioDescriber from './describers/RatioDescriber.js';
 import TickMarkDescriber from './describers/TickMarkDescriber.js';
 import RAPColors from './RAPColors.js';
-import RAPMarkerInput from './RAPMarkerInput.js';
 import RAPTickMarkLabelsNode from './RAPTickMarkLabelsNode.js';
 import RatioHalf from './RatioHalf.js';
 import InProportionSoundGenerator from './sound/InProportionSoundGenerator.js';
@@ -88,7 +87,6 @@ class RAPScreenView extends ScreenView {
   private backgroundColorHandler: BackgroundColorHandler;
   private antecedentRatioHalf: RatioHalf;
   private consequentRatioHalf: RatioHalf;
-  private markerInput: RAPMarkerInput | null;
 
   // SoundGenerators that sonify different aspects of the model
   private inProportionSoundGenerator: InProportionSoundGenerator;
@@ -294,24 +292,10 @@ class RAPScreenView extends ScreenView {
       } );
     }
 
-    this.markerInput = null;
-
-    if ( RAPQueryParameters.tangible ) {
-
-      this.markerInput = new RAPMarkerInput( ratio.tupleProperty );
-
-      this.markerInput.isBeingInteractedWithProperty.lazyLink( ( interactedWithMarkers: boolean ) => {
-        if ( interactedWithMarkers ) {
-          cueArrowsState.interactedWithMouseProperty.value = true;
-        }
-      } );
-    }
-
     const soundGeneratorEnabledProperty = DerivedProperty.or( [
       this.antecedentRatioHalf.isBeingInteractedWithProperty,
       this.consequentRatioHalf.isBeingInteractedWithProperty,
       bothHandsPDOMNode.isBeingInteractedWithProperty,
-      this.markerInput ? this.markerInput.isBeingInteractedWithProperty : new BooleanProperty( false ),
       this.mediaPipe ? this.mediaPipe.isBeingInteractedWithProperty : new BooleanProperty( false )
     ] );
 
@@ -340,7 +324,6 @@ class RAPScreenView extends ScreenView {
         model.reset();
         cueArrowsState.reset();
         bothHandsPDOMNode.reset();
-        this.markerInput && this.markerInput.reset();
         this.mediaPipe && this.mediaPipe.reset();
         this.reset();
       },
@@ -463,7 +446,6 @@ class RAPScreenView extends ScreenView {
   override step( dt: number ): void {
 
     this.mediaPipe && this.mediaPipe.step();
-    this.markerInput && this.markerInput.step();
     this.inProportionSoundGenerator.step( dt );
     this.staccatoFrequencySoundGenerator.step( dt );
   }

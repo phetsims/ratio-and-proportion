@@ -11,17 +11,6 @@ import ratioAndProportion from '../ratioAndProportion.js';
 
 const RAPQueryParameters = QueryStringMachine.getAll( {
 
-  // For mechamarker input. Tweak this as needed depending on the input camera, and the range that you will to use in
-  // the camera view port.
-  heightInPixels: {
-    type: 'number',
-    defaultValue: 600
-  },
-
-  markerInput: {
-    type: 'flag'
-  },
-
   // Show description qualitative position regions for the hands.
   showPositionRegions: {
     type: 'flag'
