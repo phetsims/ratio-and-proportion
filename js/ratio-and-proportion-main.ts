@@ -33,7 +33,7 @@ const simOptions: SimOptions = {
     generalOptions: {
       simControls: new Node( {
         children: [
-          new ClapperboardButton(),
+          new ClapperboardButton( { tandem: Tandem.GLOBAL_VIEW.createTandem( 'clapperboardButton' ) } ),
           RAPQueryParameters.mediaPipe ? RAPMediaPipe.getMediaPipeOptionsNode() : new Node()
         ]
       } )
