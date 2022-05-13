@@ -29,7 +29,6 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import ResponsePatternCollection from '../../../../utterance-queue/js/ResponsePatternCollection.js';
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
-import stepTimer from '../../../../axon/js/stepTimer.js';
 
 const PICKER_SCALE = 1.5;
 const ICON_SCALE = 0.9;
@@ -117,10 +116,7 @@ class MyChallengeAccordionBox extends AccordionBox {
       alert: new ResponsePacket( {
         contextResponse: ratioAndProportionStrings.a11y.ratioNoLongerLocked
       } ),
-      announcerOptions: {
-        cancelOther: false,
-        cancelSelf: false
-      }
+      priority: Utterance.MEDIUM_PRIORITY
     } );
 
     const createNumberPickerContextResponse = () => ratioDescriber.getTargetRatioChangeAlert( targetAntecedentProperty.value, targetConsequentProperty.value );
@@ -226,14 +222,7 @@ class MyChallengeAccordionBox extends AccordionBox {
         // if currently locked, then it is about to be unlocked
         if ( wasLocked && !ratioLockedProperty.value ) {
           this.alertDescriptionUtterance( ratioUnlockedFromMyChallenge );
-
-          // It would be ideal if this didn't need a timer, but the context response that occurs from changing the target
-          // ratio will interrupt this unless we add it after it has already gone through
-          stepTimer.setTimeout( () => {
-            Voicing.alertUtterance( ratioUnlockedFromMyChallenge );
-
-            // long enough to get other context response into announcer, shorter than the context response speaking time.
-          }, 300 );
+          Voicing.alertUtterance( ratioUnlockedFromMyChallenge );
         }
       } );
 
