@@ -217,7 +217,7 @@ class RatioHalf extends Rectangle {
       inverseMap: ( term: number ) => this.ratioTerm === RatioTerm.ANTECEDENT ? this.ratio.tupleProperty.value.withAntecedent( term ) :
                                       this.ratioTerm === RatioTerm.CONSEQUENT ? this.ratio.tupleProperty.value.withConsequent( term ) :
                                       ( assert && assert( false, `unexpected ratioTerm ${this.ratioTerm}` ) ) as unknown as RAPRatioTuple
-    } ) as Property<number>;
+    } );
 
     const createObjectResponse = () => this.ratio.lockedProperty.value ? options.ratioDescriber.getProximityToChallengeRatio() :
                                        options.ratioDescriber.getProximityToChallengeRatio();
