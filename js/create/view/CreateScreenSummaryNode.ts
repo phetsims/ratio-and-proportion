@@ -97,15 +97,10 @@ class CreateScreenSummaryNode extends Node {
       ratioFitnessProperty,
       inProportionProperty,
       tickMarkRangeProperty
-    ], ( tickMarkView: TickMarkView, targetAntecedent: number, targetConsequent: number,
-         currentTuple: RAPRatioTuple, fitness: number, inProportion: boolean, tickMarkRange: number ) => {
-
+    ], () => {
       stateOfSimNode.innerContent = this.getStateOfSim();
-
       leftHandBullet.innerContent = this.getLeftHandState();
-
       rightHandBullet.innerContent = this.getLeftHandState();
-
       currentChallengeBullet.innerContent = this.getCurrentChallengeState();
     } );
   }

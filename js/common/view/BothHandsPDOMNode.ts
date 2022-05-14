@@ -140,7 +140,7 @@ class BothHandsPDOMNode extends Node {
     Property.multilink( [
       this.antecedentInteractedWithProperty,
       this.consequentInteractedWithProperty
-    ], ( antecedentInteractedWith: boolean, consequentInteractedWith: boolean ) => {
+    ], ( antecedentInteractedWith, consequentInteractedWith ) => {
       options.cueArrowsState.bothHands.interactedWithProperty.value = antecedentInteractedWith || consequentInteractedWith;
 
       // If both hands have been interacted with, then no need for individual cues either
@@ -152,7 +152,7 @@ class BothHandsPDOMNode extends Node {
       this.antecedentInteractedWithProperty,
       this.consequentInteractedWithProperty,
       this.bothHandsFocusedProperty
-    ], ( antecedentInteractedWith: boolean, consequentInteractedWith: boolean, bothHandsFocused: boolean ) => {
+    ], ( antecedentInteractedWith, consequentInteractedWith, bothHandsFocused ) => {
       options.cueArrowsState.bothHands.antecedentCueDisplayedProperty.value = !antecedentInteractedWith && bothHandsFocused;
       options.cueArrowsState.bothHands.consequentCueDisplayedProperty.value = !consequentInteractedWith && bothHandsFocused;
     } );
@@ -259,7 +259,7 @@ class BothHandsPDOMNode extends Node {
 
     // Though most cases are covered by just listening to fitness, there are certain cases when Property values can change,
     // but the fitness doesn't. See https://github.com/phetsims/ratio-and-proportion/issues/222 as an example.
-    Property.multilink<[ TickMarkView, number, RAPRatioTuple, number ]>( [
+    Property.multilink( [
       options.tickMarkViewProperty,
       options.tickMarkRangeProperty,
       options.ratioTupleProperty,

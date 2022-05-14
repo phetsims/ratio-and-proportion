@@ -99,10 +99,10 @@ class CreateScreenView extends RAPScreenView {
     ratioLockCheckbox.mouseArea = ratioLockCheckbox.localBounds.dilatedXY( 8, 0.5 * ratioLockCheckbox.height );
 
     // The "lock ratio" checkbox should not be enabled when the ratio is not in proportion.
-    Property.multilink<[ boolean, number ]>( [
+    Property.multilink( [
       model.inProportionProperty,
       model.ratioFitnessProperty
-    ], ( inProportion: boolean ) => {
+    ], inProportion => {
       ratioLockCheckbox.enabledProperty.value = inProportion;
 
       // If the checkbox get's disabled, then unlock the ratio.

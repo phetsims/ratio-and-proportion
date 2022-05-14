@@ -213,7 +213,7 @@ class MyChallengeAccordionBox extends AccordionBox {
     } );
 
     Property.multilink( [ targetAntecedentProperty, targetConsequentProperty ],
-      ( targetAntecedent: number, targetConsequent: number ) => {
+      ( targetAntecedent, targetConsequent ) => {
 
         const wasLocked = ratioLockedProperty.value;
 

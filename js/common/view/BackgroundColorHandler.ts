@@ -32,7 +32,7 @@ class BackgroundColorHandler {
     Property.multilink( [
       model.ratioFitnessProperty,
       model.inProportionProperty
-    ], ( fitness: number, inProportion: boolean ) => {
+    ], ( fitness, inProportion ) => {
       let color = null;
       if ( inProportion ) {
         color = RAPColors.backgroundInFitnessProperty.value;
