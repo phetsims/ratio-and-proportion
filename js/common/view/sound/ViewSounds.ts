@@ -61,7 +61,7 @@ class ViewSounds {
       initialOutputLevel: 0.3, // increased from feedback in https://github.com/phetsims/ratio-and-proportion/issues/246
       enableControlProperties: [
         playTickMarkBumpSoundProperty,
-        new DerivedProperty( [ tickMarkViewProperty ], ( tickMarkView: TickMarkView ) => tickMarkView !== TickMarkView.NONE )
+        new DerivedProperty( [ tickMarkViewProperty ], tickMarkView => tickMarkView !== TickMarkView.NONE )
       ]
     } ) );
 

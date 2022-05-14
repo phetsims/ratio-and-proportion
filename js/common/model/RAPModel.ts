@@ -79,7 +79,7 @@ class RAPModel {
       this.ratio.tupleProperty,
       this.targetRatioProperty,
       this.ratio.movingInDirectionProperty
-    ], ( ratioTuple: RAPRatioTuple, ratio: number, movingInDirection: boolean ) => {
+    ], ( ratioTuple, ratio, movingInDirection ) => {
 
       const antecedent = ratioTuple.antecedent;
       const consequent = ratioTuple.consequent;
@@ -119,11 +119,11 @@ unclampedFitness: ${unclampedFitness}
     } );
 
     this.ratioFitnessProperty = new DerivedProperty( [ this.unclampedFitnessProperty ],
-      ( unclampedFitness: number ) => Utils.clamp( unclampedFitness, rapConstants.RATIO_FITNESS_RANGE.min, rapConstants.RATIO_FITNESS_RANGE.max ), {
+      unclampedFitness => Utils.clamp( unclampedFitness, rapConstants.RATIO_FITNESS_RANGE.min, rapConstants.RATIO_FITNESS_RANGE.max ), {
         isValidValue: ( value: number ) => rapConstants.RATIO_FITNESS_RANGE.contains( value )
       } );
 
-    this.inProportionProperty = new DerivedProperty<boolean, [ number, boolean ]>( [
+    this.inProportionProperty = new DerivedProperty( [
       this.unclampedFitnessProperty,
       this.ratio.movingInDirectionProperty
     ], this.inProportion.bind( this ), {

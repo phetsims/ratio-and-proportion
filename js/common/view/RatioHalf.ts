@@ -195,11 +195,11 @@ class RatioHalf extends Rectangle {
         options.cueArrowsState.bothHands.interactedWithProperty,
         options.displayBothHandsCueProperty
       ],
-      ( interactedWithKeyboard: boolean,
-        interactedWithMouse: boolean,
-        keyboardFocused: boolean,
-        bothHandsInteractedWith: boolean,
-        displayBothHands: boolean ) => {
+      ( interactedWithKeyboard,
+        interactedWithMouse,
+        keyboardFocused,
+        bothHandsInteractedWith,
+        displayBothHands ) => {
         return displayBothHands ? options.bothHandsCueDisplay :
                keyboardFocused && !interactedWithKeyboard ? CueDisplay.UP_DOWN :
                ( interactedWithKeyboard || interactedWithMouse || bothHandsInteractedWith ) ? CueDisplay.NONE :

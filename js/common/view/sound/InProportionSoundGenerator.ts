@@ -80,7 +80,7 @@ class InProportionSoundGenerator extends SoundClip {
     this.timePlayedSoFarProperty = new NumberProperty( MANDATORY_PLAY_TIME );
 
     const playedMandatoryPortionYetProperty: IReadOnlyProperty<boolean> = new DerivedProperty( [ this.timePlayedSoFarProperty, this.playedSuccessYetProperty ],
-      ( timePlayed: number, playedSuccessYet: boolean ) => playedSuccessYet && timePlayed <= MANDATORY_PLAY_TIME );
+      ( timePlayed, playedSuccessYet ) => playedSuccessYet && timePlayed <= MANDATORY_PLAY_TIME );
 
     // In addition to any supplemental enabledControlProperty that the client wants to pass in, make sure to set up
     // an override to ensure that there is always a minimum, "mandatory" time that this sound occurs, even if it doesn't

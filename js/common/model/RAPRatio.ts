@@ -89,7 +89,7 @@ class RAPRatio {
       this.antecedentVelocityTracker.currentVelocityProperty,
       this.consequentVelocityTracker.currentVelocityProperty,
       this.lockedProperty
-    ], ( changeInAntecedent: number, changeInConsequent: number, ratioLocked: boolean ) => {
+    ], ( changeInAntecedent, changeInConsequent, ratioLocked ) => {
       const bothMoving = changeInAntecedent !== 0 && changeInConsequent !== 0;
 
       // both hands should be moving in the same direction
