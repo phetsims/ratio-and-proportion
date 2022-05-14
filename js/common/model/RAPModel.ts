@@ -20,7 +20,6 @@ import rapConstants from '../rapConstants.js';
 import RAPRatio from './RAPRatio.js';
 import RatioTerm from './RatioTerm.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import RAPRatioTuple from './RAPRatioTuple.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 import Property from '../../../../axon/js/Property.js';
