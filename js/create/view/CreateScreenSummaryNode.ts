@@ -100,7 +100,7 @@ class CreateScreenSummaryNode extends Node {
     ], () => {
       stateOfSimNode.innerContent = this.getStateOfSim();
       leftHandBullet.innerContent = this.getLeftHandState();
-      rightHandBullet.innerContent = this.getLeftHandState();
+      rightHandBullet.innerContent = this.getRightHandState();
       currentChallengeBullet.innerContent = this.getCurrentChallengeState();
     } );
   }
