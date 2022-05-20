@@ -362,8 +362,7 @@ class RatioHalf extends Rectangle {
         this.viewSounds.tickMarkBumpSoundClip.onInteract( positionProperty.value.y );
 
         // Only new responses if the y position is different.
-        // Use Math.abs() because of JavaScript number bug with 0 !== 2.220446049250313e-16, see https://github.com/phetsims/ratio-and-proportion/issues/467
-        if ( Math.abs( positionProperty.value.y - previousYOnLastVoicing ) > 0.00001 ) {
+        if ( positionProperty.value.y !== previousYOnLastVoicing ) {
           this.ratioHandNode.voicingSpeakFullResponse( {
             nameResponse: null,
             contextResponse: this.getSingleHandContextResponse( this.voicingHandPositionsDescriber, voicingBothHandsDescriber, {
