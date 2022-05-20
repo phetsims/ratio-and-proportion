@@ -313,7 +313,14 @@ class RatioHalf extends Rectangle {
     // transform and dragBounds set in layout code below
     const dragListener = new DragListener( {
       positionProperty: positionProperty,
-      dragBoundsProperty: dragBoundsProperty,
+      mapPosition: vector2 => {
+
+        // The transform can produce rounding errors, and we depend on boundary positions to be exactly at 0 and 1
+        // (for comparison). This solves https://github.com/phetsims/ratio-and-proportion/issues/467 and https://github.com/phetsims/ratio-and-proportion/issues/457#issuecomment-1133125656
+        vector2.x = rapConstants.toFixed( vector2.x ); // eslint-disable-line bad-sim-text
+        vector2.y = rapConstants.toFixed( vector2.y ); // eslint-disable-line bad-sim-text
+        return dragBoundsProperty.value.closestPointTo( vector2 );
+      },
       start: () => {
         if ( options.horizontalMovementAllowedProperty.value ) {
           startingX = positionProperty.value.x;
