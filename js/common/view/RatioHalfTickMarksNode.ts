@@ -14,6 +14,7 @@ import TickMarkView from './TickMarkView.js';
 import { IPaint, PathOptions } from '../../../../scenery/js/imports.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 type SelfOptions = {
   minorHorizontalLineSpacing?: number | null;
@@ -43,7 +44,7 @@ class RatioHalfTickMarksNode extends GridNode {
     this.tickMarkViewProperty = tickMarkViewProperty;
     this.tickMarkRangeProperty = tickMarkRangeProperty;
 
-    Property.multilink( [ tickMarkRangeProperty, tickMarkViewProperty ], this.update.bind( this ) );
+    Multilink.multilink( [ tickMarkRangeProperty, tickMarkViewProperty ], this.update.bind( this ) );
   }
 
   layout( width: number, height: number ): void {

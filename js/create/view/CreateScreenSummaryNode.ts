@@ -20,6 +20,7 @@ import BackgroundColorHandler from '../../common/view/BackgroundColorHandler.js'
 import TickMarkView from '../../common/view/TickMarkView.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 class CreateScreenSummaryNode extends Node {
 
@@ -89,7 +90,7 @@ class CreateScreenSummaryNode extends Node {
       }
     } );
 
-    Property.multilink( [
+    Multilink.multilink( [
       tickMarkViewProperty,
       myChallengeAccordionBox.targetAntecedentProperty,
       myChallengeAccordionBox.targetConsequentProperty,

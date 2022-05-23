@@ -6,7 +6,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import Property from '../../../../../axon/js/Property.js';
+import Multilink from '../../../../../axon/js/Multilink.js';
 import optionize from '../../../../../phet-core/js/optionize.js';
 import CompositeSoundClip from '../../../../../tambo/js/sound-generators/CompositeSoundClip.js';
 import SoundGenerator, { SoundGeneratorOptions } from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
@@ -46,7 +46,7 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
     ] );
     this.movingInProportionSoundClip.connect( this.soundSourceDestination );
 
-    Property.multilink( [
+    Multilink.multilink( [
       model.ratio.movingInDirectionProperty,
       model.inProportionProperty,
       model.ratio.tupleProperty,

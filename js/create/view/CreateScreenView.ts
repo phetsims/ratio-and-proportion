@@ -21,6 +21,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import HandPositionsDescriber from '../../common/view/describers/HandPositionsDescriber.js';
 import TickMarkDescriber from '../../common/view/describers/TickMarkDescriber.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 
 class CreateScreenView extends RAPScreenView {
@@ -99,7 +100,7 @@ class CreateScreenView extends RAPScreenView {
     ratioLockCheckbox.mouseArea = ratioLockCheckbox.localBounds.dilatedXY( 8, 0.5 * ratioLockCheckbox.height );
 
     // The "lock ratio" checkbox should not be enabled when the ratio is not in proportion.
-    Property.multilink( [
+    Multilink.multilink( [
       model.inProportionProperty,
       model.ratioFitnessProperty
     ], inProportion => {

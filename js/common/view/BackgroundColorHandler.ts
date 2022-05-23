@@ -14,6 +14,7 @@ import RAPColors from './RAPColors.js';
 import { Color } from '../../../../scenery/js/imports.js';
 import Utils from '../../../../dot/js/Utils.js';
 import RAPModel from '../model/RAPModel.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 // constants
 const BACKGROUND_COLOR_STRINGS = [
@@ -29,7 +30,7 @@ class BackgroundColorHandler {
   constructor( model: RAPModel, backgroundColorProperty: Property<Color> ) {
 
     // adjust the background color based on the current ratio fitness
-    Property.multilink( [
+    Multilink.multilink( [
       model.ratioFitnessProperty,
       model.inProportionProperty
     ], ( fitness, inProportion ) => {

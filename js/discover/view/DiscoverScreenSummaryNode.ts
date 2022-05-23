@@ -19,6 +19,7 @@ import BackgroundColorHandler from '../../common/view/BackgroundColorHandler.js'
 import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 type RatioToChallengeNameMap = Map<number, { lowercase: string; capitalized: string }>;
 
@@ -81,7 +82,7 @@ class DiscoverScreenSummaryNode extends Node {
     this.ratioToChallengeNameMap = ratioToChallengeNameMap;
 
     // This derivedProperty is already dependent on all other dependencies for getStateOfSimString
-    Property.multilink( [
+    Multilink.multilink( [
       targetRatioProperty,
       tickMarkViewProperty,
       ratioTupleProperty,

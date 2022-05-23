@@ -29,6 +29,7 @@ import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import TickMarkDescriber from './describers/TickMarkDescriber.js';
 import RatioInputModality from './describers/RatioInputModality.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 // constants
 const OBJECT_RESPONSE_DELAY = 500;
@@ -137,7 +138,7 @@ class BothHandsPDOMNode extends Node {
 
     this.viewSounds = new ViewSounds( options.tickMarkRangeProperty, options.tickMarkViewProperty, options.playTickMarkBumpSoundProperty );
 
-    Property.multilink( [
+    Multilink.multilink( [
       this.antecedentInteractedWithProperty,
       this.consequentInteractedWithProperty
     ], ( antecedentInteractedWith, consequentInteractedWith ) => {
@@ -148,7 +149,7 @@ class BothHandsPDOMNode extends Node {
         options.cueArrowsState.interactedWithKeyboardProperty.value = true;
       }
     } );
-    Property.multilink( [
+    Multilink.multilink( [
       this.antecedentInteractedWithProperty,
       this.consequentInteractedWithProperty,
       this.bothHandsFocusedProperty
@@ -259,7 +260,7 @@ class BothHandsPDOMNode extends Node {
 
     // Though most cases are covered by just listening to fitness, there are certain cases when Property values can change,
     // but the fitness doesn't. See https://github.com/phetsims/ratio-and-proportion/issues/222 as an example.
-    Property.multilink( [
+    Multilink.multilink( [
       options.tickMarkViewProperty,
       options.tickMarkRangeProperty,
       options.ratioTupleProperty,

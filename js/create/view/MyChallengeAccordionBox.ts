@@ -29,6 +29,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import ResponsePatternCollection from '../../../../utterance-queue/js/ResponsePatternCollection.js';
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 const PICKER_SCALE = 1.5;
 const ICON_SCALE = 0.9;
@@ -212,7 +213,7 @@ class MyChallengeAccordionBox extends AccordionBox {
       this.alertDescriptionUtterance( accordionBoxUtterance );
     } );
 
-    Property.multilink( [ targetAntecedentProperty, targetConsequentProperty ],
+    Multilink.multilink( [ targetAntecedentProperty, targetConsequentProperty ],
       ( targetAntecedent, targetConsequent ) => {
 
         const wasLocked = ratioLockedProperty.value;

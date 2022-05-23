@@ -13,6 +13,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Color, Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import TickMarkView from './TickMarkView.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 const LABEL_X = 0;
 
@@ -37,7 +38,7 @@ class RAPTickMarkLabelsNode extends Node {
 
     this.mutate( options );
 
-    Property.multilink( [ tickMarkRangeProperty, tickMarkViewProperty ], this.update.bind( this ) );
+    Multilink.multilink( [ tickMarkRangeProperty, tickMarkViewProperty ], this.update.bind( this ) );
   }
 
   /**
