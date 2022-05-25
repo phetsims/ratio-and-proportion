@@ -23,6 +23,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 import Property from '../../../../axon/js/Property.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 // constant to help achieve feedback in 40% of the visual screen height (2 default tick marks). Calculated by taking the
 // fitness distance when the right hand is 2 tick marks from the target ratio. This number is based on a target ratio of
 // .5, so it is normalized here. When used, it should be multiplied by the current target ratio.
@@ -64,7 +65,7 @@ class RAPModel {
   inProportionProperty: IReadOnlyProperty<boolean>;
 
   // If the model is being interacted with MediaPipe as an input. This will alter the characteristics of the ratio.
-  mediaPipeInteractedWithProperty = new Property( false );
+  mediaPipeInteractedWithProperty: Property<boolean>;
 
   constructor( tandem: Tandem ) {
 
@@ -72,6 +73,10 @@ class RAPModel {
 
     this.targetRatioProperty = new NumberProperty( this.ratio.currentRatio, {
       tandem: tandem.createTandem( 'targetRatioProperty' )
+    } );
+
+    this.mediaPipeInteractedWithProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'mediaPipeInteractedWithProperty' )
     } );
 
     this.unclampedFitnessProperty = new DerivedProperty( [

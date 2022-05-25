@@ -13,6 +13,7 @@ import PhetioObject from '../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import IOType from '../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
+import ObjectLiteralIO from '../../../tandem/js/types/ObjectLiteralIO.js';
 import ratioAndProportion from '../ratioAndProportion.js';
 import RAPQueryParameters from './RAPQueryParameters.js';
 
@@ -45,6 +46,8 @@ class RAPConstants extends PhetioObject {
   // Add .001 to support two keyboard nav motions above 0 (counting the min range being >0).
   NO_SUCCESS_VALUE_THRESHOLD = 0.01;
 
+  QUERY_PARAMETERS = RAPQueryParameters;
+
   constructor() {
     super( {
         tandem: Tandem.GLOBAL_MODEL.createTandem( 'rapConstants' ),
@@ -59,7 +62,8 @@ class RAPConstants extends PhetioObject {
             MOVING_IN_PROPORTION_FITNESS_THRESHOLD: NumberIO,
             SHIFT_KEY_MULTIPLIER: NumberIO,
             TOTAL_RATIO_TERM_VALUE_RANGE: Range.RangeIO,
-            NO_SUCCESS_VALUE_THRESHOLD: NumberIO
+            NO_SUCCESS_VALUE_THRESHOLD: NumberIO,
+            QUERY_PARAMETERS: ObjectLiteralIO
           }
         } ),
         phetioState: true
@@ -67,7 +71,7 @@ class RAPConstants extends PhetioObject {
     );
   }
 
-  toStateObject(): { SCREEN_VIEW_X_MARGIN: number; SCREEN_VIEW_Y_MARGIN: number; RATIO_FITNESS_RANGE: any; IN_PROPORTION_FITNESS_THRESHOLD: number; MOVING_IN_PROPORTION_FITNESS_THRESHOLD: number; SHIFT_KEY_MULTIPLIER: number; TOTAL_RATIO_TERM_VALUE_RANGE: any; NO_SUCCESS_VALUE_THRESHOLD: number } {
+  toStateObject(): { SCREEN_VIEW_X_MARGIN: number; SCREEN_VIEW_Y_MARGIN: number; RATIO_FITNESS_RANGE: any; IN_PROPORTION_FITNESS_THRESHOLD: number; MOVING_IN_PROPORTION_FITNESS_THRESHOLD: number; SHIFT_KEY_MULTIPLIER: number; TOTAL_RATIO_TERM_VALUE_RANGE: any; NO_SUCCESS_VALUE_THRESHOLD: number; QUERY_PARAMETERS: Object } {
     return {
       SCREEN_VIEW_X_MARGIN: this.SCREEN_VIEW_X_MARGIN,
       SCREEN_VIEW_Y_MARGIN: this.SCREEN_VIEW_Y_MARGIN,
@@ -76,7 +80,8 @@ class RAPConstants extends PhetioObject {
       MOVING_IN_PROPORTION_FITNESS_THRESHOLD: this.MOVING_IN_PROPORTION_FITNESS_THRESHOLD,
       SHIFT_KEY_MULTIPLIER: this.SHIFT_KEY_MULTIPLIER,
       TOTAL_RATIO_TERM_VALUE_RANGE: Range.RangeIO.toStateObject( this.TOTAL_RATIO_TERM_VALUE_RANGE ),
-      NO_SUCCESS_VALUE_THRESHOLD: this.NO_SUCCESS_VALUE_THRESHOLD
+      NO_SUCCESS_VALUE_THRESHOLD: this.NO_SUCCESS_VALUE_THRESHOLD,
+      QUERY_PARAMETERS: this.QUERY_PARAMETERS
     };
   }
 }

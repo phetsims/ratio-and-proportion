@@ -21,6 +21,8 @@ import mediaPipeOptions from './mediaPipeOptions.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 if ( RAPQueryParameters.mediaPipe ) {
   MediaPipe.initialize();
@@ -43,7 +45,7 @@ const secondMarkerTouchingVector = new Vector2( 0, 0 );
 type RAPMediaPipeOptions = {
   onInput?: () => void;
   isBeingInteractedWithProperty?: Property<boolean>;
-};
+} & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 class RAPMediaPipe extends MediaPipe {
 
@@ -55,7 +57,7 @@ class RAPMediaPipe extends MediaPipe {
   consequentViewSounds: ViewSounds;
 
   // Use a gesture to determine if voicing for the hands should be enabled
-  voicingEnabledProperty = new BooleanProperty( false );
+  voicingEnabledProperty: Property<boolean>;
 
   onInput: () => void;
 
@@ -74,6 +76,9 @@ class RAPMediaPipe extends MediaPipe {
     this.antecedentHandPositions = [];
     this.consequentHandPositions = [];
 
+    this.voicingEnabledProperty = new BooleanProperty( false, {
+      tandem: options.tandem.createTandem( 'voicingEnabledProperty' )
+    } );
     this.isBeingInteractedWithProperty.lazyLink( interactedWith => {
       if ( interactedWith ) {
         this.antecedentViewSounds.boundarySoundClip.onStartInteraction();

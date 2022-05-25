@@ -133,7 +133,6 @@ class RAPScreenView extends ScreenView {
 
     this.tickMarkRangeProperty = new NumberProperty( 10, { tandem: options.tandem.createTandem( 'tickMarkRangeProperty' ) } );
 
-
     this.backgroundColorHandler = new BackgroundColorHandler( model, backgroundColorProperty );
 
     this.ratioDescriber = new RatioDescriber( model );
@@ -279,7 +278,8 @@ class RAPScreenView extends ScreenView {
               Voicing.alertUtterance( mediaPipeVoicingUtterance );
             }
           },
-          isBeingInteractedWithProperty: model.mediaPipeInteractedWithProperty
+          isBeingInteractedWithProperty: model.mediaPipeInteractedWithProperty,
+          tandem: options.tandem.createTandem( 'mediaPipe' )
         } );
 
       // So that this Utterance does not announce unless the ScreenView is visible and voicingVisible.
