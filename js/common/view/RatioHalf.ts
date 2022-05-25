@@ -270,7 +270,9 @@ class RatioHalf extends Rectangle {
         // iterate through model values of each tick mark
         for ( let i = TOTAL_RANGE.min; i < TOTAL_RANGE.max; i += tickMarkStep ) {
           if ( Math.abs( yValue - i ) < tickMarkStep * SNAP_TO_TICK_MARK_THRESHOLD ) {
-            return i;
+
+            // Bug occurs when dragging to the top with tick marks enabled, the value is 1, but snaps to .999999 unless rounded
+            return rapConstants.toFixed( i ); // eslint-disable-line bad-sim-text
           }
         }
       }
