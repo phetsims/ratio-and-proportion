@@ -8,6 +8,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import OmitStrict from '../../../../phet-core/js/types/OmitStrict.js';
 import Property from '../../../../axon/js/Property.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import sceneryPhetStrings from '../../../../scenery-phet/js/sceneryPhetStrings.js';
@@ -55,7 +56,7 @@ type SelfOptions = {
   interactiveNodeOptions?: VoicingOptions;
 };
 
-type BothHandsPDOMNodeOptions = SelfOptions & Omit<NodeOptions, 'pdomOrder'>;
+type BothHandsPDOMNodeOptions = SelfOptions & OmitStrict<NodeOptions, 'pdomOrder'>;
 
 class BothHandsPDOMNode extends Node {
 
@@ -84,7 +85,7 @@ class BothHandsPDOMNode extends Node {
 
   constructor( providedOptions: BothHandsPDOMNodeOptions ) {
 
-    const options = optionize<BothHandsPDOMNodeOptions, SelfOptions, Omit<NodeOptions, 'pdomOrder'>>()( {
+    const options = optionize<BothHandsPDOMNodeOptions, SelfOptions, OmitStrict<NodeOptions, 'pdomOrder'>>()( {
 
       gestureDescriptionHelpText: null,
 

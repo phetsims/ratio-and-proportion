@@ -6,6 +6,7 @@
  */
 
 import ComboBox from '../../../../sun/js/ComboBox.js';
+import OmitStrict from '../../../../phet-core/js/types/OmitStrict.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import selectionArpeggio001_mp3 from '../../../../tambo/sounds/selectionArpeggio001_mp3.js';
@@ -42,7 +43,7 @@ class ChallengeRatioComboBoxNode extends Node {
    * @param [options]
    */
   constructor( targetRatioProperty: NumberProperty, ratioDescriber: RatioDescriber, colorProperty: Property<Color>,
-               comboBoxListParent: Node, comboBoxTandem: Tandem, options?: Omit<NodeOptions, 'children'> ) {
+               comboBoxListParent: Node, comboBoxTandem: Tandem, options?: OmitStrict<NodeOptions, 'children'> ) {
 
     super( options );
 

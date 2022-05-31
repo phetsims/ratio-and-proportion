@@ -7,6 +7,7 @@
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import OmitStrict from '../../../../phet-core/js/types/OmitStrict.js';
 import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -35,7 +36,7 @@ const PICKER_SCALE = 1.5;
 const ICON_SCALE = 0.9;
 const DEFAULT_EXPANDED = false;
 
-type MyChallengeAccordionBoxOptions = Omit<AccordionBoxOptions, 'pdomOrder'> & PickRequired<AccordionBoxOptions, 'tandem'>;
+type MyChallengeAccordionBoxOptions = OmitStrict<AccordionBoxOptions, 'pdomOrder'> & PickRequired<AccordionBoxOptions, 'tandem'>;
 
 class MyChallengeAccordionBox extends AccordionBox {
 

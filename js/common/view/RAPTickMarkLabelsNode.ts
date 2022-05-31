@@ -7,6 +7,7 @@
  */
 
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import OmitStrict from '../../../../phet-core/js/types/OmitStrict.js';
 import Property from '../../../../axon/js/Property.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -26,7 +27,7 @@ class RAPTickMarkLabelsNode extends Node {
   private colorProperty: IReadOnlyProperty<Color | string>;
 
   constructor( tickMarkViewProperty: EnumerationProperty<TickMarkView>, tickMarkRangeProperty: Property<number>, height: number,
-               colorProperty: IReadOnlyProperty<Color | string>, options?: Omit<NodeOptions, 'children'> ) {
+               colorProperty: IReadOnlyProperty<Color | string>, options?: OmitStrict<NodeOptions, 'children'> ) {
 
     super();
 
