@@ -49,7 +49,7 @@ class BothHandsDescriber {
       inProportionProperty, enabledRatioTermsRangeProperty, this.ratioLockedProperty );
   }
 
-  getBothHandsContextResponse( recentlyMovedRatioTerm: RatioInputModality, providedOptions: HandContextResponseOptions ): string {
+  getBothHandsContextResponse( recentlyMovedRatioTerm: RatioInputModality, providedOptions?: HandContextResponseOptions ): string {
 
     const options = optionize<HandContextResponseOptions, StrictOmit<HandContextResponseOptions, 'distanceResponseType'>>()( {
       supportGoBeyondEdgeResponses: true
