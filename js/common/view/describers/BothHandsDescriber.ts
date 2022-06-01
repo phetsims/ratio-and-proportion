@@ -21,6 +21,8 @@ import IReadOnlyProperty from '../../../../../axon/js/IReadOnlyProperty.js';
 import TickMarkDescriber from './TickMarkDescriber.js';
 import DistanceResponseType from './DistanceResponseType.js';
 import RatioInputModality from './RatioInputModality.js';
+import optionize from '../../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../../phet-core/js/types/StrictOmit.js';
 
 const ratioDistancePositionContextResponsePatternString = ratioAndProportionStrings.a11y.ratio.distancePositionContextResponse;
 
@@ -47,11 +49,19 @@ class BothHandsDescriber {
       inProportionProperty, enabledRatioTermsRangeProperty, this.ratioLockedProperty );
   }
 
-  getBothHandsContextResponse( recentlyMovedRatioTerm: RatioInputModality, options: HandContextResponseOptions = {} ): string {
-    const ratioLockedEdgeResponse = this.handPositionsDescriber.getGoBeyondContextResponse(
-      this.ratioTupleProperty.value, recentlyMovedRatioTerm );
-    if ( ratioLockedEdgeResponse ) {
-      return ratioLockedEdgeResponse;
+  getBothHandsContextResponse( recentlyMovedRatioTerm: RatioInputModality, providedOptions: HandContextResponseOptions ): string {
+
+    const options = optionize<HandContextResponseOptions, StrictOmit<HandContextResponseOptions, 'distanceResponseType'>>()( {
+      supportGoBeyondEdgeResponses: true
+    }, providedOptions );
+
+    if ( options.supportGoBeyondEdgeResponses ) {
+      const ratioLockedEdgeResponse = this.handPositionsDescriber.getGoBeyondContextResponse(
+        this.ratioTupleProperty.value, recentlyMovedRatioTerm );
+
+      if ( ratioLockedEdgeResponse ) {
+        return ratioLockedEdgeResponse;
+      }
     }
 
     return StringUtils.fillIn( ratioDistancePositionContextResponsePatternString, {
