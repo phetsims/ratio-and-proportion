@@ -15,7 +15,7 @@
  */
 
 import Range from '../../../../../dot/js/Range.js';
-import OmitStrict from '../../../../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../../../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
@@ -338,7 +338,7 @@ class HandPositionsDescriber {
 
   // TODO: capitalized is currently always used, but it would be nice to improve the implementation for voicing context responses, https://github.com/phetsims/ratio-and-proportion/issues/461
   getBothHandsDistance( capitalized: boolean, providedOptions?: HandContextResponseOptions ): string {
-    const options = optionize<HandContextResponseOptions, OmitStrict<HandContextResponseOptions, 'supportGoBeyondEdgeResponses'>>()( {
+    const options = optionize<HandContextResponseOptions, StrictOmit<HandContextResponseOptions, 'supportGoBeyondEdgeResponses'>>()( {
 
       // By default, let the describer decide if we should have distance progress or region
       distanceResponseType: DistanceResponseType.COMBO
