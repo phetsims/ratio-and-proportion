@@ -22,6 +22,7 @@ import TickMarkBumpSoundClip from './TickMarkBumpSoundClip.js';
 import Property from '../../../../../axon/js/Property.js';
 import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
 import optionize from '../../../../../phet-core/js/optionize.js';
+import IReadOnlyProperty from '../../../../../axon/js/IReadOnlyProperty.js';
 
 const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
@@ -41,7 +42,7 @@ class ViewSounds {
   readonly tickMarkBumpSoundClip: TickMarkBumpSoundClip;
 
   constructor( tickMarkRangeProperty: Property<number>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
-               playTickMarkBumpSoundProperty: Property<boolean>, providedOptions?: ViewSoundsOptions ) {
+               playTickMarkBumpSoundProperty: IReadOnlyProperty<boolean>, providedOptions?: ViewSoundsOptions ) {
 
     const options = optionize<ViewSoundsOptions>()( {
       addSoundOptions: {

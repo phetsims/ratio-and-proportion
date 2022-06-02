@@ -29,6 +29,7 @@ import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
+import IProperty from '../../../../axon/js/IProperty.js';
 
 
 type SelfOptions = {
@@ -47,7 +48,7 @@ type CreateIconOptions = {
 class RatioHandNode extends AccessibleSlider( Node, 0 ) {
   private resetRatioHandNode: () => void;
 
-  constructor( valueProperty: Property<number>,
+  constructor( valueProperty: IProperty<number>,
                enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>,
                tickMarkViewProperty: EnumerationProperty<TickMarkView>,
                keyboardStep: number,

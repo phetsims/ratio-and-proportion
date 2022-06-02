@@ -74,7 +74,7 @@ type SelfOptions = {
   colorProperty: IPaint;
   keyboardStep: number;
   horizontalMovementAllowedProperty: Property<boolean>;
-  playTickMarkBumpSoundProperty: Property<boolean>;
+  playTickMarkBumpSoundProperty: IReadOnlyProperty<boolean>;
 
   // see InProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound()
   setJumpingOverProportionShouldTriggerSound: ( shouldTriggerSound: boolean ) => void;
