@@ -69,7 +69,7 @@ class RAPRatioTuple {
 
   /**
    * Get the distance between the two numbers
-   * @returns {number} - greater than 0
+   * @returns - greater than 0
    */
   getDistance(): number {
     return Math.abs( this.antecedent - this.consequent );
