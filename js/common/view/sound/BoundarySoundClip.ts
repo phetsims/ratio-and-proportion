@@ -26,8 +26,8 @@ class BoundarySoundClip extends SoundClip {
   private playedThisInteraction: boolean;
 
   /**
-   * @param {Range} verticalRange - the total range that the vertical position can take
-   * @param {Object} [options]
+   * @param verticalRange - the total range that the vertical position can take
+   * @param [options]
    */
   constructor( verticalRange: Range, options?: SoundClipOptions ) {
     super( generalBoundaryBoop_mp3, options );

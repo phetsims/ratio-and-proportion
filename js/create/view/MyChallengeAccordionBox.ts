@@ -44,14 +44,6 @@ class MyChallengeAccordionBox extends AccordionBox {
   targetConsequentProperty: Property<number>;
   private resetMyChallengeAccordionBox: () => void;
 
-  /**
-   * @param targetRatioProperty
-   * @param ratioLockedProperty
-   * @param handColorProperty
-   * @param tickMarkViewProperty
-   * @param ratioDescriber
-   * @param providedOptions
-   */
   constructor( targetRatioProperty: Property<number>, ratioLockedProperty: Property<boolean>,
                handColorProperty: Property<Color>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
                ratioDescriber: RatioDescriber, providedOptions: MyChallengeAccordionBoxOptions ) {
