@@ -195,7 +195,6 @@ class RAPScreenView extends ScreenView {
       tandem: options.tandem.createTandem( 'antecedentRatioHalf' )
     } );
 
-    // @private {RatioHalf}
     this.consequentRatioHalf = new RatioHalf( {
 
       ratio: ratio,
