@@ -7,7 +7,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import Range from '../../../dot/js/Range.js';
+import Range, { IRange } from '../../../dot/js/Range.js';
 import Utils from '../../../dot/js/Utils.js';
 import PhetioObject from '../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -16,6 +16,19 @@ import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import ObjectLiteralIO from '../../../tandem/js/types/ObjectLiteralIO.js';
 import ratioAndProportion from '../ratioAndProportion.js';
 import RAPQueryParameters from './RAPQueryParameters.js';
+
+type StateObject = {
+  SCREEN_VIEW_X_MARGIN: number;
+  SCREEN_VIEW_Y_MARGIN: number;
+  RATIO_FITNESS_RANGE: IRange;
+  IN_PROPORTION_FITNESS_THRESHOLD: number;
+  MOVING_IN_PROPORTION_FITNESS_THRESHOLD: number;
+  SHIFT_KEY_MULTIPLIER: number;
+  TOTAL_RATIO_TERM_VALUE_RANGE: IRange;
+  NO_SUCCESS_VALUE_THRESHOLD: number;
+  QUERY_PARAMETERS: Record<string, unknown>;
+};
+
 
 class RAPConstants extends PhetioObject {
 
@@ -71,7 +84,7 @@ class RAPConstants extends PhetioObject {
     );
   }
 
-  toStateObject(): { SCREEN_VIEW_X_MARGIN: number; SCREEN_VIEW_Y_MARGIN: number; RATIO_FITNESS_RANGE: any; IN_PROPORTION_FITNESS_THRESHOLD: number; MOVING_IN_PROPORTION_FITNESS_THRESHOLD: number; SHIFT_KEY_MULTIPLIER: number; TOTAL_RATIO_TERM_VALUE_RANGE: any; NO_SUCCESS_VALUE_THRESHOLD: number; QUERY_PARAMETERS: Record<string, unknown> } {
+  toStateObject(): StateObject {
     return {
       SCREEN_VIEW_X_MARGIN: this.SCREEN_VIEW_X_MARGIN,
       SCREEN_VIEW_Y_MARGIN: this.SCREEN_VIEW_Y_MARGIN,
