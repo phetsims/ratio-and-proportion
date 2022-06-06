@@ -21,6 +21,10 @@ const RAPQueryParameters = QueryStringMachine.getAll( {
     type: 'flag'
   },
 
+  bluetooth: {
+    type: 'flag'
+  },
+
   // The model value for the tolerance of the proportion value to the target to be calculated as "in proportion".
   // This should be removed before publication; it is only needed for research in summer, 2022. See https://github.com/phetsims/ratio-and-proportion/issues/465
   mpInProportionThreshold: {
