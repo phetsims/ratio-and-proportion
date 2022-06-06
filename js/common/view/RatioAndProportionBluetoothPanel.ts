@@ -50,8 +50,8 @@ class QuadrilateralBluetoothConnectionPanel extends Panel {
     const pairButton = new TextPushButton( 'Search for device', {
       textNodeOptions: { font: font },
       listener: () => {
-        this.requestQuadDevice( { filters: [ { namePrefix: 'nrf52L' } ] }, tupleProperty, 'withAntecedent' );
-        this.requestQuadDevice( { filters: [ { namePrefix: 'nrf52R' } ] }, tupleProperty, 'withConsequent' );
+        this.requestQuadDevice( { filters: [ { namePrefix: 'nrf52' } ], optionalServices: [ 0xae6f ] }, tupleProperty, 'withAntecedent' );
+        this.requestQuadDevice( { filters: [ { namePrefix: 'nrf52' } ], optionalServices: [ 0xae6f ] }, tupleProperty, 'withConsequent' );
       }
     } );
 
@@ -63,6 +63,7 @@ class QuadrilateralBluetoothConnectionPanel extends Panel {
 
     // @ts-ignore - navigator.bluetooth is experimental and does not exist in the typing
     if ( navigator.bluetooth ) {
+
       // @ts-ignore - navigator.bluetooth is experimental and does not exist in the typing
       device = await navigator.bluetooth.requestDevice( bluetoothConfig ).catch( err => {
         device = null;
@@ -74,8 +75,8 @@ class QuadrilateralBluetoothConnectionPanel extends Panel {
 
         // attempt to connect to the GATT Server.
         const gattServer = await device.gatt.connect().catch( ( err: DOMException ) => { console.error( err ); } );
-        const primaryService = await gattServer.getPrimaryService( '19b10010-e8f2-537e-4f6c-d104768a1214' ).catch( ( err: DOMException ) => { console.error( err ); } );
-        const characteristic = await primaryService.getCharacteristic( '19b10010-e8f2-537e-4f6c-d104768a1214' ).catch( ( err: DOMException ) => { console.error( err ); } );
+        const primaryService = await gattServer.getPrimaryService( '0xae6f' ).catch( ( err: DOMException ) => { console.error( err ); } );
+        const characteristic = await primaryService.getCharacteristic( '0x2947' ).catch( ( err: DOMException ) => { console.error( err ); } );
         const notifySuccess = await characteristic.startNotifications().catch( ( err: DOMException ) => { console.error( err ); } );
         notifySuccess.addEventListener( 'characteristicvaluechanged', ( event: any ) => {
 
