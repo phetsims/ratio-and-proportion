@@ -3,6 +3,8 @@
 /**
  * To test connecting to a bluetooth device using web bluetooth. Note this uses Promises (as the
  * bluetooth API works with promises) which is very unusual for simulation code.
+ *
+ * Prototype code for upcoming student studies, see https://github.com/phetsims/ratio-and-proportion/issues/473
  */
 
 import Panel from '../../../../sun/js/Panel.js';
@@ -49,9 +51,13 @@ class QuadrilateralBluetoothConnectionPanel extends Panel {
 
     const pairButton = new TextPushButton( 'Search for device', {
       textNodeOptions: { font: font },
-      listener: () => {
-        this.requestQuadDevice( { filters: [ { namePrefix: 'nrf52' } ], optionalServices: [ 0xae6f ] }, tupleProperty, 'withAntecedent' );
-        this.requestQuadDevice( { filters: [ { namePrefix: 'nrf52' } ], optionalServices: [ 0xae6f ] }, tupleProperty, 'withConsequent' );
+      listener: async () => {
+        await this.requestQuadDevice( { filters: [ { name: 'nrf52L' } ], optionalServices: [ 0xae6f ] }, tupleProperty, 'withAntecedent' );
+
+        // Adding a sleep made it possible to request two devices from the same button press but it is not working
+        // consistently, see https://github.com/phetsims/ratio-and-proportion/issues/473
+        await sleepytime( 5000 );
+        await this.requestQuadDevice( { filters: [ { name: 'nrf52R' } ], optionalServices: [ 0xae6f ] }, tupleProperty, 'withConsequent' );
       }
     } );
 
@@ -75,13 +81,13 @@ class QuadrilateralBluetoothConnectionPanel extends Panel {
 
         // attempt to connect to the GATT Server.
         const gattServer = await device.gatt.connect().catch( ( err: DOMException ) => { console.error( err ); } );
-        const primaryService = await gattServer.getPrimaryService( '0xae6f' ).catch( ( err: DOMException ) => { console.error( err ); } );
-        const characteristic = await primaryService.getCharacteristic( '0x2947' ).catch( ( err: DOMException ) => { console.error( err ); } );
+        const primaryService = await gattServer.getPrimaryService( 0xae6f ).catch( ( err: DOMException ) => { console.error( err ); } );
+        const characteristic = await primaryService.getCharacteristic( 0x2947 ).catch( ( err: DOMException ) => { console.error( err ); } );
         const notifySuccess = await characteristic.startNotifications().catch( ( err: DOMException ) => { console.error( err ); } );
         notifySuccess.addEventListener( 'characteristicvaluechanged', ( event: any ) => {
 
           // @ts-ignore
-          tupleProperty.value[ term ]( QuadrilateralBluetoothConnectionPanel.handleCharacteristicValueChanged( event ) );
+          tupleProperty.value = tupleProperty.value[ term ]( QuadrilateralBluetoothConnectionPanel.handleCharacteristicValueChanged( event ) );
         } );
 
         // At this time we can assume that connections are successful
@@ -111,6 +117,12 @@ class QuadrilateralBluetoothConnectionPanel extends Panel {
     return 0;
   }
 }
+
+const sleepytime = ( milliseconds: number ): Promise<any> => {
+  return new Promise( ( resolve, reject ) => {
+    setTimeout( resolve, milliseconds ); // eslint-disable-line
+  } );
+};
 
 ratioAndProportion.register( 'QuadrilateralBluetoothConnectionPanel', QuadrilateralBluetoothConnectionPanel );
 export default QuadrilateralBluetoothConnectionPanel;
