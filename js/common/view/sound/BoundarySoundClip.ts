@@ -29,7 +29,7 @@ class BoundarySoundClip extends SoundClip {
    * @param verticalRange - the total range that the vertical position can take
    * @param [options]
    */
-  constructor( verticalRange: Range, options?: SoundClipOptions ) {
+  public constructor( verticalRange: Range, options?: SoundClipOptions ) {
     super( generalBoundaryBoop_mp3, options );
 
     this.verticalRange = verticalRange;
@@ -45,7 +45,7 @@ class BoundarySoundClip extends SoundClip {
    * @param [horizontalPosition]
    * @param [horizontalRange] - the horizontal range can change based on view scaling
    */
-  onInteract( verticalPosition: number, horizontalPosition?: number, horizontalRange?: Range ): void {
+  public onInteract( verticalPosition: number, horizontalPosition?: number, horizontalRange?: Range ): void {
 
     if ( this.lastYPosition !== verticalPosition &&
          ( verticalPosition === this.verticalRange.min || verticalPosition === this.verticalRange.max ) ) {
@@ -64,7 +64,7 @@ class BoundarySoundClip extends SoundClip {
     }
   }
 
-  onStartInteraction(): void {
+  public onStartInteraction(): void {
     this.playedThisInteraction = false;
   }
 
@@ -73,19 +73,19 @@ class BoundarySoundClip extends SoundClip {
    * This case is to support keyboard interaction in which you are at the max, try to increase the value, but don't
    * change the value. This will still result in this sound feedback for the boundary sound.
    */
-  onEndInteraction( verticalPosition: number ): void {
+  public onEndInteraction( verticalPosition: number ): void {
     if ( !this.playedThisInteraction &&
          ( verticalPosition === this.verticalRange.min || verticalPosition === this.verticalRange.max ) ) {
       this.play();
     }
   }
 
-  override play(): void {
+  public override play(): void {
     this.playedThisInteraction = true;
     super.play();
   }
 
-  reset(): void {
+  public reset(): void {
     this.stop( 0 );
     this.playedThisInteraction = false;
     this.lastYPosition = null;

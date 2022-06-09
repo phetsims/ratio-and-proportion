@@ -35,7 +35,7 @@ class BothHandsDescriber {
   private handPositionsDescriber: HandPositionsDescriber;
   private ratioLockedProperty: Property<boolean>;
 
-  constructor( ratioTupleProperty: Property<RAPRatioTuple>, enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>,
+  public constructor( ratioTupleProperty: Property<RAPRatioTuple>, enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>,
                ratioLockedProperty: Property<boolean>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
                inProportionProperty: IReadOnlyProperty<boolean>,
                ratioDescriber: RatioDescriber, tickMarkDescriber: TickMarkDescriber ) {
@@ -49,7 +49,7 @@ class BothHandsDescriber {
       inProportionProperty, enabledRatioTermsRangeProperty, this.ratioLockedProperty );
   }
 
-  getBothHandsContextResponse( recentlyMovedRatioTerm: RatioInputModality, providedOptions?: HandContextResponseOptions ): string {
+  public getBothHandsContextResponse( recentlyMovedRatioTerm: RatioInputModality, providedOptions?: HandContextResponseOptions ): string {
 
     const options = optionize<HandContextResponseOptions, StrictOmit<HandContextResponseOptions, 'distanceResponseType'>>()( {
       supportGoBeyondEdgeResponses: true
@@ -73,7 +73,7 @@ class BothHandsDescriber {
   /**
    * Similar to getBothHandsContextResponse, but without extra logic for edges and distance-progress.
    */
-  getBothHandsDynamicDescription(): string {
+  public getBothHandsDynamicDescription(): string {
     return StringUtils.fillIn( ratioDistancePositionContextResponsePatternString, {
       distance: this.handPositionsDescriber.getBothHandsDistance( true, {
         distanceResponseType: DistanceResponseType.DISTANCE_REGION
@@ -86,7 +86,7 @@ class BothHandsDescriber {
    * When each hand in different region, "left hand . . . , right hand . . ." otherwise "both hands . . ."
    * Used for both hands interaction, and with individual hands when the ratio is locked
    */
-  getBothHandsPosition(): string {
+  public getBothHandsPosition(): string {
     const tickMarkView = this.tickMarkViewProperty.value;
 
     const currentTuple = this.ratioTupleProperty.value;
@@ -106,11 +106,11 @@ class BothHandsDescriber {
     }
   }
 
-  getBothHandsObjectResponse(): string {
+  public getBothHandsObjectResponse(): string {
     return this.ratioDescriber.getProximityToChallengeRatio();
   }
 
-  reset(): void {
+  public reset(): void {
     this.handPositionsDescriber.reset();
   }
 }

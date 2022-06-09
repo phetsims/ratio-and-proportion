@@ -26,7 +26,7 @@ class RAPTickMarkLabelsNode extends Node {
   private tickMarkRangeProperty: Property<number>;
   private colorProperty: IReadOnlyProperty<Color | string>;
 
-  constructor( tickMarkViewProperty: EnumerationProperty<TickMarkView>, tickMarkRangeProperty: Property<number>, height: number,
+  public constructor( tickMarkViewProperty: EnumerationProperty<TickMarkView>, tickMarkRangeProperty: Property<number>, height: number,
                colorProperty: IReadOnlyProperty<Color | string>, options?: StrictOmit<NodeOptions, 'children'> ) {
 
     super();
@@ -46,12 +46,12 @@ class RAPTickMarkLabelsNode extends Node {
    * Get the height of a single label Text.
    *
    */
-  get labelHeight(): number {
+  public get labelHeight(): number {
     assert && assert( this.heightOfText, 'cannot get labelHeight until labels have been drawn' );
     return this.heightOfText!;
   }
 
-  layout( height: number ): void {
+  public layout( height: number ): void {
 
     this.totalHeight = height;
     this.update( this.tickMarkRangeProperty.value, this.tickMarkViewProperty.value );

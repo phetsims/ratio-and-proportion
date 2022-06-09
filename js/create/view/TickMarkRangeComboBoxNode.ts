@@ -35,7 +35,7 @@ class TickMarkRangeComboBoxNode extends Node {
   private tickMarkRangeMap: Record<number, string>;
   private tickMarkRangeProperty: Property<number>
 
-  constructor( tickMarkRangeProperty: Property<number>, comboBoxParent: Node,
+  public constructor( tickMarkRangeProperty: Property<number>, comboBoxParent: Node,
                tickMarkViewProperty: EnumerationProperty<TickMarkView> ) {
     super();
 
@@ -106,7 +106,7 @@ class TickMarkRangeComboBoxNode extends Node {
     } );
   }
 
-  hideListBox(): void {
+  public hideListBox(): void {
     this.enabledComboBox.hideListBox();
     this.disabledComboBox.hideListBox();
   }

@@ -33,7 +33,7 @@ class DiscoverScreenSummaryNode extends Node {
   private inProportionProperty: IReadOnlyProperty<boolean>;
   private ratioToChallengeNameMap: RatioToChallengeNameMap;
 
-  constructor( ratioFitnessProperty: IReadOnlyProperty<number>, ratioTupleProperty: Property<RAPRatioTuple>,
+  public constructor( ratioFitnessProperty: IReadOnlyProperty<number>, ratioTupleProperty: Property<RAPRatioTuple>,
                targetRatioProperty: Property<number>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
                ratioDescriber: RatioDescriber, inProportionProperty: IReadOnlyProperty<boolean>, handPositionsDescriber: HandPositionsDescriber,
                ratioToChallengeNameMap: RatioToChallengeNameMap ) {
@@ -117,7 +117,7 @@ class DiscoverScreenSummaryNode extends Node {
     } );
   }
 
-  getDetailsButtonState(): string {
+  public getDetailsButtonState(): string {
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.detailsButtonPattern, {
       stateOfSim: this.getStateOfSim(),
       leftHand: this.getLeftHandState(),

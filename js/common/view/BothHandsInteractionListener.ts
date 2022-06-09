@@ -70,18 +70,18 @@ class BothHandsInteractionListener {
   private consequentMapKeyboardInput: KeyboardInputMapper;
 
   // true whenever the user is interacting with this listener
-  isBeingInteractedWithProperty: Property<boolean>;
+  public isBeingInteractedWithProperty: Property<boolean>;
 
   // called when this input occurs when the ratio is locked with a target of N:N. Jumping to zero is not allowed for
   // this case, see, https://github.com/phetsims/ratio-and-proportion/issues/227#issuecomment-758036456
-  jumpToZeroWhileLockedEmitter: Emitter<[]>;
+  public jumpToZeroWhileLockedEmitter: Emitter<[]>;
 
   // The custom jumping logic uses special logic to determine if jumping caused a boundary to be hit. That occurs in
   // keydown, but we want the sound only to play once on keyup. Use this as a marker to signify that the boundary
   // sound should be played.
   private playBoundarySoundOnKeyup: boolean;
 
-  constructor( providedOptions: BothHandsInteractionListenerOptions ) {
+  public constructor( providedOptions: BothHandsInteractionListenerOptions ) {
 
     const options = optionize<BothHandsInteractionListenerOptions>()( {
 
@@ -113,7 +113,7 @@ class BothHandsInteractionListener {
     this.playBoundarySoundOnKeyup = false;
   }
 
-  reset(): void {
+  public reset(): void {
     this.antecedentMapKeyboardInput.reset();
     this.consequentMapKeyboardInput.reset();
   }
@@ -143,11 +143,11 @@ class BothHandsInteractionListener {
     this.onInput( ratioTerm );
   }
 
-  blur(): void {
+  public blur(): void {
     this.isBeingInteractedWithProperty.value = false;
   }
 
-  keydown( sceneryEvent: SceneryEvent ): void {
+  public keydown( sceneryEvent: SceneryEvent ): void {
 
     if ( sceneryEvent.target === this.targetNode ) {
 
@@ -233,7 +233,7 @@ class BothHandsInteractionListener {
     }
   }
 
-  keyup( sceneryEvent: SceneryEvent ): void {
+  public keyup( sceneryEvent: SceneryEvent ): void {
 
     if ( sceneryEvent.target === this.targetNode ) {
 
@@ -256,7 +256,7 @@ class BothHandsInteractionListener {
   /**
    * Handle boundary sound output based on an input for this interaction
    */
-  handleBoundarySoundOnInput( newValue: number ): void {
+  public handleBoundarySoundOnInput( newValue: number ): void {
     this.boundarySoundClip.onStartInteraction();
     this.boundarySoundClip.onInteract( newValue );
     this.boundarySoundClip.onEndInteraction( newValue );

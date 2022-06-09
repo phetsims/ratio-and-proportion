@@ -101,12 +101,12 @@ type RatioHalfOptions = SelfOptions & RectangleOptions;
 class RatioHalf extends Rectangle {
 
   // the height of the framing rectangles, updated in layout function
-  _framingRectangleHeight: number;
+  public _framingRectangleHeight: number;
 
   // This behaves a bit differently depending on modality. For mouse/touch, any time you are
   // dragging this will be considered interaction, for keyboard, you must press a key before the interaction starts.
   // Note both members to keep a public readonly interface.
-  readonly isBeingInteractedWithProperty: IReadOnlyProperty<boolean>;
+  public readonly isBeingInteractedWithProperty: IReadOnlyProperty<boolean>;
   private readonly _isBeingInteractedWithProperty: BooleanProperty;
 
   private readonly ratio: RAPRatio;
@@ -121,9 +121,9 @@ class RatioHalf extends Rectangle {
   private resetRatioHalf: () => void;
 
   // Access this to use view sounds related to this RatioHalf.
-  viewSounds: ViewSounds;
+  public viewSounds: ViewSounds;
 
-  constructor( providedOptions: RatioHalfOptions ) {
+  public constructor( providedOptions: RatioHalfOptions ) {
 
     const options = optionize<RatioHalfOptions, SelfOptions, RectangleOptions>()( {
       isRight: true,
@@ -523,7 +523,7 @@ class RatioHalf extends Rectangle {
   }
 
   // Provide a getter but not a setter to denote "public readonly"
-  get framingRectangleHeight(): number {
+  public get framingRectangleHeight(): number {
     return this._framingRectangleHeight;
   }
 
@@ -532,7 +532,7 @@ class RatioHalf extends Rectangle {
    * in ratio. This is the context response for the individual ratio half hand (slider) interaction. Returning
    * null means no alert will occur.
    */
-  getSingleHandContextResponse( handPositionsDescriber: HandPositionsDescriber,
+  public getSingleHandContextResponse( handPositionsDescriber: HandPositionsDescriber,
                                 bothHandsDescriber: BothHandsDescriber,
                                 options?: HandContextResponseOptions ): string {
 
@@ -549,7 +549,7 @@ class RatioHalf extends Rectangle {
    * mind, offset the bottom by the height that extends beyond the Rectangle. For example, the cue arrows of the RatioHandNode can extend beyond the
    * "ratio half box" (the draggable area).
    */
-  setBottomOfRatioHalf( desiredBottom: number ): void {
+  public setBottomOfRatioHalf( desiredBottom: number ): void {
 
     // `selfBounds` is used for the position of the Rectangle, since RatioHalf extends Rectangle
     this.bottom = desiredBottom + ( this.bounds.bottom - this.localToParentBounds( this.selfBounds ).bottom );
@@ -559,12 +559,12 @@ class RatioHalf extends Rectangle {
    * @param bounds - the bounds of this RatioHalf, effects dimensions, dragBounds, and width of guiding rectangles
    * @param heightScalar - normalized between 0 and 1. When 1, it the ratio half will be the tallest it gets, at 0, the shortest
    */
-  layout( bounds: Bounds2, heightScalar: number ): void {
+  public layout( bounds: Bounds2, heightScalar: number ): void {
     assert && assert( heightScalar >= 0 && heightScalar <= 1, 'scalar should be between 0 and 1' );
     this.layoutRatioHalf( bounds, heightScalar );
   }
 
-  reset(): void {
+  public reset(): void {
     this.resetRatioHalf();
   }
 

@@ -62,7 +62,7 @@ class InProportionSoundGenerator extends SoundClip {
    *                                            an on/off Property for the SoundGenerator, see below.
    * @param providedOptions
    */
-  constructor( model: RAPModel, enabledControlProperty: IReadOnlyProperty<boolean>, providedOptions?: SoundClipOptions ) {
+  public constructor( model: RAPModel, enabledControlProperty: IReadOnlyProperty<boolean>, providedOptions?: SoundClipOptions ) {
 
     const options = optionize<SoundClipOptions, {}>()( {
       initialOutputLevel: 0.5
@@ -107,7 +107,7 @@ class InProportionSoundGenerator extends SoundClip {
    * When true, the InProportionSoundGenerator will play when the ratio "jumps" over in proportion in two consecutive
    * values of the current ratio.
    */
-  setJumpingOverProportionShouldTriggerSound( jumpingOverShouldSound: boolean ): void {
+  public setJumpingOverProportionShouldTriggerSound( jumpingOverShouldSound: boolean ): void {
     this.jumpingOverShouldSound = jumpingOverShouldSound;
   }
 
@@ -124,7 +124,7 @@ class InProportionSoundGenerator extends SoundClip {
   /**
    * Step this sound generator, used for fading out the sound in the absence change.
    */
-  step( dt: number ): void {
+  public step( dt: number ): void {
     const newFitness = this.fitnessProperty.value;
 
     const isInRatio = this.model.inProportion();
@@ -167,7 +167,7 @@ class InProportionSoundGenerator extends SoundClip {
   /**
    * stop any in-progress sound generation
    */
-  reset(): void {
+  public reset(): void {
     this.stop( 0 );
     this.playedSuccessYetProperty.reset();
     this.timePlayedSoFarProperty.reset();

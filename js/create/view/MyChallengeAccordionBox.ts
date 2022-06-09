@@ -40,11 +40,11 @@ type MyChallengeAccordionBoxOptions = StrictOmit<AccordionBoxOptions, 'pdomOrder
 
 class MyChallengeAccordionBox extends AccordionBox {
 
-  targetAntecedentProperty: Property<number>;
-  targetConsequentProperty: Property<number>;
+  public targetAntecedentProperty: Property<number>;
+  public targetConsequentProperty: Property<number>;
   private resetMyChallengeAccordionBox: () => void;
 
-  constructor( targetRatioProperty: Property<number>, ratioLockedProperty: Property<boolean>,
+  public constructor( targetRatioProperty: Property<number>, ratioLockedProperty: Property<boolean>,
                handColorProperty: Property<Color>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
                ratioDescriber: RatioDescriber, providedOptions: MyChallengeAccordionBoxOptions ) {
 
@@ -230,7 +230,7 @@ class MyChallengeAccordionBox extends AccordionBox {
     };
   }
 
-  override reset(): void {
+  public override reset(): void {
     super.reset();
     this.resetMyChallengeAccordionBox();
   }

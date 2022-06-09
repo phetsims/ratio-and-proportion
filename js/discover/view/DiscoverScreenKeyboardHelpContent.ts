@@ -12,7 +12,7 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
 class DiscoverScreenKeyboardHelpContent extends RAPKeyboardHelpContent {
-  constructor() {
+  public constructor() {
     super( new ComboBoxKeyboardHelpSection( {
       headingString: ratioAndProportionStrings.chooseAChallengeRatio
     } ) );

@@ -66,7 +66,7 @@ class TickMarkDescriber {
   private tickMarkRangeProperty: Property<number>;
   private tickMarkViewProperty: EnumerationProperty<TickMarkView>;
 
-  constructor( tickMarkRangeProperty: Property<number>, tickMarkViewProperty: EnumerationProperty<TickMarkView> ) {
+  public constructor( tickMarkRangeProperty: Property<number>, tickMarkViewProperty: EnumerationProperty<TickMarkView> ) {
     this.tickMarkRangeProperty = tickMarkRangeProperty;
     this.tickMarkViewProperty = tickMarkViewProperty;
   }
@@ -76,7 +76,7 @@ class TickMarkDescriber {
    * This is a complicated function for a complicated design specification. Logic can split depending on tick mark view
    * with certain edge cases (like for "zero" case).
    */
-  getRelativePositionAndTickMarkNumberForPosition( handPosition: number ): TickMarkDescriptionData {
+  public getRelativePositionAndTickMarkNumberForPosition( handPosition: number ): TickMarkDescriptionData {
     assert && assert( TOTAL_RANGE.contains( handPosition ) );
 
     // account for javascript rounding error, don't use rapConstants because we only want to handle rounding trouble.

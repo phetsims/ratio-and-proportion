@@ -10,10 +10,10 @@ import Property from '../../../../axon/js/Property.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 
 class MediaPipeOptions {
-  xAxisFlippedProperty: Property<boolean>;
-  yAxisFlippedProperty: Property<boolean>;
+  public xAxisFlippedProperty: Property<boolean>;
+  public yAxisFlippedProperty: Property<boolean>;
 
-  constructor() {
+  public constructor() {
     this.xAxisFlippedProperty = new BooleanProperty( false );
     this.yAxisFlippedProperty = new BooleanProperty( false );
   }

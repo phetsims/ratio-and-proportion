@@ -21,7 +21,7 @@ type SelfOptions = {
 
 class DiscoverScreenIcon extends ScreenIcon {
 
-  constructor( providedOptions?: ScreenIconOptions ) {
+  public constructor( providedOptions?: ScreenIconOptions ) {
 
     const options = optionize<ScreenIconOptions, SelfOptions, ScreenIconOptions>()( {
       fill: 'white',

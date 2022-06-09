@@ -78,12 +78,12 @@ class BothHandsPDOMNode extends Node {
   private readonly ratioUnlockedFromBothHandsUtterance: Utterance;
 
   // Two references to the same Property allows for a public, readonly interface, while still editable in this file.
-  readonly isBeingInteractedWithProperty: IReadOnlyProperty<boolean>;
+  public readonly isBeingInteractedWithProperty: IReadOnlyProperty<boolean>;
   private readonly _isBeingInteractedWithProperty: Property<boolean>;
 
   private readonly bothHandsInteractionListener: BothHandsInteractionListener;
 
-  constructor( providedOptions: BothHandsPDOMNodeOptions ) {
+  public constructor( providedOptions: BothHandsPDOMNodeOptions ) {
 
     const options = optionize<BothHandsPDOMNodeOptions, SelfOptions, StrictOmit<NodeOptions, 'pdomOrder'>>()( {
 
@@ -287,7 +287,7 @@ class BothHandsPDOMNode extends Node {
     this.mutate( options );
   }
 
-  reset(): void {
+  public reset(): void {
     this.descriptionBothHandsDescriber.reset();
     this.voicingBothHandsDescriber.reset();
     this.antecedentInteractedWithProperty.reset();

@@ -14,20 +14,20 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 class CueArrowsState {
 
   // if either hand has been moved with a mouse or touch or MediaPipe
-  interactedWithMouseProperty: BooleanProperty;
+  public interactedWithMouseProperty: BooleanProperty;
 
   // if either hand has been moved with a keyboard
-  interactedWithKeyboardProperty: BooleanProperty;
+  public interactedWithKeyboardProperty: BooleanProperty;
 
   // if either hand currently has keyboard focus
-  keyboardFocusedProperty: BooleanProperty;
-  bothHands: {
+  public keyboardFocusedProperty: BooleanProperty;
+  public bothHands: {
     antecedentCueDisplayedProperty: BooleanProperty;
     consequentCueDisplayedProperty: BooleanProperty;
     interactedWithProperty: BooleanProperty;
   }
 
-  constructor() {
+  public constructor() {
 
     this.interactedWithMouseProperty = new BooleanProperty( false );
     this.interactedWithKeyboardProperty = new BooleanProperty( false );
@@ -47,7 +47,7 @@ class CueArrowsState {
     };
   }
 
-  reset(): void {
+  public reset(): void {
     this.interactedWithMouseProperty.reset();
     this.interactedWithKeyboardProperty.reset();
     this.keyboardFocusedProperty.reset();

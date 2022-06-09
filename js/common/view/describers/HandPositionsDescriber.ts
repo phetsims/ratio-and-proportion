@@ -67,17 +67,17 @@ const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 const aroundMiddleRegionWidth = 0.0025;
 
 class PositionRegionsData {
-  lowerBound: number;
+  public lowerBound: number;
   private inRegionPredicate: ( inputValue: number, lowerBound: number ) => boolean;
-  region: string;
+  public region: string;
 
-  constructor( lowerBound: number, inRegionPredicate: PositionRegionsData['inRegionPredicate'], region: string ) {
+  public constructor( lowerBound: number, inRegionPredicate: PositionRegionsData['inRegionPredicate'], region: string ) {
     this.lowerBound = lowerBound;
     this.inRegionPredicate = inRegionPredicate;
     this.region = region;
   }
 
-  positionInRegion( position: number ): boolean {
+  public positionInRegion( position: number ): boolean {
     return this.inRegionPredicate( position, this.lowerBound );
   }
 }
@@ -135,11 +135,11 @@ class HandPositionsDescriber {
   private previousDistanceRegionBoth: null | string;
 
   private previousDistance: number;
-  static POSITION_REGIONS_DATA: PositionRegionsData[];
+  public static POSITION_REGIONS_DATA: PositionRegionsData[];
   private previousEdgeCheckTuple: RAPRatioTuple;
-  enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>;
+  public enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>;
 
-  constructor( ratioTupleProperty: Property<RAPRatioTuple>, tickMarkDescriber: TickMarkDescriber,
+  public constructor( ratioTupleProperty: Property<RAPRatioTuple>, tickMarkDescriber: TickMarkDescriber,
                inProportionProperty: IReadOnlyProperty<boolean>, enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>,
                ratioLockedProperty: IReadOnlyProperty<boolean> ) {
 
@@ -166,7 +166,7 @@ class HandPositionsDescriber {
   /**
    * only ends with "of Play Area" if qualitative
    */
-  getHandPositionDescription( position: number, tickMarkView: TickMarkView ): string {
+  public getHandPositionDescription( position: number, tickMarkView: TickMarkView ): string {
     return TickMarkView.describeQualitative( tickMarkView ) ? HandPositionsDescriber.getQualitativePosition( position ) :
            this.getQuantitativeHandPosition( position, TickMarkView.describeSemiQualitative( tickMarkView ) );
   }
@@ -212,7 +212,7 @@ class HandPositionsDescriber {
   /**
    * NOTE: These values are copied over in RAPPositionRegionsLayer, consult that Node before changing these values.
    */
-  getDistanceRegion( lowercase: boolean, distance: number = this.ratioTupleProperty.value.getDistance() ): string {
+  public getDistanceRegion( lowercase: boolean, distance: number = this.ratioTupleProperty.value.getDistance() ): string {
 
     assert && assert( TOTAL_RANGE.getLength() === 1, 'these hard coded values depend on a range of 1' );
 
@@ -253,7 +253,7 @@ class HandPositionsDescriber {
     return ( lowercase ? DISTANCE_REGIONS_LOWERCASE : DISTANCE_REGIONS_CAPITALIZED )[ index ];
   }
 
-  getSingleHandContextResponse( ratioTerm: RatioTerm, tickMarkView: TickMarkView, providedOptions?: HandContextResponseOptions ): string {
+  public getSingleHandContextResponse( ratioTerm: RatioTerm, tickMarkView: TickMarkView, providedOptions?: HandContextResponseOptions ): string {
 
     const options = optionize<HandContextResponseOptions>()( {
 
@@ -313,7 +313,7 @@ class HandPositionsDescriber {
    * This "combo" approach will conditionally provide distance-progress to make sure repetition is not heard within
    * distance regions.
    */
-  getSingleHandComboDistance( ratioTerm: RatioTerm ): string {
+  public getSingleHandComboDistance( ratioTerm: RatioTerm ): string {
 
     const distanceRegion = this.getDistanceRegion( false );
 
@@ -337,7 +337,7 @@ class HandPositionsDescriber {
   }
 
   // TODO: capitalized is currently always used, but it would be nice to improve the implementation for voicing context responses, https://github.com/phetsims/ratio-and-proportion/issues/461
-  getBothHandsDistance( capitalized: boolean, providedOptions?: HandContextResponseOptions ): string {
+  public getBothHandsDistance( capitalized: boolean, providedOptions?: HandContextResponseOptions ): string {
     const options = optionize<HandContextResponseOptions, StrictOmit<HandContextResponseOptions, 'supportGoBeyondEdgeResponses'>>()( {
 
       // By default, let the describer decide if we should have distance progress or region
@@ -358,7 +358,7 @@ class HandPositionsDescriber {
     return 'A serious logic error occurred';
   }
 
-  getBothHandsDistanceProgress( capitalized: boolean ): string {
+  public getBothHandsDistanceProgress( capitalized: boolean ): string {
     const distanceProgressPhrase = this.getDistanceProgressString( {
       inProportionOverridesDistanceProgress: false,
       closerString: ratioAndProportionStrings.a11y.handPosition.closerTogether,
@@ -372,7 +372,7 @@ class HandPositionsDescriber {
     return this.getBothHandsDistanceRegion( capitalized );
   }
 
-  getBothHandsDistanceRegion( capitalized: boolean ): string {
+  public getBothHandsDistanceRegion( capitalized: boolean ): string {
     const distanceRegion = this.getDistanceRegion( true );
 
     const pattern = capitalized ? ratioAndProportionStrings.a11y.bothHands.handsDistancePatternCapitalized :
@@ -381,7 +381,7 @@ class HandPositionsDescriber {
     return StringUtils.fillIn( pattern, { distance: distanceRegion } );
   }
 
-  getBothHandsComboDistance( capitalized = false ): string {
+  public getBothHandsComboDistance( capitalized = false ): string {
     const distanceRegion = this.getDistanceRegion( true );
 
     if ( distanceRegion === this.previousDistanceRegionBoth ) {
@@ -447,7 +447,7 @@ class HandPositionsDescriber {
    *
    * @returns - null if there is no go-beyond-edge response
    */
-  getGoBeyondContextResponse( currentTuple: RAPRatioTuple, mostRecentlyMoved: RatioInputModality ): string | null {
+  public getGoBeyondContextResponse( currentTuple: RAPRatioTuple, mostRecentlyMoved: RatioInputModality ): string | null {
 
     // If ratio is locked, then respond as BOTH_HANDS (meaning moving either hand will trigger the edge response for
     // the hand at the edge).
@@ -539,7 +539,7 @@ class HandPositionsDescriber {
     return null;
   }
 
-  reset(): void {
+  public reset(): void {
     this.previousDistanceRegionSingle = null;
     this.previousDistanceRegionBoth = null;
 

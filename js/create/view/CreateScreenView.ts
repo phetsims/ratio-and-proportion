@@ -32,7 +32,7 @@ class CreateScreenView extends RAPScreenView {
   // set this after the supertype has initialized the view code needed to create the screen summary
   private createScreenSummaryNode: CreateScreenSummaryNode;
 
-  constructor( model: RAPModel, backgroundColorProperty: Property<Color>, tandem: Tandem ) {
+  public constructor( model: RAPModel, backgroundColorProperty: Property<Color>, tandem: Tandem ) {
 
     // For this screen, one Property controls the color of both hands.
     const handColorProperty = RAPColors.createScreenHandProperty;
@@ -146,25 +146,25 @@ class CreateScreenView extends RAPScreenView {
     };
   }
 
-  override layout( bounds: Bounds2 ): void {
+  public override layout( bounds: Bounds2 ): void {
     this.tickMarkRangeComboBoxNode.hideListBox(); // hidden when layout changes, see https://github.com/phetsims/ratio-and-proportion/issues/324
     super.layout( bounds );
   }
 
-  override reset(): void {
+  public override reset(): void {
     this.resetCreateScreenView();
     super.reset();
   }
 
-  override getVoicingOverviewContent(): string {
+  public override getVoicingOverviewContent(): string {
     return ratioAndProportionStrings.a11y.create.overviewSentence;
   }
 
-  override getVoicingDetailsContent(): string {
+  public override getVoicingDetailsContent(): string {
     return this.createScreenSummaryNode.getDetailsButtonState();
   }
 
-  override getVoicingHintContent(): string {
+  public override getVoicingHintContent(): string {
     return ratioAndProportionStrings.a11y.create.screenSummary.interactionHint;
   }
 }

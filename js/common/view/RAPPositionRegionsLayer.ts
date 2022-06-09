@@ -15,10 +15,10 @@ class RAPPositionRegionsLayer extends Node {
 
   private totalWidth: number;
   private totalHeight: number;
-  labelsHeight: number;
+  public labelsHeight: number;
   private regionValues: number[];
 
-  constructor( options?: NodeOptions ) {
+  public constructor( options?: NodeOptions ) {
 
     super( options );
 
@@ -31,7 +31,7 @@ class RAPPositionRegionsLayer extends Node {
     this.regionValues = [ 1 ].concat( HandPositionsDescriber.POSITION_REGIONS_DATA.map( data => data.lowerBound ) );
   }
 
-  layout( width: number, height: number ): void {
+  public layout( width: number, height: number ): void {
 
     this.totalHeight = height;
     this.totalWidth = width;

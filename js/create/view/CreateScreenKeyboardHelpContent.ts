@@ -15,7 +15,7 @@ import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import { NodeOptions } from '../../../../scenery/js/imports.js';
 
 class CreateScreenKeyboardHelpContent extends RAPKeyboardHelpContent {
-  constructor() {
+  public constructor() {
     super( new MyChallengeHelpSection() );
   }
 }
@@ -23,7 +23,7 @@ class CreateScreenKeyboardHelpContent extends RAPKeyboardHelpContent {
 class MyChallengeHelpSection extends KeyboardHelpSection {
 
   // TODO: use KeyboardHelpSectionOptions when possible, https://github.com/phetsims/ratio-and-proportion/issues/404
-  constructor( options?: NodeOptions ) {
+  public constructor( options?: NodeOptions ) {
 
     const setHandRatioValue = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.setHandRatioValue,
       KeyboardHelpIconFactory.upDownArrowKeysRowIcon(), {

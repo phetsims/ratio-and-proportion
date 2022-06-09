@@ -111,7 +111,7 @@ class RAPScreenView extends ScreenView {
   private layoutRAPScreeView: ( currentScreenViewCoordinates: Bounds2 ) => void;
   private mediaPipe: RAPMediaPipe | null;
 
-  constructor( model: RAPModel, backgroundColorProperty: Property<Color>, providedOptions?: RAPScreenViewOptions ) {
+  public constructor( model: RAPModel, backgroundColorProperty: Property<Color>, providedOptions?: RAPScreenViewOptions ) {
 
     const options = optionize<RAPScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
       layoutBounds: LAYOUT_BOUNDS,
@@ -430,7 +430,7 @@ class RAPScreenView extends ScreenView {
    * Layout Nodes part of ethe screen viw. To accomplish, much of this was copied from ScreenView.layout, with
    * minor tweaks for this specific case. Also note Projectile Motion uses almost the exact same algorithm.
    */
-  override layout( viewBounds: Bounds2 ): void {
+  public override layout( viewBounds: Bounds2 ): void {
 
     this.matrix = ScreenView.getLayoutMatrix( this.layoutBounds, viewBounds, { verticalAlign: 'bottom' } );
     this.visibleBoundsProperty.value = this.parentToLocalBounds( viewBounds );
@@ -439,7 +439,7 @@ class RAPScreenView extends ScreenView {
     this.layoutRAPScreeView( new Bounds2( 0, 0, ONE_QUARTER_LAYOUT_WIDTH, ratioHeight ) );
   }
 
-  reset(): void {
+  public reset(): void {
     this.tickMarkRangeProperty.reset();
     this.tickMarkViewProperty.reset();
     this.antecedentRatioHalf.reset();
@@ -449,7 +449,7 @@ class RAPScreenView extends ScreenView {
     this.movingInProportionSoundGenerator.reset();
   }
 
-  override step( dt: number ): void {
+  public override step( dt: number ): void {
 
     this.mediaPipe && this.mediaPipe.step();
     this.inProportionSoundGenerator.step( dt );

@@ -48,7 +48,7 @@ type CreateIconOptions = {
 class RatioHandNode extends AccessibleSlider( Node, 0 ) {
   private resetRatioHandNode: () => void;
 
-  constructor( valueProperty: IProperty<number>,
+  public constructor( valueProperty: IProperty<number>,
                enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>,
                tickMarkViewProperty: EnumerationProperty<TickMarkView>,
                keyboardStep: number,
@@ -199,11 +199,11 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
    * Call to reset input characteristics for alternative input. See
    * https://github.com/phetsims/ratio-and-proportion/issues/175#issuecomment-729292704
    */
-  override reset(): void {
+  public override reset(): void {
     this.resetRatioHandNode();
   }
 
-  static createIcon( isRight: boolean, tickMarkViewProperty: EnumerationProperty<TickMarkView>, providedOptions?: CreateIconOptions ): Node {
+  public static createIcon( isRight: boolean, tickMarkViewProperty: EnumerationProperty<TickMarkView>, providedOptions?: CreateIconOptions ): Node {
 
     const options = optionize<CreateIconOptions>()( {
       handColor: Color.BLACK,
@@ -234,7 +234,7 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
 
 class FilledInHandPath extends Path {
 
-  constructor( providedOptions?: PathOptions ) {
+  public constructor( providedOptions?: PathOptions ) {
 
     const options = optionize<PathOptions, {}>()( {
       stroke: 'black',
@@ -257,7 +257,7 @@ c-0.716,0.717-1.074,1.574-1.074,2.572v17.188h-1.041V4.31C28.729,3.311,28.371,2.4
 
 class CutOutHandPath extends Path {
 
-  constructor( providedOptions?: PathOptions ) {
+  public constructor( providedOptions?: PathOptions ) {
 
     const options = optionize<PathOptions, {}>()( {
       stroke: 'black',

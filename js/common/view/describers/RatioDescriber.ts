@@ -61,7 +61,7 @@ class RatioDescriber {
   private unclampedFitnessProperty: IReadOnlyProperty<number>;
   private model: RAPModel;
 
-  constructor( model: RAPModel ) {
+  public constructor( model: RAPModel ) {
 
     this.ratioFitnessProperty = model.ratioFitnessProperty;
     this.unclampedFitnessProperty = model.unclampedFitnessProperty;
@@ -72,7 +72,7 @@ class RatioDescriber {
     } );
   }
 
-  getRatioFitness( capitalized = true ): string {
+  public getRatioFitness( capitalized = true ): string {
 
     const lastIndex = RATIO_FITNESS_STRINGS_CAPITALIZED.length - 1;
     assert && assert( RATIO_FITNESS_STRINGS_LOWERCASE[ lastIndex ] === ratioAndProportionStrings.a11y.ratio.lowercase.at, 'There are assumptions made about the order of these regions, likely this should not change.' );
@@ -98,19 +98,19 @@ class RatioDescriber {
     return ratioRegions[ Math.floor( mappingFunction.evaluate( unclampedFitness ) ) ];
   }
 
-  getProximityToChallengeRatio(): string {
+  public getProximityToChallengeRatio(): string {
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.proximityToRatioObjectResponse, {
       proximityToRatio: this.getRatioFitness( false )
     } );
   }
 
-  getProximityToNewChallengeRatioSentence(): string {
+  public getProximityToNewChallengeRatioSentence(): string {
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.proximityToNewRatioPattern, {
       proximity: this.getRatioFitness( false )
     } );
   }
 
-  getCurrentChallengeSentence( antecedent: number, consequent: number ): string {
+  public getCurrentChallengeSentence( antecedent: number, consequent: number ): string {
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.currentChallenge, {
 
       // for consistency with all values, see https://github.com/phetsims/ratio-and-proportion/issues/283
@@ -119,14 +119,14 @@ class RatioDescriber {
     } );
   }
 
-  getTargetRatioChangeAlert( antecedent: number, consequent: number ): string {
+  public getTargetRatioChangeAlert( antecedent: number, consequent: number ): string {
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.targetRatioChangedContextResponse, {
       proximityToRatio: this.getProximityToNewChallengeRatioSentence(),
       currentChallenge: this.getCurrentChallengeSentence( antecedent, consequent )
     } );
   }
 
-  getWordFromNumber( number: number ): string {
+  public getWordFromNumber( number: number ): string {
     assert && assert( Number.isInteger( number ) );
     assert && assert( NUMBER_TO_WORD.length > number );
     return NUMBER_TO_WORD[ number ];

@@ -65,7 +65,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
   // in ms, keep track of the amount of time that has passed since the last staccato sound played
   private timeSinceLastPlay: number;
 
-  constructor( fitnessProperty: IReadOnlyProperty<number>, fitnessRange: Range, inProportionProperty: IReadOnlyProperty<boolean>, providedOptions: SoundGeneratorOptions ) {
+  public constructor( fitnessProperty: IReadOnlyProperty<number>, fitnessRange: Range, inProportionProperty: IReadOnlyProperty<boolean>, providedOptions: SoundGeneratorOptions ) {
 
     const options = optionize<SoundGeneratorOptions, {}>()( {
       initialOutputLevel: 0.25
@@ -103,7 +103,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
   /**
    * Step this sound generator, used for fading out the sound in the absence change.
    */
-  step( dt: number ): void {
+  public step( dt: number ): void {
     const newFitness = this.fitnessProperty.value;
 
     // If fitness is less than zero, make sure enough time has past that it will play a sound immediately.
@@ -120,7 +120,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
   /**
    * stop any in-progress sound generation
    */
-  reset(): void {
+  public reset(): void {
     this.timeSinceLastPlay = 0;
   }
 }

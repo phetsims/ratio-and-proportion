@@ -21,7 +21,7 @@ const ICON_SCALE = 0.45;
 
 class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkView> {
 
-  constructor( tickMarkViewProperty: EnumerationProperty<TickMarkView>, providedOptions?: RectangularRadioButtonGroupOptions ) {
+  public constructor( tickMarkViewProperty: EnumerationProperty<TickMarkView>, providedOptions?: RectangularRadioButtonGroupOptions ) {
 
     const options = optionize<RectangularRadioButtonGroupOptions, {}>()( {
       orientation: 'horizontal',
@@ -87,7 +87,7 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkV
 
 class NumberedTickMarksIconPath extends Path {
 
-  constructor( providedOptions?: PathOptions ) {
+  public constructor( providedOptions?: PathOptions ) {
 
     const options = optionize<PathOptions, {}>()( {
       fill: 'black',
@@ -118,7 +118,7 @@ class NumberedTickMarksIconPath extends Path {
 
 class TickMarksIconPath extends Path {
 
-  constructor( providedOptions?: PathOptions ) {
+  public constructor( providedOptions?: PathOptions ) {
 
     const options = optionize<PathOptions, {}>()( {
       fill: 'black',

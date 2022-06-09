@@ -24,7 +24,7 @@ class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
    * @param challengeHelpSection - keyboard help section for determining how to change the target ratio
    * @param [options] - TODO: use TwoColumnKeyboardHelpContentOptions when available, https://github.com/phetsims/ratio-and-proportion/issues/404
    */
-  constructor( challengeHelpSection: KeyboardHelpSection, options?: NodeOptions ) {
+  public constructor( challengeHelpSection: KeyboardHelpSection, options?: NodeOptions ) {
 
     const moveLeftOrRightHandHelpSection = new SliderControlsKeyboardHelpSection( {
       headingString: ratioAndProportionStrings.moveHandsIndividually,
@@ -49,7 +49,7 @@ class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
 class BothHandsHelpSection extends KeyboardHelpSection {
 
   // TODO: use KeyboardHelpSection when available, https://github.com/phetsims/ratio-and-proportion/issues/404
-  constructor( options?: NodeOptions ) {
+  public constructor( options?: NodeOptions ) {
 
     const moveLeftHand = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.moveLeftHand,
       KeyboardHelpIconFactory.iconRow( [ new LetterKeyNode( 'W' ), new LetterKeyNode( 'S' ) ] ), {

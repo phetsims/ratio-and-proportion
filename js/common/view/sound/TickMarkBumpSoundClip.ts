@@ -31,7 +31,7 @@ class TickMarkBumpSoundClip extends SoundClip {
    * @param positionRange - the total range in position
    * @param [options]
    */
-  constructor( tickMarkRangeProperty: Property<number>, positionRange: Range, options?: SoundClipOptions ) {
+  public constructor( tickMarkRangeProperty: Property<number>, positionRange: Range, options?: SoundClipOptions ) {
     super( generalSoftClick_mp3, options );
 
     this.tickMarkRangeProperty = tickMarkRangeProperty;
@@ -43,7 +43,7 @@ class TickMarkBumpSoundClip extends SoundClip {
   /**
    * Call this when an interaction occurs that could potentially cause a tick mark sound to play.
    */
-  onInteract( currentValue: number ): void {
+  public onInteract( currentValue: number ): void {
 
     if ( this.lastValue !== null ) {
 
@@ -68,7 +68,7 @@ class TickMarkBumpSoundClip extends SoundClip {
     this.lastValue = currentValue;
   }
 
-  reset(): void {
+  public reset(): void {
     this.stop( 0 );
     this.timeOfLastClick = 0;
     this.lastValue = null;

@@ -49,19 +49,19 @@ type RAPMediaPipeOptions = {
 
 class RAPMediaPipe extends MediaPipe {
 
-  readonly isBeingInteractedWithProperty: Property<boolean>;
+  public readonly isBeingInteractedWithProperty: Property<boolean>;
   private ratioTupleProperty: Property<RAPRatioTuple>;
-  antecedentHandPositions: Vector3[];
-  consequentHandPositions: Vector3[];
-  antecedentViewSounds: ViewSounds;
-  consequentViewSounds: ViewSounds;
+  public antecedentHandPositions: Vector3[];
+  public consequentHandPositions: Vector3[];
+  public antecedentViewSounds: ViewSounds;
+  public consequentViewSounds: ViewSounds;
 
   // Use a gesture to determine if voicing for the hands should be enabled
-  voicingEnabledProperty: Property<boolean>;
+  public voicingEnabledProperty: Property<boolean>;
 
-  onInput: () => void;
+  public onInput: () => void;
 
-  constructor( ratioTupleProperty: Property<RAPRatioTuple>, antecedentViewSounds: ViewSounds, consequentViewSounds: ViewSounds, providedOptions: RAPMediaPipeOptions ) {
+  public constructor( ratioTupleProperty: Property<RAPRatioTuple>, antecedentViewSounds: ViewSounds, consequentViewSounds: ViewSounds, providedOptions: RAPMediaPipeOptions ) {
     const options = optionize<RAPMediaPipeOptions>()( {
       isBeingInteractedWithProperty: new BooleanProperty( false ),
       onInput: _.noop
@@ -96,14 +96,14 @@ class RAPMediaPipe extends MediaPipe {
     } );
   }
 
-  tupleFromSmoothing( leftHandPosition: Vector3, rightHandPosition: Vector3 ): RAPRatioTuple {
+  public tupleFromSmoothing( leftHandPosition: Vector3, rightHandPosition: Vector3 ): RAPRatioTuple {
     return new RAPRatioTuple(
       this.getSmoothedPosition( leftHandPosition, this.antecedentHandPositions ).y,
       this.getSmoothedPosition( rightHandPosition, this.consequentHandPositions ).y
     ).constrainFields( rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE );
   }
 
-  getSmoothedPosition( position: Vector3, historicalPositions: Vector3[] ): Vector3 {
+  public getSmoothedPosition( position: Vector3, historicalPositions: Vector3[] ): Vector3 {
     historicalPositions.push( position );
     while ( historicalPositions.length > NUMBER_TO_SMOOTH ) {
       historicalPositions.shift();
@@ -112,11 +112,11 @@ class RAPMediaPipe extends MediaPipe {
   }
 
 
-  reset(): void {
+  public reset(): void {
     this.isBeingInteractedWithProperty.reset();
   }
 
-  step(): void {
+  public step(): void {
 
     const results = MediaPipe.resultsProperty.value;
 
@@ -156,7 +156,7 @@ class RAPMediaPipe extends MediaPipe {
     }
   }
 
-  markersTouching( point1: number, point2: number, handMarkerPositions: HandPoint[] ): boolean {
+  public markersTouching( point1: number, point2: number, handMarkerPositions: HandPoint[] ): boolean {
     const position1 = handMarkerPositions[ point1 ];
     const position2 = handMarkerPositions[ point2 ];
 
@@ -166,7 +166,7 @@ class RAPMediaPipe extends MediaPipe {
     return firstMarkerTouchingVector.distance( secondMarkerTouchingVector ) < MARKERS_TOUCHING_THRESHOLD;
   }
 
-  onInteract( newValue: RAPRatioTuple ): void {
+  public onInteract( newValue: RAPRatioTuple ): void {
     this.onInput();
     this.antecedentViewSounds.boundarySoundClip.onInteract( newValue.antecedent );
     this.consequentViewSounds.boundarySoundClip.onInteract( newValue.consequent );
@@ -174,7 +174,7 @@ class RAPMediaPipe extends MediaPipe {
     this.consequentViewSounds.tickMarkBumpSoundClip.onInteract( newValue.consequent );
   }
 
-  static getMediaPipeOptionsNode(): VBox {
+  public static getMediaPipeOptionsNode(): VBox {
     return new VBox( {
       spacing: 10,
       align: 'left',

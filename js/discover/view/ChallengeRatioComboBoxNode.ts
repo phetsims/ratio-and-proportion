@@ -31,7 +31,7 @@ const SELECTION_SOUND_OPTIONS = {
 class ChallengeRatioComboBoxNode extends Node {
 
   // Used to get the names of challenges based on the target ratio, NOTE: lowercase strings are only available in the PDOM (not yet i18n)
-  readonly ratioToChallengeNameMap: Map<number, { capitalized: string; lowercase: string }>;
+  public readonly ratioToChallengeNameMap: Map<number, { capitalized: string; lowercase: string }>;
   private comboBox: ComboBox<number>;
 
   /**
@@ -42,7 +42,7 @@ class ChallengeRatioComboBoxNode extends Node {
    * @param comboBoxTandem - Passed directly to comboBox; keep out of options to prevent instrumenting this intermediate Node.
    * @param [options]
    */
-  constructor( targetRatioProperty: NumberProperty, ratioDescriber: RatioDescriber, colorProperty: Property<Color>,
+  public constructor( targetRatioProperty: NumberProperty, ratioDescriber: RatioDescriber, colorProperty: Property<Color>,
                comboBoxListParent: Node, comboBoxTandem: Tandem, options?: StrictOmit<NodeOptions, 'children'> ) {
 
     super( options );
@@ -103,7 +103,7 @@ class ChallengeRatioComboBoxNode extends Node {
     this.pdomOrder = [ comboBoxHeading, this.comboBox ];
   }
 
-  hideListBox(): void {
+  public hideListBox(): void {
     this.comboBox.hideListBox();
   }
 }

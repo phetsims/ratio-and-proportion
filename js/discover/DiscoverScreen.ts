@@ -17,7 +17,7 @@ import { Color } from '../../../scenery/js/imports.js';
 
 class DiscoverScreen extends Screen<RAPModel, DiscoverScreenView> {
 
-  constructor( tandem: Tandem ) {
+  public constructor( tandem: Tandem ) {
 
     const backgroundColorProperty = new Property( Color.WHITE );
     const options = {

@@ -19,7 +19,7 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
 
   private movingInProportionSoundClip: CompositeSoundClip;
 
-  constructor( model: RAPModel, providedOptions?: SoundGeneratorOptions ) {
+  public constructor( model: RAPModel, providedOptions?: SoundGeneratorOptions ) {
 
     const options = optionize<SoundGeneratorOptions, {}>()( {
       initialOutputLevel: 0.13
@@ -69,7 +69,7 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
   /**
    * stop any in-progress sound generation
    */
-  reset(): void {
+  public reset(): void {
     this.movingInProportionSoundClip.stop();
   }
 }

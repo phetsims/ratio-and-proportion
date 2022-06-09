@@ -36,12 +36,12 @@ type ViewSoundsOptions = SelfOptions & {};
 
 class ViewSounds {
 
-  readonly grabSoundClip: SoundClip;
-  readonly releaseSoundClip: SoundClip;
-  readonly boundarySoundClip: BoundarySoundClip;
-  readonly tickMarkBumpSoundClip: TickMarkBumpSoundClip;
+  public readonly grabSoundClip: SoundClip;
+  public readonly releaseSoundClip: SoundClip;
+  public readonly boundarySoundClip: BoundarySoundClip;
+  public readonly tickMarkBumpSoundClip: TickMarkBumpSoundClip;
 
-  constructor( tickMarkRangeProperty: Property<number>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
+  public constructor( tickMarkRangeProperty: Property<number>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
                playTickMarkBumpSoundProperty: IReadOnlyProperty<boolean>, providedOptions?: ViewSoundsOptions ) {
 
     const options = optionize<ViewSoundsOptions>()( {
@@ -74,7 +74,7 @@ class ViewSounds {
     }, options.addSoundOptions ) );
   }
 
-  reset(): void {
+  public reset(): void {
     this.boundarySoundClip.reset();
     this.tickMarkBumpSoundClip.reset();
   }

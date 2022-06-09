@@ -38,23 +38,23 @@ const LOCK_RATIO_RANGE_MIN = rapConstants.NO_SUCCESS_VALUE_THRESHOLD + Number.EP
 class RAPRatio {
 
   // Keep two references so that this can be public readonly, AND changed internally.
-  readonly enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>;
+  public readonly enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>;
   private readonly _enabledRatioTermsRangeProperty: Property<Range>;
 
   // Central Property that holds the value of the ratio. Using a tuple that holds
   // both the antecedent and consequent values as a single data structure is vital for changing both hands at once, and
   // in supporting the "locked ratio" state. Otherwise there are complicated reentrant cases where changing the
   // antecedent cascades to the consequent to snap it back into ratio. Thus the creation of RAPRatioTuple.
-  readonly tupleProperty: Property<RAPRatioTuple>;
+  public readonly tupleProperty: Property<RAPRatioTuple>;
 
   // when true, moving one ratio value will maintain the current ratio by updating the other value Property
-  readonly lockedProperty: BooleanProperty;
+  public readonly lockedProperty: BooleanProperty;
   private readonly antecedentVelocityTracker: VelocityTracker;
   private readonly consequentVelocityTracker: VelocityTracker;
 
   // if the ratio is in the "moving in direction" state: whether or not the two hands are moving fast
   // enough together in the same direction. This indicates, among other things a bimodal interaction.
-  readonly movingInDirectionProperty: IReadOnlyProperty<boolean>;
+  public readonly movingInDirectionProperty: IReadOnlyProperty<boolean>;
 
   // To avoid an infinite loop as setting the tupleProperty from inside its lock-ratio-support
   // listener. This is predominately needed because even same antecedent/consequent values get wrapped in a new
@@ -62,7 +62,7 @@ class RAPRatio {
   private ratioLockListenerEnabled: boolean;
 
 
-  constructor( initialAntecedent: number, initialConsequent: number, tandem: Tandem ) {
+  public constructor( initialAntecedent: number, initialConsequent: number, tandem: Tandem ) {
 
     this._enabledRatioTermsRangeProperty = new Property( DEFAULT_TERM_VALUE_RANGE, {
       tandem: tandem.createTandem( 'enabledRatioTermsRangeProperty' ),
@@ -179,7 +179,7 @@ class RAPRatio {
     return new RAPRatioTuple( antecedent, consequent );
   }
 
-  setRatioToTarget( targetRatio: number ): void {
+  public setRatioToTarget( targetRatio: number ): void {
     const currentRatioTuple = this.tupleProperty.value;
 
     let antecedent = currentRatioTuple.antecedent;
@@ -204,17 +204,17 @@ class RAPRatio {
     this.ratioLockListenerEnabled = true;
   }
 
-  get currentRatio(): number {
+  public get currentRatio(): number {
     return this.tupleProperty.value.getRatio();
   }
 
-  step(): void {
+  public step(): void {
     const currentTuple = this.tupleProperty.value;
     this.antecedentVelocityTracker.step( currentTuple.antecedent );
     this.consequentVelocityTracker.step( currentTuple.consequent );
   }
 
-  reset(): void {
+  public reset(): void {
 
     // it is easiest if this is reset first
     this.lockedProperty.reset();
@@ -239,12 +239,12 @@ class VelocityTracker {
 
   // The change in ratio values since last capture. The frequency (or granularity) of this value
   // is determined by STEP_FRAME_GRANULARITY.
-  currentVelocityProperty: NumberProperty;
+  public currentVelocityProperty: NumberProperty;
 
   // Used for keeping track of how often dVelocity is checked.
   private stepCountTracker: number;
 
-  constructor( ratioLockedProperty: Property<boolean> ) {
+  public constructor( ratioLockedProperty: Property<boolean> ) {
 
     this.ratioLockedProperty = ratioLockedProperty;
     this.previousValues = [];
@@ -253,13 +253,13 @@ class VelocityTracker {
     this.stepCountTracker = 0;
   }
 
-  reset(): void {
+  public reset(): void {
     this.currentVelocityProperty.reset();
     this.stepCountTracker = 0;
     this.previousValues.length = 0;
   }
 
-  step( currentValue: number ): void {
+  public step( currentValue: number ): void {
     this.stepCountTracker++;
 
     // Capture a value at intervals within the timeframe for each velocity calculation.

@@ -27,7 +27,7 @@ const BACKGROUND_COLOR_STRINGS = [
 
 class BackgroundColorHandler {
 
-  constructor( model: RAPModel, backgroundColorProperty: Property<Color> ) {
+  public constructor( model: RAPModel, backgroundColorProperty: Property<Color> ) {
 
     // adjust the background color based on the current ratio fitness
     Multilink.multilink( [
@@ -52,7 +52,7 @@ class BackgroundColorHandler {
 
   }
 
-  static getCurrentColorRegion( fitness: number, inProportion: boolean ): string {
+  public static getCurrentColorRegion( fitness: number, inProportion: boolean ): string {
     if ( fitness === rapConstants.RATIO_FITNESS_RANGE.min ) {
       return BACKGROUND_COLOR_STRINGS[ 0 ];
     }

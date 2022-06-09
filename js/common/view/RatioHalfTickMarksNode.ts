@@ -27,7 +27,7 @@ class RatioHalfTickMarksNode extends GridNode {
   private tickMarkViewProperty: EnumerationProperty<TickMarkView>;
   private tickMarkRangeProperty: Property<number>;
 
-  constructor( tickMarkViewProperty: EnumerationProperty<TickMarkView>, tickMarkRangeProperty: Property<number>, width: number,
+  public constructor( tickMarkViewProperty: EnumerationProperty<TickMarkView>, tickMarkRangeProperty: Property<number>, width: number,
                height: number, colorProperty: IPaint, providedOptions?: SelfOptions ) {
     const options = optionize<RatioHalfTickMarksNodeOptions, SelfOptions>()( {
 
@@ -47,7 +47,7 @@ class RatioHalfTickMarksNode extends GridNode {
     Multilink.multilink( [ tickMarkRangeProperty, tickMarkViewProperty ], this.update.bind( this ) );
   }
 
-  layout( width: number, height: number ): void {
+  public layout( width: number, height: number ): void {
     this.setGridWidth( width );
     this.setGridHeight( height );
     this.update( this.tickMarkRangeProperty.value, this.tickMarkViewProperty.value );

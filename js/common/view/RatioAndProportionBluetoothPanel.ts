@@ -33,7 +33,7 @@ const font = new PhetFont( { size: 16, weight: 'bold' } );
 
 class QuadrilateralBluetoothConnectionPanel extends Panel {
 
-  constructor( tupleProperty: Property<RAPRatioTuple>, tandem: Tandem ) {
+  public constructor( tupleProperty: Property<RAPRatioTuple>, tandem: Tandem ) {
 
     // TODO: Handle when device does not support bluetooth with bluetooth.getAvailability.
     // TODO: Handle when browser does not support bluetooth, presumablue !navigator.bluetooth

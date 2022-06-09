@@ -32,7 +32,7 @@ class CreateScreenSummaryNode extends Node {
   private inProportionProperty: IReadOnlyProperty<boolean>;
   private myChallengeAccordionBox: MyChallengeAccordionBox;
 
-  constructor( ratioFitnessProperty: IReadOnlyProperty<number>,
+  public constructor( ratioFitnessProperty: IReadOnlyProperty<number>,
                ratioTupleProperty: Property<RAPRatioTuple>,
                tickMarkViewProperty: EnumerationProperty<TickMarkView>,
                ratioDescriber: RatioDescriber,
@@ -133,7 +133,7 @@ class CreateScreenSummaryNode extends Node {
     );
   }
 
-  getDetailsButtonState(): string {
+  public getDetailsButtonState(): string {
     const pattern = this.myChallengeAccordionBox.expandedProperty.value ?
                     ratioAndProportionStrings.a11y.detailsButtonWithCurrentChallengePattern :
                     ratioAndProportionStrings.a11y.detailsButtonPattern;
