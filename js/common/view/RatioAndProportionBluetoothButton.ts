@@ -32,15 +32,21 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
     // TODO: Handle when device does not support bluetooth with bluetooth.getAvailability.
     // TODO: Handle when browser does not support bluetooth, presumablue !navigator.bluetooth
 
+    // Name provided by the bluetooth device creator
     const deviceName = handSide === 'left' ? 'nrf52L' : 'nrf52R';
+
+    // button label
     const labelString = StringUtils.fillIn( 'BLE {{side}} device', {
       side: handSide
     } );
 
+    // decides which hand to control in the sim
+    const term = handSide === 'left' ? 'withAntecedent' : 'withConsequent';
+
     super( labelString, {
       textNodeOptions: { font: FONT },
       listener: async () => {
-        await this.requestDevice( { filters: [ { name: deviceName } ], optionalServices: [ 0xae6f ] }, tupleProperty, 'withAntecedent' );
+        await this.requestDevice( { filters: [ { name: deviceName } ], optionalServices: [ 0xae6f ] }, tupleProperty, term );
       }
     } );
   }
