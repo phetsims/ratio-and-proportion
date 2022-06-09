@@ -52,19 +52,19 @@ class RatioAndProportionBluetoothPanel extends Panel {
     const pairButton = new TextPushButton( 'Search for device', {
       textNodeOptions: { font: font },
       listener: async () => {
-        await this.requestQuadDevice( { filters: [ { name: 'nrf52L' } ], optionalServices: [ 0xae6f ] }, tupleProperty, 'withAntecedent' );
+        await this.requestDevice( { filters: [ { name: 'nrf52L' } ], optionalServices: [ 0xae6f ] }, tupleProperty, 'withAntecedent' );
 
         // Adding a sleep made it possible to request two devices from the same button press but it is not working
         // consistently, see https://github.com/phetsims/ratio-and-proportion/issues/473
         await sleepytime( 5000 );
-        await this.requestQuadDevice( { filters: [ { name: 'nrf52R' } ], optionalServices: [ 0xae6f ] }, tupleProperty, 'withConsequent' );
+        await this.requestDevice( { filters: [ { name: 'nrf52R' } ], optionalServices: [ 0xae6f ] }, tupleProperty, 'withConsequent' );
       }
     } );
 
     content.children = [ titleText, pairButton ];
   }
 
-  private async requestQuadDevice( bluetoothConfig: any, tupleProperty: Property<RAPRatioTuple>, term: string ): Promise<void> {
+  private async requestDevice( bluetoothConfig: any, tupleProperty: Property<RAPRatioTuple>, term: string ): Promise<void> {
     let device: null | any; // should be type BluetoothDevice, but it is too experimental for native types
 
     // @ts-ignore - navigator.bluetooth is experimental and does not exist in the typing
