@@ -1,5 +1,5 @@
 {
-  "comment": "# ratio-and-proportion 1.2.0-dev.19 Thu Jun 09 2022 17:08:41 GMT-0400 (Eastern Daylight Time)",
+  "comment": "# ratio-and-proportion 1.2.0-dev.20 Thu Jun 09 2022 17:16:47 GMT-0400 (Eastern Daylight Time)",
   "assert": {
     "sha": "c13a8c7741d95fbd8e37619c66ebcca8686dffe7",
     "branch": "master"
@@ -65,7 +65,7 @@
     "branch": "master"
   },
   "ratio-and-proportion": {
-    "sha": "07927d5fd8f89ea7fd7cba56c9919d3329a5e44d",
+    "sha": "a2660041f6542d986e302a06254bdcadd78589bf",
     "branch": "master"
   },
   "scenery": {
