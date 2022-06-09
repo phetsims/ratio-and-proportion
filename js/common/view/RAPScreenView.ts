@@ -24,7 +24,7 @@ import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.j
 import merge from '../../../../phet-core/js/merge.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { Color, Node, ParallelDOM, Voicing } from '../../../../scenery/js/imports.js';
+import { Color, Node, ParallelDOM, VBox, Voicing } from '../../../../scenery/js/imports.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
@@ -101,6 +101,10 @@ class RAPScreenView extends ScreenView {
   // positioned based on the corners of the layout.
   protected topScalingUILayerNode: Node;
   protected bottomScalingUILayerNode: Node;
+
+  // Prototype BLE controls, protected so that it can be positioned in subclasses. Only created if requested with
+  // ?bluetooth query parameter.
+  protected readonly bluetoothButtonBox: Node | null = null;
 
   // used only for subtype layout
   protected resetAllButton: ResetAllButton;
@@ -319,11 +323,6 @@ class RAPScreenView extends ScreenView {
     this.topScalingUILayerNode = new Node();
     this.bottomScalingUILayerNode = new Node();
 
-    if ( RAPQueryParameters.bluetooth ) {
-      const bluetoothConnectionPanel = new RatioAndProportionBluetoothButton( model.ratio.tupleProperty, Tandem.OPT_OUT );
-      this.topScalingUILayerNode.addChild( bluetoothConnectionPanel );
-    }
-
     this.resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
@@ -335,6 +334,19 @@ class RAPScreenView extends ScreenView {
       },
       tandem: options.tandem.createTandem( 'resetAllButton' )
     } );
+
+    if ( RAPQueryParameters.bluetooth ) {
+      const leftConnectionButton = new RatioAndProportionBluetoothButton( model.ratio.tupleProperty, 'left', Tandem.OPT_OUT );
+      const rightConnectionButton = new RatioAndProportionBluetoothButton( model.ratio.tupleProperty, 'right', Tandem.OPT_OUT );
+
+      this.bluetoothButtonBox = new VBox( {
+        children: [ leftConnectionButton, rightConnectionButton ],
+        spacing: 5,
+        align: 'right',
+        rightBottom: this.resetAllButton.rightTop.minusXY( 0, 15 )
+      } );
+      this.bottomScalingUILayerNode.addChild( this.bluetoothButtonBox );
+    }
 
     this.tickMarkViewRadioButtonGroup = new TickMarkViewRadioButtonGroup( this.tickMarkViewProperty, {
       tandem: options.tandem.createTandem( 'tickMarkViewRadioButtonGroup' )

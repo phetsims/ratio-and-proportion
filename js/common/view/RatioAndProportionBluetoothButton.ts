@@ -14,6 +14,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Property from '../../../../axon/js/Property.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 
 const FONT = new PhetFont( { size: 16, weight: 'bold' } );
 
@@ -32,8 +33,11 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
     // TODO: Handle when browser does not support bluetooth, presumablue !navigator.bluetooth
 
     const deviceName = handSide === 'left' ? 'nrf52L' : 'nrf52R';
+    const labelString = StringUtils.fillIn( 'BLE {{side}} device', {
+      side: handSide
+    } );
 
-    super( 'Search for device', {
+    super( labelString, {
       textNodeOptions: { font: FONT },
       listener: async () => {
         await this.requestDevice( { filters: [ { name: deviceName } ], optionalServices: [ 0xae6f ] }, tupleProperty, 'withAntecedent' );
