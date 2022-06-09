@@ -7,61 +7,38 @@
  * Prototype code for upcoming student studies, see https://github.com/phetsims/ratio-and-proportion/issues/473
  */
 
-import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
-import { Text, VBox } from '../../../../scenery/js/imports.js';
 import Utils from '../../../../dot/js/Utils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Property from '../../../../axon/js/Property.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 
-// The bluetooth options for the requestDevice call.
-// const REQUEST_DEVICE_OPTIONS = {
-//   filters: [ { namePrefix: 'nrf52L' } ],
-//   // filters: [
-//   //   { services: [ 'heart_rate' ] }, // TODO: Is this right?
-//   //   { services: [ 0x1802, 0x1803 ] },
-//   //   { services: [ '19b10010-e8f2-537e-4f6c-d104768a1214' ] },
-//   //   { name: 'Arduino' }
-//   // ],
-//   optionalServices: [ 'battery_service' ] // TODO: Is this right?
-// };
+const FONT = new PhetFont( { size: 16, weight: 'bold' } );
 
-const font = new PhetFont( { size: 16, weight: 'bold' } );
+export type HandSide = 'left' | 'right';
 
-class RatioAndProportionBluetoothPanel extends Panel {
+class RatioAndProportionBluetoothButton extends TextPushButton {
 
-  public constructor( tupleProperty: Property<RAPRatioTuple>, tandem: Tandem ) {
+  /**
+   * @param tupleProperty
+   * @param handSide -
+   * @param tandem
+   */
+  public constructor( tupleProperty: Property<RAPRatioTuple>, handSide: HandSide, tandem: Tandem ) {
 
     // TODO: Handle when device does not support bluetooth with bluetooth.getAvailability.
     // TODO: Handle when browser does not support bluetooth, presumablue !navigator.bluetooth
 
-    const titleText = new Text( 'Bluetooth connection', { font: font } );
+    const deviceName = handSide === 'left' ? 'nrf52L' : 'nrf52R';
 
-    const content = new VBox( {
-      spacing: 15
-    } );
-
-    super( content, {
-      minWidth: 200,
-      align: 'center'
-    } );
-
-    const pairButton = new TextPushButton( 'Search for device', {
-      textNodeOptions: { font: font },
+    super( 'Search for device', {
+      textNodeOptions: { font: FONT },
       listener: async () => {
-        await this.requestDevice( { filters: [ { name: 'nrf52L' } ], optionalServices: [ 0xae6f ] }, tupleProperty, 'withAntecedent' );
-
-        // Adding a sleep made it possible to request two devices from the same button press but it is not working
-        // consistently, see https://github.com/phetsims/ratio-and-proportion/issues/473
-        await sleepytime( 5000 );
-        await this.requestDevice( { filters: [ { name: 'nrf52R' } ], optionalServices: [ 0xae6f ] }, tupleProperty, 'withConsequent' );
+        await this.requestDevice( { filters: [ { name: deviceName } ], optionalServices: [ 0xae6f ] }, tupleProperty, 'withAntecedent' );
       }
     } );
-
-    content.children = [ titleText, pairButton ];
   }
 
   private async requestDevice( bluetoothConfig: any, tupleProperty: Property<RAPRatioTuple>, term: string ): Promise<void> {
@@ -87,7 +64,7 @@ class RatioAndProportionBluetoothPanel extends Panel {
         notifySuccess.addEventListener( 'characteristicvaluechanged', ( event: any ) => {
 
           // @ts-ignore
-          tupleProperty.value = tupleProperty.value[ term ]( RatioAndProportionBluetoothPanel.handleCharacteristicValueChanged( event ) );
+          tupleProperty.value = tupleProperty.value[ term ]( RatioAndProportionBluetoothButton.handleCharacteristicValueChanged( event ) );
         } );
 
         // At this time we can assume that connections are successful
@@ -118,11 +95,5 @@ class RatioAndProportionBluetoothPanel extends Panel {
   }
 }
 
-const sleepytime = ( milliseconds: number ): Promise<any> => {
-  return new Promise( ( resolve, reject ) => {
-    setTimeout( resolve, milliseconds ); // eslint-disable-line
-  } );
-};
-
-ratioAndProportion.register( 'RatioAndProportionBluetoothPanel', RatioAndProportionBluetoothPanel );
-export default RatioAndProportionBluetoothPanel;
+ratioAndProportion.register( 'RatioAndProportionBluetoothButton', RatioAndProportionBluetoothButton );
+export default RatioAndProportionBluetoothButton;

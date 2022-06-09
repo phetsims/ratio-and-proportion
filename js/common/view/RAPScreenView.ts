@@ -54,7 +54,7 @@ import RAPMediaPipe from './RAPMediaPipe.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
 import RatioInputModality from './describers/RatioInputModality.js';
-import RatioAndProportionBluetoothPanel from './RatioAndProportionBluetoothPanel.js';
+import RatioAndProportionBluetoothButton from './RatioAndProportionBluetoothButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 
 // constants
@@ -320,7 +320,7 @@ class RAPScreenView extends ScreenView {
     this.bottomScalingUILayerNode = new Node();
 
     if ( RAPQueryParameters.bluetooth ) {
-      const bluetoothConnectionPanel = new RatioAndProportionBluetoothPanel( model.ratio.tupleProperty, Tandem.OPT_OUT );
+      const bluetoothConnectionPanel = new RatioAndProportionBluetoothButton( model.ratio.tupleProperty, Tandem.OPT_OUT );
       this.topScalingUILayerNode.addChild( bluetoothConnectionPanel );
     }
 
