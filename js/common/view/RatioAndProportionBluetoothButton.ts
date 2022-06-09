@@ -22,11 +22,6 @@ export type HandSide = 'left' | 'right';
 
 class RatioAndProportionBluetoothButton extends TextPushButton {
 
-  /**
-   * @param tupleProperty
-   * @param handSide -
-   * @param tandem
-   */
   public constructor( tupleProperty: Property<RAPRatioTuple>, handSide: HandSide, tandem: Tandem ) {
 
     // TODO: Handle when device does not support bluetooth with bluetooth.getAvailability.
