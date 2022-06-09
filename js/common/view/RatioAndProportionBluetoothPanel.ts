@@ -31,7 +31,7 @@ import RAPRatioTuple from '../model/RAPRatioTuple.js';
 
 const font = new PhetFont( { size: 16, weight: 'bold' } );
 
-class QuadrilateralBluetoothConnectionPanel extends Panel {
+class RatioAndProportionBluetoothPanel extends Panel {
 
   public constructor( tupleProperty: Property<RAPRatioTuple>, tandem: Tandem ) {
 
@@ -87,7 +87,7 @@ class QuadrilateralBluetoothConnectionPanel extends Panel {
         notifySuccess.addEventListener( 'characteristicvaluechanged', ( event: any ) => {
 
           // @ts-ignore
-          tupleProperty.value = tupleProperty.value[ term ]( QuadrilateralBluetoothConnectionPanel.handleCharacteristicValueChanged( event ) );
+          tupleProperty.value = tupleProperty.value[ term ]( RatioAndProportionBluetoothPanel.handleCharacteristicValueChanged( event ) );
         } );
 
         // At this time we can assume that connections are successful
@@ -124,5 +124,5 @@ const sleepytime = ( milliseconds: number ): Promise<any> => {
   } );
 };
 
-ratioAndProportion.register( 'QuadrilateralBluetoothConnectionPanel', QuadrilateralBluetoothConnectionPanel );
-export default QuadrilateralBluetoothConnectionPanel;
+ratioAndProportion.register( 'RatioAndProportionBluetoothPanel', RatioAndProportionBluetoothPanel );
+export default RatioAndProportionBluetoothPanel;
