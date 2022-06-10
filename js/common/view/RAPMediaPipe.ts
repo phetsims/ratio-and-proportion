@@ -3,11 +3,24 @@
 /**
  * This file adds media pipe "hands" input to RAP, see MediaPipe
  *
+ * In general there are a couple of actions here:
+ *
+ * Hand Position changes:
+ * Each hand position in the sim is controlled by a few marker points from MediaPipe right around the knuckles of the hand.
+ * These points are averaged to get the position of that hand. Note that axis can be flipped in options to change which
+ * real-world hand corresponds to which hand in the sim.
+ *
+ * Voicing enabled:
+ * A gestured called the "OK_GESTURE", in which thumb and pointer touch in to make a cirle, leaving the other fingers
+ * straight, is used to turn off voicing. Turning off voicing actually allows a single voicing response to be spoken
+ * fully, so in a sense, though the code thinks that the "OK_GESTURE" turns off voicing, it actually allows a single
+ * voicing response to be heard.
+ *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import MediaPipe, { HandPoint } from '../../../../tangible/js/mediaPipe/MediaPipe.js';
+import MediaPipe, { HandLandmarks, HandPoint } from '../../../../tangible/js/mediaPipe/MediaPipe.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import Property from '../../../../axon/js/Property.js';
@@ -28,7 +41,12 @@ if ( RAPQueryParameters.mediaPipe ) {
   MediaPipe.initialize();
 }
 
-const NUMBER_TO_SMOOTH = 10;
+// Number of positions to keep to average out to smooth the hand positions
+const POSITION_HISTORY_LENGTH = 10;
+
+// Number of previous OK_GESTURE enabled states to keep to average out to determine if voicing is enabled. All must store
+// false for the gesture to no longer be enabled.
+const OK_GESTURE_DETECTED_HISTORY_LENGTH = 10;
 
 // Hand-tracking points that we use to calculate the position of the ratio in the sim,  See https://google.github.io/mediapipe/solutions/hands.html#hand-landmark-model
 const HAND_POINTS = [ 5, 9, 13 ];
@@ -36,6 +54,7 @@ const HAND_POINTS = [ 5, 9, 13 ];
 const THUMB_TIP = 4;
 const INDEX_TIP = 8;
 
+// TODO: is this really the best number for controlling voicing? https://github.com/phetsims/ratio-and-proportion/issues/454
 const MARKERS_TOUCHING_THRESHOLD = 0.04;
 
 // Scratch vectors to avoid taking too much memory
@@ -51,15 +70,17 @@ class RAPMediaPipe extends MediaPipe {
 
   public readonly isBeingInteractedWithProperty: Property<boolean>;
   private ratioTupleProperty: Property<RAPRatioTuple>;
-  public antecedentHandPositions: Vector3[];
-  public consequentHandPositions: Vector3[];
-  public antecedentViewSounds: ViewSounds;
-  public consequentViewSounds: ViewSounds;
+  private antecedentViewSounds: ViewSounds;
+  private consequentViewSounds: ViewSounds;
+
+  private antecedentHandPositions: Vector3[] = [];
+  private consequentHandPositions: Vector3[] = [];
+  private okGestureDetectedHistory: boolean[] = [];
 
   // Use a gesture to determine if voicing for the hands should be enabled
   public voicingEnabledProperty: Property<boolean>;
 
-  public onInput: () => void;
+  private onInput: () => void;
 
   public constructor( ratioTupleProperty: Property<RAPRatioTuple>, antecedentViewSounds: ViewSounds, consequentViewSounds: ViewSounds, providedOptions: RAPMediaPipeOptions ) {
     const options = optionize<RAPMediaPipeOptions>()( {
@@ -73,8 +94,6 @@ class RAPMediaPipe extends MediaPipe {
     this.onInput = options.onInput;
     this.antecedentViewSounds = antecedentViewSounds;
     this.consequentViewSounds = consequentViewSounds;
-    this.antecedentHandPositions = [];
-    this.consequentHandPositions = [];
 
     this.voicingEnabledProperty = new BooleanProperty( false, {
       tandem: options.tandem.createTandem( 'voicingEnabledProperty' )
@@ -96,26 +115,6 @@ class RAPMediaPipe extends MediaPipe {
     } );
   }
 
-  public tupleFromSmoothing( leftHandPosition: Vector3, rightHandPosition: Vector3 ): RAPRatioTuple {
-    return new RAPRatioTuple(
-      this.getSmoothedPosition( leftHandPosition, this.antecedentHandPositions ).y,
-      this.getSmoothedPosition( rightHandPosition, this.consequentHandPositions ).y
-    ).constrainFields( rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE );
-  }
-
-  public getSmoothedPosition( position: Vector3, historicalPositions: Vector3[] ): Vector3 {
-    historicalPositions.push( position );
-    while ( historicalPositions.length > NUMBER_TO_SMOOTH ) {
-      historicalPositions.shift();
-    }
-    return Vector3.average( historicalPositions );
-  }
-
-
-  public reset(): void {
-    this.isBeingInteractedWithProperty.reset();
-  }
-
   public step(): void {
 
     const results = MediaPipe.resultsProperty.value;
@@ -123,31 +122,13 @@ class RAPMediaPipe extends MediaPipe {
     if ( results && results.multiHandLandmarks.length === 2 ) {
 
       this.isBeingInteractedWithProperty.value = true;
-      const handPositions: Vector3[] = results.multiHandLandmarks.map( ( handMarkerPositions: HandPoint[] ) => {
-        const finalPosition = new Vector3( 0, 0, 0 );
 
-        // These are along the center of a hand, about where we have calibrated the hand icon in RAP, see https://google.github.io/mediapipe/solutions/hands.html#hand-landmark-model
-        HAND_POINTS.forEach( index => {
-          const point = handMarkerPositions[ index ];
-          assert && assert( typeof point.x === 'number' ); // eslint-disable-line bad-typescript-text
-          assert && assert( typeof point.y === 'number' ); // eslint-disable-line bad-typescript-text
-          assert && assert( typeof point.z === 'number' ); // eslint-disable-line bad-typescript-text
-          const yPosition = mediaPipeOptions.yAxisFlippedProperty.value ? point.y : 1 - point.y;
-          const xPosition = mediaPipeOptions.xAxisFlippedProperty.value ? point.x : 1 - point.x;
-          const position = new Vector3( xPosition, yPosition, 1 - point.z );
-          finalPosition.add( position );
-        } );
+      // Voicing is disabled with the gesture of an "OK" hand gesture from both hands. Must be set before this.onInteract() is called
+      this.voicingEnabledProperty.value = this.isVoicingEnabled( results.multiHandLandmarks );
 
-        return finalPosition.divideScalar( HAND_POINTS.length );
-      } );
-
-      handPositions.sort();
+      const handPositions = this.getPositionsOfHands( results.multiHandLandmarks );
       const newValue = this.tupleFromSmoothing( handPositions[ 0 ], handPositions[ 1 ] );
-      this.ratioTupleProperty.value = newValue;
-
-      // Voicing is disabled with the gesture of an "OK" hand gesture from both hands.
-      this.voicingEnabledProperty.value = !( this.markersTouching( THUMB_TIP, INDEX_TIP, results.multiHandLandmarks[ 0 ] ) &&
-                                             this.markersTouching( THUMB_TIP, INDEX_TIP, results.multiHandLandmarks[ 1 ] ) );
+      this.ratioTupleProperty.value = this.tupleFromSmoothing( handPositions[ 0 ], handPositions[ 1 ] );
 
       this.onInteract( newValue );
     }
@@ -156,7 +137,41 @@ class RAPMediaPipe extends MediaPipe {
     }
   }
 
-  public markersTouching( point1: number, point2: number, handMarkerPositions: HandPoint[] ): boolean {
+  private tupleFromSmoothing( leftHandPosition: Vector3, rightHandPosition: Vector3 ): RAPRatioTuple {
+    return new RAPRatioTuple(
+      this.getSmoothedPosition( leftHandPosition, this.antecedentHandPositions ).y,
+      this.getSmoothedPosition( rightHandPosition, this.consequentHandPositions ).y
+    ).constrainFields( rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE );
+  }
+
+  /**
+   * Average the historical positions together to get the current value
+   */
+  private getSmoothedPosition( position: Vector3, historicalPositions: Vector3[] ): Vector3 {
+    return this.handleSmoothValue( position, historicalPositions, POSITION_HISTORY_LENGTH, Vector3.average );
+  }
+
+  private getPositionsOfHands( multiHandLandmarks: HandLandmarks[] ): Vector3[] {
+    return multiHandLandmarks.map( ( handMarkerPositions: HandPoint[] ) => {
+      const finalPosition = new Vector3( 0, 0, 0 );
+
+      // These are along the center of a hand, about where we have calibrated the hand icon in RAP, see https://google.github.io/mediapipe/solutions/hands.html#hand-landmark-model
+      HAND_POINTS.forEach( index => {
+        const point = handMarkerPositions[ index ];
+        assert && assert( typeof point.x === 'number' ); // eslint-disable-line bad-typescript-text
+        assert && assert( typeof point.y === 'number' ); // eslint-disable-line bad-typescript-text
+        assert && assert( typeof point.z === 'number' ); // eslint-disable-line bad-typescript-text
+        const yPosition = mediaPipeOptions.yAxisFlippedProperty.value ? point.y : 1 - point.y;
+        const xPosition = mediaPipeOptions.xAxisFlippedProperty.value ? point.x : 1 - point.x;
+        const position = new Vector3( xPosition, yPosition, 1 - point.z );
+        finalPosition.add( position );
+      } );
+
+      return finalPosition.divideScalar( HAND_POINTS.length );
+    } );
+  }
+
+  private markersTouching( point1: number, point2: number, handMarkerPositions: HandPoint[] ): boolean {
     const position1 = handMarkerPositions[ point1 ];
     const position2 = handMarkerPositions[ point2 ];
 
@@ -166,12 +181,53 @@ class RAPMediaPipe extends MediaPipe {
     return firstMarkerTouchingVector.distance( secondMarkerTouchingVector ) < MARKERS_TOUCHING_THRESHOLD;
   }
 
-  public onInteract( newValue: RAPRatioTuple ): void {
+  private onInteract( newValue: RAPRatioTuple ): void {
     this.onInput();
     this.antecedentViewSounds.boundarySoundClip.onInteract( newValue.antecedent );
     this.consequentViewSounds.boundarySoundClip.onInteract( newValue.consequent );
     this.antecedentViewSounds.tickMarkBumpSoundClip.onInteract( newValue.antecedent );
     this.consequentViewSounds.tickMarkBumpSoundClip.onInteract( newValue.consequent );
+  }
+
+  private hasOKGesture( multiHandLandmarks: HandLandmarks[] ): boolean {
+    assert && assert( multiHandLandmarks.length === 2, 'two and only two hands expected to calculate if voicing is enabled' );
+    return this.markersTouching( THUMB_TIP, INDEX_TIP, multiHandLandmarks[ 0 ] ) &&
+           this.markersTouching( THUMB_TIP, INDEX_TIP, multiHandLandmarks[ 1 ] );
+  }
+
+  /**
+   * Voicing is eagerly disabled upon first "OK Gesture" detection, but to turn it on, keep track of history to ensure
+   * that the user is actually intending to stop the "OK Gesture"
+   */
+  private isVoicingEnabled( multiHandLandmarks: HandLandmarks[] ): boolean {
+
+    const newOKGestureDetected = this.hasOKGesture( multiHandLandmarks );
+
+    console.log( newOKGestureDetected );
+    if ( this.voicingEnabledProperty.value && !newOKGestureDetected ) {
+
+      this.okGestureDetectedHistory.push( newOKGestureDetected );
+      return false;
+    }
+
+    return this.handleSmoothValue( newOKGestureDetected, this.okGestureDetectedHistory, OK_GESTURE_DETECTED_HISTORY_LENGTH,
+
+      // If there is a single OK_GESTURE present, then there is still intent to gesture.
+      () => this.okGestureDetectedHistory.filter( _.identity ).length === 0
+    );
+  }
+
+  /**
+   * Smooth a value given historical data and a new value. Also ensures that the history doesn't get too long.
+   */
+  handleSmoothValue<T>( newValue: T, historyArray: T[], maxSizeOfArray: number, smoothValues: ( historyArray: T[] ) => T ): T {
+
+    historyArray.push( newValue );
+    while ( historyArray.length > maxSizeOfArray ) {
+      historyArray.shift();
+    }
+
+    return smoothValues( historyArray );
   }
 
   public static getMediaPipeOptionsNode(): VBox {
@@ -184,6 +240,10 @@ class RAPMediaPipe extends MediaPipe {
         new Checkbox( new RichText( 'y-axis flipped' ), mediaPipeOptions.yAxisFlippedProperty, { tandem: Tandem.OPT_OUT } )
       ]
     } );
+  }
+
+  public reset(): void {
+    this.isBeingInteractedWithProperty.reset();
   }
 }
 

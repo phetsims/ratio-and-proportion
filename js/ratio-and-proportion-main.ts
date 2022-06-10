@@ -11,7 +11,7 @@ import PreferencesConfiguration from '../../joist/js/preferences/PreferencesConf
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import ClapperboardButton from '../../scenery-phet/js/ClapperboardButton.js';
-import { Node } from '../../scenery/js/imports.js';
+import { Node, VBox } from '../../scenery/js/imports.js';
 import CreateScreen from './create/CreateScreen.js';
 import DiscoverScreen from './discover/DiscoverScreen.js';
 import ratioAndProportionStrings from './ratioAndProportionStrings.js';
@@ -31,7 +31,7 @@ const simOptions: SimOptions = {
   hasKeyboardHelpContent: true,
   preferencesConfiguration: new PreferencesConfiguration( {
     generalOptions: {
-      simControls: new Node( {
+      simControls: new VBox( {
         children: [
           new ClapperboardButton( { tandem: Tandem.GLOBAL_VIEW.createTandem( 'clapperboardButton' ) } ),
           RAPQueryParameters.mediaPipe ? RAPMediaPipe.getMediaPipeOptionsNode() : new Node()
