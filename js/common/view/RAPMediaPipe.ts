@@ -48,7 +48,7 @@ const POSITION_HISTORY_LENGTH = 10;
 
 // Number of previous OK_GESTURE enabled states to keep to average out to determine if voicing is enabled. All must store
 // false for the gesture to no longer be enabled.
-const OK_GESTURE_DETECTED_HISTORY_LENGTH = 10;
+const OK_GESTURE_DETECTED_HISTORY_LENGTH = 20;
 
 // The max value of each hand position vector component that we get from MediaPipe.
 const HAND_POSITION_MAX_VALUE = 1;
@@ -136,7 +136,10 @@ class RAPMediaPipe extends MediaPipe {
 
       const handPositions = this.getPositionsOfHands( results.multiHandLandmarks );
       const newValue = this.tupleFromSmoothing( handPositions[ 0 ], handPositions[ 1 ] );
-      this.ratioTupleProperty.value = this.tupleFromSmoothing( handPositions[ 0 ], handPositions[ 1 ] );
+
+      if ( !this.okGestureProperty.value ) {
+        this.ratioTupleProperty.value = this.tupleFromSmoothing( handPositions[ 0 ], handPositions[ 1 ] );
+      }
 
       this.onInteract( newValue );
     }
