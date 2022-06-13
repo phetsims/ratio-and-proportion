@@ -199,7 +199,7 @@ class RAPMediaPipe extends MediaPipe {
 
   private static sortHandPositions( handPositions: Vector3[] ): Vector3[] {
     assert && assert( handPositions.length === 2, 'must have 2 hands' );
-    return handPositions[ 0 ].x >= handPositions[ 1 ].x ? handPositions : handPositions.reverse();
+    return handPositions[ 0 ].x <= handPositions[ 1 ].x ? handPositions : handPositions.reverse();
   }
 
   private static markersTouching( point1: number, point2: number, handMarkerPositions: HandPoint[] ): boolean {
