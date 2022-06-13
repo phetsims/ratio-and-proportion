@@ -174,7 +174,9 @@ class RAPMediaPipe extends MediaPipe {
   }
 
   private getPositionsOfHands( multiHandLandmarks: HandLandmarks[] ): Vector3[] {
-    return multiHandLandmarks.map( ( handMarkerPositions: HandPoint[] ) => {
+    assert && assert( multiHandLandmarks.length === 2, 'must have 2 hands' );
+
+    const handPositions = multiHandLandmarks.map( ( handMarkerPositions: HandPoint[] ) => {
       const finalPosition = new Vector3( 0, 0, 0 );
 
       // These are along the center of a hand, about where we have calibrated the hand icon in RAP, see https://google.github.io/mediapipe/solutions/hands.html#hand-landmark-model
@@ -191,6 +193,13 @@ class RAPMediaPipe extends MediaPipe {
 
       return finalPosition.divideScalar( HAND_POINTS.length );
     } );
+
+    return RAPMediaPipe.sortHandPositions( handPositions );
+  }
+
+  private static sortHandPositions( handPositions: Vector3[] ): Vector3[] {
+    assert && assert( handPositions.length === 2, 'must have 2 hands' );
+    return handPositions[ 0 ].x >= handPositions[ 1 ].x ? handPositions : handPositions.reverse();
   }
 
   private static markersTouching( point1: number, point2: number, handMarkerPositions: HandPoint[] ): boolean {
