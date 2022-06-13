@@ -48,7 +48,10 @@ const POSITION_HISTORY_LENGTH = 10;
 
 // Number of previous OK_GESTURE enabled states to keep to average out to determine if voicing is enabled. All must store
 // false for the gesture to no longer be enabled.
-const OK_GESTURE_DETECTED_HISTORY_LENGTH = 20;
+const OK_GESTURE_DETECTED_HISTORY_LENGTH = 15;
+
+// Number of previous states to keep to average out to determine if two (and only two) hands are detected by mediaPipe.
+const TWO_HANDS_DETECTED_HISTORY_LENGTH = 10;
 
 // The max value of each hand position vector component that we get from MediaPipe.
 const HAND_POSITION_MAX_VALUE = 1;
@@ -78,6 +81,7 @@ class RAPMediaPipe extends MediaPipe {
   private antecedentViewSounds: ViewSounds;
   private consequentViewSounds: ViewSounds;
 
+  private twoHandsDetectedHistory: boolean[] = [];
   private antecedentHandPositions: Vector3[] = [];
   private consequentHandPositions: Vector3[] = [];
   private okGestureDetectedHistory: boolean[] = [];
@@ -127,9 +131,11 @@ class RAPMediaPipe extends MediaPipe {
 
     const results = MediaPipe.resultsProperty.value;
 
-    if ( results && results.multiHandLandmarks.length === 2 ) {
+    // Be more tolerant about if we are interacting with MediaPipe.
+    this.isBeingInteractedWithProperty.value = results ? this.getSmoothedTwoHandsDetected( results.multiHandLandmarks ) : false;
 
-      this.isBeingInteractedWithProperty.value = true;
+    // Though isBeingInteractedWithProperty is tolerant, we actually need two hands to calculate sim changes.
+    if ( results && results.multiHandLandmarks.length === 2 ) {
 
       // Voicing is disabled with the gesture of an "OK" hand gesture from both hands. Must be set before this.onInteract() is called
       this.okGestureProperty.value = this.okGesturePresent( results.multiHandLandmarks );
@@ -143,9 +149,6 @@ class RAPMediaPipe extends MediaPipe {
 
       this.onInteract( newValue );
     }
-    else {
-      this.isBeingInteractedWithProperty.value = false;
-    }
   }
 
   private tupleFromSmoothing( leftHandPosition: Vector3, rightHandPosition: Vector3 ): RAPRatioTuple {
@@ -153,6 +156,14 @@ class RAPMediaPipe extends MediaPipe {
       this.getSmoothedPosition( leftHandPosition, this.antecedentHandPositions ).y,
       this.getSmoothedPosition( rightHandPosition, this.consequentHandPositions ).y
     ).constrainFields( rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE );
+  }
+
+  private getSmoothedTwoHandsDetected( multiHandLandmarks: HandLandmarks[] ): boolean {
+    return this.handleSmoothValue( multiHandLandmarks.length === 2, this.twoHandsDetectedHistory, TWO_HANDS_DETECTED_HISTORY_LENGTH,
+
+      // To reduce false positives and false negatives, 50% of the history must have two hands detected.
+      () => this.twoHandsDetectedHistory.filter( _.identity ).length > TWO_HANDS_DETECTED_HISTORY_LENGTH / 2
+    );
   }
 
   /**
@@ -201,7 +212,11 @@ class RAPMediaPipe extends MediaPipe {
   }
 
   private static hasOKGesture( multiHandLandmarks: HandLandmarks[] ): boolean {
-    assert && assert( multiHandLandmarks.length === 2, 'two and only two hands expected to calculate if voicing is enabled' );
+
+    // Cannot have OK_GESTURE without two and only two hands.
+    if ( multiHandLandmarks.length !== 2 ) {
+      return false;
+    }
     return RAPMediaPipe.markersTouching( THUMB_TIP, INDEX_TIP, multiHandLandmarks[ 0 ] ) &&
            RAPMediaPipe.markersTouching( THUMB_TIP, INDEX_TIP, multiHandLandmarks[ 1 ] );
   }
