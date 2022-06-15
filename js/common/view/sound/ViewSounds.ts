@@ -32,7 +32,7 @@ type SelfOptions = {
   soundClipOptions?: SoundClipOptions;
 }
 
-type ViewSoundsOptions = SelfOptions & {};
+type ViewSoundsOptions = SelfOptions;
 
 class ViewSounds {
 
@@ -42,7 +42,7 @@ class ViewSounds {
   public readonly tickMarkBumpSoundClip: TickMarkBumpSoundClip;
 
   public constructor( tickMarkRangeProperty: Property<number>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
-               playTickMarkBumpSoundProperty: IReadOnlyProperty<boolean>, providedOptions?: ViewSoundsOptions ) {
+                      playTickMarkBumpSoundProperty: IReadOnlyProperty<boolean>, providedOptions?: ViewSoundsOptions ) {
 
     const options = optionize<ViewSoundsOptions>()( {
       addSoundOptions: {
