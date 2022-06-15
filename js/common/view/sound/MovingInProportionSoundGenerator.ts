@@ -8,6 +8,7 @@
 
 import Multilink from '../../../../../axon/js/Multilink.js';
 import optionize from '../../../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../../../phet-core/js/types/EmptyObjectType.js';
 import CompositeSoundClip from '../../../../../tambo/js/sound-generators/CompositeSoundClip.js';
 import SoundGenerator, { SoundGeneratorOptions } from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
 import movingInProportionChoirLoop_mp3 from '../../../../sounds/moving-in-proportion/movingInProportionChoirLoop_mp3.js';
@@ -21,7 +22,7 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
 
   public constructor( model: RAPModel, providedOptions?: SoundGeneratorOptions ) {
 
-    const options = optionize<SoundGeneratorOptions, {}>()( {
+    const options = optionize<SoundGeneratorOptions, EmptyObjectType>()( {
       initialOutputLevel: 0.13
     }, providedOptions );
 

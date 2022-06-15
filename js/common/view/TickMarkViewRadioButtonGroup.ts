@@ -14,6 +14,7 @@ import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import TickMarkView from './TickMarkView.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 
 // constants
@@ -23,7 +24,7 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkV
 
   public constructor( tickMarkViewProperty: EnumerationProperty<TickMarkView>, providedOptions?: RectangularRadioButtonGroupOptions ) {
 
-    const options = optionize<RectangularRadioButtonGroupOptions, {}>()( {
+    const options = optionize<RectangularRadioButtonGroupOptions, EmptyObjectType>()( {
       orientation: 'horizontal',
       baseColor: 'white',
       buttonContentYMargin: 14,
@@ -89,7 +90,7 @@ class NumberedTickMarksIconPath extends Path {
 
   public constructor( providedOptions?: PathOptions ) {
 
-    const options = optionize<PathOptions, {}>()( {
+    const options = optionize<PathOptions, EmptyObjectType>()( {
       fill: 'black',
       scale: ICON_SCALE
     }, providedOptions );
@@ -120,7 +121,7 @@ class TickMarksIconPath extends Path {
 
   public constructor( providedOptions?: PathOptions ) {
 
-    const options = optionize<PathOptions, {}>()( {
+    const options = optionize<PathOptions, EmptyObjectType>()( {
       fill: 'black',
       scale: ICON_SCALE
     }, providedOptions );
