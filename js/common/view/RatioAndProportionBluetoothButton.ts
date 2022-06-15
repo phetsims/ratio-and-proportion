@@ -37,7 +37,7 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
 
     // button label
     const labelString = StringUtils.fillIn( 'BLE {{side}} device', {
-      side: RatioTerm.ANTECEDENT ? 'left' : 'right'
+      side: ratioTerm === RatioTerm.ANTECEDENT ? 'left' : 'right'
     } );
 
     // decides which hand to control in the sim
