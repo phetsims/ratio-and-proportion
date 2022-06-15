@@ -131,8 +131,8 @@ class CreateScreenView extends RAPScreenView {
     ] );
 
     // static layout
-    ratioLockCheckbox.right = this.resetAllButton.right;
-    ratioLockCheckbox.bottom = this.resetAllButton.top - 20;
+    ratioLockCheckbox.right = this.bluetoothButtonBox.right;
+    ratioLockCheckbox.bottom = this.bluetoothButtonBox.top - 20;
 
     // ui layer node layout (scales based on width). This only needs to be laid out once, as the container is scaled.
     this.tickMarkRangeComboBoxNode.right = myChallengeAccordionBox.right = tickMarkRangeComboBoxParent.right = this.tickMarkViewRadioButtonGroup.right;

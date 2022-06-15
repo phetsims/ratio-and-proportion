@@ -43,7 +43,7 @@ class ChallengeRatioComboBoxNode extends Node {
    * @param [options]
    */
   public constructor( targetRatioProperty: NumberProperty, ratioDescriber: RatioDescriber, colorProperty: Property<Color>,
-               comboBoxListParent: Node, comboBoxTandem: Tandem, options?: StrictOmit<NodeOptions, 'children'> ) {
+                      comboBoxListParent: Node, comboBoxTandem: Tandem, options?: StrictOmit<NodeOptions, 'children'> ) {
 
     super( options );
 

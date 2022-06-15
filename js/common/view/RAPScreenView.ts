@@ -55,8 +55,9 @@ import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
 import RatioInputModality from './describers/RatioInputModality.js';
 import RatioAndProportionBluetoothButton from './RatioAndProportionBluetoothButton.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import DistanceResponseType from './describers/DistanceResponseType.js';
+import Emitter from '../../../../axon/js/Emitter.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 // constants
 const LAYOUT_BOUNDS = ScreenView.DEFAULT_LAYOUT_BOUNDS;
@@ -100,12 +101,12 @@ class RAPScreenView extends ScreenView {
   // to maximize their size within the horizontal space in vertical aspect ratios, see https://github.com/phetsims/ratio-and-proportion/issues/79
   // These are two separate containers so that scaling them can take away space in between them while keeping each
   // positioned based on the corners of the layout.
-  protected topScalingUILayerNode: Node;
-  protected bottomScalingUILayerNode: Node;
+  protected topScalingUILayerNode = new Node();
+  protected bottomScalingUILayerNode = new Node();
 
-  // Prototype BLE controls, protected so that it can be positioned in subclasses. Only created if requested with
+  // Prototype BLE controls, protected so that it can be positioned in subclasses. Only has content if requested with
   // ?bluetooth query parameter.
-  protected readonly bluetoothButtonBox: Node | null = null;
+  protected readonly bluetoothButtonBox = new Node();
 
   // used only for subtype layout
   protected resetAllButton: ResetAllButton;
@@ -115,6 +116,8 @@ class RAPScreenView extends ScreenView {
 
   private layoutRAPScreeView: ( currentScreenViewCoordinates: Bounds2 ) => void;
   private mediaPipe: RAPMediaPipe | null;
+
+  private stepEmitter = new Emitter<[ number ]>( { parameters: [ { valueType: 'number' } ] } );
 
   public constructor( model: RAPModel, backgroundColorProperty: Property<Color>, providedOptions?: RAPScreenViewOptions ) {
 
@@ -298,13 +301,20 @@ class RAPScreenView extends ScreenView {
           cueArrowsState.interactedWithMouseProperty.value = true;
         }
       } );
+
+      this.stepEmitter.addListener( () => {
+        this.mediaPipe!.step();
+      } );
     }
+
+    const bluetoothInteractedWithProperty = new BooleanProperty( false );
 
     const soundGeneratorEnabledProperty = DerivedProperty.or( [
       this.antecedentRatioHalf.isBeingInteractedWithProperty,
       this.consequentRatioHalf.isBeingInteractedWithProperty,
       bothHandsPDOMNode.isBeingInteractedWithProperty,
-      this.mediaPipe ? this.mediaPipe.isBeingInteractedWithProperty : new BooleanProperty( false )
+      this.mediaPipe ? this.mediaPipe.isBeingInteractedWithProperty : new BooleanProperty( false ),
+      bluetoothInteractedWithProperty
     ] );
 
     this.inProportionSoundGenerator = new InProportionSoundGenerator( model, soundGeneratorEnabledProperty );
@@ -323,9 +333,6 @@ class RAPScreenView extends ScreenView {
     // these dimensions are just temporary, and will be recomputed below in the layout function
     const labelsNode = new RAPTickMarkLabelsNode( this.tickMarkViewProperty, this.tickMarkRangeProperty, 1000, tickMarksAndLabelsColorProperty );
 
-    this.topScalingUILayerNode = new Node();
-    this.bottomScalingUILayerNode = new Node();
-
     this.resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
@@ -339,17 +346,34 @@ class RAPScreenView extends ScreenView {
     } );
 
     if ( RAPQueryParameters.bluetooth ) {
-      const leftConnectionButton = new RatioAndProportionBluetoothButton( model.ratio.tupleProperty, 'left', Tandem.OPT_OUT );
-      const rightConnectionButton = new RatioAndProportionBluetoothButton( model.ratio.tupleProperty, 'right', Tandem.OPT_OUT );
+      const antecedentConnectionButton = new RatioAndProportionBluetoothButton( model.ratio.tupleProperty, RatioTerm.ANTECEDENT );
+      const consequentConnectionButton = new RatioAndProportionBluetoothButton( model.ratio.tupleProperty, RatioTerm.CONSEQUENT );
+
+      this.stepEmitter.addListener( () => {
+        antecedentConnectionButton.step();
+        consequentConnectionButton.step();
+      } );
+
+      Multilink.multilink( [ antecedentConnectionButton.isBeingInteractedWithProperty,
+          consequentConnectionButton.isBeingInteractedWithProperty ],
+        ( antecedentInteractedWith, consequentInteractedWith ) => {
+          bluetoothInteractedWithProperty.value = antecedentInteractedWith && consequentInteractedWith;
+        } );
+
+      bluetoothInteractedWithProperty.lazyLink( ( interactedWithMarkers: boolean ) => {
+        if ( interactedWithMarkers ) {
+          cueArrowsState.interactedWithMouseProperty.value = true;
+        }
+      } );
 
       this.bluetoothButtonBox = new VBox( {
-        children: [ leftConnectionButton, rightConnectionButton ],
+        children: [ antecedentConnectionButton, consequentConnectionButton ],
         spacing: 5,
         align: 'right',
-        rightBottom: this.resetAllButton.rightTop.minusXY( 0, 15 )
+        rightBottom: this.resetAllButton.rightTop.minusXY( 0, 20 )
       } );
-      this.bottomScalingUILayerNode.addChild( this.bluetoothButtonBox );
     }
+    this.bottomScalingUILayerNode.addChild( this.bluetoothButtonBox );
 
     this.tickMarkViewRadioButtonGroup = new TickMarkViewRadioButtonGroup( this.tickMarkViewProperty, {
       tandem: options.tandem.createTandem( 'tickMarkViewRadioButtonGroup' )
@@ -466,7 +490,7 @@ class RAPScreenView extends ScreenView {
 
   public override step( dt: number ): void {
 
-    this.mediaPipe && this.mediaPipe.step();
+    this.stepEmitter.emit( dt );
     this.inProportionSoundGenerator.step( dt );
     this.staccatoFrequencySoundGenerator.step( dt );
   }

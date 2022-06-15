@@ -7,7 +7,6 @@
  * Prototype code for upcoming student studies, see https://github.com/phetsims/ratio-and-proportion/issues/473
  */
 
-import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import Utils from '../../../../dot/js/Utils.js';
@@ -15,28 +14,34 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Property from '../../../../axon/js/Property.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import RatioTerm from '../model/RatioTerm.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 const FONT = new PhetFont( { size: 16, weight: 'bold' } );
 
-export type HandSide = 'left' | 'right';
+// in ms
+const TIME_INTERACTED_WITH_MEMORY = 2000;
 
 class RatioAndProportionBluetoothButton extends TextPushButton {
 
-  public constructor( tupleProperty: Property<RAPRatioTuple>, handSide: HandSide, tandem: Tandem ) {
+  public isBeingInteractedWithProperty = new BooleanProperty( false );
+  private lastTimeInteractedWith = 0;
 
-    // TODO: Handle when device does not support bluetooth with bluetooth.getAvailability.
-    // TODO: Handle when browser does not support bluetooth, presumablue !navigator.bluetooth
+  public constructor( tupleProperty: Property<RAPRatioTuple>, ratioTerm: RatioTerm ) {
+
+    // TODO: Handle when device does not support bluetooth with bluetooth.getAvailability. https://github.com/phetsims/ratio-and-proportion/issues/473
+    // TODO: Handle when browser does not support bluetooth, presumablue !navigator.bluetooth https://github.com/phetsims/ratio-and-proportion/issues/473
 
     // Name provided by the bluetooth device creator
-    const deviceName = handSide === 'left' ? 'nrf52L' : 'nrf52R';
+    const deviceName = ratioTerm === RatioTerm.ANTECEDENT ? 'nrf52L' : 'nrf52R';
 
     // button label
     const labelString = StringUtils.fillIn( 'BLE {{side}} device', {
-      side: handSide
+      side: RatioTerm.ANTECEDENT ? 'left' : 'right'
     } );
 
     // decides which hand to control in the sim
-    const term = handSide === 'left' ? 'withAntecedent' : 'withConsequent';
+    const term = ratioTerm === RatioTerm.ANTECEDENT ? 'withAntecedent' : 'withConsequent';
 
     super( labelString, {
       textNodeOptions: { font: FONT },
@@ -67,6 +72,8 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
         const characteristic = await primaryService.getCharacteristic( 0x2947 ).catch( ( err: DOMException ) => { console.error( err ); } );
         const notifySuccess = await characteristic.startNotifications().catch( ( err: DOMException ) => { console.error( err ); } );
         notifySuccess.addEventListener( 'characteristicvaluechanged', ( event: any ) => {
+          this.isBeingInteractedWithProperty.value = true;
+          this.lastTimeInteractedWith = Date.now();
 
           // @ts-ignore
           tupleProperty.value = tupleProperty.value[ term ]( RatioAndProportionBluetoothButton.handleCharacteristicValueChanged( event ) );
@@ -78,9 +85,15 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
     }
   }
 
+  step(): void {
+    if ( Date.now() - this.lastTimeInteractedWith > TIME_INTERACTED_WITH_MEMORY ) {
+      this.isBeingInteractedWithProperty.value = false;
+    }
+  }
+
   /**
    * Respond to a characteristicvaluechanged event.
-   * TODO: Implement this function. This is the main event we get when we receive new data from the device.
+   * TODO: Implement this function. This is the main event we get when we receive new data from the device. https://github.com/phetsims/ratio-and-proportion/issues/473
    */
   private static handleCharacteristicValueChanged( event: Event ): number {
     if ( event.target ) {
