@@ -130,9 +130,12 @@ class CreateScreenView extends RAPScreenView {
       ratioLockCheckbox
     ] );
 
+    // If no ?bluetooth, then bluetooth box will be empty
+    const nodeBelow = this.bluetoothButtonBox.boundsProperty.value.isFinite() ? this.bluetoothButtonBox : this.resetAllButton;
+
     // static layout
-    ratioLockCheckbox.right = this.bluetoothButtonBox.right;
-    ratioLockCheckbox.bottom = this.bluetoothButtonBox.top - 20;
+    ratioLockCheckbox.right = nodeBelow.right;
+    ratioLockCheckbox.bottom = nodeBelow.top - 20;
 
     // ui layer node layout (scales based on width). This only needs to be laid out once, as the container is scaled.
     this.tickMarkRangeComboBoxNode.right = myChallengeAccordionBox.right = tickMarkRangeComboBoxParent.right = this.tickMarkViewRadioButtonGroup.right;
