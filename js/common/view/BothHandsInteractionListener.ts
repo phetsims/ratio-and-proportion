@@ -25,7 +25,7 @@ import RatioInputModality from './describers/RatioInputModality.js';
 const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
 type OnInputType = ( ratioInputModality: RatioInputModality, knockOutOfLock?: boolean ) => void;
-const onInputDefault = () => {};
+const onInputDefault = _.noop;
 
 type getIdealTermType = ( ratioTerm: RatioTerm ) => number;
 
