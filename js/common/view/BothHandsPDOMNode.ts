@@ -53,7 +53,7 @@ type SelfOptions = {
   // help text to be displayed on devices supporting gesture description
   // (see `Sim.supportsGestureDescription`). When null, this will be the same as the default helpText.
   gestureDescriptionHelpText?: string | null;
-  interactiveNodeOptions?: VoicingOptions;
+  interactiveNodeOptions?: VoicingOptions & NodeOptions;
 };
 
 type BothHandsPDOMNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'pdomOrder'>;
