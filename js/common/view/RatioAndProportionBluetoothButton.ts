@@ -93,7 +93,7 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
     }
   }
 
-  step(): void {
+  public step(): void {
     if ( Date.now() - this.lastTimeInteractedWith > TIME_INTERACTED_WITH_MEMORY ) {
       this.isBeingInteractedWithProperty.value = false;
     }

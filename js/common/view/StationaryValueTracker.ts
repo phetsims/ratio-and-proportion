@@ -26,7 +26,7 @@ class StationaryValueTracker {
   public readonly isStationaryProperty = new BooleanProperty( false );
   private readonly historyValues = [];
 
-  constructor( private readonly handsStationaryThreshold = HANDS_STATIONARY_THRESHOLD ) { }
+  public constructor( private readonly handsStationaryThreshold = HANDS_STATIONARY_THRESHOLD ) { }
 
   public update( newPosition: number ): void {
     this.isStationaryProperty.value = this.isStationary( newPosition );
