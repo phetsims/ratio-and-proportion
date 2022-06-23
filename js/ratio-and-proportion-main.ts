@@ -10,13 +10,10 @@ import Sim, { SimOptions } from '../../joist/js/Sim.js';
 import PreferencesConfiguration from '../../joist/js/preferences/PreferencesConfiguration.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import ClapperboardButton from '../../scenery-phet/js/ClapperboardButton.js';
-import { Node, VBox } from '../../scenery/js/imports.js';
 import CreateScreen from './create/CreateScreen.js';
 import DiscoverScreen from './discover/DiscoverScreen.js';
 import ratioAndProportionStrings from './ratioAndProportionStrings.js';
-import RAPMediaPipe from './common/view/RAPMediaPipe.js';
-import RAPQueryParameters from './common/RAPQueryParameters.js';
+import SimControlsNode from './common/view/SimControlsNode.js';
 
 const ratioAndProportionTitleString = ratioAndProportionStrings[ 'ratio-and-proportion' ].title;
 
@@ -31,12 +28,7 @@ const simOptions: SimOptions = {
   hasKeyboardHelpContent: true,
   preferencesConfiguration: new PreferencesConfiguration( {
     generalOptions: {
-      createSimControls: tandem => new VBox( {
-        children: [
-          new ClapperboardButton( { tandem: tandem.createTandem( 'clapperboardButton' ) } ),
-          RAPQueryParameters.mediaPipe ? RAPMediaPipe.getMediaPipeOptionsNode() : new Node()
-        ]
-      } )
+      createSimControls: tandem => new SimControlsNode( tandem.createTandem( 'simControlsNode' ) )
     }
   } )
 };
