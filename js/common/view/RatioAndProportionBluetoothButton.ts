@@ -16,6 +16,7 @@ import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import RatioTerm from '../model/RatioTerm.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import StationaryValueTracker from './StationaryValueTracker.js';
 
 const FONT = new PhetFont( { size: 16, weight: 'bold' } );
 
@@ -26,6 +27,8 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
 
   public isBeingInteractedWithProperty = new BooleanProperty( false );
   private lastTimeInteractedWith = 0;
+  private stationaryTracker = new StationaryValueTracker();
+  public isStationaryProperty = this.stationaryTracker.isStationaryProperty; // pull it out for the public API
 
   public constructor( tupleProperty: Property<RAPRatioTuple>, ratioTerm: RatioTerm ) {
 
@@ -75,8 +78,13 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
           this.isBeingInteractedWithProperty.value = true;
           this.lastTimeInteractedWith = Date.now();
 
+          const newValue = RatioAndProportionBluetoothButton.handleCharacteristicValueChanged( event );
+
+          // Keep track of values to see if the current position over time is considered "stationary"
+          this.stationaryTracker.update( newValue );
+
           // @ts-ignore
-          tupleProperty.value = tupleProperty.value[ term ]( RatioAndProportionBluetoothButton.handleCharacteristicValueChanged( event ) );
+          tupleProperty.value = tupleProperty.value[ term ]( newValue );
         } );
 
         // At this time we can assume that connections are successful
@@ -94,6 +102,7 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
   /**
    * Respond to a characteristicvaluechanged event.
    * TODO: Implement this function. This is the main event we get when we receive new data from the device. https://github.com/phetsims/ratio-and-proportion/issues/473
+   * The return value must be between 0 and 1.
    */
   private static handleCharacteristicValueChanged( event: Event ): number {
     if ( event.target ) {

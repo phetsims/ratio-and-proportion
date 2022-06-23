@@ -390,6 +390,40 @@ class RAPScreenView extends ScreenView {
         }
       } );
 
+      // bluetooth is stationary if both inputs are stationary
+      const bluetoothStationaryProperty = DerivedProperty.and( [ antecedentConnectionButton.isStationaryProperty,
+        consequentConnectionButton.isStationaryProperty ] );
+
+      const bluetoothBothHandsDescriber = new BothHandsDescriber(
+        ratio.tupleProperty,
+        ratio.enabledRatioTermsRangeProperty,
+        ratio.lockedProperty,
+        this.tickMarkViewProperty,
+        model.inProportionProperty,
+        this.ratioDescriber,
+        new TickMarkDescriber( this.tickMarkRangeProperty, this.tickMarkViewProperty )
+      );
+
+      const bluetoothVoicingDragUtterance = new Utterance( {
+        alert: new ResponsePacket( {
+          objectResponse: () => bluetoothBothHandsDescriber.getBothHandsObjectResponse(),
+          contextResponse: () => {
+            return bluetoothBothHandsDescriber.getBothHandsContextResponse( RatioInputModality.BOTH_HANDS, {
+              distanceResponseType: DistanceResponseType.DISTANCE_REGION // TODO: this should be distance_progress after https://github.com/phetsims/utterance-queue/issues/83
+            } );
+          }
+        } )
+      } );
+
+      bluetoothStationaryProperty.lazyLink( isStationary => {
+        if ( isStationary ) {
+          Voicing.alertUtterance( bluetoothVoicingDragUtterance );
+        }
+        else {
+          voicingUtteranceQueue.cancelUtterance( bluetoothVoicingDragUtterance );
+        }
+      } );
+
       this.bluetoothButtonBox = new VBox( {
         children: [ antecedentConnectionButton, consequentConnectionButton ],
         spacing: 5,

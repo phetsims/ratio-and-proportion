@@ -33,10 +33,13 @@ import Checkbox from '../../../../sun/js/Checkbox.js';
 import mediaPipeOptions from './mediaPipeOptions.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import Stats from '../../../../dot/js/Stats.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import handleSmoothValue from './handleSmoothValue.js';
+import StationaryValueTracker from './StationaryValueTracker.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 if ( RAPQueryParameters.mediaPipe ) {
   MediaPipe.initialize();
@@ -51,16 +54,6 @@ const O_HAND_GESTURE_DETECTED_HISTORY_LENGTH = 15;
 
 // Number of previous states to keep to average out to determine if two (and only two) hands are detected by mediaPipe.
 const TWO_HANDS_DETECTED_HISTORY_LENGTH = 10;
-
-// Number of previous positions to keep to determine if the position is "stationary" (adjusting for jitter)
-const STATIONARY_HANDS_DETECTED_HISTORY_LENGTH = 20;
-
-// the position range is between 0 and 1, this value is the absolut value of the difference between first and third 
-// quartiles of the history. If less than this value, then the hands are considered stationary.
-const HANDS_STATIONARY_THRESHOLD = 0.01;
-
-// A single array to prevent garbage each time we calculate the box plot
-const boxPlotTempArray: number[] = [];
 
 // The max value of each hand position vector component that we get from MediaPipe.
 const HAND_POSITION_MAX_VALUE = 1;
@@ -93,11 +86,11 @@ class RAPMediaPipe extends MediaPipe {
   private twoHandsDetectedHistory: boolean[] = [];
   private antecedentHandPositions: Vector3[] = [];
   private consequentHandPositions: Vector3[] = [];
-  private antecedentStationaryHistory: number[] = [];
-  private consequentStationaryHistory: number[] = [];
   private oHandGestureDetectedHistory: boolean[] = [];
   public oHandGestureProperty = new BooleanProperty( false );
-  public handsStationaryProperty = new BooleanProperty( false );
+  public antecedentStationaryTracker = new StationaryValueTracker();
+  public consequentStationaryTracker = new StationaryValueTracker();
+  public handsStationaryProperty: IReadOnlyProperty<boolean>;
 
   // Use a gesture to determine if voicing for the hands should be enabled
 
@@ -115,6 +108,14 @@ class RAPMediaPipe extends MediaPipe {
     this.onInput = options.onInput;
     this.antecedentViewSounds = antecedentViewSounds;
     this.consequentViewSounds = consequentViewSounds;
+
+    this.handsStationaryProperty = new DerivedProperty( [
+      this.antecedentStationaryTracker.isStationaryProperty,
+      this.consequentStationaryTracker.isStationaryProperty,
+      this.oHandGestureProperty
+    ], ( antecedentStationary, consequentStationary, oHandGesturePresent ) => {
+      return antecedentStationary && consequentStationary && !oHandGesturePresent;
+    } );
 
     this.isBeingInteractedWithProperty.lazyLink( interactedWith => {
       if ( interactedWith ) {
@@ -149,7 +150,8 @@ class RAPMediaPipe extends MediaPipe {
       const handPositions = this.getPositionsOfHands( results.multiHandLandmarks );
       const newValue = this.tupleFromSmoothing( handPositions[ 0 ], handPositions[ 1 ] );
 
-      this.handsStationaryProperty.value = this.handsStationary( handPositions[ 0 ].y, handPositions[ 1 ].y ) && !this.oHandGestureProperty.value;
+      this.antecedentStationaryTracker.update( handPositions[ 0 ].y );
+      this.consequentStationaryTracker.update( handPositions[ 1 ].y );
 
       if ( !this.oHandGestureProperty.value ) {
         this.ratioTupleProperty.value = this.tupleFromSmoothing( handPositions[ 0 ], handPositions[ 1 ] );
@@ -167,7 +169,7 @@ class RAPMediaPipe extends MediaPipe {
   }
 
   private getSmoothedTwoHandsDetected( multiHandLandmarks: HandLandmarks[] ): boolean {
-    return this.handleSmoothValue( multiHandLandmarks.length === 2, this.twoHandsDetectedHistory, TWO_HANDS_DETECTED_HISTORY_LENGTH,
+    return handleSmoothValue( multiHandLandmarks.length === 2, this.twoHandsDetectedHistory, TWO_HANDS_DETECTED_HISTORY_LENGTH,
 
       // To reduce false positives and false negatives, 50% of the history must have two hands detected.
       () => this.twoHandsDetectedHistory.filter( _.identity ).length > TWO_HANDS_DETECTED_HISTORY_LENGTH / 2
@@ -178,7 +180,7 @@ class RAPMediaPipe extends MediaPipe {
    * Average the historical positions together to get the current value
    */
   private getSmoothedPosition( position: Vector3, historicalPositions: Vector3[] ): Vector3 {
-    return this.handleSmoothValue( position, historicalPositions, POSITION_HISTORY_LENGTH, Vector3.average );
+    return handleSmoothValue( position, historicalPositions, POSITION_HISTORY_LENGTH, Vector3.average );
   }
 
   private getPositionsOfHands( multiHandLandmarks: HandLandmarks[] ): Vector3[] {
@@ -228,7 +230,7 @@ class RAPMediaPipe extends MediaPipe {
     this.consequentViewSounds.tickMarkBumpSoundClip.onInteract( newValue.consequent );
   }
 
-  private static hasoHandGesture( multiHandLandmarks: HandLandmarks[] ): boolean {
+  private static hasOHandGesture( multiHandLandmarks: HandLandmarks[] ): boolean {
 
     // Cannot have O_HAND_GESTURE without two and only two hands.
     if ( multiHandLandmarks.length !== 2 ) {
@@ -244,52 +246,18 @@ class RAPMediaPipe extends MediaPipe {
    */
   private oHandGesturePresent( multiHandLandmarks: HandLandmarks[] ): boolean {
 
-    const newoHandGestureDetected = RAPMediaPipe.hasoHandGesture( multiHandLandmarks );
+    const newoHandGestureDetected = RAPMediaPipe.hasOHandGesture( multiHandLandmarks );
 
     if ( !newoHandGestureDetected ) {
       this.oHandGestureDetectedHistory.push( newoHandGestureDetected );
       return false;
     }
 
-    return this.handleSmoothValue( newoHandGestureDetected, this.oHandGestureDetectedHistory, O_HAND_GESTURE_DETECTED_HISTORY_LENGTH,
+    return handleSmoothValue( newoHandGestureDetected, this.oHandGestureDetectedHistory, O_HAND_GESTURE_DETECTED_HISTORY_LENGTH,
 
       // If there is a single O_HAND_GESTURE present, then there is still intent to gesture.
       () => this.oHandGestureDetectedHistory.filter( _.identity ).length !== 0
     );
-  }
-
-  private singleHandStationary( position: number, positionHistory: number[] ): boolean {
-
-    this.handleSmoothValue( position, positionHistory, STATIONARY_HANDS_DETECTED_HISTORY_LENGTH, _.identity );
-
-    // A box plot needs >=4 values to calculate
-    if ( positionHistory.length < 4 ) {
-      return false;
-    }
-    boxPlotTempArray.length = 0;
-    for ( let i = 0; i < positionHistory.length; i++ ) {
-      boxPlotTempArray.push( positionHistory[ i ] );
-    }
-    const boxPlotValues = Stats.getBoxPlotValues( boxPlotTempArray );
-    return Math.abs( boxPlotValues.q3 - boxPlotValues.q1 ) < HANDS_STATIONARY_THRESHOLD;
-  }
-
-  private handsStationary( antecedentPosition: number, consequentPosition: number ): boolean {
-    return this.singleHandStationary( antecedentPosition, this.antecedentStationaryHistory ) &&
-           this.singleHandStationary( consequentPosition, this.consequentStationaryHistory );
-  }
-
-  /**
-   * Smooth a value given historical data and a new value. Also ensures that the history doesn't get too long.
-   */
-  handleSmoothValue<T>( newValue: T, historyArray: T[], maxSizeOfArray: number, smoothValues: ( historyArray: T[] ) => T ): T {
-
-    historyArray.push( newValue );
-    while ( historyArray.length > maxSizeOfArray ) {
-      historyArray.shift();
-    }
-
-    return smoothValues( historyArray );
   }
 
   public static getMediaPipeOptionsNode(): VBox {
