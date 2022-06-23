@@ -266,8 +266,8 @@ class RAPMediaPipe extends MediaPipe {
       align: 'left',
       children: [
         new RichText( 'MediaPipe Options:' ),
-        new Checkbox( new RichText( 'x-axis flipped' ), mediaPipeOptions.xAxisFlippedProperty, { tandem: Tandem.OPT_OUT } ),
-        new Checkbox( new RichText( 'y-axis flipped' ), mediaPipeOptions.yAxisFlippedProperty, { tandem: Tandem.OPT_OUT } )
+        new Checkbox( mediaPipeOptions.xAxisFlippedProperty, new RichText( 'x-axis flipped' ), { tandem: Tandem.OPT_OUT } ),
+        new Checkbox( mediaPipeOptions.yAxisFlippedProperty, new RichText( 'y-axis flipped' ), { tandem: Tandem.OPT_OUT } )
       ]
     } );
   }

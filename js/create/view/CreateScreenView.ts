@@ -78,7 +78,7 @@ class CreateScreenView extends RAPScreenView {
       ]
     } );
 
-    const ratioLockCheckbox = new Checkbox( ratioLockContent, model.ratio.lockedProperty, {
+    const ratioLockCheckbox = new Checkbox( model.ratio.lockedProperty, ratioLockContent, {
       accessibleName: ratioAndProportionStrings.ratioLock,
       voicingNameResponse: ratioAndProportionStrings.ratioLock,
       maxWidth: 250, // empirically determined
