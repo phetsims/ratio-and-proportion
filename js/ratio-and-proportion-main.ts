@@ -31,7 +31,7 @@ const simOptions: SimOptions = {
   hasKeyboardHelpContent: true,
   preferencesConfiguration: new PreferencesConfiguration( {
     generalOptions: {
-      simControls: new VBox( {
+      createSimControls: () => new VBox( {
         children: [
           new ClapperboardButton( { tandem: Tandem.GLOBAL_VIEW.createTandem( 'clapperboardButton' ) } ),
           RAPQueryParameters.mediaPipe ? RAPMediaPipe.getMediaPipeOptionsNode() : new Node()
