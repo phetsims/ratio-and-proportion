@@ -140,8 +140,8 @@ class HandPositionsDescriber {
   public enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>;
 
   public constructor( ratioTupleProperty: Property<RAPRatioTuple>, tickMarkDescriber: TickMarkDescriber,
-               inProportionProperty: IReadOnlyProperty<boolean>, enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>,
-               ratioLockedProperty: IReadOnlyProperty<boolean> ) {
+                      inProportionProperty: IReadOnlyProperty<boolean>, enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>,
+                      ratioLockedProperty: IReadOnlyProperty<boolean> ) {
 
     this.ratioTupleProperty = ratioTupleProperty;
     this.ratioLockedProperty = ratioLockedProperty;

@@ -24,7 +24,7 @@ import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.j
 import merge from '../../../../phet-core/js/merge.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { Color, Node, ParallelDOM, VBox, Voicing } from '../../../../scenery/js/imports.js';
+import { Color, Node, ParallelDOM, VBox, Voicing, voicingUtteranceQueue } from '../../../../scenery/js/imports.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
@@ -268,33 +268,37 @@ class RAPScreenView extends ScreenView {
         new TickMarkDescriber( this.tickMarkRangeProperty, this.tickMarkViewProperty )
       );
 
-      // TODO: isn't it better to tie this to a Node? https://github.com/phetsims/ratio-and-proportion/issues/454
-      const mediaPipeVoicingUtterance = new Utterance( {
+      const mediaPipeVoicingEndDragUtterance = new Utterance( {
         alert: new ResponsePacket( {
           objectResponse: () => mediaPipeBothHandsDescriber.getBothHandsObjectResponse(),
           contextResponse: () => mediaPipeBothHandsDescriber.getBothHandsContextResponse( RatioInputModality.BOTH_HANDS, {
             distanceResponseType: DistanceResponseType.DISTANCE_REGION
           } )
         } ),
-
-        // This number should be small, so that the most recent alert in the queue will immediately play once the announcer
-        // is done with the previous response and there isn't a more recent response that came in after it.
-        alertMaximumDelay: 50
+        priority: Utterance.MEDIUM_PRIORITY // Should interrupt the draging Utterance
       } );
+
+      const mediaPipeVoicingDragUtterance = new Utterance( {
+        alert: new ResponsePacket( {
+          objectResponse: () => mediaPipeBothHandsDescriber.getBothHandsObjectResponse(),
+          contextResponse: () => {
+            return mediaPipeBothHandsDescriber.getBothHandsContextResponse( RatioInputModality.BOTH_HANDS, {
+              distanceResponseType: DistanceResponseType.DISTANCE_REGION // TODO: this should be distance_progress after https://github.com/phetsims/utterance-queue/issues/83
+            } );
+          }
+        } )
+      } );
+
+      // So that this Utterance does not announce unless the ScreenView is visible and voicingVisible.
+      Voicing.registerUtteranceToNode( mediaPipeVoicingEndDragUtterance, this );
+      Voicing.registerUtteranceToNode( mediaPipeVoicingDragUtterance, this );
+
       this.mediaPipe = new RAPMediaPipe( model.ratio.tupleProperty,
         this.antecedentRatioHalf.viewSounds,
         this.consequentRatioHalf.viewSounds, {
-          onInput: () => {
-            if ( this.mediaPipe!.voicingEnabledProperty.value ) {
-              Voicing.alertUtterance( mediaPipeVoicingUtterance );
-            }
-          },
           isBeingInteractedWithProperty: model.mediaPipeInteractedWithProperty,
           tandem: options.tandem.createTandem( 'mediaPipe' )
         } );
-
-      // So that this Utterance does not announce unless the ScreenView is visible and voicingVisible.
-      Voicing.registerUtteranceToNode( mediaPipeVoicingUtterance, this );
 
       this.mediaPipe.isBeingInteractedWithProperty.lazyLink( ( interactedWithMarkers: boolean ) => {
         if ( interactedWithMarkers ) {
@@ -302,8 +306,28 @@ class RAPScreenView extends ScreenView {
         }
       } );
 
+      this.mediaPipe.okGestureProperty.lazyLink( okGestureDetected => {
+
+        if ( okGestureDetected ) {
+          Voicing.alertUtterance( mediaPipeVoicingEndDragUtterance );
+        }
+        else {
+          voicingUtteranceQueue.cancelUtterance( mediaPipeVoicingEndDragUtterance );
+        }
+      } );
+
       this.stepEmitter.addListener( () => {
         this.mediaPipe!.step();
+      } );
+
+      this.mediaPipe.handsStationaryProperty.lazyLink( isStationary => {
+
+        if ( isStationary ) {
+          Voicing.alertUtterance( mediaPipeVoicingDragUtterance );
+        }
+        else {
+          voicingUtteranceQueue.cancelUtterance( mediaPipeVoicingDragUtterance );
+        }
       } );
     }
 
