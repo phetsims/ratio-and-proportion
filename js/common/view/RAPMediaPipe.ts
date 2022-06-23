@@ -11,9 +11,9 @@
  * real-world hand corresponds to which hand in the sim.
  *
  * Voicing enabled:
- * A gestured called the "OK_GESTURE", in which thumb and pointer touch in to make a cirle, leaving the other fingers
+ * A gestured called the "O_HAND_GESTURE", in which thumb and pointer touch in to make a cirle, leaving the other fingers
  * straight, is used to turn off voicing. Turning off voicing actually allows a single voicing response to be spoken
- * fully, so in a sense, though the code thinks that the "OK_GESTURE" turns off voicing, it actually allows a single
+ * fully, so in a sense, though the code thinks that the "O_HAND_GESTURE" turns off voicing, it actually allows a single
  * voicing response to be heard.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
@@ -45,9 +45,9 @@ if ( RAPQueryParameters.mediaPipe ) {
 // Number of positions to keep to average out to smooth the hand positions
 const POSITION_HISTORY_LENGTH = 10;
 
-// Number of previous OK_GESTURE enabled states to keep to average out to determine if voicing is enabled. All must store
+// Number of previous O_HAND_GESTURE enabled states to keep to average out to determine if voicing is enabled. All must store
 // false for the gesture to no longer be enabled.
-const OK_GESTURE_DETECTED_HISTORY_LENGTH = 15;
+const O_HAND_GESTURE_DETECTED_HISTORY_LENGTH = 15;
 
 // Number of previous states to keep to average out to determine if two (and only two) hands are detected by mediaPipe.
 const TWO_HANDS_DETECTED_HISTORY_LENGTH = 10;
@@ -95,8 +95,8 @@ class RAPMediaPipe extends MediaPipe {
   private consequentHandPositions: Vector3[] = [];
   private antecedentStationaryHistory: number[] = [];
   private consequentStationaryHistory: number[] = [];
-  private okGestureDetectedHistory: boolean[] = [];
-  public okGestureProperty = new BooleanProperty( false );
+  private oHandGestureDetectedHistory: boolean[] = [];
+  public oHandGestureProperty = new BooleanProperty( false );
   public handsStationaryProperty = new BooleanProperty( false );
 
   // Use a gesture to determine if voicing for the hands should be enabled
@@ -143,15 +143,15 @@ class RAPMediaPipe extends MediaPipe {
     // Though isBeingInteractedWithProperty is tolerant, we actually need two hands to calculate sim changes.
     if ( results && results.multiHandLandmarks.length === 2 ) {
 
-      // Voicing is disabled with the gesture of an "OK" hand gesture from both hands. Must be set before this.onInteract() is called
-      this.okGestureProperty.value = this.okGesturePresent( results.multiHandLandmarks );
+      // Voicing is disabled with the gesture of an "O" hand gesture from both hands. Must be set before this.onInteract() is called
+      this.oHandGestureProperty.value = this.oHandGesturePresent( results.multiHandLandmarks );
 
       const handPositions = this.getPositionsOfHands( results.multiHandLandmarks );
       const newValue = this.tupleFromSmoothing( handPositions[ 0 ], handPositions[ 1 ] );
 
-      this.handsStationaryProperty.value = this.handsStationary( handPositions[ 0 ].y, handPositions[ 1 ].y ) && !this.okGestureProperty.value;
+      this.handsStationaryProperty.value = this.handsStationary( handPositions[ 0 ].y, handPositions[ 1 ].y ) && !this.oHandGestureProperty.value;
 
-      if ( !this.okGestureProperty.value ) {
+      if ( !this.oHandGestureProperty.value ) {
         this.ratioTupleProperty.value = this.tupleFromSmoothing( handPositions[ 0 ], handPositions[ 1 ] );
       }
 
@@ -228,9 +228,9 @@ class RAPMediaPipe extends MediaPipe {
     this.consequentViewSounds.tickMarkBumpSoundClip.onInteract( newValue.consequent );
   }
 
-  private static hasOKGesture( multiHandLandmarks: HandLandmarks[] ): boolean {
+  private static hasoHandGesture( multiHandLandmarks: HandLandmarks[] ): boolean {
 
-    // Cannot have OK_GESTURE without two and only two hands.
+    // Cannot have O_HAND_GESTURE without two and only two hands.
     if ( multiHandLandmarks.length !== 2 ) {
       return false;
     }
@@ -239,22 +239,22 @@ class RAPMediaPipe extends MediaPipe {
   }
 
   /**
-   * Voicing is eagerly disabled upon first "OK Gesture" detection, but to turn it on, keep track of history to ensure
-   * that the user is actually intending to stop the "OK Gesture"
+   * Voicing is eagerly disabled upon first "O-Hand Gesture" detection, but to turn it on, keep track of history to ensure
+   * that the user is actually intending to stop the "O-Hand Gesture"
    */
-  private okGesturePresent( multiHandLandmarks: HandLandmarks[] ): boolean {
+  private oHandGesturePresent( multiHandLandmarks: HandLandmarks[] ): boolean {
 
-    const newOKGestureDetected = RAPMediaPipe.hasOKGesture( multiHandLandmarks );
+    const newoHandGestureDetected = RAPMediaPipe.hasoHandGesture( multiHandLandmarks );
 
-    if ( !newOKGestureDetected ) {
-      this.okGestureDetectedHistory.push( newOKGestureDetected );
+    if ( !newoHandGestureDetected ) {
+      this.oHandGestureDetectedHistory.push( newoHandGestureDetected );
       return false;
     }
 
-    return this.handleSmoothValue( newOKGestureDetected, this.okGestureDetectedHistory, OK_GESTURE_DETECTED_HISTORY_LENGTH,
+    return this.handleSmoothValue( newoHandGestureDetected, this.oHandGestureDetectedHistory, O_HAND_GESTURE_DETECTED_HISTORY_LENGTH,
 
-      // If there is a single OK_GESTURE present, then there is still intent to gesture.
-      () => this.okGestureDetectedHistory.filter( _.identity ).length !== 0
+      // If there is a single O_HAND_GESTURE present, then there is still intent to gesture.
+      () => this.oHandGestureDetectedHistory.filter( _.identity ).length !== 0
     );
   }
 

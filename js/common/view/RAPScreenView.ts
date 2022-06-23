@@ -306,9 +306,9 @@ class RAPScreenView extends ScreenView {
         }
       } );
 
-      this.mediaPipe.okGestureProperty.lazyLink( okGestureDetected => {
+      this.mediaPipe.oHandGestureProperty.lazyLink( oHandGestureDetected => {
 
-        if ( okGestureDetected ) {
+        if ( oHandGestureDetected ) {
           Voicing.alertUtterance( mediaPipeVoicingEndDragUtterance );
         }
         else {
