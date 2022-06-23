@@ -16,7 +16,7 @@ import ClapperboardButton from '../../../../scenery-phet/js/ClapperboardButton.j
 
 class SimControlsNode extends VBox {
 
-  disposeSimControlsNode: () => void;
+private readonly  disposeSimControlsNode: () => void;
 
   public constructor( tandem: Tandem ) {
 
