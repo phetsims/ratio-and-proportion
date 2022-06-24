@@ -74,15 +74,15 @@ class TickMarkRangeComboBoxNode extends Node {
       tandem: Tandem.OPT_OUT
     };
 
-    this.enabledComboBox = new ComboBox( items, tickMarkRangeProperty, comboBoxParent, comboBoxOptions );
+    this.enabledComboBox = new ComboBox( tickMarkRangeProperty, items, comboBoxParent, comboBoxOptions );
 
     const value = true;
 
     // NOTE: The values are [ 10, true ]... so it's typed interestingly.
-    this.disabledComboBox = new ComboBox<true | number>( [
+    this.disabledComboBox = new ComboBox<true | number>( new BooleanProperty( value ) as Property<true | number>, [
       new ComboBoxItem( new HSeparator( widestItem, { centerY: -5 } ), value, { a11yLabel: ratioAndProportionStrings.a11y.tickMark.tickMarksHidden } ),
       items[ 0 ] // add this one to get the proper height of the text.
-    ], new BooleanProperty( value ) as Property<true | number>, new Node(), comboBoxOptions );
+    ], new Node(), comboBoxOptions );
 
     // always disabled
     this.disabledComboBox.enabledProperty.value = false;
