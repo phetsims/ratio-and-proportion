@@ -155,12 +155,6 @@ class HandPositionsDescriber {
     this.previousDistance = ratioTupleProperty.value.getDistance();
 
     this.previousEdgeCheckTuple = ratioTupleProperty.value;
-
-    ratioTupleProperty.lazyLink( ( newValue, oldValue ) => {
-      if ( oldValue ) {
-        this.previousDistance = oldValue.getDistance();
-      }
-    } );
   }
 
   /**
@@ -276,7 +270,7 @@ class HandPositionsDescriber {
         distanceClause = this.getSingleHandComboDistance( ratioTerm );
         break;
       case DistanceResponseType.DISTANCE_PROGRESS:
-        distanceClause = this.getDistanceProgressClause();
+        distanceClause = this.getSingleHandDistanceProgressClause();
         break;
       case DistanceResponseType.DISTANCE_REGION:
         distanceClause = this.getDistanceRegion( false );
@@ -303,7 +297,7 @@ class HandPositionsDescriber {
   /**
    * NOTE: if in-proportion, this will still return the distance region
    */
-  private getDistanceProgressClause(): string {
+  private getSingleHandDistanceProgressClause(): string {
 
     // Fall back to distance region if there is no distance progress to deliver
     return this.getDistanceProgressString() || this.getDistanceRegion( false );
@@ -430,6 +424,8 @@ class HandPositionsDescriber {
     else {
       return null; // somehow positions are equal, same case as in proportion
     }
+
+    this.previousDistance = currentDistance;
 
     return distanceProgressString;
   }

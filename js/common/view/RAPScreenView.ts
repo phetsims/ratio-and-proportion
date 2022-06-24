@@ -283,7 +283,7 @@ class RAPScreenView extends ScreenView {
           objectResponse: () => mediaPipeBothHandsDescriber.getBothHandsObjectResponse(),
           contextResponse: () => {
             return mediaPipeBothHandsDescriber.getBothHandsContextResponse( RatioInputModality.BOTH_HANDS, {
-              distanceResponseType: DistanceResponseType.DISTANCE_REGION // TODO: this should be distance_progress after https://github.com/phetsims/utterance-queue/issues/83
+              distanceResponseType: DistanceResponseType.DISTANCE_PROGRESS // TODO: this should be distance_progress after https://github.com/phetsims/utterance-queue/issues/83
             } );
           }
         } )
