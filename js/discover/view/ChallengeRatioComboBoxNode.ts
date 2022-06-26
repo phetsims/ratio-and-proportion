@@ -64,21 +64,24 @@ class ChallengeRatioComboBoxNode extends Node {
       tagName: 'h3'
     } );
     this.comboBox = new ComboBox( targetRatioProperty, [
-      new ChallengeComboBoxItem( this.ratioToChallengeNameMap.get( 1 / 2 )!.capitalized, RAPColors.discoverChallenge1Property.value, 1 / 2, targetRatioProperty, colorProperty, {
-        soundPlayer: soundGenerators[ 0 ],
-        a11yLabel: ratioAndProportionStrings.challenge1,
-        tandemName: 'challenge1Item'
-      } ),
-      new ChallengeComboBoxItem( this.ratioToChallengeNameMap.get( 1 / 3 )!.capitalized, RAPColors.discoverChallenge2Property.value, 1 / 3, targetRatioProperty, colorProperty, {
-        soundPlayer: soundGenerators[ 1 ],
-        a11yLabel: ratioAndProportionStrings.challenge2,
-        tandemName: 'challenge2Item'
-      } ),
-      new ChallengeComboBoxItem( this.ratioToChallengeNameMap.get( 3 / 4 )!.capitalized, RAPColors.discoverChallenge3Property.value, 3 / 4, targetRatioProperty, colorProperty, {
-        soundPlayer: soundGenerators[ 2 ],
-        a11yLabel: ratioAndProportionStrings.challenge3,
-        tandemName: 'challenge3Item'
-      } )
+      new ChallengeComboBoxItem( targetRatioProperty, 1 / 2, colorProperty, RAPColors.discoverChallenge1Property.value,
+        this.ratioToChallengeNameMap.get( 1 / 2 )!.capitalized, {
+          soundPlayer: soundGenerators[ 0 ],
+          a11yLabel: ratioAndProportionStrings.challenge1,
+          tandemName: 'challenge1Item'
+        } ),
+      new ChallengeComboBoxItem( targetRatioProperty, 1 / 3, colorProperty, RAPColors.discoverChallenge2Property.value,
+        this.ratioToChallengeNameMap.get( 1 / 3 )!.capitalized, {
+          soundPlayer: soundGenerators[ 1 ],
+          a11yLabel: ratioAndProportionStrings.challenge2,
+          tandemName: 'challenge2Item'
+        } ),
+      new ChallengeComboBoxItem( targetRatioProperty, 3 / 4, colorProperty, RAPColors.discoverChallenge3Property.value,
+        this.ratioToChallengeNameMap.get( 3 / 4 )!.capitalized, {
+          soundPlayer: soundGenerators[ 2 ],
+          a11yLabel: ratioAndProportionStrings.challenge3,
+          tandemName: 'challenge3Item'
+        } )
     ], comboBoxListParent, {
       helpText: ratioAndProportionStrings.a11y.discover.challengesHelpText,
       comboBoxVoicingHintResponse: ratioAndProportionStrings.a11y.discover.challengesHelpText,

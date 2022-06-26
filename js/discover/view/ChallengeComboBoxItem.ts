@@ -14,8 +14,9 @@ import Property from '../../../../axon/js/Property.js';
 
 class ChallengeComboBoxItem extends ComboBoxItem<number> {
 
-  public constructor( text: string, color: Color, value: number, valueProperty: NumberProperty,
-               colorProperty: Property<Color>, options?: ComboBoxItemOptions ) {
+  public constructor( valueProperty: NumberProperty, value: number,
+                      colorProperty: Property<Color>, color: Color,
+                      text: string, options?: ComboBoxItemOptions ) {
     super( new HBox( {
       spacing: 8,
       children: [
