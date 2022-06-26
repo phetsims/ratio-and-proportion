@@ -16,23 +16,34 @@ import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import RAPColors from '../../common/view/RAPColors.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
-import ChallengeComboBoxItem from './ChallengeComboBoxItem.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
 import Property from '../../../../axon/js/Property.js';
-import { Color, Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import { Color, HBox, Node, NodeOptions, Rectangle, RichText } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
 
-// constants
-const SELECTION_SOUND_OPTIONS = {
+const SOUND_CLIP_OPTIONS = {
   initialOutputLevel: 0.4
 };
+
+// Challenge info needed by ChallengeRatioComboBoxNode
+type ChallengeInfo = {
+  capitalized: string;
+  lowercase: string;
+  color: Color;
+  soundClip: SoundClip;
+  a11yLabel: string;
+  tandemName: string;
+};
+
+export type RatioToChallengeInfoMap = Map<number, ChallengeInfo>;
 
 class ChallengeRatioComboBoxNode extends Node {
 
   // Used to get the names of challenges based on the target ratio, NOTE: lowercase strings are only available in the PDOM (not yet i18n)
-  public readonly ratioToChallengeNameMap: Map<number, { capitalized: string; lowercase: string }>;
-  private comboBox: ComboBox<number>;
+  public readonly ratioToChallengeInfoMap: RatioToChallengeInfoMap;
+  private readonly comboBox: ComboBox<number>;
 
   /**
    * @param targetRatioProperty
@@ -42,47 +53,64 @@ class ChallengeRatioComboBoxNode extends Node {
    * @param comboBoxTandem - Passed directly to comboBox; keep out of options to prevent instrumenting this intermediate Node.
    * @param [options]
    */
-  public constructor( targetRatioProperty: NumberProperty, ratioDescriber: RatioDescriber, colorProperty: Property<Color>,
-                      comboBoxListParent: Node, comboBoxTandem: Tandem, options?: StrictOmit<NodeOptions, 'children'> ) {
+  public constructor( targetRatioProperty: NumberProperty,
+                      ratioDescriber: RatioDescriber,
+                      colorProperty: Property<Color>,
+                      comboBoxListParent: Node,
+                      comboBoxTandem: Tandem,
+                      options?: StrictOmit<NodeOptions, 'children'> ) {
 
     super( options );
 
-    // sound generators
-    const soundGenerators = [];
-    soundGenerators.push( new SoundClip( selectionArpeggio001_mp3, SELECTION_SOUND_OPTIONS ) );
-    soundGenerators.push( new SoundClip( selectionArpeggio004_mp3, SELECTION_SOUND_OPTIONS ) );
-    soundGenerators.push( new SoundClip( selectionArpeggio006_mp3, SELECTION_SOUND_OPTIONS ) );
-    soundGenerators.forEach( sg => { soundManager.addSoundGenerator( sg ); } );
+    this.ratioToChallengeInfoMap = new Map<number, ChallengeInfo>();
+    this.ratioToChallengeInfoMap.set( 1 / 2, {
+      capitalized: ratioAndProportionStrings.challenge1,
+      lowercase: ratioAndProportionStrings.a11y.discover.challenge1Lowercase,
+      color: RAPColors.discoverChallenge1Property.value,
+      soundClip: new SoundClip( selectionArpeggio001_mp3, SOUND_CLIP_OPTIONS ),
+      a11yLabel: ratioAndProportionStrings.challenge1,
+      tandemName: 'challenge1Item'
+    } );
+    this.ratioToChallengeInfoMap.set( 1 / 3, {
+      capitalized: ratioAndProportionStrings.challenge2,
+      lowercase: ratioAndProportionStrings.a11y.discover.challenge2Lowercase,
+      color: RAPColors.discoverChallenge2Property.value,
+      soundClip: new SoundClip( selectionArpeggio004_mp3, SOUND_CLIP_OPTIONS ),
+      a11yLabel: ratioAndProportionStrings.challenge2,
+      tandemName: 'challenge2Item'
+    } );
+    this.ratioToChallengeInfoMap.set( 3 / 4, {
+      capitalized: ratioAndProportionStrings.challenge3,
+      lowercase: ratioAndProportionStrings.a11y.discover.challenge3Lowercase,
+      color: RAPColors.discoverChallenge3Property.value,
+      soundClip: new SoundClip( selectionArpeggio006_mp3, SOUND_CLIP_OPTIONS ),
+      a11yLabel: ratioAndProportionStrings.challenge3,
+      tandemName: 'challenge3Item'
+    } );
 
-    this.ratioToChallengeNameMap = new Map();
-    this.ratioToChallengeNameMap.set( 1 / 2, { capitalized: ratioAndProportionStrings.challenge1, lowercase: ratioAndProportionStrings.a11y.discover.challenge1Lowercase } );
-    this.ratioToChallengeNameMap.set( 1 / 3, { capitalized: ratioAndProportionStrings.challenge2, lowercase: ratioAndProportionStrings.a11y.discover.challenge2Lowercase } );
-    this.ratioToChallengeNameMap.set( 3 / 4, { capitalized: ratioAndProportionStrings.challenge3, lowercase: ratioAndProportionStrings.a11y.discover.challenge3Lowercase } );
+    // Add each soundClip to the soundManager.
+    for ( const value of this.ratioToChallengeInfoMap.values() ) {
+      soundManager.addSoundGenerator( value.soundClip );
+    }
+
+    // Set colorProperty to match targetRatioProperty.
+    targetRatioProperty.link( targetRatio => {
+      const entry = this.ratioToChallengeInfoMap.get( targetRatio );
+      assert && assert( entry, `no map entry for targetRatio=${targetRatio}` );
+      colorProperty.value = entry!.color;
+    } );
 
     const comboBoxHeading = new Node( {
       innerContent: ratioAndProportionStrings.challengeRatio,
       tagName: 'h3'
     } );
-    this.comboBox = new ComboBox( targetRatioProperty, [
-      new ChallengeComboBoxItem( targetRatioProperty, 1 / 2, colorProperty, RAPColors.discoverChallenge1Property.value,
-        this.ratioToChallengeNameMap.get( 1 / 2 )!.capitalized, {
-          soundPlayer: soundGenerators[ 0 ],
-          a11yLabel: ratioAndProportionStrings.challenge1,
-          tandemName: 'challenge1Item'
-        } ),
-      new ChallengeComboBoxItem( targetRatioProperty, 1 / 3, colorProperty, RAPColors.discoverChallenge2Property.value,
-        this.ratioToChallengeNameMap.get( 1 / 3 )!.capitalized, {
-          soundPlayer: soundGenerators[ 1 ],
-          a11yLabel: ratioAndProportionStrings.challenge2,
-          tandemName: 'challenge2Item'
-        } ),
-      new ChallengeComboBoxItem( targetRatioProperty, 3 / 4, colorProperty, RAPColors.discoverChallenge3Property.value,
-        this.ratioToChallengeNameMap.get( 3 / 4 )!.capitalized, {
-          soundPlayer: soundGenerators[ 2 ],
-          a11yLabel: ratioAndProportionStrings.challenge3,
-          tandemName: 'challenge3Item'
-        } )
-    ], comboBoxListParent, {
+
+    const comboBoxItems: ComboBoxItem<number>[] = [];
+    for ( const [ key, value ] of this.ratioToChallengeInfoMap.entries() ) {
+      comboBoxItems.push( createComboBoxItem( key, value ) );
+    }
+
+    this.comboBox = new ComboBox( targetRatioProperty, comboBoxItems, comboBoxListParent, {
       helpText: ratioAndProportionStrings.a11y.discover.challengesHelpText,
       comboBoxVoicingHintResponse: ratioAndProportionStrings.a11y.discover.challengesHelpText,
       comboBoxVoicingContextResponse: () => ratioDescriber.getProximityToNewChallengeRatioSentence(),
@@ -109,6 +137,22 @@ class ChallengeRatioComboBoxNode extends Node {
   public hideListBox(): void {
     this.comboBox.hideListBox();
   }
+}
+
+function createComboBoxItem( targetRatio: number, challengeInfo: ChallengeInfo ): ComboBoxItem<number> {
+
+  const node = new HBox( {
+    spacing: 8,
+    children: [
+      new Rectangle( 0, 0, 15, 15, { fill: challengeInfo.color } ),
+      new RichText( challengeInfo.capitalized ) ]
+  } );
+
+  return new ComboBoxItem( node, targetRatio, {
+    soundPlayer: challengeInfo.soundClip,
+    a11yLabel: challengeInfo.a11yLabel,
+    tandemName: challengeInfo.tandemName
+  } );
 }
 
 ratioAndProportion.register( 'ChallengeRatioComboBoxNode', ChallengeRatioComboBoxNode );

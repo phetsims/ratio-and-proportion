@@ -19,8 +19,8 @@ import TickMarkDescriber from '../../common/view/describers/TickMarkDescriber.js
 
 class DiscoverScreenView extends RAPScreenView {
 
-  private comboBoxContainer: ChallengeRatioComboBoxNode;
-  private discoverScreenSummaryNode: DiscoverScreenSummaryNode;
+  private readonly comboBoxContainer: ChallengeRatioComboBoxNode;
+  private readonly discoverScreenSummaryNode: DiscoverScreenSummaryNode;
   public resetDiscoverScreenView: () => void;
 
   public constructor( model: RAPModel, backgroundColorProperty: Property<Color>, tandem: Tandem ) {
@@ -62,7 +62,7 @@ class DiscoverScreenView extends RAPScreenView {
       this.ratioDescriber,
       model.inProportionProperty,
       handPositionsDescriber,
-      this.comboBoxContainer.ratioToChallengeNameMap
+      this.comboBoxContainer.ratioToChallengeInfoMap
     );
     this.setScreenSummaryContent( this.discoverScreenSummaryNode );
 

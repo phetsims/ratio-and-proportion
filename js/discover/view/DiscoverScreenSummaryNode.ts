@@ -20,8 +20,7 @@ import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-
-type RatioToChallengeNameMap = Map<number, { lowercase: string; capitalized: string }>;
+import { RatioToChallengeInfoMap } from './ChallengeRatioComboBoxNode.js';
 
 class DiscoverScreenSummaryNode extends Node {
   private ratioDescriber: RatioDescriber;
@@ -31,12 +30,12 @@ class DiscoverScreenSummaryNode extends Node {
   private targetRatioProperty: Property<number>;
   private tickMarkViewProperty: EnumerationProperty<TickMarkView>;
   private inProportionProperty: IReadOnlyProperty<boolean>;
-  private ratioToChallengeNameMap: RatioToChallengeNameMap;
+  private ratioToChallengeInfoMap: RatioToChallengeInfoMap;
 
   public constructor( ratioFitnessProperty: IReadOnlyProperty<number>, ratioTupleProperty: Property<RAPRatioTuple>,
-               targetRatioProperty: Property<number>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
-               ratioDescriber: RatioDescriber, inProportionProperty: IReadOnlyProperty<boolean>, handPositionsDescriber: HandPositionsDescriber,
-               ratioToChallengeNameMap: RatioToChallengeNameMap ) {
+                      targetRatioProperty: Property<number>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
+                      ratioDescriber: RatioDescriber, inProportionProperty: IReadOnlyProperty<boolean>, handPositionsDescriber: HandPositionsDescriber,
+                      ratioToChallengeInfoMap: RatioToChallengeInfoMap ) {
 
     const stateOfSimNode = new Node( {
       tagName: 'p'
@@ -79,7 +78,7 @@ class DiscoverScreenSummaryNode extends Node {
     this.ratioTupleProperty = ratioTupleProperty;
     this.ratioFitnessProperty = ratioFitnessProperty;
     this.inProportionProperty = inProportionProperty;
-    this.ratioToChallengeNameMap = ratioToChallengeNameMap;
+    this.ratioToChallengeInfoMap = ratioToChallengeInfoMap;
 
     // This derivedProperty is already dependent on all other dependencies for getStateOfSimString
     Multilink.multilink( [
@@ -100,7 +99,7 @@ class DiscoverScreenSummaryNode extends Node {
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.screenSummaryQualitativeStateOfSim, {
       color: BackgroundColorHandler.getCurrentColorRegion( this.ratioFitnessProperty.value, this.inProportionProperty.value ),
       ratioFitness: this.ratioDescriber.getRatioFitness( false ),
-      currentChallenge: this.ratioToChallengeNameMap.get( this.targetRatioProperty.value )!.lowercase,
+      currentChallenge: this.ratioToChallengeInfoMap.get( this.targetRatioProperty.value )!.lowercase,
       distance: this.handPositionsDescriber.getDistanceRegion( true )
     } );
   }
