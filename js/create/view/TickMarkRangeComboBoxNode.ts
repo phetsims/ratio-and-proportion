@@ -15,7 +15,6 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Node, RichText } from '../../../../scenery/js/imports.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
-import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
 import HSeparator from '../../../../sun/js/HSeparator.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
@@ -47,15 +46,9 @@ class TickMarkRangeComboBoxNode extends Node {
     this.tickMarkRangeProperty = tickMarkRangeProperty;
 
     const items = [
-      new ComboBoxItem( new RichText( this.tickMarkRangeMap[ 10 ], RANGE_TEXT_OPTIONS ), 10, {
-        a11yLabel: ratioAndProportionStrings.zeroToTen
-      } ),
-      new ComboBoxItem( new RichText( this.tickMarkRangeMap[ 20 ], RANGE_TEXT_OPTIONS ), 20, {
-        a11yLabel: ratioAndProportionStrings.zeroToTwenty
-      } ),
-      new ComboBoxItem( new RichText( this.tickMarkRangeMap[ 30 ], RANGE_TEXT_OPTIONS ), 30, {
-        a11yLabel: ratioAndProportionStrings.zeroToThirty
-      } )
+      { value: 10, node: new RichText( this.tickMarkRangeMap[ 10 ], RANGE_TEXT_OPTIONS ), a11yLabel: ratioAndProportionStrings.zeroToTen },
+      { value: 20, node: new RichText( this.tickMarkRangeMap[ 20 ], RANGE_TEXT_OPTIONS ), a11yLabel: ratioAndProportionStrings.zeroToTwenty },
+      { value: 30, node: new RichText( this.tickMarkRangeMap[ 30 ], RANGE_TEXT_OPTIONS ), a11yLabel: ratioAndProportionStrings.zeroToThirty }
     ];
 
     const widestItem = Math.max( ...items.map( item => item.node.width ) );
@@ -80,7 +73,7 @@ class TickMarkRangeComboBoxNode extends Node {
 
     // NOTE: The values are [ 10, true ]... so it's typed interestingly.
     this.disabledComboBox = new ComboBox<true | number>( new BooleanProperty( value ) as Property<true | number>, [
-      new ComboBoxItem( new HSeparator( widestItem, { centerY: -5 } ), value, { a11yLabel: ratioAndProportionStrings.a11y.tickMark.tickMarksHidden } ),
+      { value: value, node: new HSeparator( widestItem, { centerY: -5 } ), a11yLabel: ratioAndProportionStrings.a11y.tickMark.tickMarksHidden },
       items[ 0 ] // add this one to get the proper height of the text.
     ], new Node(), comboBoxOptions );
 

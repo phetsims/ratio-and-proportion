@@ -5,7 +5,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import ComboBox from '../../../../sun/js/ComboBox.js';
+import ComboBox, { ComboBoxItem } from '../../../../sun/js/ComboBox.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -21,7 +21,6 @@ import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
 import Property from '../../../../axon/js/Property.js';
 import { Color, HBox, Node, NodeOptions, Rectangle, RichText } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
 
 const SOUND_CLIP_OPTIONS = {
   initialOutputLevel: 0.4
@@ -69,7 +68,7 @@ class ChallengeRatioComboBoxNode extends Node {
       color: RAPColors.discoverChallenge1Property.value,
       soundClip: new SoundClip( selectionArpeggio001_mp3, SOUND_CLIP_OPTIONS ),
       a11yLabel: ratioAndProportionStrings.challenge1,
-      tandemName: 'challenge1Item'
+      tandemName: `challenge1${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
     } );
     this.ratioToChallengeInfoMap.set( 1 / 3, {
       capitalized: ratioAndProportionStrings.challenge2,
@@ -77,7 +76,7 @@ class ChallengeRatioComboBoxNode extends Node {
       color: RAPColors.discoverChallenge2Property.value,
       soundClip: new SoundClip( selectionArpeggio004_mp3, SOUND_CLIP_OPTIONS ),
       a11yLabel: ratioAndProportionStrings.challenge2,
-      tandemName: 'challenge2Item'
+      tandemName: `challenge2${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
     } );
     this.ratioToChallengeInfoMap.set( 3 / 4, {
       capitalized: ratioAndProportionStrings.challenge3,
@@ -85,7 +84,7 @@ class ChallengeRatioComboBoxNode extends Node {
       color: RAPColors.discoverChallenge3Property.value,
       soundClip: new SoundClip( selectionArpeggio006_mp3, SOUND_CLIP_OPTIONS ),
       a11yLabel: ratioAndProportionStrings.challenge3,
-      tandemName: 'challenge3Item'
+      tandemName: `challenge3${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
     } );
 
     // Add each soundClip to the soundManager.
@@ -148,11 +147,13 @@ function createComboBoxItem( targetRatio: number, challengeInfo: ChallengeInfo )
       new RichText( challengeInfo.capitalized ) ]
   } );
 
-  return new ComboBoxItem( node, targetRatio, {
+  return {
+    value: targetRatio,
+    node: node,
     soundPlayer: challengeInfo.soundClip,
     a11yLabel: challengeInfo.a11yLabel,
     tandemName: challengeInfo.tandemName
-  } );
+  };
 }
 
 ratioAndProportion.register( 'ChallengeRatioComboBoxNode', ChallengeRatioComboBoxNode );
