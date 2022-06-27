@@ -331,7 +331,9 @@ class RAPScreenView extends ScreenView {
       } );
     }
 
-    const bluetoothInteractedWithProperty = new BooleanProperty( false );
+    const bluetoothInteractedWithProperty = new BooleanProperty( false, {
+      tandem: options.tandem.createTandem( 'bluetoothInteractedWithProperty' )
+    } );
 
     const soundGeneratorEnabledProperty = DerivedProperty.or( [
       this.antecedentRatioHalf.isBeingInteractedWithProperty,

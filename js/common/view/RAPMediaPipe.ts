@@ -40,6 +40,7 @@ import handleSmoothValue from './handleSmoothValue.js';
 import StationaryValueTracker from './StationaryValueTracker.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 
 if ( RAPQueryParameters.mediaPipe ) {
   MediaPipe.initialize();
@@ -87,7 +88,7 @@ class RAPMediaPipe extends MediaPipe {
   private antecedentHandPositions: Vector3[] = [];
   private consequentHandPositions: Vector3[] = [];
   private oHandGestureDetectedHistory: boolean[] = [];
-  public oHandGestureProperty = new BooleanProperty( false );
+  public oHandGestureProperty: Property<boolean>;
   public antecedentStationaryTracker = new StationaryValueTracker();
   public consequentStationaryTracker = new StationaryValueTracker();
   public handsStationaryProperty: IReadOnlyProperty<boolean>;
@@ -108,6 +109,10 @@ class RAPMediaPipe extends MediaPipe {
     this.onInput = options.onInput;
     this.antecedentViewSounds = antecedentViewSounds;
     this.consequentViewSounds = consequentViewSounds;
+    this.oHandGestureProperty = new BooleanProperty( false, {
+      tandem: options.tandem.createTandem( 'oHandGestureProperty' ),
+      phetioReadOnly: true
+    } );
 
     this.handsStationaryProperty = new DerivedProperty( [
       this.antecedentStationaryTracker.isStationaryProperty,
@@ -115,6 +120,9 @@ class RAPMediaPipe extends MediaPipe {
       this.oHandGestureProperty
     ], ( antecedentStationary, consequentStationary, oHandGesturePresent ) => {
       return antecedentStationary && consequentStationary && !oHandGesturePresent;
+    }, {
+      tandem: options.tandem.createTandem( 'handsStationaryProperty' ),
+      phetioType: DerivedProperty.DerivedPropertyIO( BooleanIO )
     } );
 
     this.isBeingInteractedWithProperty.lazyLink( interactedWith => {
