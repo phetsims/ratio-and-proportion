@@ -372,8 +372,12 @@ class RAPScreenView extends ScreenView {
     } );
 
     if ( RAPQueryParameters.bluetooth ) {
-      const antecedentConnectionButton = new RatioAndProportionBluetoothButton( model.ratio.tupleProperty, RatioTerm.ANTECEDENT );
-      const consequentConnectionButton = new RatioAndProportionBluetoothButton( model.ratio.tupleProperty, RatioTerm.CONSEQUENT );
+      const antecedentConnectionButton = new RatioAndProportionBluetoothButton( model.ratio.tupleProperty, RatioTerm.ANTECEDENT, {
+        tandem: options.tandem.createTandem( 'antecedentConnectionButton' )
+      } );
+      const consequentConnectionButton = new RatioAndProportionBluetoothButton( model.ratio.tupleProperty, RatioTerm.CONSEQUENT, {
+        tandem: options.tandem.createTandem( 'consequentConnectionButton' )
+      } );
 
       this.stepEmitter.addListener( () => {
         antecedentConnectionButton.step();

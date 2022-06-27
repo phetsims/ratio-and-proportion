@@ -8,7 +8,7 @@
  */
 
 import ratioAndProportion from '../../ratioAndProportion.js';
-import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
+import TextPushButton, { TextPushButtonOptions } from '../../../../sun/js/buttons/TextPushButton.js';
 import Utils from '../../../../dot/js/Utils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Property from '../../../../axon/js/Property.js';
@@ -17,6 +17,8 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import RatioTerm from '../model/RatioTerm.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StationaryValueTracker from './StationaryValueTracker.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 
 const FONT = new PhetFont( { size: 16, weight: 'bold' } );
 
@@ -30,7 +32,7 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
   private stationaryTracker = new StationaryValueTracker();
   public isStationaryProperty = this.stationaryTracker.isStationaryProperty; // pull it out for the public API
 
-  public constructor( tupleProperty: Property<RAPRatioTuple>, ratioTerm: RatioTerm ) {
+  public constructor( tupleProperty: Property<RAPRatioTuple>, ratioTerm: RatioTerm, providedOptions?: TextPushButtonOptions ) {
 
     // TODO: Handle when device does not support bluetooth with bluetooth.getAvailability. https://github.com/phetsims/ratio-and-proportion/issues/473
     // TODO: Handle when browser does not support bluetooth, presumablue !navigator.bluetooth https://github.com/phetsims/ratio-and-proportion/issues/473
@@ -46,12 +48,13 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
     // decides which hand to control in the sim
     const term = ratioTerm === RatioTerm.ANTECEDENT ? 'withAntecedent' : 'withConsequent';
 
-    super( labelString, {
+    const options = optionize<TextPushButtonOptions, EmptyObjectType, TextPushButtonOptions>()( {
       textNodeOptions: { font: FONT },
       listener: async () => {
         await this.requestDevice( { filters: [ { name: deviceName } ], optionalServices: [ 0xae6f ] }, tupleProperty, term );
       }
-    } );
+    }, providedOptions );
+    super( labelString, options );
   }
 
   private async requestDevice( bluetoothConfig: any, tupleProperty: Property<RAPRatioTuple>, term: string ): Promise<void> {
