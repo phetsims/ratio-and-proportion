@@ -30,6 +30,19 @@ const RAPQueryParameters = QueryStringMachine.getAll( {
   mpInProportionThreshold: {
     type: 'number',
     defaultValue: 0.3
+  },
+
+  // For bluetooth connections, what should the amount of history be to average/smooth out the jitter. MUST BE 4 OR
+  // MORE (to calculate a box plot)!!!
+  bluetoothHistoryLength: {
+    type: 'number',
+    defaultValue: 10
+  },
+
+  // The difference between the first and third quartile values of bluetooth history, in ratio units (min 0, max 1)
+  bluetoothStationaryThreshold: {
+    type: 'number',
+    defaultValue: 0.02
   }
 } );
 

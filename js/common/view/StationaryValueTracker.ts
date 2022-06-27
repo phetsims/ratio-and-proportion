@@ -11,22 +11,37 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import Stats from '../../../../dot/js/Stats.js';
 import handleSmoothValue from './handleSmoothValue.js';
-
-// Number of previous positions to keep to determine if the position is "stationary" (adjusting for jitter)
-const STATIONARY_HANDS_DETECTED_HISTORY_LENGTH = 20;
-
-// the position range is between 0 and 1, this value is the absolut value of the difference between first and third 
-// quartiles of the history. If less than this value, then the hands are considered stationary.
-const HANDS_STATIONARY_THRESHOLD = 0.01;
+import optionize from '../../../../phet-core/js/optionize.js';
 
 // A single array to prevent garbage each time we calculate the box plot
 const boxPlotTempArray: number[] = [];
 
+type StationaryValueTrackerOptions = {
+  historyLength: number;
+  stationaryThreshold: number;
+};
+
 class StationaryValueTracker {
   public readonly isStationaryProperty = new BooleanProperty( false );
   private readonly historyValues = [];
+  public readonly historyLength: number;
+  public readonly stationaryThreshold: number;
 
-  public constructor( private readonly handsStationaryThreshold = HANDS_STATIONARY_THRESHOLD ) { }
+  public constructor( providedOptions?: StationaryValueTrackerOptions ) {
+
+    const options = optionize<StationaryValueTrackerOptions>()( {
+
+      // Number of previous positions to keep to determine if the position is "stationary" (adjusting for jitter)
+      historyLength: 20,
+
+      // the position range is between 0 and 1, this value is the absolut value of the difference between first and third
+      // quartiles of the history. If less than this value, then the hands are considered stationary.
+      stationaryThreshold: 0.01
+    }, providedOptions );
+
+    this.historyLength = options.historyLength;
+    this.stationaryThreshold = options.stationaryThreshold;
+  }
 
   public update( newPosition: number ): void {
     this.isStationaryProperty.value = this.isStationary( newPosition );
@@ -35,7 +50,7 @@ class StationaryValueTracker {
   private isStationary( newPosition: number ): boolean {
 
     // Keep the array in sync without using the smoothing function
-    handleSmoothValue( newPosition, this.historyValues, STATIONARY_HANDS_DETECTED_HISTORY_LENGTH, _.identity );
+    handleSmoothValue( newPosition, this.historyValues, this.historyLength, _.identity );
 
     // A box plot needs >=4 values to calculate
     if ( this.historyValues.length < 4 ) {
@@ -46,7 +61,7 @@ class StationaryValueTracker {
       boxPlotTempArray.push( this.historyValues[ i ] );
     }
     const boxPlotValues = Stats.getBoxPlotValues( boxPlotTempArray );
-    return Math.abs( boxPlotValues.q3 - boxPlotValues.q1 ) < HANDS_STATIONARY_THRESHOLD;
+    return Math.abs( boxPlotValues.q3 - boxPlotValues.q1 ) < this.stationaryThreshold;
   }
 }
 

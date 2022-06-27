@@ -19,6 +19,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StationaryValueTracker from './StationaryValueTracker.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import RAPQueryParameters from '../RAPQueryParameters.js';
 
 const FONT = new PhetFont( { size: 16, weight: 'bold' } );
 
@@ -29,7 +30,11 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
 
   public isBeingInteractedWithProperty = new BooleanProperty( false );
   private lastTimeInteractedWith = 0;
-  private stationaryTracker = new StationaryValueTracker();
+  private stationaryTracker = new StationaryValueTracker( {
+    historyLength: RAPQueryParameters.bluetoothHistoryLength,
+    stationaryThreshold: RAPQueryParameters.bluetoothStationaryThreshold
+  } );
+
   public isStationaryProperty = this.stationaryTracker.isStationaryProperty; // pull it out for the public API
 
   public constructor( tupleProperty: Property<RAPRatioTuple>, ratioTerm: RatioTerm, providedOptions?: TextPushButtonOptions ) {
