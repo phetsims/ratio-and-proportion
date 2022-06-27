@@ -1,5 +1,5 @@
 {
-  "comment": "# ratio-and-proportion 1.2.0-dev.25 Mon Jun 27 2022 09:55:59 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# ratio-and-proportion 1.2.0-dev.26 Mon Jun 27 2022 15:42:13 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "c13a8c7741d95fbd8e37619c66ebcca8686dffe7",
     "branch": "master"
@@ -25,7 +25,7 @@
     "branch": "master"
   },
   "joist": {
-    "sha": "b3353c6529e7aed226d7496f76c6129a1cba5ec1",
+    "sha": "6cfef7e549d47d361e89da3127f0309af64fdc6a",
     "branch": "master"
   },
   "kite": {
@@ -65,7 +65,7 @@
     "branch": "master"
   },
   "ratio-and-proportion": {
-    "sha": "4553d9850fe3e56c08dd294165d626d453a1c073",
+    "sha": "9474008e7790ab8e0b2800942f0663c748e1c894",
     "branch": "master"
   },
   "scenery": {
@@ -73,7 +73,7 @@
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "a284ee936b46523b4bc4e93a236b6614fc124db9",
+    "sha": "a17af7a72a4514cb5e8086efaee745b14d6989ad",
     "branch": "master"
   },
   "sherpa": {
@@ -85,11 +85,11 @@
     "branch": "master"
   },
   "sun": {
-    "sha": "c799cbc58341d2534842357005af53758e95f89b",
+    "sha": "a30017e3d6d6f06b562ef55dbea6bfe7a33b64b3",
     "branch": "master"
   },
   "tambo": {
-    "sha": "59ef625e00dd31301f239c6a2e7172c386678225",
+    "sha": "dfe69b232b36a6eaca4d4ae58331cbee0cdf7f53",
     "branch": "master"
   },
   "tandem": {
@@ -101,7 +101,7 @@
     "branch": "master"
   },
   "twixt": {
-    "sha": "d03a55cda06ccab4b1c6ed796fed8a06ee2c1ded",
+    "sha": "2a8b0ffe9fd1636541c0fa15a7dbf6fda441e3de",
     "branch": "master"
   },
   "utterance-queue": {
