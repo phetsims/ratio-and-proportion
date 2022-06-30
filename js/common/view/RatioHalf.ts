@@ -222,14 +222,15 @@ class RatioHalf extends Rectangle {
     const createObjectResponse = () => this.ratio.lockedProperty.value ? options.ratioDescriber.getProximityToChallengeRatio() :
                                        options.ratioDescriber.getProximityToChallengeRatio();
 
-    this.ratioHandNode = new RatioHandNode( ratioTermSpecificProperty,
-      this.ratio.enabledRatioTermsRangeProperty,
+    this.ratioHandNode = new RatioHandNode(
       options.tickMarkViewProperty,
       options.keyboardStep,
       options.handColorProperty,
       cueDisplayStateProperty,
       options.getIdealValue,
       options.inProportionProperty, {
+        valueProperty: ratioTermSpecificProperty,
+        enabledRangeProperty: this.ratio.enabledRatioTermsRangeProperty,
         startDrag: () => {
           options.cueArrowsState.interactedWithKeyboardProperty.value = true;
           this._isBeingInteractedWithProperty.value = true;
@@ -533,8 +534,8 @@ class RatioHalf extends Rectangle {
    * null means no alert will occur.
    */
   public getSingleHandContextResponse( handPositionsDescriber: HandPositionsDescriber,
-                                bothHandsDescriber: BothHandsDescriber,
-                                options?: HandContextResponseOptions ): string {
+                                       bothHandsDescriber: BothHandsDescriber,
+                                       options?: HandContextResponseOptions ): string {
 
     // When locked, give a description of both-hands, instead of just a single one.
     if ( this.ratio.lockedProperty.value ) {

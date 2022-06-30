@@ -30,7 +30,7 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
-import IProperty from '../../../../axon/js/IProperty.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 
 type SelfOptions = {
@@ -38,10 +38,9 @@ type SelfOptions = {
   asIcon?: boolean;
 }
 
-type RatioHandNodeOptions = SelfOptions & NodeOptions & Partial<AccessibleSliderOptions>;
+type RatioHandNodeOptions = SelfOptions & NodeOptions & AccessibleSliderOptions;
 
 type CreateIconOptions = {
-
   handColor?: Color;
   handNodeOptions?: Partial<RatioHandNodeOptions>;
 };
@@ -49,15 +48,13 @@ type CreateIconOptions = {
 class RatioHandNode extends AccessibleSlider( Node, 0 ) {
   private resetRatioHandNode: () => void;
 
-  public constructor( valueProperty: IProperty<number>,
-               enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>,
-               tickMarkViewProperty: EnumerationProperty<TickMarkView>,
-               keyboardStep: number,
-               colorProperty: IPaint,
-               cueDisplayProperty: IReadOnlyProperty<CueDisplay>,
-               getIdealValue: () => number,
-               inProportionProperty: IReadOnlyProperty<boolean>,
-               options?: RatioHandNodeOptions ) {
+  public constructor( tickMarkViewProperty: EnumerationProperty<TickMarkView>,
+                      keyboardStep: number,
+                      colorProperty: IPaint,
+                      cueDisplayProperty: IReadOnlyProperty<CueDisplay>,
+                      getIdealValue: () => number,
+                      inProportionProperty: IReadOnlyProperty<boolean>,
+                      providedOptions?: RatioHandNodeOptions ) {
 
     const shiftKeyboardStep = rapConstants.toFixed( keyboardStep * rapConstants.SHIFT_KEY_MULTIPLIER ); // eslint-disable-line bad-sim-text
 
@@ -65,7 +62,7 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
     // the keyboard step size allows.
     const mapKeyboardInput = getKeyboardInputSnappingMapper( getIdealValue, keyboardStep, shiftKeyboardStep );
 
-    options = optionize<RatioHandNodeOptions, SelfOptions, RatioHandNodeOptions>()( {
+    const options = optionize<RatioHandNodeOptions, SelfOptions, RatioHandNodeOptions>()( {
       cursor: 'pointer',
       isRight: true, // right hand or left hand
       asIcon: false, // when true, no input will be attached
@@ -87,12 +84,8 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
       voicingHintResponse: ratioAndProportionStrings.a11y.individualHandsVoicingHelpText,
       voicingUtterance: new Utterance( {
         alertMaximumDelay: 500 // same as ISLCObjectNode
-      } ),
-
-      // AccessibleSlider
-      valueProperty: valueProperty,
-      enabledRangeProperty: enabledRatioTermsRangeProperty
-    }, options );
+      } )
+    }, providedOptions );
 
     super( options );
 
@@ -206,9 +199,11 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
 
   public static createIcon( isRight: boolean, tickMarkViewProperty: EnumerationProperty<TickMarkView>, providedOptions?: CreateIconOptions ): Node {
 
-    const options = optionize<CreateIconOptions>()( {
+    const options = optionize<CreateIconOptions, StrictOmit<CreateIconOptions, 'handNodeOptions'>, CreateIconOptions>()( {
       handColor: Color.BLACK,
       handNodeOptions: {
+        valueProperty: new Property( 0 ),
+        enabledRangeProperty: new Property( new Range( 0, 1 ) ),
         tandem: Tandem.OPT_OUT,
         isRight: isRight,
         asIcon: true,
@@ -217,15 +212,13 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
     }, providedOptions );
 
     const ratioHandNode = new RatioHandNode(
-      new Property( 0 ),
-      new Property( new Range( 0, 1 ) ),
       tickMarkViewProperty,
       1,
       new Property( options.handColor ),
       new Property( CueDisplay.NONE ),
       () => -1,
       new Property<boolean>( false ),
-      options.handNodeOptions );
+      options.handNodeOptions as RatioHandNodeOptions );
 
     return new Node( {
       children: [ ratioHandNode ]
