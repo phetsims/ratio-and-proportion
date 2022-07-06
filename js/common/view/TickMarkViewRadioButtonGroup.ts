@@ -26,9 +26,11 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkV
 
     const options = optionize<RectangularRadioButtonGroupOptions, EmptyObjectType>()( {
       orientation: 'horizontal',
-      baseColor: 'white',
-      buttonContentYMargin: 14,
-      buttonContentXMargin: 8,
+      radioButtonOptions: {
+        baseColor: 'white',
+        xMargin: 8,
+        yMargin: 14
+      },
 
       // pdom
       labelContent: ratioAndProportionStrings.a11y.tickMark.heading,
