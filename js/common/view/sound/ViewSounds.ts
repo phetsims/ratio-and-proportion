@@ -70,7 +70,7 @@ class ViewSounds {
     soundManager.addSoundGenerator( this.releaseSoundClip, options.addSoundOptions );
     soundManager.addSoundGenerator( this.boundarySoundClip, options.addSoundOptions );
     soundManager.addSoundGenerator( this.tickMarkBumpSoundClip, merge( {
-      sonificationLevel: SoundLevelEnum.ENHANCED
+      sonificationLevel: SoundLevelEnum.EXTRA
     }, options.addSoundOptions ) );
   }
 
