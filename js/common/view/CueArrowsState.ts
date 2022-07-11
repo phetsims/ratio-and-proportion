@@ -25,7 +25,7 @@ class CueArrowsState {
     antecedentCueDisplayedProperty: BooleanProperty;
     consequentCueDisplayedProperty: BooleanProperty;
     interactedWithProperty: BooleanProperty;
-  }
+  };
 
   public constructor() {
 

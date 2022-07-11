@@ -32,7 +32,7 @@ class TickMarkRangeComboBoxNode extends Node {
   private enabledComboBox: ComboBox<number>;
   private disabledComboBox: ComboBox<true | number>;
   private tickMarkRangeMap: Record<number, string>;
-  private tickMarkRangeProperty: Property<number>
+  private tickMarkRangeProperty: Property<number>;
 
   public constructor( tickMarkRangeProperty: Property<number>, comboBoxParent: Node,
                tickMarkViewProperty: EnumerationProperty<TickMarkView> ) {
