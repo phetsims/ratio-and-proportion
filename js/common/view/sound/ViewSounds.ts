@@ -30,7 +30,7 @@ type SelfOptions = {
 
   addSoundOptions?: SoundGeneratorAddOptions;
   soundClipOptions?: SoundClipOptions;
-}
+};
 
 type ViewSoundsOptions = SelfOptions;
 

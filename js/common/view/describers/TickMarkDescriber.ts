@@ -53,7 +53,7 @@ type TickMarkDescriptionData = {
   tickMarkPosition: number | 'zero';
   relativePosition: string;
   ordinalPosition: string | null;
-}
+};
 
 
 // The value in which up to and including this value, the relative description will apply to the value of the tick mark

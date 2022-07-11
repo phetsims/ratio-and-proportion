@@ -36,7 +36,7 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 type SelfOptions = {
   isRight?: boolean;
   asIcon?: boolean;
-}
+};
 
 type RatioHandNodeOptions = SelfOptions & NodeOptions & AccessibleSliderOptions;
 

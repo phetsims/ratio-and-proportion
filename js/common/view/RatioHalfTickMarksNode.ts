@@ -19,7 +19,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 type SelfOptions = {
   minorHorizontalLineSpacing?: number | null;
   minorLineOptions?: PathOptions;
-}
+};
 type RatioHalfTickMarksNodeOptions = SelfOptions & PathOptions;
 
 class RatioHalfTickMarksNode extends GridNode {

@@ -17,7 +17,7 @@ import optionize from '../../../../phet-core/js/optionize.js';
 
 type SelfOptions = {
   handColor?: Color;
-}
+};
 
 class DiscoverScreenIcon extends ScreenIcon {
 

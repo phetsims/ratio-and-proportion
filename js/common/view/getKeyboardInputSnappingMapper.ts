@@ -18,7 +18,7 @@ import rapConstants from '../rapConstants.js';
 type KeyboardInputMapper = {
   ( newValue: number, oldVaue: number, useShiftKeyStep: boolean, alreadyInProportion: boolean ): number;
   reset: () => void;
-}
+};
 
 
 /**

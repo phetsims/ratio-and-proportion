@@ -94,7 +94,7 @@ type SelfOptions = {
   // AccessibleValueHandler via RatioHandNode
   a11yDependencies?: IReadOnlyProperty<IntentionalAny>[];
   bothHandsCueDisplay?: CueDisplay;
-}
+};
 
 type RatioHalfOptions = SelfOptions & RectangleOptions;
 

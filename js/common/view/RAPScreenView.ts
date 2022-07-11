@@ -77,7 +77,7 @@ type SelfOptions = {
   leftHandColorProperty?: IReadOnlyProperty<Color>;
   rightHandColorProperty?: IReadOnlyProperty<Color>;
   bothHandsPDOMNodeOptions?: Partial<BothHandsPDOMNodeOptions>; // Because all the required pieces are added by this type
-}
+};
 
 type RAPScreenViewOptions = SelfOptions & ScreenViewOptions;
 
