@@ -287,7 +287,7 @@ class RatioHalf extends Rectangle {
 
     // Only the RatioHalf DragListener allows for horizontal movement, so support that here. This adds the horizontal axis.
     // We expand on ratioTermSpecificProperty since we already have it, but we could also just use the ratio.tupleProperty.
-    const positionProperty: MappedProperty<Vector2, number> = new MappedProperty( ratioTermSpecificProperty, {
+    const positionProperty: MappedProperty<Vector2, number> = new MappedProperty( ratioTermSpecificProperty, { // eslint-disable-line @typescript-eslint/consistent-generic-constructors
       reentrant: true,
       bidirectional: true,
       valueType: Vector2,
