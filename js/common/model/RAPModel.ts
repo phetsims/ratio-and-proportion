@@ -190,7 +190,7 @@ unclampedFitness: ${unclampedFitness}
     assert && assert( pointOnTarget !== null );
 
     // Find the distance between the current ratio, and the calculated intersection with the target ratio function.
-    const distanceFromTarget = new Vector2( consequent, antecedent ).distance( <Vector2>pointOnTarget );
+    const distanceFromTarget = new Vector2( consequent, antecedent ).distance( pointOnTarget as Vector2 );
 
     return rapConstants.RATIO_FITNESS_RANGE.max - ( rapConstants.RATIO_FITNESS_RANGE.max * distanceFromTarget ) / ( MIN_CLAMPED_FITNESS_DISTANCE * targetRatio );
   }
