@@ -7,7 +7,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import Range, { IRange } from '../../../dot/js/Range.js';
+import Range, { RangeStateObject } from '../../../dot/js/Range.js';
 import Utils from '../../../dot/js/Utils.js';
 import PhetioObject from '../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -20,11 +20,11 @@ import RAPQueryParameters from './RAPQueryParameters.js';
 type StateObject = {
   SCREEN_VIEW_X_MARGIN: number;
   SCREEN_VIEW_Y_MARGIN: number;
-  RATIO_FITNESS_RANGE: IRange;
+  RATIO_FITNESS_RANGE: RangeStateObject;
   IN_PROPORTION_FITNESS_THRESHOLD: number;
   MOVING_IN_PROPORTION_FITNESS_THRESHOLD: number;
   SHIFT_KEY_MULTIPLIER: number;
-  TOTAL_RATIO_TERM_VALUE_RANGE: IRange;
+  TOTAL_RATIO_TERM_VALUE_RANGE: RangeStateObject;
   NO_SUCCESS_VALUE_THRESHOLD: number;
   QUERY_PARAMETERS: Record<string, unknown>;
 };
