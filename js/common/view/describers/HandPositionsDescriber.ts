@@ -242,7 +242,7 @@ class HandPositionsDescriber {
       index = 9;
     }
     assert && assert( index !== null, `index is still null, perhaps because distance is ${distance}` );
-    index = index as number;
+    index = index!;
     assert && assert( index < DISTANCE_REGIONS_CAPITALIZED.length, 'out of range' );
     return ( lowercase ? DISTANCE_REGIONS_LOWERCASE : DISTANCE_REGIONS_CAPITALIZED )[ index ];
   }

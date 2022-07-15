@@ -238,7 +238,7 @@ class BothHandsInteractionListener {
     if ( sceneryEvent.target === this.targetNode ) {
 
       assert && assert( sceneryEvent.domEvent, 'domEvent expected' );
-      const domEvent = sceneryEvent.domEvent as Event;
+      const domEvent = sceneryEvent.domEvent!;
 
       if ( KeyboardUtils.isAnyKeyEvent( domEvent, [ KeyboardUtils.KEY_DOWN_ARROW, KeyboardUtils.KEY_UP_ARROW ] ) ) {
         this.handleBoundarySoundOnInput( this.ratioTupleProperty.value.consequent );
