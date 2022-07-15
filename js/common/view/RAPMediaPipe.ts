@@ -200,9 +200,9 @@ class RAPMediaPipe extends MediaPipe {
       // These are along the center of a hand, about where we have calibrated the hand icon in RAP, see https://google.github.io/mediapipe/solutions/hands.html#hand-landmark-model
       HAND_POINTS.forEach( index => {
         const point = handMarkerPositions[ index ];
-        assert && assert( typeof point.x === 'number' ); // eslint-disable-line bad-typescript-text
-        assert && assert( typeof point.y === 'number' ); // eslint-disable-line bad-typescript-text
-        assert && assert( typeof point.z === 'number' ); // eslint-disable-line bad-typescript-text
+        assert && assert( typeof point.x === 'number' );
+        assert && assert( typeof point.y === 'number' );
+        assert && assert( typeof point.z === 'number' );
         const yPosition = mediaPipeOptions.yAxisFlippedProperty.value ? point.y : HAND_POSITION_MAX_VALUE - point.y;
         const xPosition = mediaPipeOptions.xAxisFlippedProperty.value ? point.x : HAND_POSITION_MAX_VALUE - point.x;
         const position = new Vector3( xPosition, yPosition, HAND_POSITION_MAX_VALUE - point.z );
