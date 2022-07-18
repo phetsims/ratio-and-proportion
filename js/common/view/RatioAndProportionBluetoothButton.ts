@@ -20,11 +20,18 @@ import StationaryValueTracker from './StationaryValueTracker.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 import RAPQueryParameters from '../RAPQueryParameters.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 
 const FONT = new PhetFont( { size: 16, weight: 'bold' } );
 
 // in ms
 const TIME_INTERACTED_WITH_MEMORY = 2000;
+
+// Likely can be improved, but we don't have this in the main browser typing.
+type BluetoothConfig = {
+  filters: { name: string }[];
+  optionalServices?: number[];
+};
 
 class RatioAndProportionBluetoothButton extends TextPushButton {
 
@@ -62,8 +69,8 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
     super( labelString, options );
   }
 
-  private async requestDevice( bluetoothConfig: any, tupleProperty: Property<RAPRatioTuple>, term: string ): Promise<void> {
-    let device: null | any; // should be type BluetoothDevice, but it is too experimental for native types
+  private async requestDevice( bluetoothConfig: BluetoothConfig, tupleProperty: Property<RAPRatioTuple>, term: string ): Promise<void> {
+    let device: null | IntentionalAny; // should be type BluetoothDevice, but it is too experimental for native types
 
     // @ts-ignore - navigator.bluetooth is experimental and does not exist in the typing
     if ( navigator.bluetooth ) {
@@ -82,7 +89,7 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
         const primaryService = await gattServer.getPrimaryService( 0xae6f ).catch( ( err: DOMException ) => { console.error( err ); } );
         const characteristic = await primaryService.getCharacteristic( 0x2947 ).catch( ( err: DOMException ) => { console.error( err ); } );
         const notifySuccess = await characteristic.startNotifications().catch( ( err: DOMException ) => { console.error( err ); } );
-        notifySuccess.addEventListener( 'characteristicvaluechanged', ( event: any ) => {
+        notifySuccess.addEventListener( 'characteristicvaluechanged', ( event: Event ) => {
           this.isBeingInteractedWithProperty.value = true;
           this.lastTimeInteractedWith = Date.now();
 
