@@ -17,8 +17,7 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import RatioTerm from '../model/RatioTerm.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StationaryValueTracker from './StationaryValueTracker.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import RAPQueryParameters from '../RAPQueryParameters.js';
 import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 

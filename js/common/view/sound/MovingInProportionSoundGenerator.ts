@@ -7,8 +7,7 @@
  */
 
 import Multilink from '../../../../../axon/js/Multilink.js';
-import optionize from '../../../../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../../phet-core/js/optionize.js';
 import CompositeSoundClip from '../../../../../tambo/js/sound-generators/CompositeSoundClip.js';
 import SoundGenerator, { SoundGeneratorOptions } from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
 import movingInProportionChoirLoop_mp3 from '../../../../sounds/moving-in-proportion/movingInProportionChoirLoop_mp3.js';

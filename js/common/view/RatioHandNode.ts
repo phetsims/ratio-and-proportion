@@ -27,8 +27,7 @@ import TickMarkView from './TickMarkView.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 

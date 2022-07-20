@@ -38,8 +38,7 @@ import staccatoG001_mp3 from '../../../../sounds/staccato/staccatoG001_mp3.js';
 import staccatoG002_mp3 from '../../../../sounds/staccato/staccatoG002_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import IReadOnlyProperty from '../../../../../axon/js/IReadOnlyProperty.js';
-import optionize from '../../../../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../../phet-core/js/optionize.js';
 
 // organize the sounds by variation and note
 const staccatoSounds = [
