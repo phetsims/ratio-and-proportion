@@ -21,6 +21,7 @@ import BoundarySoundClip from './sound/BoundarySoundClip.js';
 import TickMarkBumpSoundClip from './sound/TickMarkBumpSoundClip.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import RatioInputModality from './describers/RatioInputModality.js';
+import IEmitter from '../../../../axon/js/IEmitter.js';
 
 const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
@@ -74,7 +75,7 @@ class BothHandsInteractionListener {
 
   // called when this input occurs when the ratio is locked with a target of N:N. Jumping to zero is not allowed for
   // this case, see, https://github.com/phetsims/ratio-and-proportion/issues/227#issuecomment-758036456
-  public jumpToZeroWhileLockedEmitter: Emitter<[]>;
+  public jumpToZeroWhileLockedEmitter: IEmitter;
 
   // The custom jumping logic uses special logic to determine if jumping caused a boundary to be hit. That occurs in
   // keydown, but we want the sound only to play once on keyup. Use this as a marker to signify that the boundary
