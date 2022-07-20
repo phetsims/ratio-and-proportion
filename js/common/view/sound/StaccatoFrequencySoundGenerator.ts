@@ -39,7 +39,7 @@ import staccatoG002_mp3 from '../../../../sounds/staccato/staccatoG002_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import IReadOnlyProperty from '../../../../../axon/js/IReadOnlyProperty.js';
 import optionize from '../../../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../../phet-core/js/optionize.js';
 
 // organize the sounds by variation and note
 const staccatoSounds = [
@@ -68,7 +68,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
 
   public constructor( fitnessProperty: IReadOnlyProperty<number>, fitnessRange: Range, inProportionProperty: IReadOnlyProperty<boolean>, providedOptions: SoundGeneratorOptions ) {
 
-    const options = optionize<SoundGeneratorOptions, EmptyObjectType>()( {
+    const options = optionize<SoundGeneratorOptions, EmptySelfOptions>()( {
       initialOutputLevel: 0.25
     }, providedOptions );
 

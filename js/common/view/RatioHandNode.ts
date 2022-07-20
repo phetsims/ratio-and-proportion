@@ -28,7 +28,7 @@ import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
@@ -230,7 +230,7 @@ class FilledInHandPath extends Path {
 
   public constructor( providedOptions?: PathOptions ) {
 
-    const options = optionize<PathOptions, EmptyObjectType>()( {
+    const options = optionize<PathOptions, EmptySelfOptions>()( {
       stroke: 'black',
       lineWidth: 2
     }, providedOptions );
@@ -253,7 +253,7 @@ class CutOutHandPath extends Path {
 
   public constructor( providedOptions?: PathOptions ) {
 
-    const options = optionize<PathOptions, EmptyObjectType>()( {
+    const options = optionize<PathOptions, EmptySelfOptions>()( {
       stroke: 'black',
       lineWidth: 2
     }, providedOptions );

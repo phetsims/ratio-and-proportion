@@ -28,7 +28,7 @@ import AccordionBox, { AccordionBoxOptions } from '../../../../sun/js/AccordionB
 import optionize from '../../../../phet-core/js/optionize.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import ResponsePatternCollection from '../../../../utterance-queue/js/ResponsePatternCollection.js';
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
 import Multilink from '../../../../axon/js/Multilink.js';
@@ -73,7 +73,7 @@ class MyChallengeAccordionBox extends AccordionBox {
              ratioAndProportionStrings.a11y.ratio.currentChallengeHidden;
     };
 
-    const options = optionize<MyChallengeAccordionBoxOptions, EmptyObjectType, AccordionBoxOptions>()( {
+    const options = optionize<MyChallengeAccordionBoxOptions, EmptySelfOptions, AccordionBoxOptions>()( {
       titleNode: new RichText( ratioAndProportionStrings.myChallenge, {
         font: new PhetFont( 20 ),
         maxWidth: 250 // empirically determined

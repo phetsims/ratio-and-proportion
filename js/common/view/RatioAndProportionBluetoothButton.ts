@@ -18,7 +18,7 @@ import RatioTerm from '../model/RatioTerm.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StationaryValueTracker from './StationaryValueTracker.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import RAPQueryParameters from '../RAPQueryParameters.js';
 import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 
@@ -60,7 +60,7 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
     // decides which hand to control in the sim
     const term = ratioTerm === RatioTerm.ANTECEDENT ? 'withAntecedent' : 'withConsequent';
 
-    const options = optionize<TextPushButtonOptions, EmptyObjectType, TextPushButtonOptions>()( {
+    const options = optionize<TextPushButtonOptions, EmptySelfOptions, TextPushButtonOptions>()( {
       textNodeOptions: { font: FONT },
       listener: async () => {
         await this.requestDevice( { filters: [ { name: deviceName } ], optionalServices: [ 0xae6f ] }, tupleProperty, term );

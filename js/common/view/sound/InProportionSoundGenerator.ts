@@ -17,7 +17,7 @@ import RAPModel from '../../model/RAPModel.js';
 import Property from '../../../../../axon/js/Property.js';
 import IReadOnlyProperty from '../../../../../axon/js/IReadOnlyProperty.js';
 import optionize from '../../../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../../phet-core/js/optionize.js';
 
 const SUCCESS_OUTPUT_LEVEL = 0.8;
 const SILENT_LEVEL = 0;
@@ -65,7 +65,7 @@ class InProportionSoundGenerator extends SoundClip {
    */
   public constructor( model: RAPModel, enabledControlProperty: IReadOnlyProperty<boolean>, providedOptions?: SoundClipOptions ) {
 
-    const options = optionize<SoundClipOptions, EmptyObjectType>()( {
+    const options = optionize<SoundClipOptions, EmptySelfOptions>()( {
       initialOutputLevel: 0.5
     }, providedOptions );
 
