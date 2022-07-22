@@ -61,7 +61,6 @@ class RAPRatio {
   // RAPRatioTuple instance.
   private ratioLockListenerEnabled: boolean;
 
-
   public constructor( initialAntecedent: number, initialConsequent: number, tandem: Tandem ) {
 
     this._enabledRatioTermsRangeProperty = new Property( DEFAULT_TERM_VALUE_RANGE, {
