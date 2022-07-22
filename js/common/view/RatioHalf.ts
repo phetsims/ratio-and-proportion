@@ -40,6 +40,7 @@ import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import MappedProperty from '../../../../axon/js/MappedProperty.js';
 import RAPRatio from '../model/RAPRatio.js';
 import TickMarkDescriber from './describers/TickMarkDescriber.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
 // constants
@@ -253,9 +254,15 @@ class RatioHalf extends Rectangle {
         a11yDependencies: options.a11yDependencies.concat( [ this.ratio.lockedProperty ] )
       } );
 
+    const providedAccessibleName = options.accessibleName;
+
     // accessible name is also the voicing name response, unless locked
     this.ratio.lockedProperty.link( ( locked: boolean ) => {
-      this.ratioHandNode.voicingNameResponse = locked ? ratioAndProportionStrings.a11y.bothHands.bothHands : options.accessibleName;
+      const newAccessibleName = !locked ? providedAccessibleName : StringUtils.fillIn( ratioAndProportionStrings.a11y.handLockedPattern, {
+        hand: providedAccessibleName
+      } );
+      this.accessibleName = newAccessibleName;
+      this.ratioHandNode.voicingNameResponse = newAccessibleName;
     } );
 
     // This can change anytime there is a layout update.

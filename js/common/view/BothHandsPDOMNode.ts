@@ -97,8 +97,9 @@ class BothHandsPDOMNode extends Node {
         ariaRole: 'application',
         focusable: true,
         tagName: 'div',
+
+        // just the initial value, this is set dynamically below.
         innerContent: ratioAndProportionStrings.a11y.bothHands.bothHands,
-        voicingNameResponse: ratioAndProportionStrings.a11y.bothHands.bothHands,
         voicingObjectResponse: () => this.voicingBothHandsDescriber.getBothHandsObjectResponse(),
         interactiveHighlight: 'invisible',
         ariaLabel: ratioAndProportionStrings.a11y.bothHands.bothHands
@@ -164,6 +165,16 @@ class BothHandsPDOMNode extends Node {
 
     const interactiveNode = new VoicingNode( options.interactiveNodeOptions );
     this.addChild( interactiveNode );
+
+    options.ratioLockedProperty.link( locked => {
+      const newAccessibleName = !locked ? ratioAndProportionStrings.a11y.bothHands.bothHands :
+                                StringUtils.fillIn( ratioAndProportionStrings.a11y.handLockedPattern, {
+                                  hand: ratioAndProportionStrings.a11y.bothHands.bothHands
+                                } );
+      interactiveNode.accessibleName = newAccessibleName;
+      interactiveNode.voicingNameResponse = newAccessibleName;
+    } );
+
 
     // Make sure that any children inside the both hands interaction (like individual hands) come before the both hands interaction in the PDOM.
     this.pdomOrder = [ dynamicDescription, ...interactiveNode.children, null ];

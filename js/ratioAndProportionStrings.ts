@@ -54,6 +54,7 @@ type StringsType = {
     'rightHand': string;
     'leftHandLower': string;
     'rightHandLower': string;
+    'handLockedPattern': string;
     'leftValue': string;
     'rightValue': string;
     'individualHandsHelpText': string;

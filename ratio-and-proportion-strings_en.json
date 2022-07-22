@@ -119,6 +119,9 @@
     "rightHandLower": {
       "value": "right hand"
     },
+    "handLockedPattern": {
+      "value": "{{hand}}, Locked"
+    },
     "leftValue": {
       "value": "Left Value"
     },
