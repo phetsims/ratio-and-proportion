@@ -10,21 +10,25 @@ import BasicActionsKeyboardHelpSection from '../../../../scenery-phet/js/keyboar
 import KeyboardHelpIconFactory from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import SliderControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/SliderControlsKeyboardHelpSection.js';
-import TwoColumnKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/help/TwoColumnKeyboardHelpContent.js';
+import TwoColumnKeyboardHelpContent, { TwoColumnKeyboardHelpContentOptions } from '../../../../scenery-phet/js/keyboard/help/TwoColumnKeyboardHelpContent.js';
 import LetterKeyNode from '../../../../scenery-phet/js/keyboard/LetterKeyNode.js';
 import NumberKeyNode from '../../../../scenery-phet/js/keyboard/NumberKeyNode.js';
 import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import { NodeOptions } from '../../../../scenery/js/imports.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+
+type SelfOptions = EmptySelfOptions;
+export type RAPKeyboardHelpContentOptions = SelfOptions & TwoColumnKeyboardHelpContentOptions;
 
 class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
 
   /**
    * @param challengeHelpSection - keyboard help section for determining how to change the target ratio
-   * @param [options] - TODO: use TwoColumnKeyboardHelpContentOptions when available, https://github.com/phetsims/ratio-and-proportion/issues/404
+   * @param [providedOptions]
    */
-  public constructor( challengeHelpSection: KeyboardHelpSection, options?: NodeOptions ) {
+  public constructor( challengeHelpSection: KeyboardHelpSection, providedOptions?: RAPKeyboardHelpContentOptions ) {
 
     const moveLeftOrRightHandHelpSection = new SliderControlsKeyboardHelpSection( {
       headingString: ratioAndProportionStrings.moveHandsIndividually,
@@ -42,7 +46,7 @@ class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
     const leftContent = [ moveLeftOrRightHandHelpSection, new BothHandsHelpSection() ];
     const rightContent = [ challengeHelpSection, basicActionsHelpSection ];
 
-    super( leftContent, rightContent, options );
+    super( leftContent, rightContent, providedOptions );
   }
 }
 

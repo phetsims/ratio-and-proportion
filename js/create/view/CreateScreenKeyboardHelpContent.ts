@@ -9,10 +9,13 @@
 import KeyboardHelpIconFactory from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
-import RAPKeyboardHelpContent from '../../common/view/RAPKeyboardHelpContent.js';
+import RAPKeyboardHelpContent, { RAPKeyboardHelpContentOptions } from '../../common/view/RAPKeyboardHelpContent.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
-import { NodeOptions } from '../../../../scenery/js/imports.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+
+type SelfOptions = EmptySelfOptions;
+type CreateScreenKeyboardHelpContentOptions = SelfOptions & RAPKeyboardHelpContentOptions;
 
 class CreateScreenKeyboardHelpContent extends RAPKeyboardHelpContent {
   public constructor() {
@@ -22,8 +25,7 @@ class CreateScreenKeyboardHelpContent extends RAPKeyboardHelpContent {
 
 class MyChallengeHelpSection extends KeyboardHelpSection {
 
-  // TODO: use KeyboardHelpSectionOptions when possible, https://github.com/phetsims/ratio-and-proportion/issues/404
-  public constructor( options?: NodeOptions ) {
+  public constructor( options?: CreateScreenKeyboardHelpContentOptions ) {
 
     const setHandRatioValue = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.setHandRatioValue,
       KeyboardHelpIconFactory.upDownArrowKeysRowIcon(), {
