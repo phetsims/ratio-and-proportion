@@ -28,7 +28,7 @@ const simOptions: SimOptions = {
   hasKeyboardHelpContent: true,
   preferencesConfiguration: new PreferencesConfiguration( {
     generalOptions: {
-      createSimControls: tandem => new SimControlsNode( tandem.createTandem( 'simControlsNode' ) )
+      createSimControls: () => new SimControlsNode()
     }
   } )
 };
