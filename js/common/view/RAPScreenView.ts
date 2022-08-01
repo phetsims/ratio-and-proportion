@@ -275,7 +275,7 @@ class RAPScreenView extends ScreenView {
             distanceResponseType: DistanceResponseType.DISTANCE_REGION
           } )
         } ),
-        priority: Utterance.MEDIUM_PRIORITY // Should interrupt the draging Utterance
+        priority: Utterance.MEDIUM_PRIORITY // Should interrupt the dragging Utterance
       } );
 
       const mediaPipeVoicingDragUtterance = new Utterance( {
