@@ -12,7 +12,7 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Property from '../../../../axon/js/Property.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import sceneryPhetStrings from '../../../../scenery-phet/js/sceneryPhetStrings.js';
-import { Node, NodeOptions, ParallelDOM, Voicing, VoicingOptions } from '../../../../scenery/js/imports.js';
+import { Node, NodeOptions, ParallelDOM, PDOMBehaviorFunction, Voicing, VoicingOptions } from '../../../../scenery/js/imports.js';
 import AriaLiveAnnouncer from '../../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -34,6 +34,12 @@ import Multilink from '../../../../axon/js/Multilink.js';
 
 // constants
 const OBJECT_RESPONSE_DELAY = 500;
+
+const accessibleNameBehavior: PDOMBehaviorFunction = ( node, options, accessibleName ) => {
+  options.innerContent = accessibleName;
+  options.ariaLabel = accessibleName;
+  return options;
+};
 
 type SelfOptions = {
   ratioTupleProperty: Property<RAPRatioTuple>;
@@ -99,9 +105,13 @@ class BothHandsPDOMNode extends Node {
         tagName: 'div',
 
         // just the initial value, this is set dynamically below.
-        innerContent: ratioAndProportionStrings.a11y.bothHands.bothHands,
+        accessibleName: ratioAndProportionStrings.a11y.bothHands.bothHands,
+
+        accessibleNameBehavior: accessibleNameBehavior,
         voicingObjectResponse: () => this.voicingBothHandsDescriber.getBothHandsObjectResponse(),
         interactiveHighlight: 'invisible',
+
+        // TODO: REMOVE ME SOON! We need a dummy ariaLabel here as a workaround for https://github.com/phetsims/scenery/issues/1436
         ariaLabel: ratioAndProportionStrings.a11y.bothHands.bothHands
       }
     }, providedOptions );
