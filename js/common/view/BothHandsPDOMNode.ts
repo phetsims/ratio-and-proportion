@@ -109,10 +109,7 @@ class BothHandsPDOMNode extends Node {
 
         accessibleNameBehavior: accessibleNameBehavior,
         voicingObjectResponse: () => this.voicingBothHandsDescriber.getBothHandsObjectResponse(),
-        interactiveHighlight: 'invisible',
-
-        // TODO: REMOVE ME SOON! We need a dummy ariaLabel here as a workaround for https://github.com/phetsims/scenery/issues/1436
-        ariaLabel: ratioAndProportionStrings.a11y.bothHands.bothHands
+        interactiveHighlight: 'invisible'
       }
     }, providedOptions );
 
