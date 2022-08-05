@@ -273,7 +273,7 @@ class RAPMediaPipe extends MediaPipe {
       spacing: 10,
       align: 'left',
       children: [
-        new RichText( 'MediaPipe Options:' ),
+        new RichText( 'Camera Input: Hands' ),
         new Checkbox( mediaPipeOptions.xAxisFlippedProperty, new RichText( 'x-axis flipped' ), { tandem: Tandem.OPT_OUT } ),
         new Checkbox( mediaPipeOptions.yAxisFlippedProperty, new RichText( 'y-axis flipped' ), { tandem: Tandem.OPT_OUT } )
       ]
