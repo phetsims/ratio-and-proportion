@@ -26,7 +26,7 @@ import CueArrowsState from './CueArrowsState.js';
 import RatioDescriber from './describers/RatioDescriber.js';
 import TickMarkView from './TickMarkView.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import TickMarkDescriber from './describers/TickMarkDescriber.js';
 import RatioInputModality from './describers/RatioInputModality.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
@@ -48,7 +48,7 @@ type SelfOptions = {
   keyboardStep: number;
   tickMarkViewProperty: EnumerationProperty<TickMarkView>;
   tickMarkRangeProperty: Property<number>;
-  unclampedFitnessProperty: IReadOnlyProperty<number>;
+  unclampedFitnessProperty: TReadOnlyProperty<number>;
   ratioDescriber: RatioDescriber;
   playTickMarkBumpSoundProperty: Property<boolean>;
   ratioLockedProperty: Property<boolean>;
@@ -84,7 +84,7 @@ class BothHandsPDOMNode extends Node {
   private readonly ratioUnlockedFromBothHandsUtterance: Utterance;
 
   // Two references to the same Property allows for a public, readonly interface, while still editable in this file.
-  public readonly isBeingInteractedWithProperty: IReadOnlyProperty<boolean>;
+  public readonly isBeingInteractedWithProperty: TReadOnlyProperty<boolean>;
   private readonly _isBeingInteractedWithProperty: Property<boolean>;
 
   private readonly bothHandsInteractionListener: BothHandsInteractionListener;

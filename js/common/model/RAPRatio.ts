@@ -18,7 +18,7 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import rapConstants from '../rapConstants.js';
 import RAPRatioTuple from './RAPRatioTuple.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 // The threshold for velocity of a moving ratio value to indicate that it is "moving."
 const VELOCITY_THRESHOLD = 0.01;
@@ -38,7 +38,7 @@ const LOCK_RATIO_RANGE_MIN = rapConstants.NO_SUCCESS_VALUE_THRESHOLD + Number.EP
 class RAPRatio {
 
   // Keep two references so that this can be public readonly, AND changed internally.
-  public readonly enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>;
+  public readonly enabledRatioTermsRangeProperty: TReadOnlyProperty<Range>;
   private readonly _enabledRatioTermsRangeProperty: Property<Range>;
 
   // Central Property that holds the value of the ratio. Using a tuple that holds
@@ -54,7 +54,7 @@ class RAPRatio {
 
   // if the ratio is in the "moving in direction" state: whether or not the two hands are moving fast
   // enough together in the same direction. This indicates, among other things a bimodal interaction.
-  public readonly movingInDirectionProperty: IReadOnlyProperty<boolean>;
+  public readonly movingInDirectionProperty: TReadOnlyProperty<boolean>;
 
   // To avoid an infinite loop as setting the tupleProperty from inside its lock-ratio-support
   // listener. This is predominately needed because even same antecedent/consequent values get wrapped in a new

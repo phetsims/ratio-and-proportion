@@ -15,7 +15,7 @@ import inProportion_mp3 from '../../../../sounds/in-proportion/inProportion_mp3.
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import RAPModel from '../../model/RAPModel.js';
 import Property from '../../../../../axon/js/Property.js';
-import IReadOnlyProperty from '../../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../../phet-core/js/optionize.js';
 
 const SUCCESS_OUTPUT_LEVEL = 0.8;
@@ -34,7 +34,7 @@ class InProportionSoundGenerator extends SoundClip {
 
   private model: RAPModel;
   private targetRatioProperty: Property<number>;
-  private fitnessProperty: IReadOnlyProperty<number>;
+  private fitnessProperty: TReadOnlyProperty<number>;
 
   // keep track of if the success sound has already played. This will be set back to false when the fitness
   // goes back out of range for the success sound.
@@ -62,7 +62,7 @@ class InProportionSoundGenerator extends SoundClip {
    *                                            an on/off Property for the SoundGenerator, see below.
    * @param providedOptions
    */
-  public constructor( model: RAPModel, enabledControlProperty: IReadOnlyProperty<boolean>, providedOptions?: SoundClipOptions ) {
+  public constructor( model: RAPModel, enabledControlProperty: TReadOnlyProperty<boolean>, providedOptions?: SoundClipOptions ) {
 
     const options = optionize<SoundClipOptions, EmptySelfOptions>()( {
       initialOutputLevel: 0.5
@@ -79,7 +79,7 @@ class InProportionSoundGenerator extends SoundClip {
     this.playedSuccessYetProperty = new BooleanProperty( model.inProportionProperty.value );
     this.timePlayedSoFarProperty = new NumberProperty( MANDATORY_PLAY_TIME );
 
-    const playedMandatoryPortionYetProperty: IReadOnlyProperty<boolean> = new DerivedProperty( [ this.timePlayedSoFarProperty, this.playedSuccessYetProperty ],
+    const playedMandatoryPortionYetProperty: TReadOnlyProperty<boolean> = new DerivedProperty( [ this.timePlayedSoFarProperty, this.playedSuccessYetProperty ],
       ( timePlayed, playedSuccessYet ) => playedSuccessYet && timePlayed <= MANDATORY_PLAY_TIME );
 
     // In addition to any supplemental enabledControlProperty that the client wants to pass in, make sure to set up

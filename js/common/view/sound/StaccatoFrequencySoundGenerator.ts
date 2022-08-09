@@ -37,7 +37,7 @@ import staccatoG_mp3 from '../../../../sounds/staccato/staccatoG_mp3.js';
 import staccatoG001_mp3 from '../../../../sounds/staccato/staccatoG001_mp3.js';
 import staccatoG002_mp3 from '../../../../sounds/staccato/staccatoG002_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
-import IReadOnlyProperty from '../../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../../phet-core/js/optionize.js';
 
 // organize the sounds by variation and note
@@ -55,8 +55,8 @@ const staccatoSounds = [
 class StaccatoFrequencySoundGenerator extends SoundGenerator {
 
 
-  private inProportionProperty: IReadOnlyProperty<boolean>;
-  private fitnessProperty: IReadOnlyProperty<number>;
+  private inProportionProperty: TReadOnlyProperty<boolean>;
+  private fitnessProperty: TReadOnlyProperty<number>;
   private staccatoSoundClips: SoundClip[][];
 
   // the minimum amount of gap between two sounds, which increases based on the fitness
@@ -65,7 +65,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
   // in ms, keep track of the amount of time that has passed since the last staccato sound played
   private timeSinceLastPlay: number;
 
-  public constructor( fitnessProperty: IReadOnlyProperty<number>, fitnessRange: Range, inProportionProperty: IReadOnlyProperty<boolean>, providedOptions: SoundGeneratorOptions ) {
+  public constructor( fitnessProperty: TReadOnlyProperty<number>, fitnessRange: Range, inProportionProperty: TReadOnlyProperty<boolean>, providedOptions: SoundGeneratorOptions ) {
 
     const options = optionize<SoundGeneratorOptions, EmptySelfOptions>()( {
       initialOutputLevel: 0.25

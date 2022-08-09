@@ -49,7 +49,7 @@ import CueDisplay from './CueDisplay.js';
 import RAPPositionRegionsLayer from './RAPPositionRegionsLayer.js';
 import BackgroundColorHandler from './BackgroundColorHandler.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import RAPMediaPipe from './RAPMediaPipe.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
@@ -74,8 +74,8 @@ const uiScaleFunction = new LinearFunction( LAYOUT_BOUNDS.height, MAX_RATIO_HEIG
 const uiPositionFunction = new LinearFunction( 1, 1.5, LAYOUT_BOUNDS.height * 0.15, -LAYOUT_BOUNDS.height * 0.2, true );
 
 type SelfOptions = {
-  leftHandColorProperty?: IReadOnlyProperty<Color>;
-  rightHandColorProperty?: IReadOnlyProperty<Color>;
+  leftHandColorProperty?: TReadOnlyProperty<Color>;
+  rightHandColorProperty?: TReadOnlyProperty<Color>;
   bothHandsPDOMNodeOptions?: Partial<BothHandsPDOMNodeOptions>; // Because all the required pieces are added by this type
 };
 
@@ -157,7 +157,7 @@ class RAPScreenView extends ScreenView {
       ) );
 
     // Tick mark sounds get played when ratio isn't locked, and when staccato sounds aren't playing
-    const playTickMarkBumpSoundProperty: IReadOnlyProperty<boolean> = new DerivedProperty( [ model.ratioFitnessProperty ],
+    const playTickMarkBumpSoundProperty: TReadOnlyProperty<boolean> = new DerivedProperty( [ model.ratioFitnessProperty ],
       fitness => !model.ratio.lockedProperty.value && fitness === rapConstants.RATIO_FITNESS_RANGE.min );
 
     // by default, the keyboard step size should be half of one default tick mark width. See https://github.com/phetsims/ratio-and-proportion/issues/85

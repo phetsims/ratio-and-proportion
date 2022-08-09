@@ -18,7 +18,7 @@ import HandPositionsDescriber from '../../common/view/describers/HandPositionsDe
 import MyChallengeAccordionBox from './MyChallengeAccordionBox.js';
 import BackgroundColorHandler from '../../common/view/BackgroundColorHandler.js';
 import TickMarkView from '../../common/view/TickMarkView.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 
@@ -26,17 +26,17 @@ class CreateScreenSummaryNode extends Node {
 
   private ratioDescriber: RatioDescriber;
   private handPositionsDescriber: HandPositionsDescriber;
-  private ratioFitnessProperty: IReadOnlyProperty<number>;
+  private ratioFitnessProperty: TReadOnlyProperty<number>;
   private ratioTupleProperty: Property<RAPRatioTuple>;
   private tickMarkViewProperty: EnumerationProperty<TickMarkView>;
-  private inProportionProperty: IReadOnlyProperty<boolean>;
+  private inProportionProperty: TReadOnlyProperty<boolean>;
   private myChallengeAccordionBox: MyChallengeAccordionBox;
 
-  public constructor( ratioFitnessProperty: IReadOnlyProperty<number>,
+  public constructor( ratioFitnessProperty: TReadOnlyProperty<number>,
                ratioTupleProperty: Property<RAPRatioTuple>,
                tickMarkViewProperty: EnumerationProperty<TickMarkView>,
                ratioDescriber: RatioDescriber,
-               inProportionProperty: IReadOnlyProperty<boolean>,
+               inProportionProperty: TReadOnlyProperty<boolean>,
                handPositionsDescriber: HandPositionsDescriber,
                tickMarkRangeProperty: Property<number>,
                myChallengeAccordionBox: MyChallengeAccordionBox ) {

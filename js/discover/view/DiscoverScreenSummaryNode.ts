@@ -17,7 +17,7 @@ import HandPositionsDescriber from '../../common/view/describers/HandPositionsDe
 import TickMarkView from '../../common/view/TickMarkView.js';
 import BackgroundColorHandler from '../../common/view/BackgroundColorHandler.js';
 import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import { RatioToChallengeInfoMap } from './ChallengeRatioComboBoxNode.js';
@@ -25,16 +25,16 @@ import { RatioToChallengeInfoMap } from './ChallengeRatioComboBoxNode.js';
 class DiscoverScreenSummaryNode extends Node {
   private ratioDescriber: RatioDescriber;
   private handPositionsDescriber: HandPositionsDescriber;
-  private ratioFitnessProperty: IReadOnlyProperty<number>;
+  private ratioFitnessProperty: TReadOnlyProperty<number>;
   private ratioTupleProperty: Property<RAPRatioTuple>;
   private targetRatioProperty: Property<number>;
   private tickMarkViewProperty: EnumerationProperty<TickMarkView>;
-  private inProportionProperty: IReadOnlyProperty<boolean>;
+  private inProportionProperty: TReadOnlyProperty<boolean>;
   private ratioToChallengeInfoMap: RatioToChallengeInfoMap;
 
-  public constructor( ratioFitnessProperty: IReadOnlyProperty<number>, ratioTupleProperty: Property<RAPRatioTuple>,
+  public constructor( ratioFitnessProperty: TReadOnlyProperty<number>, ratioTupleProperty: Property<RAPRatioTuple>,
                       targetRatioProperty: Property<number>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
-                      ratioDescriber: RatioDescriber, inProportionProperty: IReadOnlyProperty<boolean>, handPositionsDescriber: HandPositionsDescriber,
+                      ratioDescriber: RatioDescriber, inProportionProperty: TReadOnlyProperty<boolean>, handPositionsDescriber: HandPositionsDescriber,
                       ratioToChallengeInfoMap: RatioToChallengeInfoMap ) {
 
     const stateOfSimNode = new Node( {

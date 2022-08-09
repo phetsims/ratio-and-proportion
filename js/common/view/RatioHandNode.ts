@@ -25,7 +25,7 @@ import getKeyboardInputSnappingMapper from './getKeyboardInputSnappingMapper.js'
 import RAPColors from './RAPColors.js';
 import TickMarkView from './TickMarkView.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
@@ -50,9 +50,9 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
   public constructor( tickMarkViewProperty: EnumerationProperty<TickMarkView>,
                       keyboardStep: number,
                       colorProperty: TPaint,
-                      cueDisplayProperty: IReadOnlyProperty<CueDisplay>,
+                      cueDisplayProperty: TReadOnlyProperty<CueDisplay>,
                       getIdealValue: () => number,
-                      inProportionProperty: IReadOnlyProperty<boolean>,
+                      inProportionProperty: TReadOnlyProperty<boolean>,
                       providedOptions?: RatioHandNodeOptions ) {
 
     const shiftKeyboardStep = rapConstants.toFixed( keyboardStep * rapConstants.SHIFT_KEY_MULTIPLIER ); // eslint-disable-line bad-sim-text

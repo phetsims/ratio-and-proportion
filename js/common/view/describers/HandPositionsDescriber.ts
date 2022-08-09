@@ -25,7 +25,7 @@ import TickMarkView from '../TickMarkView.js';
 import Property from '../../../../../axon/js/Property.js';
 import RAPRatioTuple from '../../model/RAPRatioTuple.js';
 import TickMarkDescriber from './TickMarkDescriber.js';
-import IReadOnlyProperty from '../../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import DistanceResponseType from './DistanceResponseType.js';
 import optionize from '../../../../../phet-core/js/optionize.js';
 import RatioInputModality from './RatioInputModality.js';
@@ -126,8 +126,8 @@ class HandPositionsDescriber {
 
   private ratioTupleProperty: Property<RAPRatioTuple>;
   private tickMarkDescriber: TickMarkDescriber;
-  private inProportionProperty: IReadOnlyProperty<boolean>;
-  private ratioLockedProperty: IReadOnlyProperty<boolean>;
+  private inProportionProperty: TReadOnlyProperty<boolean>;
+  private ratioLockedProperty: TReadOnlyProperty<boolean>;
 
   // keep track of previous distance regions to track repetition, and alter description accordingly. This
   // is used for any modality getting a distance region in a context response.
@@ -137,11 +137,11 @@ class HandPositionsDescriber {
   private previousDistance: number;
   public static POSITION_REGIONS_DATA: PositionRegionsData[];
   private previousEdgeCheckTuple: RAPRatioTuple;
-  public enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>;
+  public enabledRatioTermsRangeProperty: TReadOnlyProperty<Range>;
 
   public constructor( ratioTupleProperty: Property<RAPRatioTuple>, tickMarkDescriber: TickMarkDescriber,
-                      inProportionProperty: IReadOnlyProperty<boolean>, enabledRatioTermsRangeProperty: IReadOnlyProperty<Range>,
-                      ratioLockedProperty: IReadOnlyProperty<boolean> ) {
+                      inProportionProperty: TReadOnlyProperty<boolean>, enabledRatioTermsRangeProperty: TReadOnlyProperty<Range>,
+                      ratioLockedProperty: TReadOnlyProperty<boolean> ) {
 
     this.ratioTupleProperty = ratioTupleProperty;
     this.ratioLockedProperty = ratioLockedProperty;

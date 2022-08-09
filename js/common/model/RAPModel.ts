@@ -20,7 +20,7 @@ import rapConstants from '../rapConstants.js';
 import RAPRatio from './RAPRatio.js';
 import RatioTerm from './RatioTerm.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
@@ -51,7 +51,7 @@ class RAPModel {
   // `this.ratioFitnessProperty` for the preferred method of monitoring ratio fitness. This Property can be useful
   // if you need to map feedback based on the entire range of fitness, and not just when the current ratio gets
   // "close enough" to the target (since negative values in this Property are all clamped to 0 in this.ratioFitnessProperty).
-  public unclampedFitnessProperty: IReadOnlyProperty<number>;
+  public unclampedFitnessProperty: TReadOnlyProperty<number>;
 
   // How "correct" the proportion currently is. clamped within RATIO_FITNESS_RANGE. If at max (1), the proportion of
   // the two ratio terms is exactly the value of the targetRatioProperty. If min (0), it is at or outside the tolerance
@@ -59,10 +59,10 @@ class RAPModel {
   // closer to the target. In general, this Property should be used to listen to the fitness of the current ratio. It
   // is preferable to the unclampedFitnessProperty because it is normalized, and simpler when comparing the current ratio
   // to the target ratio.
-  public ratioFitnessProperty: IReadOnlyProperty<number>;
+  public ratioFitnessProperty: TReadOnlyProperty<number>;
 
   //  whether the model is in its "in-proportion" state.
-  public inProportionProperty: IReadOnlyProperty<boolean>;
+  public inProportionProperty: TReadOnlyProperty<boolean>;
 
   // If the model is being interacted with MediaPipe as an input. This will alter the characteristics of the ratio.
   public mediaPipeInteractedWithProperty: Property<boolean>;

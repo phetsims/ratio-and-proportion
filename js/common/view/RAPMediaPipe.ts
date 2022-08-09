@@ -38,7 +38,7 @@ import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import handleSmoothValue from './handleSmoothValue.js';
 import StationaryValueTracker from './StationaryValueTracker.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 
@@ -91,7 +91,7 @@ class RAPMediaPipe extends MediaPipe {
   public oHandGestureProperty: Property<boolean>;
   public antecedentStationaryTracker = new StationaryValueTracker();
   public consequentStationaryTracker = new StationaryValueTracker();
-  public handsStationaryProperty: IReadOnlyProperty<boolean>;
+  public handsStationaryProperty: TReadOnlyProperty<boolean>;
 
   // Use a gesture to determine if voicing for the hands should be enabled
 

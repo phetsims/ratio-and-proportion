@@ -12,7 +12,7 @@ import ratioAndProportion from '../../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
 import rapConstants from '../../rapConstants.js';
 import RAPModel from '../../model/RAPModel.js';
-import IReadOnlyProperty from '../../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 
 const RATIO_FITNESS_STRINGS_CAPITALIZED = [
   ratioAndProportionStrings.a11y.ratio.capitalized.extremelyFarFrom,
@@ -57,8 +57,8 @@ assert && assert( RATIO_FITNESS_STRINGS_LOWERCASE.length === RATIO_FITNESS_STRIN
 
 class RatioDescriber {
 
-  private ratioFitnessProperty: IReadOnlyProperty<number>;
-  private unclampedFitnessProperty: IReadOnlyProperty<number>;
+  private ratioFitnessProperty: TReadOnlyProperty<number>;
+  private unclampedFitnessProperty: TReadOnlyProperty<number>;
   private model: RAPModel;
 
   public constructor( model: RAPModel ) {

@@ -6,7 +6,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Property from '../../../../axon/js/Property.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
@@ -24,10 +24,10 @@ class RAPTickMarkLabelsNode extends Node {
   private heightOfText: number | null;
   private tickMarkViewProperty: EnumerationProperty<TickMarkView>;
   private tickMarkRangeProperty: Property<number>;
-  private colorProperty: IReadOnlyProperty<Color | string>;
+  private colorProperty: TReadOnlyProperty<Color | string>;
 
   public constructor( tickMarkViewProperty: EnumerationProperty<TickMarkView>, tickMarkRangeProperty: Property<number>, height: number,
-               colorProperty: IReadOnlyProperty<Color | string>, options?: StrictOmit<NodeOptions, 'children'> ) {
+               colorProperty: TReadOnlyProperty<Color | string>, options?: StrictOmit<NodeOptions, 'children'> ) {
 
     super();
 

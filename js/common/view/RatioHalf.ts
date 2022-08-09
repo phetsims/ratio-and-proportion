@@ -33,7 +33,7 @@ import HandPositionsDescriber, { HandContextResponseOptions } from './describers
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import CueArrowsState from './CueArrowsState.js';
 import RatioDescriber from './describers/RatioDescriber.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import DistanceResponseType from './describers/DistanceResponseType.js';
 import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
@@ -75,7 +75,7 @@ type SelfOptions = {
   colorProperty: TPaint;
   keyboardStep: number;
   horizontalMovementAllowedProperty: Property<boolean>;
-  playTickMarkBumpSoundProperty: IReadOnlyProperty<boolean>;
+  playTickMarkBumpSoundProperty: TReadOnlyProperty<boolean>;
 
   // see InProportionSoundGenerator.setJumpingOverProportionShouldTriggerSound()
   setJumpingOverProportionShouldTriggerSound: ( shouldTriggerSound: boolean ) => void;
@@ -84,7 +84,7 @@ type SelfOptions = {
   getIdealValue: () => number;
 
   // is the model in proportion right now
-  inProportionProperty: IReadOnlyProperty<boolean>;
+  inProportionProperty: TReadOnlyProperty<boolean>;
 
   // right ratio or the left ratio
   isRight?: boolean;
@@ -93,7 +93,7 @@ type SelfOptions = {
   handColorProperty?: TPaint;
 
   // AccessibleValueHandler via RatioHandNode
-  a11yDependencies?: IReadOnlyProperty<IntentionalAny>[];
+  a11yDependencies?: TReadOnlyProperty<IntentionalAny>[];
   bothHandsCueDisplay?: CueDisplay;
 };
 
@@ -107,7 +107,7 @@ class RatioHalf extends Rectangle {
   // This behaves a bit differently depending on modality. For mouse/touch, any time you are
   // dragging this will be considered interaction, for keyboard, you must press a key before the interaction starts.
   // Note both members to keep a public readonly interface.
-  public readonly isBeingInteractedWithProperty: IReadOnlyProperty<boolean>;
+  public readonly isBeingInteractedWithProperty: TReadOnlyProperty<boolean>;
   private readonly _isBeingInteractedWithProperty: BooleanProperty;
 
   private readonly ratio: RAPRatio;
@@ -189,7 +189,7 @@ class RatioHalf extends Rectangle {
     this.viewSounds = new ViewSounds( options.tickMarkRangeProperty, options.tickMarkViewProperty, options.playTickMarkBumpSoundProperty );
 
     // This follows the spec outlined in https://github.com/phetsims/ratio-and-proportion/issues/81
-    const cueDisplayStateProperty: IReadOnlyProperty<CueDisplay> = new DerivedProperty( [
+    const cueDisplayStateProperty: TReadOnlyProperty<CueDisplay> = new DerivedProperty( [
         options.cueArrowsState.interactedWithKeyboardProperty,
         options.cueArrowsState.interactedWithMouseProperty,
         options.cueArrowsState.keyboardFocusedProperty,
