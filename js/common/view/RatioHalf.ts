@@ -18,7 +18,7 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import { DragListener, IPaint, Node, NodeOptions, Rectangle, RectangleOptions, SpeakingOptions } from '../../../../scenery/js/imports.js';
+import { DragListener, TPaint, Node, NodeOptions, Rectangle, RectangleOptions, SpeakingOptions } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioTerm from '../model/RatioTerm.js';
@@ -72,7 +72,7 @@ type SelfOptions = {
   tickMarkViewProperty: EnumerationProperty<TickMarkView>;
   tickMarkRangeProperty: Property<number>;
   ratioDescriber: RatioDescriber;
-  colorProperty: IPaint;
+  colorProperty: TPaint;
   keyboardStep: number;
   horizontalMovementAllowedProperty: Property<boolean>;
   playTickMarkBumpSoundProperty: IReadOnlyProperty<boolean>;
@@ -90,7 +90,7 @@ type SelfOptions = {
   isRight?: boolean;
 
   // control the color of the hand
-  handColorProperty?: IPaint;
+  handColorProperty?: TPaint;
 
   // AccessibleValueHandler via RatioHandNode
   a11yDependencies?: IReadOnlyProperty<IntentionalAny>[];
