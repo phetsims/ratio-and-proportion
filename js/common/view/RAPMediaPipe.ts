@@ -147,29 +147,65 @@ class RAPMediaPipe extends MediaPipe {
     const results = MediaPipe.resultsProperty.value;
 
     // Be more tolerant about if we are interacting with MediaPipe.
-    this.isBeingInteractedWithProperty.value = results ? this.getSmoothedTwoHandsDetected( results.multiHandLandmarks ) : false;
+    this.isBeingInteractedWithProperty.value = results ?
+                                               this.getSmoothedTwoHandsDetected( results.multiHandLandmarks ) :
+                                               false;
 
     // Though isBeingInteractedWithProperty is tolerant, we actually need two hands to calculate sim changes.
-    if ( results && results.multiHandLandmarks.length === 2 ) {
+    if ( results && ( results.multiHandLandmarks.length === 2 || results.multiHandLandmarks.length === 1 ) ) {
 
       // Voicing is disabled with the gesture of an "O" hand gesture from both hands. Must be set before this.onInteract() is called
       this.oHandGestureProperty.value = this.oHandGesturePresent( results.multiHandLandmarks );
 
       const handPositions = this.getPositionsOfHands( results.multiHandLandmarks );
-      const newValue = this.tupleFromSmoothing( handPositions[ 0 ], handPositions[ 1 ] );
+      const newValue = this.tupleFromSmoothing( handPositions );
 
-      this.antecedentStationaryTracker.update( handPositions[ 0 ].y );
-      this.consequentStationaryTracker.update( handPositions[ 1 ].y );
+      if ( results.multiHandLandmarks.length === 2 ) {
+
+        this.antecedentStationaryTracker.update( handPositions[ 0 ].y );
+        this.consequentStationaryTracker.update( handPositions[ 1 ].y );
+      }
+      else {
+
+        // if just one hand is detected, defer to the if the x-axis is flipped to see which one is being moved in the sim.
+        ( mediaPipeOptions.xAxisFlippedProperty.value ? this.consequentStationaryTracker :
+          this.antecedentStationaryTracker ).update( handPositions[ 0 ].y );
+      }
 
       if ( !this.oHandGestureProperty.value ) {
-        this.ratioTupleProperty.value = this.tupleFromSmoothing( handPositions[ 0 ], handPositions[ 1 ] );
+        this.ratioTupleProperty.value = this.tupleFromSmoothing( handPositions );
       }
 
       this.onInteract( newValue );
     }
   }
 
-  private tupleFromSmoothing( leftHandPosition: Vector3, rightHandPosition: Vector3 ): RAPRatioTuple {
+  private tupleFromSmoothing( handPositions: Vector3[] ): RAPRatioTuple {
+    assert && assert( handPositions.length === 2 || handPositions.length === 1, 'must have 1 or 2 hands' );
+
+    let leftHandPosition: Vector3;
+    let rightHandPosition: Vector3;
+
+    if ( handPositions.length === 2 ) {
+      leftHandPosition = handPositions[ 0 ];
+      rightHandPosition = handPositions[ 1 ];
+    }
+    else {
+
+      // Flipping the xAxis will switch which side of the ratio the single hand applies to
+      if ( mediaPipeOptions.xAxisFlippedProperty.value ) {
+        leftHandPosition = this.antecedentHandPositions.length > 0 ?
+                           this.antecedentHandPositions[ this.antecedentHandPositions.length - 1 ] :
+                           Vector3.pool.create( 0, this.ratioTupleProperty.value.antecedent, 0 );
+        rightHandPosition = handPositions[ 0 ];
+      }
+      else {
+        leftHandPosition = handPositions[ 0 ];
+        rightHandPosition = this.consequentHandPositions.length > 0 ?
+                            this.consequentHandPositions[ this.consequentHandPositions.length - 1 ] :
+                            Vector3.pool.create( 0, this.ratioTupleProperty.value.consequent, 0 );
+      }
+    }
     return new RAPRatioTuple(
       this.getSmoothedPosition( leftHandPosition, this.antecedentHandPositions ).y,
       this.getSmoothedPosition( rightHandPosition, this.consequentHandPositions ).y
@@ -192,7 +228,7 @@ class RAPMediaPipe extends MediaPipe {
   }
 
   private getPositionsOfHands( multiHandLandmarks: HandLandmarks[] ): Vector3[] {
-    assert && assert( multiHandLandmarks.length === 2, 'must have 2 hands' );
+    assert && assert( multiHandLandmarks.length === 2 || multiHandLandmarks.length === 1, 'must have 1 or 2 hands' );
 
     const handPositions = multiHandLandmarks.map( ( handMarkerPositions: HandPoint[] ) => {
       const finalPosition = new Vector3( 0, 0, 0 );
@@ -216,8 +252,10 @@ class RAPMediaPipe extends MediaPipe {
   }
 
   private static sortHandPositions( handPositions: Vector3[] ): Vector3[] {
-    assert && assert( handPositions.length === 2, 'must have 2 hands' );
-    return handPositions[ 0 ].x <= handPositions[ 1 ].x ? handPositions : handPositions.reverse();
+    if ( handPositions.length === 2 ) {
+      return handPositions[ 0 ].x <= handPositions[ 1 ].x ? handPositions : handPositions.reverse();
+    }
+    return handPositions;
   }
 
   private static markersTouching( point1: number, point2: number, handMarkerPositions: HandPoint[] ): boolean {
@@ -254,14 +292,17 @@ class RAPMediaPipe extends MediaPipe {
    */
   private oHandGesturePresent( multiHandLandmarks: HandLandmarks[] ): boolean {
 
-    const newoHandGestureDetected = RAPMediaPipe.hasOHandGesture( multiHandLandmarks );
+    if ( multiHandLandmarks.length !== 2 ) {
+      return false;
+    }
+    const newOHandGestureDetected = RAPMediaPipe.hasOHandGesture( multiHandLandmarks );
 
-    if ( !newoHandGestureDetected ) {
-      this.oHandGestureDetectedHistory.push( newoHandGestureDetected );
+    if ( !newOHandGestureDetected ) {
+      this.oHandGestureDetectedHistory.push( newOHandGestureDetected );
       return false;
     }
 
-    return handleSmoothValue( newoHandGestureDetected, this.oHandGestureDetectedHistory, O_HAND_GESTURE_DETECTED_HISTORY_LENGTH,
+    return handleSmoothValue( newOHandGestureDetected, this.oHandGestureDetectedHistory, O_HAND_GESTURE_DETECTED_HISTORY_LENGTH,
 
       // If there is a single O_HAND_GESTURE present, then there is still intent to gesture.
       () => this.oHandGestureDetectedHistory.filter( _.identity ).length !== 0
