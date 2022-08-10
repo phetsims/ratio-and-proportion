@@ -81,6 +81,7 @@ class RAPMediaPipe extends MediaPipe {
 
   public readonly isBeingInteractedWithProperty: Property<boolean>;
   private ratioTupleProperty: Property<RAPRatioTuple>;
+  private ratioLockedProperty: Property<boolean>;
   private antecedentViewSounds: ViewSounds;
   private consequentViewSounds: ViewSounds;
 
@@ -97,7 +98,8 @@ class RAPMediaPipe extends MediaPipe {
 
   private onInput: () => void;
 
-  public constructor( ratioTupleProperty: Property<RAPRatioTuple>, antecedentViewSounds: ViewSounds, consequentViewSounds: ViewSounds, providedOptions: RAPMediaPipeOptions ) {
+  public constructor( ratioTupleProperty: Property<RAPRatioTuple>, ratioLockedProperty: Property<boolean>,
+                      antecedentViewSounds: ViewSounds, consequentViewSounds: ViewSounds, providedOptions: RAPMediaPipeOptions ) {
     const options = optionize<RAPMediaPipeOptions>()( {
       isBeingInteractedWithProperty: new BooleanProperty( false ),
       onInput: _.noop
@@ -106,6 +108,7 @@ class RAPMediaPipe extends MediaPipe {
 
     this.isBeingInteractedWithProperty = options.isBeingInteractedWithProperty;
     this.ratioTupleProperty = ratioTupleProperty;
+    this.ratioLockedProperty = ratioLockedProperty;
     this.onInput = options.onInput;
     this.antecedentViewSounds = antecedentViewSounds;
     this.consequentViewSounds = consequentViewSounds;
@@ -158,7 +161,6 @@ class RAPMediaPipe extends MediaPipe {
       this.oHandGestureProperty.value = this.oHandGesturePresent( results.multiHandLandmarks );
 
       const handPositions = this.getPositionsOfHands( results.multiHandLandmarks );
-      const newValue = this.tupleFromSmoothing( handPositions );
 
       if ( results.multiHandLandmarks.length === 2 ) {
 
@@ -172,11 +174,23 @@ class RAPMediaPipe extends MediaPipe {
           this.antecedentStationaryTracker ).update( handPositions[ 0 ].y );
       }
 
-      if ( !this.oHandGestureProperty.value ) {
-        this.ratioTupleProperty.value = this.tupleFromSmoothing( handPositions );
+      const newTuple = this.tupleFromSmoothing( handPositions );
+
+      // If locked, then only change one of the value, the other will update accordingly.
+      if ( this.ratioLockedProperty.value ) {
+        if ( mediaPipeOptions.xAxisFlippedProperty.value ) {
+          newTuple.antecedent = this.ratioTupleProperty.value.antecedent;
+        }
+        else {
+          newTuple.consequent = this.ratioTupleProperty.value.consequent;
+        }
       }
 
-      this.onInteract( newValue );
+      if ( !this.oHandGestureProperty.value ) {
+        this.ratioTupleProperty.value = newTuple;
+      }
+
+      this.onInteract( newTuple );
     }
   }
 
