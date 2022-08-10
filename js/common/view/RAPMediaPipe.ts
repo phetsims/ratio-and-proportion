@@ -122,7 +122,7 @@ class RAPMediaPipe extends MediaPipe {
       return antecedentStationary && consequentStationary && !oHandGesturePresent;
     }, {
       tandem: options.tandem.createTandem( 'handsStationaryProperty' ),
-      phetioType: DerivedProperty.DerivedPropertyIO( BooleanIO )
+      phetioValueType: BooleanIO
     } );
 
     this.isBeingInteractedWithProperty.lazyLink( interactedWith => {

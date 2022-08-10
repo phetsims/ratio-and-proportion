@@ -119,7 +119,7 @@ unclampedFitness: ${unclampedFitness}
       tandem: tandem.createTandem( 'unclampedFitnessProperty' ),
       phetioDocumentation: 'A number stating how "correct" the current ratio is to the target. The max is 1, and min is ' +
                            'based on what the target ratio is',
-      phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
+      phetioValueType: NumberIO
     } );
 
     this.ratioFitnessProperty = new DerivedProperty( [ this.unclampedFitnessProperty ],
@@ -132,7 +132,7 @@ unclampedFitness: ${unclampedFitness}
       this.ratio.movingInDirectionProperty
     ], this.inProportion.bind( this ), {
       tandem: tandem.createTandem( 'inProportionProperty' ),
-      phetioType: DerivedProperty.DerivedPropertyIO( BooleanIO )
+      phetioValueType: BooleanIO
     } );
 
     // This must be done here, because of the reentrant nature of how fitness changes when the ratio is locked

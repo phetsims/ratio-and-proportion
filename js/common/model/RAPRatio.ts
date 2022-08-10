@@ -65,7 +65,7 @@ class RAPRatio {
 
     this._enabledRatioTermsRangeProperty = new Property( DEFAULT_TERM_VALUE_RANGE, {
       tandem: tandem.createTandem( 'enabledRatioTermsRangeProperty' ),
-      phetioType: Property.PropertyIO( Range.RangeIO )
+      phetioValueType: Range.RangeIO
     } );
     this.enabledRatioTermsRangeProperty = this._enabledRatioTermsRangeProperty;
 
@@ -76,7 +76,7 @@ class RAPRatio {
 
       // phet-io
       tandem: tandem.createTandem( 'tupleProperty' ),
-      phetioType: Property.PropertyIO( RAPRatioTuple.RAPRatioTupleIO )
+      phetioValueType: RAPRatioTuple.RAPRatioTupleIO
     } );
 
     this.lockedProperty = new BooleanProperty( false, { tandem: tandem.createTandem( 'lockedProperty' ) } );
@@ -101,7 +101,7 @@ class RAPRatio {
       return bothMoving && movingInSameDirection && ( movingFastEnough || ratioLocked );
     }, {
       tandem: tandem.createTandem( 'movingInDirectionProperty' ),
-      phetioType: DerivedProperty.DerivedPropertyIO( BooleanIO )
+      phetioValueType: BooleanIO
     } );
 
     this.ratioLockListenerEnabled = true;
