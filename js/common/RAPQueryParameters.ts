@@ -16,11 +16,6 @@ const RAPQueryParameters = QueryStringMachine.getAll( {
     type: 'flag'
   },
 
-  // run with mediaPipe hand tracking embedded in the sim.
-  mediaPipe: {
-    type: 'flag'
-  },
-
   bluetooth: {
     type: 'flag'
   },

@@ -25,7 +25,6 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector3 from '../../../../dot/js/Vector3.js';
-import RAPQueryParameters from '../RAPQueryParameters.js';
 import rapConstants from '../rapConstants.js';
 import ViewSounds from './sound/ViewSounds.js';
 import { RichText, VBox } from '../../../../scenery/js/imports.js';
@@ -41,8 +40,9 @@ import StationaryValueTracker from './StationaryValueTracker.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
+import MediaPipeQueryParameters from '../../../../tangible/js/mediaPipe/MediaPipeQueryParameters.js';
 
-if ( RAPQueryParameters.mediaPipe ) {
+if ( MediaPipeQueryParameters.cameraInput === 'hands' ) {
   MediaPipe.initialize();
 }
 

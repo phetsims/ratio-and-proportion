@@ -6,15 +6,15 @@
  */
 
 import { Node, VBox } from '../../../../scenery/js/imports.js';
+import MediaPipeQueryParameters from '../../../../tangible/js/mediaPipe/MediaPipeQueryParameters.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import RAPQueryParameters from '../RAPQueryParameters.js';
 import RAPMediaPipe from './RAPMediaPipe.js';
 
 class SimControlsNode extends VBox {
 
   public constructor() {
 
-    const mediaPipeNode = RAPQueryParameters.mediaPipe ? RAPMediaPipe.getMediaPipeOptionsNode() : new Node();
+    const mediaPipeNode = MediaPipeQueryParameters.cameraInput === 'hands' ? RAPMediaPipe.getMediaPipeOptionsNode() : new Node();
     super( {
         children: [
           mediaPipeNode

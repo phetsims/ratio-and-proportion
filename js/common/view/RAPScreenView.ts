@@ -58,6 +58,7 @@ import RatioAndProportionBluetoothButton from './RatioAndProportionBluetoothButt
 import DistanceResponseType from './describers/DistanceResponseType.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import MediaPipeQueryParameters from '../../../../tangible/js/mediaPipe/MediaPipeQueryParameters.js';
 
 // constants
 const LAYOUT_BOUNDS = ScreenView.DEFAULT_LAYOUT_BOUNDS;
@@ -257,7 +258,7 @@ class RAPScreenView extends ScreenView {
     );
 
     this.mediaPipe = null;
-    if ( RAPQueryParameters.mediaPipe ) {
+    if ( MediaPipeQueryParameters.cameraInput === 'hands' ) {
       const mediaPipeBothHandsDescriber = new BothHandsDescriber(
         ratio.tupleProperty,
         ratio.enabledRatioTermsRangeProperty,
