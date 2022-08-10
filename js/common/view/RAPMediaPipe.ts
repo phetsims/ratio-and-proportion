@@ -227,7 +227,8 @@ class RAPMediaPipe extends MediaPipe {
   }
 
   private getSmoothedTwoHandsDetected( multiHandLandmarks: HandLandmarks[] ): boolean {
-    return handleSmoothValue( multiHandLandmarks.length === 2, this.twoHandsDetectedHistory, TWO_HANDS_DETECTED_HISTORY_LENGTH,
+    const handsDetected = multiHandLandmarks.length === 2 || multiHandLandmarks.length === 1;
+    return handleSmoothValue( handsDetected, this.twoHandsDetectedHistory, TWO_HANDS_DETECTED_HISTORY_LENGTH,
 
       // To reduce false positives and false negatives, 50% of the history must have two hands detected.
       () => this.twoHandsDetectedHistory.filter( _.identity ).length > TWO_HANDS_DETECTED_HISTORY_LENGTH / 2
