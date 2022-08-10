@@ -295,6 +295,7 @@ class RAPScreenView extends ScreenView {
       Voicing.registerUtteranceToNode( mediaPipeVoicingDragUtterance, this );
 
       this.mediaPipe = new RAPMediaPipe( model.ratio.tupleProperty,
+        model.ratio.lockedProperty,
         this.antecedentRatioHalf.viewSounds,
         this.consequentRatioHalf.viewSounds, {
           isBeingInteractedWithProperty: model.mediaPipeInteractedWithProperty,
