@@ -236,7 +236,7 @@ class MyChallengeAccordionBox extends AccordionBox {
   }
 }
 
-class ReadingBlockNode extends ReadingBlock( Node, 0 ) {}
+class ReadingBlockNode extends ReadingBlock( Node ) {}
 
 ratioAndProportion.register( 'MyChallengeAccordionBox', MyChallengeAccordionBox );
 export default MyChallengeAccordionBox;

@@ -338,7 +338,7 @@ class BothHandsPDOMNode extends Node {
   }
 }
 
-class VoicingNode extends Voicing( Node, 0 ) {}
+class VoicingNode extends Voicing( Node ) {}
 
 ratioAndProportion.register( 'BothHandsPDOMNode', BothHandsPDOMNode );
 export type { BothHandsPDOMNodeOptions };
