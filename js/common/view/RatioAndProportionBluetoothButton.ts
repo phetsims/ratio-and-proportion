@@ -115,21 +115,20 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
 
   /**
    * Respond to a characteristicvaluechanged event.
-   * TODO: Implement this function. This is the main event we get when we receive new data from the device. https://github.com/phetsims/ratio-and-proportion/issues/473
    * The return value must be between 0 and 1.
    */
   private static handleCharacteristicValueChanged( event: Event ): number {
     if ( event.target ) {
 
-      // @ts-ignore
-      // console.log( event.target.value.getUint8( 0 ) );
-      console.log( event.target.value.getFloat32( 0, true ) );
+      // @ts-ignore, event.target is a BluetoothRemoteGATTCharacteristic, but this is too experimental to be the typescript lib.
+      const value = event.target.value as DataView;
 
-      // @ts-ignore
-      let floatValue = event.target.value.getFloat32( 0, true );
-      floatValue = Utils.toFixed( floatValue, 4 ); //rounding to 4 decimal places.
+      console.log( value.getFloat32( 0, true ) );
 
-      return Utils.clamp( floatValue / 100, 0, 1 );
+      const floatValue = value.getFloat32( 0, true );
+
+      // rounding to 4 decimal places.
+      return Utils.toFixedNumber( Utils.clamp( floatValue / 100, 0, 1 ), 4 );
     }
 
     return 0;
