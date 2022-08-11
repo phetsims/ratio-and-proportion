@@ -6,17 +6,11 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Property from '../../../../axon/js/Property.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 
 class MediaPipeOptions {
-  public xAxisFlippedProperty: Property<boolean>;
-  public yAxisFlippedProperty: Property<boolean>;
-
-  public constructor() {
-    this.xAxisFlippedProperty = new BooleanProperty( false );
-    this.yAxisFlippedProperty = new BooleanProperty( false );
-  }
+  public xAxisFlippedProperty = new BooleanProperty( false );
+  public yAxisFlippedProperty = new BooleanProperty( false );
 }
 
 const mediaPipeOptions = new MediaPipeOptions();

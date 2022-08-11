@@ -21,18 +21,17 @@ const LABEL_X = 0;
 class RAPTickMarkLabelsNode extends Node {
 
   private totalHeight: number;
-  private heightOfText: number | null;
+  private heightOfText: number | null = null;
   private tickMarkViewProperty: EnumerationProperty<TickMarkView>;
   private tickMarkRangeProperty: Property<number>;
   private colorProperty: TReadOnlyProperty<Color | string>;
 
   public constructor( tickMarkViewProperty: EnumerationProperty<TickMarkView>, tickMarkRangeProperty: Property<number>, height: number,
-               colorProperty: TReadOnlyProperty<Color | string>, options?: StrictOmit<NodeOptions, 'children'> ) {
+                      colorProperty: TReadOnlyProperty<Color | string>, options?: StrictOmit<NodeOptions, 'children'> ) {
 
     super();
 
     this.totalHeight = height;
-    this.heightOfText = null;
     this.tickMarkViewProperty = tickMarkViewProperty;
     this.tickMarkRangeProperty = tickMarkRangeProperty;
     this.colorProperty = colorProperty;
@@ -52,7 +51,6 @@ class RAPTickMarkLabelsNode extends Node {
   }
 
   public layout( height: number ): void {
-
     this.totalHeight = height;
     this.update( this.tickMarkRangeProperty.value, this.tickMarkViewProperty.value );
   }
