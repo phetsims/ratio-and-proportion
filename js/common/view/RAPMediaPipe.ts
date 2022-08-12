@@ -27,9 +27,9 @@ import Property from '../../../../axon/js/Property.js';
 import Vector3 from '../../../../dot/js/Vector3.js';
 import rapConstants from '../rapConstants.js';
 import ViewSounds from './sound/ViewSounds.js';
-import { RichText, VBox } from '../../../../scenery/js/imports.js';
+import { Node, RichText, VBox } from '../../../../scenery/js/imports.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
-import mediaPipeOptions from './mediaPipeOptions.js';
+import rapMediaPipeOptions from './rapMediaPipeOptions.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -43,7 +43,7 @@ import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import MediaPipeQueryParameters from '../../../../tangible/js/mediaPipe/MediaPipeQueryParameters.js';
 
 if ( MediaPipeQueryParameters.cameraInput === 'hands' ) {
-  MediaPipe.initialize();
+  MediaPipe.initialize( { mediaPipeOptionsObject: rapMediaPipeOptions } );
 }
 
 // Number of positions to keep to average out to smooth the hand positions
@@ -170,7 +170,7 @@ class RAPMediaPipe extends MediaPipe {
       else {
 
         // if just one hand is detected, defer to the if the x-axis is flipped to see which one is being moved in the sim.
-        ( mediaPipeOptions.xAxisFlippedProperty.value ? this.consequentStationaryTracker :
+        ( rapMediaPipeOptions.xAxisFlippedProperty.value ? this.consequentStationaryTracker :
           this.antecedentStationaryTracker ).update( handPositions[ 0 ].y );
       }
 
@@ -178,7 +178,7 @@ class RAPMediaPipe extends MediaPipe {
 
       // If locked, then only change one of the value, the other will update accordingly.
       if ( this.ratioLockedProperty.value ) {
-        if ( mediaPipeOptions.xAxisFlippedProperty.value ) {
+        if ( rapMediaPipeOptions.xAxisFlippedProperty.value ) {
           newTuple.antecedent = this.ratioTupleProperty.value.antecedent;
         }
         else {
@@ -207,7 +207,7 @@ class RAPMediaPipe extends MediaPipe {
     else {
 
       // Flipping the xAxis will switch which side of the ratio the single hand applies to
-      if ( mediaPipeOptions.xAxisFlippedProperty.value ) {
+      if ( rapMediaPipeOptions.xAxisFlippedProperty.value ) {
         leftHandPosition = this.antecedentHandPositions.length > 0 ?
                            this.antecedentHandPositions[ this.antecedentHandPositions.length - 1 ] :
                            Vector3.pool.create( 0, this.ratioTupleProperty.value.antecedent, 0 );
@@ -254,8 +254,8 @@ class RAPMediaPipe extends MediaPipe {
         assert && assert( typeof point.x === 'number' );
         assert && assert( typeof point.y === 'number' );
         assert && assert( typeof point.z === 'number' );
-        const yPosition = mediaPipeOptions.yAxisFlippedProperty.value ? point.y : HAND_POSITION_MAX_VALUE - point.y;
-        const xPosition = mediaPipeOptions.xAxisFlippedProperty.value ? point.x : HAND_POSITION_MAX_VALUE - point.x;
+        const yPosition = rapMediaPipeOptions.yAxisFlippedProperty.value ? point.y : HAND_POSITION_MAX_VALUE - point.y;
+        const xPosition = rapMediaPipeOptions.xAxisFlippedProperty.value ? point.x : HAND_POSITION_MAX_VALUE - point.x;
         const position = new Vector3( xPosition, yPosition, HAND_POSITION_MAX_VALUE - point.z );
         finalPosition.add( position );
       } );
@@ -324,16 +324,15 @@ class RAPMediaPipe extends MediaPipe {
     );
   }
 
-  public static getMediaPipeOptionsNode(): VBox {
-    return new VBox( {
+  public static override getMediaPipeOptionsNode(): Node {
+    return MediaPipe.getMediaPipeOptionsNode( rapMediaPipeOptions, new VBox( {
       spacing: 10,
       align: 'left',
       children: [
-        new RichText( 'Camera Input: Hands' ),
-        new Checkbox( mediaPipeOptions.xAxisFlippedProperty, new RichText( 'x-axis flipped' ), { tandem: Tandem.OPT_OUT } ),
-        new Checkbox( mediaPipeOptions.yAxisFlippedProperty, new RichText( 'y-axis flipped' ), { tandem: Tandem.OPT_OUT } )
+        new Checkbox( rapMediaPipeOptions.xAxisFlippedProperty, new RichText( 'x-axis flipped' ), { tandem: Tandem.OPT_OUT } ),
+        new Checkbox( rapMediaPipeOptions.yAxisFlippedProperty, new RichText( 'y-axis flipped' ), { tandem: Tandem.OPT_OUT } )
       ]
-    } );
+    } ) );
   }
 
   public reset(): void {

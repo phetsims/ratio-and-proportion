@@ -6,13 +6,14 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import MediaPipeOptions from '../../../../tangible/js/mediaPipe/MediaPipeOptions.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 
-class MediaPipeOptions {
+class RAPMediaPipeOptions extends MediaPipeOptions {
   public xAxisFlippedProperty = new BooleanProperty( false );
   public yAxisFlippedProperty = new BooleanProperty( false );
 }
 
-const mediaPipeOptions = new MediaPipeOptions();
-ratioAndProportion.register( 'mediaPipeOptions', mediaPipeOptions );
-export default mediaPipeOptions;
+const rapMediaPipeOptions = new RAPMediaPipeOptions();
+ratioAndProportion.register( 'rapMediaPipeOptions', rapMediaPipeOptions );
+export default rapMediaPipeOptions;
