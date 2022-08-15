@@ -13,6 +13,7 @@ import RAPKeyboardHelpContent, { RAPKeyboardHelpContentOptions } from '../../com
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
 
 type SelfOptions = EmptySelfOptions;
 type CreateScreenKeyboardHelpContentOptions = SelfOptions & RAPKeyboardHelpContentOptions;
@@ -27,17 +28,17 @@ class MyChallengeHelpSection extends KeyboardHelpSection {
 
   public constructor( options?: CreateScreenKeyboardHelpContentOptions ) {
 
-    const setHandRatioValue = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.setHandRatioValue,
+    const setHandRatioValue = KeyboardHelpSectionRow.labelWithIcon( ratioAndProportionStrings.setHandRatioValue,
       KeyboardHelpIconFactory.upDownArrowKeysRowIcon(), {
         labelInnerContent: ratioAndProportionStrings.a11y.keyboardHelp.setHandRatioValueDescription
       } );
 
-    const jumpToMinimum = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.jumpToMinimum,
+    const jumpToMinimum = KeyboardHelpSectionRow.labelWithIcon( ratioAndProportionStrings.jumpToMinimum,
       TextKeyNode.home(), {
         labelInnerContent: ratioAndProportionStrings.a11y.keyboardHelp.jumpToMinimumDescription
       } );
 
-    const jumpToMaximum = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.jumpToMaximum,
+    const jumpToMaximum = KeyboardHelpSectionRow.labelWithIcon( ratioAndProportionStrings.jumpToMaximum,
       TextKeyNode.end(), {
         labelInnerContent: ratioAndProportionStrings.a11y.keyboardHelp.jumpToMaximumDescription
       } );

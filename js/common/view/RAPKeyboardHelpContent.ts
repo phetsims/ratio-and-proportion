@@ -17,6 +17,7 @@ import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
 
 type SelfOptions = EmptySelfOptions;
 export type RAPKeyboardHelpContentOptions = SelfOptions & TwoColumnKeyboardHelpContentOptions;
@@ -53,22 +54,22 @@ class BothHandsHelpSection extends KeyboardHelpSection {
 
   public constructor( options?: KeyboardHelpSectionOptions ) {
 
-    const moveLeftHand = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.moveLeftHand,
+    const moveLeftHand = KeyboardHelpSectionRow.labelWithIcon( ratioAndProportionStrings.moveLeftHand,
       KeyboardHelpIconFactory.iconRow( [ new LetterKeyNode( 'W' ), new LetterKeyNode( 'S' ) ] ), {
         labelInnerContent: ratioAndProportionStrings.a11y.keyboardHelp.leftHandDescription
       } );
 
-    const moveRightHand = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.moveRightHand,
+    const moveRightHand = KeyboardHelpSectionRow.labelWithIcon( ratioAndProportionStrings.moveRightHand,
       KeyboardHelpIconFactory.upDownArrowKeysRowIcon(), {
         labelInnerContent: ratioAndProportionStrings.a11y.keyboardHelp.rightHandDescription
       } );
 
-    const moveInSmallerSteps = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.moveHandsInSmallerSteps,
+    const moveInSmallerSteps = KeyboardHelpSectionRow.labelWithIcon( ratioAndProportionStrings.moveHandsInSmallerSteps,
       TextKeyNode.shift(), {
         labelInnerContent: ratioAndProportionStrings.a11y.keyboardHelp.handsInSmallerStepsDescription
       } );
 
-    const jumpBothHands = KeyboardHelpSection.labelWithIcon( ratioAndProportionStrings.jumpBothHands,
+    const jumpBothHands = KeyboardHelpSectionRow.labelWithIcon( ratioAndProportionStrings.jumpBothHands,
       KeyboardHelpIconFactory.iconToIcon( new NumberKeyNode( '0' ), new NumberKeyNode( '9' ) ), {
         labelInnerContent: ratioAndProportionStrings.a11y.keyboardHelp.jumpBothHandsDescription
       } );
