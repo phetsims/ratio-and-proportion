@@ -83,6 +83,12 @@
   "chooseAChallengeRatio": {
     "value": "Choose a Challenge Ratio"
   },
+  "cameraInputFlipX": {
+    "value": "Flip camera view of hands between frontal and horizontal views"
+  },
+  "cameraInputFlipY": {
+    "value": "Flip hand operation between mirrored hand control and opposite hand control"
+  },
   "a11y": {
     "keyboardHelp": {
       "leftHandDescription": {
@@ -334,7 +340,7 @@
     "ratioNoLongerLocked": {
       "value": "Hands no longer locked."
     },
-    "ratioNoLongerLockedPattern":{
+    "ratioNoLongerLockedPattern": {
       "value": "{{noLongerLocked}} {{originalContextResponse}}"
     },
     "screenSummaryControlAreaParagraph": {
@@ -642,6 +648,18 @@
     },
     "up": {
       "value": "up"
+    },
+    "cameraInputFlipXChecked": {
+      "value": "Using horizontal view of hands."
+    },
+    "cameraInputFlipXUnchecked": {
+      "value": "Using frontal view of hands."
+    },
+    "cameraInputFlipYChecked": {
+      "value": "Using opposite hand control."
+    },
+    "cameraInputFlipYUnchecked": {
+      "value": "Using mirrored hand control."
     }
   }
 }

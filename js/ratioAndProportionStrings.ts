@@ -69,6 +69,10 @@ type StringsType = {
   'challengeRatioProperty': TReadOnlyProperty<string>;
   'chooseAChallengeRatio': string;
   'chooseAChallengeRatioProperty': TReadOnlyProperty<string>;
+  'cameraInputFlipX': string;
+  'cameraInputFlipXProperty': TReadOnlyProperty<string>;
+  'cameraInputFlipY': string;
+  'cameraInputFlipYProperty': TReadOnlyProperty<string>;
   'a11y': {
     'keyboardHelp': {
       'leftHandDescription': string;
@@ -454,6 +458,14 @@ type StringsType = {
     'downProperty': TReadOnlyProperty<string>;
     'up': string;
     'upProperty': TReadOnlyProperty<string>;
+    'cameraInputFlipXChecked': string;
+    'cameraInputFlipXCheckedProperty': TReadOnlyProperty<string>;
+    'cameraInputFlipXUnchecked': string;
+    'cameraInputFlipXUncheckedProperty': TReadOnlyProperty<string>;
+    'cameraInputFlipYChecked': string;
+    'cameraInputFlipYCheckedProperty': TReadOnlyProperty<string>;
+    'cameraInputFlipYUnchecked': string;
+    'cameraInputFlipYUncheckedProperty': TReadOnlyProperty<string>;
   }
 };
 

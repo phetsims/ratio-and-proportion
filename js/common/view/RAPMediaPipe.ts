@@ -41,6 +41,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import MediaPipeQueryParameters from '../../../../tangible/js/mediaPipe/MediaPipeQueryParameters.js';
+import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
 
 if ( MediaPipeQueryParameters.cameraInput === 'hands' ) {
   MediaPipe.initialize( { mediaPipeOptionsObject: rapMediaPipeOptions } );
@@ -329,8 +330,24 @@ class RAPMediaPipe extends MediaPipe {
       spacing: 10,
       align: 'left',
       children: [
-        new Checkbox( rapMediaPipeOptions.xAxisFlippedProperty, new RichText( 'x-axis flipped' ), { tandem: Tandem.OPT_OUT } ),
-        new Checkbox( rapMediaPipeOptions.yAxisFlippedProperty, new RichText( 'y-axis flipped' ), { tandem: Tandem.OPT_OUT } )
+        new Checkbox( rapMediaPipeOptions.xAxisFlippedProperty,
+          new RichText( ratioAndProportionStrings.cameraInputFlipX ), {
+            voicingNameResponse: ratioAndProportionStrings.cameraInputFlipX,
+            voiceNameResponseOnSelection: false,
+            accessibleName: ratioAndProportionStrings.cameraInputFlipX,
+            checkedContextResponse: ratioAndProportionStrings.a11y.cameraInputFlipXChecked,
+            uncheckedContextResponse: ratioAndProportionStrings.a11y.cameraInputFlipXUnchecked,
+            tandem: Tandem.OPT_OUT
+          } ),
+        new Checkbox( rapMediaPipeOptions.yAxisFlippedProperty,
+          new RichText( ratioAndProportionStrings.cameraInputFlipY ), {
+            voicingNameResponse: ratioAndProportionStrings.cameraInputFlipY,
+            voiceNameResponseOnSelection: false,
+            accessibleName: ratioAndProportionStrings.cameraInputFlipY,
+            checkedContextResponse: ratioAndProportionStrings.a11y.cameraInputFlipYChecked,
+            uncheckedContextResponse: ratioAndProportionStrings.a11y.cameraInputFlipYUnchecked,
+            tandem: Tandem.OPT_OUT
+          } )
       ]
     } ) );
   }
