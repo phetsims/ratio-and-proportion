@@ -73,6 +73,8 @@ type StringsType = {
   'cameraInputFlipXProperty': TReadOnlyProperty<string>;
   'cameraInputFlipY': string;
   'cameraInputFlipYProperty': TReadOnlyProperty<string>;
+  'customizeHandMovement': string;
+  'customizeHandMovementProperty': TReadOnlyProperty<string>;
   'a11y': {
     'keyboardHelp': {
       'leftHandDescription': string;
