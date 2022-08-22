@@ -7,7 +7,7 @@
  */
 
 import Sim, { SimOptions } from '../../joist/js/Sim.js';
-import PreferencesConfiguration from '../../joist/js/preferences/PreferencesConfiguration.js';
+import PreferencesModel from '../../joist/js/preferences/PreferencesModel.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import CreateScreen from './create/CreateScreen.js';
@@ -26,7 +26,7 @@ const simOptions: SimOptions = {
     soundDesign: 'Ashton Morris'
   },
   hasKeyboardHelpContent: true,
-  preferencesConfiguration: new PreferencesConfiguration( {
+  preferencesModel: new PreferencesModel( {
     generalOptions: {
       createSimControls: () => new SimControlsNode()
     }
