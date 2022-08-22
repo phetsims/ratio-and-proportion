@@ -11,7 +11,7 @@
  * real-world hand corresponds to which hand in the sim.
  *
  * Voicing enabled:
- * A gestured called the "O_HAND_GESTURE", in which thumb and pointer touch in to make a cirle, leaving the other fingers
+ * A gestured called the "O_HAND_GESTURE", in which thumb and pointer touch in to make a circle, leaving the other fingers
  * straight, is used to turn off voicing. Turning off voicing actually allows a single voicing response to be spoken
  * fully, so in a sense, though the code thinks that the "O_HAND_GESTURE" turns off voicing, it actually allows a single
  * voicing response to be heard.
