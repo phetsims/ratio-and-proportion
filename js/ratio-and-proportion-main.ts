@@ -7,13 +7,12 @@
  */
 
 import Sim, { SimOptions } from '../../joist/js/Sim.js';
-import PreferencesModel from '../../joist/js/preferences/PreferencesModel.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import CreateScreen from './create/CreateScreen.js';
 import DiscoverScreen from './discover/DiscoverScreen.js';
 import ratioAndProportionStrings from './ratioAndProportionStrings.js';
-import SimControlsNode from './common/view/SimControlsNode.js';
+import RAPPreferencesModel from './common/view/RAPPreferencesModel.js';
 
 const ratioAndProportionTitleString = ratioAndProportionStrings[ 'ratio-and-proportion' ].title;
 
@@ -26,11 +25,7 @@ const simOptions: SimOptions = {
     soundDesign: 'Ashton Morris'
   },
   hasKeyboardHelpContent: true,
-  preferencesModel: new PreferencesModel( {
-    generalOptions: {
-      createSimControls: () => new SimControlsNode()
-    }
-  } )
+  preferencesModel: new RAPPreferencesModel()
 };
 
 // launch the sim - beware that scenery Image nodes created outside simLauncher.launch() will have zero bounds
