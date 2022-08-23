@@ -331,12 +331,12 @@ class RAPMediaPipe extends MediaPipe {
       spacing: 5,
       align: 'left',
       children: [
-        new VoicingText( ratioAndProportionStrings.customizeHandMovement, combineOptions<TextOptions>( {
+        new VoicingText( ratioAndProportionStrings.customizeHandMovementProperty, combineOptions<TextOptions>( {
           tagName: 'h3',
           accessibleName: ratioAndProportionStrings.customizeHandMovement
         }, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS ) ),
         new Checkbox( rapMediaPipeOptions.yAxisFlippedProperty,
-          new RichText( ratioAndProportionStrings.cameraInputFlipY, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ), {
+          new RichText( ratioAndProportionStrings.cameraInputFlipYProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ), {
             voicingNameResponse: ratioAndProportionStrings.cameraInputFlipY,
             voiceNameResponseOnSelection: false,
             accessibleName: ratioAndProportionStrings.cameraInputFlipY,
@@ -345,7 +345,7 @@ class RAPMediaPipe extends MediaPipe {
             tandem: Tandem.OPT_OUT
           } ),
         new Checkbox( rapMediaPipeOptions.xAxisFlippedProperty,
-          new RichText( ratioAndProportionStrings.cameraInputFlipX, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ), {
+          new RichText( ratioAndProportionStrings.cameraInputFlipXProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ), {
             voicingNameResponse: ratioAndProportionStrings.cameraInputFlipX,
             voiceNameResponseOnSelection: false,
             accessibleName: ratioAndProportionStrings.cameraInputFlipX,
