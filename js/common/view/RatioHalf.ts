@@ -18,7 +18,7 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import { DragListener, TPaint, Node, NodeOptions, Rectangle, RectangleOptions, SpeakingOptions } from '../../../../scenery/js/imports.js';
+import { DragListener, Node, NodeOptions, Rectangle, RectangleOptions, SpeakingOptions, TPaint } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioTerm from '../model/RatioTerm.js';
@@ -256,11 +256,17 @@ class RatioHalf extends Rectangle {
 
     const providedAccessibleName = options.accessibleName;
 
-    // accessible name is also the voicing name response, unless locked
-    this.ratio.lockedProperty.link( ( locked: boolean ) => {
-      const newAccessibleName = !locked ? providedAccessibleName : StringUtils.fillIn( ratioAndProportionStrings.a11y.handLockedPattern, {
+    const accessibleNameProperty = new DerivedProperty( [
+      this.ratio.lockedProperty,
+      ratioAndProportionStrings.a11y.handLockedPatternProperty
+    ], ( locked, handLockedPattern ) => {
+      return !locked ? providedAccessibleName : StringUtils.fillIn( handLockedPattern, {
         hand: providedAccessibleName
       } );
+    } );
+
+    // accessible name is also the voicing name response, unless locked
+    accessibleNameProperty.link( newAccessibleName => {
       this.accessibleName = newAccessibleName;
       this.ratioHandNode.voicingNameResponse = newAccessibleName;
     } );
