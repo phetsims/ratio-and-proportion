@@ -36,9 +36,9 @@ class BothHandsDescriber {
   private ratioLockedProperty: Property<boolean>;
 
   public constructor( ratioTupleProperty: Property<RAPRatioTuple>, enabledRatioTermsRangeProperty: TReadOnlyProperty<Range>,
-               ratioLockedProperty: Property<boolean>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
-               inProportionProperty: TReadOnlyProperty<boolean>,
-               ratioDescriber: RatioDescriber, tickMarkDescriber: TickMarkDescriber ) {
+                      ratioLockedProperty: Property<boolean>, tickMarkViewProperty: EnumerationProperty<TickMarkView>,
+                      inProportionProperty: TReadOnlyProperty<boolean>,
+                      ratioDescriber: RatioDescriber, tickMarkDescriber: TickMarkDescriber ) {
 
     this.ratioTupleProperty = ratioTupleProperty;
     this.enabledRatioTermsRangeProperty = enabledRatioTermsRangeProperty;
@@ -64,6 +64,7 @@ class BothHandsDescriber {
       }
     }
 
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
     return StringUtils.fillIn( ratioDistancePositionContextResponsePatternString, {
       distance: this.handPositionsDescriber.getBothHandsDistance( true, options ),
       position: this.getBothHandsPosition()
@@ -74,6 +75,7 @@ class BothHandsDescriber {
    * Similar to getBothHandsContextResponse, but without extra logic for edges and distance-progress.
    */
   public getBothHandsDynamicDescription(): string {
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
     return StringUtils.fillIn( ratioDistancePositionContextResponsePatternString, {
       distance: this.handPositionsDescriber.getBothHandsDistance( true, {
         distanceResponseType: DistanceResponseType.DISTANCE_REGION
@@ -93,6 +95,7 @@ class BothHandsDescriber {
     const leftPosition = this.handPositionsDescriber.getHandPositionDescription( currentTuple.antecedent, tickMarkView );
     const rightPosition = this.handPositionsDescriber.getHandPositionDescription( currentTuple.consequent, tickMarkView );
 
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
     if ( leftPosition === rightPosition ) {
       return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.equalObjectResponseAlert, {
         inPosition: leftPosition

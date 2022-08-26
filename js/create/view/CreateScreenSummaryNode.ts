@@ -33,13 +33,13 @@ class CreateScreenSummaryNode extends Node {
   private myChallengeAccordionBox: MyChallengeAccordionBox;
 
   public constructor( ratioFitnessProperty: TReadOnlyProperty<number>,
-               ratioTupleProperty: Property<RAPRatioTuple>,
-               tickMarkViewProperty: EnumerationProperty<TickMarkView>,
-               ratioDescriber: RatioDescriber,
-               inProportionProperty: TReadOnlyProperty<boolean>,
-               handPositionsDescriber: HandPositionsDescriber,
-               tickMarkRangeProperty: Property<number>,
-               myChallengeAccordionBox: MyChallengeAccordionBox ) {
+                      ratioTupleProperty: Property<RAPRatioTuple>,
+                      tickMarkViewProperty: EnumerationProperty<TickMarkView>,
+                      ratioDescriber: RatioDescriber,
+                      inProportionProperty: TReadOnlyProperty<boolean>,
+                      handPositionsDescriber: HandPositionsDescriber,
+                      tickMarkRangeProperty: Property<number>,
+                      myChallengeAccordionBox: MyChallengeAccordionBox ) {
 
     const stateOfSimNode = new Node( { tagName: 'p' } );
     const leftHandBullet = new Node( { tagName: 'li' } );
@@ -54,21 +54,21 @@ class CreateScreenSummaryNode extends Node {
       children: [
         new Node( {
           tagName: 'p',
-          innerContent: ratioAndProportionStrings.a11y.create.screenSummary.paragraph1
+          innerContent: ratioAndProportionStrings.a11y.create.screenSummary.paragraph1Property
         } ),
         new Node( {
           tagName: 'p',
-          innerContent: ratioAndProportionStrings.a11y.create.screenSummary.paragraph2
+          innerContent: ratioAndProportionStrings.a11y.create.screenSummary.paragraph2Property
         } ),
         new Node( {
           tagName: 'p',
-          innerContent: ratioAndProportionStrings.a11y.screenSummaryControlAreaParagraph
+          innerContent: ratioAndProportionStrings.a11y.screenSummaryControlAreaParagraphProperty
         } ),
         stateOfSimNode,
         descriptionBullets,
         new Node( {
           tagName: 'p',
-          innerContent: ratioAndProportionStrings.a11y.create.screenSummary.interactionHint
+          innerContent: ratioAndProportionStrings.a11y.create.screenSummary.interactionHintProperty
         } )
       ]
     } );

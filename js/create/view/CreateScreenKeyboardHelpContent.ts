@@ -28,6 +28,7 @@ class MyChallengeHelpSection extends KeyboardHelpSection {
 
   public constructor( options?: CreateScreenKeyboardHelpContentOptions ) {
 
+    // TODO: Support help sections, https://github.com/phetsims/ratio-and-proportion/issues/499
     const setHandRatioValue = KeyboardHelpSectionRow.labelWithIcon( ratioAndProportionStrings.setHandRatioValue,
       KeyboardHelpIconFactory.upDownArrowKeysRowIcon(), {
         labelInnerContent: ratioAndProportionStrings.a11y.keyboardHelp.setHandRatioValueDescription

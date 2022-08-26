@@ -20,19 +20,17 @@ class CreateScreen extends Screen<RAPModel, CreateScreenView> {
   public constructor( tandem: Tandem ) {
 
     const backgroundColorProperty = new Property( Color.WHITE );
-    const options = {
-      backgroundColorProperty: backgroundColorProperty,
-      tandem: tandem,
-      homeScreenIcon: new CreateScreenIcon(),
-      name: ratioAndProportionStrings.screen.createProperty,
-      descriptionContent: ratioAndProportionStrings.a11y.create.homeScreenDescription,
-      keyboardHelpNode: new CreateScreenKeyboardHelpContent()
-    };
 
     super(
       () => new RAPModel( tandem.createTandem( 'model' ) ),
-      model => new CreateScreenView( model, backgroundColorProperty, tandem.createTandem( 'view' ) ),
-      options
+      model => new CreateScreenView( model, backgroundColorProperty, tandem.createTandem( 'view' ) ), {
+        backgroundColorProperty: backgroundColorProperty,
+        tandem: tandem,
+        homeScreenIcon: new CreateScreenIcon(),
+        name: ratioAndProportionStrings.screen.createProperty,
+        descriptionContent: ratioAndProportionStrings.a11y.create.homeScreenDescriptionProperty,
+        keyboardHelpNode: new CreateScreenKeyboardHelpContent()
+      }
     );
   }
 }

@@ -18,11 +18,11 @@ import Multilink from '../../../../axon/js/Multilink.js';
 
 // constants
 const BACKGROUND_COLOR_STRINGS = [
-  ratioAndProportionStrings.a11y.backgroundColor.notGreen,
-  ratioAndProportionStrings.a11y.backgroundColor.lightestGreen,
-  ratioAndProportionStrings.a11y.backgroundColor.veryLightGreen,
-  ratioAndProportionStrings.a11y.backgroundColor.lightGreen,
-  ratioAndProportionStrings.a11y.backgroundColor.darkestGreen
+  ratioAndProportionStrings.a11y.backgroundColor.notGreenProperty,
+  ratioAndProportionStrings.a11y.backgroundColor.lightestGreenProperty,
+  ratioAndProportionStrings.a11y.backgroundColor.veryLightGreenProperty,
+  ratioAndProportionStrings.a11y.backgroundColor.lightGreenProperty,
+  ratioAndProportionStrings.a11y.backgroundColor.darkestGreenProperty
 ];
 
 class BackgroundColorHandler {
@@ -54,16 +54,16 @@ class BackgroundColorHandler {
 
   public static getCurrentColorRegion( fitness: number, inProportion: boolean ): string {
     if ( fitness === rapConstants.RATIO_FITNESS_RANGE.min ) {
-      return BACKGROUND_COLOR_STRINGS[ 0 ];
+      return BACKGROUND_COLOR_STRINGS[ 0 ].value;
     }
     if ( inProportion ) {
-      return BACKGROUND_COLOR_STRINGS[ 4 ];
+      return BACKGROUND_COLOR_STRINGS[ 4 ].value;
     }
     const numberOfRegionsLeft = ( BACKGROUND_COLOR_STRINGS.length - 2 );
     const interpolatedIndex = ( rapConstants.RATIO_FITNESS_RANGE.getLength() / numberOfRegionsLeft + fitness ) * numberOfRegionsLeft;
     const region = BACKGROUND_COLOR_STRINGS[ Math.floor( interpolatedIndex ) ];
     assert && assert( region, 'region expected' );
-    return region;
+    return region.value;
   }
 }
 

@@ -98,14 +98,14 @@ class BothHandsPDOMNode extends Node {
       // pdom
       tagName: 'div',
       interactiveNodeOptions: {
-        helpText: ratioAndProportionStrings.a11y.bothHands.bothHandsHelpText, // overridden by options.gestureDescriptionHelpText when supported
+        helpText: ratioAndProportionStrings.a11y.bothHands.bothHandsHelpTextProperty, // overridden by options.gestureDescriptionHelpText when supported
         helpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT,
         ariaRole: 'application',
         focusable: true,
         tagName: 'div',
 
         // just the initial value, this is set dynamically below.
-        accessibleName: ratioAndProportionStrings.a11y.bothHands.bothHands,
+        accessibleName: ratioAndProportionStrings.a11y.bothHands.bothHandsProperty,
 
         accessibleNameBehavior: accessibleNameBehavior,
         voicingObjectResponse: () => this.voicingBothHandsDescriber.getBothHandsObjectResponse(),
@@ -174,7 +174,9 @@ class BothHandsPDOMNode extends Node {
     this.addChild( interactiveNode );
 
     options.ratioLockedProperty.link( locked => {
-      const newAccessibleName = !locked ? ratioAndProportionStrings.a11y.bothHands.bothHands :
+      const newAccessibleName = !locked ? ratioAndProportionStrings.a11y.bothHands.bothHandsProperty :
+
+        // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
                                 StringUtils.fillIn( ratioAndProportionStrings.a11y.handLockedPattern, {
                                   hand: ratioAndProportionStrings.a11y.bothHands.bothHands
                                 } );
@@ -186,6 +188,7 @@ class BothHandsPDOMNode extends Node {
     // Make sure that any children inside the both hands interaction (like individual hands) come before the both hands interaction in the PDOM.
     this.pdomOrder = [ dynamicDescription, ...interactiveNode.children, null ];
 
+    // TODO: Dynamic string support when time, https://github.com/phetsims/ratio-and-proportion/issues/499
     interactiveNode.setPDOMAttribute( 'aria-roledescription', sceneryPhetStrings.a11y.grabDrag.movable );
 
     this.bothHandsInteractionListener = new BothHandsInteractionListener( {
@@ -215,6 +218,8 @@ class BothHandsPDOMNode extends Node {
         //////////
         // Voicing
         const originalVoicingContextResponse = this.voicingBothHandsDescriber.getBothHandsContextResponse( ratioInputModality );
+
+        // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
         const voicingContextResponse = knockedOutOfLock ? StringUtils.fillIn( ratioAndProportionStrings.a11y.ratioNoLongerLockedPattern, {
           noLongerLocked: ratioAndProportionStrings.a11y.ratioNoLongerLocked,
           originalContextResponse: originalVoicingContextResponse
@@ -267,7 +272,7 @@ class BothHandsPDOMNode extends Node {
 
     this.contextResponseUtterance = new Utterance( { alertStableDelay: 2000 } );
     this.ratioUnlockedFromBothHandsUtterance = new Utterance( {
-      alert: ratioAndProportionStrings.a11y.ratioNoLongerLocked,
+      alert: ratioAndProportionStrings.a11y.ratioNoLongerLockedProperty,
 
       // slightly longer than the object response so that we make sure it comes after that assertive alert. This is
       // because we don't want it interrupted like it was originally in https://github.com/phetsims/ratio-and-proportion/issues/227#issuecomment-740173738
@@ -296,7 +301,7 @@ class BothHandsPDOMNode extends Node {
     // emit this utterance immediately, so that it comes before the object response above.
     this.bothHandsInteractionListener.jumpToZeroWhileLockedEmitter.addListener( () => {
 
-      this.alertDescriptionUtterance( ratioAndProportionStrings.a11y.bothHands.cannotJumpToZeroWhenLocked );
+      this.alertDescriptionUtterance( ratioAndProportionStrings.a11y.bothHands.cannotJumpToZeroWhenLockedProperty.value );
       this.contextResponseUtterance.alert = this.descriptionBothHandsDescriber.getBothHandsObjectResponse();
 
       this.alertDescriptionUtterance( this.contextResponseUtterance );

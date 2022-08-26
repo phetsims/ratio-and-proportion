@@ -176,6 +176,7 @@ class HandPositionsDescriber {
       } );
     }
 
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
     return StringUtils.fillIn( ratioAndProportionStrings.a11y.tickMark.quantitativeHandPositionPattern, {
       relativePosition: tickMarkData.relativePosition,
       tickMarkPosition: tickMarkData.tickMarkPosition

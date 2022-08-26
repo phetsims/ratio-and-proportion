@@ -30,6 +30,7 @@ class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
    */
   public constructor( challengeHelpSection: KeyboardHelpSection, providedOptions?: RAPKeyboardHelpContentOptions ) {
 
+    // TODO: Support dynamic keyboard help content, https://github.com/phetsims/ratio-and-proportion/issues/499
     const moveLeftOrRightHandHelpSection = new SliderControlsKeyboardHelpSection( {
       headingString: ratioAndProportionStrings.moveHandsIndividually,
       verbString: ratioAndProportionStrings.move,
