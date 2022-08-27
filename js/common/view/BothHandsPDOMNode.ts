@@ -301,7 +301,8 @@ class BothHandsPDOMNode extends Node {
     // emit this utterance immediately, so that it comes before the object response above.
     this.bothHandsInteractionListener.jumpToZeroWhileLockedEmitter.addListener( () => {
 
-      this.alertDescriptionUtterance( ratioAndProportionStrings.a11y.bothHands.cannotJumpToZeroWhenLockedProperty.value );
+      const cannotJumpToZeroWhenLockedProperty = ratioAndProportionStrings.a11y.bothHands.cannotJumpToZeroWhenLockedProperty;
+      this.alertDescriptionUtterance( cannotJumpToZeroWhenLockedProperty.value );
       this.contextResponseUtterance.alert = this.descriptionBothHandsDescriber.getBothHandsObjectResponse();
 
       this.alertDescriptionUtterance( this.contextResponseUtterance );
