@@ -192,13 +192,13 @@ class RAPScreenView extends ScreenView {
       inProportionProperty: model.inProportionProperty,
 
       handColorProperty: options.leftHandColorProperty,
-      accessibleName: ratioAndProportionStrings.a11y.leftHandProperty,
+      accessibleName: ratioAndProportionStrings.a11y.leftHandStringProperty,
       a11yDependencies: a11yDependencies,
       bothHandsCueDisplay: CueDisplay.W_S,
       isRight: false, // this way we get a left hand
 
       // Added to the antecedent for ease, but it applies to both RatioHalfs in the PDOM
-      helpText: ratioAndProportionStrings.a11y.individualHandsHelpTextProperty,
+      helpText: ratioAndProportionStrings.a11y.individualHandsHelpTextStringProperty,
 
       helpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT,
 
@@ -228,7 +228,7 @@ class RAPScreenView extends ScreenView {
       inProportionProperty: model.inProportionProperty,
 
       handColorProperty: options.rightHandColorProperty,
-      accessibleName: ratioAndProportionStrings.a11y.rightHandProperty,
+      accessibleName: ratioAndProportionStrings.a11y.rightHandStringProperty,
       a11yDependencies: a11yDependencies,
 
       // phet-io

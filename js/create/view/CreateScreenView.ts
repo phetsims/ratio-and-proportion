@@ -73,7 +73,7 @@ class CreateScreenView extends RAPScreenView {
     const ratioLockContent = new HBox( {
       spacing: 8,
       children: [
-        new Text( ratioAndProportionStrings.ratioLockProperty, { font: new PhetFont( 20 ) } ),
+        new Text( ratioAndProportionStrings.ratioLockStringProperty, { font: new PhetFont( 20 ) } ),
         new LockNode( model.ratio.lockedProperty, { scale: 0.5 } )
       ]
     } );

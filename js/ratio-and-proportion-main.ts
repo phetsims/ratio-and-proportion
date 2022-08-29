@@ -14,7 +14,7 @@ import DiscoverScreen from './discover/DiscoverScreen.js';
 import ratioAndProportionStrings from './ratioAndProportionStrings.js';
 import RAPPreferencesModel from './common/view/RAPPreferencesModel.js';
 
-const ratioAndProportionTitleString = ratioAndProportionStrings[ 'ratio-and-proportion' ].titleProperty;
+const ratioAndProportionTitleString = ratioAndProportionStrings[ 'ratio-and-proportion' ].titleStringProperty;
 
 const simOptions: SimOptions = {
   credits: {

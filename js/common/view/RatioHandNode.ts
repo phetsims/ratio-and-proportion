@@ -80,7 +80,7 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
       a11yDependencies: [],
 
       // Voicing
-      voicingHintResponse: ratioAndProportionStrings.a11y.individualHandsVoicingHelpTextProperty,
+      voicingHintResponse: ratioAndProportionStrings.a11y.individualHandsVoicingHelpTextStringProperty,
       voicingUtterance: new Utterance( {
         alertMaximumDelay: 500 // same as ISLCObjectNode
       } )

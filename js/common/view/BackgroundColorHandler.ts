@@ -18,11 +18,11 @@ import Multilink from '../../../../axon/js/Multilink.js';
 
 // constants
 const BACKGROUND_COLOR_STRINGS = [
-  ratioAndProportionStrings.a11y.backgroundColor.notGreenProperty,
-  ratioAndProportionStrings.a11y.backgroundColor.lightestGreenProperty,
-  ratioAndProportionStrings.a11y.backgroundColor.veryLightGreenProperty,
-  ratioAndProportionStrings.a11y.backgroundColor.lightGreenProperty,
-  ratioAndProportionStrings.a11y.backgroundColor.darkestGreenProperty
+  ratioAndProportionStrings.a11y.backgroundColor.notGreenStringProperty,
+  ratioAndProportionStrings.a11y.backgroundColor.lightestGreenStringProperty,
+  ratioAndProportionStrings.a11y.backgroundColor.veryLightGreenStringProperty,
+  ratioAndProportionStrings.a11y.backgroundColor.lightGreenStringProperty,
+  ratioAndProportionStrings.a11y.backgroundColor.darkestGreenStringProperty
 ];
 
 class BackgroundColorHandler {

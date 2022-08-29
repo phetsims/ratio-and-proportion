@@ -98,14 +98,14 @@ class BothHandsPDOMNode extends Node {
       // pdom
       tagName: 'div',
       interactiveNodeOptions: {
-        helpText: ratioAndProportionStrings.a11y.bothHands.bothHandsHelpTextProperty, // overridden by options.gestureDescriptionHelpText when supported
+        helpText: ratioAndProportionStrings.a11y.bothHands.bothHandsHelpTextStringProperty, // overridden by options.gestureDescriptionHelpText when supported
         helpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT,
         ariaRole: 'application',
         focusable: true,
         tagName: 'div',
 
         // just the initial value, this is set dynamically below.
-        accessibleName: ratioAndProportionStrings.a11y.bothHands.bothHandsProperty,
+        accessibleName: ratioAndProportionStrings.a11y.bothHands.bothHandsStringProperty,
 
         accessibleNameBehavior: accessibleNameBehavior,
         voicingObjectResponse: () => this.voicingBothHandsDescriber.getBothHandsObjectResponse(),
@@ -174,7 +174,7 @@ class BothHandsPDOMNode extends Node {
     this.addChild( interactiveNode );
 
     options.ratioLockedProperty.link( locked => {
-      const newAccessibleName = !locked ? ratioAndProportionStrings.a11y.bothHands.bothHandsProperty :
+      const newAccessibleName = !locked ? ratioAndProportionStrings.a11y.bothHands.bothHandsStringProperty :
 
         // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
                                 StringUtils.fillIn( ratioAndProportionStrings.a11y.handLockedPattern, {
@@ -272,7 +272,7 @@ class BothHandsPDOMNode extends Node {
 
     this.contextResponseUtterance = new Utterance( { alertStableDelay: 2000 } );
     this.ratioUnlockedFromBothHandsUtterance = new Utterance( {
-      alert: ratioAndProportionStrings.a11y.ratioNoLongerLockedProperty,
+      alert: ratioAndProportionStrings.a11y.ratioNoLongerLockedStringProperty,
 
       // slightly longer than the object response so that we make sure it comes after that assertive alert. This is
       // because we don't want it interrupted like it was originally in https://github.com/phetsims/ratio-and-proportion/issues/227#issuecomment-740173738
@@ -301,7 +301,7 @@ class BothHandsPDOMNode extends Node {
     // emit this utterance immediately, so that it comes before the object response above.
     this.bothHandsInteractionListener.jumpToZeroWhileLockedEmitter.addListener( () => {
 
-      const cannotJumpToZeroWhenLockedProperty = ratioAndProportionStrings.a11y.bothHands.cannotJumpToZeroWhenLockedProperty;
+      const cannotJumpToZeroWhenLockedProperty = ratioAndProportionStrings.a11y.bothHands.cannotJumpToZeroWhenLockedStringProperty;
       this.alertDescriptionUtterance( cannotJumpToZeroWhenLockedProperty.value );
       this.contextResponseUtterance.alert = this.descriptionBothHandsDescriber.getBothHandsObjectResponse();
 

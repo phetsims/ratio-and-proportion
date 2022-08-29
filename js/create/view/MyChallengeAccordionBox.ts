@@ -73,7 +73,7 @@ class MyChallengeAccordionBox extends AccordionBox {
     };
 
     const options = optionize<MyChallengeAccordionBoxOptions, EmptySelfOptions, AccordionBoxOptions>()( {
-      titleNode: new RichText( ratioAndProportionStrings.myChallengeProperty, {
+      titleNode: new RichText( ratioAndProportionStrings.myChallengeStringProperty, {
         font: new PhetFont( 20 ),
         maxWidth: 250 // empirically determined
       } ),

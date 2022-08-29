@@ -54,7 +54,7 @@ class TickMarkRangeComboBoxNode extends Node {
     const widestItem = Math.max( ...items.map( item => item.node.width ) );
 
     const comboBoxOptions = {
-      labelNode: new RichText( ratioAndProportionStrings.rangeProperty, RANGE_TEXT_OPTIONS ),
+      labelNode: new RichText( ratioAndProportionStrings.rangeStringProperty, RANGE_TEXT_OPTIONS ),
       helpText: ratioAndProportionStrings.a11y.create.tickMarkRangeHelpText,
       accessibleName: ratioAndProportionStrings.range,
       maxWidth: 300, // empirically determined

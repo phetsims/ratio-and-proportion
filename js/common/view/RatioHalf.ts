@@ -258,7 +258,7 @@ class RatioHalf extends Rectangle {
 
     const accessibleNameProperty = new DerivedProperty( [
       this.ratio.lockedProperty,
-      ratioAndProportionStrings.a11y.handLockedPatternProperty
+      ratioAndProportionStrings.a11y.handLockedPatternStringProperty
     ], ( locked, handLockedPattern ) => {
       return !locked ? providedAccessibleName : StringUtils.fillIn( handLockedPattern, {
         hand: providedAccessibleName

@@ -54,21 +54,21 @@ class CreateScreenSummaryNode extends Node {
       children: [
         new Node( {
           tagName: 'p',
-          innerContent: ratioAndProportionStrings.a11y.create.screenSummary.paragraph1Property
+          innerContent: ratioAndProportionStrings.a11y.create.screenSummary.paragraph1StringProperty
         } ),
         new Node( {
           tagName: 'p',
-          innerContent: ratioAndProportionStrings.a11y.create.screenSummary.paragraph2Property
+          innerContent: ratioAndProportionStrings.a11y.create.screenSummary.paragraph2StringProperty
         } ),
         new Node( {
           tagName: 'p',
-          innerContent: ratioAndProportionStrings.a11y.screenSummaryControlAreaParagraphProperty
+          innerContent: ratioAndProportionStrings.a11y.screenSummaryControlAreaParagraphStringProperty
         } ),
         stateOfSimNode,
         descriptionBullets,
         new Node( {
           tagName: 'p',
-          innerContent: ratioAndProportionStrings.a11y.create.screenSummary.interactionHintProperty
+          innerContent: ratioAndProportionStrings.a11y.create.screenSummary.interactionHintStringProperty
         } )
       ]
     } );
