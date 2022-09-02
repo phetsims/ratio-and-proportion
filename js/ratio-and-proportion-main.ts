@@ -14,7 +14,7 @@ import DiscoverScreen from './discover/DiscoverScreen.js';
 import ratioAndProportionStrings from './ratioAndProportionStrings.js';
 import RAPPreferencesModel from './common/view/RAPPreferencesModel.js';
 
-const ratioAndProportionTitleString = ratioAndProportionStrings[ 'ratio-and-proportion' ].titleStringProperty;
+const ratioAndProportionTitleStringProperty = ratioAndProportionStrings[ 'ratio-and-proportion' ].titleStringProperty;
 
 const simOptions: SimOptions = {
   credits: {
@@ -31,7 +31,7 @@ const simOptions: SimOptions = {
 // launch the sim - beware that scenery Image nodes created outside simLauncher.launch() will have zero bounds
 // until the images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70
 simLauncher.launch( () => {
-  const sim = new Sim( ratioAndProportionTitleString, [
+  const sim = new Sim( ratioAndProportionTitleStringProperty, [
     new DiscoverScreen( Tandem.ROOT.createTandem( 'discoverScreen' ) ),
     new CreateScreen( Tandem.ROOT.createTandem( 'createScreen' ) )
   ], simOptions );
