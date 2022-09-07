@@ -11,7 +11,7 @@ import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/Keybo
 import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
 import RAPKeyboardHelpContent, { RAPKeyboardHelpContentOptions } from '../../common/view/RAPKeyboardHelpContent.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
 
@@ -29,22 +29,22 @@ class MyChallengeHelpSection extends KeyboardHelpSection {
   public constructor( options?: CreateScreenKeyboardHelpContentOptions ) {
 
     // TODO: Support help sections, https://github.com/phetsims/ratio-and-proportion/issues/499
-    const setHandRatioValue = KeyboardHelpSectionRow.labelWithIcon( ratioAndProportionStrings.setHandRatioValue,
+    const setHandRatioValue = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.setHandRatioValue,
       KeyboardHelpIconFactory.upDownArrowKeysRowIcon(), {
-        labelInnerContent: ratioAndProportionStrings.a11y.keyboardHelp.setHandRatioValueDescription
+        labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.setHandRatioValueDescription
       } );
 
-    const jumpToMinimum = KeyboardHelpSectionRow.labelWithIcon( ratioAndProportionStrings.jumpToMinimum,
+    const jumpToMinimum = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.jumpToMinimum,
       TextKeyNode.home(), {
-        labelInnerContent: ratioAndProportionStrings.a11y.keyboardHelp.jumpToMinimumDescription
+        labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.jumpToMinimumDescription
       } );
 
-    const jumpToMaximum = KeyboardHelpSectionRow.labelWithIcon( ratioAndProportionStrings.jumpToMaximum,
+    const jumpToMaximum = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.jumpToMaximum,
       TextKeyNode.end(), {
-        labelInnerContent: ratioAndProportionStrings.a11y.keyboardHelp.jumpToMaximumDescription
+        labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.jumpToMaximumDescription
       } );
 
-    super( ratioAndProportionStrings.setMyRatioChallenge, [ setHandRatioValue, jumpToMinimum, jumpToMaximum ], options );
+    super( RatioAndProportionStrings.setMyRatioChallenge, [ setHandRatioValue, jumpToMinimum, jumpToMaximum ], options );
   }
 }
 

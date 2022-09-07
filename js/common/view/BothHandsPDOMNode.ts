@@ -11,12 +11,12 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Property from '../../../../axon/js/Property.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import sceneryPhetStrings from '../../../../scenery-phet/js/sceneryPhetStrings.js';
+import SceneryPhetStrings from '../../../../scenery-phet/js/SceneryPhetStrings.js';
 import { Node, NodeOptions, ParallelDOM, PDOMBehaviorFunction, Voicing, VoicingOptions } from '../../../../scenery/js/imports.js';
 import AriaLiveAnnouncer from '../../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import BothHandsInteractionListener, { getIdealTermType } from './BothHandsInteractionListener.js';
 import ViewSounds from './sound/ViewSounds.js';
 import BothHandsDescriber from './describers/BothHandsDescriber.js';
@@ -98,14 +98,14 @@ class BothHandsPDOMNode extends Node {
       // pdom
       tagName: 'div',
       interactiveNodeOptions: {
-        helpText: ratioAndProportionStrings.a11y.bothHands.bothHandsHelpTextStringProperty, // overridden by options.gestureDescriptionHelpText when supported
+        helpText: RatioAndProportionStrings.a11y.bothHands.bothHandsHelpTextStringProperty, // overridden by options.gestureDescriptionHelpText when supported
         helpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT,
         ariaRole: 'application',
         focusable: true,
         tagName: 'div',
 
         // just the initial value, this is set dynamically below.
-        accessibleName: ratioAndProportionStrings.a11y.bothHands.bothHandsStringProperty,
+        accessibleName: RatioAndProportionStrings.a11y.bothHands.bothHandsStringProperty,
 
         accessibleNameBehavior: accessibleNameBehavior,
         voicingObjectResponse: () => this.voicingBothHandsDescriber.getBothHandsObjectResponse(),
@@ -174,11 +174,11 @@ class BothHandsPDOMNode extends Node {
     this.addChild( interactiveNode );
 
     options.ratioLockedProperty.link( locked => {
-      const newAccessibleName = !locked ? ratioAndProportionStrings.a11y.bothHands.bothHandsStringProperty :
+      const newAccessibleName = !locked ? RatioAndProportionStrings.a11y.bothHands.bothHandsStringProperty :
 
         // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
-                                StringUtils.fillIn( ratioAndProportionStrings.a11y.handLockedPattern, {
-                                  hand: ratioAndProportionStrings.a11y.bothHands.bothHands
+                                StringUtils.fillIn( RatioAndProportionStrings.a11y.handLockedPattern, {
+                                  hand: RatioAndProportionStrings.a11y.bothHands.bothHands
                                 } );
       interactiveNode.accessibleName = newAccessibleName;
       interactiveNode.voicingNameResponse = newAccessibleName;
@@ -189,7 +189,7 @@ class BothHandsPDOMNode extends Node {
     this.pdomOrder = [ dynamicDescription, ...interactiveNode.children, null ];
 
     // TODO: Dynamic string support when time, https://github.com/phetsims/ratio-and-proportion/issues/499
-    interactiveNode.setPDOMAttribute( 'aria-roledescription', sceneryPhetStrings.a11y.grabDrag.movable );
+    interactiveNode.setPDOMAttribute( 'aria-roledescription', SceneryPhetStrings.a11y.grabDrag.movable );
 
     this.bothHandsInteractionListener = new BothHandsInteractionListener( {
       targetNode: interactiveNode,
@@ -220,8 +220,8 @@ class BothHandsPDOMNode extends Node {
         const originalVoicingContextResponse = this.voicingBothHandsDescriber.getBothHandsContextResponse( ratioInputModality );
 
         // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
-        const voicingContextResponse = knockedOutOfLock ? StringUtils.fillIn( ratioAndProportionStrings.a11y.ratioNoLongerLockedPattern, {
-          noLongerLocked: ratioAndProportionStrings.a11y.ratioNoLongerLocked,
+        const voicingContextResponse = knockedOutOfLock ? StringUtils.fillIn( RatioAndProportionStrings.a11y.ratioNoLongerLockedPattern, {
+          noLongerLocked: RatioAndProportionStrings.a11y.ratioNoLongerLocked,
           originalContextResponse: originalVoicingContextResponse
         } ) : originalVoicingContextResponse;
         interactiveNode.voicingSpeakFullResponse( { // just object and context response
@@ -272,7 +272,7 @@ class BothHandsPDOMNode extends Node {
 
     this.contextResponseUtterance = new Utterance( { alertStableDelay: 2000 } );
     this.ratioUnlockedFromBothHandsUtterance = new Utterance( {
-      alert: ratioAndProportionStrings.a11y.ratioNoLongerLockedStringProperty,
+      alert: RatioAndProportionStrings.a11y.ratioNoLongerLockedStringProperty,
 
       // slightly longer than the object response so that we make sure it comes after that assertive alert. This is
       // because we don't want it interrupted like it was originally in https://github.com/phetsims/ratio-and-proportion/issues/227#issuecomment-740173738
@@ -301,7 +301,7 @@ class BothHandsPDOMNode extends Node {
     // emit this utterance immediately, so that it comes before the object response above.
     this.bothHandsInteractionListener.jumpToZeroWhileLockedEmitter.addListener( () => {
 
-      const cannotJumpToZeroWhenLockedProperty = ratioAndProportionStrings.a11y.bothHands.cannotJumpToZeroWhenLockedStringProperty;
+      const cannotJumpToZeroWhenLockedProperty = RatioAndProportionStrings.a11y.bothHands.cannotJumpToZeroWhenLockedStringProperty;
       this.alertDescriptionUtterance( cannotJumpToZeroWhenLockedProperty.value );
       this.contextResponseUtterance.alert = this.descriptionBothHandsDescriber.getBothHandsObjectResponse();
 

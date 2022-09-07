@@ -20,7 +20,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
 import TickMarkView from '../../common/view/TickMarkView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Property from '../../../../axon/js/Property.js';
 
@@ -39,29 +39,29 @@ class TickMarkRangeComboBoxNode extends Node {
     super();
 
     this.tickMarkRangeMap = {
-      10: ratioAndProportionStrings.zeroToTen,
-      20: ratioAndProportionStrings.zeroToTwenty,
-      30: ratioAndProportionStrings.zeroToThirty
+      10: RatioAndProportionStrings.zeroToTen,
+      20: RatioAndProportionStrings.zeroToTwenty,
+      30: RatioAndProportionStrings.zeroToThirty
     };
     this.tickMarkRangeProperty = tickMarkRangeProperty;
 
     const items = [
-      { value: 10, node: new RichText( this.tickMarkRangeMap[ 10 ], RANGE_TEXT_OPTIONS ), a11yLabel: ratioAndProportionStrings.zeroToTen },
-      { value: 20, node: new RichText( this.tickMarkRangeMap[ 20 ], RANGE_TEXT_OPTIONS ), a11yLabel: ratioAndProportionStrings.zeroToTwenty },
-      { value: 30, node: new RichText( this.tickMarkRangeMap[ 30 ], RANGE_TEXT_OPTIONS ), a11yLabel: ratioAndProportionStrings.zeroToThirty }
+      { value: 10, node: new RichText( this.tickMarkRangeMap[ 10 ], RANGE_TEXT_OPTIONS ), a11yLabel: RatioAndProportionStrings.zeroToTen },
+      { value: 20, node: new RichText( this.tickMarkRangeMap[ 20 ], RANGE_TEXT_OPTIONS ), a11yLabel: RatioAndProportionStrings.zeroToTwenty },
+      { value: 30, node: new RichText( this.tickMarkRangeMap[ 30 ], RANGE_TEXT_OPTIONS ), a11yLabel: RatioAndProportionStrings.zeroToThirty }
     ];
 
     const widestItem = Math.max( ...items.map( item => item.node.width ) );
 
     const comboBoxOptions = {
-      labelNode: new RichText( ratioAndProportionStrings.rangeStringProperty, RANGE_TEXT_OPTIONS ),
-      helpText: ratioAndProportionStrings.a11y.create.tickMarkRangeHelpText,
-      accessibleName: ratioAndProportionStrings.range,
+      labelNode: new RichText( RatioAndProportionStrings.rangeStringProperty, RANGE_TEXT_OPTIONS ),
+      helpText: RatioAndProportionStrings.a11y.create.tickMarkRangeHelpText,
+      accessibleName: RatioAndProportionStrings.range,
       maxWidth: 300, // empirically determined
 
-      comboBoxVoicingNameResponsePattern: ratioAndProportionStrings.a11y.create.rangeLabelPattern,
+      comboBoxVoicingNameResponsePattern: RatioAndProportionStrings.a11y.create.rangeLabelPattern,
       comboBoxVoicingContextResponse: () => this.getContextResponse(),
-      comboBoxVoicingHintResponse: ratioAndProportionStrings.a11y.create.tickMarkRangeHelpText,
+      comboBoxVoicingHintResponse: RatioAndProportionStrings.a11y.create.tickMarkRangeHelpText,
 
       // phet-io
       tandem: Tandem.OPT_OUT
@@ -73,7 +73,7 @@ class TickMarkRangeComboBoxNode extends Node {
 
     // NOTE: The values are [ 10, true ]... so it's typed interestingly.
     this.disabledComboBox = new ComboBox<true | number>( new BooleanProperty( value ) as Property<true | number>, [
-      { value: value, node: new HSeparator( widestItem, { centerY: -5 } ), a11yLabel: ratioAndProportionStrings.a11y.tickMark.tickMarksHidden },
+      { value: value, node: new HSeparator( widestItem, { centerY: -5 } ), a11yLabel: RatioAndProportionStrings.a11y.tickMark.tickMarksHidden },
       items[ 0 ] // add this one to get the proper height of the text.
     ], new Node(), comboBoxOptions );
 
@@ -94,7 +94,7 @@ class TickMarkRangeComboBoxNode extends Node {
   }
 
   private getContextResponse(): string {
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.create.tickMarkRangeContextResponse, {
+    return StringUtils.fillIn( RatioAndProportionStrings.a11y.create.tickMarkRangeContextResponse, {
       range: this.tickMarkRangeMap[ this.tickMarkRangeProperty.value ]
     } );
   }

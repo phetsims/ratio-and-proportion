@@ -471,8 +471,8 @@ type StringsType = {
   }
 };
 
-const ratioAndProportionStrings = getStringModule( 'RATIO_AND_PROPORTION' ) as StringsType;
+const RatioAndProportionStrings = getStringModule( 'RATIO_AND_PROPORTION' ) as StringsType;
 
-ratioAndProportion.register( 'ratioAndProportionStrings', ratioAndProportionStrings );
+ratioAndProportion.register( 'RatioAndProportionStrings', RatioAndProportionStrings );
 
-export default ratioAndProportionStrings;
+export default RatioAndProportionStrings;

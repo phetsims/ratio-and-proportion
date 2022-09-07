@@ -9,12 +9,12 @@
 import ComboBoxKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/ComboBoxKeyboardHelpSection.js';
 import RAPKeyboardHelpContent from '../../common/view/RAPKeyboardHelpContent.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 
 class DiscoverScreenKeyboardHelpContent extends RAPKeyboardHelpContent {
   public constructor() {
     super( new ComboBoxKeyboardHelpSection( {
-      headingString: ratioAndProportionStrings.chooseAChallengeRatio
+      headingString: RatioAndProportionStrings.chooseAChallengeRatio
     } ) );
   }
 }

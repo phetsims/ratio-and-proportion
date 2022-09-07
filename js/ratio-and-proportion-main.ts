@@ -11,10 +11,10 @@ import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import CreateScreen from './create/CreateScreen.js';
 import DiscoverScreen from './discover/DiscoverScreen.js';
-import ratioAndProportionStrings from './ratioAndProportionStrings.js';
+import RatioAndProportionStrings from './RatioAndProportionStrings.js';
 import RAPPreferencesModel from './common/view/RAPPreferencesModel.js';
 
-const ratioAndProportionTitleStringProperty = ratioAndProportionStrings[ 'ratio-and-proportion' ].titleStringProperty;
+const ratioAndProportionTitleStringProperty = RatioAndProportionStrings[ 'ratio-and-proportion' ].titleStringProperty;
 
 const simOptions: SimOptions = {
   credits: {

@@ -9,7 +9,7 @@
 
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
-import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
+import RatioAndProportionStrings from '../../../RatioAndProportionStrings.js';
 import Property from '../../../../../axon/js/Property.js';
 import RAPRatioTuple from '../../model/RAPRatioTuple.js';
 import Range from '../../../../../dot/js/Range.js';
@@ -24,7 +24,7 @@ import RatioInputModality from './RatioInputModality.js';
 import optionize from '../../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../../phet-core/js/types/StrictOmit.js';
 
-const ratioDistancePositionContextResponsePatternString = ratioAndProportionStrings.a11y.ratio.distancePositionContextResponse;
+const ratioDistancePositionContextResponsePatternString = RatioAndProportionStrings.a11y.ratio.distancePositionContextResponse;
 
 class BothHandsDescriber {
 
@@ -97,12 +97,12 @@ class BothHandsDescriber {
 
     // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
     if ( leftPosition === rightPosition ) {
-      return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.equalObjectResponseAlert, {
+      return StringUtils.fillIn( RatioAndProportionStrings.a11y.bothHands.equalObjectResponseAlert, {
         inPosition: leftPosition
       } );
     }
     else {
-      return StringUtils.fillIn( ratioAndProportionStrings.a11y.bothHands.eachObjectResponseAlert, {
+      return StringUtils.fillIn( RatioAndProportionStrings.a11y.bothHands.eachObjectResponseAlert, {
         leftPosition: leftPosition,
         rightPosition: rightPosition
       } );

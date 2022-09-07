@@ -7,47 +7,47 @@
 
 import LinearFunction from '../../../../../dot/js/LinearFunction.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
-import sceneryPhetStrings from '../../../../../scenery-phet/js/sceneryPhetStrings.js';
+import SceneryPhetStrings from '../../../../../scenery-phet/js/SceneryPhetStrings.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
-import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
+import RatioAndProportionStrings from '../../../RatioAndProportionStrings.js';
 import rapConstants from '../../rapConstants.js';
 import RAPModel from '../../model/RAPModel.js';
 import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 
 const RATIO_FITNESS_STRINGS_CAPITALIZED = [
-  ratioAndProportionStrings.a11y.ratio.capitalized.extremelyFarFrom,
-  ratioAndProportionStrings.a11y.ratio.capitalized.veryFarFrom,
-  ratioAndProportionStrings.a11y.ratio.capitalized.farFrom,
-  ratioAndProportionStrings.a11y.ratio.capitalized.notSoCloseTo,
-  ratioAndProportionStrings.a11y.ratio.capitalized.somewhatCloseTo,
-  ratioAndProportionStrings.a11y.ratio.capitalized.veryCloseTo,
-  ratioAndProportionStrings.a11y.ratio.capitalized.extremelyCloseTo,
-  ratioAndProportionStrings.a11y.ratio.capitalized.at
+  RatioAndProportionStrings.a11y.ratio.capitalized.extremelyFarFrom,
+  RatioAndProportionStrings.a11y.ratio.capitalized.veryFarFrom,
+  RatioAndProportionStrings.a11y.ratio.capitalized.farFrom,
+  RatioAndProportionStrings.a11y.ratio.capitalized.notSoCloseTo,
+  RatioAndProportionStrings.a11y.ratio.capitalized.somewhatCloseTo,
+  RatioAndProportionStrings.a11y.ratio.capitalized.veryCloseTo,
+  RatioAndProportionStrings.a11y.ratio.capitalized.extremelyCloseTo,
+  RatioAndProportionStrings.a11y.ratio.capitalized.at
 ];
 
 const RATIO_FITNESS_STRINGS_LOWERCASE = [
-  ratioAndProportionStrings.a11y.ratio.lowercase.extremelyFarFrom,
-  ratioAndProportionStrings.a11y.ratio.lowercase.veryFarFrom,
-  ratioAndProportionStrings.a11y.ratio.lowercase.farFrom,
-  ratioAndProportionStrings.a11y.ratio.lowercase.notSoCloseTo,
-  ratioAndProportionStrings.a11y.ratio.lowercase.somewhatCloseTo,
-  ratioAndProportionStrings.a11y.ratio.lowercase.veryCloseTo,
-  ratioAndProportionStrings.a11y.ratio.lowercase.extremelyCloseTo,
-  ratioAndProportionStrings.a11y.ratio.lowercase.at
+  RatioAndProportionStrings.a11y.ratio.lowercase.extremelyFarFrom,
+  RatioAndProportionStrings.a11y.ratio.lowercase.veryFarFrom,
+  RatioAndProportionStrings.a11y.ratio.lowercase.farFrom,
+  RatioAndProportionStrings.a11y.ratio.lowercase.notSoCloseTo,
+  RatioAndProportionStrings.a11y.ratio.lowercase.somewhatCloseTo,
+  RatioAndProportionStrings.a11y.ratio.lowercase.veryCloseTo,
+  RatioAndProportionStrings.a11y.ratio.lowercase.extremelyCloseTo,
+  RatioAndProportionStrings.a11y.ratio.lowercase.at
 ];
 
 const NUMBER_TO_WORD = [
-  sceneryPhetStrings.zero,
-  sceneryPhetStrings.one,
-  sceneryPhetStrings.two,
-  sceneryPhetStrings.three,
-  sceneryPhetStrings.four,
-  sceneryPhetStrings.five,
-  sceneryPhetStrings.six,
-  sceneryPhetStrings.seven,
-  sceneryPhetStrings.eight,
-  sceneryPhetStrings.nine,
-  sceneryPhetStrings.ten
+  SceneryPhetStrings.zero,
+  SceneryPhetStrings.one,
+  SceneryPhetStrings.two,
+  SceneryPhetStrings.three,
+  SceneryPhetStrings.four,
+  SceneryPhetStrings.five,
+  SceneryPhetStrings.six,
+  SceneryPhetStrings.seven,
+  SceneryPhetStrings.eight,
+  SceneryPhetStrings.nine,
+  SceneryPhetStrings.ten
 ];
 
 // an unclamped fitness of 0 should map to "somewhatCloseTo" region
@@ -75,7 +75,7 @@ class RatioDescriber {
   public getRatioFitness( capitalized = true ): string {
 
     const lastIndex = RATIO_FITNESS_STRINGS_CAPITALIZED.length - 1;
-    assert && assert( RATIO_FITNESS_STRINGS_LOWERCASE[ lastIndex ] === ratioAndProportionStrings.a11y.ratio.lowercase.at, 'There are assumptions made about the order of these regions, likely this should not change.' );
+    assert && assert( RATIO_FITNESS_STRINGS_LOWERCASE[ lastIndex ] === RatioAndProportionStrings.a11y.ratio.lowercase.at, 'There are assumptions made about the order of these regions, likely this should not change.' );
 
     const ratioRegions = capitalized ? RATIO_FITNESS_STRINGS_CAPITALIZED : RATIO_FITNESS_STRINGS_LOWERCASE;
 
@@ -99,19 +99,19 @@ class RatioDescriber {
   }
 
   public getProximityToChallengeRatio(): string {
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.proximityToRatioObjectResponse, {
+    return StringUtils.fillIn( RatioAndProportionStrings.a11y.ratio.proximityToRatioObjectResponse, {
       proximityToRatio: this.getRatioFitness( false )
     } );
   }
 
   public getProximityToNewChallengeRatioSentence(): string {
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.proximityToNewRatioPattern, {
+    return StringUtils.fillIn( RatioAndProportionStrings.a11y.ratio.proximityToNewRatioPattern, {
       proximity: this.getRatioFitness( false )
     } );
   }
 
   public getCurrentChallengeSentence( antecedent: number, consequent: number ): string {
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.currentChallenge, {
+    return StringUtils.fillIn( RatioAndProportionStrings.a11y.ratio.currentChallenge, {
 
       // for consistency with all values, see https://github.com/phetsims/ratio-and-proportion/issues/283
       targetAntecedent: this.getWordFromNumber( antecedent ),
@@ -120,7 +120,7 @@ class RatioDescriber {
   }
 
   public getTargetRatioChangeAlert( antecedent: number, consequent: number ): string {
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.ratio.targetRatioChangedContextResponse, {
+    return StringUtils.fillIn( RatioAndProportionStrings.a11y.ratio.targetRatioChangedContextResponse, {
       proximityToRatio: this.getProximityToNewChallengeRatioSentence(),
       currentChallenge: this.getCurrentChallengeSentence( antecedent, consequent )
     } );

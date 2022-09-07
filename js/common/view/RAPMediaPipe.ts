@@ -41,7 +41,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import MediaPipeQueryParameters from '../../../../tangible/js/mediaPipe/MediaPipeQueryParameters.js';
-import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import PreferencesDialog from '../../../../joist/js/preferences/PreferencesDialog.js';
 
 if ( MediaPipeQueryParameters.cameraInput === 'hands' ) {
@@ -331,26 +331,26 @@ class RAPMediaPipe extends MediaPipe {
       spacing: 5,
       align: 'left',
       children: [
-        new VoicingText( ratioAndProportionStrings.customizeHandMovementStringProperty, combineOptions<TextOptions>( {
+        new VoicingText( RatioAndProportionStrings.customizeHandMovementStringProperty, combineOptions<TextOptions>( {
           tagName: 'h3',
-          accessibleName: ratioAndProportionStrings.customizeHandMovementStringProperty
+          accessibleName: RatioAndProportionStrings.customizeHandMovementStringProperty
         }, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS ) ),
         new Checkbox( rapMediaPipeOptions.yAxisFlippedProperty,
-          new RichText( ratioAndProportionStrings.cameraInputFlipYStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ), {
-            voicingNameResponse: ratioAndProportionStrings.cameraInputFlipYStringProperty,
+          new RichText( RatioAndProportionStrings.cameraInputFlipYStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ), {
+            voicingNameResponse: RatioAndProportionStrings.cameraInputFlipYStringProperty,
             voiceNameResponseOnSelection: false,
-            accessibleName: ratioAndProportionStrings.cameraInputFlipYStringProperty,
-            checkedContextResponse: ratioAndProportionStrings.a11y.cameraInputFlipYCheckedStringProperty,
-            uncheckedContextResponse: ratioAndProportionStrings.a11y.cameraInputFlipYUncheckedStringProperty,
+            accessibleName: RatioAndProportionStrings.cameraInputFlipYStringProperty,
+            checkedContextResponse: RatioAndProportionStrings.a11y.cameraInputFlipYCheckedStringProperty,
+            uncheckedContextResponse: RatioAndProportionStrings.a11y.cameraInputFlipYUncheckedStringProperty,
             tandem: Tandem.OPT_OUT
           } ),
         new Checkbox( rapMediaPipeOptions.xAxisFlippedProperty,
-          new RichText( ratioAndProportionStrings.cameraInputFlipXStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ), {
-            voicingNameResponse: ratioAndProportionStrings.cameraInputFlipXStringProperty,
+          new RichText( RatioAndProportionStrings.cameraInputFlipXStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ), {
+            voicingNameResponse: RatioAndProportionStrings.cameraInputFlipXStringProperty,
             voiceNameResponseOnSelection: false,
-            accessibleName: ratioAndProportionStrings.cameraInputFlipXStringProperty,
-            checkedContextResponse: ratioAndProportionStrings.a11y.cameraInputFlipXCheckedStringProperty,
-            uncheckedContextResponse: ratioAndProportionStrings.a11y.cameraInputFlipXUncheckedStringProperty,
+            accessibleName: RatioAndProportionStrings.cameraInputFlipXStringProperty,
+            checkedContextResponse: RatioAndProportionStrings.a11y.cameraInputFlipXCheckedStringProperty,
+            uncheckedContextResponse: RatioAndProportionStrings.a11y.cameraInputFlipXUncheckedStringProperty,
             tandem: Tandem.OPT_OUT
           } )
       ]

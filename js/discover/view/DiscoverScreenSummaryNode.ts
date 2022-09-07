@@ -11,7 +11,7 @@ import Property from '../../../../axon/js/Property.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import RAPRatioTuple from '../../common/model/RAPRatioTuple.js';
 import HandPositionsDescriber from '../../common/view/describers/HandPositionsDescriber.js';
 import TickMarkView from '../../common/view/TickMarkView.js';
@@ -52,21 +52,21 @@ class DiscoverScreenSummaryNode extends Node {
       children: [
         new Node( {
           tagName: 'p',
-          innerContent: ratioAndProportionStrings.a11y.discover.screenSummary.paragraph1
+          innerContent: RatioAndProportionStrings.a11y.discover.screenSummary.paragraph1
         } ),
         new Node( {
           tagName: 'p',
-          innerContent: ratioAndProportionStrings.a11y.discover.screenSummary.paragraph2
+          innerContent: RatioAndProportionStrings.a11y.discover.screenSummary.paragraph2
         } ),
         new Node( {
           tagName: 'p',
-          innerContent: ratioAndProportionStrings.a11y.discover.screenSummary.paragraph3
+          innerContent: RatioAndProportionStrings.a11y.discover.screenSummary.paragraph3
         } ),
         stateOfSimNode,
         descriptionBullets,
         new Node( {
           tagName: 'p',
-          innerContent: ratioAndProportionStrings.a11y.discover.screenSummary.interactionHint
+          innerContent: RatioAndProportionStrings.a11y.discover.screenSummary.interactionHint
         } )
       ]
     } );
@@ -96,7 +96,7 @@ class DiscoverScreenSummaryNode extends Node {
   }
 
   private getStateOfSim(): string {
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.screenSummaryQualitativeStateOfSim, {
+    return StringUtils.fillIn( RatioAndProportionStrings.a11y.screenSummaryQualitativeStateOfSim, {
       color: BackgroundColorHandler.getCurrentColorRegion( this.ratioFitnessProperty.value, this.inProportionProperty.value ),
       ratioFitness: this.ratioDescriber.getRatioFitness( false ),
       currentChallenge: this.ratioToChallengeInfoMap.get( this.targetRatioProperty.value )!.lowercase,
@@ -105,19 +105,19 @@ class DiscoverScreenSummaryNode extends Node {
   }
 
   private getLeftHandState(): string {
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
+    return StringUtils.fillIn( RatioAndProportionStrings.a11y.leftHandBullet, {
       position: this.handPositionsDescriber.getHandPositionDescription( this.ratioTupleProperty.value.antecedent, this.tickMarkViewProperty.value )
     } );
   }
 
   private getRightHandState(): string {
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
+    return StringUtils.fillIn( RatioAndProportionStrings.a11y.rightHandBullet, {
       position: this.handPositionsDescriber.getHandPositionDescription( this.ratioTupleProperty.value.consequent, this.tickMarkViewProperty.value )
     } );
   }
 
   public getDetailsButtonState(): string {
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.detailsButtonPattern, {
+    return StringUtils.fillIn( RatioAndProportionStrings.a11y.detailsButtonPattern, {
       stateOfSim: this.getStateOfSim(),
       leftHand: this.getLeftHandState(),
       rightHand: this.getRightHandState()

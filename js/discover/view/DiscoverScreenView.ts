@@ -8,7 +8,7 @@ import Property from '../../../../axon/js/Property.js';
 import { Color, Node } from '../../../../scenery/js/imports.js';
 import RAPScreenView from '../../common/view/RAPScreenView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import ChallengeRatioComboBoxNode from './ChallengeRatioComboBoxNode.js';
 import DiscoverScreenSummaryNode from './DiscoverScreenSummaryNode.js';
 import RAPModel from '../../common/model/RAPModel.js';
@@ -32,7 +32,7 @@ class DiscoverScreenView extends RAPScreenView {
       leftHandColorProperty: handColorProperty,
       rightHandColorProperty: handColorProperty,
       bothHandsPDOMNodeOptions: {
-        gestureDescriptionHelpText: ratioAndProportionStrings.a11y.discover.bothHandsGestureDescriptionHelpText
+        gestureDescriptionHelpText: RatioAndProportionStrings.a11y.discover.bothHandsGestureDescriptionHelpText
       },
       tandem: tandem
     } );
@@ -86,7 +86,7 @@ class DiscoverScreenView extends RAPScreenView {
   }
 
   public override getVoicingOverviewContent(): string {
-    return ratioAndProportionStrings.a11y.discover.overviewSentence;
+    return RatioAndProportionStrings.a11y.discover.overviewSentence;
   }
 
   public override getVoicingDetailsContent(): string {
@@ -94,7 +94,7 @@ class DiscoverScreenView extends RAPScreenView {
   }
 
   public override getVoicingHintContent(): string {
-    return ratioAndProportionStrings.a11y.discover.screenSummary.interactionHint;
+    return RatioAndProportionStrings.a11y.discover.screenSummary.interactionHint;
   }
 }
 

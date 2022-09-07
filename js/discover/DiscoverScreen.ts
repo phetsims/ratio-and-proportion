@@ -8,7 +8,7 @@ import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import RAPModel from '../common/model/RAPModel.js';
 import ratioAndProportion from '../ratioAndProportion.js';
-import ratioAndProportionStrings from '../ratioAndProportionStrings.js';
+import RatioAndProportionStrings from '../RatioAndProportionStrings.js';
 import DiscoverScreenIcon from './view/DiscoverScreenIcon.js';
 import DiscoverScreenKeyboardHelpContent from './view/DiscoverScreenKeyboardHelpContent.js';
 import DiscoverScreenView from './view/DiscoverScreenView.js';
@@ -24,8 +24,8 @@ class DiscoverScreen extends Screen<RAPModel, DiscoverScreenView> {
       backgroundColorProperty: backgroundColorProperty,
       tandem: tandem,
       homeScreenIcon: new DiscoverScreenIcon(),
-      name: ratioAndProportionStrings.screen.discoverStringProperty,
-      descriptionContent: ratioAndProportionStrings.a11y.discover.homeScreenDescription,
+      name: RatioAndProportionStrings.screen.discoverStringProperty,
+      descriptionContent: RatioAndProportionStrings.a11y.discover.homeScreenDescription,
       keyboardHelpNode: new DiscoverScreenKeyboardHelpContent()
     };
 

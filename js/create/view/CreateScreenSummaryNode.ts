@@ -11,7 +11,7 @@ import Property from '../../../../axon/js/Property.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import RAPRatioTuple from '../../common/model/RAPRatioTuple.js';
 import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
 import HandPositionsDescriber from '../../common/view/describers/HandPositionsDescriber.js';
@@ -54,21 +54,21 @@ class CreateScreenSummaryNode extends Node {
       children: [
         new Node( {
           tagName: 'p',
-          innerContent: ratioAndProportionStrings.a11y.create.screenSummary.paragraph1StringProperty
+          innerContent: RatioAndProportionStrings.a11y.create.screenSummary.paragraph1StringProperty
         } ),
         new Node( {
           tagName: 'p',
-          innerContent: ratioAndProportionStrings.a11y.create.screenSummary.paragraph2StringProperty
+          innerContent: RatioAndProportionStrings.a11y.create.screenSummary.paragraph2StringProperty
         } ),
         new Node( {
           tagName: 'p',
-          innerContent: ratioAndProportionStrings.a11y.screenSummaryControlAreaParagraphStringProperty
+          innerContent: RatioAndProportionStrings.a11y.screenSummaryControlAreaParagraphStringProperty
         } ),
         stateOfSimNode,
         descriptionBullets,
         new Node( {
           tagName: 'p',
-          innerContent: ratioAndProportionStrings.a11y.create.screenSummary.interactionHintStringProperty
+          innerContent: RatioAndProportionStrings.a11y.create.screenSummary.interactionHintStringProperty
         } )
       ]
     } );
@@ -106,8 +106,8 @@ class CreateScreenSummaryNode extends Node {
     } );
   }
 
-  private getStateOfSim( currentChallenge: string = ratioAndProportionStrings.a11y.create.challenge ): string {
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.screenSummaryQualitativeStateOfSim, {
+  private getStateOfSim( currentChallenge: string = RatioAndProportionStrings.a11y.create.challenge ): string {
+    return StringUtils.fillIn( RatioAndProportionStrings.a11y.screenSummaryQualitativeStateOfSim, {
       color: BackgroundColorHandler.getCurrentColorRegion( this.ratioFitnessProperty.value, this.inProportionProperty.value ),
       ratioFitness: this.ratioDescriber.getRatioFitness( false ),
       currentChallenge: currentChallenge,
@@ -116,13 +116,13 @@ class CreateScreenSummaryNode extends Node {
   }
 
   private getLeftHandState(): string {
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.leftHandBullet, {
+    return StringUtils.fillIn( RatioAndProportionStrings.a11y.leftHandBullet, {
       position: this.handPositionsDescriber.getHandPositionDescription( this.ratioTupleProperty.value.antecedent, this.tickMarkViewProperty.value )
     } );
   }
 
   private getRightHandState(): string {
-    return StringUtils.fillIn( ratioAndProportionStrings.a11y.rightHandBullet, {
+    return StringUtils.fillIn( RatioAndProportionStrings.a11y.rightHandBullet, {
       position: this.handPositionsDescriber.getHandPositionDescription( this.ratioTupleProperty.value.consequent, this.tickMarkViewProperty.value )
     } );
   }
@@ -135,8 +135,8 @@ class CreateScreenSummaryNode extends Node {
 
   public getDetailsButtonState(): string {
     const pattern = this.myChallengeAccordionBox.expandedProperty.value ?
-                    ratioAndProportionStrings.a11y.detailsButtonWithCurrentChallengePattern :
-                    ratioAndProportionStrings.a11y.detailsButtonPattern;
+                    RatioAndProportionStrings.a11y.detailsButtonWithCurrentChallengePattern :
+                    RatioAndProportionStrings.a11y.detailsButtonPattern;
     return StringUtils.fillIn( pattern, {
       stateOfSim: this.getStateOfSim(),
       leftHand: this.getLeftHandState(),

@@ -8,7 +8,7 @@ import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import RAPModel from '../common/model/RAPModel.js';
 import ratioAndProportion from '../ratioAndProportion.js';
-import ratioAndProportionStrings from '../ratioAndProportionStrings.js';
+import RatioAndProportionStrings from '../RatioAndProportionStrings.js';
 import CreateScreenIcon from './view/CreateScreenIcon.js';
 import CreateScreenKeyboardHelpContent from './view/CreateScreenKeyboardHelpContent.js';
 import CreateScreenView from './view/CreateScreenView.js';
@@ -27,8 +27,8 @@ class CreateScreen extends Screen<RAPModel, CreateScreenView> {
         backgroundColorProperty: backgroundColorProperty,
         tandem: tandem,
         homeScreenIcon: new CreateScreenIcon(),
-        name: ratioAndProportionStrings.screen.createStringProperty,
-        descriptionContent: ratioAndProportionStrings.a11y.create.homeScreenDescription,
+        name: RatioAndProportionStrings.screen.createStringProperty,
+        descriptionContent: RatioAndProportionStrings.a11y.create.homeScreenDescription,
         keyboardHelpNode: new CreateScreenKeyboardHelpContent()
       }
     );

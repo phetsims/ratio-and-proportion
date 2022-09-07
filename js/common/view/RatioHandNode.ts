@@ -24,7 +24,7 @@ import CueDisplay from './CueDisplay.js';
 import getKeyboardInputSnappingMapper from './getKeyboardInputSnappingMapper.js';
 import RAPColors from './RAPColors.js';
 import TickMarkView from './TickMarkView.js';
-import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -80,7 +80,7 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
       a11yDependencies: [],
 
       // Voicing
-      voicingHintResponse: ratioAndProportionStrings.a11y.individualHandsVoicingHelpTextStringProperty,
+      voicingHintResponse: RatioAndProportionStrings.a11y.individualHandsVoicingHelpTextStringProperty,
       voicingUtterance: new Utterance( {
         alertMaximumDelay: 500 // same as ISLCObjectNode
       } )

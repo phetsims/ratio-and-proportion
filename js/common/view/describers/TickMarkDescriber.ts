@@ -8,7 +8,7 @@
 
 import Utils from '../../../../../dot/js/Utils.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
-import ratioAndProportionStrings from '../../../ratioAndProportionStrings.js';
+import RatioAndProportionStrings from '../../../RatioAndProportionStrings.js';
 import rapConstants from '../../rapConstants.js';
 import TickMarkView from '../TickMarkView.js';
 import Property from '../../../../../axon/js/Property.js';
@@ -16,38 +16,38 @@ import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
 
 const ORDINAL_TICK_MARKS = [
   null,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.first,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.second,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.third,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.fourth,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.fifth,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.sixth,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.seventh,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.eighth,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.ninth,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.tenth,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.eleventh,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.twelfth,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.thirteenth,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.fourteenth,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.fifteenth,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.sixteenth,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.seventeenth,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.eighteenth,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.nineteenth,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.twentieth,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.twentyFirst,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.twentySecond,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.twentyThird,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.twentyFourth,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.twentyFifth,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.twentySixth,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.twentySeventh,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.twentyEighth,
-  ratioAndProportionStrings.a11y.tickMark.ordinal.twentyNinth
+  RatioAndProportionStrings.a11y.tickMark.ordinal.first,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.second,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.third,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.fourth,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.fifth,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.sixth,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.seventh,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.eighth,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.ninth,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.tenth,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.eleventh,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.twelfth,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.thirteenth,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.fourteenth,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.fifteenth,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.sixteenth,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.seventeenth,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.eighteenth,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.nineteenth,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.twentieth,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.twentyFirst,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.twentySecond,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.twentyThird,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.twentyFourth,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.twentyFifth,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.twentySixth,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.twentySeventh,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.twentyEighth,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.twentyNinth
 ];
 
-const zeroString: 'zero' = ratioAndProportionStrings.a11y.tickMark.relative.zero as 'zero';
+const zeroString: 'zero' = RatioAndProportionStrings.a11y.tickMark.relative.zero as 'zero';
 
 type TickMarkDescriptionData = {
   tickMarkPosition: number | 'zero';
@@ -109,24 +109,24 @@ class TickMarkDescriber {
 
     if ( remainder === TOTAL_RANGE.min ) {
       if ( inZeroCase ) {
-        relativePosition = ratioAndProportionStrings.a11y.tickMark.relative.at;
+        relativePosition = RatioAndProportionStrings.a11y.tickMark.relative.at;
 
         tickMarkDisplayedNumber = zeroString;
         ordinalPosition = null;
       }
       else {
-        relativePosition = ratioAndProportionStrings.a11y.tickMark.relative.on;
+        relativePosition = RatioAndProportionStrings.a11y.tickMark.relative.on;
       }
     }
     else if ( remainder <= 0.2 ) {
       if ( inZeroCase ) {
-        relativePosition = ratioAndProportionStrings.a11y.tickMark.relative.near;
+        relativePosition = RatioAndProportionStrings.a11y.tickMark.relative.near;
 
         tickMarkDisplayedNumber = zeroString;
         ordinalPosition = null;
       }
       else {
-        relativePosition = ratioAndProportionStrings.a11y.tickMark.relative.around;
+        relativePosition = RatioAndProportionStrings.a11y.tickMark.relative.around;
       }
     }
     else if ( remainder <= ROUND_DOWN_THRESHOLD ) {
@@ -135,28 +135,28 @@ class TickMarkDescriber {
       tickMarkDisplayedNumber += 0.5; // For these middle values, add .5
 
       if ( remainder < 0.5 ) {
-        relativePosition = useExactTickMarkValues ? ratioAndProportionStrings.a11y.tickMark.relative.almostOn :
-                           inZeroCase ? ratioAndProportionStrings.a11y.tickMark.relative.almostHalfwayTo :
-                           ratioAndProportionStrings.a11y.tickMark.relative.almostHalfwayPast;
+        relativePosition = useExactTickMarkValues ? RatioAndProportionStrings.a11y.tickMark.relative.almostOn :
+                           inZeroCase ? RatioAndProportionStrings.a11y.tickMark.relative.almostHalfwayTo :
+                           RatioAndProportionStrings.a11y.tickMark.relative.almostHalfwayPast;
       }
       else if ( remainder === 0.5 ) {
 
         // If showing numbers, then the description looks like "on 2.5" instead of "half-way past second"
-        relativePosition = useExactTickMarkValues ? ratioAndProportionStrings.a11y.tickMark.relative.on :
-                           inZeroCase ? ratioAndProportionStrings.a11y.tickMark.relative.halfwayTo :
-                           ratioAndProportionStrings.a11y.tickMark.relative.halfwayPast;
+        relativePosition = useExactTickMarkValues ? RatioAndProportionStrings.a11y.tickMark.relative.on :
+                           inZeroCase ? RatioAndProportionStrings.a11y.tickMark.relative.halfwayTo :
+                           RatioAndProportionStrings.a11y.tickMark.relative.halfwayPast;
       }
       else if ( remainder <= ROUND_DOWN_THRESHOLD ) {
-        relativePosition = useExactTickMarkValues ? ratioAndProportionStrings.a11y.tickMark.relative.around :
-                           inZeroCase ? ratioAndProportionStrings.a11y.tickMark.relative.aroundHalfwayTo :
-                           ratioAndProportionStrings.a11y.tickMark.relative.aroundHalfwayPast;
+        relativePosition = useExactTickMarkValues ? RatioAndProportionStrings.a11y.tickMark.relative.around :
+                           inZeroCase ? RatioAndProportionStrings.a11y.tickMark.relative.aroundHalfwayTo :
+                           RatioAndProportionStrings.a11y.tickMark.relative.aroundHalfwayPast;
       }
       else {
         assert && assert( false, 'all cases should be covered' );
       }
     }
     else if ( remainder < 1 ) {
-      relativePosition = ratioAndProportionStrings.a11y.tickMark.relative.almostOn;
+      relativePosition = RatioAndProportionStrings.a11y.tickMark.relative.almostOn;
     }
     else {
       assert && assert( false, `unexpected remainder value: ${remainder}` );

@@ -10,7 +10,7 @@ import { ParallelDOM, Path, PathOptions } from '../../../../scenery/js/imports.j
 import eyeSlashSolidShape from '../../../../sherpa/js/fontawesome-5/eyeSlashSolidShape.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import TickMarkView from './TickMarkView.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -32,7 +32,7 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkV
       },
 
       // pdom
-      labelContent: ratioAndProportionStrings.a11y.tickMark.headingStringProperty,
+      labelContent: RatioAndProportionStrings.a11y.tickMark.headingStringProperty,
       helpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT
     }, providedOptions );
 
@@ -40,11 +40,11 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkV
       node: new Path( eyeSlashSolidShape, { scale: 0.05, fill: 'black' } ),
       value: TickMarkView.NONE,
 
-      interactiveDescriptionContextResponse: ratioAndProportionStrings.a11y.tickMark.tickMarksHiddenStringProperty,
-      voicingContextResponse: ratioAndProportionStrings.a11y.tickMark.tickMarksHiddenStringProperty,
+      interactiveDescriptionContextResponse: RatioAndProportionStrings.a11y.tickMark.tickMarksHiddenStringProperty,
+      voicingContextResponse: RatioAndProportionStrings.a11y.tickMark.tickMarksHiddenStringProperty,
 
       // pdom
-      labelContent: ratioAndProportionStrings.a11y.tickMark.showNoStringProperty,
+      labelContent: RatioAndProportionStrings.a11y.tickMark.showNoStringProperty,
 
       // phet-io
       tandemName: 'showNoRadioButton'
@@ -52,11 +52,11 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkV
       node: new TickMarksIconPath(),
       value: TickMarkView.VISIBLE,
 
-      interactiveDescriptionContextResponse: ratioAndProportionStrings.a11y.tickMark.tickMarksShownStringProperty,
-      voicingContextResponse: ratioAndProportionStrings.a11y.tickMark.tickMarksShownStringProperty,
+      interactiveDescriptionContextResponse: RatioAndProportionStrings.a11y.tickMark.tickMarksShownStringProperty,
+      voicingContextResponse: RatioAndProportionStrings.a11y.tickMark.tickMarksShownStringProperty,
 
       // pdom
-      labelContent: ratioAndProportionStrings.a11y.tickMark.showStringProperty,
+      labelContent: RatioAndProportionStrings.a11y.tickMark.showStringProperty,
 
       // phet-io
       tandemName: 'showRadioButton'
@@ -64,11 +64,11 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkV
       node: new NumberedTickMarksIconPath(),
       value: TickMarkView.VISIBLE_WITH_UNITS,
 
-      interactiveDescriptionContextResponse: ratioAndProportionStrings.a11y.tickMark.numberedTickMarksShownStringProperty,
-      voicingContextResponse: ratioAndProportionStrings.a11y.tickMark.numberedTickMarksShownStringProperty,
+      interactiveDescriptionContextResponse: RatioAndProportionStrings.a11y.tickMark.numberedTickMarksShownStringProperty,
+      voicingContextResponse: RatioAndProportionStrings.a11y.tickMark.numberedTickMarksShownStringProperty,
 
       // pdom
-      labelContent: ratioAndProportionStrings.a11y.tickMark.showNumberedStringProperty,
+      labelContent: RatioAndProportionStrings.a11y.tickMark.showNumberedStringProperty,
 
       // phet-io
       tandemName: 'showNumberedRadioButton'

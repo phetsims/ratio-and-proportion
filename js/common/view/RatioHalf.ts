@@ -41,7 +41,7 @@ import MappedProperty from '../../../../axon/js/MappedProperty.js';
 import RAPRatio from '../model/RAPRatio.js';
 import TickMarkDescriber from './describers/TickMarkDescriber.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 
 // constants
 const MIN_FRAMING_RECTANGLE_HEIGHT = 32;
@@ -258,7 +258,7 @@ class RatioHalf extends Rectangle {
 
     const accessibleNameProperty = new DerivedProperty( [
       this.ratio.lockedProperty,
-      ratioAndProportionStrings.a11y.handLockedPatternStringProperty
+      RatioAndProportionStrings.a11y.handLockedPatternStringProperty
     ], ( locked, handLockedPattern ) => {
       return !locked ? providedAccessibleName : StringUtils.fillIn( handLockedPattern, {
         hand: providedAccessibleName

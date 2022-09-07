@@ -20,7 +20,7 @@ import ActivationUtterance from '../../../../utterance-queue/js/ActivationUttera
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
 import TickMarkView from '../../common/view/TickMarkView.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
@@ -69,15 +69,15 @@ class MyChallengeAccordionBox extends AccordionBox {
     const createAccordionBoxContextResponse = () => {
       return expandedProperty.value ?
              ratioDescriber.getCurrentChallengeSentence( targetAntecedentProperty.value, targetConsequentProperty.value ) :
-             ratioAndProportionStrings.a11y.ratio.currentChallengeHidden;
+             RatioAndProportionStrings.a11y.ratio.currentChallengeHidden;
     };
 
     const options = optionize<MyChallengeAccordionBoxOptions, EmptySelfOptions, AccordionBoxOptions>()( {
-      titleNode: new RichText( ratioAndProportionStrings.myChallengeStringProperty, {
+      titleNode: new RichText( RatioAndProportionStrings.myChallengeStringProperty, {
         font: new PhetFont( 20 ),
         maxWidth: 250 // empirically determined
       } ),
-      accessibleName: ratioAndProportionStrings.myChallenge,
+      accessibleName: RatioAndProportionStrings.myChallenge,
       titleAlignX: 'left',
       contentXMargin: 26,
       contentYMargin: 15,
@@ -96,11 +96,11 @@ class MyChallengeAccordionBox extends AccordionBox {
       expandedProperty: expandedProperty,
 
       // voicing
-      voicingNameResponse: ratioAndProportionStrings.myChallenge,
+      voicingNameResponse: RatioAndProportionStrings.myChallenge,
       voicingContextResponse: createAccordionBoxContextResponse,
 
       // Only deliver the hint if not expanded
-      voicingHintResponse: () => expandedProperty.value ? null : ratioAndProportionStrings.a11y.create.myChallengeHintText,
+      voicingHintResponse: () => expandedProperty.value ? null : RatioAndProportionStrings.a11y.create.myChallengeHintText,
 
       // phet-io
       tandem: Tandem.REQUIRED
@@ -108,7 +108,7 @@ class MyChallengeAccordionBox extends AccordionBox {
 
     const ratioUnlockedFromMyChallenge = new Utterance( {
       alert: new ResponsePacket( {
-        contextResponse: ratioAndProportionStrings.a11y.ratioNoLongerLocked
+        contextResponse: RatioAndProportionStrings.a11y.ratioNoLongerLocked
       } ),
       priority: Utterance.MEDIUM_PRIORITY
     } );
@@ -119,13 +119,13 @@ class MyChallengeAccordionBox extends AccordionBox {
       scale: PICKER_SCALE,
       color: handColorProperty.value,
       center: Vector2.ZERO,
-      accessibleName: ratioAndProportionStrings.a11y.leftValue,
+      accessibleName: RatioAndProportionStrings.a11y.leftValue,
       a11yDependencies: [ targetConsequentProperty ],
       a11yCreateAriaValueText: ratioDescriber.getWordFromNumber,
       a11yCreateContextResponseAlert: createNumberPickerContextResponse,
 
       // voicing
-      voicingNameResponse: ratioAndProportionStrings.a11y.leftValue,
+      voicingNameResponse: RatioAndProportionStrings.a11y.leftValue,
       voicingObjectResponse: () => ratioDescriber.getWordFromNumber( targetAntecedentProperty.value ),
       voicingContextResponse: createNumberPickerContextResponse,
 
@@ -148,13 +148,13 @@ class MyChallengeAccordionBox extends AccordionBox {
       scale: PICKER_SCALE,
       color: handColorProperty.value,
       center: Vector2.ZERO,
-      accessibleName: ratioAndProportionStrings.a11y.rightValue,
+      accessibleName: RatioAndProportionStrings.a11y.rightValue,
       a11yDependencies: [ targetAntecedentProperty ],
       a11yCreateAriaValueText: ratioDescriber.getWordFromNumber,
       a11yCreateContextResponseAlert: createNumberPickerContextResponse,
 
       // voicing
-      voicingNameResponse: ratioAndProportionStrings.a11y.rightValue,
+      voicingNameResponse: RatioAndProportionStrings.a11y.rightValue,
       voicingObjectResponse: () => ratioDescriber.getWordFromNumber( targetConsequentProperty.value ),
       voicingContextResponse: createNumberPickerContextResponse,
 
@@ -174,7 +174,7 @@ class MyChallengeAccordionBox extends AccordionBox {
     const myChallengeContent = new HBox( {
       spacing: 40,
       tagName: 'div',
-      descriptionContent: ratioAndProportionStrings.a11y.create.myChallengeHelpText, // help text for the content
+      descriptionContent: RatioAndProportionStrings.a11y.create.myChallengeHelpText, // help text for the content
       children: [ leftRatioSelector, rightRatioSelector ]
     } );
 
@@ -182,7 +182,7 @@ class MyChallengeAccordionBox extends AccordionBox {
     // type is NodeOptions.
     const readingBlockOptions: ReadingBlockOptions & NodeOptions = {
       children: [ myChallengeContent ],
-      readingBlockHintResponse: ratioAndProportionStrings.a11y.create.myChallengeReadingBlockHintText,
+      readingBlockHintResponse: RatioAndProportionStrings.a11y.create.myChallengeReadingBlockHintText,
       readingBlockNameResponse: createAccordionBoxContextResponse,
       readingBlockResponsePatternCollection: new ResponsePatternCollection( {
         nameHint: '{{NAME}} {{HINT}}'

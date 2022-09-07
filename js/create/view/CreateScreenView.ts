@@ -12,7 +12,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import RAPColors from '../../common/view/RAPColors.js';
 import RAPScreenView from '../../common/view/RAPScreenView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import CreateScreenSummaryNode from './CreateScreenSummaryNode.js';
 import MyChallengeAccordionBox from './MyChallengeAccordionBox.js';
 import TickMarkRangeComboBoxNode from './TickMarkRangeComboBoxNode.js';
@@ -41,7 +41,7 @@ class CreateScreenView extends RAPScreenView {
       leftHandColorProperty: handColorProperty,
       rightHandColorProperty: handColorProperty,
       bothHandsPDOMNodeOptions: {
-        gestureDescriptionHelpText: ratioAndProportionStrings.a11y.create.bothHandsGestureDescriptionHelpText
+        gestureDescriptionHelpText: RatioAndProportionStrings.a11y.create.bothHandsGestureDescriptionHelpText
       },
       tandem: tandem
     } );
@@ -73,18 +73,18 @@ class CreateScreenView extends RAPScreenView {
     const ratioLockContent = new HBox( {
       spacing: 8,
       children: [
-        new Text( ratioAndProportionStrings.ratioLockStringProperty, { font: new PhetFont( 20 ) } ),
+        new Text( RatioAndProportionStrings.ratioLockStringProperty, { font: new PhetFont( 20 ) } ),
         new LockNode( model.ratio.lockedProperty, { scale: 0.5 } )
       ]
     } );
 
     const ratioLockCheckbox = new Checkbox( model.ratio.lockedProperty, ratioLockContent, {
-      accessibleName: ratioAndProportionStrings.ratioLock,
-      voicingNameResponse: ratioAndProportionStrings.ratioLock,
+      accessibleName: RatioAndProportionStrings.ratioLock,
+      voicingNameResponse: RatioAndProportionStrings.ratioLock,
       maxWidth: 250, // empirically determined
 
-      checkedContextResponse: ratioAndProportionStrings.a11y.ratioLockCheckboxContextResponse,
-      uncheckedContextResponse: ratioAndProportionStrings.a11y.ratioNoLongerLocked,
+      checkedContextResponse: RatioAndProportionStrings.a11y.ratioLockCheckboxContextResponse,
+      uncheckedContextResponse: RatioAndProportionStrings.a11y.ratioNoLongerLocked,
 
       // phet-io
       tandem: tandem.createTandem( 'ratioLockCheckbox' )
@@ -92,8 +92,8 @@ class CreateScreenView extends RAPScreenView {
 
     ratioLockCheckbox.enabledProperty.link( ( enabled: boolean ) => {
 
-      ratioLockCheckbox.helpText = enabled ? ratioAndProportionStrings.a11y.ratioLockEnabledHelpText : ratioAndProportionStrings.a11y.ratioLockDisabledHelpText;
-      ratioLockCheckbox.voicingHintResponse = enabled ? ratioAndProportionStrings.a11y.ratioLockEnabledHelpText : ratioAndProportionStrings.a11y.ratioLockDisabledHelpText;
+      ratioLockCheckbox.helpText = enabled ? RatioAndProportionStrings.a11y.ratioLockEnabledHelpText : RatioAndProportionStrings.a11y.ratioLockDisabledHelpText;
+      ratioLockCheckbox.voicingHintResponse = enabled ? RatioAndProportionStrings.a11y.ratioLockEnabledHelpText : RatioAndProportionStrings.a11y.ratioLockDisabledHelpText;
     } );
 
     ratioLockCheckbox.touchArea = ratioLockCheckbox.localBounds.dilatedXY( 8, 0.5 * ratioLockCheckbox.height );
@@ -160,7 +160,7 @@ class CreateScreenView extends RAPScreenView {
   }
 
   public override getVoicingOverviewContent(): string {
-    return ratioAndProportionStrings.a11y.create.overviewSentence;
+    return RatioAndProportionStrings.a11y.create.overviewSentence;
   }
 
   public override getVoicingDetailsContent(): string {
@@ -168,7 +168,7 @@ class CreateScreenView extends RAPScreenView {
   }
 
   public override getVoicingHintContent(): string {
-    return ratioAndProportionStrings.a11y.create.screenSummary.interactionHint;
+    return RatioAndProportionStrings.a11y.create.screenSummary.interactionHint;
   }
 }
 

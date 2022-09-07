@@ -7,7 +7,7 @@
  */
 
 import ratioAndProportion from '../../ratioAndProportion.js';
-import ratioAndProportionStrings from '../../ratioAndProportionStrings.js';
+import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import Property from '../../../../axon/js/Property.js';
 import rapConstants from '../rapConstants.js';
 import RAPColors from './RAPColors.js';
@@ -18,11 +18,11 @@ import Multilink from '../../../../axon/js/Multilink.js';
 
 // constants
 const BACKGROUND_COLOR_STRINGS = [
-  ratioAndProportionStrings.a11y.backgroundColor.notGreenStringProperty,
-  ratioAndProportionStrings.a11y.backgroundColor.lightestGreenStringProperty,
-  ratioAndProportionStrings.a11y.backgroundColor.veryLightGreenStringProperty,
-  ratioAndProportionStrings.a11y.backgroundColor.lightGreenStringProperty,
-  ratioAndProportionStrings.a11y.backgroundColor.darkestGreenStringProperty
+  RatioAndProportionStrings.a11y.backgroundColor.notGreenStringProperty,
+  RatioAndProportionStrings.a11y.backgroundColor.lightestGreenStringProperty,
+  RatioAndProportionStrings.a11y.backgroundColor.veryLightGreenStringProperty,
+  RatioAndProportionStrings.a11y.backgroundColor.lightGreenStringProperty,
+  RatioAndProportionStrings.a11y.backgroundColor.darkestGreenStringProperty
 ];
 
 class BackgroundColorHandler {
