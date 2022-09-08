@@ -67,7 +67,6 @@ const HAND_POINTS = [ 5, 9, 13 ];
 const THUMB_TIP = 4;
 const INDEX_TIP = 8;
 
-// TODO: is this really the best number for controlling voicing? https://github.com/phetsims/ratio-and-proportion/issues/454
 const MARKERS_TOUCHING_THRESHOLD = 0.04;
 
 // Scratch vectors to avoid taking too much memory
