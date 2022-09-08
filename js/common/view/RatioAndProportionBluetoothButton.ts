@@ -45,8 +45,8 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
 
   public constructor( tupleProperty: Property<RAPRatioTuple>, ratioTerm: RatioTerm, providedOptions?: TextPushButtonOptions ) {
 
-    // TODO: Handle when device does not support bluetooth with bluetooth.getAvailability. https://github.com/phetsims/ratio-and-proportion/issues/473
-    // TODO: Handle when browser does not support bluetooth, presumablue !navigator.bluetooth https://github.com/phetsims/ratio-and-proportion/issues/473
+    // When next here, we can handle when device does not support bluetooth with bluetooth.getAvailability. https://github.com/phetsims/ratio-and-proportion/issues/473
+    // When next here, we can handle when browser does not support bluetooth, presumablue !navigator.bluetooth https://github.com/phetsims/ratio-and-proportion/issues/473
 
     // Name provided by the bluetooth device creator
     const deviceName = ratioTerm === RatioTerm.ANTECEDENT ? 'nrf52L' : 'nrf52R';
