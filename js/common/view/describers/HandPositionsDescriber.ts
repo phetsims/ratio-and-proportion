@@ -409,7 +409,7 @@ class HandPositionsDescriber {
       fartherString: RatioAndProportionStrings.a11y.handPosition.fartherFrom
     }, providedOptions );
 
-    // No distance progress if in proportion TODO: this shouldn't occur for both hands in description, not clear if the same in voicing. https://github.com/phetsims/ratio-and-proportion/issues/459
+    // No distance progress if in proportion
     if ( options.inProportionOverridesDistanceProgress && this.inProportionProperty.value ) {
       return null;
     }
