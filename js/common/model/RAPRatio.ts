@@ -59,7 +59,7 @@ class RAPRatio {
   // To avoid an infinite loop as setting the tupleProperty from inside its lock-ratio-support
   // listener. This is predominately needed because even same antecedent/consequent values get wrapped in a new
   // RAPRatioTuple instance.
-  private ratioLockListenerEnabled: boolean;
+  private ratioLockListenerEnabled = true;
 
   public constructor( initialAntecedent: number, initialConsequent: number, tandem: Tandem ) {
 
@@ -104,7 +104,6 @@ class RAPRatio {
       phetioValueType: BooleanIO
     } );
 
-    this.ratioLockListenerEnabled = true;
 
     // Listener that will handle keeping both ratio tuple values in sync when the ratio is locked.
     this.tupleProperty.link( ( tuple, oldTuple ) => {
