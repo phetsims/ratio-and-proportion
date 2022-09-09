@@ -21,10 +21,11 @@ const RAPQueryParameters = QueryStringMachine.getAll( {
   },
 
   // The model value for the tolerance of the proportion value to the target to be calculated as "in proportion".
-  // This should be removed before publication; it is only needed for research in summer, 2022. See https://github.com/phetsims/ratio-and-proportion/issues/465
-  mpInProportionThreshold: {
+  // This value was re-evaluated in most recently in https://github.com/phetsims/ratio-and-proportion/issues/500, but
+  // more paper trail in https://github.com/phetsims/ratio-and-proportion/issues/465.
+  cameraInputInProportionThreshold: {
     type: 'number',
-    defaultValue: 0.3
+    defaultValue: 0.075
   },
 
   // For bluetooth connections, what should the amount of history be to average/smooth out the jitter. MUST BE 4 OR

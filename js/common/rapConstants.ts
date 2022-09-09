@@ -44,7 +44,7 @@ class RAPConstants extends PhetioObject {
   public MOVING_IN_PROPORTION_FITNESS_THRESHOLD = 0.3;
 
   // distance (in fitness) from max fitness that still indicates a successful proportion when interacting via MediaPipe.
-  public MEDIA_PIPE_IN_PROPORTION_FITNESS_THRESHOLD = RAPQueryParameters.mpInProportionThreshold;
+  public MEDIA_PIPE_IN_PROPORTION_FITNESS_THRESHOLD = RAPQueryParameters.cameraInputInProportionThreshold;
 
   // The value to multiple the keyboard step size by to get the shift + keydown step size
   public SHIFT_KEY_MULTIPLIER = 1 / 5;
