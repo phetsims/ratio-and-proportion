@@ -10,6 +10,7 @@ import NumberProperty from '../../../../../axon/js/NumberProperty.js';
 import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
 import TickMarkView from '../TickMarkView.js';
 import TickMarkDescriber from './TickMarkDescriber.js';
+import stripEmbeddingMarks from '../../../../../phet-core/js/stripEmbeddingMarks.js';
 
 QUnit.module( 'TickMarkDescriber' );
 
@@ -27,12 +28,16 @@ QUnit.test( 'getRelativePositionAndTickMarkNumberForPosition', assert => {
     const actualData = tickMarkDescriber.getRelativePositionAndTickMarkNumberForPosition( position );
     if ( expectedData.ordinalPosition ) {
       assert.ok( typeof actualData.ordinalPosition === 'string', getMessage( position, 'should be defined as a string' ) );
-      assert.ok( actualData.ordinalPosition === expectedData.ordinalPosition, getMessage( position, `ordinal should match, expected: ${expectedData.ordinalPosition}, actual: ${actualData.ordinalPosition}` ) );
+      assert.ok( stripEmbeddingMarks( actualData.ordinalPosition! ) === stripEmbeddingMarks( expectedData.ordinalPosition ), getMessage( position, `ordinal should match, expected: ${expectedData.ordinalPosition}, actual: ${actualData.ordinalPosition}` ) );
     }
     if ( expectedData.tickMarkPosition ) {
-      assert.ok( actualData.tickMarkPosition === expectedData.tickMarkPosition, getMessage( position, `position should match, expected: ${expectedData.tickMarkPosition}, actual: ${actualData.tickMarkPosition}` ) );
+      const actual = typeof actualData.tickMarkPosition === 'string' ?
+                     stripEmbeddingMarks( actualData.tickMarkPosition ) : actualData.tickMarkPosition;
+      const expected = typeof expectedData.tickMarkPosition === 'string' ?
+                       stripEmbeddingMarks( expectedData.tickMarkPosition ) : expectedData.tickMarkPosition;
+      assert.ok( actual === expected, getMessage( position, `position should match, expected: ${expectedData.tickMarkPosition}, actual: ${actualData.tickMarkPosition}` ) );
     }
-    assert.ok( actualData.relativePosition === expectedData.relativePosition, getMessage( position, `relativePosition should match, expected: ${expectedData.relativePosition}, actual: ${actualData.relativePosition}` ) );
+    assert.ok( stripEmbeddingMarks( actualData.relativePosition ) === stripEmbeddingMarks( expectedData.relativePosition ), getMessage( position, `relativePosition should match, expected: ${expectedData.relativePosition}, actual: ${actualData.relativePosition}` ) );
   };
 
   //////////////////////////////////////////////////////
