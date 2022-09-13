@@ -15,7 +15,7 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Node, RichText } from '../../../../scenery/js/imports.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
-import HSeparator from '../../../../sun/js/HSeparator.js';
+import HSeparatorDeprecated from '../../../../sun/js/HSeparatorDeprecated.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
 import TickMarkView from '../../common/view/TickMarkView.js';
@@ -73,7 +73,7 @@ class TickMarkRangeComboBoxNode extends Node {
 
     // NOTE: The values are [ 10, true ]... so it's typed interestingly.
     this.disabledComboBox = new ComboBox<true | number>( new BooleanProperty( value ) as Property<true | number>, [
-      { value: value, node: new HSeparator( widestItem, { centerY: -5 } ), a11yLabel: RatioAndProportionStrings.a11y.tickMark.tickMarksHidden },
+      { value: value, node: new HSeparatorDeprecated( widestItem, { centerY: -5 } ), a11yLabel: RatioAndProportionStrings.a11y.tickMark.tickMarksHidden },
       items[ 0 ] // add this one to get the proper height of the text.
     ], new Node(), comboBoxOptions );
 
