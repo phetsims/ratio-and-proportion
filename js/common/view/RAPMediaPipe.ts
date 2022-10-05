@@ -58,7 +58,7 @@ const O_HAND_GESTURE_DETECTED_HISTORY_LENGTH = 15;
 // Number of previous states to keep to average out to determine if two (and only two) hands are detected by mediaPipe.
 const TWO_HANDS_DETECTED_HISTORY_LENGTH = 10;
 
-// The max value of each hand position vector component that we get from MediaPipe.
+// The max value of each hand position vector component that we get from MediaPipe. (x,y,z)
 const HAND_POSITION_MAX_VALUE = 1;
 
 // Hand-tracking points that we use to calculate the position of the ratio in the sim,  See https://google.github.io/mediapipe/solutions/hands.html#hand-landmark-model
@@ -170,9 +170,13 @@ class RAPMediaPipe extends MediaPipe {
       }
       else {
 
-        // if just one hand is detected, defer to the if the x-axis is flipped to see which one is being moved in the sim.
-        ( rapMediaPipeOptions.xAxisFlippedProperty.value ? this.consequentStationaryTracker :
-          this.antecedentStationaryTracker ).update( handPositions[ 0 ].y );
+        const position = handPositions[ 0 ];
+
+        // if just one hand is detected, defer to the absolute position of the hand, arbitrarily splitting half way
+        // through the screen.
+        const stationaryTracker = position.x >= HAND_POSITION_MAX_VALUE / 2 ? this.consequentStationaryTracker :
+                                  this.antecedentStationaryTracker;
+        stationaryTracker.update( position.y );
       }
 
       const newTuple = this.tupleFromSmoothing( handPositions );
@@ -207,8 +211,9 @@ class RAPMediaPipe extends MediaPipe {
     }
     else {
 
-      // Flipping the xAxis will switch which side of the ratio the single hand applies to
-      if ( rapMediaPipeOptions.xAxisFlippedProperty.value ) {
+      // Each half of the screen the hand was detected on will correspond to which side of the ratio the single hand
+      // applies to.
+      if ( handPositions[ 0 ].x >= HAND_POSITION_MAX_VALUE / 2 ) {
         leftHandPosition = this.antecedentHandPositions.length > 0 ?
                            this.antecedentHandPositions[ this.antecedentHandPositions.length - 1 ] :
                            Vector3.pool.create( 0, this.ratioTupleProperty.value.antecedent, 0 );
