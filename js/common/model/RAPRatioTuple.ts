@@ -123,9 +123,9 @@ class RAPRatioTuple {
 
 RAPRatioTuple.RAPRatioTupleIO = new IOType( 'RAPRatioTupleIO', {
   valueType: RAPRatioTuple,
-  toStateObject: ( t: RAPRatioTuple ) => t.toStateObject(),
+  toStateObject: ( rapRatioTuple: RAPRatioTuple ) => rapRatioTuple.toStateObject(),
   stateSchema: RAPRatioTuple.STATE_SCHEMA,
-  fromStateObject: s => RAPRatioTuple.fromStateObject( s ),
+  fromStateObject: stateObject => RAPRatioTuple.fromStateObject( stateObject ),
   documentation: 'the basic data structure that holds both ratio term values, the antecedent and consequent.'
 } );
 
