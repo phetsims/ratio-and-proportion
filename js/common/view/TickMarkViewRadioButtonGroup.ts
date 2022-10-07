@@ -15,6 +15,7 @@ import TickMarkView from './TickMarkView.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 // constants
 const ICON_SCALE = 0.45;
@@ -37,7 +38,7 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkV
     }, providedOptions );
 
     const radioButtonItemData = [ {
-      node: new Path( eyeSlashSolidShape, { scale: 0.05, fill: 'black' } ),
+      createNode: ( tandem: Tandem ) => new Path( eyeSlashSolidShape, { scale: 0.05, fill: 'black' } ),
       value: TickMarkView.NONE,
 
       interactiveDescriptionContextResponse: RatioAndProportionStrings.a11y.tickMark.tickMarksHiddenStringProperty,
@@ -49,7 +50,7 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkV
       // phet-io
       tandemName: 'showNoRadioButton'
     }, {
-      node: new TickMarksIconPath(),
+      createNode: ( tandem: Tandem ) => new TickMarksIconPath(),
       value: TickMarkView.VISIBLE,
 
       interactiveDescriptionContextResponse: RatioAndProportionStrings.a11y.tickMark.tickMarksShownStringProperty,
@@ -61,7 +62,7 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkV
       // phet-io
       tandemName: 'showRadioButton'
     }, {
-      node: new NumberedTickMarksIconPath(),
+      createNode: ( tandem: Tandem ) => new NumberedTickMarksIconPath(),
       value: TickMarkView.VISIBLE_WITH_UNITS,
 
       interactiveDescriptionContextResponse: RatioAndProportionStrings.a11y.tickMark.numberedTickMarksShownStringProperty,
