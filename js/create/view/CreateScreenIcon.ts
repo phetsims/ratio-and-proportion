@@ -18,7 +18,7 @@ class CreateScreenIcon extends ScreenIcon {
 
   public constructor( options?: ScreenIconOptions ) {
 
-    const numberPickerColor = RAPColors.createScreenHandProperty;
+    const numberPickerColorProperty = RAPColors.createScreenHandProperty;
     const numberPickerRange = new Range( 0, 10 );
 
     const leftNode = new VBox( {
@@ -28,7 +28,7 @@ class CreateScreenIcon extends ScreenIcon {
         NumberPicker.createIcon( 3, {
           range: numberPickerRange,
           numberPickerOptions: {
-            color: numberPickerColor
+            color: numberPickerColorProperty
           }
         } )
       ]
@@ -42,7 +42,7 @@ class CreateScreenIcon extends ScreenIcon {
           highlightIncrement: true,
           range: numberPickerRange,
           numberPickerOptions: {
-            color: numberPickerColor
+            color: numberPickerColorProperty
           }
         } )
       ]

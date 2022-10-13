@@ -61,9 +61,9 @@ class BackgroundColorHandler {
     }
     const numberOfRegionsLeft = ( BACKGROUND_COLOR_STRINGS.length - 2 );
     const interpolatedIndex = ( rapConstants.RATIO_FITNESS_RANGE.getLength() / numberOfRegionsLeft + fitness ) * numberOfRegionsLeft;
-    const region = BACKGROUND_COLOR_STRINGS[ Math.floor( interpolatedIndex ) ];
-    assert && assert( region, 'region expected' );
-    return region.value;
+    const regionProperty = BACKGROUND_COLOR_STRINGS[ Math.floor( interpolatedIndex ) ];
+    assert && assert( regionProperty, 'region expected' );
+    return regionProperty.value;
   }
 }
 
