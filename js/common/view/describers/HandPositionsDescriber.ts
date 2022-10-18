@@ -193,7 +193,7 @@ class HandPositionsDescriber {
     for ( let i = 0; i < POSITION_REGIONS_DATA.length; i++ ) {
       const positionRegionDatum = POSITION_REGIONS_DATA[ i ];
 
-      if ( positionRegionDatum.positionInRegion( normalizedPosition ) ) { // eslint-disable-line no-eval
+      if ( positionRegionDatum.positionInRegion( normalizedPosition ) ) {
         region = positionRegionDatum.region;
         break;
       }
