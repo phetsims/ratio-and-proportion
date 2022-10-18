@@ -106,7 +106,7 @@ class CreateScreenView extends RAPScreenView {
     ], inProportion => {
       ratioLockCheckbox.enabledProperty.value = inProportion;
 
-      // If the checkbox get's disabled, then unlock the ratio.
+      // If the checkbox gets disabled, then unlock the ratio.
       if ( !ratioLockCheckbox.enabledProperty.value ) {
         model.ratio.lockedProperty.value = false;
       }
