@@ -21,6 +21,7 @@ import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
 import Property from '../../../../axon/js/Property.js';
 import { Color, HBox, Node, NodeOptions, Rectangle, RichText } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 const SOUND_CLIP_OPTIONS = {
   initialOutputLevel: 0.4
@@ -28,11 +29,11 @@ const SOUND_CLIP_OPTIONS = {
 
 // Challenge info needed by ChallengeRatioComboBoxNode
 type ChallengeInfo = {
-  capitalized: string;
-  lowercase: string;
+  capitalizedStringProperty: TReadOnlyProperty<string>;
+  lowercaseStringProperty: TReadOnlyProperty<string>;
   color: Color;
   soundClip: SoundClip;
-  a11yLabel: string;
+  a11yLabelStringProperty: TReadOnlyProperty<string>;
   tandemName: string;
 };
 
@@ -63,27 +64,27 @@ class ChallengeRatioComboBoxNode extends Node {
 
     this.ratioToChallengeInfoMap = new Map<number, ChallengeInfo>();
     this.ratioToChallengeInfoMap.set( 1 / 2, {
-      capitalized: RatioAndProportionStrings.challenge1,
-      lowercase: RatioAndProportionStrings.a11y.discover.challenge1Lowercase,
+      capitalizedStringProperty: RatioAndProportionStrings.challenge1StringProperty,
+      lowercaseStringProperty: RatioAndProportionStrings.a11y.discover.challenge1LowercaseStringProperty,
       color: RAPColors.discoverChallenge1Property.value,
       soundClip: new SoundClip( selectionArpeggio001_mp3, SOUND_CLIP_OPTIONS ),
-      a11yLabel: RatioAndProportionStrings.challenge1,
+      a11yLabelStringProperty: RatioAndProportionStrings.challenge1StringProperty,
       tandemName: `challenge1${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
     } );
     this.ratioToChallengeInfoMap.set( 1 / 3, {
-      capitalized: RatioAndProportionStrings.challenge2,
-      lowercase: RatioAndProportionStrings.a11y.discover.challenge2Lowercase,
+      capitalizedStringProperty: RatioAndProportionStrings.challenge2StringProperty,
+      lowercaseStringProperty: RatioAndProportionStrings.a11y.discover.challenge2LowercaseStringProperty,
       color: RAPColors.discoverChallenge2Property.value,
       soundClip: new SoundClip( selectionArpeggio004_mp3, SOUND_CLIP_OPTIONS ),
-      a11yLabel: RatioAndProportionStrings.challenge2,
+      a11yLabelStringProperty: RatioAndProportionStrings.challenge2StringProperty,
       tandemName: `challenge2${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
     } );
     this.ratioToChallengeInfoMap.set( 3 / 4, {
-      capitalized: RatioAndProportionStrings.challenge3,
-      lowercase: RatioAndProportionStrings.a11y.discover.challenge3Lowercase,
+      capitalizedStringProperty: RatioAndProportionStrings.challenge3StringProperty,
+      lowercaseStringProperty: RatioAndProportionStrings.a11y.discover.challenge3LowercaseStringProperty,
       color: RAPColors.discoverChallenge3Property.value,
       soundClip: new SoundClip( selectionArpeggio006_mp3, SOUND_CLIP_OPTIONS ),
-      a11yLabel: RatioAndProportionStrings.challenge3,
+      a11yLabelStringProperty: RatioAndProportionStrings.challenge3StringProperty,
       tandemName: `challenge3${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
     } );
 
@@ -100,7 +101,7 @@ class ChallengeRatioComboBoxNode extends Node {
     } );
 
     const comboBoxHeading = new Node( {
-      innerContent: RatioAndProportionStrings.challengeRatio,
+      innerContent: RatioAndProportionStrings.challengeRatioStringProperty,
       tagName: 'h3'
     } );
 
@@ -110,8 +111,8 @@ class ChallengeRatioComboBoxNode extends Node {
     }
 
     this.comboBox = new ComboBox( targetRatioProperty, comboBoxItems, comboBoxListParent, {
-      helpText: RatioAndProportionStrings.a11y.discover.challengesHelpText,
-      comboBoxVoicingHintResponse: RatioAndProportionStrings.a11y.discover.challengesHelpText,
+      helpText: RatioAndProportionStrings.a11y.discover.challengesHelpTextStringProperty,
+      comboBoxVoicingHintResponse: RatioAndProportionStrings.a11y.discover.challengesHelpTextStringProperty,
       comboBoxVoicingContextResponse: () => ratioDescriber.getProximityToNewChallengeRatioSentence(),
       maxWidth: 300, // empirically determined
 
@@ -144,14 +145,14 @@ function createComboBoxItem( targetRatio: number, challengeInfo: ChallengeInfo )
     spacing: 8,
     children: [
       new Rectangle( 0, 0, 15, 15, { fill: challengeInfo.color } ),
-      new RichText( challengeInfo.capitalized ) ]
+      new RichText( challengeInfo.capitalizedStringProperty ) ]
   } );
 
   return {
     value: targetRatio,
     node: node,
     soundPlayer: challengeInfo.soundClip,
-    a11yLabel: challengeInfo.a11yLabel,
+    a11yLabel: challengeInfo.a11yLabelStringProperty,
     tandemName: challengeInfo.tandemName
   };
 }

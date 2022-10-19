@@ -16,38 +16,38 @@ import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
 
 const ORDINAL_TICK_MARKS = [
   null,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.first,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.second,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.third,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.fourth,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.fifth,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.sixth,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.seventh,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.eighth,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.ninth,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.tenth,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.eleventh,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.twelfth,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.thirteenth,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.fourteenth,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.fifteenth,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.sixteenth,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.seventeenth,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.eighteenth,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.nineteenth,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.twentieth,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.twentyFirst,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.twentySecond,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.twentyThird,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.twentyFourth,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.twentyFifth,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.twentySixth,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.twentySeventh,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.twentyEighth,
-  RatioAndProportionStrings.a11y.tickMark.ordinal.twentyNinth
+  RatioAndProportionStrings.a11y.tickMark.ordinal.firstStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.secondStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.thirdStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.fourthStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.fifthStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.sixthStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.seventhStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.eighthStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.ninthStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.tenthStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.eleventhStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.twelfthStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.thirteenthStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.fourteenthStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.fifteenthStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.sixteenthStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.seventeenthStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.eighteenthStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.nineteenthStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.twentiethStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.twentyFirstStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.twentySecondStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.twentyThirdStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.twentyFourthStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.twentyFifthStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.twentySixthStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.twentySeventhStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.twentyEighthStringProperty.value,
+  RatioAndProportionStrings.a11y.tickMark.ordinal.twentyNinthStringProperty.value
 ];
 
-const zeroString: 'zero' = RatioAndProportionStrings.a11y.tickMark.relative.zero as 'zero';
+const zeroString = RatioAndProportionStrings.a11y.tickMark.relative.zeroStringProperty.value as 'zero';
 
 type TickMarkDescriptionData = {
   tickMarkPosition: number | 'zero';
@@ -109,24 +109,24 @@ class TickMarkDescriber {
 
     if ( remainder === TOTAL_RANGE.min ) {
       if ( inZeroCase ) {
-        relativePosition = RatioAndProportionStrings.a11y.tickMark.relative.at;
+        relativePosition = RatioAndProportionStrings.a11y.tickMark.relative.atStringProperty.value;
 
         tickMarkDisplayedNumber = zeroString;
         ordinalPosition = null;
       }
       else {
-        relativePosition = RatioAndProportionStrings.a11y.tickMark.relative.on;
+        relativePosition = RatioAndProportionStrings.a11y.tickMark.relative.onStringProperty.value;
       }
     }
     else if ( remainder <= 0.2 ) {
       if ( inZeroCase ) {
-        relativePosition = RatioAndProportionStrings.a11y.tickMark.relative.near;
+        relativePosition = RatioAndProportionStrings.a11y.tickMark.relative.nearStringProperty.value;
 
         tickMarkDisplayedNumber = zeroString;
         ordinalPosition = null;
       }
       else {
-        relativePosition = RatioAndProportionStrings.a11y.tickMark.relative.around;
+        relativePosition = RatioAndProportionStrings.a11y.tickMark.relative.aroundStringProperty.value;
       }
     }
     else if ( remainder <= ROUND_DOWN_THRESHOLD ) {
@@ -135,28 +135,28 @@ class TickMarkDescriber {
       tickMarkDisplayedNumber += 0.5; // For these middle values, add .5
 
       if ( remainder < 0.5 ) {
-        relativePosition = useExactTickMarkValues ? RatioAndProportionStrings.a11y.tickMark.relative.almostOn :
-                           inZeroCase ? RatioAndProportionStrings.a11y.tickMark.relative.almostHalfwayTo :
-                           RatioAndProportionStrings.a11y.tickMark.relative.almostHalfwayPast;
+        relativePosition = useExactTickMarkValues ? RatioAndProportionStrings.a11y.tickMark.relative.almostOnStringProperty.value :
+                           inZeroCase ? RatioAndProportionStrings.a11y.tickMark.relative.almostHalfwayToStringProperty.value :
+                           RatioAndProportionStrings.a11y.tickMark.relative.almostHalfwayPastStringProperty.value;
       }
       else if ( remainder === 0.5 ) {
 
         // If showing numbers, then the description looks like "on 2.5" instead of "half-way past second"
-        relativePosition = useExactTickMarkValues ? RatioAndProportionStrings.a11y.tickMark.relative.on :
-                           inZeroCase ? RatioAndProportionStrings.a11y.tickMark.relative.halfwayTo :
-                           RatioAndProportionStrings.a11y.tickMark.relative.halfwayPast;
+        relativePosition = useExactTickMarkValues ? RatioAndProportionStrings.a11y.tickMark.relative.onStringProperty.value :
+                           inZeroCase ? RatioAndProportionStrings.a11y.tickMark.relative.halfwayToStringProperty.value :
+                           RatioAndProportionStrings.a11y.tickMark.relative.halfwayPastStringProperty.value;
       }
       else if ( remainder <= ROUND_DOWN_THRESHOLD ) {
-        relativePosition = useExactTickMarkValues ? RatioAndProportionStrings.a11y.tickMark.relative.around :
-                           inZeroCase ? RatioAndProportionStrings.a11y.tickMark.relative.aroundHalfwayTo :
-                           RatioAndProportionStrings.a11y.tickMark.relative.aroundHalfwayPast;
+        relativePosition = useExactTickMarkValues ? RatioAndProportionStrings.a11y.tickMark.relative.aroundStringProperty.value :
+                           inZeroCase ? RatioAndProportionStrings.a11y.tickMark.relative.aroundHalfwayToStringProperty.value :
+                           RatioAndProportionStrings.a11y.tickMark.relative.aroundHalfwayPastStringProperty.value;
       }
       else {
         assert && assert( false, 'all cases should be covered' );
       }
     }
     else if ( remainder < 1 ) {
-      relativePosition = RatioAndProportionStrings.a11y.tickMark.relative.almostOn;
+      relativePosition = RatioAndProportionStrings.a11y.tickMark.relative.almostOnStringProperty.value;
     }
     else {
       assert && assert( false, `unexpected remainder value: ${remainder}` );

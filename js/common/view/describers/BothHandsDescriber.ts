@@ -24,7 +24,7 @@ import RatioInputModality from './RatioInputModality.js';
 import optionize from '../../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../../phet-core/js/types/StrictOmit.js';
 
-const ratioDistancePositionContextResponsePatternString = RatioAndProportionStrings.a11y.ratio.distancePositionContextResponse;
+const ratioDistancePositionContextResponsePatternStringProperty = RatioAndProportionStrings.a11y.ratio.distancePositionContextResponseStringProperty;
 
 class BothHandsDescriber {
 
@@ -65,7 +65,7 @@ class BothHandsDescriber {
     }
 
     // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
-    return StringUtils.fillIn( ratioDistancePositionContextResponsePatternString, {
+    return StringUtils.fillIn( ratioDistancePositionContextResponsePatternStringProperty, {
       distance: this.handPositionsDescriber.getBothHandsDistance( true, options ),
       position: this.getBothHandsPosition()
     } );
@@ -76,7 +76,7 @@ class BothHandsDescriber {
    */
   public getBothHandsDynamicDescription(): string {
     // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
-    return StringUtils.fillIn( ratioDistancePositionContextResponsePatternString, {
+    return StringUtils.fillIn( ratioDistancePositionContextResponsePatternStringProperty, {
       distance: this.handPositionsDescriber.getBothHandsDistance( true, {
         distanceResponseType: DistanceResponseType.DISTANCE_REGION
       } ),
@@ -97,12 +97,12 @@ class BothHandsDescriber {
 
     // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
     if ( leftPosition === rightPosition ) {
-      return StringUtils.fillIn( RatioAndProportionStrings.a11y.bothHands.equalObjectResponseAlert, {
+      return StringUtils.fillIn( RatioAndProportionStrings.a11y.bothHands.equalObjectResponseAlertStringProperty, {
         inPosition: leftPosition
       } );
     }
     else {
-      return StringUtils.fillIn( RatioAndProportionStrings.a11y.bothHands.eachObjectResponseAlert, {
+      return StringUtils.fillIn( RatioAndProportionStrings.a11y.bothHands.eachObjectResponseAlertStringProperty, {
         leftPosition: leftPosition,
         rightPosition: rightPosition
       } );

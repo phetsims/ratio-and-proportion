@@ -30,33 +30,31 @@ import DistanceResponseType from './DistanceResponseType.js';
 import optionize from '../../../../../phet-core/js/optionize.js';
 import RatioInputModality from './RatioInputModality.js';
 
-const leftHandLowerString = RatioAndProportionStrings.a11y.leftHandLower;
-const rightHandLowerString = RatioAndProportionStrings.a11y.rightHandLower;
-
+// TODO: Dynamic string support when time, https://github.com/phetsims/ratio-and-proportion/issues/499
 const DISTANCE_REGIONS_CAPITALIZED = [
-  RatioAndProportionStrings.a11y.handPosition.distance.capitalized.farthestFrom,
-  RatioAndProportionStrings.a11y.handPosition.distance.capitalized.extremelyFarFrom,
-  RatioAndProportionStrings.a11y.handPosition.distance.capitalized.veryFarFrom,
-  RatioAndProportionStrings.a11y.handPosition.distance.capitalized.farFrom,
-  RatioAndProportionStrings.a11y.handPosition.distance.capitalized.notSoCloseTo,
-  RatioAndProportionStrings.a11y.handPosition.distance.capitalized.somewhatCloseTo,
-  RatioAndProportionStrings.a11y.handPosition.distance.capitalized.veryCloseTo,
-  RatioAndProportionStrings.a11y.handPosition.distance.capitalized.extremelyCloseTo,
-  RatioAndProportionStrings.a11y.handPosition.distance.capitalized.almostEvenWith,
-  RatioAndProportionStrings.a11y.handPosition.distance.capitalized.evenWith
+  RatioAndProportionStrings.a11y.handPosition.distance.capitalized.farthestFromStringProperty.value,
+  RatioAndProportionStrings.a11y.handPosition.distance.capitalized.extremelyFarFromStringProperty.value,
+  RatioAndProportionStrings.a11y.handPosition.distance.capitalized.veryFarFromStringProperty.value,
+  RatioAndProportionStrings.a11y.handPosition.distance.capitalized.farFromStringProperty.value,
+  RatioAndProportionStrings.a11y.handPosition.distance.capitalized.notSoCloseToStringProperty.value,
+  RatioAndProportionStrings.a11y.handPosition.distance.capitalized.somewhatCloseToStringProperty.value,
+  RatioAndProportionStrings.a11y.handPosition.distance.capitalized.veryCloseToStringProperty.value,
+  RatioAndProportionStrings.a11y.handPosition.distance.capitalized.extremelyCloseToStringProperty.value,
+  RatioAndProportionStrings.a11y.handPosition.distance.capitalized.almostEvenWithStringProperty.value,
+  RatioAndProportionStrings.a11y.handPosition.distance.capitalized.evenWithStringProperty.value
 ];
 
 const DISTANCE_REGIONS_LOWERCASE = [
-  RatioAndProportionStrings.a11y.handPosition.distance.lowercase.farthestFrom,
-  RatioAndProportionStrings.a11y.handPosition.distance.lowercase.extremelyFarFrom,
-  RatioAndProportionStrings.a11y.handPosition.distance.lowercase.veryFarFrom,
-  RatioAndProportionStrings.a11y.handPosition.distance.lowercase.farFrom,
-  RatioAndProportionStrings.a11y.handPosition.distance.lowercase.notSoCloseTo,
-  RatioAndProportionStrings.a11y.handPosition.distance.lowercase.somewhatCloseTo,
-  RatioAndProportionStrings.a11y.handPosition.distance.lowercase.veryCloseTo,
-  RatioAndProportionStrings.a11y.handPosition.distance.lowercase.extremelyCloseTo,
-  RatioAndProportionStrings.a11y.handPosition.distance.lowercase.almostEvenWith,
-  RatioAndProportionStrings.a11y.handPosition.distance.lowercase.evenWith
+  RatioAndProportionStrings.a11y.handPosition.distance.lowercase.farthestFromStringProperty.value,
+  RatioAndProportionStrings.a11y.handPosition.distance.lowercase.extremelyFarFromStringProperty.value,
+  RatioAndProportionStrings.a11y.handPosition.distance.lowercase.veryFarFromStringProperty.value,
+  RatioAndProportionStrings.a11y.handPosition.distance.lowercase.farFromStringProperty.value,
+  RatioAndProportionStrings.a11y.handPosition.distance.lowercase.notSoCloseToStringProperty.value,
+  RatioAndProportionStrings.a11y.handPosition.distance.lowercase.somewhatCloseToStringProperty.value,
+  RatioAndProportionStrings.a11y.handPosition.distance.lowercase.veryCloseToStringProperty.value,
+  RatioAndProportionStrings.a11y.handPosition.distance.lowercase.extremelyCloseToStringProperty.value,
+  RatioAndProportionStrings.a11y.handPosition.distance.lowercase.almostEvenWithStringProperty.value,
+  RatioAndProportionStrings.a11y.handPosition.distance.lowercase.evenWithStringProperty.value
 ];
 
 assert && assert( DISTANCE_REGIONS_CAPITALIZED.length === DISTANCE_REGIONS_LOWERCASE.length, 'should be the same regions' );
@@ -71,10 +69,10 @@ class PositionRegionsData {
   private inRegionPredicate: ( inputValue: number, lowerBound: number ) => boolean;
   public region: string;
 
-  public constructor( lowerBound: number, inRegionPredicate: PositionRegionsData['inRegionPredicate'], region: string ) {
+  public constructor( lowerBound: number, inRegionPredicate: PositionRegionsData['inRegionPredicate'], region: TReadOnlyProperty<string> ) {
     this.lowerBound = lowerBound;
     this.inRegionPredicate = inRegionPredicate;
-    this.region = region;
+    this.region = region.value;
   }
 
   public positionInRegion( position: number ): boolean {
@@ -86,27 +84,27 @@ class PositionRegionsData {
 // own region. This is because each PositionRegionsData works based solely on a lowerBound.
 const POSITION_REGIONS_DATA: PositionRegionsData[] = [
   new PositionRegionsData( 1, ( position, lowerBound ) => position === lowerBound,
-    RatioAndProportionStrings.a11y.handPosition.atTop ),
+    RatioAndProportionStrings.a11y.handPosition.atTopStringProperty ),
   new PositionRegionsData( 0.9, ( position, lowerBound ) => position >= lowerBound,
-    RatioAndProportionStrings.a11y.handPosition.nearTop ),
+    RatioAndProportionStrings.a11y.handPosition.nearTopStringProperty ),
   new PositionRegionsData( 0.65, ( position, lowerBound ) => position > lowerBound,
-    RatioAndProportionStrings.a11y.handPosition.inUpperRegion ),
+    RatioAndProportionStrings.a11y.handPosition.inUpperRegionStringProperty ),
   new PositionRegionsData( 0.5 + aroundMiddleRegionWidth, ( position, lowerBound ) => position > lowerBound,
-    RatioAndProportionStrings.a11y.handPosition.inUpperMiddleRegion ),
+    RatioAndProportionStrings.a11y.handPosition.inUpperMiddleRegionStringProperty ),
   new PositionRegionsData( 0.5, ( position, lowerBound ) => position > lowerBound,
-    RatioAndProportionStrings.a11y.handPosition.aroundMiddle ),
+    RatioAndProportionStrings.a11y.handPosition.aroundMiddleStringProperty ),
   new PositionRegionsData( 0.5, ( position, lowerBound ) => position === lowerBound,
-    RatioAndProportionStrings.a11y.handPosition.atMiddle ),
+    RatioAndProportionStrings.a11y.handPosition.atMiddleStringProperty ),
   new PositionRegionsData( 0.5 - aroundMiddleRegionWidth, ( position, lowerBound ) => position >= lowerBound,
-    RatioAndProportionStrings.a11y.handPosition.aroundMiddle ),
+    RatioAndProportionStrings.a11y.handPosition.aroundMiddleStringProperty ),
   new PositionRegionsData( 0.35, ( position, lowerBound ) => position >= lowerBound,
-    RatioAndProportionStrings.a11y.handPosition.inLowerMiddleRegion ),
+    RatioAndProportionStrings.a11y.handPosition.inLowerMiddleRegionStringProperty ),
   new PositionRegionsData( 0.1, ( position, lowerBound ) => position > lowerBound,
-    RatioAndProportionStrings.a11y.handPosition.inLowerRegion ),
+    RatioAndProportionStrings.a11y.handPosition.inLowerRegionStringProperty ),
   new PositionRegionsData( 0, ( position, lowerBound ) => position > lowerBound,
-    RatioAndProportionStrings.a11y.handPosition.nearBottom ),
+    RatioAndProportionStrings.a11y.handPosition.nearBottomStringProperty ),
   new PositionRegionsData( 0, ( position, lowerBound ) => position === lowerBound,
-    RatioAndProportionStrings.a11y.handPosition.atBottom )
+    RatioAndProportionStrings.a11y.handPosition.atBottomStringProperty )
 ];
 
 type GetDistanceProgressStringOptions = {
@@ -170,14 +168,15 @@ class HandPositionsDescriber {
 
     // semi quantitative description uses ordinal numbers instead of full numbers.
     if ( semiQuantitative && typeof tickMarkData.ordinalPosition === 'string' ) {
-      return StringUtils.fillIn( RatioAndProportionStrings.a11y.tickMark.semiQuantitativeHandPositionPattern, {
+      // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+      return StringUtils.fillIn( RatioAndProportionStrings.a11y.tickMark.semiQuantitativeHandPositionPatternStringProperty, {
         relativePosition: tickMarkData.relativePosition,
         ordinal: tickMarkData.ordinalPosition
       } );
     }
 
     // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
-    return StringUtils.fillIn( RatioAndProportionStrings.a11y.tickMark.quantitativeHandPositionPattern, {
+    return StringUtils.fillIn( RatioAndProportionStrings.a11y.tickMark.quantitativeHandPositionPatternStringProperty, {
       relativePosition: tickMarkData.relativePosition,
       tickMarkPosition: tickMarkData.tickMarkPosition
     } );
@@ -281,14 +280,18 @@ class HandPositionsDescriber {
     }
 
     assert && assert( distanceClause, 'Should be filled in by now' );
-    const otherHand = ratioTerm === RatioTerm.ANTECEDENT ? rightHandLowerString : leftHandLowerString;
+    const otherHandStringProperty = ratioTerm === RatioTerm.ANTECEDENT ?
+                                    RatioAndProportionStrings.a11y.leftHandLowerStringProperty :
+                                    RatioAndProportionStrings.a11y.rightHandLowerStringProperty;
 
-    const distanceResponse = StringUtils.fillIn( RatioAndProportionStrings.a11y.handPosition.distanceOrDistanceProgressClause, {
-      otherHand: otherHand,
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+    const distanceResponse = StringUtils.fillIn( RatioAndProportionStrings.a11y.handPosition.distanceOrDistanceProgressClauseStringProperty, {
+      otherHand: otherHandStringProperty,
       distanceOrDistanceProgress: distanceClause
     } );
 
-    return StringUtils.fillIn( RatioAndProportionStrings.a11y.ratio.distancePositionContextResponse, {
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+    return StringUtils.fillIn( RatioAndProportionStrings.a11y.ratio.distancePositionContextResponseStringProperty, {
       distance: distanceResponse,
       position: this.getHandPositionDescription( this.ratioTupleProperty.value.getForTerm( ratioTerm ),
         tickMarkView )
@@ -355,11 +358,12 @@ class HandPositionsDescriber {
   public getBothHandsDistanceProgress( capitalized: boolean ): string {
     const distanceProgressPhrase = this.getDistanceProgressString( {
       inProportionOverridesDistanceProgress: false,
-      closerString: RatioAndProportionStrings.a11y.handPosition.closerTogether,
-      fartherString: RatioAndProportionStrings.a11y.handPosition.fartherApart
+      closerString: RatioAndProportionStrings.a11y.handPosition.closerTogetherStringProperty.value,
+      fartherString: RatioAndProportionStrings.a11y.handPosition.fartherApartStringProperty.value
     } );
     if ( distanceProgressPhrase ) {
-      return StringUtils.fillIn( RatioAndProportionStrings.a11y.bothHands.handsDistanceProgressPattern, {
+      // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+      return StringUtils.fillIn( RatioAndProportionStrings.a11y.bothHands.handsDistanceProgressPatternStringProperty, {
         distanceProgress: distanceProgressPhrase
       } );
     }
@@ -369,8 +373,8 @@ class HandPositionsDescriber {
   public getBothHandsDistanceRegion( capitalized: boolean ): string {
     const distanceRegion = this.getDistanceRegion( true );
 
-    const pattern = capitalized ? RatioAndProportionStrings.a11y.bothHands.handsDistancePatternCapitalized :
-                    RatioAndProportionStrings.a11y.bothHands.handsDistancePattern;
+    const pattern = capitalized ? RatioAndProportionStrings.a11y.bothHands.handsDistancePatternCapitalizedStringProperty.value :
+                    RatioAndProportionStrings.a11y.bothHands.handsDistancePatternStringProperty.value;
 
     return StringUtils.fillIn( pattern, { distance: distanceRegion } );
   }
@@ -383,11 +387,11 @@ class HandPositionsDescriber {
 
       const distanceProgressPhrase = this.getDistanceProgressString( {
         inProportionOverridesDistanceProgress: false,
-        closerString: RatioAndProportionStrings.a11y.handPosition.closerTogether,
-        fartherString: RatioAndProportionStrings.a11y.handPosition.fartherApart
+        closerString: RatioAndProportionStrings.a11y.handPosition.closerTogetherStringProperty.value,
+        fartherString: RatioAndProportionStrings.a11y.handPosition.fartherApartStringProperty.value
       } );
       if ( distanceProgressPhrase ) {
-        const distanceProgressDescription = StringUtils.fillIn( RatioAndProportionStrings.a11y.bothHands.handsDistanceProgressPattern, {
+        const distanceProgressDescription = StringUtils.fillIn( RatioAndProportionStrings.a11y.bothHands.handsDistanceProgressPatternStringProperty, {
           distanceProgress: distanceProgressPhrase
         } );
 
@@ -404,8 +408,8 @@ class HandPositionsDescriber {
 
     const options = optionize<GetDistanceProgressStringOptions, GetDistanceProgressStringOptions>()( {
       inProportionOverridesDistanceProgress: true,
-      closerString: RatioAndProportionStrings.a11y.handPosition.closerTo,
-      fartherString: RatioAndProportionStrings.a11y.handPosition.fartherFrom
+      closerString: RatioAndProportionStrings.a11y.handPosition.closerToStringProperty.value,
+      fartherString: RatioAndProportionStrings.a11y.handPosition.fartherFromStringProperty.value
     }, providedOptions );
 
     // No distance progress if in proportion
@@ -485,31 +489,31 @@ class HandPositionsDescriber {
 
     if ( antecedentPossibleBeyond && previousAntecedentAtMin &&
          this.ratioTupleProperty.value.antecedent === enabledRange.min ) {
-      handAtEdge = RatioAndProportionStrings.a11y.leftHand;
+      handAtEdge = RatioAndProportionStrings.a11y.leftHandStringProperty.value;
       extremityPosition = enabledRange.min === rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE.min ?
-                          RatioAndProportionStrings.a11y.handPosition.atBottom :
-                          RatioAndProportionStrings.a11y.handPosition.nearBottom;
-      direction = RatioAndProportionStrings.a11y.up;
+                          RatioAndProportionStrings.a11y.handPosition.atBottomStringProperty.value :
+                          RatioAndProportionStrings.a11y.handPosition.nearBottomStringProperty.value;
+      direction = RatioAndProportionStrings.a11y.upStringProperty.value;
     }
     else if ( antecedentPossibleBeyond && previousAntecedentAtMax &&
               this.ratioTupleProperty.value.antecedent === enabledRange.max ) {
-      handAtEdge = RatioAndProportionStrings.a11y.leftHand;
-      extremityPosition = RatioAndProportionStrings.a11y.handPosition.atTop;
-      direction = RatioAndProportionStrings.a11y.down;
+      handAtEdge = RatioAndProportionStrings.a11y.leftHandStringProperty.value;
+      extremityPosition = RatioAndProportionStrings.a11y.handPosition.atTopStringProperty.value;
+      direction = RatioAndProportionStrings.a11y.downStringProperty.value;
     }
     else if ( consequentPossibleBeyond && previousConsequentAtMin
               && this.ratioTupleProperty.value.consequent === enabledRange.min ) {
-      handAtEdge = RatioAndProportionStrings.a11y.rightHand;
+      handAtEdge = RatioAndProportionStrings.a11y.rightHandStringProperty.value;
       extremityPosition = enabledRange.min === rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE.min ?
-                          RatioAndProportionStrings.a11y.handPosition.atBottom :
-                          RatioAndProportionStrings.a11y.handPosition.nearBottom;
-      direction = RatioAndProportionStrings.a11y.up;
+                          RatioAndProportionStrings.a11y.handPosition.atBottomStringProperty.value :
+                          RatioAndProportionStrings.a11y.handPosition.nearBottomStringProperty.value;
+      direction = RatioAndProportionStrings.a11y.upStringProperty;
     }
     else if ( consequentPossibleBeyond && previousConsequentAtMax
               && this.ratioTupleProperty.value.consequent === enabledRange.max ) {
-      handAtEdge = RatioAndProportionStrings.a11y.rightHand;
-      extremityPosition = RatioAndProportionStrings.a11y.handPosition.atTop;
-      direction = RatioAndProportionStrings.a11y.down;
+      handAtEdge = RatioAndProportionStrings.a11y.rightHandStringProperty.value;
+      extremityPosition = RatioAndProportionStrings.a11y.handPosition.atTopStringProperty.value;
+      direction = RatioAndProportionStrings.a11y.downStringProperty.value;
     }
 
     this.previousEdgeCheckTuple = currentTuple;
@@ -521,11 +525,11 @@ class HandPositionsDescriber {
       const handsMoveTogether = this.ratioLockedProperty.value;
 
       // Basically the difference between "Move hands" and "Move hand"
-      const pattern = handsMoveTogether ?
-                      RatioAndProportionStrings.a11y.ratio.bothHandsGoBeyondEdgeContextResponse :
-                      RatioAndProportionStrings.a11y.ratio.singleHandGoBeyondEdgeContextResponse;
+      const patternStringProperty = handsMoveTogether ?
+                                    RatioAndProportionStrings.a11y.ratio.bothHandsGoBeyondEdgeContextResponseStringProperty :
+                                    RatioAndProportionStrings.a11y.ratio.singleHandGoBeyondEdgeContextResponseStringProperty;
 
-      return StringUtils.fillIn( pattern, {
+      return StringUtils.fillIn( patternStringProperty, {
         position: extremityPosition,
         hand: handAtEdge,
         direction: direction

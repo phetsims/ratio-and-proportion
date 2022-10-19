@@ -25,7 +25,7 @@ class DiscoverScreen extends Screen<RAPModel, DiscoverScreenView> {
       tandem: tandem,
       homeScreenIcon: new DiscoverScreenIcon(),
       name: RatioAndProportionStrings.screen.discoverStringProperty,
-      descriptionContent: RatioAndProportionStrings.a11y.discover.homeScreenDescription,
+      descriptionContent: RatioAndProportionStrings.a11y.discover.homeScreenDescriptionStringProperty,
       keyboardHelpNode: new DiscoverScreenKeyboardHelpContent()
     };
 

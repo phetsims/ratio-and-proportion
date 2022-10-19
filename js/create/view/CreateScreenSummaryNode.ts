@@ -106,8 +106,8 @@ class CreateScreenSummaryNode extends Node {
     } );
   }
 
-  private getStateOfSim( currentChallenge: string = RatioAndProportionStrings.a11y.create.challenge ): string {
-    return StringUtils.fillIn( RatioAndProportionStrings.a11y.screenSummaryQualitativeStateOfSim, {
+  private getStateOfSim( currentChallenge: TReadOnlyProperty<string> = RatioAndProportionStrings.a11y.create.challengeStringProperty ): string {
+    return StringUtils.fillIn( RatioAndProportionStrings.a11y.screenSummaryQualitativeStateOfSimStringProperty, {
       color: BackgroundColorHandler.getCurrentColorRegion( this.ratioFitnessProperty.value, this.inProportionProperty.value ),
       ratioFitness: this.ratioDescriber.getRatioFitness( false ),
       currentChallenge: currentChallenge,
@@ -116,13 +116,13 @@ class CreateScreenSummaryNode extends Node {
   }
 
   private getLeftHandState(): string {
-    return StringUtils.fillIn( RatioAndProportionStrings.a11y.leftHandBullet, {
+    return StringUtils.fillIn( RatioAndProportionStrings.a11y.leftHandBulletStringProperty, {
       position: this.handPositionsDescriber.getHandPositionDescription( this.ratioTupleProperty.value.antecedent, this.tickMarkViewProperty.value )
     } );
   }
 
   private getRightHandState(): string {
-    return StringUtils.fillIn( RatioAndProportionStrings.a11y.rightHandBullet, {
+    return StringUtils.fillIn( RatioAndProportionStrings.a11y.rightHandBulletStringProperty, {
       position: this.handPositionsDescriber.getHandPositionDescription( this.ratioTupleProperty.value.consequent, this.tickMarkViewProperty.value )
     } );
   }
@@ -134,10 +134,10 @@ class CreateScreenSummaryNode extends Node {
   }
 
   public getDetailsButtonState(): string {
-    const pattern = this.myChallengeAccordionBox.expandedProperty.value ?
-                    RatioAndProportionStrings.a11y.detailsButtonWithCurrentChallengePattern :
-                    RatioAndProportionStrings.a11y.detailsButtonPattern;
-    return StringUtils.fillIn( pattern, {
+    const patternStringProperty = this.myChallengeAccordionBox.expandedProperty.value ?
+                    RatioAndProportionStrings.a11y.detailsButtonWithCurrentChallengePatternStringProperty :
+                    RatioAndProportionStrings.a11y.detailsButtonPatternStringProperty;
+    return StringUtils.fillIn( patternStringProperty, {
       stateOfSim: this.getStateOfSim(),
       leftHand: this.getLeftHandState(),
       rightHand: this.getRightHandState(),

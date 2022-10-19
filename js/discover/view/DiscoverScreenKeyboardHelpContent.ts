@@ -14,7 +14,7 @@ import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 class DiscoverScreenKeyboardHelpContent extends RAPKeyboardHelpContent {
   public constructor() {
     super( new ComboBoxKeyboardHelpSection( {
-      headingString: RatioAndProportionStrings.chooseAChallengeRatio
+      headingString: RatioAndProportionStrings.chooseAChallengeRatioStringProperty
     } ) );
   }
 }

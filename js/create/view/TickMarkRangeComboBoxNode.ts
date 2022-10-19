@@ -14,7 +14,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Node, NodeOptions, RichText } from '../../../../scenery/js/imports.js';
-import ComboBox from '../../../../sun/js/ComboBox.js';
+import ComboBox, { ComboBoxOptions } from '../../../../sun/js/ComboBox.js';
 import HSeparatorDeprecated from '../../../../sun/js/HSeparatorDeprecated.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
@@ -23,6 +23,7 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 const TICK_MARK_RANGE_FONT = new PhetFont( 16 );
 const RANGE_TEXT_OPTIONS = { font: TICK_MARK_RANGE_FONT };
@@ -31,7 +32,7 @@ class TickMarkRangeComboBoxNode extends Node {
 
   private enabledComboBox: ComboBox<number>;
   private disabledComboBox: ComboBox<true | number>;
-  private tickMarkRangeMap: Record<number, string>;
+  private tickMarkRangeMap: Record<number, TReadOnlyProperty<string>>;
   private tickMarkRangeProperty: Property<number>;
 
   public constructor( tickMarkRangeProperty: Property<number>, comboBoxParent: Node,
@@ -39,29 +40,29 @@ class TickMarkRangeComboBoxNode extends Node {
     super( providedOptions );
 
     this.tickMarkRangeMap = {
-      10: RatioAndProportionStrings.zeroToTen,
-      20: RatioAndProportionStrings.zeroToTwenty,
-      30: RatioAndProportionStrings.zeroToThirty
+      10: RatioAndProportionStrings.zeroToTenStringProperty,
+      20: RatioAndProportionStrings.zeroToTwentyStringProperty,
+      30: RatioAndProportionStrings.zeroToThirtyStringProperty
     };
     this.tickMarkRangeProperty = tickMarkRangeProperty;
 
     const items = [
-      { value: 10, node: new RichText( this.tickMarkRangeMap[ 10 ], RANGE_TEXT_OPTIONS ), a11yLabel: RatioAndProportionStrings.zeroToTen },
-      { value: 20, node: new RichText( this.tickMarkRangeMap[ 20 ], RANGE_TEXT_OPTIONS ), a11yLabel: RatioAndProportionStrings.zeroToTwenty },
-      { value: 30, node: new RichText( this.tickMarkRangeMap[ 30 ], RANGE_TEXT_OPTIONS ), a11yLabel: RatioAndProportionStrings.zeroToThirty }
+      { value: 10, node: new RichText( this.tickMarkRangeMap[ 10 ], RANGE_TEXT_OPTIONS ), a11yLabel: RatioAndProportionStrings.zeroToTenStringProperty },
+      { value: 20, node: new RichText( this.tickMarkRangeMap[ 20 ], RANGE_TEXT_OPTIONS ), a11yLabel: RatioAndProportionStrings.zeroToTwentyStringProperty },
+      { value: 30, node: new RichText( this.tickMarkRangeMap[ 30 ], RANGE_TEXT_OPTIONS ), a11yLabel: RatioAndProportionStrings.zeroToThirtyStringProperty }
     ];
 
     const widestItem = Math.max( ...items.map( item => item.node.width ) );
 
-    const comboBoxOptions = {
+    const comboBoxOptions: ComboBoxOptions = {
       labelNode: new RichText( RatioAndProportionStrings.rangeStringProperty, RANGE_TEXT_OPTIONS ),
-      helpText: RatioAndProportionStrings.a11y.create.tickMarkRangeHelpText,
-      accessibleName: RatioAndProportionStrings.range,
+      helpText: RatioAndProportionStrings.a11y.create.tickMarkRangeHelpTextStringProperty,
+      accessibleName: RatioAndProportionStrings.rangeStringProperty,
       maxWidth: 300, // empirically determined
 
-      comboBoxVoicingNameResponsePattern: RatioAndProportionStrings.a11y.create.rangeLabelPattern,
+      comboBoxVoicingNameResponsePattern: RatioAndProportionStrings.a11y.create.rangeLabelPatternStringProperty,
       comboBoxVoicingContextResponse: () => this.getContextResponse(),
-      comboBoxVoicingHintResponse: RatioAndProportionStrings.a11y.create.tickMarkRangeHelpText,
+      comboBoxVoicingHintResponse: RatioAndProportionStrings.a11y.create.tickMarkRangeHelpTextStringProperty,
 
       // phet-io
       tandem: Tandem.OPT_OUT
@@ -73,7 +74,11 @@ class TickMarkRangeComboBoxNode extends Node {
 
     // NOTE: The values are [ 10, true ]... so it's typed interestingly.
     this.disabledComboBox = new ComboBox<true | number>( new BooleanProperty( value ) as Property<true | number>, [
-      { value: value, node: new HSeparatorDeprecated( widestItem, { centerY: -5 } ), a11yLabel: RatioAndProportionStrings.a11y.tickMark.tickMarksHidden },
+      {
+        value: value,
+        node: new HSeparatorDeprecated( widestItem, { centerY: -5 } ),
+        a11yLabel: RatioAndProportionStrings.a11y.tickMark.tickMarksHiddenStringProperty
+      },
       items[ 0 ] // add this one to get the proper height of the text.
     ], new Node(), comboBoxOptions );
 
@@ -94,7 +99,7 @@ class TickMarkRangeComboBoxNode extends Node {
   }
 
   private getContextResponse(): string {
-    return StringUtils.fillIn( RatioAndProportionStrings.a11y.create.tickMarkRangeContextResponse, {
+    return StringUtils.fillIn( RatioAndProportionStrings.a11y.create.tickMarkRangeContextResponseStringProperty, {
       range: this.tickMarkRangeMap[ this.tickMarkRangeProperty.value ]
     } );
   }

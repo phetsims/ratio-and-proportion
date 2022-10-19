@@ -28,23 +28,22 @@ class MyChallengeHelpSection extends KeyboardHelpSection {
 
   public constructor( options?: CreateScreenKeyboardHelpContentOptions ) {
 
-    // TODO: Support help sections, https://github.com/phetsims/ratio-and-proportion/issues/499
-    const setHandRatioValue = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.setHandRatioValue,
+    const setHandRatioValue = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.setHandRatioValueStringProperty,
       KeyboardHelpIconFactory.upDownArrowKeysRowIcon(), {
-        labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.setHandRatioValueDescription
+        labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.setHandRatioValueDescriptionStringProperty
       } );
 
-    const jumpToMinimum = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.jumpToMinimum,
+    const jumpToMinimum = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.jumpToMinimumStringProperty,
       TextKeyNode.home(), {
-        labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.jumpToMinimumDescription
+        labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.jumpToMinimumDescriptionStringProperty
       } );
 
-    const jumpToMaximum = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.jumpToMaximum,
+    const jumpToMaximum = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.jumpToMaximumStringProperty,
       TextKeyNode.end(), {
-        labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.jumpToMaximumDescription
+        labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.jumpToMaximumDescriptionStringProperty
       } );
 
-    super( RatioAndProportionStrings.setMyRatioChallenge, [ setHandRatioValue, jumpToMinimum, jumpToMaximum ], options );
+    super( RatioAndProportionStrings.setMyRatioChallengeStringProperty, [ setHandRatioValue, jumpToMinimum, jumpToMaximum ], options );
   }
 }
 

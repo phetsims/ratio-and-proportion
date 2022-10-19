@@ -32,11 +32,11 @@ class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
 
     // TODO: Support dynamic keyboard help content, https://github.com/phetsims/ratio-and-proportion/issues/499
     const moveLeftOrRightHandHelpSection = new SliderControlsKeyboardHelpSection( {
-      headingString: RatioAndProportionStrings.moveHandsIndividually,
-      verbString: RatioAndProportionStrings.move,
-      sliderString: RatioAndProportionStrings.leftOrRightHand,
-      maximumString: RatioAndProportionStrings.top,
-      minimumString: RatioAndProportionStrings.bottom,
+      headingString: RatioAndProportionStrings.moveHandsIndividuallyStringProperty.value,
+      verbString: RatioAndProportionStrings.moveStringProperty.value,
+      sliderString: RatioAndProportionStrings.leftOrRightHandStringProperty.value,
+      maximumString: RatioAndProportionStrings.topStringProperty.value,
+      minimumString: RatioAndProportionStrings.bottomStringProperty.value,
       arrowKeyIconDisplay: SliderControlsKeyboardHelpSection.ArrowKeyIconDisplay.UP_DOWN // on cue up/down arrows, not left/right also.
     } );
 
@@ -55,27 +55,27 @@ class BothHandsHelpSection extends KeyboardHelpSection {
 
   public constructor( options?: KeyboardHelpSectionOptions ) {
 
-    const moveLeftHand = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.moveLeftHand,
+    const moveLeftHand = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.moveLeftHandStringProperty,
       KeyboardHelpIconFactory.iconRow( [ new LetterKeyNode( 'W' ), new LetterKeyNode( 'S' ) ] ), {
-        labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.leftHandDescription
+        labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.leftHandDescriptionStringProperty
       } );
 
-    const moveRightHand = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.moveRightHand,
+    const moveRightHand = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.moveRightHandStringProperty,
       KeyboardHelpIconFactory.upDownArrowKeysRowIcon(), {
-        labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.rightHandDescription
+        labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.rightHandDescriptionStringProperty
       } );
 
-    const moveInSmallerSteps = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.moveHandsInSmallerSteps,
+    const moveInSmallerSteps = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.moveHandsInSmallerStepsStringProperty,
       TextKeyNode.shift(), {
-        labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.handsInSmallerStepsDescription
+        labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.handsInSmallerStepsDescriptionStringProperty
       } );
 
-    const jumpBothHands = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.jumpBothHands,
+    const jumpBothHands = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.jumpBothHandsStringProperty,
       KeyboardHelpIconFactory.iconToIcon( new NumberKeyNode( '0' ), new NumberKeyNode( '9' ) ), {
-        labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.jumpBothHandsDescription
+        labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.jumpBothHandsDescriptionStringProperty
       } );
 
-    super( RatioAndProportionStrings.moveBothHandsSimultaneously,
+    super( RatioAndProportionStrings.moveBothHandsSimultaneouslyStringProperty,
       [ moveLeftHand, moveRightHand, moveInSmallerSteps, jumpBothHands ], options );
   }
 }

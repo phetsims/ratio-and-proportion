@@ -42,7 +42,7 @@ class CreateScreenView extends RAPScreenView {
       leftHandColorProperty: handColorProperty,
       rightHandColorProperty: handColorProperty,
       bothHandsPDOMNodeOptions: {
-        gestureDescriptionHelpText: RatioAndProportionStrings.a11y.create.bothHandsGestureDescriptionHelpText
+        gestureDescriptionHelpText: RatioAndProportionStrings.a11y.create.bothHandsGestureDescriptionHelpTextStringProperty
       },
       tandem: tandem
     } );
@@ -85,12 +85,12 @@ class CreateScreenView extends RAPScreenView {
     } );
 
     const ratioLockCheckbox = new Checkbox( model.ratio.lockedProperty, ratioLockContent, {
-      accessibleName: RatioAndProportionStrings.ratioLock,
-      voicingNameResponse: RatioAndProportionStrings.ratioLock,
+      accessibleName: RatioAndProportionStrings.ratioLockStringProperty,
+      voicingNameResponse: RatioAndProportionStrings.ratioLockStringProperty,
       maxWidth: 250, // empirically determined
 
-      checkedContextResponse: RatioAndProportionStrings.a11y.ratioLockCheckboxContextResponse,
-      uncheckedContextResponse: RatioAndProportionStrings.a11y.ratioNoLongerLocked,
+      checkedContextResponse: RatioAndProportionStrings.a11y.ratioLockCheckboxContextResponseStringProperty,
+      uncheckedContextResponse: RatioAndProportionStrings.a11y.ratioNoLongerLockedStringProperty,
 
       // phet-io
       tandem: tandem.createTandem( 'ratioLockCheckbox' )
@@ -98,8 +98,10 @@ class CreateScreenView extends RAPScreenView {
 
     ratioLockCheckbox.enabledProperty.link( ( enabled: boolean ) => {
 
-      ratioLockCheckbox.helpText = enabled ? RatioAndProportionStrings.a11y.ratioLockEnabledHelpText : RatioAndProportionStrings.a11y.ratioLockDisabledHelpText;
-      ratioLockCheckbox.voicingHintResponse = enabled ? RatioAndProportionStrings.a11y.ratioLockEnabledHelpText : RatioAndProportionStrings.a11y.ratioLockDisabledHelpText;
+      ratioLockCheckbox.helpText = enabled ? RatioAndProportionStrings.a11y.ratioLockEnabledHelpTextStringProperty :
+                                   RatioAndProportionStrings.a11y.ratioLockDisabledHelpTextStringProperty;
+      ratioLockCheckbox.voicingHintResponse = enabled ? RatioAndProportionStrings.a11y.ratioLockEnabledHelpTextStringProperty :
+                                              RatioAndProportionStrings.a11y.ratioLockDisabledHelpTextStringProperty;
     } );
 
     ratioLockCheckbox.touchArea = ratioLockCheckbox.localBounds.dilatedXY( 8, 0.5 * ratioLockCheckbox.height );

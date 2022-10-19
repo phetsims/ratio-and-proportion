@@ -52,21 +52,21 @@ class DiscoverScreenSummaryNode extends Node {
       children: [
         new Node( {
           tagName: 'p',
-          innerContent: RatioAndProportionStrings.a11y.discover.screenSummary.paragraph1
+          innerContent: RatioAndProportionStrings.a11y.discover.screenSummary.paragraph1StringProperty
         } ),
         new Node( {
           tagName: 'p',
-          innerContent: RatioAndProportionStrings.a11y.discover.screenSummary.paragraph2
+          innerContent: RatioAndProportionStrings.a11y.discover.screenSummary.paragraph2StringProperty
         } ),
         new Node( {
           tagName: 'p',
-          innerContent: RatioAndProportionStrings.a11y.discover.screenSummary.paragraph3
+          innerContent: RatioAndProportionStrings.a11y.discover.screenSummary.paragraph3StringProperty
         } ),
         stateOfSimNode,
         descriptionBullets,
         new Node( {
           tagName: 'p',
-          innerContent: RatioAndProportionStrings.a11y.discover.screenSummary.interactionHint
+          innerContent: RatioAndProportionStrings.a11y.discover.screenSummary.interactionHintStringProperty
         } )
       ]
     } );
@@ -96,28 +96,32 @@ class DiscoverScreenSummaryNode extends Node {
   }
 
   private getStateOfSim(): string {
-    return StringUtils.fillIn( RatioAndProportionStrings.a11y.screenSummaryQualitativeStateOfSim, {
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+    return StringUtils.fillIn( RatioAndProportionStrings.a11y.screenSummaryQualitativeStateOfSimStringProperty, {
       color: BackgroundColorHandler.getCurrentColorRegion( this.ratioFitnessProperty.value, this.inProportionProperty.value ),
       ratioFitness: this.ratioDescriber.getRatioFitness( false ),
-      currentChallenge: this.ratioToChallengeInfoMap.get( this.targetRatioProperty.value )!.lowercase,
+      currentChallenge: this.ratioToChallengeInfoMap.get( this.targetRatioProperty.value )!.lowercaseStringProperty,
       distance: this.handPositionsDescriber.getDistanceRegion( true )
     } );
   }
 
   private getLeftHandState(): string {
-    return StringUtils.fillIn( RatioAndProportionStrings.a11y.leftHandBullet, {
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+    return StringUtils.fillIn( RatioAndProportionStrings.a11y.leftHandBulletStringProperty, {
       position: this.handPositionsDescriber.getHandPositionDescription( this.ratioTupleProperty.value.antecedent, this.tickMarkViewProperty.value )
     } );
   }
 
   private getRightHandState(): string {
-    return StringUtils.fillIn( RatioAndProportionStrings.a11y.rightHandBullet, {
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+    return StringUtils.fillIn( RatioAndProportionStrings.a11y.rightHandBulletStringProperty, {
       position: this.handPositionsDescriber.getHandPositionDescription( this.ratioTupleProperty.value.consequent, this.tickMarkViewProperty.value )
     } );
   }
 
   public getDetailsButtonState(): string {
-    return StringUtils.fillIn( RatioAndProportionStrings.a11y.detailsButtonPattern, {
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+    return StringUtils.fillIn( RatioAndProportionStrings.a11y.detailsButtonPatternStringProperty, {
       stateOfSim: this.getStateOfSim(),
       leftHand: this.getLeftHandState(),
       rightHand: this.getRightHandState()
