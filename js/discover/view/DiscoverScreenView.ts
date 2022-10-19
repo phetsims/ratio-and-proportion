@@ -16,6 +16,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import HandPositionsDescriber from '../../common/view/describers/HandPositionsDescriber.js';
 import TickMarkDescriber from '../../common/view/describers/TickMarkDescriber.js';
+import { SpeakableResolvedResponse } from '../../../../utterance-queue/js/ResponsePacket.js';
 
 class DiscoverScreenView extends RAPScreenView {
 
@@ -32,7 +33,7 @@ class DiscoverScreenView extends RAPScreenView {
       leftHandColorProperty: handColorProperty,
       rightHandColorProperty: handColorProperty,
       bothHandsPDOMNodeOptions: {
-        gestureDescriptionHelpText: RatioAndProportionStrings.a11y.discover.bothHandsGestureDescriptionHelpText
+        gestureDescriptionHelpText: RatioAndProportionStrings.a11y.discover.bothHandsGestureDescriptionHelpTextStringProperty
       },
       tandem: tandem
     } );
@@ -81,16 +82,16 @@ class DiscoverScreenView extends RAPScreenView {
     super.layout( bounds );
   }
 
-  public override getVoicingOverviewContent(): string {
-    return RatioAndProportionStrings.a11y.discover.overviewSentence;
+  public override getVoicingOverviewContent(): SpeakableResolvedResponse {
+    return RatioAndProportionStrings.a11y.discover.overviewSentenceStringProperty;
   }
 
-  public override getVoicingDetailsContent(): string {
+  public override getVoicingDetailsContent(): SpeakableResolvedResponse {
     return this.discoverScreenSummaryNode.getDetailsButtonState();
   }
 
-  public override getVoicingHintContent(): string {
-    return RatioAndProportionStrings.a11y.discover.screenSummary.interactionHint;
+  public override getVoicingHintContent(): SpeakableResolvedResponse {
+    return RatioAndProportionStrings.a11y.discover.screenSummary.interactionHintStringProperty;
   }
 }
 

@@ -22,6 +22,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import HandPositionsDescriber from '../../common/view/describers/HandPositionsDescriber.js';
 import TickMarkDescriber from '../../common/view/describers/TickMarkDescriber.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import { SpeakableResolvedResponse } from '../../../../utterance-queue/js/ResponsePacket.js';
 
 
 class CreateScreenView extends RAPScreenView {
@@ -154,16 +155,16 @@ class CreateScreenView extends RAPScreenView {
     super.reset();
   }
 
-  public override getVoicingOverviewContent(): string {
-    return RatioAndProportionStrings.a11y.create.overviewSentence;
+  public override getVoicingOverviewContent(): SpeakableResolvedResponse {
+    return RatioAndProportionStrings.a11y.create.overviewSentenceStringProperty;
   }
 
-  public override getVoicingDetailsContent(): string {
+  public override getVoicingDetailsContent(): SpeakableResolvedResponse {
     return this.createScreenSummaryNode.getDetailsButtonState();
   }
 
-  public override getVoicingHintContent(): string {
-    return RatioAndProportionStrings.a11y.create.screenSummary.interactionHint;
+  public override getVoicingHintContent(): SpeakableResolvedResponse {
+    return RatioAndProportionStrings.a11y.create.screenSummary.interactionHintStringProperty;
   }
 }
 
