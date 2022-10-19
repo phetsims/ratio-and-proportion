@@ -24,7 +24,7 @@ import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.j
 import merge from '../../../../phet-core/js/merge.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { Color, Node, ParallelDOM, VBox, Voicing, voicingUtteranceQueue } from '../../../../scenery/js/imports.js';
+import { Color, ParallelDOM, VBox, Voicing, voicingUtteranceQueue } from '../../../../scenery/js/imports.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
@@ -62,7 +62,7 @@ import MediaPipeQueryParameters from '../../../../tangible/js/mediaPipe/MediaPip
 
 // constants
 const LAYOUT_BOUNDS = ScreenView.DEFAULT_LAYOUT_BOUNDS;
-const MAX_RATIO_HEIGHT = LAYOUT_BOUNDS.width * 2; // relatively arbitrary, but good to set a max so it can't get too skinny
+const MAX_RATIO_HEIGHT = LAYOUT_BOUNDS.width * 2; // relatively arbitrary, but good to set a max, so it can't get too skinny
 const ONE_QUARTER_LAYOUT_WIDTH = LAYOUT_BOUNDS.width * 0.25;
 const RATIO_HALF_WIDTH = ONE_QUARTER_LAYOUT_WIDTH;
 const RATIO_HALF_SPACING = 10;
@@ -90,33 +90,23 @@ class RAPScreenView extends ScreenView {
   protected tickMarkRangeProperty: NumberProperty;
   protected readonly ratioDescriber: RatioDescriber;
   private backgroundColorHandler: BackgroundColorHandler;
-  private antecedentRatioHalf: RatioHalf;
-  private consequentRatioHalf: RatioHalf;
+  private readonly antecedentRatioHalf: RatioHalf;
+  private readonly consequentRatioHalf: RatioHalf;
 
   // SoundGenerators that sonify different aspects of the model
-  private inProportionSoundGenerator: InProportionSoundGenerator;
-  private movingInProportionSoundGenerator: MovingInProportionSoundGenerator;
-  private staccatoFrequencySoundGenerator: StaccatoFrequencySoundGenerator;
+  private readonly inProportionSoundGenerator: InProportionSoundGenerator;
+  private readonly movingInProportionSoundGenerator: MovingInProportionSoundGenerator;
+  private readonly staccatoFrequencySoundGenerator: StaccatoFrequencySoundGenerator;
 
   // Keep a separate layer for "control-panel-esque"  UI on the right. This allows them to be scaled
   // to maximize their size within the horizontal space in vertical aspect ratios, see https://github.com/phetsims/ratio-and-proportion/issues/79
   // These are two separate containers so that scaling them can take away space in between them while keeping each
   // positioned based on the corners of the layout.
-  protected topScalingUILayerNode = new Node();
-  protected bottomScalingUILayerNode = new Node();
+  protected topScalingUILayerNode = new VBox( { align: 'right', spacing: 20 } );
+  protected bottomScalingUILayerNode = new VBox( { align: 'right', spacing: 20 } );
 
-  // Prototype BLE controls, protected so that it can be positioned in subclasses. Only has content if requested with
-  // ?bluetooth query parameter.
-  protected readonly bluetoothButtonBox = new Node();
-
-  // used only for subtype layout
-  protected resetAllButton: ResetAllButton;
-
-  // subtype is responsible for layout
-  protected tickMarkViewRadioButtonGroup: TickMarkViewRadioButtonGroup;
-
-  private layoutRAPScreeView: ( currentScreenViewCoordinates: Bounds2 ) => void;
-  private mediaPipe: RAPMediaPipe | null;
+  private readonly layoutRAPScreeView: ( currentScreenViewCoordinates: Bounds2 ) => void;
+  private readonly mediaPipe: RAPMediaPipe | null;
 
   private stepEmitter = new Emitter<[ number ]>( { parameters: [ { valueType: 'number' } ] } );
 
@@ -361,7 +351,7 @@ class RAPScreenView extends ScreenView {
     // these dimensions are just temporary, and will be recomputed below in the layout function
     const labelsNode = new RAPTickMarkLabelsNode( this.tickMarkViewProperty, this.tickMarkRangeProperty, 1000, tickMarksAndLabelsColorProperty );
 
-    this.resetAllButton = new ResetAllButton( {
+    const resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         model.reset();
@@ -432,22 +422,21 @@ class RAPScreenView extends ScreenView {
         }
       } );
 
-      this.bluetoothButtonBox = new VBox( {
+      const bluetoothButtonBox = new VBox( {
         children: [ antecedentConnectionButton, consequentConnectionButton ],
         spacing: 5,
-        align: 'right',
-        rightBottom: this.resetAllButton.rightTop.minusXY( 0, 20 )
+        align: 'right'
       } );
+      this.bottomScalingUILayerNode.addChild( bluetoothButtonBox );
     }
-    this.bottomScalingUILayerNode.addChild( this.bluetoothButtonBox );
 
-    this.tickMarkViewRadioButtonGroup = new TickMarkViewRadioButtonGroup( this.tickMarkViewProperty, {
+    const tickMarkViewRadioButtonGroup = new TickMarkViewRadioButtonGroup( this.tickMarkViewProperty, {
       tandem: options.tandem.createTandem( 'tickMarkViewRadioButtonGroup' )
     } );
 
     // add this Node to the layer that is scaled up to support vertical aspect ratios
-    this.topScalingUILayerNode.addChild( this.tickMarkViewRadioButtonGroup );
-    this.bottomScalingUILayerNode.addChild( this.resetAllButton );
+    this.topScalingUILayerNode.addChild( tickMarkViewRadioButtonGroup );
+    this.bottomScalingUILayerNode.addChild( resetAllButton );
 
     let positionRegionsNode: RAPPositionRegionsLayer | null = null;
     if ( RAPQueryParameters.showPositionRegions ) {
@@ -469,12 +458,12 @@ class RAPScreenView extends ScreenView {
     // accessible order (ratio first in nav order)
     this.pdomPlayAreaNode.pdomOrder = [
       bothHandsPDOMNode,
-      this.tickMarkViewRadioButtonGroup
+      tickMarkViewRadioButtonGroup
     ];
 
     // accessible order
     this.pdomControlAreaNode.pdomOrder = [
-      this.resetAllButton
+      resetAllButton
     ];
 
     this.layoutRAPScreeView = newRatioHalfBounds => {

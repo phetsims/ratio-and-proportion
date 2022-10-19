@@ -66,10 +66,6 @@ class DiscoverScreenView extends RAPScreenView {
     );
     this.setScreenSummaryContent( this.discoverScreenSummaryNode );
 
-    // layout
-    this.comboBoxContainer.right = this.tickMarkViewRadioButtonGroup.right;
-    this.comboBoxContainer.top = this.tickMarkViewRadioButtonGroup.bottom + 20;
-
     this.resetDiscoverScreenView = () => {
       handPositionsDescriber.reset();
     };

@@ -13,7 +13,7 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Node, RichText } from '../../../../scenery/js/imports.js';
+import { Node, NodeOptions, RichText } from '../../../../scenery/js/imports.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import HSeparatorDeprecated from '../../../../sun/js/HSeparatorDeprecated.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -35,8 +35,8 @@ class TickMarkRangeComboBoxNode extends Node {
   private tickMarkRangeProperty: Property<number>;
 
   public constructor( tickMarkRangeProperty: Property<number>, comboBoxParent: Node,
-               tickMarkViewProperty: EnumerationProperty<TickMarkView> ) {
-    super();
+                      tickMarkViewProperty: EnumerationProperty<TickMarkView>, providedOptions?: NodeOptions ) {
+    super( providedOptions );
 
     this.tickMarkRangeMap = {
       10: RatioAndProportionStrings.zeroToTen,

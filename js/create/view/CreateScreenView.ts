@@ -52,7 +52,12 @@ class CreateScreenView extends RAPScreenView {
     const tickMarkRangeComboBoxParent = new Node();
 
     this.tickMarkRangeComboBoxNode = new TickMarkRangeComboBoxNode( this.tickMarkRangeProperty,
-      tickMarkRangeComboBoxParent, this.tickMarkViewProperty );
+      tickMarkRangeComboBoxParent, this.tickMarkViewProperty, {
+        layoutOptions: {
+          topMargin: -10,
+          bottomMargin: 10
+        }
+      } );
 
     const handPositionsDescriber = new HandPositionsDescriber( model.ratio.tupleProperty,
       new TickMarkDescriber( this.tickMarkRangeProperty, this.tickMarkViewProperty ),
@@ -113,9 +118,11 @@ class CreateScreenView extends RAPScreenView {
     } );
 
     // children - remember to not blow away children set by parent
-    this.topScalingUILayerNode.addChild( myChallengeAccordionBox );
     this.topScalingUILayerNode.addChild( this.tickMarkRangeComboBoxNode );
-    this.bottomScalingUILayerNode.addChild( ratioLockCheckbox );
+    this.topScalingUILayerNode.addChild( myChallengeAccordionBox );
+
+    // Right above the resetAllButton
+    this.bottomScalingUILayerNode.insertChild( this.bottomScalingUILayerNode.children.length - 1, ratioLockCheckbox );
 
     // Should be on top. Don't scale it because that messes with the scaling that the list box goes through, and changes
     // the dimensions of the scalingUILayerNode to make it too big. Discovered in https://github.com/phetsims/ratio-and-proportion/issues/273
@@ -129,18 +136,6 @@ class CreateScreenView extends RAPScreenView {
       myChallengeAccordionBox,
       ratioLockCheckbox
     ] );
-
-    // If no ?bluetooth, then bluetooth box will be empty
-    const nodeBelow = this.bluetoothButtonBox.boundsProperty.value.isFinite() ? this.bluetoothButtonBox : this.resetAllButton;
-
-    // static layout
-    ratioLockCheckbox.right = nodeBelow.right;
-    ratioLockCheckbox.bottom = nodeBelow.top - 20;
-
-    // ui layer node layout (scales based on width). This only needs to be laid out once, as the container is scaled.
-    this.tickMarkRangeComboBoxNode.right = myChallengeAccordionBox.right = tickMarkRangeComboBoxParent.right = this.tickMarkViewRadioButtonGroup.right;
-    this.tickMarkRangeComboBoxNode.top = tickMarkRangeComboBoxParent.top = this.tickMarkViewRadioButtonGroup.bottom + 10;
-    myChallengeAccordionBox.top = this.tickMarkRangeComboBoxNode.bottom + 30;
 
     this.resetCreateScreenView = () => {
       handPositionsDescriber.reset();
