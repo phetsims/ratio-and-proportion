@@ -279,9 +279,19 @@ class RAPMediaPipe extends MediaPipe {
     return handPositions;
   }
 
+  private static positionValid( position: HandPoint ): boolean {
+    return position && position.hasOwnProperty( 'x' ) && position.hasOwnProperty( 'y' ) &&
+           typeof position.x === 'number' && typeof position.y === 'number';
+  }
+
   private static markersTouching( point1: number, point2: number, handMarkerPositions: HandPoint[] ): boolean {
+    assert && assert( handMarkerPositions.length === 21, '21 hand positions expected', handMarkerPositions );
     const position1 = handMarkerPositions[ point1 ];
     const position2 = handMarkerPositions[ point2 ];
+
+    if ( !( RAPMediaPipe.positionValid( position1 ) && RAPMediaPipe.positionValid( position2 ) ) ) {
+      return false;
+    }
 
     firstMarkerTouchingVector.setXY( position1.x, position1.y );
     secondMarkerTouchingVector.setXY( position2.x, position2.y );
