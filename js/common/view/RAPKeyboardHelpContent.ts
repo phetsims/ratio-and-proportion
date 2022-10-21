@@ -30,13 +30,12 @@ class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
    */
   public constructor( challengeHelpSection: KeyboardHelpSection, providedOptions?: RAPKeyboardHelpContentOptions ) {
 
-    // TODO: Support dynamic keyboard help content, https://github.com/phetsims/ratio-and-proportion/issues/499
     const moveLeftOrRightHandHelpSection = new SliderControlsKeyboardHelpSection( {
-      headingString: RatioAndProportionStrings.moveHandsIndividuallyStringProperty.value,
-      verbString: RatioAndProportionStrings.moveStringProperty.value,
-      sliderString: RatioAndProportionStrings.leftOrRightHandStringProperty.value,
-      maximumString: RatioAndProportionStrings.topStringProperty.value,
-      minimumString: RatioAndProportionStrings.bottomStringProperty.value,
+      headingString: RatioAndProportionStrings.moveHandsIndividuallyStringProperty,
+      verbString: RatioAndProportionStrings.moveStringProperty,
+      sliderString: RatioAndProportionStrings.leftOrRightHandStringProperty,
+      maximumString: RatioAndProportionStrings.topStringProperty,
+      minimumString: RatioAndProportionStrings.bottomStringProperty,
       arrowKeyIconDisplay: SliderControlsKeyboardHelpSection.ArrowKeyIconDisplay.UP_DOWN // on cue up/down arrows, not left/right also.
     } );
 

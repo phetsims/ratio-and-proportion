@@ -190,7 +190,6 @@ class BothHandsPDOMNode extends Node {
     // Make sure that any children inside the both hands interaction (like individual hands) come before the both hands interaction in the PDOM.
     this.pdomOrder = [ dynamicDescription, ...interactiveNode.children, null ];
 
-    // TODO: Dynamic string support when time, https://github.com/phetsims/ratio-and-proportion/issues/499
     interactiveNode.setPDOMAttribute( 'aria-roledescription', SceneryPhetStrings.a11y.grabDrag.movableStringProperty );
 
     const originalContextResponseStringProperty = new StringProperty( '' );
