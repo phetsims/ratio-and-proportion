@@ -12,20 +12,20 @@ import Utils from '../../../dot/js/Utils.js';
 import PhetioObject from '../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import IOType from '../../../tandem/js/types/IOType.js';
-import NumberIO, { NumberStateObject } from '../../../tandem/js/types/NumberIO.js';
+import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import ObjectLiteralIO from '../../../tandem/js/types/ObjectLiteralIO.js';
 import ratioAndProportion from '../ratioAndProportion.js';
 import RAPQueryParameters from './RAPQueryParameters.js';
 
 type RAPConstantsState = {
-  SCREEN_VIEW_X_MARGIN: NumberStateObject;
-  SCREEN_VIEW_Y_MARGIN: NumberStateObject;
+  SCREEN_VIEW_X_MARGIN: number;
+  SCREEN_VIEW_Y_MARGIN: number;
   RATIO_FITNESS_RANGE: RangeStateObject;
-  IN_PROPORTION_FITNESS_THRESHOLD: NumberStateObject;
-  MOVING_IN_PROPORTION_FITNESS_THRESHOLD: NumberStateObject;
-  SHIFT_KEY_MULTIPLIER: NumberStateObject;
+  IN_PROPORTION_FITNESS_THRESHOLD: number;
+  MOVING_IN_PROPORTION_FITNESS_THRESHOLD: number;
+  SHIFT_KEY_MULTIPLIER: number;
   TOTAL_RATIO_TERM_VALUE_RANGE: RangeStateObject;
-  NO_SUCCESS_VALUE_THRESHOLD: NumberStateObject;
+  NO_SUCCESS_VALUE_THRESHOLD: number;
   QUERY_PARAMETERS: Record<string, unknown>;
 };
 
