@@ -24,7 +24,6 @@ const simOptions: SimOptions = {
     qualityAssurance: 'Logan Bray, Steele Dalton, Megan Lai, Brooklyn Lash, Liam Mulhall, Devon Quispe, Kathryn Woessner',
     soundDesign: 'Ashton Morris'
   },
-  hasKeyboardHelpContent: true,
   preferencesModel: new RAPPreferencesModel()
 };
 
