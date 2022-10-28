@@ -25,6 +25,8 @@ const RATIO_FITNESS_STRINGS_CAPITALIZED = [
   RatioAndProportionStrings.a11y.ratio.capitalized.atStringProperty.value
 ];
 
+const atInitialValue = RatioAndProportionStrings.a11y.ratio.lowercase.atStringProperty.value;
+
 const RATIO_FITNESS_STRINGS_LOWERCASE = [
   RatioAndProportionStrings.a11y.ratio.lowercase.extremelyFarFromStringProperty.value,
   RatioAndProportionStrings.a11y.ratio.lowercase.veryFarFromStringProperty.value,
@@ -33,7 +35,7 @@ const RATIO_FITNESS_STRINGS_LOWERCASE = [
   RatioAndProportionStrings.a11y.ratio.lowercase.somewhatCloseToStringProperty.value,
   RatioAndProportionStrings.a11y.ratio.lowercase.veryCloseToStringProperty.value,
   RatioAndProportionStrings.a11y.ratio.lowercase.extremelyCloseToStringProperty.value,
-  RatioAndProportionStrings.a11y.ratio.lowercase.atStringProperty.value
+  atInitialValue
 ];
 
 const NUMBER_TO_WORD = [
@@ -75,7 +77,7 @@ class RatioDescriber {
   public getRatioFitness( capitalized = true ): string {
 
     const lastIndex = RATIO_FITNESS_STRINGS_CAPITALIZED.length - 1;
-    assert && assert( RATIO_FITNESS_STRINGS_LOWERCASE[ lastIndex ] === RatioAndProportionStrings.a11y.ratio.lowercase.atStringProperty.value, 'There are assumptions made about the order of these regions, likely this should not change.' );
+    assert && assert( RATIO_FITNESS_STRINGS_LOWERCASE[ lastIndex ] === atInitialValue, 'There are assumptions made about the order of these regions, likely this should not change.' );
 
     const ratioRegions = capitalized ? RATIO_FITNESS_STRINGS_CAPITALIZED : RATIO_FITNESS_STRINGS_LOWERCASE;
 
