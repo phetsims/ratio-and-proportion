@@ -18,7 +18,7 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import { DragListener, Node, NodeOptions, Rectangle, RectangleOptions, SpeakingOptions, TPaint } from '../../../../scenery/js/imports.js';
+import { DragListener, Node, NodeOptions, PDOMValueType, Rectangle, RectangleOptions, SpeakingOptions, TPaint } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioTerm from '../model/RatioTerm.js';
@@ -584,7 +584,7 @@ class RatioHalf extends Rectangle {
     this.resetRatioHalf();
   }
 
-  private static RATIO_HALF_ACCESSIBLE_NAME_BEHAVIOR( node: Node, options: NodeOptions, accessibleName: string | TReadOnlyProperty<string>, callbacksForOtherNodes: { (): void }[] ): NodeOptions {
+  private static RATIO_HALF_ACCESSIBLE_NAME_BEHAVIOR( node: Node, options: NodeOptions, accessibleName: PDOMValueType, callbacksForOtherNodes: { (): void }[] ): NodeOptions {
 
     callbacksForOtherNodes.push( () => {
       ( node as RatioHalf ).ratioHandNode.accessibleName = accessibleName;
