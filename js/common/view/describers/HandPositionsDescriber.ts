@@ -376,6 +376,7 @@ class HandPositionsDescriber {
     const pattern = capitalized ? RatioAndProportionStrings.a11y.bothHands.handsDistancePatternCapitalizedStringProperty.value :
                     RatioAndProportionStrings.a11y.bothHands.handsDistancePatternStringProperty.value;
 
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
     return StringUtils.fillIn( pattern, { distance: distanceRegion } );
   }
 
@@ -391,6 +392,7 @@ class HandPositionsDescriber {
         fartherString: RatioAndProportionStrings.a11y.handPosition.fartherApartStringProperty.value
       } );
       if ( distanceProgressPhrase ) {
+        // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
         const distanceProgressDescription = StringUtils.fillIn( RatioAndProportionStrings.a11y.bothHands.handsDistanceProgressPatternStringProperty, {
           distanceProgress: distanceProgressPhrase
         } );
@@ -529,6 +531,7 @@ class HandPositionsDescriber {
                                     RatioAndProportionStrings.a11y.ratio.bothHandsGoBeyondEdgeContextResponseStringProperty :
                                     RatioAndProportionStrings.a11y.ratio.singleHandGoBeyondEdgeContextResponseStringProperty;
 
+      // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
       return StringUtils.fillIn( patternStringProperty, {
         position: extremityPosition,
         hand: handAtEdge,

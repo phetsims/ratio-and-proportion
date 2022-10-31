@@ -40,8 +40,8 @@ import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import MappedProperty from '../../../../axon/js/MappedProperty.js';
 import RAPRatio from '../model/RAPRatio.js';
 import TickMarkDescriber from './describers/TickMarkDescriber.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 
 // constants
 const MIN_FRAMING_RECTANGLE_HEIGHT = 32;
@@ -95,6 +95,7 @@ type SelfOptions = {
   // AccessibleValueHandler via RatioHandNode
   a11yDependencies?: TReadOnlyProperty<IntentionalAny>[];
   bothHandsCueDisplay?: CueDisplay;
+  accessibleName: TReadOnlyProperty<string>; // eslint-disable-line require-property-suffix
 };
 
 type RatioHalfOptions = SelfOptions & RectangleOptions;
@@ -138,8 +139,7 @@ class RatioHalf extends Rectangle {
 
       // pdom
       tagName: 'div',
-      accessibleNameBehavior: RatioHalf.RATIO_HALF_ACCESSIBLE_NAME_BEHAVIOR,
-      accessibleName: null
+      accessibleNameBehavior: RatioHalf.RATIO_HALF_ACCESSIBLE_NAME_BEHAVIOR
     }, providedOptions );
 
     super( 0, 0, options.bounds.width, options.bounds.height );
@@ -256,13 +256,15 @@ class RatioHalf extends Rectangle {
 
     const providedAccessibleName = options.accessibleName;
 
+    const handLockedPatternStringProperty = new PatternStringProperty( RatioAndProportionStrings.a11y.handLockedPatternStringProperty, {
+      hand: providedAccessibleName
+    } );
+
     const accessibleNameProperty = new DerivedProperty( [
       this.ratio.lockedProperty,
-      RatioAndProportionStrings.a11y.handLockedPatternStringProperty
-    ], ( locked, handLockedPattern ) => {
-      return !locked ? providedAccessibleName : StringUtils.fillIn( handLockedPattern, {
-        hand: providedAccessibleName
-      } );
+      handLockedPatternStringProperty
+    ], locked => {
+      return !locked ? providedAccessibleName : handLockedPatternStringProperty;
     } );
 
     // accessible name is also the voicing name response, unless locked

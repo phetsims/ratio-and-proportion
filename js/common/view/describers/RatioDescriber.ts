@@ -101,18 +101,21 @@ class RatioDescriber {
   }
 
   public getProximityToChallengeRatio(): string {
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
     return StringUtils.fillIn( RatioAndProportionStrings.a11y.ratio.proximityToRatioObjectResponseStringProperty, {
       proximityToRatio: this.getRatioFitness( false )
     } );
   }
 
   public getProximityToNewChallengeRatioSentence(): string {
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
     return StringUtils.fillIn( RatioAndProportionStrings.a11y.ratio.proximityToNewRatioPatternStringProperty, {
       proximity: this.getRatioFitness( false )
     } );
   }
 
   public getCurrentChallengeSentence( antecedent: number, consequent: number ): string {
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
     return StringUtils.fillIn( RatioAndProportionStrings.a11y.ratio.currentChallengeStringProperty, {
 
       // for consistency with all values, see https://github.com/phetsims/ratio-and-proportion/issues/283
@@ -122,6 +125,7 @@ class RatioDescriber {
   }
 
   public getTargetRatioChangeAlert( antecedent: number, consequent: number ): string {
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
     return StringUtils.fillIn( RatioAndProportionStrings.a11y.ratio.targetRatioChangedContextResponseStringProperty, {
       proximityToRatio: this.getProximityToNewChallengeRatioSentence(),
       currentChallenge: this.getCurrentChallengeSentence( antecedent, consequent )

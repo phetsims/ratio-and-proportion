@@ -107,6 +107,7 @@ class CreateScreenSummaryNode extends Node {
   }
 
   private getStateOfSim( currentChallenge: TReadOnlyProperty<string> = RatioAndProportionStrings.a11y.create.challengeStringProperty ): string {
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
     return StringUtils.fillIn( RatioAndProportionStrings.a11y.screenSummaryQualitativeStateOfSimStringProperty, {
       color: BackgroundColorHandler.getCurrentColorRegion( this.ratioFitnessProperty.value, this.inProportionProperty.value ),
       ratioFitness: this.ratioDescriber.getRatioFitness( false ),
@@ -116,12 +117,14 @@ class CreateScreenSummaryNode extends Node {
   }
 
   private getLeftHandState(): string {
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
     return StringUtils.fillIn( RatioAndProportionStrings.a11y.leftHandBulletStringProperty, {
       position: this.handPositionsDescriber.getHandPositionDescription( this.ratioTupleProperty.value.antecedent, this.tickMarkViewProperty.value )
     } );
   }
 
   private getRightHandState(): string {
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
     return StringUtils.fillIn( RatioAndProportionStrings.a11y.rightHandBulletStringProperty, {
       position: this.handPositionsDescriber.getHandPositionDescription( this.ratioTupleProperty.value.consequent, this.tickMarkViewProperty.value )
     } );
@@ -137,6 +140,7 @@ class CreateScreenSummaryNode extends Node {
     const patternStringProperty = this.myChallengeAccordionBox.expandedProperty.value ?
                     RatioAndProportionStrings.a11y.detailsButtonWithCurrentChallengePatternStringProperty :
                     RatioAndProportionStrings.a11y.detailsButtonPatternStringProperty;
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
     return StringUtils.fillIn( patternStringProperty, {
       stateOfSim: this.getStateOfSim(),
       leftHand: this.getLeftHandState(),

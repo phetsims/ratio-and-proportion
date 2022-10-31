@@ -13,13 +13,13 @@ import Utils from '../../../../dot/js/Utils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Property from '../../../../axon/js/Property.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import RatioTerm from '../model/RatioTerm.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StationaryValueTracker from './StationaryValueTracker.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import RAPQueryParameters from '../RAPQueryParameters.js';
 import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 
 const FONT = new PhetFont( { size: 16, weight: 'bold' } );
 
@@ -52,7 +52,7 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
     const deviceName = ratioTerm === RatioTerm.ANTECEDENT ? 'nrf52L' : 'nrf52R';
 
     // button label
-    const labelString = StringUtils.fillIn( 'BLE {{side}} device', {
+    const labelStringProperty = new PatternStringProperty( new Property( 'BLE {{side}} device' ), {
       side: ratioTerm === RatioTerm.ANTECEDENT ? 'left' : 'right'
     } );
 
@@ -65,7 +65,7 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
         await this.requestDevice( { filters: [ { name: deviceName } ], optionalServices: [ 0xae6f ] }, tupleProperty, term );
       }
     }, providedOptions );
-    super( labelString, options );
+    super( labelStringProperty, options );
   }
 
   private async requestDevice( bluetoothConfig: BluetoothConfig, tupleProperty: Property<RAPRatioTuple>, term: string ): Promise<void> {
