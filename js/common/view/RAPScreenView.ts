@@ -109,6 +109,7 @@ class RAPScreenView extends ScreenView {
   private readonly mediaPipe: RAPMediaPipe | null;
 
   private stepEmitter = new Emitter<[ number ]>( { parameters: [ { valueType: 'number' } ] } );
+  private readonly labelsNode: RAPTickMarkLabelsNode;
 
   public constructor( model: RAPModel, backgroundColorProperty: Property<Color>, providedOptions?: RAPScreenViewOptions ) {
 
@@ -349,7 +350,7 @@ class RAPScreenView extends ScreenView {
     soundManager.addSoundGenerator( this.movingInProportionSoundGenerator );
 
     // these dimensions are just temporary, and will be recomputed below in the layout function
-    const labelsNode = new RAPTickMarkLabelsNode( this.tickMarkViewProperty, this.tickMarkRangeProperty, 1000, tickMarksAndLabelsColorProperty );
+    this.labelsNode = new RAPTickMarkLabelsNode( this.tickMarkViewProperty, this.tickMarkRangeProperty, 1000, tickMarksAndLabelsColorProperty );
 
     const resetAllButton = new ResetAllButton( {
       listener: () => {
@@ -444,7 +445,7 @@ class RAPScreenView extends ScreenView {
     }
 
     this.children = [
-      labelsNode,
+      this.labelsNode,
 
       // UI
       this.topScalingUILayerNode,
@@ -466,6 +467,17 @@ class RAPScreenView extends ScreenView {
       resetAllButton
     ];
 
+    // Dynamic layout if any controls change (like for dynamic locale switching)
+    this.topScalingUILayerNode.boundsProperty.link( () => {
+      this.topScalingUILayerNode.right = this.layoutBounds.maxX - rapConstants.SCREEN_VIEW_X_MARGIN;
+      this.scaleControls( this.antecedentRatioHalf.rectHeight, this.getRatioWidth() );
+    } );
+    this.bottomScalingUILayerNode.boundsProperty.link( () => {
+      this.bottomScalingUILayerNode.right = this.layoutBounds.maxX - rapConstants.SCREEN_VIEW_X_MARGIN;
+      this.bottomScalingUILayerNode.bottom = this.layoutBounds.height - rapConstants.SCREEN_VIEW_Y_MARGIN;
+      this.scaleControls( this.antecedentRatioHalf.rectHeight, this.getRatioWidth() );
+    } );
+
     this.layoutRAPScreeView = newRatioHalfBounds => {
 
       // between 0 and 1, 0 is the min height, 1 is the max height
@@ -477,47 +489,63 @@ class RAPScreenView extends ScreenView {
       const ratioHalfDraggableArea = newRatioHalfBounds.height - ( 2 * this.antecedentRatioHalf.framingRectangleHeight );
 
       // subtract the top and bottom rectangles from the tick marks height
-      labelsNode.layout( ratioHalfDraggableArea );
+      this.labelsNode.layout( ratioHalfDraggableArea );
 
-      const ratioWidth = this.antecedentRatioHalf.width + this.consequentRatioHalf.width + ( 2 * RATIO_HALF_SPACING ) + labelsNode.width;
+      const ratioWidth = this.getRatioWidth();
 
-      const uiLayerScale = uiScaleFunction.evaluate( newRatioHalfBounds.height );
-      this.topScalingUILayerNode.setScaleMagnitude( uiLayerScale );
-      this.bottomScalingUILayerNode.setScaleMagnitude( uiLayerScale );
-      this.topScalingUILayerNode.top = uiPositionFunction.evaluate( uiLayerScale );
+      this.scaleControls( newRatioHalfBounds.height, this.getRatioWidth() );
 
-      // do this again each time after scaling
-      this.topScalingUILayerNode.right = this.bottomScalingUILayerNode.right = this.layoutBounds.maxX - rapConstants.SCREEN_VIEW_X_MARGIN;
-      this.bottomScalingUILayerNode.bottom = this.layoutBounds.height - rapConstants.SCREEN_VIEW_Y_MARGIN;
-
-      assert && assert( Math.min( this.topScalingUILayerNode.left, this.bottomScalingUILayerNode.left ) >
-                        ratioWidth - rapConstants.SCREEN_VIEW_X_MARGIN,
-        'ratio width has to fit' );
-
-      // topScalingUILayerNode is a proxy for the width of the controls to the right of the ratio
       this.antecedentRatioHalf.left = ( Math.max( RATIO_SECTION_WIDTH * this.layoutBounds.width, ratioWidth ) - ratioWidth ) / 2;
 
-      labelsNode.left = this.antecedentRatioHalf.right + RATIO_HALF_SPACING;
-      this.consequentRatioHalf.left = labelsNode.right + RATIO_HALF_SPACING;
+      this.labelsNode.left = this.antecedentRatioHalf.right + RATIO_HALF_SPACING;
+      this.consequentRatioHalf.left = this.labelsNode.right + RATIO_HALF_SPACING;
 
       this.antecedentRatioHalf.setBottomOfRatioHalf( this.layoutBounds.bottom );
       this.consequentRatioHalf.setBottomOfRatioHalf( this.layoutBounds.bottom );
 
       // offset the bottom so that the center of the text is right on the tick mark
-      labelsNode.bottom = this.layoutBounds.bottom - this.antecedentRatioHalf.framingRectangleHeight + labelsNode.labelHeight / 2;
+      this.labelsNode.bottom = this.layoutBounds.bottom - this.antecedentRatioHalf.framingRectangleHeight + this.labelsNode.labelHeight / 2;
 
       if ( positionRegionsNode ) {
-        const ratioHalvesWidth = this.antecedentRatioHalf.width + this.consequentRatioHalf.width + ( 2 * RATIO_HALF_SPACING ) + labelsNode.width;
+        const ratioHalvesWidth = this.antecedentRatioHalf.width + this.consequentRatioHalf.width + ( 2 * RATIO_HALF_SPACING ) + this.labelsNode.width;
         positionRegionsNode.layout( ratioHalvesWidth, ratioHalfDraggableArea );
         positionRegionsNode.left = this.antecedentRatioHalf.left;
         positionRegionsNode.bottom = this.layoutBounds.bottom - this.antecedentRatioHalf.framingRectangleHeight + ( positionRegionsNode.labelsHeight / 2 );
       }
+
+      assert && assert( Math.min( this.topScalingUILayerNode.left, this.bottomScalingUILayerNode.left ) >
+                        this.consequentRatioHalf.right,
+        'controls are too wide for ratio width to fit.' );
 
       assert && assert( this.antecedentRatioHalf.width + this.consequentRatioHalf.width +
                         Math.max( this.topScalingUILayerNode.width, this.bottomScalingUILayerNode.width ) < LAYOUT_BOUNDS.width,
         'everything should fit inside layout bounds' );
     };
     this.layoutRAPScreeView( defaultRatioHalfBounds );
+  }
+
+  private getRatioWidth(): number {
+    const inBetweenRatioWidth = ( 2 * RATIO_HALF_SPACING ) + this.labelsNode.width;
+    return this.antecedentRatioHalf.width + this.consequentRatioHalf.width + inBetweenRatioWidth;
+  }
+
+  // Scale the UI controls on the right side of the ScreenView
+  private scaleControls( height: number, ratioWidth: number ): void {
+
+    // Ideal scale
+    const desiredScaleFromHeight = uiScaleFunction.evaluate( height );
+
+    const unscaledWidth = Math.max( this.topScalingUILayerNode.localBoundsProperty.value.width,
+      this.bottomScalingUILayerNode.localBoundsProperty.value.width );
+    const availableWidth = this.layoutBounds.width - ratioWidth - 2 * rapConstants.SCREEN_VIEW_X_MARGIN;
+    assert && assert( unscaledWidth < availableWidth, 'availableWidth should always be greater than width of component' );
+
+    // If the controls are too big, scale less than desired as to not overlap with ratio
+    const actualScale = Math.min( desiredScaleFromHeight, availableWidth / unscaledWidth );
+
+    this.topScalingUILayerNode.setScaleMagnitude( actualScale );
+    this.bottomScalingUILayerNode.setScaleMagnitude( actualScale );
+    this.topScalingUILayerNode.top = uiPositionFunction.evaluate( actualScale );
   }
 
   /**

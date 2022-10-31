@@ -75,13 +75,15 @@ class MyChallengeAccordionBox extends AccordionBox {
     const options = optionize<MyChallengeAccordionBoxOptions, EmptySelfOptions, AccordionBoxOptions>()( {
       titleNode: new RichText( RatioAndProportionStrings.myChallengeStringProperty, {
         font: new PhetFont( 20 ),
-        maxWidth: 250 // empirically determined
+        maxWidth: 200 // empirically determined
       } ),
       accessibleName: RatioAndProportionStrings.myChallengeStringProperty,
       titleAlignX: 'left',
       contentXMargin: 26,
       contentYMargin: 15,
       contentYSpacing: 15,
+
+      maxWidth: 220,
 
       // Copied from NLCConstants.js, see https://github.com/phetsims/ratio-and-proportion/issues/58#issuecomment-646377333
       cornerRadius: 5,

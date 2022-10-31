@@ -3,7 +3,7 @@
 /**
  * A combo box that displays the possible ranges for the tick marks and labels. The design requirements for this
  * component state that when disabled, that the elements aren't shown (as they are a distraction to the pedagogy).
- * Instead they are replaced with a solid horizontal line. To accomplish this, two ComboBoxes are created and then
+ * Instead, they are replaced with a solid horizontal line. To accomplish this, two ComboBoxes are created and then
  * swapped out. This ended up being easier and simpler than trying to add the ability to swap-out Nodes (and their PDOM
  * content) dynamically to a single ComboBox instance.
  *
@@ -26,7 +26,7 @@ import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 const TICK_MARK_RANGE_FONT = new PhetFont( 16 );
-const RANGE_TEXT_OPTIONS = { font: TICK_MARK_RANGE_FONT };
+const RANGE_TEXT_OPTIONS = { font: TICK_MARK_RANGE_FONT, maxWidth: 90 };
 
 class TickMarkRangeComboBoxNode extends Node {
 
@@ -58,7 +58,7 @@ class TickMarkRangeComboBoxNode extends Node {
       labelNode: new RichText( RatioAndProportionStrings.rangeStringProperty, RANGE_TEXT_OPTIONS ),
       helpText: RatioAndProportionStrings.a11y.create.tickMarkRangeHelpTextStringProperty,
       accessibleName: RatioAndProportionStrings.rangeStringProperty,
-      maxWidth: 300, // empirically determined
+      maxWidth: 250, // empirically determined
 
       comboBoxVoicingNameResponsePattern: RatioAndProportionStrings.a11y.create.rangeLabelPatternStringProperty,
       comboBoxVoicingContextResponse: () => this.getContextResponse(),
