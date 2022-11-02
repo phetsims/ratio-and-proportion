@@ -25,6 +25,7 @@ class CreateScreenKeyboardHelpContent extends RAPKeyboardHelpContent {
 }
 
 class MyChallengeHelpSection extends KeyboardHelpSection {
+  private readonly disposeMyChallengeHelpSection: () => void;
 
   public constructor( options?: CreateScreenKeyboardHelpContentOptions ) {
 
@@ -33,17 +34,29 @@ class MyChallengeHelpSection extends KeyboardHelpSection {
         labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.setHandRatioValueDescriptionStringProperty
       } );
 
+    const homeKeyNode = TextKeyNode.home();
     const jumpToMinimum = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.jumpToMinimumStringProperty,
-      TextKeyNode.home(), {
+      homeKeyNode, {
         labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.jumpToMinimumDescriptionStringProperty
       } );
 
+    const endKeyNode = TextKeyNode.end();
     const jumpToMaximum = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.jumpToMaximumStringProperty,
-      TextKeyNode.end(), {
+      endKeyNode, {
         labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.jumpToMaximumDescriptionStringProperty
       } );
 
     super( RatioAndProportionStrings.setMyRatioChallengeStringProperty, [ setHandRatioValue, jumpToMinimum, jumpToMaximum ], options );
+
+    this.disposeMyChallengeHelpSection = () => {
+      homeKeyNode.dispose();
+      endKeyNode.dispose();
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeMyChallengeHelpSection();
+    super.dispose();
   }
 }
 

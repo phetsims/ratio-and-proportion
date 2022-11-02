@@ -24,8 +24,10 @@ export type RAPKeyboardHelpContentOptions = SelfOptions & TwoColumnKeyboardHelpC
 
 class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
 
+  private readonly disposeRAPKeyboardHelpContent: () => void;
+
   /**
-   * @param challengeHelpSection - keyboard help section for determining how to change the target ratio
+   * @param challengeHelpSection - keyboard help section for determining how to change the target ratio. We will dispose this!
    * @param [providedOptions]
    */
   public constructor( challengeHelpSection: KeyboardHelpSection, providedOptions?: RAPKeyboardHelpContentOptions ) {
@@ -43,29 +45,46 @@ class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
       withCheckboxContent: true
     } );
 
-    const leftContent = [ moveLeftOrRightHandHelpSection, new BothHandsHelpSection() ];
+    const bothHandsHelpSection = new BothHandsHelpSection();
+    const leftContent = [ moveLeftOrRightHandHelpSection, bothHandsHelpSection ];
     const rightContent = [ challengeHelpSection, basicActionsHelpSection ];
 
     super( leftContent, rightContent, providedOptions );
+
+    this.disposeRAPKeyboardHelpContent = () => {
+      moveLeftOrRightHandHelpSection.dispose();
+      bothHandsHelpSection.dispose();
+      challengeHelpSection.dispose();
+      basicActionsHelpSection.dispose();
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeRAPKeyboardHelpContent();
+    super.dispose();
   }
 }
 
 class BothHandsHelpSection extends KeyboardHelpSection {
+  private readonly disposeBothHandsHelpSection: () => void;
 
   public constructor( options?: KeyboardHelpSectionOptions ) {
 
+    const wOrSIcon = KeyboardHelpIconFactory.iconRow( [ new LetterKeyNode( 'W' ), new LetterKeyNode( 'S' ) ] );
     const moveLeftHand = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.moveLeftHandStringProperty,
-      KeyboardHelpIconFactory.iconRow( [ new LetterKeyNode( 'W' ), new LetterKeyNode( 'S' ) ] ), {
+      wOrSIcon, {
         labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.leftHandDescriptionStringProperty
       } );
 
+    const arrowKeysRow = KeyboardHelpIconFactory.upDownArrowKeysRowIcon();
     const moveRightHand = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.moveRightHandStringProperty,
-      KeyboardHelpIconFactory.upDownArrowKeysRowIcon(), {
+      arrowKeysRow, {
         labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.rightHandDescriptionStringProperty
       } );
 
+    const shiftIcon = TextKeyNode.shift();
     const moveInSmallerSteps = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.moveHandsInSmallerStepsStringProperty,
-      TextKeyNode.shift(), {
+      shiftIcon, {
         labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.handsInSmallerStepsDescriptionStringProperty
       } );
 
@@ -76,6 +95,17 @@ class BothHandsHelpSection extends KeyboardHelpSection {
 
     super( RatioAndProportionStrings.moveBothHandsSimultaneouslyStringProperty,
       [ moveLeftHand, moveRightHand, moveInSmallerSteps, jumpBothHands ], options );
+
+    this.disposeBothHandsHelpSection = () => {
+      wOrSIcon.dispose();
+      arrowKeysRow.dispose();
+      shiftIcon.dispose();
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeBothHandsHelpSection();
+    super.dispose();
   }
 }
 
