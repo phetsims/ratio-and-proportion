@@ -33,11 +33,11 @@ class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
   public constructor( challengeHelpSection: KeyboardHelpSection, providedOptions?: RAPKeyboardHelpContentOptions ) {
 
     const moveLeftOrRightHandHelpSection = new SliderControlsKeyboardHelpSection( {
-      headingString: RatioAndProportionStrings.moveHandsIndividuallyStringProperty,
-      verbString: RatioAndProportionStrings.moveStringProperty,
-      sliderString: RatioAndProportionStrings.leftOrRightHandStringProperty,
-      maximumString: RatioAndProportionStrings.topStringProperty,
-      minimumString: RatioAndProportionStrings.bottomStringProperty,
+      headingStringProperty: RatioAndProportionStrings.moveHandsIndividuallyStringProperty,
+      verbStringProperty: RatioAndProportionStrings.moveStringProperty,
+      sliderStringProperty: RatioAndProportionStrings.leftOrRightHandStringProperty,
+      maximumStringProperty: RatioAndProportionStrings.topStringProperty,
+      minimumStringProperty: RatioAndProportionStrings.bottomStringProperty,
       arrowKeyIconDisplay: SliderControlsKeyboardHelpSection.ArrowKeyIconDisplay.UP_DOWN // on cue up/down arrows, not left/right also.
     } );
 
