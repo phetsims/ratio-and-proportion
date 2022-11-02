@@ -88,8 +88,9 @@ class BothHandsHelpSection extends KeyboardHelpSection {
         labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.handsInSmallerStepsDescriptionStringProperty
       } );
 
+    const numberToNumberIcon = KeyboardHelpIconFactory.iconToIcon( new NumberKeyNode( 0 ), new NumberKeyNode( 9 ) );
     const jumpBothHands = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.jumpBothHandsStringProperty,
-      KeyboardHelpIconFactory.iconToIcon( new NumberKeyNode( 0 ), new NumberKeyNode( 9 ) ), {
+      numberToNumberIcon, {
         labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.jumpBothHandsDescriptionStringProperty
       } );
 
@@ -98,6 +99,7 @@ class BothHandsHelpSection extends KeyboardHelpSection {
 
     this.disposeBothHandsHelpSection = () => {
       wOrSIcon.dispose();
+      numberToNumberIcon.dispose();
       arrowKeysRow.dispose();
       shiftIcon.dispose();
     };
