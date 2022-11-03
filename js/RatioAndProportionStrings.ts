@@ -24,7 +24,7 @@ type StringsType = {
   'challenge1StringProperty': LinkableProperty<string>;
   'challenge2StringProperty': LinkableProperty<string>;
   'challenge3StringProperty': LinkableProperty<string>;
-  'ratioLockStringProperty': LinkableProperty<string>;
+  'lockRatioStringProperty': LinkableProperty<string>;
   'moveBothHandsSimultaneouslyStringProperty': LinkableProperty<string>;
   'moveLeftHandStringProperty': LinkableProperty<string>;
   'moveRightHandStringProperty': LinkableProperty<string>;

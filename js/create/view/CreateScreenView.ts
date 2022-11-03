@@ -80,14 +80,14 @@ class CreateScreenView extends RAPScreenView {
       spacing: 8,
       maxWidth: 200,
       children: [
-        new Text( RatioAndProportionStrings.ratioLockStringProperty, { font: new PhetFont( 20 ) } ),
+        new Text( RatioAndProportionStrings.lockRatioStringProperty, { font: new PhetFont( 20 ) } ),
         new LockNode( model.ratio.lockedProperty, { scale: 0.5 } )
       ]
     } );
 
     const ratioLockCheckbox = new Checkbox( model.ratio.lockedProperty, ratioLockContent, {
-      accessibleName: RatioAndProportionStrings.ratioLockStringProperty,
-      voicingNameResponse: RatioAndProportionStrings.ratioLockStringProperty,
+      accessibleName: RatioAndProportionStrings.lockRatioStringProperty,
+      voicingNameResponse: RatioAndProportionStrings.lockRatioStringProperty,
 
       checkedContextResponse: RatioAndProportionStrings.a11y.ratioLockCheckboxContextResponseStringProperty,
       uncheckedContextResponse: RatioAndProportionStrings.a11y.ratioNoLongerLockedStringProperty,
