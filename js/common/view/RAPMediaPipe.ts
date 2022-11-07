@@ -257,6 +257,9 @@ class RAPMediaPipe extends MediaPipe {
       // These are along the center of a hand, about where we have calibrated the hand icon in RAP, see https://google.github.io/mediapipe/solutions/hands.html#hand-landmark-model
       HAND_POINTS.forEach( index => {
         const point = handMarkerPositions[ index ];
+        if ( !point.x || !point.y || !point.z ) {
+          console.log( 'broken hand landmark input: ', multiHandLandmarks );
+        }
         assert && assert( typeof point.x === 'number' );
         assert && assert( typeof point.y === 'number' );
         assert && assert( typeof point.z === 'number' );
