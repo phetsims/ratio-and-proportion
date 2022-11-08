@@ -156,7 +156,10 @@ class RAPMediaPipe extends MediaPipe {
                                                false;
 
     // Though isBeingInteractedWithProperty is tolerant, we actually need two hands to calculate sim changes.
-    if ( results && ( results.multiHandLandmarks.length === 2 || results.multiHandLandmarks.length === 1 ) ) {
+    if ( results && results.multiHandLandmarks && ( results.multiHandLandmarks.length === 2 || results.multiHandLandmarks.length === 1 ) &&
+
+         // ensure that multiHandLandmarks look as expected, or ignore that frame, see https://github.com/phetsims/ratio-and-proportion/issues/501
+         _.every( results.multiHandLandmarks, landmarkList => landmarkList.length === 21 ) ) {
 
       // Voicing is disabled with the gesture of an "O" hand gesture from both hands. Must be set before this.onInteract() is called
       this.oHandGestureProperty.value = this.oHandGesturePresent( results.multiHandLandmarks );
