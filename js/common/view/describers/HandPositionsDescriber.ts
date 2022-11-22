@@ -133,7 +133,7 @@ class HandPositionsDescriber {
   private previousDistanceRegionBoth: null | string;
 
   private previousDistance: number;
-  public static POSITION_REGIONS_DATA: PositionRegionsData[];
+  public static readonly POSITION_REGIONS_DATA = POSITION_REGIONS_DATA;
   private previousEdgeCheckTuple: RAPRatioTuple;
   public enabledRatioTermsRangeProperty: TReadOnlyProperty<Range>;
 
@@ -550,8 +550,6 @@ class HandPositionsDescriber {
     this.previousEdgeCheckTuple = this.ratioTupleProperty.value;
   }
 }
-
-HandPositionsDescriber.POSITION_REGIONS_DATA = POSITION_REGIONS_DATA;
 
 ratioAndProportion.register( 'HandPositionsDescriber', HandPositionsDescriber );
 export default HandPositionsDescriber;

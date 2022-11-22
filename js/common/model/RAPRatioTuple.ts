@@ -22,11 +22,17 @@ class RAPRatioTuple {
   public antecedent: number;
   public consequent: number;
 
-  public static RAPRatioTupleIO: IOType;
-  public static STATE_SCHEMA = {
+  public static readonly STATE_SCHEMA = {
     antecedent: NumberIO,
     consequent: NumberIO
   };
+  public static readonly RAPRatioTupleIO = new IOType( 'RAPRatioTupleIO', {
+    valueType: RAPRatioTuple,
+    toStateObject: ( rapRatioTuple: RAPRatioTuple ) => rapRatioTuple.toStateObject(),
+    stateSchema: RAPRatioTuple.STATE_SCHEMA,
+    fromStateObject: stateObject => RAPRatioTuple.fromStateObject( stateObject ),
+    documentation: 'the basic data structure that holds both ratio term values, the antecedent and consequent.'
+  } );
 
   public constructor( antecedent: number, consequent: number ) {
     assert && assert( !isNaN( antecedent ) );
@@ -120,14 +126,6 @@ class RAPRatioTuple {
     return new RAPRatioTuple( stateObject.antecedent, stateObject.consequent );
   }
 }
-
-RAPRatioTuple.RAPRatioTupleIO = new IOType( 'RAPRatioTupleIO', {
-  valueType: RAPRatioTuple,
-  toStateObject: ( rapRatioTuple: RAPRatioTuple ) => rapRatioTuple.toStateObject(),
-  stateSchema: RAPRatioTuple.STATE_SCHEMA,
-  fromStateObject: stateObject => RAPRatioTuple.fromStateObject( stateObject ),
-  documentation: 'the basic data structure that holds both ratio term values, the antecedent and consequent.'
-} );
 
 ratioAndProportion.register( 'RAPRatioTuple', RAPRatioTuple );
 export default RAPRatioTuple;
