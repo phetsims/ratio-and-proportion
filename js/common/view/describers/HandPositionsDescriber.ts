@@ -280,7 +280,7 @@ class HandPositionsDescriber {
     }
 
     assert && assert( distanceClause, 'Should be filled in by now' );
-    const otherHandStringProperty = ratioTerm === RatioTerm.ANTECEDENT ?
+    const otherHandStringProperty = ratioTerm === RatioTerm.CONSEQUENT ?
                                     RatioAndProportionStrings.a11y.leftHandLowerStringProperty :
                                     RatioAndProportionStrings.a11y.rightHandLowerStringProperty;
 
