@@ -13,7 +13,7 @@
     "branch": "HEAD"
   },
   "chipper": {
-    "sha": "503664392de93a887fbc82d9dda9a164e7eb9275",
+    "sha": "c01b32007a9f96f92e9f523f07eb69b281e12c67",
     "branch": "ratio-and-proportion-1.1"
   },
   "dot": {
@@ -61,7 +61,7 @@
     "branch": "HEAD"
   },
   "ratio-and-proportion": {
-    "sha": "10f75e03723cc9c4c8bea137999ec68a94eac777",
+    "sha": "106124f58e819f9937d319543e9882b066668280",
     "branch": "1.1"
   },
   "scenery": {
