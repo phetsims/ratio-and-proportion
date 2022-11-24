@@ -83,15 +83,6 @@
   "chooseAChallengeRatio": {
     "value": "Choose a Challenge Ratio"
   },
-  "cameraInputFlipX": {
-    "value": "Flip hand operation between mirrored hand control and opposite hand control"
-  },
-  "cameraInputFlipY": {
-    "value": "Flip camera view of hands between frontal and horizontal views"
-  },
-  "customizeHandMovement": {
-    "value": "Customize Hand Movement"
-  },
   "a11y": {
     "keyboardHelp": {
       "leftHandDescription": {
@@ -651,18 +642,6 @@
     },
     "up": {
       "value": "up"
-    },
-    "cameraInputFlipXChecked": {
-      "value": "Using opposite hand control."
-    },
-    "cameraInputFlipXUnchecked": {
-      "value": "Using mirrored hand control."
-    },
-    "cameraInputFlipYChecked": {
-      "value": "Using horizontal view of hands."
-    },
-    "cameraInputFlipYUnchecked": {
-      "value": "Using frontal view of hands."
     }
   }
 }

@@ -6,16 +6,16 @@
  */
 
 import PreferencesModel, { PreferencesModelOptions } from '../../../../joist/js/preferences/PreferencesModel.js';
+import MediaPipe from '../../../../tangible/js/mediaPipe/MediaPipe.js';
 import MediaPipeQueryParameters from '../../../../tangible/js/mediaPipe/MediaPipeQueryParameters.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import RAPMediaPipe from './RAPMediaPipe.js';
 
 class RAPPreferencesModel extends PreferencesModel {
 
   public constructor() {
     const options: PreferencesModelOptions = { inputOptions: {} };
     if ( MediaPipeQueryParameters.cameraInput === 'hands' ) {
-      options.inputOptions!.customPreferences = [ { createContent: () => RAPMediaPipe.getMediaPipeOptionsNode() } ];
+      options.inputOptions!.customPreferences = [ { createContent: () => MediaPipe.getMediaPipeOptionsNode() } ];
     }
     super( options );
   }
