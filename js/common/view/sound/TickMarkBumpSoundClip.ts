@@ -53,7 +53,7 @@ class TickMarkBumpSoundClip extends SoundClip {
 
         // Not at max or min, crossed a tick mark value
         if ( currentValue !== this.positionRange.min && currentValue !== this.positionRange.max &&
-             this.lastValue < tickValue && currentValue >= tickValue || this.lastValue > tickValue && currentValue <= tickValue ) {
+             ( this.lastValue < tickValue && currentValue >= tickValue || this.lastValue > tickValue && currentValue <= tickValue ) ) {
 
           // if enough time has passed since the last change
           if ( phet.joist.elapsedTime - this.timeOfLastClick >= MIN_INTER_CLICK_TIME ) {
