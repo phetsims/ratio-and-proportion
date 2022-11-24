@@ -33,7 +33,7 @@
     "branch": "HEAD"
   },
   "perennial-alias": {
-    "sha": "6b8f409a1c5ac90d92f7e3899baf1bbda20ec119",
+    "sha": "0e21db99e2d465b16ca2c9d2cc8b54e4feb7bc5f",
     "branch": "HEAD"
   },
   "phet-core": {
@@ -65,7 +65,7 @@
     "branch": "HEAD"
   },
   "ratio-and-proportion": {
-    "sha": "453fa1a74700fc6d6a87acce56d72cfe8681f5a4",
+    "sha": "9a64cf6641ecc00bd03e2c7b1bbb9744e37f5c6d",
     "branch": "1.2"
   },
   "scenery": {
