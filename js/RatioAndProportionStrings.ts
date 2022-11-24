@@ -41,9 +41,6 @@ type StringsType = {
   'bottomStringProperty': LinkableProperty<string>;
   'challengeRatioStringProperty': LinkableProperty<string>;
   'chooseAChallengeRatioStringProperty': LinkableProperty<string>;
-  'cameraInputFlipXStringProperty': LinkableProperty<string>;
-  'cameraInputFlipYStringProperty': LinkableProperty<string>;
-  'customizeHandMovementStringProperty': LinkableProperty<string>;
   'a11y': {
     'keyboardHelp': {
       'leftHandDescriptionStringProperty': LinkableProperty<string>;
@@ -254,10 +251,6 @@ type StringsType = {
     };
     'downStringProperty': LinkableProperty<string>;
     'upStringProperty': LinkableProperty<string>;
-    'cameraInputFlipXCheckedStringProperty': LinkableProperty<string>;
-    'cameraInputFlipXUncheckedStringProperty': LinkableProperty<string>;
-    'cameraInputFlipYCheckedStringProperty': LinkableProperty<string>;
-    'cameraInputFlipYUncheckedStringProperty': LinkableProperty<string>;
   }
 };
 

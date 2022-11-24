@@ -27,12 +27,8 @@ import Property from '../../../../axon/js/Property.js';
 import Vector3 from '../../../../dot/js/Vector3.js';
 import rapConstants from '../rapConstants.js';
 import ViewSounds from './sound/ViewSounds.js';
-import { Node, RichText, TextOptions, VBox, VoicingText } from '../../../../scenery/js/imports.js';
-import Checkbox from '../../../../sun/js/Checkbox.js';
-import rapMediaPipeOptions from './rapMediaPipeOptions.js';
-import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import handleSmoothValue from './handleSmoothValue.js';
@@ -41,11 +37,9 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import MediaPipeQueryParameters from '../../../../tangible/js/mediaPipe/MediaPipeQueryParameters.js';
-import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
-import PreferencesDialog from '../../../../joist/js/preferences/PreferencesDialog.js';
 
 if ( MediaPipeQueryParameters.cameraInput === 'hands' ) {
-  MediaPipe.initialize( { mediaPipeOptionsObject: rapMediaPipeOptions } );
+  MediaPipe.initialize();
 }
 
 // Number of positions to keep to average out to smooth the hand positions
@@ -186,7 +180,7 @@ class RAPMediaPipe extends MediaPipe {
 
       // If locked, then only change one of the value, the other will update accordingly.
       if ( this.ratioLockedProperty.value ) {
-        if ( rapMediaPipeOptions.xAxisFlippedProperty.value ) {
+        if ( MediaPipe.xAxisFlippedProperty.value ) {
           newTuple.antecedent = this.ratioTupleProperty.value.antecedent;
         }
         else {
@@ -266,8 +260,8 @@ class RAPMediaPipe extends MediaPipe {
         assert && assert( typeof point.x === 'number' );
         assert && assert( typeof point.y === 'number' );
         assert && assert( typeof point.z === 'number' );
-        const yPosition = rapMediaPipeOptions.yAxisFlippedProperty.value ? point.y : HAND_POSITION_MAX_VALUE - point.y;
-        const xPosition = rapMediaPipeOptions.xAxisFlippedProperty.value ? point.x : HAND_POSITION_MAX_VALUE - point.x;
+        const yPosition = MediaPipe.yAxisFlippedProperty.value ? point.y : HAND_POSITION_MAX_VALUE - point.y;
+        const xPosition = MediaPipe.xAxisFlippedProperty.value ? point.x : HAND_POSITION_MAX_VALUE - point.x;
         const position = new Vector3( xPosition, yPosition, HAND_POSITION_MAX_VALUE - point.z );
         finalPosition.add( position );
       } );
@@ -344,37 +338,6 @@ class RAPMediaPipe extends MediaPipe {
       // If there is a single O_HAND_GESTURE present, then there is still intent to gesture.
       () => this.oHandGestureDetectedHistory.filter( _.identity ).length !== 0
     );
-  }
-
-  public static override getMediaPipeOptionsNode(): Node {
-    return MediaPipe.getMediaPipeOptionsNode( rapMediaPipeOptions, new VBox( {
-      spacing: 5,
-      align: 'left',
-      children: [
-        new VoicingText( RatioAndProportionStrings.customizeHandMovementStringProperty, combineOptions<TextOptions>( {
-          tagName: 'h3',
-          accessibleName: RatioAndProportionStrings.customizeHandMovementStringProperty
-        }, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS ) ),
-        new Checkbox( rapMediaPipeOptions.yAxisFlippedProperty,
-          new RichText( RatioAndProportionStrings.cameraInputFlipYStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ), {
-            voicingNameResponse: RatioAndProportionStrings.cameraInputFlipYStringProperty,
-            voiceNameResponseOnSelection: false,
-            accessibleName: RatioAndProportionStrings.cameraInputFlipYStringProperty,
-            checkedContextResponse: RatioAndProportionStrings.a11y.cameraInputFlipYCheckedStringProperty,
-            uncheckedContextResponse: RatioAndProportionStrings.a11y.cameraInputFlipYUncheckedStringProperty,
-            tandem: Tandem.OPT_OUT
-          } ),
-        new Checkbox( rapMediaPipeOptions.xAxisFlippedProperty,
-          new RichText( RatioAndProportionStrings.cameraInputFlipXStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ), {
-            voicingNameResponse: RatioAndProportionStrings.cameraInputFlipXStringProperty,
-            voiceNameResponseOnSelection: false,
-            accessibleName: RatioAndProportionStrings.cameraInputFlipXStringProperty,
-            checkedContextResponse: RatioAndProportionStrings.a11y.cameraInputFlipXCheckedStringProperty,
-            uncheckedContextResponse: RatioAndProportionStrings.a11y.cameraInputFlipXUncheckedStringProperty,
-            tandem: Tandem.OPT_OUT
-          } )
-      ]
-    } ) );
   }
 
   public reset(): void {
