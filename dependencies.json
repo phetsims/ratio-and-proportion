@@ -33,7 +33,7 @@
     "branch": "HEAD"
   },
   "phet-core": {
-    "sha": "79d751afb8cb7e3caaf50e4cd5bc65ca87722768",
+    "sha": "82a33c17f0c3f3894ab354b440136e7c3d71b8ec",
     "branch": "HEAD"
   },
   "phet-io": {
@@ -61,7 +61,7 @@
     "branch": "HEAD"
   },
   "ratio-and-proportion": {
-    "sha": "aa5af26272aba95ef1e63dc0bde63ebe99d62e48",
+    "sha": "7671d46c9363fd52e22a8af758adb7101f69d6e8",
     "branch": "1.0"
   },
   "scenery": {
