@@ -1,5 +1,5 @@
 {
-  "comment": "# ratio-and-proportion 1.0.5 Mon Jan 31 2022 12:08:40 GMT-0700 (Mountain Standard Time)",
+  "comment": "# ratio-and-proportion 1.0.6-rc.1 Sat Nov 26 2022 12:01:57 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "3df8c5ff9a465b031f84195a90bbb7e1be10a14d",
     "branch": "HEAD"
@@ -61,7 +61,7 @@
     "branch": "HEAD"
   },
   "ratio-and-proportion": {
-    "sha": "9eff92a0a8474feff60d410cd2db00a00995022e",
+    "sha": "62147de9374dac7313e9b918f894506fc0e95277",
     "branch": "1.0"
   },
   "scenery": {
