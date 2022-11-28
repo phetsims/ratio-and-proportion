@@ -33,7 +33,7 @@ type ChallengeInfo = {
   lowercaseStringProperty: TReadOnlyProperty<string>;
   color: Color;
   soundClip: SoundClip;
-  a11yLabelStringProperty: TReadOnlyProperty<string>;
+  a11yNameStringProperty: TReadOnlyProperty<string>;
   tandemName: string;
 };
 
@@ -68,7 +68,7 @@ class ChallengeRatioComboBoxNode extends Node {
       lowercaseStringProperty: RatioAndProportionStrings.a11y.discover.challenge1LowercaseStringProperty,
       color: RAPColors.discoverChallenge1Property.value,
       soundClip: new SoundClip( selectionArpeggio001_mp3, SOUND_CLIP_OPTIONS ),
-      a11yLabelStringProperty: RatioAndProportionStrings.challenge1StringProperty,
+      a11yNameStringProperty: RatioAndProportionStrings.challenge1StringProperty,
       tandemName: `challenge1${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
     } );
     this.ratioToChallengeInfoMap.set( 1 / 3, {
@@ -76,7 +76,7 @@ class ChallengeRatioComboBoxNode extends Node {
       lowercaseStringProperty: RatioAndProportionStrings.a11y.discover.challenge2LowercaseStringProperty,
       color: RAPColors.discoverChallenge2Property.value,
       soundClip: new SoundClip( selectionArpeggio004_mp3, SOUND_CLIP_OPTIONS ),
-      a11yLabelStringProperty: RatioAndProportionStrings.challenge2StringProperty,
+      a11yNameStringProperty: RatioAndProportionStrings.challenge2StringProperty,
       tandemName: `challenge2${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
     } );
     this.ratioToChallengeInfoMap.set( 3 / 4, {
@@ -84,7 +84,7 @@ class ChallengeRatioComboBoxNode extends Node {
       lowercaseStringProperty: RatioAndProportionStrings.a11y.discover.challenge3LowercaseStringProperty,
       color: RAPColors.discoverChallenge3Property.value,
       soundClip: new SoundClip( selectionArpeggio006_mp3, SOUND_CLIP_OPTIONS ),
-      a11yLabelStringProperty: RatioAndProportionStrings.challenge3StringProperty,
+      a11yNameStringProperty: RatioAndProportionStrings.challenge3StringProperty,
       tandemName: `challenge3${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
     } );
 
@@ -152,7 +152,7 @@ function createComboBoxItem( targetRatio: number, challengeInfo: ChallengeInfo )
     value: targetRatio,
     node: node,
     soundPlayer: challengeInfo.soundClip,
-    a11yName: challengeInfo.a11yLabelStringProperty,
+    a11yName: challengeInfo.a11yNameStringProperty,
     tandemName: challengeInfo.tandemName
   };
 }
