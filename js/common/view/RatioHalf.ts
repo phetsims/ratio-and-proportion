@@ -220,8 +220,7 @@ class RatioHalf extends Rectangle {
                                       ( assert && assert( false, `unexpected ratioTerm ${this.ratioTerm}` ) ) as unknown as RAPRatioTuple
     } );
 
-    const createObjectResponse = () => this.ratio.lockedProperty.value ? options.ratioDescriber.getProximityToChallengeRatio() :
-                                       options.ratioDescriber.getProximityToChallengeRatio();
+    const createObjectResponse = () => options.ratioDescriber.getProximityToChallengeRatio();
 
     this.ratioHandNode = new RatioHandNode(
       options.tickMarkViewProperty,
