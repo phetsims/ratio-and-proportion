@@ -35,6 +35,10 @@ const DEFAULT_TERM_VALUE_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 // because that threshold value, by definition, will unlock the ratio, see https://github.com/phetsims/ratio-and-proportion/issues/257#issuecomment-748285667
 const LOCK_RATIO_RANGE_MIN = rapConstants.NO_SUCCESS_VALUE_THRESHOLD + Number.EPSILON;
 
+// This value needs to be an "even and round" number as it pertains to the step size of the sliders that control the ratio.
+// See https://github.com/phetsims/ratio-and-proportion/issues/535
+assert && assert( LOCK_RATIO_RANGE_MIN === 0.01, 'please be careful when changing this' );
+
 class RAPRatio {
 
   // Keep two references so that this can be public readonly, AND changed internally.
