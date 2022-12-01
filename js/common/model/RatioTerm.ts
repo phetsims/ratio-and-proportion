@@ -12,10 +12,10 @@ import Enumeration from '../../../../phet-core/js/Enumeration.js';
 
 
 class RatioTerm extends EnumerationValue {
-  public static ANTECEDENT = new RatioTerm();
-  public static CONSEQUENT = new RatioTerm();
+  public static readonly ANTECEDENT = new RatioTerm();
+  public static readonly CONSEQUENT = new RatioTerm();
 
-  public static enumeration = new Enumeration( RatioTerm );
+  public static readonly enumeration = new Enumeration( RatioTerm );
 }
 
 export default RatioTerm;

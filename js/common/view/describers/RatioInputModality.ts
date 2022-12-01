@@ -10,9 +10,9 @@ import Enumeration from '../../../../../phet-core/js/Enumeration.js';
 import RatioTerm from '../../model/RatioTerm.js';
 
 class RatioInputModality extends RatioTerm {
-  public static BOTH_HANDS = new RatioInputModality();
+  public static readonly BOTH_HANDS = new RatioInputModality();
 
-  public static override enumeration = new Enumeration( RatioInputModality, {
+  public static override readonly enumeration = new Enumeration( RatioInputModality, {
     instanceType: RatioTerm
   } );
 }

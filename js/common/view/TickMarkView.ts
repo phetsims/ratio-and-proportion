@@ -9,11 +9,11 @@ import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 
 class TickMarkView extends EnumerationValue {
-  public static NONE = new TickMarkView();
-  public static VISIBLE = new TickMarkView();
-  public static VISIBLE_WITH_UNITS = new TickMarkView();
+  public static readonly NONE = new TickMarkView();
+  public static readonly VISIBLE = new TickMarkView();
+  public static readonly VISIBLE_WITH_UNITS = new TickMarkView();
 
-  public static enumeration = new Enumeration( TickMarkView );
+  public static readonly enumeration = new Enumeration( TickMarkView );
 
   /**
    * Returns whether or not the provided enum value should result in displayed horizontal tick marks

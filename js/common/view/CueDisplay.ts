@@ -10,12 +10,12 @@ import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 
 class CueDisplay extends EnumerationValue {
-  public static NONE = new CueDisplay();
-  public static W_S = new CueDisplay();
-  public static UP_DOWN = new CueDisplay();
-  public static ARROWS = new CueDisplay();
+  public static readonly NONE = new CueDisplay();
+  public static readonly W_S = new CueDisplay();
+  public static readonly UP_DOWN = new CueDisplay();
+  public static readonly ARROWS = new CueDisplay();
 
-  public static enumeration = new Enumeration( CueDisplay );
+  public static readonly enumeration = new Enumeration( CueDisplay );
 }
 
 export default CueDisplay;
