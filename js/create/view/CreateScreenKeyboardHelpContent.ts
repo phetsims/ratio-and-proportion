@@ -25,7 +25,6 @@ class CreateScreenKeyboardHelpContent extends RAPKeyboardHelpContent {
 }
 
 class MyChallengeHelpSection extends KeyboardHelpSection {
-  private readonly disposeMyChallengeHelpSection: () => void;
 
   public constructor( options?: CreateScreenKeyboardHelpContentOptions ) {
 
@@ -47,16 +46,8 @@ class MyChallengeHelpSection extends KeyboardHelpSection {
       } );
 
     super( RatioAndProportionStrings.setMyRatioChallengeStringProperty, [ setHandRatioValue, jumpToMinimum, jumpToMaximum ], options );
-
-    this.disposeMyChallengeHelpSection = () => {
-      homeKeyNode.dispose();
-      endKeyNode.dispose();
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeMyChallengeHelpSection();
-    super.dispose();
+    homeKeyNode.disposer = this;
+    endKeyNode.disposer = this;
   }
 }
 
