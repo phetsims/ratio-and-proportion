@@ -1,5 +1,5 @@
 {
-  "comment": "# ratio-and-proportion 1.2.0-rc.1 Fri Nov 11 2022 15:36:45 GMT-0700 (Mountain Standard Time)",
+  "comment": "# ratio-and-proportion 1.2.0-rc.1 Mon Dec 05 2022 15:47:02 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "c13a8c7741d95fbd8e37619c66ebcca8686dffe7",
     "branch": "HEAD"
@@ -65,7 +65,7 @@
     "branch": "HEAD"
   },
   "ratio-and-proportion": {
-    "sha": "ee6f0fbc6d83c501e34f80a50a3e911b9649159f",
+    "sha": "115d3de1a4e91dc59ecc79a42a9429a65391f416",
     "branch": "1.2"
   },
   "scenery": {
@@ -73,8 +73,8 @@
     "branch": "HEAD"
   },
   "scenery-phet": {
-    "sha": "4b6693637f6713bcfb225e68f528ae2820be553f",
-    "branch": "HEAD"
+    "sha": "c553e7c8a22f8024c044523716924e6afa4518b3",
+    "branch": "ratio-and-proportion-1.2"
   },
   "sherpa": {
     "sha": "45afe7dd94ac065e1f54e82fdfce01ba2c8c3a2c",
@@ -85,8 +85,8 @@
     "branch": "HEAD"
   },
   "sun": {
-    "sha": "0898f2e0a352723f3121cb3bb9e2d8e35fc7def4",
-    "branch": "HEAD"
+    "sha": "82f0e3acc7f7585f5379bb2d3ee687aa687af184",
+    "branch": "ratio-and-proportion-1.2"
   },
   "tambo": {
     "sha": "a9826c1dbac6de85e621bb3c9bd176af052ab985",
@@ -97,15 +97,15 @@
     "branch": "HEAD"
   },
   "tangible": {
-    "sha": "dcab62637317f043e498831f838c65b7aeb6b5db",
-    "branch": "HEAD"
+    "sha": "2b5620c50231ba371a098182c7d189ceb6766c7e",
+    "branch": "ratio-and-proportion-1.2"
   },
   "twixt": {
     "sha": "6f791754ff35cd6f8d349ab396ffa37374053778",
     "branch": "HEAD"
   },
   "utterance-queue": {
-    "sha": "d734eb009a613f76b0a12d530883c0fd89f36652",
-    "branch": "HEAD"
+    "sha": "d715788440e20e64b922621b9674c9e0ae910f3c",
+    "branch": "ratio-and-proportion-1.2"
   }
 }
