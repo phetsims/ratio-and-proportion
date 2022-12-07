@@ -71,10 +71,10 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
   private async requestDevice( bluetoothConfig: BluetoothConfig, tupleProperty: Property<RAPRatioTuple>, term: string ): Promise<void> {
     let device: null | IntentionalAny; // should be type BluetoothDevice, but it is too experimental for native types
 
-    // @ts-ignore - navigator.bluetooth is experimental and does not exist in the typing
+    // @ts-expect-error - navigator.bluetooth is experimental and does not exist in the typing
     if ( navigator.bluetooth ) {
 
-      // @ts-ignore - navigator.bluetooth is experimental and does not exist in the typing
+      // @ts-expect-error - navigator.bluetooth is experimental and does not exist in the typing
       device = await navigator.bluetooth.requestDevice( bluetoothConfig ).catch( err => {
         device = null;
       } );
@@ -97,7 +97,7 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
           // Keep track of values to see if the current position over time is considered "stationary"
           this.stationaryTracker.update( newValue );
 
-          // @ts-ignore
+          // @ts-expect-error
           tupleProperty.value = tupleProperty.value[ term ]( newValue );
         } );
 
@@ -120,7 +120,7 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
   private static handleCharacteristicValueChanged( event: Event ): number {
     if ( event.target ) {
 
-      // @ts-ignore, event.target is a BluetoothRemoteGATTCharacteristic, but this is too experimental to be the typescript lib.
+      // @ts-expect-error, event.target is a BluetoothRemoteGATTCharacteristic, but this is too experimental to be the typescript lib.
       const value = event.target.value as DataView;
 
       console.log( value.getFloat32( 0, true ) );
