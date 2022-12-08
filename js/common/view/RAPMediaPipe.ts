@@ -180,7 +180,7 @@ class RAPMediaPipe extends MediaPipe {
 
       // If locked, then only change one of the value, the other will update accordingly.
       if ( this.ratioLockedProperty.value ) {
-        if ( MediaPipe.xAxisFlippedProperty.value ) {
+        if ( MediaPipe.yAxisFlippedProperty.value ) {
           newTuple.antecedent = this.ratioTupleProperty.value.antecedent;
         }
         else {
@@ -260,8 +260,8 @@ class RAPMediaPipe extends MediaPipe {
         assert && assert( typeof point.x === 'number' );
         assert && assert( typeof point.y === 'number' );
         assert && assert( typeof point.z === 'number' );
-        const yPosition = MediaPipe.yAxisFlippedProperty.value ? point.y : HAND_POSITION_MAX_VALUE - point.y;
-        const xPosition = MediaPipe.xAxisFlippedProperty.value ? point.x : HAND_POSITION_MAX_VALUE - point.x;
+        const yPosition = MediaPipe.xAxisFlippedProperty.value ? point.y : HAND_POSITION_MAX_VALUE - point.y;
+        const xPosition = MediaPipe.yAxisFlippedProperty.value ? point.x : HAND_POSITION_MAX_VALUE - point.x;
         const position = new Vector3( xPosition, yPosition, HAND_POSITION_MAX_VALUE - point.z );
         finalPosition.add( position );
       } );
