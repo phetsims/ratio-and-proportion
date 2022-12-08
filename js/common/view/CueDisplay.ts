@@ -8,6 +8,7 @@
 
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import ratioAndProportion from '../../ratioAndProportion.js';
 
 class CueDisplay extends EnumerationValue {
   public static readonly NONE = new CueDisplay();
@@ -18,4 +19,5 @@ class CueDisplay extends EnumerationValue {
   public static readonly enumeration = new Enumeration( CueDisplay );
 }
 
+ratioAndProportion.register( 'CueDisplay', CueDisplay );
 export default CueDisplay;

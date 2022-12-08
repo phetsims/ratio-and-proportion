@@ -7,6 +7,7 @@
  */
 
 import Enumeration from '../../../../../phet-core/js/Enumeration.js';
+import ratioAndProportion from '../../../ratioAndProportion.js';
 import RatioTerm from '../../model/RatioTerm.js';
 
 class RatioInputModality extends RatioTerm {
@@ -17,4 +18,5 @@ class RatioInputModality extends RatioTerm {
   } );
 }
 
+ratioAndProportion.register( 'RatioInputModality', RatioInputModality );
 export default RatioInputModality;
