@@ -68,7 +68,7 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
     super( labelStringProperty, options );
   }
 
-  private async requestDevice( bluetoothConfig: BluetoothConfig, tupleProperty: Property<RAPRatioTuple>, term: string ): Promise<void> {
+  private async requestDevice( bluetoothConfig: BluetoothConfig, tupleProperty: Property<RAPRatioTuple>, term: 'withConsequent' | 'withAntecedent' ): Promise<void> {
     let device: null | IntentionalAny; // should be type BluetoothDevice, but it is too experimental for native types
 
     // @ts-expect-error - navigator.bluetooth is experimental and does not exist in the typing
@@ -97,7 +97,6 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
           // Keep track of values to see if the current position over time is considered "stationary"
           this.stationaryTracker.update( newValue );
 
-          // @ts-expect-error
           tupleProperty.value = tupleProperty.value[ term ]( newValue );
         } );
 
