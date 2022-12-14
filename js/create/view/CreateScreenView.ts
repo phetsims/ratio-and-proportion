@@ -89,6 +89,10 @@ class CreateScreenView extends RAPScreenView {
       accessibleName: RatioAndProportionStrings.lockRatioStringProperty,
       voicingNameResponse: RatioAndProportionStrings.lockRatioStringProperty,
 
+      touchAreaXDilation: 8,
+      touchAreaYDilation: 15,
+      mouseAreaXDilation: 8,
+      mouseAreaYDilation: 15,
       checkedContextResponse: RatioAndProportionStrings.a11y.ratioLockCheckboxContextResponseStringProperty,
       uncheckedContextResponse: RatioAndProportionStrings.a11y.ratioNoLongerLockedStringProperty,
 
@@ -103,9 +107,6 @@ class CreateScreenView extends RAPScreenView {
       ratioLockCheckbox.voicingHintResponse = enabled ? RatioAndProportionStrings.a11y.ratioLockEnabledHelpTextStringProperty :
                                               RatioAndProportionStrings.a11y.ratioLockDisabledHelpTextStringProperty;
     } );
-
-    ratioLockCheckbox.touchArea = ratioLockCheckbox.localBounds.dilatedXY( 8, 0.5 * ratioLockCheckbox.height );
-    ratioLockCheckbox.mouseArea = ratioLockCheckbox.localBounds.dilatedXY( 8, 0.5 * ratioLockCheckbox.height );
 
     // The "lock ratio" checkbox should not be enabled when the ratio is not in proportion.
     Multilink.multilink( [
