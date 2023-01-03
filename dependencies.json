@@ -1,12 +1,12 @@
 {
-  "comment": "# ratio-and-proportion 1.2.0-rc.2 Mon Dec 05 2022 15:54:19 GMT-0700 (Mountain Standard Time)",
+  "comment": "# ratio-and-proportion 1.2.0-rc.2 Mon Jan 02 2023 18:21:33 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "c13a8c7741d95fbd8e37619c66ebcca8686dffe7",
     "branch": "HEAD"
   },
   "axon": {
-    "sha": "087ff2e73156475d3b8ad77344ccd2b1234f307c",
-    "branch": "HEAD"
+    "sha": "354a4b7b6880c3858502c4e9ca44a7f1306f5b3d",
+    "branch": "ratio-and-proportion-1.2"
   },
   "brand": {
     "sha": "1e38bb54fec31bc737e3cb5f7118021abdeef076",
@@ -65,7 +65,7 @@
     "branch": "HEAD"
   },
   "ratio-and-proportion": {
-    "sha": "33337c65c520ff3fd5ca13d492f69b1335d18b18",
+    "sha": "c637c2744a46093c4d052418229663aec68ad59d",
     "branch": "1.2"
   },
   "scenery": {
@@ -73,8 +73,8 @@
     "branch": "HEAD"
   },
   "scenery-phet": {
-    "sha": "c553e7c8a22f8024c044523716924e6afa4518b3",
-    "branch": "HEAD"
+    "sha": "faa1060c065f66f186d591b4fbabb72961d90abd",
+    "branch": "ratio-and-proportion-1.2"
   },
   "sherpa": {
     "sha": "45afe7dd94ac065e1f54e82fdfce01ba2c8c3a2c",
@@ -97,8 +97,8 @@
     "branch": "HEAD"
   },
   "tangible": {
-    "sha": "2b5620c50231ba371a098182c7d189ceb6766c7e",
-    "branch": "HEAD"
+    "sha": "94fc7f6a0f88c8925a875f71cddb22a0baf3d24a",
+    "branch": "ratio-and-proportion-1.2"
   },
   "twixt": {
     "sha": "6f791754ff35cd6f8d349ab396ffa37374053778",
