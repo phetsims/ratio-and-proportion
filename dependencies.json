@@ -1,12 +1,12 @@
 {
-  "comment": "# ratio-and-proportion 1.2.0-rc.2 Mon Jan 02 2023 18:21:33 GMT-0700 (Mountain Standard Time)",
+  "comment": "# ratio-and-proportion 1.2.0-rc.3 Mon Jan 02 2023 18:26:17 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "c13a8c7741d95fbd8e37619c66ebcca8686dffe7",
     "branch": "HEAD"
   },
   "axon": {
     "sha": "354a4b7b6880c3858502c4e9ca44a7f1306f5b3d",
-    "branch": "ratio-and-proportion-1.2"
+    "branch": "HEAD"
   },
   "brand": {
     "sha": "1e38bb54fec31bc737e3cb5f7118021abdeef076",
@@ -65,7 +65,7 @@
     "branch": "HEAD"
   },
   "ratio-and-proportion": {
-    "sha": "c637c2744a46093c4d052418229663aec68ad59d",
+    "sha": "817a006a9a3a2934b2757d404727c5f3fbfe14c8",
     "branch": "1.2"
   },
   "scenery": {
@@ -74,7 +74,7 @@
   },
   "scenery-phet": {
     "sha": "faa1060c065f66f186d591b4fbabb72961d90abd",
-    "branch": "ratio-and-proportion-1.2"
+    "branch": "HEAD"
   },
   "sherpa": {
     "sha": "45afe7dd94ac065e1f54e82fdfce01ba2c8c3a2c",
@@ -98,7 +98,7 @@
   },
   "tangible": {
     "sha": "94fc7f6a0f88c8925a875f71cddb22a0baf3d24a",
-    "branch": "ratio-and-proportion-1.2"
+    "branch": "HEAD"
   },
   "twixt": {
     "sha": "6f791754ff35cd6f8d349ab396ffa37374053778",
