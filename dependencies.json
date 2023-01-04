@@ -1,5 +1,5 @@
 {
-  "comment": "# ratio-and-proportion 1.2.0-rc.3 Wed Jan 04 2023 16:18:04 GMT-0700 (Mountain Standard Time)",
+  "comment": "# ratio-and-proportion 1.2.0-rc.4 Wed Jan 04 2023 16:24:54 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "c13a8c7741d95fbd8e37619c66ebcca8686dffe7",
     "branch": "HEAD"
@@ -26,7 +26,7 @@
   },
   "joist": {
     "sha": "633e4f9a0d8e72016620b629182c966ed67eff7b",
-    "branch": "ratio-and-proportion-1.2"
+    "branch": "HEAD"
   },
   "kite": {
     "sha": "82cc108b7790cd9a1b72e5950ce5f72b9f663d3c",
@@ -65,12 +65,12 @@
     "branch": "HEAD"
   },
   "ratio-and-proportion": {
-    "sha": "171df78b8f0d103bb1e8d607a4b113c0a5090412",
+    "sha": "afc26ece9f71b6341a8abbf22e4e746821c8ed50",
     "branch": "1.2"
   },
   "scenery": {
     "sha": "cdd3c076166b4165023b4918e6ee5fc894dbd925",
-    "branch": "ratio-and-proportion-1.2"
+    "branch": "HEAD"
   },
   "scenery-phet": {
     "sha": "faa1060c065f66f186d591b4fbabb72961d90abd",
@@ -86,7 +86,7 @@
   },
   "sun": {
     "sha": "f6fca864ff717841272e56e953d4511b93240911",
-    "branch": "ratio-and-proportion-1.2"
+    "branch": "HEAD"
   },
   "tambo": {
     "sha": "a9826c1dbac6de85e621bb3c9bd176af052ab985",
@@ -106,6 +106,6 @@
   },
   "utterance-queue": {
     "sha": "b9bd1e8d0d87d2e57fb936f2ec3a5a62913f2dbb",
-    "branch": "ratio-and-proportion-1.2"
+    "branch": "HEAD"
   }
 }
