@@ -21,7 +21,8 @@ const simOptions: SimOptions = {
     softwareDevelopment: 'John Blanco, Michael Kauzmann',
     team: 'Brett Fiedler, Amanda McGarry, Emily B. Moore, Matthew Moore, Taliesin Smith',
     contributors: 'Dor Abrahamson and the Embodied Design Research Laboratory (UC Berkeley); Clement Zheng, Peter Gyory, and Ellen Do from the ACME Lab (CU Boulder ATLAS Institute)',
-    qualityAssurance: 'Logan Bray, Steele Dalton, Megan Lai, Brooklyn Lash, Liam Mulhall, Devon Quispe, Kathryn Woessner',
+    qualityAssurance: 'Logan Bray, Steele Dalton, Jaron Droder, Clifford Hardin, Megan Lai, Brooklyn Lash, Emily Miller, ' +
+                      'Liam Mulhall, Devon Quispe, Nancy Salpepi, Kathryn Woessner',
     soundDesign: 'Ashton Morris'
   },
   preferencesModel: new RAPPreferencesModel()
