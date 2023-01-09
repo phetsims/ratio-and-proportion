@@ -19,7 +19,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import { DragListener, Node, NodeOptions, PDOMValueType, Rectangle, RectangleOptions, SpeakingOptions, TPaint } from '../../../../scenery/js/imports.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioTerm from '../model/RatioTerm.js';
 import rapConstants from '../rapConstants.js';
@@ -42,6 +41,7 @@ import RAPRatio from '../model/RAPRatio.js';
 import TickMarkDescriber from './describers/TickMarkDescriber.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 // constants
 const MIN_FRAMING_RECTANGLE_HEIGHT = 32;
@@ -98,7 +98,7 @@ type SelfOptions = {
   accessibleName: TReadOnlyProperty<string>; // eslint-disable-line require-property-suffix
 };
 
-type RatioHalfOptions = SelfOptions & RectangleOptions;
+type RatioHalfOptions = SelfOptions & RectangleOptions & PickRequired<RectangleOptions, 'tandem'>;
 
 class RatioHalf extends Rectangle {
 
@@ -134,7 +134,6 @@ class RatioHalf extends Rectangle {
       bothHandsCueDisplay: CueDisplay.UP_DOWN,
 
       // phet-io
-      tandem: Tandem.REQUIRED,
       phetioInputEnabledPropertyInstrumented: true,
 
       // pdom

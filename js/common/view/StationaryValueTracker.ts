@@ -17,8 +17,8 @@ import optionize from '../../../../phet-core/js/optionize.js';
 const boxPlotTempArray: number[] = [];
 
 type StationaryValueTrackerOptions = {
-  historyLength: number;
-  stationaryThreshold: number;
+  historyLength?: number;
+  stationaryThreshold?: number;
 };
 
 class StationaryValueTracker {

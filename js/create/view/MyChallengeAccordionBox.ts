@@ -15,7 +15,6 @@ import Fraction from '../../../../phetcommon/js/model/Fraction.js';
 import NumberPicker from '../../../../sun/js/NumberPicker.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Color, HBox, Node, NodeOptions, ReadingBlock, ReadingBlockOptions, RichText, VBox, Voicing } from '../../../../scenery/js/imports.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
@@ -102,10 +101,7 @@ class MyChallengeAccordionBox extends AccordionBox {
       voicingContextResponse: createAccordionBoxContextResponse,
 
       // Only deliver the hint if not expanded; since in a closure, use the current value of the Property.
-      voicingHintResponse: () => expandedProperty.value ? null : RatioAndProportionStrings.a11y.create.myChallengeHintTextStringProperty.value,
-
-      // phet-io
-      tandem: Tandem.REQUIRED
+      voicingHintResponse: () => expandedProperty.value ? null : RatioAndProportionStrings.a11y.create.myChallengeHintTextStringProperty.value
     }, providedOptions );
 
     const ratioUnlockedFromMyChallenge = new Utterance( {
