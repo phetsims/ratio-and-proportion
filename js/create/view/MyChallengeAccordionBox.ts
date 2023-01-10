@@ -1,4 +1,4 @@
-// Copyright 2020-2022, University of Colorado Boulder
+// Copyright 2020-2023, University of Colorado Boulder
 
 /**
  * An AccordionBox with two NumberPickers in it that determines the targetRatioProperty in the model ("My Challenge" value).

@@ -1,4 +1,4 @@
-// Copyright 2020-2022, University of Colorado Boulder
+// Copyright 2020-2023, University of Colorado Boulder
 
 /**
  * A single controllable half of the proportion. It contains a draggable hand that can change the value of this half (term)
