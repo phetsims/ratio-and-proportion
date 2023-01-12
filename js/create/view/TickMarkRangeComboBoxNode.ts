@@ -14,7 +14,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Node, NodeOptions, RichText } from '../../../../scenery/js/imports.js';
-import ComboBox, { ComboBoxOptions } from '../../../../sun/js/ComboBox.js';
+import ComboBox, { ComboBoxItem, ComboBoxOptions } from '../../../../sun/js/ComboBox.js';
 import HSeparatorDeprecated from '../../../../sun/js/HSeparatorDeprecated.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
@@ -46,13 +46,18 @@ class TickMarkRangeComboBoxNode extends Node {
     };
     this.tickMarkRangeProperty = tickMarkRangeProperty;
 
-    const items = [
-      { value: 10, node: new RichText( this.tickMarkRangeMap[ 10 ], RANGE_TEXT_OPTIONS ), a11yName: RatioAndProportionStrings.zeroToTenStringProperty },
-      { value: 20, node: new RichText( this.tickMarkRangeMap[ 20 ], RANGE_TEXT_OPTIONS ), a11yName: RatioAndProportionStrings.zeroToTwentyStringProperty },
-      { value: 30, node: new RichText( this.tickMarkRangeMap[ 30 ], RANGE_TEXT_OPTIONS ), a11yName: RatioAndProportionStrings.zeroToThirtyStringProperty }
+    const items: ComboBoxItem<number>[] = [
+      { value: 10, createNode: () => new RichText( this.tickMarkRangeMap[ 10 ], RANGE_TEXT_OPTIONS ), a11yName: RatioAndProportionStrings.zeroToTenStringProperty },
+      { value: 20, createNode: () => new RichText( this.tickMarkRangeMap[ 20 ], RANGE_TEXT_OPTIONS ), a11yName: RatioAndProportionStrings.zeroToTwentyStringProperty },
+      { value: 30, createNode: () => new RichText( this.tickMarkRangeMap[ 30 ], RANGE_TEXT_OPTIONS ), a11yName: RatioAndProportionStrings.zeroToThirtyStringProperty }
     ];
 
-    const widestItem = Math.max( ...items.map( item => item.node.width ) );
+    const widestItem = Math.max( ...items.map( item => {
+      const node = item.createNode( Tandem.OPT_OUT );
+      const width = node.width;
+      node.dispose();
+      return width;
+    } ) );
 
     const comboBoxOptions: ComboBoxOptions = {
       labelNode: new RichText( RatioAndProportionStrings.rangeStringProperty, RANGE_TEXT_OPTIONS ),
@@ -76,7 +81,7 @@ class TickMarkRangeComboBoxNode extends Node {
     this.disabledComboBox = new ComboBox<true | number>( new BooleanProperty( value ) as Property<true | number>, [
       {
         value: value,
-        node: new HSeparatorDeprecated( widestItem, { centerY: -5 } ),
+        createNode: () => new HSeparatorDeprecated( widestItem, { centerY: -5 } ),
         a11yName: RatioAndProportionStrings.a11y.tickMark.tickMarksHiddenStringProperty
       },
       items[ 0 ] // add this one to get the proper height of the text.

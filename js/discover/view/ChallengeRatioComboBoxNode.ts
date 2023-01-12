@@ -150,7 +150,7 @@ function createComboBoxItem( targetRatio: number, challengeInfo: ChallengeInfo )
 
   return {
     value: targetRatio,
-    node: node,
+    createNode: tandem => node,
     soundPlayer: challengeInfo.soundClip,
     a11yName: challengeInfo.a11yNameStringProperty,
     tandemName: challengeInfo.tandemName
