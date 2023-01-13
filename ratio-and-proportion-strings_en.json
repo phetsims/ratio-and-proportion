@@ -328,8 +328,14 @@
     "ratioLockDisabledHelpText": {
       "value": "Enabled when hands are at challenge ratio."
     },
-    "ratioLockCheckboxContextResponse": {
+    "ratioLockToggleContextResponse": {
       "value": "Hands locked at challenge ratio. Move hands and observe."
+    },
+    "ratioLocked": {
+      "value": "Ratio Locked"
+    },
+    "ratioUnlocked": {
+      "value": "Ratio Unlocked"
     },
     "ratioNoLongerLocked": {
       "value": "Hands no longer locked."

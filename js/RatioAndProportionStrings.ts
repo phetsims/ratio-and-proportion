@@ -130,7 +130,9 @@ type StringsType = {
     'rightHandBulletStringProperty': LinkableProperty<string>;
     'ratioLockEnabledHelpTextStringProperty': LinkableProperty<string>;
     'ratioLockDisabledHelpTextStringProperty': LinkableProperty<string>;
-    'ratioLockCheckboxContextResponseStringProperty': LinkableProperty<string>;
+    'ratioLockToggleContextResponseStringProperty': LinkableProperty<string>;
+    'ratioLockedStringProperty': LinkableProperty<string>;
+    'ratioUnlockedStringProperty': LinkableProperty<string>;
     'ratioNoLongerLockedStringProperty': LinkableProperty<string>;
     'ratioNoLongerLockedPatternStringProperty': LinkableProperty<string>;
     'screenSummaryControlAreaParagraphStringProperty': LinkableProperty<string>;

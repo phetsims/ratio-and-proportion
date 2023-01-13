@@ -5,9 +5,8 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
-import { Color, HBox, Node, Text } from '../../../../scenery/js/imports.js';
+import { Color, Node, Text } from '../../../../scenery/js/imports.js';
 import LockNode from '../../../../scenery-phet/js/LockNode.js';
-import Checkbox from '../../../../sun/js/Checkbox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import RAPColors from '../../common/view/RAPColors.js';
 import RAPScreenView from '../../common/view/RAPScreenView.js';
@@ -23,6 +22,7 @@ import HandPositionsDescriber from '../../common/view/describers/HandPositionsDe
 import TickMarkDescriber from '../../common/view/describers/TickMarkDescriber.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import { SpeakableResolvedResponse } from '../../../../utterance-queue/js/ResponsePacket.js';
+import RectangularToggleButton from '../../../../sun/js/buttons/RectangularToggleButton.js';
 
 
 class CreateScreenView extends RAPScreenView {
@@ -76,47 +76,51 @@ class CreateScreenView extends RAPScreenView {
     );
     this.setScreenSummaryContent( this.createScreenSummaryNode );
 
-    const ratioLockContent = new HBox( {
-      spacing: 8,
-      maxWidth: 200,
-      children: [
-        new Text( RatioAndProportionStrings.lockRatioStringProperty, { font: new PhetFont( 20 ) } ),
-        new LockNode( model.ratio.lockedProperty, { scale: 0.5 } )
-      ]
-    } );
-
-    const ratioLockCheckbox = new Checkbox( model.ratio.lockedProperty, ratioLockContent, {
-      accessibleName: RatioAndProportionStrings.lockRatioStringProperty,
-      voicingNameResponse: RatioAndProportionStrings.lockRatioStringProperty,
-
-      touchAreaXDilation: 8,
-      touchAreaYDilation: 15,
-      mouseAreaXDilation: 8,
-      mouseAreaYDilation: 15,
-      checkedContextResponse: RatioAndProportionStrings.a11y.ratioLockCheckboxContextResponseStringProperty,
-      uncheckedContextResponse: RatioAndProportionStrings.a11y.ratioNoLongerLockedStringProperty,
+    const ratioLockToggleButton = new RectangularToggleButton( model.ratio.lockedProperty, false, true, {
+      content: new LockNode( model.ratio.lockedProperty, { scale: 0.4 } ),
+      baseColor: 'white',
 
       // phet-io
-      tandem: tandem.createTandem( 'ratioLockCheckbox' )
+      tandem: tandem.createTandem( 'ratioLockToggleButton' )
     } );
 
-    ratioLockCheckbox.enabledProperty.link( ( enabled: boolean ) => {
+    const ratioLockText = new Text( RatioAndProportionStrings.lockRatioStringProperty, {
+      font: new PhetFont( 20 ),
+      leftCenter: ratioLockToggleButton.rightCenter.plusXY( 8, 0 )
+    } );
+    ratioLockToggleButton.addChild( ratioLockText );
 
-      ratioLockCheckbox.helpText = enabled ? RatioAndProportionStrings.a11y.ratioLockEnabledHelpTextStringProperty :
-                                   RatioAndProportionStrings.a11y.ratioLockDisabledHelpTextStringProperty;
-      ratioLockCheckbox.voicingHintResponse = enabled ? RatioAndProportionStrings.a11y.ratioLockEnabledHelpTextStringProperty :
-                                              RatioAndProportionStrings.a11y.ratioLockDisabledHelpTextStringProperty;
+    model.ratio.lockedProperty.link( locked => {
+      const nameStringProperty = locked ? RatioAndProportionStrings.a11y.ratioLockedStringProperty :
+                         RatioAndProportionStrings.a11y.ratioUnlockedStringProperty;
+      ratioLockToggleButton.accessibleName = nameStringProperty;
+      ratioLockToggleButton.voicingNameResponse = nameStringProperty;
+
+      ratioLockToggleButton.voicingContextResponse = locked ? RatioAndProportionStrings.a11y.ratioLockToggleContextResponseStringProperty :
+                                                     RatioAndProportionStrings.a11y.ratioNoLongerLockedStringProperty;
+
+      ratioLockToggleButton.voicingSpeakResponse( {
+        nameResponse: ratioLockToggleButton.voicingNameResponse,
+        contextResponse: ratioLockToggleButton.voicingContextResponse
+      } );
     } );
 
-    // The "lock ratio" checkbox should not be enabled when the ratio is not in proportion.
+    ratioLockToggleButton.enabledProperty.link( ( enabled: boolean ) => {
+      ratioLockToggleButton.helpText = enabled ? RatioAndProportionStrings.a11y.ratioLockEnabledHelpTextStringProperty :
+                                       RatioAndProportionStrings.a11y.ratioLockDisabledHelpTextStringProperty;
+      ratioLockToggleButton.voicingHintResponse = enabled ? RatioAndProportionStrings.a11y.ratioLockEnabledHelpTextStringProperty :
+                                                  RatioAndProportionStrings.a11y.ratioLockDisabledHelpTextStringProperty;
+    } );
+
+    // The "lock ratio" toggle should not be enabled when the ratio is not in proportion.
     Multilink.multilink( [
       model.inProportionProperty,
       model.ratioFitnessProperty
     ], inProportion => {
-      ratioLockCheckbox.enabledProperty.value = inProportion;
+      ratioLockToggleButton.enabledProperty.value = inProportion;
 
-      // If the checkbox gets disabled, then unlock the ratio.
-      if ( !ratioLockCheckbox.enabledProperty.value ) {
+      // If the button gets disabled, then unlock the ratio.
+      if ( !ratioLockToggleButton.enabledProperty.value ) {
         model.ratio.lockedProperty.value = false;
       }
     } );
@@ -126,7 +130,7 @@ class CreateScreenView extends RAPScreenView {
     this.topScalingUILayerNode.addChild( myChallengeAccordionBox );
 
     // Right above the resetAllButton
-    this.bottomScalingUILayerNode.insertChild( this.bottomScalingUILayerNode.children.length - 1, ratioLockCheckbox );
+    this.bottomScalingUILayerNode.insertChild( this.bottomScalingUILayerNode.children.length - 1, ratioLockToggleButton );
 
     // Should be on top. Don't scale it because that messes with the scaling that the list box goes through, and changes
     // the dimensions of the scalingUILayerNode to make it too big. Discovered in https://github.com/phetsims/ratio-and-proportion/issues/273
@@ -138,7 +142,7 @@ class CreateScreenView extends RAPScreenView {
       this.tickMarkRangeComboBoxNode,
       tickMarkRangeComboBoxParent,
       myChallengeAccordionBox,
-      ratioLockCheckbox
+      ratioLockToggleButton
     ] );
 
     this.resetCreateScreenView = () => {
