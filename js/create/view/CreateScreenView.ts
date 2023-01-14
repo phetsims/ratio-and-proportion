@@ -92,8 +92,12 @@ class CreateScreenView extends RAPScreenView {
 
     model.ratio.lockedProperty.link( locked => {
       const nameStringProperty = locked ? RatioAndProportionStrings.a11y.ratioLockedStringProperty :
-                         RatioAndProportionStrings.a11y.ratioUnlockedStringProperty;
-      ratioLockToggleButton.accessibleName = nameStringProperty;
+                                 RatioAndProportionStrings.a11y.ratioUnlockedStringProperty;
+
+      // TODO: accessibleName should be used but cannot because of https://github.com/phetsims/scenery/issues/1026
+      // ratioLockToggleButton.accessibleName = nameStringProperty;
+      ratioLockToggleButton.innerContent = nameStringProperty;
+
       ratioLockToggleButton.voicingNameResponse = nameStringProperty;
 
       ratioLockToggleButton.voicingContextResponse = locked ? RatioAndProportionStrings.a11y.ratioLockToggleContextResponseStringProperty :
