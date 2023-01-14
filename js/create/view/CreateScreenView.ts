@@ -103,6 +103,8 @@ class CreateScreenView extends RAPScreenView {
         nameResponse: ratioLockToggleButton.voicingNameResponse,
         contextResponse: ratioLockToggleButton.voicingContextResponse
       } );
+
+      ratioLockToggleButton.alertDescriptionUtterance( ratioLockToggleButton.voicingContextResponse );
     } );
 
     ratioLockToggleButton.enabledProperty.link( ( enabled: boolean ) => {
