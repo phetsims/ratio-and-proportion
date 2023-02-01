@@ -75,7 +75,7 @@ class RAPRatio {
 
     this.tupleProperty = new Property( new RAPRatioTuple( initialAntecedent, initialConsequent ), {
       valueType: RAPRatioTuple,
-      useDeepEquality: true,
+      valueComparisonStrategy: 'equalsFunction',
       reentrant: true,
 
       // phet-io
