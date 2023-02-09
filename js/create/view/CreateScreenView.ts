@@ -80,6 +80,14 @@ class CreateScreenView extends RAPScreenView {
       content: new LockNode( model.ratio.lockedProperty, { scale: 0.4 } ),
       baseColor: 'white',
 
+      // pdom
+      // WARNING: If this needs to be dynamic, use innerContent instead of accessibleName because of scenery bug
+      // https://github.com/phetsims/scenery/issues/1026, see https://github.com/phetsims/ratio-and-proportion/issues/549#issuecomment-1382878667
+      accessibleName: RatioAndProportionStrings.lockRatioStringProperty,
+
+      // voicing
+      voicingNameResponse: RatioAndProportionStrings.lockRatioStringProperty,
+
       // phet-io
       tandem: tandem.createTandem( 'ratioLockToggleButton' )
     } );
@@ -91,15 +99,6 @@ class CreateScreenView extends RAPScreenView {
     ratioLockToggleButton.addChild( ratioLockText );
 
     model.ratio.lockedProperty.link( locked => {
-      const nameStringProperty = locked ? RatioAndProportionStrings.a11y.ratioLockedStringProperty :
-                                 RatioAndProportionStrings.a11y.ratioUnlockedStringProperty;
-
-      // TODO: accessibleName should be used but cannot because of https://github.com/phetsims/scenery/issues/1026
-      // ratioLockToggleButton.accessibleName = nameStringProperty;
-      ratioLockToggleButton.innerContent = nameStringProperty;
-
-      ratioLockToggleButton.voicingNameResponse = nameStringProperty;
-
       ratioLockToggleButton.voicingContextResponse = locked ? RatioAndProportionStrings.a11y.ratioLockToggleContextResponseStringProperty :
                                                      RatioAndProportionStrings.a11y.ratioNoLongerLockedStringProperty;
 
