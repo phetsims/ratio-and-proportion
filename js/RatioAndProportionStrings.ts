@@ -131,8 +131,6 @@ type StringsType = {
     'ratioLockEnabledHelpTextStringProperty': LinkableProperty<string>;
     'ratioLockDisabledHelpTextStringProperty': LinkableProperty<string>;
     'ratioLockToggleContextResponseStringProperty': LinkableProperty<string>;
-    'ratioLockedStringProperty': LinkableProperty<string>;
-    'ratioUnlockedStringProperty': LinkableProperty<string>;
     'ratioNoLongerLockedStringProperty': LinkableProperty<string>;
     'ratioNoLongerLockedPatternStringProperty': LinkableProperty<string>;
     'screenSummaryControlAreaParagraphStringProperty': LinkableProperty<string>;
