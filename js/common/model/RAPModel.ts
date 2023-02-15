@@ -24,6 +24,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import TModel from '../../../../joist/js/TModel.js';
 // constant to help achieve feedback in 40% of the visual screen height (2 default tick marks). Calculated by taking the
 // fitness distance when the right hand is 2 tick marks from the target ratio. This number is based on a target ratio of
 // .5, so it is normalized here. When used, it should be multiplied by the current target ratio.
@@ -36,7 +37,7 @@ const MINIMUM_DISTANCE_FORCES_IN_PROPORTION = 0.001;
 
 const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 
-class RAPModel {
+class RAPModel implements TModel {
 
   // the current state of the ratio (value of terms, if its locked, etc)
   public ratio: RAPRatio;
