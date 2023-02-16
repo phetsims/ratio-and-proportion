@@ -1,4 +1,4 @@
-// Copyright 2020-2022, University of Colorado Boulder
+// Copyright 2020-2023, University of Colorado Boulder
 
 /**
  * This is the main model for the ratio in this sim. It has a RAPRatio, with its antecedent and consequent tuple, and
