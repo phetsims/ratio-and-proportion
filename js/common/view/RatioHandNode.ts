@@ -139,7 +139,7 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
       scale: rightHandFlipScale // we don't want letters to be flipped
     };
     const cueArrowKeyUp = new ArrowKeyNode( 'up', topCueKeyOptions );
-    const cueWKeyUp = new LetterKeyNode( 'W', topCueKeyOptions );
+    const cueWKeyUp = LetterKeyNode.w( topCueKeyOptions );
     const upCue = new Node( {
       excludeInvisibleChildrenFromBounds: true,
       children: [ cueArrowUp, cueArrowKeyUp, cueWKeyUp ]
@@ -154,7 +154,7 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
       scale: rightHandFlipScale
     };
     const cueArrowKeyDown = new ArrowKeyNode( 'down', bottomCueKeyOptions );
-    const cueSKeyDown = new LetterKeyNode( 'S', bottomCueKeyOptions );
+    const cueSKeyDown = LetterKeyNode.s( bottomCueKeyOptions );
     const downCue = new Node( {
       excludeInvisibleChildrenFromBounds: true,
       children: [ cueArrowDown, cueArrowKeyDown, cueSKeyDown ]

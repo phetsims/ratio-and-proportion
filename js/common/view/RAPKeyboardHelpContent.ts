@@ -70,8 +70,8 @@ class BothHandsHelpSection extends KeyboardHelpSection {
 
   public constructor( options?: KeyboardHelpSectionOptions ) {
 
-    const wKeyNode = new LetterKeyNode( 'W' );
-    const sKeyNode = new LetterKeyNode( 'S' );
+    const wKeyNode = LetterKeyNode.w();
+    const sKeyNode = LetterKeyNode.s();
     const wOrSIcon = KeyboardHelpIconFactory.iconRow( [ wKeyNode, sKeyNode ] );
     const moveLeftHand = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.moveLeftHandStringProperty,
       wOrSIcon, {
