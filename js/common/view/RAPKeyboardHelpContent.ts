@@ -70,7 +70,9 @@ class BothHandsHelpSection extends KeyboardHelpSection {
 
   public constructor( options?: KeyboardHelpSectionOptions ) {
 
-    const wOrSIcon = KeyboardHelpIconFactory.iconRow( [ new LetterKeyNode( 'W' ), new LetterKeyNode( 'S' ) ] );
+    const wKeyNode = new LetterKeyNode( 'W' );
+    const sKeyNode = new LetterKeyNode( 'S' );
+    const wOrSIcon = KeyboardHelpIconFactory.iconRow( [ wKeyNode, sKeyNode ] );
     const moveLeftHand = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.moveLeftHandStringProperty,
       wOrSIcon, {
         labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.leftHandDescriptionStringProperty
@@ -99,6 +101,8 @@ class BothHandsHelpSection extends KeyboardHelpSection {
 
     this.disposeBothHandsHelpSection = () => {
       wOrSIcon.dispose();
+      wKeyNode.dispose();
+      sKeyNode.dispose();
       numberToNumberIcon.dispose();
       arrowKeysRow.dispose();
       shiftIcon.dispose();
