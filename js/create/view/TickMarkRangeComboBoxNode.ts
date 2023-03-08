@@ -59,6 +59,13 @@ class TickMarkRangeComboBoxNode extends HBox {
       { value: 30, createNode: () => new RichText( this.tickMarkRangeMap[ 30 ], RANGE_TEXT_OPTIONS ), a11yName: RatioAndProportionStrings.zeroToThirtyStringProperty }
     ];
 
+    const widestItem = Math.max( ...items.map( item => {
+      const node = item.createNode( Tandem.OPT_OUT );
+      const width = node.width;
+      node.dispose();
+      return width;
+    } ) );
+
     const labelNode = new RichText( RatioAndProportionStrings.rangeStringProperty, RANGE_TEXT_OPTIONS );
 
     const comboBoxOptions: ComboBoxOptions = {
@@ -82,7 +89,7 @@ class TickMarkRangeComboBoxNode extends HBox {
     this.disabledComboBox = new ComboBox<true | number>( new BooleanProperty( value ) as Property<true | number>, [
       {
         value: value,
-        createNode: () => new HSeparator( { centerY: -5 } ),
+        createNode: () => new HSeparator( { preferredWidth: widestItem, centerY: -5 } ),
         a11yName: RatioAndProportionStrings.a11y.tickMark.tickMarksHiddenStringProperty
       },
       items[ 0 ] // add this one to get the proper height of the text.
