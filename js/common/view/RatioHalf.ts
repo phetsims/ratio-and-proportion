@@ -54,7 +54,7 @@ const SNAP_TO_TICK_MARK_THRESHOLD = 0.1;
 // total horizontal drag distance;
 const X_MODEL_DRAG_DISTANCE = 1;
 const INITIAL_X_VALUE = 0;
-const getModelBoundsFromRange = ( range: Range ) => new Bounds2( -1 * X_MODEL_DRAG_DISTANCE / 2, range.min, X_MODEL_DRAG_DISTANCE / 2, range.max );
+const getModelBoundsFromRange = ( range: Range ) => new Bounds2( -X_MODEL_DRAG_DISTANCE / 2, range.min, X_MODEL_DRAG_DISTANCE / 2, range.max );
 
 const MIN_HAND_SCALE = 1.2;
 const MAX_HAND_SCALE = 2.5;
