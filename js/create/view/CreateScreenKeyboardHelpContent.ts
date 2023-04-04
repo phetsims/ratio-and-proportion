@@ -46,8 +46,10 @@ class MyChallengeHelpSection extends KeyboardHelpSection {
       } );
 
     super( RatioAndProportionStrings.setMyRatioChallengeStringProperty, [ setHandRatioValue, jumpToMinimum, jumpToMaximum ], options );
-    homeKeyNode.disposer = this;
-    endKeyNode.disposer = this;
+    this.disposeEmitter.addListener( () => {
+      homeKeyNode.dispose();
+      endKeyNode.dispose();
+    } );
   }
 }
 
