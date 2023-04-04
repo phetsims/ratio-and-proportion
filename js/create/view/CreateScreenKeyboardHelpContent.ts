@@ -45,8 +45,10 @@ class MyChallengeHelpSection extends KeyboardHelpSection {
         labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.jumpToMaximumDescriptionStringProperty
       } );
 
-    super( RatioAndProportionStrings.setMyRatioChallengeStringProperty, [ setHandRatioValue, jumpToMinimum, jumpToMaximum ], options );
+    const rows = [ setHandRatioValue, jumpToMinimum, jumpToMaximum ];
+    super( RatioAndProportionStrings.setMyRatioChallengeStringProperty, rows, options );
     this.disposeEmitter.addListener( () => {
+      rows.forEach( row => row.dispose() );
       homeKeyNode.dispose();
       endKeyNode.dispose();
     } );

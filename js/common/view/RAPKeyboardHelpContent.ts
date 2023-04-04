@@ -96,10 +96,12 @@ class BothHandsHelpSection extends KeyboardHelpSection {
         labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.jumpBothHandsDescriptionStringProperty
       } );
 
+    const rows = [ moveLeftHand, moveRightHand, moveInSmallerSteps, jumpBothHands ];
     super( RatioAndProportionStrings.moveBothHandsSimultaneouslyStringProperty,
-      [ moveLeftHand, moveRightHand, moveInSmallerSteps, jumpBothHands ], options );
+      rows, options );
 
     this.disposeBothHandsHelpSection = () => {
+      rows.forEach( row => row.dispose() );
       wOrSIcon.dispose();
       wKeyNode.dispose();
       sKeyNode.dispose();
