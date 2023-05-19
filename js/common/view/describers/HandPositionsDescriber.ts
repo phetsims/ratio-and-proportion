@@ -30,7 +30,7 @@ import DistanceResponseType from './DistanceResponseType.js';
 import optionize from '../../../../../phet-core/js/optionize.js';
 import RatioInputModality from './RatioInputModality.js';
 
-// TODO: Dynamic string support when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+// TODO: Dynamic string support when time, https://github.com/phetsims/ratio-and-proportion/issues/552
 const DISTANCE_REGIONS_CAPITALIZED = [
   RatioAndProportionStrings.a11y.handPosition.distance.capitalized.farthestFromStringProperty.value,
   RatioAndProportionStrings.a11y.handPosition.distance.capitalized.extremelyFarFromStringProperty.value,
@@ -168,14 +168,14 @@ class HandPositionsDescriber {
 
     // semi quantitative description uses ordinal numbers instead of full numbers.
     if ( semiQuantitative && typeof tickMarkData.ordinalPosition === 'string' ) {
-      // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+      // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/552
       return StringUtils.fillIn( RatioAndProportionStrings.a11y.tickMark.semiQuantitativeHandPositionPatternStringProperty, {
         relativePosition: tickMarkData.relativePosition,
         ordinal: tickMarkData.ordinalPosition
       } );
     }
 
-    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/552
     return StringUtils.fillIn( RatioAndProportionStrings.a11y.tickMark.quantitativeHandPositionPatternStringProperty, {
       relativePosition: tickMarkData.relativePosition,
       tickMarkPosition: tickMarkData.tickMarkPosition
@@ -284,13 +284,13 @@ class HandPositionsDescriber {
                                     RatioAndProportionStrings.a11y.leftHandLowerStringProperty :
                                     RatioAndProportionStrings.a11y.rightHandLowerStringProperty;
 
-    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/552
     const distanceResponse = StringUtils.fillIn( RatioAndProportionStrings.a11y.handPosition.distanceOrDistanceProgressClauseStringProperty, {
       otherHand: otherHandStringProperty,
       distanceOrDistanceProgress: distanceClause
     } );
 
-    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/552
     return StringUtils.fillIn( RatioAndProportionStrings.a11y.ratio.distancePositionContextResponseStringProperty, {
       distance: distanceResponse,
       position: this.getHandPositionDescription( this.ratioTupleProperty.value.getForTerm( ratioTerm ),
@@ -362,7 +362,7 @@ class HandPositionsDescriber {
       fartherString: RatioAndProportionStrings.a11y.handPosition.fartherApartStringProperty.value
     } );
     if ( distanceProgressPhrase ) {
-      // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+      // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/552
       return StringUtils.fillIn( RatioAndProportionStrings.a11y.bothHands.handsDistanceProgressPatternStringProperty, {
         distanceProgress: distanceProgressPhrase
       } );
@@ -376,7 +376,7 @@ class HandPositionsDescriber {
     const pattern = capitalized ? RatioAndProportionStrings.a11y.bothHands.handsDistancePatternCapitalizedStringProperty.value :
                     RatioAndProportionStrings.a11y.bothHands.handsDistancePatternStringProperty.value;
 
-    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/552
     return StringUtils.fillIn( pattern, { distance: distanceRegion } );
   }
 
@@ -392,7 +392,7 @@ class HandPositionsDescriber {
         fartherString: RatioAndProportionStrings.a11y.handPosition.fartherApartStringProperty.value
       } );
       if ( distanceProgressPhrase ) {
-        // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+        // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/552
         const distanceProgressDescription = StringUtils.fillIn( RatioAndProportionStrings.a11y.bothHands.handsDistanceProgressPatternStringProperty, {
           distanceProgress: distanceProgressPhrase
         } );
@@ -531,7 +531,7 @@ class HandPositionsDescriber {
                                     RatioAndProportionStrings.a11y.ratio.bothHandsGoBeyondEdgeContextResponseStringProperty :
                                     RatioAndProportionStrings.a11y.ratio.singleHandGoBeyondEdgeContextResponseStringProperty;
 
-      // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+      // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/552
       return StringUtils.fillIn( patternStringProperty, {
         position: extremityPosition,
         hand: handAtEdge,

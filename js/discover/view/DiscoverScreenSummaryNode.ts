@@ -96,7 +96,7 @@ class DiscoverScreenSummaryNode extends Node {
   }
 
   private getStateOfSim(): string {
-    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/552
     return StringUtils.fillIn( RatioAndProportionStrings.a11y.screenSummaryQualitativeStateOfSimStringProperty, {
       color: BackgroundColorHandler.getCurrentColorRegion( this.ratioFitnessProperty.value, this.inProportionProperty.value ),
       ratioFitness: this.ratioDescriber.getRatioFitness( false ),
@@ -106,21 +106,21 @@ class DiscoverScreenSummaryNode extends Node {
   }
 
   private getLeftHandState(): string {
-    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/552
     return StringUtils.fillIn( RatioAndProportionStrings.a11y.leftHandBulletStringProperty, {
       position: this.handPositionsDescriber.getHandPositionDescription( this.ratioTupleProperty.value.antecedent, this.tickMarkViewProperty.value )
     } );
   }
 
   private getRightHandState(): string {
-    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/552
     return StringUtils.fillIn( RatioAndProportionStrings.a11y.rightHandBulletStringProperty, {
       position: this.handPositionsDescriber.getHandPositionDescription( this.ratioTupleProperty.value.consequent, this.tickMarkViewProperty.value )
     } );
   }
 
   public getDetailsButtonState(): string {
-    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/552
     return StringUtils.fillIn( RatioAndProportionStrings.a11y.detailsButtonPatternStringProperty, {
       stateOfSim: this.getStateOfSim(),
       leftHand: this.getLeftHandState(),

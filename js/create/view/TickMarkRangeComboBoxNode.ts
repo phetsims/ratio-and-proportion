@@ -112,7 +112,7 @@ class TickMarkRangeComboBoxNode extends HBox {
   }
 
   private getContextResponse(): string {
-    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/552
     return StringUtils.fillIn( RatioAndProportionStrings.a11y.create.tickMarkRangeContextResponseStringProperty, {
       range: this.tickMarkRangeMap[ this.tickMarkRangeProperty.value ]
     } );

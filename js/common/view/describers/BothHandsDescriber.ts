@@ -64,7 +64,7 @@ class BothHandsDescriber {
       }
     }
 
-    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/552
     return StringUtils.fillIn( ratioDistancePositionContextResponsePatternStringProperty, {
       distance: this.handPositionsDescriber.getBothHandsDistance( true, options ),
       position: this.getBothHandsPosition()
@@ -75,7 +75,7 @@ class BothHandsDescriber {
    * Similar to getBothHandsContextResponse, but without extra logic for edges and distance-progress.
    */
   public getBothHandsDynamicDescription(): string {
-    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/552
     return StringUtils.fillIn( ratioDistancePositionContextResponsePatternStringProperty, {
       distance: this.handPositionsDescriber.getBothHandsDistance( true, {
         distanceResponseType: DistanceResponseType.DISTANCE_REGION
@@ -95,7 +95,7 @@ class BothHandsDescriber {
     const leftPosition = this.handPositionsDescriber.getHandPositionDescription( currentTuple.antecedent, tickMarkView );
     const rightPosition = this.handPositionsDescriber.getHandPositionDescription( currentTuple.consequent, tickMarkView );
 
-    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/499
+    // TODO: PatternStringProperty when time, https://github.com/phetsims/ratio-and-proportion/issues/552
     if ( leftPosition === rightPosition ) {
       return StringUtils.fillIn( RatioAndProportionStrings.a11y.bothHands.equalObjectResponseAlertStringProperty, {
         inPosition: leftPosition
