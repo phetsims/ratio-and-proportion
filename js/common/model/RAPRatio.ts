@@ -19,6 +19,7 @@ import rapConstants from '../rapConstants.js';
 import RAPRatioTuple from './RAPRatioTuple.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 
 // The threshold for velocity of a moving ratio value to indicate that it is "moving."
 const VELOCITY_THRESHOLD = 0.01;
@@ -123,7 +124,7 @@ class RAPRatio {
 
         if ( this.enabledRatioTermsRangeProperty.value.contains( oldTuple!.antecedent ) &&
              this.enabledRatioTermsRangeProperty.value.contains( oldTuple!.consequent ) &&
-             antecedentChanged && consequentChanged && !phet.joist.sim.isSettingPhetioStateProperty.value ) {
+             antecedentChanged && consequentChanged && !isSettingPhetioStateProperty.value ) {
           assert && assert( rapConstants.toFixed( tuple.getRatio() ) === rapConstants.toFixed( oldTuple!.getRatio() ), // eslint-disable-line bad-sim-text
             'if both values change while locked, the ratio should be maintained.' );
         }
