@@ -20,6 +20,7 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import RAPQueryParameters from '../RAPQueryParameters.js';
 import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 const FONT = new PhetFont( { size: 16, weight: 'bold' } );
 
@@ -54,7 +55,7 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
     // button label
     const labelStringProperty = new PatternStringProperty( new Property( 'BLE {{side}} device' ), {
       side: ratioTerm === RatioTerm.ANTECEDENT ? 'left' : 'right'
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
 
     // decides which hand to control in the sim
     const term = ratioTerm === RatioTerm.ANTECEDENT ? 'withAntecedent' : 'withConsequent';

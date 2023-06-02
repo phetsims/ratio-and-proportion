@@ -32,6 +32,7 @@ import TickMarkDescriber from './describers/TickMarkDescriber.js';
 import RatioInputModality from './describers/RatioInputModality.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import StringProperty from '../../../../axon/js/StringProperty.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 // constants
 const OBJECT_RESPONSE_DELAY = 500;
@@ -176,7 +177,7 @@ class BothHandsPDOMNode extends Node {
 
     const handLockedStringProperty = new PatternStringProperty( RatioAndProportionStrings.a11y.handLockedPatternStringProperty, {
       hand: RatioAndProportionStrings.a11y.bothHands.bothHandsStringProperty
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
 
     options.ratioLockedProperty.link( locked => {
       const newAccessibleNameStringProperty = !locked ?
@@ -196,7 +197,7 @@ class BothHandsPDOMNode extends Node {
     const voicingContextResponsePatternStringProperty = new PatternStringProperty( RatioAndProportionStrings.a11y.ratioNoLongerLockedPatternStringProperty, {
       noLongerLocked: RatioAndProportionStrings.a11y.ratioNoLongerLockedStringProperty,
       originalContextResponse: originalContextResponseStringProperty
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
 
     this.bothHandsInteractionListener = new BothHandsInteractionListener( {
       targetNode: interactiveNode,

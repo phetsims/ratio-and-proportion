@@ -42,6 +42,7 @@ import TickMarkDescriber from './describers/TickMarkDescriber.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 // constants
 const MIN_FRAMING_RECTANGLE_HEIGHT = 32;
@@ -256,7 +257,7 @@ class RatioHalf extends Rectangle {
 
     const handLockedPatternStringProperty = new PatternStringProperty( RatioAndProportionStrings.a11y.handLockedPatternStringProperty, {
       hand: providedAccessibleName
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
 
     const accessibleNameProperty = new DerivedProperty( [
       this.ratio.lockedProperty,
