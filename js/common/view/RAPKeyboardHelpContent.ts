@@ -24,10 +24,8 @@ export type RAPKeyboardHelpContentOptions = SelfOptions & TwoColumnKeyboardHelpC
 
 class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
 
-  private readonly disposeRAPKeyboardHelpContent: () => void;
-
   /**
-   * @param challengeHelpSection - keyboard help section for determining how to change the target ratio. We will dispose this!
+   * @param challengeHelpSection - keyboard help section for determining how to change the target ratio.
    * @param [providedOptions]
    */
   public constructor( challengeHelpSection: KeyboardHelpSection, providedOptions?: RAPKeyboardHelpContentOptions ) {
@@ -50,23 +48,10 @@ class RAPKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
     const rightContent = [ challengeHelpSection, basicActionsHelpSection ];
 
     super( leftContent, rightContent, providedOptions );
-
-    this.disposeRAPKeyboardHelpContent = () => {
-      moveLeftOrRightHandHelpSection.dispose();
-      bothHandsHelpSection.dispose();
-      challengeHelpSection.dispose();
-      basicActionsHelpSection.dispose();
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeRAPKeyboardHelpContent();
-    super.dispose();
   }
 }
 
 class BothHandsHelpSection extends KeyboardHelpSection {
-  private readonly disposeBothHandsHelpSection: () => void;
 
   public constructor( options?: KeyboardHelpSectionOptions ) {
 
@@ -99,21 +84,6 @@ class BothHandsHelpSection extends KeyboardHelpSection {
     const rows = [ moveLeftHand, moveRightHand, moveInSmallerSteps, jumpBothHands ];
     super( RatioAndProportionStrings.moveBothHandsSimultaneouslyStringProperty,
       rows, options );
-
-    this.disposeBothHandsHelpSection = () => {
-      rows.forEach( row => row.dispose() );
-      wOrSIcon.dispose();
-      wKeyNode.dispose();
-      sKeyNode.dispose();
-      numberToNumberIcon.dispose();
-      arrowKeysRow.dispose();
-      shiftIcon.dispose();
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeBothHandsHelpSection();
-    super.dispose();
   }
 }
 

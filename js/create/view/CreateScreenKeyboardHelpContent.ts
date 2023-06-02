@@ -25,7 +25,6 @@ class CreateScreenKeyboardHelpContent extends RAPKeyboardHelpContent {
 }
 
 class MyChallengeHelpSection extends KeyboardHelpSection {
-
   public constructor( options?: CreateScreenKeyboardHelpContentOptions ) {
 
     const setHandRatioValue = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.setHandRatioValueStringProperty,
@@ -47,11 +46,6 @@ class MyChallengeHelpSection extends KeyboardHelpSection {
 
     const rows = [ setHandRatioValue, jumpToMinimum, jumpToMaximum ];
     super( RatioAndProportionStrings.setMyRatioChallengeStringProperty, rows, options );
-    this.disposeEmitter.addListener( () => {
-      rows.forEach( row => row.dispose() );
-      homeKeyNode.dispose();
-      endKeyNode.dispose();
-    } );
   }
 }
 
