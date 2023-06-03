@@ -1,4 +1,4 @@
-// Copyright 2022, University of Colorado Boulder
+// Copyright 2022-2023, University of Colorado Boulder
 
 /**
  * To test connecting to a bluetooth device using web bluetooth. Note this uses Promises (as the
