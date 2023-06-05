@@ -187,7 +187,7 @@ class HandPositionsDescriber {
 
     const normalizedPosition = TOTAL_RANGE.getNormalizedValue( position );
 
-    let region = null;
+    let region: string | null = null;
 
     for ( let i = 0; i < POSITION_REGIONS_DATA.length; i++ ) {
       const positionRegionDatum = POSITION_REGIONS_DATA[ i ];

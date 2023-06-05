@@ -98,7 +98,7 @@ class TickMarkDescriber {
     const roundedDown = Math.floor( expandedValue );
     const tickMarkNumber = remainder > ROUND_DOWN_THRESHOLD ? roundedUp : roundedDown;
     let tickMarkDisplayedNumber: number | 'zero' = tickMarkNumber; // could be `tickMarkNumber + .5` depending on the tick mark view
-    let relativePosition = null;
+    let relativePosition: string | null = null;
 
     const inZeroCase = tickMarkNumber === 0;
     let ordinalPosition = tickMarkNumber === numberOfTickMarks ? null :
