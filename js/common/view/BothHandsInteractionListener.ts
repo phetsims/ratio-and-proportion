@@ -9,7 +9,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
-import { globalKeyStateTracker, KeyboardUtils, Node, SceneryEvent } from '../../../../scenery/js/imports.js';
+import { KeyboardUtils, Node, SceneryEvent } from '../../../../scenery/js/imports.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import RatioTerm from '../model/RatioTerm.js';
@@ -124,17 +124,18 @@ class BothHandsInteractionListener {
    * @param ratioTerm - what field of the RAPRatioTuple are we changing
    * @param inputMapper - see getKeyboardInputSnappingMapper
    * @param increment - if the value is being incremented, as opposed to decremented.
+   * @param shiftKeyDown
    */
-  private onValueIncrementDecrement( ratioTerm: RatioTerm, inputMapper: KeyboardInputMapper, increment: boolean ): void {
+  private onValueIncrementDecrement( ratioTerm: RatioTerm, inputMapper: KeyboardInputMapper, increment: boolean, shiftKeyDown: boolean ): void {
     this.isBeingInteractedWithProperty.value = true;
     const currentValueFromTuple = this.ratioTupleProperty.value.getForTerm( ratioTerm );
 
-    const changeAmount = globalKeyStateTracker.shiftKeyDown ? this.shiftKeyboardStep : this.keyboardStep;
+    const changeAmount = shiftKeyDown ? this.shiftKeyboardStep : this.keyboardStep;
     const valueDelta = changeAmount * ( increment ? 1 : -1 );
 
     // Because this interaction uses the keyboard, snap to the keyboard step to handle the case where the hands were
     // previously moved via mouse/touch. See https://github.com/phetsims/ratio-and-proportion/issues/156
-    const newValue = inputMapper( currentValueFromTuple + valueDelta, currentValueFromTuple, globalKeyStateTracker.shiftKeyDown, this.inProportionProperty.value );
+    const newValue = inputMapper( currentValueFromTuple + valueDelta, currentValueFromTuple, shiftKeyDown, this.inProportionProperty.value );
     const newRatioTuple = this.ratioTupleProperty.value.withValueForTerm( newValue, ratioTerm );
 
     this.ratioTupleProperty.value = newRatioTuple.constrainFields( this.enabledRatioTermsRangeProperty.value );
@@ -159,22 +160,23 @@ class BothHandsInteractionListener {
       assert && assert( sceneryEvent.domEvent, 'dom event expected' );
       const domEvent = sceneryEvent.domEvent as KeyboardEvent;
       const key = KeyboardUtils.getEventCode( domEvent );
+      const shiftKeyDown = domEvent.shiftKey;
 
       if ( key === KeyboardUtils.KEY_DOWN_ARROW ) {
         this.consequentInteractedWithProperty.value = true;
-        this.onValueIncrementDecrement( RatioTerm.CONSEQUENT, this.consequentMapKeyboardInput, false );
+        this.onValueIncrementDecrement( RatioTerm.CONSEQUENT, this.consequentMapKeyboardInput, false, shiftKeyDown );
       }
       else if ( key === KeyboardUtils.KEY_UP_ARROW ) {
-        this.onValueIncrementDecrement( RatioTerm.CONSEQUENT, this.consequentMapKeyboardInput, true );
+        this.onValueIncrementDecrement( RatioTerm.CONSEQUENT, this.consequentMapKeyboardInput, true, shiftKeyDown );
         this.consequentInteractedWithProperty.value = true;
       }
       else if ( key === KeyboardUtils.KEY_W ) {
         this.antecedentInteractedWithProperty.value = true;
-        this.onValueIncrementDecrement( RatioTerm.ANTECEDENT, this.antecedentMapKeyboardInput, true );
+        this.onValueIncrementDecrement( RatioTerm.ANTECEDENT, this.antecedentMapKeyboardInput, true, shiftKeyDown );
       }
       else if ( key === KeyboardUtils.KEY_S ) {
         this.antecedentInteractedWithProperty.value = true;
-        this.onValueIncrementDecrement( RatioTerm.ANTECEDENT, this.antecedentMapKeyboardInput, false );
+        this.onValueIncrementDecrement( RatioTerm.ANTECEDENT, this.antecedentMapKeyboardInput, false, shiftKeyDown );
       }
       else {
 
