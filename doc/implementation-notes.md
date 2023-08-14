@@ -8,13 +8,13 @@ documentation (source code comments) and external documentation (design document
 
 Before reading this document, please read:
 
-* [model.md](https://github.com/phetsims/ratio-and-proportion/blob/master/doc/model.md), a high-level description of the
+* [model.md](https://github.com/phetsims/ratio-and-proportion/blob/main/doc/model.md), a high-level description of the
   simulation model
 
 In addition to this document, you are encouraged to read:
 
-* [PhET Development Overview](https://github.com/phetsims/phet-info/blob/master/doc/phet-development-overview.md)
-* [PhET Software Design Patterns](https://github.com/phetsims/phet-info/blob/master/doc/phet-software-design-patterns.md)
+* [PhET Development Overview](https://github.com/phetsims/phet-info/blob/main/doc/phet-development-overview.md)
+* [PhET Software Design Patterns](https://github.com/phetsims/phet-info/blob/main/doc/phet-software-design-patterns.md)
 * [Ratio and Proportion Design Resources](https://drive.google.com/drive/u/1/folders/1XJGeZKYohYDMucdV3bYF56QG08BGjpMi)
   , (which may be out of date)
 
