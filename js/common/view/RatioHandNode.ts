@@ -15,7 +15,7 @@ import Orientation from '../../../../phet-core/js/Orientation.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import ArrowKeyNode from '../../../../scenery-phet/js/keyboard/ArrowKeyNode.js';
 import LetterKeyNode from '../../../../scenery-phet/js/keyboard/LetterKeyNode.js';
-import { Color, FocusHighlightFromNode, Node, NodeOptions, Path, PathOptions, TPaint } from '../../../../scenery/js/imports.js';
+import { Color, HighlightFromNode, Node, NodeOptions, Path, PathOptions, TPaint } from '../../../../scenery/js/imports.js';
 import AccessibleSlider, { AccessibleSliderOptions } from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -112,7 +112,7 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
     handContainer.bottom = handContainer.height * 0.54;
 
     assert && assert( !options.focusHighlight, 'RatioHandNode sets its own focusHighlight' );
-    this.focusHighlight = new FocusHighlightFromNode( handContainer );
+    this.focusHighlight = new HighlightFromNode( handContainer );
 
     // Only display the "cut-out target circles" when the tick marks are being shown
     tickMarkViewProperty.link( tickMarkView => {
