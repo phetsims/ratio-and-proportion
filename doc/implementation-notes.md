@@ -62,7 +62,8 @@ relationship ratio terms have, the antecedent value's distance between being in-
 varies based on the target ratio. The fitness algorithm is based on the euclidean distance between two points, the
 current ratio and the target ratio. These points are calculated by using the current ratio to get a function with an
 inverse slope to the function of the target ratio. When the targetRatio is `>1`, the fitness algorithm is reversed such
-that the antecedent and consequent are flipped. This is to give consistent fitness relationship for `targetRatio=1/10` and
+that the antecedent and consequent are flipped. This is to give consistent fitness relationship for `targetRatio=1/10`
+and
 `targetRatio=10`. See `RAPModel.calculateFitness()` for details.
 
 ## Model states
@@ -114,8 +115,8 @@ model is moving in proportion when moving in direction with a fitness `>=1-MOVIN
 
 * Moving in Proportion Sound: choir sound (`MovingInProportionSoundGenerator.js`)
 * Same output for in-proportion state:
-    * Visual: dark green
-    * Success Sound: "success ringing ding/chord" upon entering this state.
+  * Visual: dark green
+  * Success Sound: "success ringing ding/chord" upon entering this state.
 
 ## Dynamic Layout
 

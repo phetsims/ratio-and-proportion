@@ -69,8 +69,8 @@ antecedent and consequent.
 
 To simplify the simulation model and to match with learning goals of the simulation, setting either term to 0 does not
 produce feedback to match the mathematical expression. For example 1:0 is undefined, yet this simulation still provides
-feedback based on that current ratio's proximity to the target, indicating the ratio is "close". The same is true for 
-0:0. In these cases, the fitness of the current ratio is dominated by the amount the user must move to find positions 
+feedback based on that current ratio's proximity to the target, indicating the ratio is "close". The same is true for
+0:0. In these cases, the fitness of the current ratio is dominated by the amount the user must move to find positions
 (term values) that match the target ratio and not the mathematical value (undefined).
 
 #### Locked ratio case
