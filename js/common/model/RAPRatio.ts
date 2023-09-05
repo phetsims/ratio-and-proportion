@@ -68,7 +68,6 @@ class RAPRatio {
 
   public constructor( initialAntecedent: number, initialConsequent: number, tandem: Tandem ) {
 
-    // TODO: https://github.com/phetsims/phet-io/issues/1947
     this._enabledRatioTermsRangeProperty = new Property( DEFAULT_TERM_VALUE_RANGE, {
       tandem: tandem.createTandem( 'enabledRatioTermsRangeProperty' ),
       phetioValueType: Range.RangeIO
