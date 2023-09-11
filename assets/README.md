@@ -23,5 +23,5 @@ The hands in the ratio are SCENERY/Paths taken from SVG drawing data in `filledI
 
 ### Tick Mark Icons
 
-The icons used for the tick mark radio buttons SCENERY/Paths taken from SVG drawing data in `tick-marks.ai`.
-The `Path` instances are created in ratio-and-proportion/js/common/view/TickMarkViewRadioButtonGroup.js.
+The icons used for the tick mark radio buttons SCENERY/Paths taken from SVG drawing data in `tick-marks.ai`. The `Path`
+instances are created in ratio-and-proportion/js/common/view/TickMarkViewRadioButtonGroup.js.
