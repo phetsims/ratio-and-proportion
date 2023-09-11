@@ -69,12 +69,12 @@ antecedent and consequent.
 
 To simplify the simulation model and to match with learning goals of the simulation, setting either term to 0 does not
 produce feedback to match the mathematical expression. For example 1:0 is undefined, yet this simulation still provides
-feedback based on that current ratio's proximity to the target, indicating the ratio is "close". The same is true for
-0:0. In these cases, the fitness of the current ratio is dominated by the amount the user must move to find positions
-(term values) that match the target ratio and not the mathematical value (undefined).
+feedback based on that current ratio's proximity to the target, indicating the ratio is "close". The same is true
+for `0:0`. In these cases, the fitness of the current ratio is dominated by the amount the user must move to find
+positions (term values) that match the target ratio and not the mathematical value (undefined).
 
 #### Locked ratio case
 
-The ratio can be "locked" such that changing either term (hand) of the ratio will update the other term to
-maintain the same ratio as when the ratio became locked. This continuously triggers the "moving in proportion" state. In
-order to lock the ratio, the fitness for the hand positions must be in the "in proportion" state.
+The ratio can be "locked" such that changing either term (hand) of the ratio will update the other term to maintain the
+same ratio as when the ratio became locked. This continuously triggers the "moving in proportion" state. In order to
+lock the ratio, the fitness for the hand positions must be in the "in proportion" state.
