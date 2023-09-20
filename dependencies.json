@@ -53,7 +53,7 @@
     "branch": "HEAD"
   },
   "phetcommon": {
-    "sha": "1d91be5e4a7c03b7d46146825c973af29b0d8c02",
+    "sha": "c3f3bd5c7b8e0b46d5d197f9fd0d9c5f8ed93103",
     "branch": "HEAD"
   },
   "phetmarks": {
@@ -65,7 +65,7 @@
     "branch": "HEAD"
   },
   "ratio-and-proportion": {
-    "sha": "4176eb369a51e6d8d0c896db7931443d1624c1a7",
+    "sha": "f153233e02ada5247f542b0820a8d1ced54add8c",
     "branch": "1.2"
   },
   "scenery": {
