@@ -103,10 +103,10 @@ class RAPModel implements TModel {
       }
 
       phet.log && phet.log( `
-left: ${antecedent}, 
-right: ${consequent}, 
-distance: ${Math.abs( consequent - antecedent )}, 
-current ratio: ${this.ratio.currentRatio}, 
+left: ${antecedent},
+right: ${consequent},
+distance: ${Math.abs( consequent - antecedent )},
+current ratio: ${this.ratio.currentRatio},
 target ratio: ${this.targetRatioProperty.value},
 unclampedFitness: ${unclampedFitness}
 `
