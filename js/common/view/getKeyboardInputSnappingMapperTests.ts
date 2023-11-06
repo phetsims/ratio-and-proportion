@@ -13,7 +13,7 @@ import RatioTerm from '../model/RatioTerm.js';
 import rapConstants from '../rapConstants.js';
 import getKeyboardInputSnappingMapper from './getKeyboardInputSnappingMapper.js';
 
-QUnit.module( 'getKeyboardInputSnappingMapperTests' );
+QUnit.module( 'getKeyboardInputSnappingMapper' );
 
 // Copied from keyboard step calculation in RAPScreenView.js
 const keyboardStep = 1 / 2 / 10;
