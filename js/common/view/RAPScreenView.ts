@@ -146,11 +146,15 @@ class RAPScreenView extends ScreenView {
       fitness => Color.interpolateRGBA(
         RAPColors.tickMarksAndLabelsOutOfFitnessProperty.value,
         RAPColors.tickMarksAndLabelsInFitnessProperty.value, fitness
-      ) );
+      ), {
+        accessNonDependencies: true
+      } );
 
     // Tick mark sounds get played when ratio isn't locked, and when staccato sounds aren't playing
     const playTickMarkBumpSoundProperty: TReadOnlyProperty<boolean> = new DerivedProperty( [ model.ratioFitnessProperty ],
-      fitness => !model.ratio.lockedProperty.value && fitness === rapConstants.RATIO_FITNESS_RANGE.min );
+      fitness => !model.ratio.lockedProperty.value && fitness === rapConstants.RATIO_FITNESS_RANGE.min, {
+        accessNonDependencies: true
+      } );
 
     // by default, the keyboard step size should be half of one default tick mark width. See https://github.com/phetsims/ratio-and-proportion/issues/85
     // NOTE: do not change this without changing the copied constant in getKeyboardInputSnappingMapperTests.js
