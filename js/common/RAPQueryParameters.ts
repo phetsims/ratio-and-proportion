@@ -16,6 +16,7 @@ const RAPQueryParameters = QueryStringMachine.getAll( {
     type: 'flag'
   },
 
+  // Add bluetooth capability, for R&D testing only!
   bluetooth: {
     type: 'flag'
   },
