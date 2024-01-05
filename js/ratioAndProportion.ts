@@ -2,6 +2,7 @@
 
 /**
  * Creates the namespace for this simulation.
+ * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
 import Namespace from '../../phet-core/js/Namespace.js';

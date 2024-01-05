@@ -4,6 +4,7 @@
  * To test connecting to a bluetooth device using web bluetooth. Note this uses Promises (as the
  * bluetooth API works with promises) which is very unusual for simulation code.
  *
+ * @author Michael Kauzmann (PhET Interactive Simulations)
  * Prototype code for upcoming student studies, see https://github.com/phetsims/ratio-and-proportion/issues/473
  */
 
