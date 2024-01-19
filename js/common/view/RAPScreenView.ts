@@ -142,19 +142,19 @@ class RAPScreenView extends ScreenView {
     // A collection of properties that keep track of which cues should be displayed for both the antecedent and consequent hands.
     const cueArrowsState = new CueArrowsState();
 
-    const tickMarksAndLabelsColorProperty = new DerivedProperty( [ model.ratioFitnessProperty ],
-      fitness => Color.interpolateRGBA(
-        RAPColors.tickMarksAndLabelsOutOfFitnessProperty.value,
-        RAPColors.tickMarksAndLabelsInFitnessProperty.value, fitness
-      ), {
-        strictAxonDependencies: false
-      } );
+    const tickMarksAndLabelsColorProperty = new DerivedProperty( [
+        model.ratioFitnessProperty,
+        RAPColors.tickMarksAndLabelsOutOfFitnessProperty,
+        RAPColors.tickMarksAndLabelsInFitnessProperty
+      ],
+      ( ratioFitness, outOfFitnessColor, InFitnessColor ) => Color.interpolateRGBA( outOfFitnessColor, InFitnessColor, ratioFitness )
+    );
 
     // Tick mark sounds get played when ratio isn't locked, and when staccato sounds aren't playing
-    const playTickMarkBumpSoundProperty: TReadOnlyProperty<boolean> = new DerivedProperty( [ model.ratioFitnessProperty ],
-      fitness => !model.ratio.lockedProperty.value && fitness === rapConstants.RATIO_FITNESS_RANGE.min, {
-        strictAxonDependencies: false
-      } );
+    const playTickMarkBumpSoundProperty: TReadOnlyProperty<boolean> = new DerivedProperty(
+      [ model.ratioFitnessProperty, model.ratio.lockedProperty ],
+      ( ratioFitness, locked ) => !locked && ratioFitness === rapConstants.RATIO_FITNESS_RANGE.min
+    );
 
     // by default, the keyboard step size should be half of one default tick mark width. See https://github.com/phetsims/ratio-and-proportion/issues/85
     // NOTE: do not change this without changing the copied constant in getKeyboardInputSnappingMapperTests.js
