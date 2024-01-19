@@ -131,11 +131,11 @@ unclampedFitness: ${unclampedFitness}
 
     this.inProportionProperty = new DerivedProperty( [
       this.unclampedFitnessProperty,
-      this.ratio.movingInDirectionProperty
+      this.ratio.movingInDirectionProperty,
+      this.mediaPipeInteractedWithProperty // used by this.inProportion
     ], this.inProportion.bind( this ), {
       tandem: tandem.createTandem( 'inProportionProperty' ),
-      phetioValueType: BooleanIO,
-      strictAxonDependencies: false
+      phetioValueType: BooleanIO
     } );
 
     // This must be done here, because of the reentrant nature of how fitness changes when the ratio is locked
