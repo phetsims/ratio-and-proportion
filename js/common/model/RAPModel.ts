@@ -83,8 +83,9 @@ class RAPModel implements TModel {
     this.unclampedFitnessProperty = new DerivedProperty( [
       this.ratio.tupleProperty,
       this.targetRatioProperty,
-      this.ratio.movingInDirectionProperty
-    ], ( ratioTuple, ratio, movingInDirection ) => {
+      this.ratio.movingInDirectionProperty, // used by this.inProportion
+      this.mediaPipeInteractedWithProperty // used by this.inProportion
+    ], ( ratioTuple, ratio, movingInDirection, mediaPipeInteractedWith ) => {
 
       const antecedent = ratioTuple.antecedent;
       const consequent = ratioTuple.consequent;
@@ -120,8 +121,7 @@ unclampedFitness: ${unclampedFitness}
       tandem: tandem.createTandem( 'unclampedFitnessProperty' ),
       phetioDocumentation: 'A number stating how "correct" the current ratio is to the target. The max is 1, and min is ' +
                            'based on what the target ratio is',
-      phetioValueType: NumberIO,
-      strictAxonDependencies: false
+      phetioValueType: NumberIO
     } );
 
     this.ratioFitnessProperty = new DerivedProperty( [ this.unclampedFitnessProperty ],
