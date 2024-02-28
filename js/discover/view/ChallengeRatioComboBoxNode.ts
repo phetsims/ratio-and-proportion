@@ -69,7 +69,7 @@ class ChallengeRatioComboBoxNode extends Node {
       color: RAPColors.discoverChallenge1Property.value,
       soundClip: new SoundClip( selectionArpeggio001_mp3, SOUND_CLIP_OPTIONS ),
       a11yNameStringProperty: RatioAndProportionStrings.challenge1StringProperty,
-      tandemName: `challenge1${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
+      tandemName: 'challenge1Item'
     } );
     this.ratioToChallengeInfoMap.set( 1 / 3, {
       capitalizedStringProperty: RatioAndProportionStrings.challenge2StringProperty,
@@ -77,7 +77,7 @@ class ChallengeRatioComboBoxNode extends Node {
       color: RAPColors.discoverChallenge2Property.value,
       soundClip: new SoundClip( selectionArpeggio004_mp3, SOUND_CLIP_OPTIONS ),
       a11yNameStringProperty: RatioAndProportionStrings.challenge2StringProperty,
-      tandemName: `challenge2${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
+      tandemName: 'challenge2Item'
     } );
     this.ratioToChallengeInfoMap.set( 3 / 4, {
       capitalizedStringProperty: RatioAndProportionStrings.challenge3StringProperty,
@@ -85,7 +85,7 @@ class ChallengeRatioComboBoxNode extends Node {
       color: RAPColors.discoverChallenge3Property.value,
       soundClip: new SoundClip( selectionArpeggio006_mp3, SOUND_CLIP_OPTIONS ),
       a11yNameStringProperty: RatioAndProportionStrings.challenge3StringProperty,
-      tandemName: `challenge3${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
+      tandemName: 'challenge3Item'
     } );
 
     // Add each soundClip to the soundManager.
