@@ -292,4 +292,3 @@ QUnit.test( 'getRelativePositionAndTickMarkNumberForPosition', assert => {
     tickMarkPosition: 1
   } );
 } );
-
