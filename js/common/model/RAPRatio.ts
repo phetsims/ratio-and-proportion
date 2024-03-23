@@ -1,4 +1,4 @@
-// Copyright 2020-2023, University of Colorado Boulder
+// Copyright 2020-2024, University of Colorado Boulder
 
 /**
  * Model type that stores the state of the Ratio. This includes its values, the velocity of how it is changing, as well
