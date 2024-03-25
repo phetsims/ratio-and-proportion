@@ -78,6 +78,7 @@ class RAPRatio {
       valueType: RAPRatioTuple,
       valueComparisonStrategy: 'equalsFunction',
       reentrant: true,
+      reentrantNotificationStrategy: 'stack', // Needed to prevent infinite loop when the ratio is "locked", https://github.com/phetsims/axon/issues/447
 
       // phet-io
       tandem: tandem.createTandem( 'tupleProperty' ),
