@@ -45,7 +45,7 @@
     "branch": "HEAD"
   },
   "phet-io-sim-specific": {
-    "sha": "857ec7e679b8eb431b24f8cae629bd99f0fd29dc",
+    "sha": "13b3e7595aa7fe01ecaee87296344e8161f47971",
     "branch": "HEAD"
   },
   "phet-io-wrappers": {
@@ -65,7 +65,7 @@
     "branch": "HEAD"
   },
   "ratio-and-proportion": {
-    "sha": "060cc2d8ec91836c0428ee79a05c09215e87db1d",
+    "sha": "dd5654268ab088ad9feac06ebda419f35717c345",
     "branch": "1.2"
   },
   "scenery": {
