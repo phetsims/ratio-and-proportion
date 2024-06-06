@@ -118,9 +118,9 @@ class MyChallengeAccordionBox extends AccordionBox {
       color: handColorProperty.value,
       center: Vector2.ZERO,
       accessibleName: RatioAndProportionStrings.a11y.leftValueStringProperty,
-      a11yDependencies: [ targetConsequentProperty ],
-      a11yCreateAriaValueText: ratioDescriber.getWordFromNumber,
-      a11yCreateContextResponseAlert: createNumberPickerContextResponse,
+      pdomDependencies: [ targetConsequentProperty ],
+      pdomCreateAriaValueText: ratioDescriber.getWordFromNumber,
+      pdomCreateContextResponseAlert: createNumberPickerContextResponse,
 
       // voicing
       voicingNameResponse: RatioAndProportionStrings.a11y.leftValueStringProperty,
@@ -147,9 +147,9 @@ class MyChallengeAccordionBox extends AccordionBox {
       color: handColorProperty.value,
       center: Vector2.ZERO,
       accessibleName: RatioAndProportionStrings.a11y.rightValueStringProperty,
-      a11yDependencies: [ targetAntecedentProperty ],
-      a11yCreateAriaValueText: ratioDescriber.getWordFromNumber,
-      a11yCreateContextResponseAlert: createNumberPickerContextResponse,
+      pdomDependencies: [ targetAntecedentProperty ],
+      pdomCreateAriaValueText: ratioDescriber.getWordFromNumber,
+      pdomCreateContextResponseAlert: createNumberPickerContextResponse,
 
       // voicing
       voicingNameResponse: RatioAndProportionStrings.a11y.rightValueStringProperty,

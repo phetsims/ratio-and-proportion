@@ -94,7 +94,7 @@ type SelfOptions = {
   handColorProperty?: TPaint;
 
   // AccessibleValueHandler via RatioHandNode
-  a11yDependencies?: TReadOnlyProperty<IntentionalAny>[];
+  pdomDependencies?: TReadOnlyProperty<IntentionalAny>[];
   bothHandsCueDisplay?: CueDisplay;
   accessibleName: TReadOnlyProperty<string>; // eslint-disable-line require-property-suffix
 };
@@ -131,7 +131,7 @@ class RatioHalf extends Rectangle {
     const options = optionize<RatioHalfOptions, SelfOptions, RectangleOptions>()( {
       isRight: true,
       handColorProperty: new Property( 'black' ),
-      a11yDependencies: [],
+      pdomDependencies: [],
       bothHandsCueDisplay: CueDisplay.UP_DOWN,
 
       // phet-io
@@ -245,12 +245,12 @@ class RatioHalf extends Rectangle {
         },
         isRight: options.isRight,
 
-        a11yCreateAriaValueText: createObjectResponse,
+        pdomCreateAriaValueText: createObjectResponse,
         voicingObjectResponse: createObjectResponse,
 
-        a11yCreateContextResponseAlert: () => this.getSingleHandContextResponse( this.descriptionHandPositionsDescriber, descriptionBothHandsDescriber ),
+        pdomCreateContextResponseAlert: () => this.getSingleHandContextResponse( this.descriptionHandPositionsDescriber, descriptionBothHandsDescriber ),
         voicingContextResponse: () => this.getSingleHandContextResponse( this.voicingHandPositionsDescriber, voicingBothHandsDescriber ),
-        a11yDependencies: options.a11yDependencies.concat( [ this.ratio.lockedProperty ] )
+        pdomDependencies: options.pdomDependencies.concat( [ this.ratio.lockedProperty ] )
       } );
 
     const providedAccessibleName = options.accessibleName;

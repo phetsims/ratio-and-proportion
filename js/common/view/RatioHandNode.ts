@@ -74,10 +74,10 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
 
       // Because this interaction uses the keyboard, snap to the keyboard step to handle the case where the hands were
       // previously moved via mouse/touch. See https://github.com/phetsims/ratio-and-proportion/issues/156
-      a11yMapValue: ( newValue: number, oldValue: number ) => {
+      pdomMapValue: ( newValue: number, oldValue: number ) => {
         return mapKeyboardInput( newValue, oldValue, this.shiftKeyDown, inProportionProperty.value );
       },
-      a11yDependencies: [],
+      pdomDependencies: [],
 
       // Voicing
       voicingHintResponse: RatioAndProportionStrings.a11y.individualHandsVoicingHelpTextStringProperty,
