@@ -60,18 +60,17 @@ class ViewSounds {
     } ) );
     this.tickMarkBumpSoundClip = new TickMarkBumpSoundClip( tickMarkRangeProperty, TOTAL_RANGE, merge( {}, options.soundClipOptions, {
       initialOutputLevel: 0.3, // increased from feedback in https://github.com/phetsims/ratio-and-proportion/issues/246
-      enableControlProperties: [
-        playTickMarkBumpSoundProperty,
-        new DerivedProperty( [ tickMarkViewProperty ], tickMarkView => tickMarkView !== TickMarkView.NONE )
-      ]
+      enabledProperty: new DerivedProperty(
+        [ playTickMarkBumpSoundProperty, tickMarkViewProperty ],
+        ( playTickMarkBumpSound, tickMarkView ) => playTickMarkBumpSound && tickMarkView !== TickMarkView.NONE
+      ),
+      sonificationLevel: SoundLevelEnum.EXTRA
     } ) );
 
     soundManager.addSoundGenerator( this.grabSoundClip, options.addSoundOptions );
     soundManager.addSoundGenerator( this.releaseSoundClip, options.addSoundOptions );
     soundManager.addSoundGenerator( this.boundarySoundClip, options.addSoundOptions );
-    soundManager.addSoundGenerator( this.tickMarkBumpSoundClip, merge( {
-      sonificationLevel: SoundLevelEnum.EXTRA
-    }, options.addSoundOptions ) );
+    soundManager.addSoundGenerator( this.tickMarkBumpSoundClip, options.addSoundOptions );
   }
 
   public reset(): void {

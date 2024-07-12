@@ -342,11 +342,11 @@ class RAPScreenView extends ScreenView {
 
     this.inProportionSoundGenerator = new InProportionSoundGenerator( model, soundGeneratorEnabledProperty );
     this.movingInProportionSoundGenerator = new MovingInProportionSoundGenerator( model, {
-      enableControlProperties: [ soundGeneratorEnabledProperty ]
+      enabledProperty: soundGeneratorEnabledProperty
     } );
     this.staccatoFrequencySoundGenerator = new StaccatoFrequencySoundGenerator( model.ratioFitnessProperty, rapConstants.RATIO_FITNESS_RANGE,
       model.inProportionProperty, {
-        enableControlProperties: [ soundGeneratorEnabledProperty ]
+        enabledProperty: soundGeneratorEnabledProperty
       } );
 
     soundManager.addSoundGenerator( this.staccatoFrequencySoundGenerator );

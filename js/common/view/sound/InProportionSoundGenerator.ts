@@ -64,28 +64,31 @@ class InProportionSoundGenerator extends SoundClip {
    */
   public constructor( model: RAPModel, enabledControlProperty: TReadOnlyProperty<boolean>, providedOptions?: SoundClipOptions ) {
 
-    const options = optionize<SoundClipOptions, EmptySelfOptions>()( {
-      initialOutputLevel: 0.5
-    }, providedOptions );
+    assert && assert(
+      !( providedOptions && providedOptions.enabledProperty ),
+      'use the parameter instead, and note doc for difference in implementation'
+    );
 
-    assert && assert( !options.enableControlProperties, 'use the parameter instead, and note doc for difference in implementation' );
+    const playedSuccessYetProperty = new BooleanProperty( model.inProportionProperty.value );
+    const timePlayedSoFarProperty = new NumberProperty( MANDATORY_PLAY_TIME );
+
+    const playedMandatoryPortionYetProperty: TReadOnlyProperty<boolean> = new DerivedProperty(
+      [ timePlayedSoFarProperty, playedSuccessYetProperty ],
+      ( timePlayed, playedSuccessYet ) => playedSuccessYet && timePlayed <= MANDATORY_PLAY_TIME
+    );
+
+    const options = optionize<SoundClipOptions, EmptySelfOptions>()( {
+      initialOutputLevel: 0.5,
+      enabledControlProperty: DerivedProperty.or( [ playedMandatoryPortionYetProperty, enabledControlProperty ] )
+    }, providedOptions );
 
     super( inProportion_mp3, options );
 
     this.model = model;
     this.targetRatioProperty = model.targetRatioProperty;
     this.fitnessProperty = model.ratioFitnessProperty;
-
-    this.playedSuccessYetProperty = new BooleanProperty( model.inProportionProperty.value );
-    this.timePlayedSoFarProperty = new NumberProperty( MANDATORY_PLAY_TIME );
-
-    const playedMandatoryPortionYetProperty: TReadOnlyProperty<boolean> = new DerivedProperty( [ this.timePlayedSoFarProperty, this.playedSuccessYetProperty ],
-      ( timePlayed, playedSuccessYet ) => playedSuccessYet && timePlayed <= MANDATORY_PLAY_TIME );
-
-    // In addition to any supplemental enabledControlProperty that the client wants to pass in, make sure to set up
-    // an override to ensure that there is always a minimum, "mandatory" time that this sound occurs, even if it doesn't
-    // stay in proportion for as long as that ding sound occurs.
-    this.addEnableControlProperty( DerivedProperty.or( [ playedMandatoryPortionYetProperty, enabledControlProperty ] ) );
+    this.playedSuccessYetProperty = playedSuccessYetProperty;
+    this.timePlayedSoFarProperty = timePlayedSoFarProperty;
 
     // Whenever the inProportionProperty changes, we want to run step eagerly. This is in-part hacky, as perhaps this
     // whole sound generator should run on inProportionProperty, but there are enough time-based parts of this sound
