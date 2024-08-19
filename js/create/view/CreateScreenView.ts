@@ -76,6 +76,7 @@ class CreateScreenView extends RAPScreenView {
     );
     this.setScreenSummaryContent( this.createScreenSummaryNode );
 
+    const lockToggleParent = new Node();
     const ratioLockToggleButton = new RectangularToggleButton( model.ratio.lockedProperty, false, true, {
       content: new LockNode( model.ratio.lockedProperty, { scale: 0.4 } ),
       baseColor: 'white',
@@ -96,7 +97,8 @@ class CreateScreenView extends RAPScreenView {
       font: new PhetFont( 20 ),
       leftCenter: ratioLockToggleButton.rightCenter.plusXY( 8, 0 )
     } );
-    ratioLockToggleButton.addChild( ratioLockText );
+
+    lockToggleParent.children = [ ratioLockToggleButton, ratioLockText ];
 
     model.ratio.lockedProperty.link( locked => {
       ratioLockToggleButton.voicingContextResponse = locked ? RatioAndProportionStrings.a11y.ratioLockToggleContextResponseStringProperty :
@@ -135,7 +137,7 @@ class CreateScreenView extends RAPScreenView {
     this.topScalingUILayerNode.addChild( myChallengeAccordionBox );
 
     // Right above the resetAllButton
-    this.bottomScalingUILayerNode.insertChild( this.bottomScalingUILayerNode.children.length - 1, ratioLockToggleButton );
+    this.bottomScalingUILayerNode.insertChild( this.bottomScalingUILayerNode.children.length - 1, lockToggleParent );
 
     // Should be on top. Don't scale it because that messes with the scaling that the list box goes through, and changes
     // the dimensions of the scalingUILayerNode to make it too big. Discovered in https://github.com/phetsims/ratio-and-proportion/issues/273
@@ -147,7 +149,7 @@ class CreateScreenView extends RAPScreenView {
       this.tickMarkRangeComboBoxNode,
       tickMarkRangeComboBoxParent,
       myChallengeAccordionBox,
-      ratioLockToggleButton
+      lockToggleParent
     ] );
 
     this.resetCreateScreenView = () => {
