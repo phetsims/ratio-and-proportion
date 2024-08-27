@@ -35,8 +35,6 @@ const PICKER_SCALE = 1.5;
 const ICON_SCALE = 0.9;
 const DEFAULT_EXPANDED = false;
 
-export const MAX_WIDTH = 220;
-
 type MyChallengeAccordionBoxOptions = StrictOmit<AccordionBoxOptions, 'pdomOrder'> & PickRequired<AccordionBoxOptions, 'tandem'>;
 
 class MyChallengeAccordionBox extends AccordionBox {
@@ -84,7 +82,7 @@ class MyChallengeAccordionBox extends AccordionBox {
       contentYMargin: 15,
       contentYSpacing: 15,
 
-      maxWidth: MAX_WIDTH,
+      maxWidth: 220,
 
       // Copied from NLCConstants.js, see https://github.com/phetsims/ratio-and-proportion/issues/58#issuecomment-646377333
       cornerRadius: 5,

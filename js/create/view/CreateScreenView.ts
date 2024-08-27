@@ -13,7 +13,7 @@ import RAPScreenView from '../../common/view/RAPScreenView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import CreateScreenSummaryNode from './CreateScreenSummaryNode.js';
-import MyChallengeAccordionBox, { MAX_WIDTH } from './MyChallengeAccordionBox.js';
+import MyChallengeAccordionBox from './MyChallengeAccordionBox.js';
 import TickMarkRangeComboBoxNode from './TickMarkRangeComboBoxNode.js';
 import RAPModel from '../../common/model/RAPModel.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -23,7 +23,6 @@ import TickMarkDescriber from '../../common/view/describers/TickMarkDescriber.js
 import Multilink from '../../../../axon/js/Multilink.js';
 import { SpeakableResolvedResponse } from '../../../../utterance-queue/js/ResponsePacket.js';
 import RectangularToggleButton from '../../../../sun/js/buttons/RectangularToggleButton.js';
-
 
 class CreateScreenView extends RAPScreenView {
 
@@ -96,7 +95,7 @@ class CreateScreenView extends RAPScreenView {
     const ratioLockText = new Text( RatioAndProportionStrings.lockRatioStringProperty, {
       font: new PhetFont( 20 ),
       leftCenter: ratioLockToggleButton.rightCenter.plusXY( 8, 0 ),
-      maxWidth: MAX_WIDTH
+      maxWidth: 180
     } );
 
     lockToggleParent.children = [ ratioLockToggleButton, ratioLockText ];
