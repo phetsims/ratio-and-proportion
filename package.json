@@ -49,7 +49,7 @@
         ],
         "parserOptions": {
           "project": [
-            "../ratio-and-proportion/tsconfig.json"
+            "../chipper/tsconfig/eslint-all/tsconfig.json"
           ]
         }
       }
