@@ -9,10 +9,10 @@
 import Sim, { SimOptions } from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import RAPPreferencesModel from './common/view/RAPPreferencesModel.js';
 import CreateScreen from './create/CreateScreen.js';
 import DiscoverScreen from './discover/DiscoverScreen.js';
 import RatioAndProportionStrings from './RatioAndProportionStrings.js';
-import RAPPreferencesModel from './common/view/RAPPreferencesModel.js';
 
 const ratioAndProportionTitleStringProperty = RatioAndProportionStrings[ 'ratio-and-proportion' ].titleStringProperty;
 
