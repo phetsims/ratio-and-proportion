@@ -39,8 +39,5 @@
       "RATIO_AND_PROPORTION/screen.discover",
       "RATIO_AND_PROPORTION/screen.create"
     ]
-  },
-  "eslintConfig": {
-    "extends": "../chipper/eslint/sim_eslintrc.js"
   }
 }
