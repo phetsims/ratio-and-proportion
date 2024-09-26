@@ -33,7 +33,7 @@ function getKeyboardInputSnappingMapper( getIdealValue: () => number, keyboardSt
 
   const snappingFunction: KeyboardInputMapper = ( newValue, oldValue, useShiftKeyStep, alreadyInProportion ) => {
     // Don't conserve the snap for page up/down or home/end keys, just basic movement changes.
-    const applyConservationSnap = rapConstants.toFixed( Math.abs( newValue - oldValue ) ) <= shiftKeyboardStep && // eslint-disable-line bad-sim-text
+    const applyConservationSnap = rapConstants.toFixed( Math.abs( newValue - oldValue ) ) <= shiftKeyboardStep && // eslint-disable-line phet/bad-sim-text
                                   newValue > rapConstants.NO_SUCCESS_VALUE_THRESHOLD &&
                                   oldValue > rapConstants.NO_SUCCESS_VALUE_THRESHOLD;
 
@@ -41,7 +41,7 @@ function getKeyboardInputSnappingMapper( getIdealValue: () => number, keyboardSt
     // Default case if there is no saved remainder, then just step normally.
     if ( remainder === 0 ) {
       const snapToKeyboardStep = useShiftKeyStep ? shiftKeyboardStep : keyboardStep;
-      newValue = rapConstants.toFixed( // eslint-disable-line bad-sim-text
+      newValue = rapConstants.toFixed( // eslint-disable-line phet/bad-sim-text
         Utils.roundSymmetric( newValue / snapToKeyboardStep ) * snapToKeyboardStep );
     }
 

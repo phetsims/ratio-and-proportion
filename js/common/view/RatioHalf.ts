@@ -96,7 +96,7 @@ type SelfOptions = {
   // AccessibleValueHandler via RatioHandNode
   pdomDependencies?: TReadOnlyProperty<IntentionalAny>[];
   bothHandsCueDisplay?: CueDisplay;
-  accessibleName: TReadOnlyProperty<string>; // eslint-disable-line require-property-suffix
+  accessibleName: TReadOnlyProperty<string>; // eslint-disable-line phet/require-property-suffix
 };
 
 type RatioHalfOptions = SelfOptions & RectangleOptions & PickRequired<RectangleOptions, 'tandem'>;
@@ -287,7 +287,7 @@ class RatioHalf extends Rectangle {
           if ( Math.abs( yValue - i ) < tickMarkStep * SNAP_TO_TICK_MARK_THRESHOLD ) {
 
             // Bug occurs when dragging to the top with tick marks enabled, the value is 1, but snaps to .999999 unless rounded
-            return rapConstants.toFixed( i ); // eslint-disable-line bad-sim-text
+            return rapConstants.toFixed( i ); // eslint-disable-line phet/bad-sim-text
           }
         }
       }
@@ -334,8 +334,8 @@ class RatioHalf extends Rectangle {
 
         // The transform can produce rounding errors, and we depend on boundary positions to be exactly at 0 and 1
         // (for comparison). This solves https://github.com/phetsims/ratio-and-proportion/issues/467 and https://github.com/phetsims/ratio-and-proportion/issues/457#issuecomment-1133125656
-        vector2.x = rapConstants.toFixed( vector2.x ); // eslint-disable-line bad-sim-text
-        vector2.y = rapConstants.toFixed( vector2.y ); // eslint-disable-line bad-sim-text
+        vector2.x = rapConstants.toFixed( vector2.x ); // eslint-disable-line phet/bad-sim-text
+        vector2.y = rapConstants.toFixed( vector2.y ); // eslint-disable-line phet/bad-sim-text
         return dragBoundsProperty.value.closestPointTo( vector2 );
       },
       start: () => {

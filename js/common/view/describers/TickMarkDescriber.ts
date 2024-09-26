@@ -88,8 +88,8 @@ class TickMarkDescriber {
 
     let remainder = expandedValue % 1;
 
-    if ( Utils.toFixedNumber( remainder, 2 ) === rapConstants.toFixed( remainder ) ) { // eslint-disable-line bad-sim-text
-      remainder = rapConstants.toFixed( remainder ); // eslint-disable-line bad-sim-text
+    if ( Utils.toFixedNumber( remainder, 2 ) === rapConstants.toFixed( remainder ) ) { // eslint-disable-line phet/bad-sim-text
+      remainder = rapConstants.toFixed( remainder ); // eslint-disable-line phet/bad-sim-text
     }
 
     assert && assert( remainder < 1 && remainder >= 0, 'remainder not in range' );

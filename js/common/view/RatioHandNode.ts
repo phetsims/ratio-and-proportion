@@ -55,7 +55,7 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
                       inProportionProperty: TReadOnlyProperty<boolean>,
                       providedOptions?: RatioHandNodeOptions ) {
 
-    const shiftKeyboardStep = rapConstants.toFixed( keyboardStep * rapConstants.SHIFT_KEY_MULTIPLIER ); // eslint-disable-line bad-sim-text
+    const shiftKeyboardStep = rapConstants.toFixed( keyboardStep * rapConstants.SHIFT_KEY_MULTIPLIER ); // eslint-disable-line phet/bad-sim-text
 
     // Conserve keypresses while allowing keyboard input to access any "in-proportion" state, even if more granular than
     // the keyboard step size allows.

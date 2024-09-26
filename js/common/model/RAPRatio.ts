@@ -126,7 +126,7 @@ class RAPRatio {
         if ( this.enabledRatioTermsRangeProperty.value.contains( oldTuple!.antecedent ) &&
              this.enabledRatioTermsRangeProperty.value.contains( oldTuple!.consequent ) &&
              antecedentChanged && consequentChanged && !isSettingPhetioStateProperty.value ) {
-          assert && assert( rapConstants.toFixed( tuple.getRatio() ) === rapConstants.toFixed( oldTuple!.getRatio() ), // eslint-disable-line bad-sim-text
+          assert && assert( rapConstants.toFixed( tuple.getRatio() ) === rapConstants.toFixed( oldTuple!.getRatio() ), // eslint-disable-line phet/bad-sim-text
             'if both values change while locked, the ratio should be maintained.' );
         }
 
