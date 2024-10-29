@@ -152,7 +152,7 @@ function createComboBoxItem( targetRatio: number, challengeInfo: ChallengeInfo )
     value: targetRatio,
     createNode: tandem => node,
     soundPlayer: challengeInfo.soundClip,
-    a11yName: challengeInfo.a11yNameStringProperty,
+    accessibleName: challengeInfo.a11yNameStringProperty,
     tandemName: challengeInfo.tandemName
   };
 }

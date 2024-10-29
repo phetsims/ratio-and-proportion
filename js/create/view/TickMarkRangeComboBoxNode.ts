@@ -54,9 +54,9 @@ class TickMarkRangeComboBoxNode extends HBox {
     this.tickMarkRangeProperty = tickMarkRangeProperty;
 
     const items: ComboBoxItem<number>[] = [
-      { value: 10, createNode: () => new RichText( this.tickMarkRangeMap[ 10 ], RANGE_TEXT_OPTIONS ), a11yName: RatioAndProportionStrings.zeroToTenStringProperty },
-      { value: 20, createNode: () => new RichText( this.tickMarkRangeMap[ 20 ], RANGE_TEXT_OPTIONS ), a11yName: RatioAndProportionStrings.zeroToTwentyStringProperty },
-      { value: 30, createNode: () => new RichText( this.tickMarkRangeMap[ 30 ], RANGE_TEXT_OPTIONS ), a11yName: RatioAndProportionStrings.zeroToThirtyStringProperty }
+      { value: 10, createNode: () => new RichText( this.tickMarkRangeMap[ 10 ], RANGE_TEXT_OPTIONS ), accessibleName: RatioAndProportionStrings.zeroToTenStringProperty },
+      { value: 20, createNode: () => new RichText( this.tickMarkRangeMap[ 20 ], RANGE_TEXT_OPTIONS ), accessibleName: RatioAndProportionStrings.zeroToTwentyStringProperty },
+      { value: 30, createNode: () => new RichText( this.tickMarkRangeMap[ 30 ], RANGE_TEXT_OPTIONS ), accessibleName: RatioAndProportionStrings.zeroToThirtyStringProperty }
     ];
 
     const widestItem = Math.max( ...items.map( item => {
@@ -90,7 +90,7 @@ class TickMarkRangeComboBoxNode extends HBox {
       {
         value: value,
         createNode: () => new HSeparator( { preferredWidth: widestItem, centerY: -5 } ),
-        a11yName: RatioAndProportionStrings.a11y.tickMark.tickMarksHiddenStringProperty
+        accessibleName: RatioAndProportionStrings.a11y.tickMark.tickMarksHiddenStringProperty
       },
       items[ 0 ] // add this one to get the proper height of the text.
     ], new Node(), comboBoxOptions );
