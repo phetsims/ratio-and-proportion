@@ -42,11 +42,12 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkV
       value: TickMarkView.NONE,
 
       interactiveDescriptionContextResponse: RatioAndProportionStrings.a11y.tickMark.tickMarksHiddenStringProperty,
-      voicingContextResponse: RatioAndProportionStrings.a11y.tickMark.tickMarksHiddenStringProperty,
 
       // pdom
       options: {
-        accessibleName: RatioAndProportionStrings.a11y.tickMark.showNoStringProperty
+        accessibleName: RatioAndProportionStrings.a11y.tickMark.showNoStringProperty,
+        voicingNameResponse: RatioAndProportionStrings.a11y.tickMark.showNoStringProperty,
+        voicingContextResponse: RatioAndProportionStrings.a11y.tickMark.tickMarksHiddenStringProperty
       },
 
       // phet-io
@@ -56,11 +57,12 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkV
       value: TickMarkView.VISIBLE,
 
       interactiveDescriptionContextResponse: RatioAndProportionStrings.a11y.tickMark.tickMarksShownStringProperty,
-      voicingContextResponse: RatioAndProportionStrings.a11y.tickMark.tickMarksShownStringProperty,
 
       // pdom
       options: {
-        accessibleName: RatioAndProportionStrings.a11y.tickMark.showStringProperty
+        accessibleName: RatioAndProportionStrings.a11y.tickMark.showStringProperty,
+        voicingNameResponse: RatioAndProportionStrings.a11y.tickMark.showStringProperty,
+        voicingContextResponse: RatioAndProportionStrings.a11y.tickMark.tickMarksShownStringProperty
       },
 
       // phet-io
@@ -70,10 +72,11 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkV
       value: TickMarkView.VISIBLE_WITH_UNITS,
 
       interactiveDescriptionContextResponse: RatioAndProportionStrings.a11y.tickMark.numberedTickMarksShownStringProperty,
-      voicingContextResponse: RatioAndProportionStrings.a11y.tickMark.numberedTickMarksShownStringProperty,
 
       options: {
-        accessibleName: RatioAndProportionStrings.a11y.tickMark.showNumberedStringProperty
+        accessibleName: RatioAndProportionStrings.a11y.tickMark.showNumberedStringProperty,
+        voicingNameResponse: RatioAndProportionStrings.a11y.tickMark.showNumberedStringProperty,
+        voicingContextResponse: RatioAndProportionStrings.a11y.tickMark.numberedTickMarksShownStringProperty
       },
 
       // phet-io
