@@ -1,4 +1,4 @@
-// Copyright 2020-2023, University of Colorado Boulder
+// Copyright 2020-2024, University of Colorado Boulder
 
 /**
  * A combo box that displays the possible ranges for the tick marks and labels. The design requirements for this
