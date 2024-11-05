@@ -28,7 +28,7 @@ class CreateScreen extends Screen<RAPModel, CreateScreenView> {
         tandem: tandem,
         homeScreenIcon: new CreateScreenIcon(),
         name: RatioAndProportionStrings.screen.createStringProperty,
-        descriptionContent: RatioAndProportionStrings.a11y.create.homeScreenDescriptionStringProperty,
+        screenButtonsHelpText: RatioAndProportionStrings.a11y.create.screenButtonsHelpTextStringProperty,
         createKeyboardHelpNode: () => new CreateScreenKeyboardHelpContent()
       }
     );

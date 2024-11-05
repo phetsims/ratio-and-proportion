@@ -139,7 +139,7 @@ type StringsType = {
     'detailsButtonPatternStringProperty': LocalizedStringProperty;
     'detailsButtonWithCurrentChallengePatternStringProperty': LocalizedStringProperty;
     'discover': {
-      'homeScreenDescriptionStringProperty': LocalizedStringProperty;
+      'screenButtonsHelpTextStringProperty': LocalizedStringProperty;
       'screenSummary': {
         'paragraph1StringProperty': LocalizedStringProperty;
         'paragraph2StringProperty': LocalizedStringProperty;
@@ -154,7 +154,7 @@ type StringsType = {
       'bothHandsGestureDescriptionHelpTextStringProperty': LocalizedStringProperty;
     };
     'create': {
-      'homeScreenDescriptionStringProperty': LocalizedStringProperty;
+      'screenButtonsHelpTextStringProperty': LocalizedStringProperty;
       'screenSummary': {
         'paragraph1StringProperty': LocalizedStringProperty;
         'paragraph2StringProperty': LocalizedStringProperty;

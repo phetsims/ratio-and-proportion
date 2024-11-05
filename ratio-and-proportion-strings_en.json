@@ -350,7 +350,7 @@
       "value": "{{stateOfSim}} {{leftHand}} {{rightHand}} {{currentChallenge}}"
     },
     "discover": {
-      "homeScreenDescription": {
+      "screenButtonsHelpText": {
         "value": "Explore and discover set challenge ratios."
       },
       "screenSummary": {
@@ -387,7 +387,7 @@
       }
     },
     "create": {
-      "homeScreenDescription": {
+      "screenButtonsHelpText": {
         "value": "Set your own challenge ratios to explore."
       },
       "screenSummary": {
