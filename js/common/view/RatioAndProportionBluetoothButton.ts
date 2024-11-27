@@ -8,20 +8,20 @@
  * Prototype code for upcoming student studies, see https://github.com/phetsims/ratio-and-proportion/issues/473
  */
 
-import ratioAndProportion from '../../ratioAndProportion.js';
-import TextPushButton, { TextPushButtonOptions } from '../../../../sun/js/buttons/TextPushButton.js';
-import Utils from '../../../../dot/js/Utils.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import Utils from '../../../../dot/js/Utils.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import TextPushButton, { TextPushButtonOptions } from '../../../../sun/js/buttons/TextPushButton.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import RatioTerm from '../model/RatioTerm.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import StationaryValueTracker from './StationaryValueTracker.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import RAPQueryParameters from '../RAPQueryParameters.js';
-import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import StationaryValueTracker from './StationaryValueTracker.js';
 
 const FONT = new PhetFont( { size: 16, weight: 'bold' } );
 

@@ -6,14 +6,14 @@
 
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
+import { Color } from '../../../scenery/js/imports.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import RAPModel from '../common/model/RAPModel.js';
 import ratioAndProportion from '../ratioAndProportion.js';
 import RatioAndProportionStrings from '../RatioAndProportionStrings.js';
 import DiscoverScreenIcon from './view/DiscoverScreenIcon.js';
 import DiscoverScreenKeyboardHelpContent from './view/DiscoverScreenKeyboardHelpContent.js';
 import DiscoverScreenView from './view/DiscoverScreenView.js';
-import Tandem from '../../../tandem/js/Tandem.js';
-import { Color } from '../../../scenery/js/imports.js';
 
 class DiscoverScreen extends Screen<RAPModel, DiscoverScreenView> {
 

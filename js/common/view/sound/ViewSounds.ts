@@ -8,7 +8,11 @@
  */
 
 import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
+import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
+import Property from '../../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import merge from '../../../../../phet-core/js/merge.js';
+import optionize from '../../../../../phet-core/js/optionize.js';
 import SoundClip, { SoundClipOptions } from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundLevelEnum from '../../../../../tambo/js/SoundLevelEnum.js';
 import soundManager, { SoundGeneratorAddOptions } from '../../../../../tambo/js/soundManager.js';
@@ -19,10 +23,6 @@ import rapConstants from '../../rapConstants.js';
 import TickMarkView from '../TickMarkView.js';
 import BoundarySoundClip from './BoundarySoundClip.js';
 import TickMarkBumpSoundClip from './TickMarkBumpSoundClip.js';
-import Property from '../../../../../axon/js/Property.js';
-import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
-import optionize from '../../../../../phet-core/js/optionize.js';
-import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 
 const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 

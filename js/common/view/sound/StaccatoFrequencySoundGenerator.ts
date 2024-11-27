@@ -7,38 +7,38 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import dotRandom from '../../../../../dot/js/dotRandom.js';
-import Range from '../../../../../dot/js/Range.js';
 import LinearFunction from '../../../../../dot/js/LinearFunction.js';
+import Range from '../../../../../dot/js/Range.js';
+import optionize, { EmptySelfOptions } from '../../../../../phet-core/js/optionize.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator, { SoundGeneratorOptions } from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
-import staccatoC_mp3 from '../../../../sounds/staccato/staccatoC_mp3.js';
 import staccatoC001_mp3 from '../../../../sounds/staccato/staccatoC001_mp3.js';
 import staccatoC002_mp3 from '../../../../sounds/staccato/staccatoC002_mp3.js';
+import staccatoC_mp3 from '../../../../sounds/staccato/staccatoC_mp3.js';
 import staccatoCSharp001_mp3 from '../../../../sounds/staccato/staccatoCSharp001_mp3.js';
 import staccatoCSharp002_mp3 from '../../../../sounds/staccato/staccatoCSharp002_mp3.js';
 import staccatoCSharp_mp3 from '../../../../sounds/staccato/staccatoCSharp_mp3.js';
-import staccatoD_mp3 from '../../../../sounds/staccato/staccatoD_mp3.js';
 import staccatoD001_mp3 from '../../../../sounds/staccato/staccatoD001_mp3.js';
 import staccatoD002_mp3 from '../../../../sounds/staccato/staccatoD002_mp3.js';
+import staccatoD_mp3 from '../../../../sounds/staccato/staccatoD_mp3.js';
 import staccatoDSharp001_mp3 from '../../../../sounds/staccato/staccatoDSharp001_mp3.js';
 import staccatoDSharp002_mp3 from '../../../../sounds/staccato/staccatoDSharp002_mp3.js';
 import staccatoDSharp_mp3 from '../../../../sounds/staccato/staccatoDSharp_mp3.js';
-import staccatoE_mp3 from '../../../../sounds/staccato/staccatoE_mp3.js';
 import staccatoE001_mp3 from '../../../../sounds/staccato/staccatoE001_mp3.js';
 import staccatoE002_mp3 from '../../../../sounds/staccato/staccatoE002_mp3.js';
-import staccatoF_mp3 from '../../../../sounds/staccato/staccatoF_mp3.js';
+import staccatoE_mp3 from '../../../../sounds/staccato/staccatoE_mp3.js';
 import staccatoF001_mp3 from '../../../../sounds/staccato/staccatoF001_mp3.js';
 import staccatoF002_mp3 from '../../../../sounds/staccato/staccatoF002_mp3.js';
+import staccatoF_mp3 from '../../../../sounds/staccato/staccatoF_mp3.js';
 import staccatoFSharp001_mp3 from '../../../../sounds/staccato/staccatoFSharp001_mp3.js';
 import staccatoFSharp002_mp3 from '../../../../sounds/staccato/staccatoFSharp002_mp3.js';
 import staccatoFSharp_mp3 from '../../../../sounds/staccato/staccatoFSharp_mp3.js';
-import staccatoG_mp3 from '../../../../sounds/staccato/staccatoG_mp3.js';
 import staccatoG001_mp3 from '../../../../sounds/staccato/staccatoG001_mp3.js';
 import staccatoG002_mp3 from '../../../../sounds/staccato/staccatoG002_mp3.js';
+import staccatoG_mp3 from '../../../../sounds/staccato/staccatoG_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
-import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
-import optionize, { EmptySelfOptions } from '../../../../../phet-core/js/optionize.js';
 
 // organize the sounds by variation and note
 const staccatoSounds = [

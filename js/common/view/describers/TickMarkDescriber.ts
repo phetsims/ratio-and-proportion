@@ -6,13 +6,13 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
+import Property from '../../../../../axon/js/Property.js';
 import Utils from '../../../../../dot/js/Utils.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../../RatioAndProportionStrings.js';
 import rapConstants from '../../rapConstants.js';
 import TickMarkView from '../TickMarkView.js';
-import Property from '../../../../../axon/js/Property.js';
-import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
 
 const ORDINAL_TICK_MARKS = [
   null,

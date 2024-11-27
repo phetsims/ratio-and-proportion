@@ -6,11 +6,11 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import NumberProperty from '../../../../../axon/js/NumberProperty.js';
 import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
+import NumberProperty from '../../../../../axon/js/NumberProperty.js';
+import stripEmbeddingMarks from '../../../../../phet-core/js/stripEmbeddingMarks.js';
 import TickMarkView from '../TickMarkView.js';
 import TickMarkDescriber from './TickMarkDescriber.js';
-import stripEmbeddingMarks from '../../../../../phet-core/js/stripEmbeddingMarks.js';
 
 QUnit.module( 'TickMarkDescriber' );
 

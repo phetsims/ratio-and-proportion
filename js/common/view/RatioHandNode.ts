@@ -7,29 +7,29 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import ArrowKeyNode from '../../../../scenery-phet/js/keyboard/ArrowKeyNode.js';
 import LetterKeyNode from '../../../../scenery-phet/js/keyboard/LetterKeyNode.js';
 import { Color, HighlightFromNode, Node, NodeOptions, Path, PathOptions, TPaint } from '../../../../scenery/js/imports.js';
 import AccessibleSlider, { AccessibleSliderOptions } from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
+import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import rapConstants from '../rapConstants.js';
 import CueDisplay from './CueDisplay.js';
 import getKeyboardInputSnappingMapper from './getKeyboardInputSnappingMapper.js';
 import RAPColors from './RAPColors.js';
 import TickMarkView from './TickMarkView.js';
-import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import Utterance from '../../../../utterance-queue/js/Utterance.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 
 type SelfOptions = {

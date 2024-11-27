@@ -4,10 +4,18 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
-import { Color, Node, Text } from '../../../../scenery/js/imports.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import LockNode from '../../../../scenery-phet/js/LockNode.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import { Color, Node, Text } from '../../../../scenery/js/imports.js';
+import RectangularToggleButton from '../../../../sun/js/buttons/RectangularToggleButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import { SpeakableResolvedResponse } from '../../../../utterance-queue/js/ResponsePacket.js';
+import RAPModel from '../../common/model/RAPModel.js';
+import HandPositionsDescriber from '../../common/view/describers/HandPositionsDescriber.js';
+import TickMarkDescriber from '../../common/view/describers/TickMarkDescriber.js';
 import RAPColors from '../../common/view/RAPColors.js';
 import RAPScreenView from '../../common/view/RAPScreenView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -15,14 +23,6 @@ import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import CreateScreenSummaryNode from './CreateScreenSummaryNode.js';
 import MyChallengeAccordionBox from './MyChallengeAccordionBox.js';
 import TickMarkRangeComboBoxNode from './TickMarkRangeComboBoxNode.js';
-import RAPModel from '../../common/model/RAPModel.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import HandPositionsDescriber from '../../common/view/describers/HandPositionsDescriber.js';
-import TickMarkDescriber from '../../common/view/describers/TickMarkDescriber.js';
-import Multilink from '../../../../axon/js/Multilink.js';
-import { SpeakableResolvedResponse } from '../../../../utterance-queue/js/ResponsePacket.js';
-import RectangularToggleButton from '../../../../sun/js/buttons/RectangularToggleButton.js';
 
 class CreateScreenView extends RAPScreenView {
 

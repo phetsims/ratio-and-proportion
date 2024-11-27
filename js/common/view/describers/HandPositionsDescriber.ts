@@ -14,21 +14,21 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import Property from '../../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../../dot/js/Range.js';
+import optionize from '../../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../../RatioAndProportionStrings.js';
+import RAPRatioTuple from '../../model/RAPRatioTuple.js';
 import RatioTerm from '../../model/RatioTerm.js';
 import rapConstants from '../../rapConstants.js';
 import TickMarkView from '../TickMarkView.js';
-import Property from '../../../../../axon/js/Property.js';
-import RAPRatioTuple from '../../model/RAPRatioTuple.js';
-import TickMarkDescriber from './TickMarkDescriber.js';
-import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import DistanceResponseType from './DistanceResponseType.js';
-import optionize from '../../../../../phet-core/js/optionize.js';
 import RatioInputModality from './RatioInputModality.js';
+import TickMarkDescriber from './TickMarkDescriber.js';
 
 // TODO: Dynamic string support when time, https://github.com/phetsims/ratio-and-proportion/issues/552
 const DISTANCE_REGIONS_CAPITALIZED = [

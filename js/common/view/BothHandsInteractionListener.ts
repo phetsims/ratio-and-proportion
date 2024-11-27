@@ -9,19 +9,19 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
+import Property from '../../../../axon/js/Property.js';
+import TEmitter from '../../../../axon/js/TEmitter.js';
+import Range from '../../../../dot/js/Range.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import { KeyboardUtils, Node, SceneryEvent } from '../../../../scenery/js/imports.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import RatioTerm from '../model/RatioTerm.js';
 import rapConstants from '../rapConstants.js';
+import RatioInputModality from './describers/RatioInputModality.js';
 import getKeyboardInputSnappingMapper, { KeyboardInputMapper } from './getKeyboardInputSnappingMapper.js';
-import Property from '../../../../axon/js/Property.js';
-import Range from '../../../../dot/js/Range.js';
 import BoundarySoundClip from './sound/BoundarySoundClip.js';
 import TickMarkBumpSoundClip from './sound/TickMarkBumpSoundClip.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import RatioInputModality from './describers/RatioInputModality.js';
-import TEmitter from '../../../../axon/js/TEmitter.js';
 
 const TOTAL_RANGE = rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE;
 

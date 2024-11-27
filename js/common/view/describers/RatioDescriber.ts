@@ -5,14 +5,14 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import LinearFunction from '../../../../../dot/js/LinearFunction.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import SceneryPhetStrings from '../../../../../scenery-phet/js/SceneryPhetStrings.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../../RatioAndProportionStrings.js';
-import rapConstants from '../../rapConstants.js';
 import RAPModel from '../../model/RAPModel.js';
-import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
+import rapConstants from '../../rapConstants.js';
 
 const RATIO_FITNESS_STRINGS_CAPITALIZED = [
   RatioAndProportionStrings.a11y.ratio.capitalized.extremelyFarFromStringProperty.value,

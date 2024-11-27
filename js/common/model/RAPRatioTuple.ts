@@ -6,9 +6,9 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import Range from '../../../../dot/js/Range.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import Range from '../../../../dot/js/Range.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioTerm from './RatioTerm.js';
 

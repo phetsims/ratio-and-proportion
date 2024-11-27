@@ -8,31 +8,31 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Property from '../../../../axon/js/Property.js';
+import StringProperty from '../../../../axon/js/StringProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Range from '../../../../dot/js/Range.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import SceneryPhetStrings from '../../../../scenery-phet/js/SceneryPhetStrings.js';
 import { Node, NodeOptions, ParallelDOM, PDOMBehaviorFunction, PDOMValueType, Voicing, VoicingOptions } from '../../../../scenery/js/imports.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import AriaLiveAnnouncer from '../../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
-import BothHandsInteractionListener, { getIdealTermType } from './BothHandsInteractionListener.js';
-import ViewSounds from './sound/ViewSounds.js';
-import BothHandsDescriber from './describers/BothHandsDescriber.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
-import Range from '../../../../dot/js/Range.js';
+import BothHandsInteractionListener, { getIdealTermType } from './BothHandsInteractionListener.js';
 import CueArrowsState from './CueArrowsState.js';
+import BothHandsDescriber from './describers/BothHandsDescriber.js';
 import RatioDescriber from './describers/RatioDescriber.js';
-import TickMarkView from './TickMarkView.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import TickMarkDescriber from './describers/TickMarkDescriber.js';
 import RatioInputModality from './describers/RatioInputModality.js';
-import Multilink from '../../../../axon/js/Multilink.js';
-import StringProperty from '../../../../axon/js/StringProperty.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import TickMarkDescriber from './describers/TickMarkDescriber.js';
+import ViewSounds from './sound/ViewSounds.js';
+import TickMarkView from './TickMarkView.js';
 
 // constants
 const OBJECT_RESPONSE_DELAY = 500;

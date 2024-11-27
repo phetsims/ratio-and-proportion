@@ -6,14 +6,14 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import KeyboardHelpIconFactory from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
+import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
 import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
 import RAPKeyboardHelpContent, { RAPKeyboardHelpContentOptions } from '../../common/view/RAPKeyboardHelpContent.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
 
 type SelfOptions = EmptySelfOptions;
 type CreateScreenKeyboardHelpContentOptions = SelfOptions & RAPKeyboardHelpContentOptions;

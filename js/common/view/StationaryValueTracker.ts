@@ -8,10 +8,10 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import Stats from '../../../../dot/js/Stats.js';
-import handleSmoothValue from './handleSmoothValue.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import ratioAndProportion from '../../ratioAndProportion.js';
+import handleSmoothValue from './handleSmoothValue.js';
 
 // A single array to prevent garbage each time we calculate the box plot
 const boxPlotTempArray: number[] = [];

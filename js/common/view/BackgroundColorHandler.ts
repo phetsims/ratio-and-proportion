@@ -6,15 +6,15 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import Multilink from '../../../../axon/js/Multilink.js';
+import Property from '../../../../axon/js/Property.js';
+import Utils from '../../../../dot/js/Utils.js';
+import { Color } from '../../../../scenery/js/imports.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
-import Property from '../../../../axon/js/Property.js';
+import RAPModel from '../model/RAPModel.js';
 import rapConstants from '../rapConstants.js';
 import RAPColors from './RAPColors.js';
-import { Color } from '../../../../scenery/js/imports.js';
-import Utils from '../../../../dot/js/Utils.js';
-import RAPModel from '../model/RAPModel.js';
-import Multilink from '../../../../axon/js/Multilink.js';
 
 // constants
 const BACKGROUND_COLOR_STRINGS = [

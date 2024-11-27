@@ -7,14 +7,14 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
 import GridNode from '../../../../griddle/js/GridNode.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import { PathOptions, TPaint } from '../../../../scenery/js/imports.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import TickMarkView from './TickMarkView.js';
-import { PathOptions, TPaint } from '../../../../scenery/js/imports.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import Multilink from '../../../../axon/js/Multilink.js';
 
 type SelfOptions = {
   minorHorizontalLineSpacing?: number | null;

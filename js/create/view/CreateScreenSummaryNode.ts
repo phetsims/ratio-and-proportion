@@ -7,20 +7,20 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import Property from '../../../../axon/js/Property.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
-import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
-import RAPRatioTuple from '../../common/model/RAPRatioTuple.js';
-import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
-import HandPositionsDescriber from '../../common/view/describers/HandPositionsDescriber.js';
-import MyChallengeAccordionBox from './MyChallengeAccordionBox.js';
-import BackgroundColorHandler from '../../common/view/BackgroundColorHandler.js';
-import TickMarkView from '../../common/view/TickMarkView.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import RAPRatioTuple from '../../common/model/RAPRatioTuple.js';
+import BackgroundColorHandler from '../../common/view/BackgroundColorHandler.js';
+import HandPositionsDescriber from '../../common/view/describers/HandPositionsDescriber.js';
+import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
+import TickMarkView from '../../common/view/TickMarkView.js';
+import ratioAndProportion from '../../ratioAndProportion.js';
+import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
+import MyChallengeAccordionBox from './MyChallengeAccordionBox.js';
 
 class CreateScreenSummaryNode extends Node {
 

@@ -7,22 +7,22 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
+import Property from '../../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
+import Range from '../../../../../dot/js/Range.js';
+import optionize from '../../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../../RatioAndProportionStrings.js';
-import Property from '../../../../../axon/js/Property.js';
 import RAPRatioTuple from '../../model/RAPRatioTuple.js';
-import Range from '../../../../../dot/js/Range.js';
-import RatioDescriber from './RatioDescriber.js';
-import HandPositionsDescriber, { HandContextResponseOptions } from './HandPositionsDescriber.js';
 import TickMarkView from '../TickMarkView.js';
-import EnumerationProperty from '../../../../../axon/js/EnumerationProperty.js';
-import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
-import TickMarkDescriber from './TickMarkDescriber.js';
 import DistanceResponseType from './DistanceResponseType.js';
+import HandPositionsDescriber, { HandContextResponseOptions } from './HandPositionsDescriber.js';
+import RatioDescriber from './RatioDescriber.js';
 import RatioInputModality from './RatioInputModality.js';
-import optionize from '../../../../../phet-core/js/optionize.js';
-import StrictOmit from '../../../../../phet-core/js/types/StrictOmit.js';
+import TickMarkDescriber from './TickMarkDescriber.js';
 
 const ratioDistancePositionContextResponsePatternStringProperty = RatioAndProportionStrings.a11y.ratio.distancePositionContextResponseStringProperty;
 

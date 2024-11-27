@@ -6,14 +6,14 @@
 
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
+import { Color } from '../../../scenery/js/imports.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import RAPModel from '../common/model/RAPModel.js';
 import ratioAndProportion from '../ratioAndProportion.js';
 import RatioAndProportionStrings from '../RatioAndProportionStrings.js';
 import CreateScreenIcon from './view/CreateScreenIcon.js';
 import CreateScreenKeyboardHelpContent from './view/CreateScreenKeyboardHelpContent.js';
 import CreateScreenView from './view/CreateScreenView.js';
-import Tandem from '../../../tandem/js/Tandem.js';
-import { Color } from '../../../scenery/js/imports.js';
 
 class CreateScreen extends Screen<RAPModel, CreateScreenView> {
 

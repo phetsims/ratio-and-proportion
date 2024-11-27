@@ -6,30 +6,30 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Fraction from '../../../../phetcommon/js/model/Fraction.js';
-import NumberPicker from '../../../../sun/js/NumberPicker.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Color, HBox, Node, NodeOptions, ReadingBlock, ReadingBlockOptions, RichText, VBox, Voicing } from '../../../../scenery/js/imports.js';
+import AccordionBox, { AccordionBoxOptions } from '../../../../sun/js/AccordionBox.js';
+import NumberPicker from '../../../../sun/js/NumberPicker.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
+import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
+import ResponsePatternCollection from '../../../../utterance-queue/js/ResponsePatternCollection.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
+import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
+import TickMarkView from '../../common/view/TickMarkView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
-import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
-import TickMarkView from '../../common/view/TickMarkView.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import AccordionBox, { AccordionBoxOptions } from '../../../../sun/js/AccordionBox.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import ResponsePatternCollection from '../../../../utterance-queue/js/ResponsePatternCollection.js';
-import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
-import Multilink from '../../../../axon/js/Multilink.js';
 
 const PICKER_SCALE = 1.5;
 const ICON_SCALE = 0.9;

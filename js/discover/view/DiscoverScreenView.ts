@@ -5,18 +5,18 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import { Color, Node } from '../../../../scenery/js/imports.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import { SpeakableResolvedResponse } from '../../../../utterance-queue/js/ResponsePacket.js';
+import RAPModel from '../../common/model/RAPModel.js';
+import HandPositionsDescriber from '../../common/view/describers/HandPositionsDescriber.js';
+import TickMarkDescriber from '../../common/view/describers/TickMarkDescriber.js';
 import RAPScreenView from '../../common/view/RAPScreenView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import ChallengeRatioComboBoxNode from './ChallengeRatioComboBoxNode.js';
 import DiscoverScreenSummaryNode from './DiscoverScreenSummaryNode.js';
-import RAPModel from '../../common/model/RAPModel.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import HandPositionsDescriber from '../../common/view/describers/HandPositionsDescriber.js';
-import TickMarkDescriber from '../../common/view/describers/TickMarkDescriber.js';
-import { SpeakableResolvedResponse } from '../../../../utterance-queue/js/ResponsePacket.js';
 
 class DiscoverScreenView extends RAPScreenView {
 

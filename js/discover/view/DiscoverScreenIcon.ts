@@ -6,14 +6,14 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import ScreenIcon, { ScreenIconOptions } from '../../../../joist/js/ScreenIcon.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import { Color, HBox, Rectangle, VBox } from '../../../../scenery/js/imports.js';
 import RAPColors from '../../common/view/RAPColors.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
 import TickMarkView from '../../common/view/TickMarkView.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import optionize from '../../../../phet-core/js/optionize.js';
 
 type SelfOptions = {
   handColor?: Color;

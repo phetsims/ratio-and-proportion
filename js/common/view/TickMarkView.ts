@@ -4,8 +4,8 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 
 class TickMarkView extends EnumerationValue {

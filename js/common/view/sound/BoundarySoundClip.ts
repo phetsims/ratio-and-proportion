@@ -10,10 +10,10 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import Range from '../../../../../dot/js/Range.js';
 import SoundClip, { SoundClipOptions } from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import generalBoundaryBoop_mp3 from '../../../../../tambo/sounds/generalBoundaryBoop_mp3.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
-import Range from '../../../../../dot/js/Range.js';
 
 class BoundarySoundClip extends SoundClip {
 
