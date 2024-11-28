@@ -1,4 +1,4 @@
-// Copyright 2020-2023, University of Colorado Boulder
+// Copyright 2020-2024, University of Colorado Boulder
 
 /**
  * Node that holds the PDOM content for the screen summary in the Create screen. It also creates content for the voicing
