@@ -11,6 +11,7 @@ import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import dotRandom from '../../../../../dot/js/dotRandom.js';
 import LinearFunction from '../../../../../dot/js/LinearFunction.js';
 import Range from '../../../../../dot/js/Range.js';
+import affirm from '../../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { EmptySelfOptions } from '../../../../../phet-core/js/optionize.js';
 import SoundClip from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator, { SoundGeneratorOptions } from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
@@ -112,6 +113,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     const isInRatio = this.inProportionProperty.value;
     if ( this.timeSinceLastPlay > this.timeLinearFunction.evaluate( newFitness ) && !isInRatio && newFitness > 0 ) {
       const sounds = this.staccatoSoundClips[ Math.floor( newFitness * this.staccatoSoundClips.length ) ];
+      affirm( sounds, `cannot find available sounds for fitness: ${newFitness}`, `${this.staccatoSoundClips.length} possible lists.` );
       sounds[ Math.floor( dotRandom.nextDouble() * sounds.length ) ].play();
       this.timeSinceLastPlay = 0;
     }
