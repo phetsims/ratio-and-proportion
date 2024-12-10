@@ -111,7 +111,7 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     this.timeSinceLastPlay = newFitness > 0 ? this.timeSinceLastPlay + dt * 1000 : 1000000;
 
     const isInRatio = this.inProportionProperty.value;
-    if ( this.timeSinceLastPlay > this.timeLinearFunction.evaluate( newFitness ) && !isInRatio && newFitness > 0 ) {
+    if ( this.timeSinceLastPlay > this.timeLinearFunction.evaluate( newFitness ) && !isInRatio && newFitness > 0 && newFitness < 1 ) {
       const sounds = this.staccatoSoundClips[ Math.floor( newFitness * this.staccatoSoundClips.length ) ];
       affirm( sounds, `cannot find available sounds for fitness: ${newFitness}`, `${this.staccatoSoundClips.length} possible lists.` );
       sounds[ Math.floor( dotRandom.nextDouble() * sounds.length ) ].play();
