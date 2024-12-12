@@ -85,7 +85,10 @@ class RAPRatio {
       phetioValueType: RAPRatioTuple.RAPRatioTupleIO
     } );
 
-    this.lockedProperty = new BooleanProperty( false, { tandem: tandem.createTandem( 'lockedProperty' ) } );
+    this.lockedProperty = new BooleanProperty( false, {
+      reentrant: true, // If toggling value with PhET-iO in certain cases, see https://github.com/phetsims/phet-io/issues/2003
+      tandem: tandem.createTandem( 'lockedProperty' )
+    } );
 
     this.antecedentVelocityTracker = new VelocityTracker( this.lockedProperty );
     this.consequentVelocityTracker = new VelocityTracker( this.lockedProperty );

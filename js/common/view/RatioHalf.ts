@@ -136,6 +136,7 @@ class RatioHalf extends Rectangle {
 
       // phet-io
       phetioInputEnabledPropertyInstrumented: true,
+      inputEnabledPropertyOptions: { phetioFeatured: false }, // to prevent assertions from https://github.com/phetsims/phet-io/issues/2003
 
       // pdom
       tagName: 'div',
