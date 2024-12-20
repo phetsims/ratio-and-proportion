@@ -133,11 +133,14 @@ class RAPRatio {
             'if both values change while locked, the ratio should be maintained.' );
         }
 
-        if ( antecedentChanged ) {
-          newConsequent = newAntecedent / previousRatio;
-        }
-        else if ( consequentChanged ) {
-          newAntecedent = newConsequent * previousRatio;
+        // If the previousRatio was 0, this algorithm doesn't work for maintaining ratio, so just keep the previous one. SEe
+        if ( previousRatio !== 0 ) {
+          if ( antecedentChanged ) {
+            newConsequent = newAntecedent / previousRatio;
+          }
+          else if ( consequentChanged ) {
+            newAntecedent = newConsequent * previousRatio;
+          }
         }
 
         const newRatioTuple = this.clampRatioTupleValuesInRange( newAntecedent, newConsequent, previousRatio );
