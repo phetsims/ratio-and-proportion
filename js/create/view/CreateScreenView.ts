@@ -98,7 +98,10 @@ class CreateScreenView extends RAPScreenView {
       maxWidth: 180
     } );
 
-    lockToggleParent.children = [ ratioLockToggleButton, ratioLockText ];
+    lockToggleParent.mutate( {
+      children: [ ratioLockToggleButton, ratioLockText ],
+      visibleProperty: ratioLockToggleButton.visibleProperty
+    } );
 
     model.ratio.lockedProperty.link( locked => {
       ratioLockToggleButton.voicingContextResponse = locked ? RatioAndProportionStrings.a11y.ratioLockToggleContextResponseStringProperty :
