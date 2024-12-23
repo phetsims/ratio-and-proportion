@@ -184,8 +184,14 @@ class RAPRatio {
       antecedent = consequent * ratio;
     }
 
-    assert && assert( range.contains( consequent ) );
-    assert && assert( range.contains( antecedent ) );
+    const values = `
+antecedent: ${antecedent}
+consequent: ${consequent}
+ratio: ${ratio}
+range: ${range}
+`;
+    assert && assert( range.contains( consequent ), `error clamping consequent into range${values}` );
+    assert && assert( range.contains( antecedent ), `error clamping antecedent into range${values}` );
     return new RAPRatioTuple( antecedent, consequent );
   }
 
