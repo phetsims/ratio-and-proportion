@@ -130,7 +130,8 @@ class RAPScreenView extends ScreenView {
     const ratio = model.ratio;
 
     this.tickMarkViewProperty = new EnumerationProperty( TickMarkView.NONE, {
-      tandem: options.tandem.createTandem( 'tickMarkViewProperty' )
+      tandem: options.tandem.createTandem( 'tickMarkViewProperty' ),
+      phetioFeatured: true
     } );
 
     this.tickMarkRangeProperty = new NumberProperty( 10, { tandem: options.tandem.createTandem( 'tickMarkRangeProperty' ) } );
