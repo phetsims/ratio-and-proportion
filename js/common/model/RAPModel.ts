@@ -73,7 +73,8 @@ class RAPModel implements TModel {
     this.ratio = new RAPRatio( 0.2, 0.4, tandem.createTandem( 'ratio' ) );
 
     this.targetRatioProperty = new NumberProperty( this.ratio.currentRatio, {
-      tandem: tandem.createTandem( 'targetRatioProperty' )
+      tandem: tandem.createTandem( 'targetRatioProperty' ),
+      phetioFeatured: true
     } );
 
     this.mediaPipeInteractedWithProperty = new BooleanProperty( false, {
