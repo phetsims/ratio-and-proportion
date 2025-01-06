@@ -11,6 +11,7 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import RAPRatioTuple from '../../common/model/RAPRatioTuple.js';
@@ -22,7 +23,7 @@ import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import { RatioToChallengeInfoMap } from './ChallengeRatioComboBoxNode.js';
 
-class DiscoverScreenSummaryNode extends Node {
+class DiscoverScreenSummaryNode extends ScreenSummaryContent {
   private ratioDescriber: RatioDescriber;
   private handPositionsDescriber: HandPositionsDescriber;
   private ratioFitnessProperty: TReadOnlyProperty<number>;
@@ -48,28 +49,28 @@ class DiscoverScreenSummaryNode extends Node {
       children: [ leftHandBullet, rightHandBullet ]
     } );
 
-    super( {
-      children: [
-        new Node( {
-          tagName: 'p',
-          innerContent: RatioAndProportionStrings.a11y.discover.screenSummary.paragraph1StringProperty
-        } ),
-        new Node( {
-          tagName: 'p',
-          innerContent: RatioAndProportionStrings.a11y.discover.screenSummary.paragraph2StringProperty
-        } ),
-        new Node( {
-          tagName: 'p',
-          innerContent: RatioAndProportionStrings.a11y.discover.screenSummary.paragraph3StringProperty
-        } ),
-        stateOfSimNode,
-        descriptionBullets,
-        new Node( {
-          tagName: 'p',
-          innerContent: RatioAndProportionStrings.a11y.discover.screenSummary.interactionHintStringProperty
-        } )
-      ]
-    } );
+    super();
+
+    this.children = [
+      new Node( {
+        tagName: 'p',
+        innerContent: RatioAndProportionStrings.a11y.discover.screenSummary.paragraph1StringProperty
+      } ),
+      new Node( {
+        tagName: 'p',
+        innerContent: RatioAndProportionStrings.a11y.discover.screenSummary.paragraph2StringProperty
+      } ),
+      new Node( {
+        tagName: 'p',
+        innerContent: RatioAndProportionStrings.a11y.discover.screenSummary.paragraph3StringProperty
+      } ),
+      stateOfSimNode,
+      descriptionBullets,
+      new Node( {
+        tagName: 'p',
+        innerContent: RatioAndProportionStrings.a11y.discover.screenSummary.interactionHintStringProperty
+      } )
+    ];
 
     this.handPositionsDescriber = handPositionsDescriber;
     this.ratioDescriber = ratioDescriber;
