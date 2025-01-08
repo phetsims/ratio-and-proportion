@@ -1,4 +1,4 @@
-// Copyright 2020-2024, University of Colorado Boulder
+// Copyright 2020-2025, University of Colorado Boulder
 
 /**
  * Node that holds the PDOM content for the screen summary in Ratio and Proportion. It also creates content for the voicing
