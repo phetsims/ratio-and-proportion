@@ -89,7 +89,10 @@ class CreateScreenView extends RAPScreenView {
       voicingNameResponse: RatioAndProportionStrings.lockRatioStringProperty,
 
       // phet-io
-      tandem: tandem.createTandem( 'ratioLockToggleButton' )
+      tandem: tandem.createTandem( 'ratioLockToggleButton' ),
+      visiblePropertyOptions: {
+        phetioFeatured: false
+      }
     } );
 
     const ratioLockText = new Text( RatioAndProportionStrings.lockRatioStringProperty, {
