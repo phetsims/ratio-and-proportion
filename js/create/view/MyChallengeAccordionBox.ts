@@ -92,16 +92,13 @@ class MyChallengeAccordionBox extends AccordionBox {
         touchAreaXDilation: 15,
         touchAreaYDilation: 15,
         mouseAreaXDilation: 5,
-        mouseAreaYDilation: 5
+        mouseAreaYDilation: 5,
+
+        // voicing
+        voicingContextResponse: createAccordionBoxContextResponse
       },
       expandedProperty: expandedProperty,
-
-      // voicing
-      voicingNameResponse: RatioAndProportionStrings.myChallengeStringProperty,
-      voicingContextResponse: createAccordionBoxContextResponse,
-
-      // Only deliver the hint if not expanded; since in a closure, use the current value of the Property.
-      voicingHintResponse: () => expandedProperty.value ? null : RatioAndProportionStrings.a11y.create.myChallengeHintTextStringProperty.value
+      voicingHintResponseCollapsed: RatioAndProportionStrings.a11y.create.myChallengeHintTextStringProperty
     }, providedOptions );
 
     const ratioUnlockedFromMyChallenge = new Utterance( {
