@@ -28,7 +28,11 @@ import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.j
 import merge from '../../../../phet-core/js/merge.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { Color, ParallelDOM, VBox, Voicing, voicingUtteranceQueue } from '../../../../scenery/js/imports.js';
+import ParallelDOM from '../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
+import Voicing from '../../../../scenery/js/accessibility/voicing/Voicing.js';
+import voicingUtteranceQueue from '../../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
+import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import MediaPipeQueryParameters from '../../../../tangible/js/mediaPipe/MediaPipeQueryParameters.js';
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';

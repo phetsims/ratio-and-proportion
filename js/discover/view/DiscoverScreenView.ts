@@ -6,7 +6,8 @@
 
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { Color, Node } from '../../../../scenery/js/imports.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import { SpeakableResolvedResponse } from '../../../../utterance-queue/js/ResponsePacket.js';
 import RAPModel from '../../common/model/RAPModel.js';

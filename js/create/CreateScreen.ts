@@ -6,7 +6,7 @@
 
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
-import { Color } from '../../../scenery/js/imports.js';
+import Color from '../../../scenery/js/util/Color.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import RAPModel from '../common/model/RAPModel.js';
 import ratioAndProportion from '../ratioAndProportion.js';

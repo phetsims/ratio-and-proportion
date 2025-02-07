@@ -9,7 +9,10 @@
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import ScreenIcon, { ScreenIconOptions } from '../../../../joist/js/ScreenIcon.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import { Color, HBox, Rectangle, VBox } from '../../../../scenery/js/imports.js';
+import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
+import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import RAPColors from '../../common/view/RAPColors.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
 import TickMarkView from '../../common/view/TickMarkView.js';

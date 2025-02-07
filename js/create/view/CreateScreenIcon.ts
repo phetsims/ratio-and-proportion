@@ -8,7 +8,8 @@
 
 import Range from '../../../../dot/js/Range.js';
 import ScreenIcon, { ScreenIconOptions } from '../../../../joist/js/ScreenIcon.js';
-import { HBox, VBox } from '../../../../scenery/js/imports.js';
+import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
+import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import NumberPicker from '../../../../sun/js/NumberPicker.js';
 import RAPColors from '../../common/view/RAPColors.js';
 import ratioAndProportion from '../../ratioAndProportion.js';

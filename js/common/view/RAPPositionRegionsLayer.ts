@@ -7,7 +7,9 @@
  */
 
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Line, Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
+import Line from '../../../../scenery/js/nodes/Line.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
 import HandPositionsDescriber from './describers/HandPositionsDescriber.js';
 
