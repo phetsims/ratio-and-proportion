@@ -1,4 +1,4 @@
-// Copyright 2020-2024, University of Colorado Boulder
+// Copyright 2020-2025, University of Colorado Boulder
 
 /**
  * Hand that marks the location of half of the ratio. This supports alternative input and description for controlling this ratio

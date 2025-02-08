@@ -1,4 +1,4 @@
-// Copyright 2021-2024, University of Colorado Boulder
+// Copyright 2021-2025, University of Colorado Boulder
 
 /**
  * Graphic to display the qualitative positional regions used for describing the position of the hands in each ratio half.
