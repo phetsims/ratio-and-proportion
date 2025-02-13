@@ -115,7 +115,7 @@ class ChallengeRatioComboBoxNode extends Node {
     }
 
     this.comboBox = new ComboBox( targetRatioProperty, comboBoxItems, comboBoxListParent, {
-      helpText: RatioAndProportionStrings.a11y.discover.challengesHelpTextStringProperty,
+      accessibleHelpText: RatioAndProportionStrings.a11y.discover.challengesHelpTextStringProperty,
       comboBoxVoicingHintResponse: RatioAndProportionStrings.a11y.discover.challengesHelpTextStringProperty,
       comboBoxVoicingContextResponse: () => ratioDescriber.getProximityToNewChallengeRatioSentence(),
       maxWidth: 250, // empirically determined

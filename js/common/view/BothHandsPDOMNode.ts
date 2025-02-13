@@ -61,7 +61,7 @@ type SelfOptions = {
   inProportionProperty: Property<boolean>; // is the model in proportion right now
 
   // help text to be displayed on devices supporting gesture description
-  // (see `Sim.supportsGestureDescription`). When null, this will be the same as the default helpText.
+  // (see `Sim.supportsGestureDescription`). When null, this will be the same as the default accessibleHelpText.
   gestureDescriptionHelpText?: PDOMValueType | null;
   interactiveNodeOptions?: VoicingOptions & NodeOptions;
 };
@@ -102,8 +102,8 @@ class BothHandsPDOMNode extends Node {
       // pdom
       tagName: 'div',
       interactiveNodeOptions: {
-        helpText: RatioAndProportionStrings.a11y.bothHands.bothHandsHelpTextStringProperty, // overridden by options.gestureDescriptionHelpText when supported
-        helpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT,
+        accessibleHelpText: RatioAndProportionStrings.a11y.bothHands.bothHandsHelpTextStringProperty, // overridden by options.gestureDescriptionHelpText when supported
+        accessibleHelpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT,
         ariaRole: 'application',
         focusable: true,
         tagName: 'div',
@@ -120,7 +120,7 @@ class BothHandsPDOMNode extends Node {
     super();
 
     if ( phet.joist.sim.supportsGestureDescription && options.gestureDescriptionHelpText ) {
-      options.interactiveNodeOptions.helpText = options.gestureDescriptionHelpText;
+      options.interactiveNodeOptions.accessibleHelpText = options.gestureDescriptionHelpText;
     }
 
     const tickMarkDescriber = new TickMarkDescriber( options.tickMarkRangeProperty, options.tickMarkViewProperty );

@@ -198,9 +198,9 @@ class RAPScreenView extends ScreenView {
       isRight: false, // this way we get a left hand
 
       // Added to the antecedent for ease, but it applies to both RatioHalfs in the PDOM
-      helpText: RatioAndProportionStrings.a11y.individualHandsHelpTextStringProperty,
+      accessibleHelpText: RatioAndProportionStrings.a11y.individualHandsHelpTextStringProperty,
 
-      helpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT,
+      accessibleHelpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT,
 
       // phet-io
       tandem: options.tandem.createTandem( 'antecedentRatioHalf' )

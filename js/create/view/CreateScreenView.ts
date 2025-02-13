@@ -121,7 +121,7 @@ class CreateScreenView extends RAPScreenView {
     } );
 
     ratioLockToggleButton.enabledProperty.link( ( enabled: boolean ) => {
-      ratioLockToggleButton.helpText = enabled ? RatioAndProportionStrings.a11y.ratioLockEnabledHelpTextStringProperty :
+      ratioLockToggleButton.accessibleHelpText = enabled ? RatioAndProportionStrings.a11y.ratioLockEnabledHelpTextStringProperty :
                                        RatioAndProportionStrings.a11y.ratioLockDisabledHelpTextStringProperty;
       ratioLockToggleButton.voicingHintResponse = enabled ? RatioAndProportionStrings.a11y.ratioLockEnabledHelpTextStringProperty :
                                                   RatioAndProportionStrings.a11y.ratioLockDisabledHelpTextStringProperty;

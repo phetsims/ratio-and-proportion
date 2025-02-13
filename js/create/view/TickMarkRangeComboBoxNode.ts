@@ -72,7 +72,7 @@ class TickMarkRangeComboBoxNode extends HBox {
     const labelNode = new RichText( RatioAndProportionStrings.rangeStringProperty, RANGE_TEXT_OPTIONS );
 
     const comboBoxOptions: ComboBoxOptions = {
-      helpText: RatioAndProportionStrings.a11y.create.tickMarkRangeHelpTextStringProperty,
+      accessibleHelpText: RatioAndProportionStrings.a11y.create.tickMarkRangeHelpTextStringProperty,
       accessibleName: RatioAndProportionStrings.rangeStringProperty,
       maxWidth: 250, // empirically determined
 
