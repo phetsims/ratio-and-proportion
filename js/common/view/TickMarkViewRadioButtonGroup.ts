@@ -92,7 +92,7 @@ class TickMarkViewRadioButtonGroup extends RectangularRadioButtonGroup<TickMarkV
 
       // interactive description alert
       tickMarkContextResponseUtterance.alert = currentRadioButtonItem.interactiveDescriptionContextResponse;
-      this.alertDescriptionUtterance( tickMarkContextResponseUtterance );
+      this.addAccessibleResponse( tickMarkContextResponseUtterance );
     } );
   }
 }

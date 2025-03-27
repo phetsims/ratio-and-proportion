@@ -220,7 +220,7 @@ class BothHandsPDOMNode extends Node {
         ///////////
         // Description
         if ( knockedOutOfLock ) {
-          this.alertDescriptionUtterance( this.ratioUnlockedFromBothHandsUtterance );
+          this.addAccessibleResponse( this.ratioUnlockedFromBothHandsUtterance );
         }
         this.alertBothHandsDescriptionContextResponse( ratioInputModality, knockedOutOfLock );
         //////////
@@ -306,10 +306,10 @@ class BothHandsPDOMNode extends Node {
     this.bothHandsInteractionListener.jumpToZeroWhileLockedEmitter.addListener( () => {
 
       const cannotJumpToZeroWhenLockedProperty = RatioAndProportionStrings.a11y.bothHands.cannotJumpToZeroWhenLockedStringProperty;
-      this.alertDescriptionUtterance( cannotJumpToZeroWhenLockedProperty.value );
+      this.addAccessibleResponse( cannotJumpToZeroWhenLockedProperty.value );
       this.contextResponseUtterance.alert = this.descriptionBothHandsDescriber.getBothHandsObjectResponse();
 
-      this.alertDescriptionUtterance( this.contextResponseUtterance );
+      this.addAccessibleResponse( this.contextResponseUtterance );
     } );
 
     this.mutate( options );
@@ -332,7 +332,7 @@ class BothHandsPDOMNode extends Node {
     const utterance = onFocus ? this.objectResponseOnFocusUtterance : this.objectResponseUtterance;
     utterance.alert = this.descriptionBothHandsDescriber.getBothHandsObjectResponse();
 
-    this.alertDescriptionUtterance( utterance );
+    this.addAccessibleResponse( utterance );
   }
 
   // Just for description, not voicing
@@ -344,7 +344,7 @@ class BothHandsPDOMNode extends Node {
       this.contextResponseUtterance.alert = this.descriptionBothHandsDescriber.getBothHandsContextResponse( ratioInputModality );
     }
 
-    this.alertDescriptionUtterance( this.contextResponseUtterance );
+    this.addAccessibleResponse( this.contextResponseUtterance );
   }
 }
 

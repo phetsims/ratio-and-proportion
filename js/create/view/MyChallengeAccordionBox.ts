@@ -204,7 +204,7 @@ class MyChallengeAccordionBox extends AccordionBox {
     const accordionBoxUtterance = new ActivationUtterance();
     this.expandedProperty.lazyLink( () => {
       accordionBoxUtterance.alert = createAccordionBoxContextResponse();
-      this.alertDescriptionUtterance( accordionBoxUtterance );
+      this.addAccessibleResponse( accordionBoxUtterance );
     } );
 
     Multilink.multilink( [ targetAntecedentProperty, targetConsequentProperty ],
@@ -216,7 +216,7 @@ class MyChallengeAccordionBox extends AccordionBox {
 
         // if currently locked, then it is about to be unlocked
         if ( wasLocked && !ratioLockedProperty.value ) {
-          this.alertDescriptionUtterance( ratioUnlockedFromMyChallenge );
+          this.addAccessibleResponse( ratioUnlockedFromMyChallenge );
           Voicing.alertUtterance( ratioUnlockedFromMyChallenge );
         }
       } );
