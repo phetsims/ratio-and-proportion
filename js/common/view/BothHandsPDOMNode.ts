@@ -18,7 +18,7 @@ import Range from '../../../../dot/js/Range.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import SceneryPhetStrings from '../../../../scenery-phet/js/SceneryPhetStrings.js';
-import ParallelDOM, { PDOMBehaviorFunction, PDOMValueType } from '../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
+import ParallelDOM, { AccessibleNameBehaviorFunction, PDOMValueType } from '../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import Voicing, { VoicingOptions } from '../../../../scenery/js/accessibility/voicing/Voicing.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -39,7 +39,7 @@ import TickMarkView from './TickMarkView.js';
 // constants
 const OBJECT_RESPONSE_DELAY = 500;
 
-const accessibleNameBehavior: PDOMBehaviorFunction = ( node, options, accessibleName ) => {
+const accessibleNameBehavior: AccessibleNameBehaviorFunction = ( node, options, accessibleName ) => {
   options.innerContent = accessibleName;
   options.ariaLabel = accessibleName;
   return options;
