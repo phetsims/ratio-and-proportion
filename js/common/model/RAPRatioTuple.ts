@@ -7,6 +7,7 @@
  */
 
 import Range from '../../../../dot/js/Range.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ratioAndProportion from '../../ratioAndProportion.js';
@@ -26,7 +27,7 @@ class RAPRatioTuple {
     antecedent: NumberIO,
     consequent: NumberIO
   };
-  public static readonly RAPRatioTupleIO = new IOType( 'RAPRatioTupleIO', {
+  public static readonly RAPRatioTupleIO = new IOType<IntentionalAny, IntentionalAny>( 'RAPRatioTupleIO', {
     valueType: RAPRatioTuple,
     toStateObject: ( rapRatioTuple: RAPRatioTuple ) => rapRatioTuple.toStateObject(),
     stateSchema: RAPRatioTuple.STATE_SCHEMA,
