@@ -1,4 +1,4 @@
-// Copyright 2020-2024, University of Colorado Boulder
+// Copyright 2020-2025, University of Colorado Boulder
 
 /**
  * Data type that holds both terms of the ratio, with convenience functions
