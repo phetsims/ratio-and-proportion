@@ -193,7 +193,7 @@ class BothHandsPDOMNode extends Node {
     // Make sure that any children inside the both hands interaction (like individual hands) come before the both hands interaction in the PDOM.
     this.pdomOrder = [ dynamicDescription, ...interactiveNode.children, null ];
 
-    interactiveNode.setPDOMAttribute( 'aria-roledescription', SceneryPhetStrings.a11y.grabDrag.movableStringProperty );
+    interactiveNode.accessibleRoleDescription = SceneryPhetStrings.a11y.grabDrag.movableStringProperty;
 
     const originalContextResponseStringProperty = new StringProperty( '' );
     const voicingContextResponsePatternStringProperty = new PatternStringProperty( RatioAndProportionStrings.a11y.ratioNoLongerLockedPatternStringProperty, {
