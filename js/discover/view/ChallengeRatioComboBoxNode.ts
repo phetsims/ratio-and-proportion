@@ -104,11 +104,6 @@ class ChallengeRatioComboBoxNode extends Node {
       colorProperty.value = entry!.color;
     } );
 
-    const comboBoxHeading = new Node( {
-      innerContent: RatioAndProportionStrings.challengeRatioStringProperty,
-      tagName: 'h3'
-    } );
-
     const comboBoxItems: ComboBoxItem<number>[] = [];
     for ( const [ key, value ] of this.ratioToChallengeInfoMap.entries() ) {
       comboBoxItems.push( createComboBoxItem( key, value ) );
@@ -119,6 +114,9 @@ class ChallengeRatioComboBoxNode extends Node {
       comboBoxVoicingHintResponse: RatioAndProportionStrings.a11y.discover.challengesHelpTextStringProperty,
       comboBoxVoicingContextResponse: () => ratioDescriber.getProximityToNewChallengeRatioSentence(),
       maxWidth: 250, // empirically determined
+
+      // pdom
+      accessibleHeading: RatioAndProportionStrings.challengeRatioStringProperty,
 
       // phet-io
       tandem: comboBoxTandem
@@ -131,11 +129,8 @@ class ChallengeRatioComboBoxNode extends Node {
     } );
 
     this.children = [
-      comboBoxHeading,
       this.comboBox
     ];
-
-    this.pdomOrder = [ comboBoxHeading, this.comboBox ];
   }
 
   public hideListBox(): void {
