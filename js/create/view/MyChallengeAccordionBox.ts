@@ -27,7 +27,6 @@ import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import AccordionBox, { AccordionBoxOptions } from '../../../../sun/js/AccordionBox.js';
 import NumberPicker from '../../../../sun/js/NumberPicker.js';
-import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
 import ResponsePatternCollection from '../../../../utterance-queue/js/ResponsePatternCollection.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
@@ -71,12 +70,6 @@ class MyChallengeAccordionBox extends AccordionBox {
       tandem: providedOptions.tandem.createTandem( 'expandedProperty' )
     } );
 
-    const createAccordionBoxContextResponse = () => {
-      return expandedProperty.value ?
-             ratioDescriber.getCurrentChallengeSentence( targetAntecedentProperty.value, targetConsequentProperty.value ) :
-             RatioAndProportionStrings.a11y.ratio.currentChallengeHiddenStringProperty.value;
-    };
-
     const options = optionize<MyChallengeAccordionBoxOptions, EmptySelfOptions, AccordionBoxOptions>()( {
       titleNode: new RichText( RatioAndProportionStrings.myChallengeStringProperty, {
         font: new PhetFont( 20 ),
@@ -98,11 +91,10 @@ class MyChallengeAccordionBox extends AccordionBox {
         touchAreaXDilation: 15,
         touchAreaYDilation: 15,
         mouseAreaXDilation: 5,
-        mouseAreaYDilation: 5,
-
-        // voicing
-        voicingContextResponse: createAccordionBoxContextResponse
+        mouseAreaYDilation: 5
       },
+      contextResponseExpanded: () => ratioDescriber.getCurrentChallengeSentence( targetAntecedentProperty.value, targetConsequentProperty.value ),
+      contextResponseCollapsed: RatioAndProportionStrings.a11y.ratio.currentChallengeHiddenStringProperty.value,
       expandedProperty: expandedProperty,
       voicingHintResponseCollapsed: RatioAndProportionStrings.a11y.create.myChallengeHintTextStringProperty
     }, providedOptions );
@@ -179,12 +171,18 @@ class MyChallengeAccordionBox extends AccordionBox {
       children: [ leftRatioSelector, rightRatioSelector ]
     } );
 
+    const createReadingBlockNameResponse = () => {
+      return expandedProperty.value ?
+             ratioDescriber.getCurrentChallengeSentence( targetAntecedentProperty.value, targetConsequentProperty.value ) :
+             RatioAndProportionStrings.a11y.ratio.currentChallengeHiddenStringProperty.value;
+    };
+
     // At this time, mixed in Nodes can't take mixin options passed via object literal, it assumes that the Object
     // type is NodeOptions.
     const readingBlockOptions: ReadingBlockOptions & NodeOptions = {
       children: [ myChallengeContent ],
       readingBlockHintResponse: RatioAndProportionStrings.a11y.create.myChallengeReadingBlockHintTextStringProperty,
-      readingBlockNameResponse: createAccordionBoxContextResponse,
+      readingBlockNameResponse: createReadingBlockNameResponse,
       readingBlockResponsePatternCollection: new ResponsePatternCollection( {
         nameHint: '{{NAME}} {{HINT}}'
       } )
@@ -200,12 +198,6 @@ class MyChallengeAccordionBox extends AccordionBox {
 
     this.targetAntecedentProperty = targetAntecedentProperty;
     this.targetConsequentProperty = targetConsequentProperty;
-
-    const accordionBoxUtterance = new ActivationUtterance();
-    this.expandedProperty.lazyLink( () => {
-      accordionBoxUtterance.alert = createAccordionBoxContextResponse();
-      this.addAccessibleResponse( accordionBoxUtterance );
-    } );
 
     Multilink.multilink( [ targetAntecedentProperty, targetConsequentProperty ],
       ( targetAntecedent, targetConsequent ) => {
