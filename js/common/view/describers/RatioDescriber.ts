@@ -5,7 +5,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
 import LinearFunction from '../../../../../dot/js/LinearFunction.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import SceneryPhetStrings from '../../../../../scenery-phet/js/SceneryPhetStrings.js';

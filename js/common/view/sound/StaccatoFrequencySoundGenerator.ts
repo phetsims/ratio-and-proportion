@@ -7,7 +7,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
 import dotRandom from '../../../../../dot/js/dotRandom.js';
 import LinearFunction from '../../../../../dot/js/LinearFunction.js';
 import Range from '../../../../../dot/js/Range.js';
