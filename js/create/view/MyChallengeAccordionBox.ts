@@ -93,8 +93,8 @@ class MyChallengeAccordionBox extends AccordionBox {
         mouseAreaXDilation: 5,
         mouseAreaYDilation: 5
       },
-      contextResponseExpanded: () => ratioDescriber.getCurrentChallengeSentence( targetAntecedentProperty.value, targetConsequentProperty.value ),
-      contextResponseCollapsed: RatioAndProportionStrings.a11y.ratio.currentChallengeHiddenStringProperty.value,
+      accessibleContextResponseExpanded: () => ratioDescriber.getCurrentChallengeSentence( targetAntecedentProperty.value, targetConsequentProperty.value ),
+      accessibleContextResponseCollapsed: RatioAndProportionStrings.a11y.ratio.currentChallengeHiddenStringProperty.value,
       expandedProperty: expandedProperty,
       voicingHintResponseCollapsed: RatioAndProportionStrings.a11y.create.myChallengeHintTextStringProperty
     }, providedOptions );
