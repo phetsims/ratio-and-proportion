@@ -254,7 +254,7 @@ class RatioHalf extends Rectangle {
         createAriaValueText: createObjectResponse,
         voicingObjectResponse: createObjectResponse,
 
-        pdomCreateContextResponseAlert: () => this.getSingleHandContextResponse( this.descriptionHandPositionsDescriber, descriptionBothHandsDescriber ),
+        createContextResponseAlert: () => this.getSingleHandContextResponse( this.descriptionHandPositionsDescriber, descriptionBothHandsDescriber ),
         voicingContextResponse: () => this.getSingleHandContextResponse( this.voicingHandPositionsDescriber, voicingBothHandsDescriber ),
         descriptionDependencies: options.descriptionDependencies.concat( [ this.ratio.lockedProperty ] )
       } );
