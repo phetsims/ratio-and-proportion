@@ -251,7 +251,7 @@ class RatioHalf extends Rectangle {
         },
         isRight: options.isRight,
 
-        pdomCreateAriaValueText: createObjectResponse,
+        createAriaValueText: createObjectResponse,
         voicingObjectResponse: createObjectResponse,
 
         pdomCreateContextResponseAlert: () => this.getSingleHandContextResponse( this.descriptionHandPositionsDescriber, descriptionBothHandsDescriber ),
