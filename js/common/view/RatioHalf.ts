@@ -99,7 +99,7 @@ type SelfOptions = {
   handColorProperty?: TPaint;
 
   // AccessibleValueHandler via RatioHandNode
-  pdomDependencies?: TReadOnlyProperty<IntentionalAny>[];
+  descriptionDependencies?: TReadOnlyProperty<IntentionalAny>[];
   bothHandsCueDisplay?: CueDisplay;
   accessibleName: TReadOnlyProperty<string>; // eslint-disable-line phet/require-property-suffix
 };
@@ -136,7 +136,7 @@ class RatioHalf extends Rectangle {
     const options = optionize<RatioHalfOptions, SelfOptions, RectangleOptions>()( {
       isRight: true,
       handColorProperty: new Property( 'black' ),
-      pdomDependencies: [],
+      descriptionDependencies: [],
       bothHandsCueDisplay: CueDisplay.UP_DOWN,
 
       // phet-io
@@ -256,7 +256,7 @@ class RatioHalf extends Rectangle {
 
         pdomCreateContextResponseAlert: () => this.getSingleHandContextResponse( this.descriptionHandPositionsDescriber, descriptionBothHandsDescriber ),
         voicingContextResponse: () => this.getSingleHandContextResponse( this.voicingHandPositionsDescriber, voicingBothHandsDescriber ),
-        pdomDependencies: options.pdomDependencies.concat( [ this.ratio.lockedProperty ] )
+        descriptionDependencies: options.descriptionDependencies.concat( [ this.ratio.lockedProperty ] )
       } );
 
     const providedAccessibleName = options.accessibleName;

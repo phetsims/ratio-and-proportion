@@ -113,7 +113,7 @@ class MyChallengeAccordionBox extends AccordionBox {
       color: handColorProperty.value,
       center: Vector2.ZERO,
       accessibleName: RatioAndProportionStrings.a11y.leftValueStringProperty,
-      pdomDependencies: [ targetConsequentProperty ],
+      descriptionDependencies: [ targetConsequentProperty ],
       pdomCreateAriaValueText: ratioDescriber.getWordFromNumber,
       pdomCreateContextResponseAlert: createNumberPickerContextResponse,
 
@@ -142,7 +142,7 @@ class MyChallengeAccordionBox extends AccordionBox {
       color: handColorProperty.value,
       center: Vector2.ZERO,
       accessibleName: RatioAndProportionStrings.a11y.rightValueStringProperty,
-      pdomDependencies: [ targetAntecedentProperty ],
+      descriptionDependencies: [ targetAntecedentProperty ],
       pdomCreateAriaValueText: ratioDescriber.getWordFromNumber,
       pdomCreateContextResponseAlert: createNumberPickerContextResponse,
 

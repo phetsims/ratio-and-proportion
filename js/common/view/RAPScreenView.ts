@@ -168,7 +168,7 @@ class RAPScreenView extends ScreenView {
     const defaultRatioHalfBounds = Bounds2.rect( 0, 0, RATIO_HALF_WIDTH, LAYOUT_BOUNDS.height );
 
     // description on each ratioHalf should be updated whenever these change
-    const pdomDependencies = [ model.unclampedFitnessProperty, this.tickMarkViewProperty, this.tickMarkRangeProperty, model.targetRatioProperty ];
+    const descriptionDependencies = [ model.unclampedFitnessProperty, this.tickMarkViewProperty, this.tickMarkRangeProperty, model.targetRatioProperty ];
 
     this.antecedentRatioHalf = new RatioHalf( {
 
@@ -193,7 +193,7 @@ class RAPScreenView extends ScreenView {
 
       handColorProperty: options.leftHandColorProperty,
       accessibleName: RatioAndProportionStrings.a11y.leftHandStringProperty,
-      pdomDependencies: pdomDependencies,
+      descriptionDependencies: descriptionDependencies,
       bothHandsCueDisplay: CueDisplay.W_S,
       isRight: false, // this way we get a left hand
 
@@ -229,7 +229,7 @@ class RAPScreenView extends ScreenView {
 
       handColorProperty: options.rightHandColorProperty,
       accessibleName: RatioAndProportionStrings.a11y.rightHandStringProperty,
-      pdomDependencies: pdomDependencies,
+      descriptionDependencies: descriptionDependencies,
 
       // phet-io
       tandem: options.tandem.createTandem( 'consequentRatioHalf' )
