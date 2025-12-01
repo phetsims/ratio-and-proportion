@@ -94,7 +94,7 @@ class RatioHandNode extends AccessibleSlider( Node, 0 ) {
 
     if ( options.asIcon ) {
 
-      // pdomVisible still keeps this in the PDOM, only hidden. We want to completely remove its PDOM content. See https://github.com/phetsims/ratio-and-proportion/issues/444
+      // accessibleVisible still keeps this in the PDOM, only hidden. We want to completely remove its PDOM content. See https://github.com/phetsims/ratio-and-proportion/issues/444
       this.tagName = null;
     }
 
