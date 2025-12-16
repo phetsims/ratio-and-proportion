@@ -125,7 +125,7 @@ class ChallengeRatioComboBoxNode extends Node {
     const proximityToRatioUtterance = new Utterance();
     targetRatioProperty.lazyLink( () => {
       proximityToRatioUtterance.alert = ratioDescriber.getProximityToNewChallengeRatioSentence();
-      this.addAccessibleResponse( proximityToRatioUtterance );
+      this.addAccessibleContextResponse( proximityToRatioUtterance );
     } );
 
     this.children = [

@@ -110,7 +110,7 @@ class TickMarkRangeComboBoxNode extends HBox {
 
     tickMarkRangeProperty.lazyLink( () => {
       tickMarkRangeChangedUtterance.alert = this.getContextResponse();
-      this.addAccessibleResponse( tickMarkRangeChangedUtterance );
+      this.addAccessibleContextResponse( tickMarkRangeChangedUtterance );
     } );
   }
 

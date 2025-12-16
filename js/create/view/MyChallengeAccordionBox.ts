@@ -208,7 +208,7 @@ class MyChallengeAccordionBox extends AccordionBox {
 
         // if currently locked, then it is about to be unlocked
         if ( wasLocked && !ratioLockedProperty.value ) {
-          this.addAccessibleResponse( ratioUnlockedFromMyChallenge );
+          this.addAccessibleContextResponse( ratioUnlockedFromMyChallenge );
           Voicing.alertUtterance( ratioUnlockedFromMyChallenge );
         }
       } );
