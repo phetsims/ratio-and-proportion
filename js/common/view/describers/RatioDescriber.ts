@@ -8,7 +8,7 @@
 import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
 import LinearFunction from '../../../../../dot/js/LinearFunction.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
-import SceneryPhetStrings from '../../../../../scenery-phet/js/SceneryPhetStrings.js';
+import SceneryPhetFluent from '../../../../../scenery-phet/js/SceneryPhetFluent.js';
 import ratioAndProportion from '../../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../../RatioAndProportionStrings.js';
 import RAPModel from '../../model/RAPModel.js';
@@ -39,17 +39,17 @@ const RATIO_FITNESS_STRINGS_LOWERCASE = [
 ];
 
 const NUMBER_TO_WORD = [
-  SceneryPhetStrings.zeroStringProperty.value,
-  SceneryPhetStrings.oneStringProperty.value,
-  SceneryPhetStrings.twoStringProperty.value,
-  SceneryPhetStrings.threeStringProperty.value,
-  SceneryPhetStrings.fourStringProperty.value,
-  SceneryPhetStrings.fiveStringProperty.value,
-  SceneryPhetStrings.sixStringProperty.value,
-  SceneryPhetStrings.sevenStringProperty.value,
-  SceneryPhetStrings.eightStringProperty.value,
-  SceneryPhetStrings.nineStringProperty.value,
-  SceneryPhetStrings.tenStringProperty.value
+  SceneryPhetFluent.zeroStringProperty.value,
+  SceneryPhetFluent.oneStringProperty.value,
+  SceneryPhetFluent.twoStringProperty.value,
+  SceneryPhetFluent.threeStringProperty.value,
+  SceneryPhetFluent.fourStringProperty.value,
+  SceneryPhetFluent.fiveStringProperty.value,
+  SceneryPhetFluent.sixStringProperty.value,
+  SceneryPhetFluent.sevenStringProperty.value,
+  SceneryPhetFluent.eightStringProperty.value,
+  SceneryPhetFluent.nineStringProperty.value,
+  SceneryPhetFluent.tenStringProperty.value
 ];
 
 // an unclamped fitness of 0 should map to "somewhatCloseTo" region

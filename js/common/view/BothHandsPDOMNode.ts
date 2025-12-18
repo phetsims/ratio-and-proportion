@@ -17,7 +17,7 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import SceneryPhetStrings from '../../../../scenery-phet/js/SceneryPhetStrings.js';
+import SceneryPhetFluent from '../../../../scenery-phet/js/SceneryPhetFluent.js';
 import ParallelDOM, { AccessibleNameBehaviorFunction, PDOMValueType } from '../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import Voicing, { VoicingOptions } from '../../../../scenery/js/accessibility/voicing/Voicing.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
@@ -193,7 +193,7 @@ class BothHandsPDOMNode extends Node {
     // Make sure that any children inside the both hands interaction (like individual hands) come before the both hands interaction in the PDOM.
     this.pdomOrder = [ dynamicDescription, ...interactiveNode.children, null ];
 
-    interactiveNode.accessibleRoleDescription = SceneryPhetStrings.a11y.grabDrag.movableStringProperty;
+    interactiveNode.accessibleRoleDescription = SceneryPhetFluent.a11y.grabDrag.movableStringProperty;
 
     const originalContextResponseStringProperty = new StringProperty( '' );
     const voicingContextResponsePatternStringProperty = new PatternStringProperty( RatioAndProportionStrings.a11y.ratioNoLongerLockedPatternStringProperty, {
