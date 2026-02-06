@@ -1,5 +1,5 @@
 {
-  "comment": "# ratio-and-proportion 1.2.18-rc.1 Tue Feb 03 2026 10:54:19 GMT-0500 (Eastern Standard Time)",
+  "comment": "# ratio-and-proportion 1.2.18 Fri Feb 06 2026 18:13:56 GMT-0500 (Eastern Standard Time)",
   "assert": {
     "sha": "c13a8c7741d95fbd8e37619c66ebcca8686dffe7",
     "branch": "HEAD"
@@ -65,7 +65,7 @@
     "branch": "HEAD"
   },
   "ratio-and-proportion": {
-    "sha": "d9e5cf3686466a44f2fa97761ec25e7d6784ad76",
+    "sha": "60f4939a3bcd14e7ee85f55941cb71bec86b97b6",
     "branch": "1.2"
   },
   "scenery": {
