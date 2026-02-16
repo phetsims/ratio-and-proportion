@@ -29,19 +29,19 @@ class MyChallengeHelpSection extends KeyboardHelpSection {
 
     const setHandRatioValue = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.setHandRatioValueStringProperty,
       KeyboardHelpIconFactory.upDownArrowKeysRowIcon(), {
-        labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.setHandRatioValueDescriptionStringProperty
+        accessibleRowDescriptionProperty: RatioAndProportionStrings.a11y.keyboardHelp.setHandRatioValueDescriptionStringProperty
       } );
 
     const homeKeyNode = TextKeyNode.home();
     const jumpToMinimum = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.jumpToMinimumStringProperty,
       homeKeyNode, {
-        labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.jumpToMinimumDescriptionStringProperty
+        accessibleRowDescriptionProperty: RatioAndProportionStrings.a11y.keyboardHelp.jumpToMinimumDescriptionStringProperty
       } );
 
     const endKeyNode = TextKeyNode.end();
     const jumpToMaximum = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.jumpToMaximumStringProperty,
       endKeyNode, {
-        labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.jumpToMaximumDescriptionStringProperty
+        accessibleRowDescriptionProperty: RatioAndProportionStrings.a11y.keyboardHelp.jumpToMaximumDescriptionStringProperty
       } );
 
     const rows = [ setHandRatioValue, jumpToMinimum, jumpToMaximum ];

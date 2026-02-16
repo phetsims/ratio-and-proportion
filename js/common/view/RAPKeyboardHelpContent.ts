@@ -60,25 +60,25 @@ class BothHandsHelpSection extends KeyboardHelpSection {
     const wOrSIcon = KeyboardHelpIconFactory.iconRow( [ wKeyNode, sKeyNode ] );
     const moveLeftHand = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.moveLeftHandStringProperty,
       wOrSIcon, {
-        labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.leftHandDescriptionStringProperty
+        accessibleRowDescriptionProperty: RatioAndProportionStrings.a11y.keyboardHelp.leftHandDescriptionStringProperty
       } );
 
     const arrowKeysRow = KeyboardHelpIconFactory.upDownArrowKeysRowIcon();
     const moveRightHand = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.moveRightHandStringProperty,
       arrowKeysRow, {
-        labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.rightHandDescriptionStringProperty
+        accessibleRowDescriptionProperty: RatioAndProportionStrings.a11y.keyboardHelp.rightHandDescriptionStringProperty
       } );
 
     const shiftIcon = TextKeyNode.shift();
     const moveInSmallerSteps = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.moveHandsInSmallerStepsStringProperty,
       shiftIcon, {
-        labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.handsInSmallerStepsDescriptionStringProperty
+        accessibleRowDescriptionProperty: RatioAndProportionStrings.a11y.keyboardHelp.handsInSmallerStepsDescriptionStringProperty
       } );
 
     const numberToNumberIcon = KeyboardHelpIconFactory.iconToIcon( new NumberKeyNode( 0 ), new NumberKeyNode( 9 ) );
     const jumpBothHands = KeyboardHelpSectionRow.labelWithIcon( RatioAndProportionStrings.jumpBothHandsStringProperty,
       numberToNumberIcon, {
-        labelInnerContent: RatioAndProportionStrings.a11y.keyboardHelp.jumpBothHandsDescriptionStringProperty
+        accessibleRowDescriptionProperty: RatioAndProportionStrings.a11y.keyboardHelp.jumpBothHandsDescriptionStringProperty
       } );
 
     const rows = [ moveLeftHand, moveRightHand, moveInSmallerSteps, jumpBothHands ];
