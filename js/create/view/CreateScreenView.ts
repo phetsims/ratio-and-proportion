@@ -83,8 +83,6 @@ class CreateScreenView extends RAPScreenView {
       baseColor: 'white',
 
       // pdom
-      // WARNING: If this needs to be dynamic, use innerContent instead of accessibleName because of scenery bug
-      // https://github.com/phetsims/scenery/issues/1026, see https://github.com/phetsims/ratio-and-proportion/issues/549#issuecomment-1382878667
       accessibleName: RatioAndProportionStrings.lockRatioStringProperty,
 
       // voicing
