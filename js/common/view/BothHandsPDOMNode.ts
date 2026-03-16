@@ -261,7 +261,7 @@ class BothHandsPDOMNode extends Node {
     } );
 
     this.objectResponseUtterance = new Utterance( {
-      alertStableDelay: OBJECT_RESPONSE_DELAY,
+      alertDelay: OBJECT_RESPONSE_DELAY,
       announcerOptions: {
 
         // This "object response" is meant to act more like aria-valuetext than a traditional, polite alert. We want
@@ -271,16 +271,16 @@ class BothHandsPDOMNode extends Node {
     } );
 
     this.objectResponseOnFocusUtterance = new Utterance( {
-      alertStableDelay: 50
+      alertDelay: 50
     } );
 
-    this.contextResponseUtterance = new Utterance( { alertStableDelay: 2000 } );
+    this.contextResponseUtterance = new Utterance( { alertDelay: 2000 } );
     this.ratioUnlockedFromBothHandsUtterance = new Utterance( {
       alert: RatioAndProportionStrings.a11y.ratioNoLongerLockedStringProperty,
 
       // slightly longer than the object response so that we make sure it comes after that assertive alert. This is
       // because we don't want it interrupted like it was originally in https://github.com/phetsims/ratio-and-proportion/issues/227#issuecomment-740173738
-      alertStableDelay: OBJECT_RESPONSE_DELAY + 10
+      alertDelay: OBJECT_RESPONSE_DELAY + 10
     } );
 
     this._isBeingInteractedWithProperty = this.bothHandsInteractionListener.isBeingInteractedWithProperty;
