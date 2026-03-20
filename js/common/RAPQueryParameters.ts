@@ -49,6 +49,6 @@ ratioAndProportion.register( 'RAPQueryParameters', RAPQueryParameters );
 // Log query parameters
 logGlobal( 'phet.chipper.queryParameters' );
 logGlobal( 'phet.preloads.phetio.queryParameters' );
-logGlobal( 'phet.ratioAndProportion.RAPQueryParameters' );
+phet.log && phet.log( `RAPQueryParameters: ${JSON.stringify( RAPQueryParameters, null, 2 )}` );
 
 export default RAPQueryParameters;
