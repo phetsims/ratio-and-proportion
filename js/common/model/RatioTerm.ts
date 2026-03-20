@@ -9,7 +9,6 @@
 
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 
 
 class RatioTerm extends EnumerationValue {
@@ -19,5 +18,4 @@ class RatioTerm extends EnumerationValue {
   public static readonly enumeration = new Enumeration( RatioTerm );
 }
 
-ratioAndProportion.register( 'RatioTerm', RatioTerm );
 export default RatioTerm;

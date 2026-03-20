@@ -9,7 +9,6 @@ import Screen from '../../../joist/js/Screen.js';
 import Color from '../../../scenery/js/util/Color.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import RAPModel from '../common/model/RAPModel.js';
-import ratioAndProportion from '../ratioAndProportion.js';
 import RatioAndProportionStrings from '../RatioAndProportionStrings.js';
 import DiscoverScreenIcon from './view/DiscoverScreenIcon.js';
 import DiscoverScreenKeyboardHelpContent from './view/DiscoverScreenKeyboardHelpContent.js';
@@ -37,5 +36,4 @@ class DiscoverScreen extends Screen<RAPModel, DiscoverScreenView> {
   }
 }
 
-ratioAndProportion.register( 'DiscoverScreen', DiscoverScreen );
 export default DiscoverScreen;

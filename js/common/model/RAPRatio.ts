@@ -17,7 +17,6 @@ import Utils from '../../../../dot/js/Utils.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import rapConstants from '../rapConstants.js';
 import RAPRatioTuple from './RAPRatioTuple.js';
 
@@ -305,5 +304,4 @@ class VelocityTracker {
   }
 }
 
-ratioAndProportion.register( 'RAPRatio', RAPRatio );
 export default RAPRatio;

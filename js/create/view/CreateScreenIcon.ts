@@ -12,7 +12,6 @@ import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import NumberPicker from '../../../../sun/js/NumberPicker.js';
 import RAPColors from '../../common/view/RAPColors.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 
 
 class CreateScreenIcon extends ScreenIcon {
@@ -56,5 +55,4 @@ class CreateScreenIcon extends ScreenIcon {
   }
 }
 
-ratioAndProportion.register( 'CreateScreenIcon', CreateScreenIcon );
 export default CreateScreenIcon;

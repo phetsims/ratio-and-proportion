@@ -24,7 +24,6 @@ import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import AriaLiveAnnouncer from '../../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import BothHandsInteractionListener, { getIdealTermType } from './BothHandsInteractionListener.js';
@@ -350,6 +349,5 @@ class BothHandsPDOMNode extends Node {
 
 class VoicingNode extends Voicing( Node ) {}
 
-ratioAndProportion.register( 'BothHandsPDOMNode', BothHandsPDOMNode );
 export type { BothHandsPDOMNodeOptions };
 export default BothHandsPDOMNode;

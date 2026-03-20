@@ -24,7 +24,6 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
 import RAPColors from '../../common/view/RAPColors.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 
 const SOUND_CLIP_OPTIONS = {
@@ -156,5 +155,4 @@ function createComboBoxItem( targetRatio: number, challengeInfo: ChallengeInfo )
   };
 }
 
-ratioAndProportion.register( 'ChallengeRatioComboBoxNode', ChallengeRatioComboBoxNode );
 export default ChallengeRatioComboBoxNode;

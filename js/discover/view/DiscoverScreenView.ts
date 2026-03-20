@@ -14,7 +14,6 @@ import RAPModel from '../../common/model/RAPModel.js';
 import HandPositionsDescriber from '../../common/view/describers/HandPositionsDescriber.js';
 import TickMarkDescriber from '../../common/view/describers/TickMarkDescriber.js';
 import RAPScreenView from '../../common/view/RAPScreenView.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import ChallengeRatioComboBoxNode from './ChallengeRatioComboBoxNode.js';
 import DiscoverScreenSummaryNode from './DiscoverScreenSummaryNode.js';
@@ -96,5 +95,4 @@ class DiscoverScreenView extends RAPScreenView {
   }
 }
 
-ratioAndProportion.register( 'DiscoverScreenView', DiscoverScreenView );
 export default DiscoverScreenView;

@@ -14,7 +14,6 @@ import eyeSlashSolidShape from '../../../../sherpa/js/fontawesome-5/eyeSlashSoli
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import TickMarkView from './TickMarkView.js';
 
@@ -143,5 +142,4 @@ class TickMarksIconPath extends Path {
   }
 }
 
-ratioAndProportion.register( 'TickMarkViewRadioButtonGroup', TickMarkViewRadioButtonGroup );
 export default TickMarkViewRadioButtonGroup;

@@ -16,7 +16,6 @@ import Color from '../../../../scenery/js/util/Color.js';
 import RAPColors from '../../common/view/RAPColors.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
 import TickMarkView from '../../common/view/TickMarkView.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 
 type SelfOptions = {
   handColor?: Color;
@@ -56,5 +55,4 @@ class DiscoverScreenIcon extends ScreenIcon {
   }
 }
 
-ratioAndProportion.register( 'DiscoverScreenIcon', DiscoverScreenIcon );
 export default DiscoverScreenIcon;

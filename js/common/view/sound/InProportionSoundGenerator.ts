@@ -15,7 +15,6 @@ import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../../phet-core/js/optionize.js';
 import SoundClip, { SoundClipOptions } from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import inProportion_mp3 from '../../../../sounds/in-proportion/inProportion_mp3.js';
-import ratioAndProportion from '../../../ratioAndProportion.js';
 import RAPModel from '../../model/RAPModel.js';
 
 const SUCCESS_OUTPUT_LEVEL = 0.8;
@@ -179,7 +178,5 @@ class InProportionSoundGenerator extends SoundClip {
     this.jumpingOverShouldSound = false;
   }
 }
-
-ratioAndProportion.register( 'InProportionSoundGenerator', InProportionSoundGenerator );
 
 export default InProportionSoundGenerator;

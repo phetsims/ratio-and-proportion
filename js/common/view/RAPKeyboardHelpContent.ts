@@ -16,7 +16,6 @@ import TwoColumnKeyboardHelpContent, { TwoColumnKeyboardHelpContentOptions } fro
 import LetterKeyNode from '../../../../scenery-phet/js/keyboard/LetterKeyNode.js';
 import NumberKeyNode from '../../../../scenery-phet/js/keyboard/NumberKeyNode.js';
 import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -87,5 +86,4 @@ class BothHandsHelpSection extends KeyboardHelpSection {
   }
 }
 
-ratioAndProportion.register( 'RAPKeyboardHelpContent', RAPKeyboardHelpContent );
 export default RAPKeyboardHelpContent;

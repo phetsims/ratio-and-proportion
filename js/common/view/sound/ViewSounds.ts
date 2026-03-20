@@ -18,7 +18,6 @@ import SoundLevelEnum from '../../../../../tambo/js/SoundLevelEnum.js';
 import soundManager, { SoundGeneratorAddOptions } from '../../../../../tambo/js/soundManager.js';
 import grab_mp3 from '../../../../../tambo/sounds/grab_mp3.js';
 import release_mp3 from '../../../../../tambo/sounds/release_mp3.js';
-import ratioAndProportion from '../../../ratioAndProportion.js';
 import rapConstants from '../../rapConstants.js';
 import TickMarkView from '../TickMarkView.js';
 import BoundarySoundClip from './BoundarySoundClip.js';
@@ -78,7 +77,5 @@ class ViewSounds {
     this.tickMarkBumpSoundClip.reset();
   }
 }
-
-ratioAndProportion.register( 'ViewSounds', ViewSounds );
 
 export default ViewSounds;

@@ -8,7 +8,6 @@
 
 import ComboBoxKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/ComboBoxKeyboardHelpSection.js';
 import RAPKeyboardHelpContent from '../../common/view/RAPKeyboardHelpContent.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 
 class DiscoverScreenKeyboardHelpContent extends RAPKeyboardHelpContent {
@@ -19,5 +18,4 @@ class DiscoverScreenKeyboardHelpContent extends RAPKeyboardHelpContent {
   }
 }
 
-ratioAndProportion.register( 'DiscoverScreenKeyboardHelpContent', DiscoverScreenKeyboardHelpContent );
 export default DiscoverScreenKeyboardHelpContent;

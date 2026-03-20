@@ -259,6 +259,4 @@ type StringsType = {
 
 const RatioAndProportionStrings = getStringModule( 'RATIO_AND_PROPORTION' ) as StringsType;
 
-ratioAndProportion.register( 'RatioAndProportionStrings', RatioAndProportionStrings );
-
 export default RatioAndProportionStrings;

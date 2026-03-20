@@ -9,7 +9,6 @@ import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
 import LinearFunction from '../../../../../dot/js/LinearFunction.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import SceneryPhetFluent from '../../../../../scenery-phet/js/SceneryPhetFluent.js';
-import ratioAndProportion from '../../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../../RatioAndProportionStrings.js';
 import RAPModel from '../../model/RAPModel.js';
 import rapConstants from '../../rapConstants.js';
@@ -139,5 +138,4 @@ class RatioDescriber {
   }
 }
 
-ratioAndProportion.register( 'RatioDescriber', RatioDescriber );
 export default RatioDescriber;

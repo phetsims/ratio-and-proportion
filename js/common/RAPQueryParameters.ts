@@ -8,7 +8,6 @@
 
 import logGlobal from '../../../phet-core/js/logGlobal.js';
 import { QueryStringMachine } from '../../../query-string-machine/js/QueryStringMachineModule.js';
-import ratioAndProportion from '../ratioAndProportion.js';
 
 const RAPQueryParameters = QueryStringMachine.getAll( {
 
@@ -43,8 +42,6 @@ const RAPQueryParameters = QueryStringMachine.getAll( {
     defaultValue: 0.02
   }
 } );
-
-ratioAndProportion.register( 'RAPQueryParameters', RAPQueryParameters );
 
 // Log query parameters
 logGlobal( 'phet.chipper.queryParameters' );

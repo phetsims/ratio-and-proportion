@@ -12,7 +12,6 @@ import CompositeSoundClip from '../../../../../tambo/js/sound-generators/Composi
 import SoundGenerator, { SoundGeneratorOptions } from '../../../../../tambo/js/sound-generators/SoundGenerator.js';
 import movingInProportionChoirLoop_mp3 from '../../../../sounds/moving-in-proportion/movingInProportionChoirLoop_mp3.js';
 import movingInProportionOrganLoop_mp3 from '../../../../sounds/moving-in-proportion/movingInProportionOrganLoop_mp3.js';
-import ratioAndProportion from '../../../ratioAndProportion.js';
 import RAPModel from '../../model/RAPModel.js';
 
 class MovingInProportionSoundGenerator extends SoundGenerator {
@@ -73,7 +72,5 @@ class MovingInProportionSoundGenerator extends SoundGenerator {
     this.movingInProportionSoundClip.stop();
   }
 }
-
-ratioAndProportion.register( 'MovingInProportionSoundGenerator', MovingInProportionSoundGenerator );
 
 export default MovingInProportionSoundGenerator;

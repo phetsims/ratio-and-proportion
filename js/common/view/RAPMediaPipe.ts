@@ -31,7 +31,6 @@ import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import MediaPipe, { HandLandmarks, HandPoint } from '../../../../tangible/js/mediaPipe/MediaPipe.js';
 import MediaPipeQueryParameters from '../../../../tangible/js/mediaPipe/MediaPipeQueryParameters.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import rapConstants from '../rapConstants.js';
 import handleSmoothValue from './handleSmoothValue.js';
@@ -345,5 +344,4 @@ class RAPMediaPipe extends MediaPipe {
   }
 }
 
-ratioAndProportion.register( 'RAPMediaPipe', RAPMediaPipe );
 export default RAPMediaPipe;

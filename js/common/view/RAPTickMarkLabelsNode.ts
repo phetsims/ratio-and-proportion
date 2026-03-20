@@ -15,7 +15,6 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import TickMarkView from './TickMarkView.js';
 
 const LABEL_X = 0;
@@ -90,5 +89,4 @@ class RAPTickMarkLabelsNode extends Node {
   }
 }
 
-ratioAndProportion.register( 'RAPTickMarkLabelsNode', RAPTickMarkLabelsNode );
 export default RAPTickMarkLabelsNode;

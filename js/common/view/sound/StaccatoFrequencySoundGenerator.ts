@@ -39,7 +39,6 @@ import staccatoFSharp_mp3 from '../../../../sounds/staccato/staccatoFSharp_mp3.j
 import staccatoG001_mp3 from '../../../../sounds/staccato/staccatoG001_mp3.js';
 import staccatoG002_mp3 from '../../../../sounds/staccato/staccatoG002_mp3.js';
 import staccatoG_mp3 from '../../../../sounds/staccato/staccatoG_mp3.js';
-import ratioAndProportion from '../../../ratioAndProportion.js';
 
 // organize the sounds by variation and note
 const staccatoSounds = [
@@ -126,7 +125,5 @@ class StaccatoFrequencySoundGenerator extends SoundGenerator {
     this.timeSinceLastPlay = 0;
   }
 }
-
-ratioAndProportion.register( 'StaccatoFrequencySoundGenerator', StaccatoFrequencySoundGenerator );
 
 export default StaccatoFrequencySoundGenerator;

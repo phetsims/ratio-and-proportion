@@ -9,7 +9,6 @@ import Screen from '../../../joist/js/Screen.js';
 import Color from '../../../scenery/js/util/Color.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import RAPModel from '../common/model/RAPModel.js';
-import ratioAndProportion from '../ratioAndProportion.js';
 import RatioAndProportionStrings from '../RatioAndProportionStrings.js';
 import CreateScreenIcon from './view/CreateScreenIcon.js';
 import CreateScreenKeyboardHelpContent from './view/CreateScreenKeyboardHelpContent.js';
@@ -35,5 +34,4 @@ class CreateScreen extends Screen<RAPModel, CreateScreenView> {
   }
 }
 
-ratioAndProportion.register( 'CreateScreen', CreateScreen );
 export default CreateScreen;

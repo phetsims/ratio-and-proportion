@@ -8,7 +8,6 @@
 import PreferencesModel, { PreferencesModelOptions } from '../../../../joist/js/preferences/PreferencesModel.js';
 import MediaPipe from '../../../../tangible/js/mediaPipe/MediaPipe.js';
 import MediaPipeQueryParameters from '../../../../tangible/js/mediaPipe/MediaPipeQueryParameters.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 
 class RAPPreferencesModel extends PreferencesModel {
 
@@ -21,5 +20,4 @@ class RAPPreferencesModel extends PreferencesModel {
   }
 }
 
-ratioAndProportion.register( 'RAPPreferencesModel', RAPPreferencesModel );
 export default RAPPreferencesModel;

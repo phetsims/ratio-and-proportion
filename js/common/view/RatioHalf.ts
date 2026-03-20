@@ -31,7 +31,6 @@ import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Rectangle, { RectangleOptions } from '../../../../scenery/js/nodes/Rectangle.js';
 import TPaint from '../../../../scenery/js/util/TPaint.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import RAPRatio from '../model/RAPRatio.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
@@ -598,5 +597,4 @@ class RatioHalf extends Rectangle {
   }
 }
 
-ratioAndProportion.register( 'RatioHalf', RatioHalf );
 export default RatioHalf;

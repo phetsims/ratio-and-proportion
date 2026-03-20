@@ -8,7 +8,6 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 
 // Even though there is only one Profile, it is still nice to use this pattern for color organizing.
 class CueArrowsState {
@@ -54,5 +53,4 @@ class CueArrowsState {
   }
 }
 
-ratioAndProportion.register( 'CueArrowsState', CueArrowsState );
 export default CueArrowsState;

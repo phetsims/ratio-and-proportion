@@ -11,7 +11,6 @@
  */
 
 import Utils from '../../../../dot/js/Utils.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import rapConstants from '../rapConstants.js';
 
 // a function that returns the snap/conserved value
@@ -74,6 +73,5 @@ function getKeyboardInputSnappingMapper( getIdealValue: () => number, keyboardSt
   return snappingFunction;
 }
 
-ratioAndProportion.register( 'getKeyboardInputSnappingMapper', getKeyboardInputSnappingMapper );
 export type { KeyboardInputMapper };
 export default getKeyboardInputSnappingMapper;

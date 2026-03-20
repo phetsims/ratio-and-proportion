@@ -20,7 +20,6 @@ import HandPositionsDescriber from '../../common/view/describers/HandPositionsDe
 import TickMarkDescriber from '../../common/view/describers/TickMarkDescriber.js';
 import RAPColors from '../../common/view/RAPColors.js';
 import RAPScreenView from '../../common/view/RAPScreenView.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import CreateScreenSummaryNode from './CreateScreenSummaryNode.js';
 import MyChallengeAccordionBox from './MyChallengeAccordionBox.js';
@@ -188,5 +187,4 @@ class CreateScreenView extends RAPScreenView {
   }
 }
 
-ratioAndProportion.register( 'CreateScreenView', CreateScreenView );
 export default CreateScreenView;

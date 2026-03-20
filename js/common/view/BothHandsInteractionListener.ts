@@ -16,7 +16,6 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import KeyboardUtils from '../../../../scenery/js/accessibility/KeyboardUtils.js';
 import SceneryEvent from '../../../../scenery/js/input/SceneryEvent.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import RatioTerm from '../model/RatioTerm.js';
 import rapConstants from '../rapConstants.js';
@@ -268,6 +267,5 @@ class BothHandsInteractionListener {
   }
 }
 
-ratioAndProportion.register( 'BothHandsInteractionListener', BothHandsInteractionListener );
 export type { getIdealTermType };
 export default BothHandsInteractionListener;

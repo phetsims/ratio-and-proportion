@@ -14,7 +14,6 @@ import GridNode from '../../../../griddle/js/GridNode.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import { PathOptions } from '../../../../scenery/js/nodes/Path.js';
 import TPaint from '../../../../scenery/js/util/TPaint.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import TickMarkView from './TickMarkView.js';
 
 type SelfOptions = {
@@ -65,5 +64,4 @@ class RatioHalfTickMarksNode extends GridNode {
   }
 }
 
-ratioAndProportion.register( 'RatioHalfTickMarksNode', RatioHalfTickMarksNode );
 export default RatioHalfTickMarksNode;

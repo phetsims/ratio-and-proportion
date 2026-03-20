@@ -12,7 +12,6 @@ import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/Keybo
 import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
 import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
 import RAPKeyboardHelpContent, { RAPKeyboardHelpContentOptions } from '../../common/view/RAPKeyboardHelpContent.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -49,5 +48,4 @@ class MyChallengeHelpSection extends KeyboardHelpSection {
   }
 }
 
-ratioAndProportion.register( 'CreateScreenKeyboardHelpContent', CreateScreenKeyboardHelpContent );
 export default CreateScreenKeyboardHelpContent;

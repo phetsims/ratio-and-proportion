@@ -33,7 +33,6 @@ import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
 import RatioHandNode from '../../common/view/RatioHandNode.js';
 import TickMarkView from '../../common/view/TickMarkView.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 
 const PICKER_SCALE = 1.5;
@@ -231,5 +230,4 @@ class MyChallengeAccordionBox extends AccordionBox {
 
 class ReadingBlockNode extends ReadingBlock( Node ) {}
 
-ratioAndProportion.register( 'MyChallengeAccordionBox', MyChallengeAccordionBox );
 export default MyChallengeAccordionBox;

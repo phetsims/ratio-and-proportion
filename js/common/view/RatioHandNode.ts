@@ -27,7 +27,6 @@ import TPaint from '../../../../scenery/js/util/TPaint.js';
 import AccessibleSlider, { AccessibleSliderOptions } from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import rapConstants from '../rapConstants.js';
 import CueDisplay from './CueDisplay.js';
@@ -277,5 +276,4 @@ c1.932-2.887,2.112-9.526,2.475-13.186c0.069-0.698,0.162-1.334,0.162-1.92v-16.21C
   }
 }
 
-ratioAndProportion.register( 'RatioHandNode', RatioHandNode );
 export default RatioHandNode;

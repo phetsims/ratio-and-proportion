@@ -17,7 +17,6 @@ import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import TextPushButton, { TextPushButtonOptions } from '../../../../sun/js/buttons/TextPushButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import RAPRatioTuple from '../model/RAPRatioTuple.js';
 import RatioTerm from '../model/RatioTerm.js';
 import RAPQueryParameters from '../RAPQueryParameters.js';
@@ -136,5 +135,4 @@ class RatioAndProportionBluetoothButton extends TextPushButton {
   }
 }
 
-ratioAndProportion.register( 'RatioAndProportionBluetoothButton', RatioAndProportionBluetoothButton );
 export default RatioAndProportionBluetoothButton;

@@ -50,5 +50,4 @@ const RAPColors = {
   } )
 };
 
-ratioAndProportion.register( 'RAPColors', RAPColors );
 export default RAPColors;

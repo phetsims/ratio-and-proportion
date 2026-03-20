@@ -14,7 +14,6 @@ import Range from '../../../../../dot/js/Range.js';
 import optionize from '../../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
-import ratioAndProportion from '../../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../../RatioAndProportionStrings.js';
 import RAPRatioTuple from '../../model/RAPRatioTuple.js';
 import TickMarkView from '../TickMarkView.js';
@@ -118,5 +117,4 @@ class BothHandsDescriber {
   }
 }
 
-ratioAndProportion.register( 'BothHandsDescriber', BothHandsDescriber );
 export default BothHandsDescriber;

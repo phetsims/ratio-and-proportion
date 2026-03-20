@@ -25,7 +25,6 @@ import ComboBox, { ComboBoxItem, ComboBoxOptions } from '../../../../sun/js/Comb
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../../../utterance-queue/js/ActivationUtterance.js';
 import TickMarkView from '../../common/view/TickMarkView.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 
 const TICK_MARK_RANGE_FONT = new PhetFont( 16 );
@@ -127,5 +126,4 @@ class TickMarkRangeComboBoxNode extends HBox {
   }
 }
 
-ratioAndProportion.register( 'TickMarkRangeComboBoxNode', TickMarkRangeComboBoxNode );
 export default TickMarkRangeComboBoxNode;

@@ -10,7 +10,6 @@ import Range from '../../../../dot/js/Range.js';
 import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioTerm from './RatioTerm.js';
 
 type RAPRatioTupleState = {
@@ -128,5 +127,4 @@ class RAPRatioTuple {
   }
 }
 
-ratioAndProportion.register( 'RAPRatioTuple', RAPRatioTuple );
 export default RAPRatioTuple;

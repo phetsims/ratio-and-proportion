@@ -10,7 +10,6 @@ import Property from '../../../../../axon/js/Property.js';
 import Range from '../../../../../dot/js/Range.js';
 import SoundClip, { SoundClipOptions } from '../../../../../tambo/js/sound-generators/SoundClip.js';
 import generalSoftClick_mp3 from '../../../../../tambo/sounds/generalSoftClick_mp3.js';
-import ratioAndProportion from '../../../ratioAndProportion.js';
 
 // This value was copied from similar sound work done in Waves Intro
 const MIN_INTER_CLICK_TIME = 33.3; // min time between clicking sounds, in milliseconds, empirically determined
@@ -74,7 +73,5 @@ class TickMarkBumpSoundClip extends SoundClip {
     this.lastValue = null;
   }
 }
-
-ratioAndProportion.register( 'TickMarkBumpSoundClip', TickMarkBumpSoundClip );
 
 export default TickMarkBumpSoundClip;

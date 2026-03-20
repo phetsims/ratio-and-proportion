@@ -19,7 +19,6 @@ import BackgroundColorHandler from '../../common/view/BackgroundColorHandler.js'
 import HandPositionsDescriber from '../../common/view/describers/HandPositionsDescriber.js';
 import RatioDescriber from '../../common/view/describers/RatioDescriber.js';
 import TickMarkView from '../../common/view/TickMarkView.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import { RatioToChallengeInfoMap } from './ChallengeRatioComboBoxNode.js';
 
@@ -130,5 +129,4 @@ class DiscoverScreenSummaryNode extends ScreenSummaryContent {
   }
 }
 
-ratioAndProportion.register( 'DiscoverScreenSummaryNode', DiscoverScreenSummaryNode );
 export default DiscoverScreenSummaryNode;

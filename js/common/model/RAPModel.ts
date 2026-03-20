@@ -21,7 +21,6 @@ import TModel from '../../../../joist/js/TModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import rapConstants from '../rapConstants.js';
 import RAPRatio from './RAPRatio.js';
 import RatioTerm from './RatioTerm.js';
@@ -273,5 +272,4 @@ unclampedFitness: ${unclampedFitness}
   }
 }
 
-ratioAndProportion.register( 'RAPModel', RAPModel );
 export default RAPModel;

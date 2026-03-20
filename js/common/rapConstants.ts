@@ -14,7 +14,6 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import IOType from '../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import ObjectLiteralIO from '../../../tandem/js/types/ObjectLiteralIO.js';
-import ratioAndProportion from '../ratioAndProportion.js';
 import RAPQueryParameters from './RAPQueryParameters.js';
 
 type RAPConstantsState = {
@@ -104,5 +103,4 @@ const rapConstants = new RAPConstants();
 assert && assert( rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE.min === 0 && rapConstants.TOTAL_RATIO_TERM_VALUE_RANGE.max === 1,
   'There are assumptions in the model about ratio terms being normalized, see RAPModel.calculateFitness() before changing and proceed with caution' );
 
-ratioAndProportion.register( 'rapConstants', rapConstants );
 export default rapConstants;

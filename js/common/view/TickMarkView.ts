@@ -6,7 +6,6 @@
 
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 
 class TickMarkView extends EnumerationValue {
   public static readonly NONE = new TickMarkView();
@@ -37,5 +36,4 @@ class TickMarkView extends EnumerationValue {
   }
 }
 
-ratioAndProportion.register( 'TickMarkView', TickMarkView );
 export default TickMarkView;

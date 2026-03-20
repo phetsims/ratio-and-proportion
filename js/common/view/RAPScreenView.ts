@@ -37,7 +37,6 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import MediaPipeQueryParameters from '../../../../tangible/js/mediaPipe/MediaPipeQueryParameters.js';
 import ResponsePacket from '../../../../utterance-queue/js/ResponsePacket.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import RatioAndProportionStrings from '../../RatioAndProportionStrings.js';
 import RAPModel from '../model/RAPModel.js';
 import RatioTerm from '../model/RatioTerm.js';
@@ -587,5 +586,4 @@ class RAPScreenView extends ScreenView {
   }
 }
 
-ratioAndProportion.register( 'RAPScreenView', RAPScreenView );
 export default RAPScreenView;

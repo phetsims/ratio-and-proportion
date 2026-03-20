@@ -10,7 +10,6 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Stats from '../../../../dot/js/Stats.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import ratioAndProportion from '../../ratioAndProportion.js';
 import handleSmoothValue from './handleSmoothValue.js';
 
 // A single array to prevent garbage each time we calculate the box plot
@@ -66,5 +65,4 @@ class StationaryValueTracker {
 }
 
 
-ratioAndProportion.register( 'StationaryValueTracker', StationaryValueTracker );
 export default StationaryValueTracker;
